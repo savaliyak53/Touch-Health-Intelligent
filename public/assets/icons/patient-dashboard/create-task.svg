@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44.868" height="40.376" viewBox="0 0 44.868 40.376">
+    <defs>
+        <style>
+            .a,.d{fill:none;}.a,.d,.e{stroke:#000000;}.a,.b,.c,.d{stroke-linecap:round;stroke-miterlimit:10;}.a{stroke-width:1.8px;}.b,.c,.e{fill:#000000;}.b,.c{stroke:#f2f2f400;}.c{stroke-width:1.3px;}.d{stroke-width:1.6px;}.e{stroke-width:0.4px;font-size:17px;font-family:Barlow-Regular,
+            Barlow;}
+        </style>
+    </defs>
+    <g transform="translate(0.65 0.5)">
+        <line class="a" x2="24.314" transform="translate(10.42 2.605)"/>
+        <rect class="b" width="5.21" height="5.21" rx="1"/>
+        <rect class="c" width="5.21" height="5.21" rx="1" transform="translate(0 8.684)"/>
+        <line class="a" x2="24.314" transform="translate(10.42 11.289)"/>
+        <line class="a" x2="9.04" transform="translate(10.42 19.973)"/>
+        <rect class="c" width="5.21" height="5.21" rx="1" transform="translate(0 17.367)"/>
+        <line class="a" x2="6.123" transform="translate(10.42 28.656)"/>
+        <rect class="c" width="5.21" height="5.21" rx="1" transform="translate(0 26.051)"/>
+        <g transform="translate(21.709 15.892)">
+            <circle class="d" cx="10.854" cy="10.854" r="10.854" transform="translate(0 1.475)"/>
+            <text class="e" transform="translate(6.428 18.105)">
+                <tspan x="0" y="0">+</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
