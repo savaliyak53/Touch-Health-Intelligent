@@ -1,4 +1,4 @@
-@import '../../variables';
+@import '../../variables.scss';
 
 .AuthenticationLayout {
   width: 100%;
@@ -15,6 +15,7 @@
     justify-self: left;
     padding-left: 30px;
     width: 200px;
+    margin-top: 50px;
   }
 
   .AuthenticationLayout-form {

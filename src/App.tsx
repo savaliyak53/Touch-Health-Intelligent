@@ -1,12 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-import AppRoutes from './Routes/index'
+import AppRoutes from './Routes/index';
+import './app.scss';
 
 const Application = () => {
     return (
-        <div>
-            <AppRoutes />
-        </div>
+        <AppRoutes />
     );
 }
 

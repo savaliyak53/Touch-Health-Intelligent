@@ -32,7 +32,7 @@ const AuthenticationLayout = ({ children, caption }: Props) => {
   // }
   return <div className="AuthenticationLayout">
       <img
-        src={`${process.env.PUBLIC_URL}/assets/logo/touch-insights-logo.png`}
+        src={`${process.env.PUBLIC_URL}/assets/logo/logo.png`}
         alt="Touch Logo"
         className="AuthenticationLayout-logo"
       />

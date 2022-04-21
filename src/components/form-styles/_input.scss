@@ -1,0 +1,7 @@
+@import './common-form-styles';
+
+%form-input,
+.has-error %form-input.ant-input,
+.has-error .ant-input-affix-wrapper %form-input.ant-input:hover {
+  @extend %form-item
+}

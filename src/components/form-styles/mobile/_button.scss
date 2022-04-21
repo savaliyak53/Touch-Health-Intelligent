@@ -1,0 +1,16 @@
+@import '../../../variables.scss';
+
+%button {
+  width: 100%;
+  font-size: 18px;
+  font-weight: $font-weight-medium;
+  height: 60px;
+  border-color: $color-navy;
+  color: $color-navy;
+  border-radius: 2px;
+}
+
+%button.ant-btn-primary:not([disabled]) {
+  color: $color-white;
+  background-color: $color-navy;
+}

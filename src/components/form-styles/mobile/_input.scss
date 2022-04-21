@@ -1,0 +1,7 @@
+@import './common-form-styles';
+
+%form-input,
+%form-input .ant-input
+{
+  @extend %form-item
+}

@@ -1,0 +1,22 @@
+@import '../../variables.scss';
+
+%form-item {
+  border: none;
+  border-bottom: 1px solid $color-grey-1;
+  border-radius: 0;
+  background: $color-grey-4;
+  color: $color-grey-1;
+  min-height: 50px;
+}
+
+%form-item-disabled {
+  border-bottom: 1px solid $color-grey-3;
+  background: $color-grey-6;
+  color: $color-grey-3;
+}
+
+%label-text {
+  color: $color-grey-8;
+  font-size: 15px;
+  font-weight: $font-weight-medium;
+}
