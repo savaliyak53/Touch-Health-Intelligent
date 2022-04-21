@@ -1,0 +1,152 @@
+// Fonts
+
+$font-family: 'Barlow', sans-serif;
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semi-bold: 600;
+$font-weight-bold: 800;
+
+// Colors
+
+$color-navy: #061C62;
+$color-navy-light: #061C6222;
+$color-blue: #183284;
+$color-dark-blue: #001529;
+$color-light-blue: #4B5FCC;
+$color-light-blue2: #393C89;
+$color-light-blue3: #7A8B9B;
+$color-light-blue4: #5C6976;
+$color-light-blue5: #B4B4B9;
+$color-sky-blue: #1071E6;
+$color-pale-blue: #F2F5F7;
+$color-red: #BC1919;
+$color-error: #F5222D;
+$color-purple: #6839EC;
+$color-orange: #FFA835;
+$color-orange2: #743E08;
+$color-yellow: #E6C900;
+$color-lime: #C2D833;
+$color-green: #15841C;
+$color-green2: #5DC44C;
+$color-charcoal: #252931;
+$color-grey-1: #707071;
+$color-grey-2: #9E9EA3;
+$color-grey-3: #C3C4C6;
+$color-grey-4: #EBECED;
+$color-grey-5: #F5F5F5;
+$color-grey-6: #F7F7F7;
+$color-grey-7: #343434;
+$color-grey-8: #49494B;
+$color-grey-9: #E5E5E5;
+$color-grey-10: #868686;
+$color-grey-11: #636467;
+$color-grey-12: #00000026;
+$color-grey-13: #8C8C8C;
+$color-grey-14: #4D4D4D;
+$color-grey-15: #6D7278;
+$color-white: #FFFFFF;
+$color-black: #000000;
+$color-black-2: #252931;
+
+// Redesign
+$color-dark-gray: #5E5E5E;
+$color-grey-16: #B9B9B9;
+$color-grey-17: #F8F8F8;
+$color-red-2: #F84846;
+$color-grey-18: #C4C4C4;
+$color-sky-blue-2: #0085FF;
+$color-orange-3: #FF7A3C;
+$color-yellow-2: #FEBE19;
+$color-dark-grey-2: #555555;
+$color-light-purple: #6E85D4;
+$color-green-2: #18BE45;
+$color-grey-19: #979797;
+$color-grey-20: #f5f5f5;
+$color-grey-21: #ebebeb;
+$color-grey-22: #E8E9ED;
+$color-grey-23: #B5B5B5;
+$color-grey-24: #dcddde;
+$color-grey-25: #EAEAEA;
+$color-grey-26: #CCCCCC;
+$color-grey-27: #ECECEC;
+$color-grey-28: #E8E8E8;
+$color-grey-29: #BFBFBF;
+$color-grey-30: #F1F1F1;
+$color-grey-31: #b9bdc4;
+$color-grey-32: #FAFAFA;
+
+$filter-color-red: invert(15%) sepia(66%) saturate(4166%) hue-rotate(352deg) brightness(100%) contrast(94%); // #BC1919
+$filter-color-blue: invert(17%) sepia(47%) saturate(2635%) hue-rotate(212deg) brightness(95%) contrast(104%); // #183284
+$filter-color-sky-blue: invert(42%) sepia(56%) saturate(5667%) hue-rotate(194deg) brightness(103%) contrast(105%); // #0085FF
+$filter-color-blue-hover: invert(23%) sepia(96%) saturate(625%) hue-rotate(192deg) brightness(95%) contrast(91%); // #314b91
+$filter-color-light-blue: invert(18%) sepia(57%) saturate(2061%) hue-rotate(224deg) brightness(92%) contrast(92%); // #363584
+$filter-color-to-gray: invert(36%) sepia(0%) saturate(20%) hue-rotate(206deg) brightness(92%) contrast(87%); // #595959
+$filter-color-to-gray2: invert(87%) sepia(1%) saturate(279%) hue-rotate(164deg) brightness(93%) contrast(86%); // #C3C4C6
+$filter-color-to-gray3: invert(76%) sepia(33%) saturate(0%) hue-rotate(282deg) brightness(90%) contrast(89%); // #B5B5B5
+$filter-color-to-gray4: invert(85%) sepia(9%) saturate(0%) hue-rotate(157deg) brightness(80%) contrast(94%); // #AEAEAE
+$filter-color-to-gray5: invert(64%) sepia(7%) saturate(147%) hue-rotate(202deg) brightness(97%) contrast(90%);; //#252931
+$filter-color-to-green: invert(49%) sepia(42%) saturate(473%) hue-rotate(79deg) brightness(94%) contrast(92%); // #4B9358
+$filter-color-to-green2: invert(64%) sepia(75%) saturate(5276%) hue-rotate(106deg) brightness(109%) contrast(81%); // #18be45
+$filter-color-to-white: brightness(0) invert(1); // #FFFFFF
+$filter-color-to-yellow: invert(86%) sepia(15%) saturate(5818%) hue-rotate(344deg) brightness(103%) contrast(99%); // #FEBE19
+$filter-color-to-orange: invert(55%) sepia(38%) saturate(1287%) hue-rotate(333deg) brightness(102%) contrast(101%); // #FF7A3B
+$filter-color-to-violet: invert(24%) sepia(49%) saturate(5767%) hue-rotate(250deg) brightness(93%) contrast(99%); // #6839EC
+$filter-color-to-black : invert(0%) sepia(8%) saturate(7498%) hue-rotate(345deg) brightness(103%) contrast(95%); // #000
+
+// Layouts
+
+$header-height: 40px;
+$footer-height: 0px;
+$page-header-height: 50px;
+
+// Screen resolutions
+
+// Small tablets and large smartphones (landscape view)
+$screen-sm-min: 576px;
+// Small tablets (portrait view)
+$screen-md-min: 768px;
+// Tablets and small desktops
+$screen-lg-min: 992px;
+// Large tablets and desktops
+$screen-xl-min: 1200px;
+
+// Small devices
+@mixin sm {
+  @media (min-width: #{$screen-sm-min}) {
+    @content;
+  }
+}
+
+// Medium devices
+@mixin md {
+  @media (min-width: #{$screen-md-min}) {
+    @content;
+  }
+}
+
+// Large devices
+@mixin lg {
+  @media (min-width: #{$screen-lg-min}) {
+    @content;
+  }
+}
+
+// Extra large devices
+@mixin xl {
+  @media (min-width: #{$screen-xl-min}) {
+    @content;
+  }
+}
+
+// TODO: Review and filter
+
+$xs: 32rem;
+$sm: 48rem;
+$md: 62rem;
+$lg: 75rem;
+
+$background-signup: url("/assets/images/image-toSize.png");
+$down-arrow: url("/assets/icons/down-arrow.svg");
+$up-arrow: url("/assets/icons/up-arrow.svg");
+$error-icon: url("/assets/icons/error.svg");

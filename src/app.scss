@@ -1,0 +1,9 @@
+@import '../../../variables.scss';
+
+.ApplicationLayout {
+    width: 100%;
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: $header-height auto;
+    grid-template-columns: 1fr;
+}
