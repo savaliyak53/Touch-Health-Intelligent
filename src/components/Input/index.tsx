@@ -5,18 +5,27 @@ import './index.scss';
 interface InputProps {
     id: string;
     name: string;
-    placeholder: string;
+    placeholder?: string;
     type?: string;
+    maxLength?: number;
+    className?: string;
   }
 
 const InputField = (
-  ({ id, name, placeholder, type, ...rest }: InputProps) => {
+    ({
+      id,
+      name,
+      placeholder='',
+      type, maxLength=50,
+      className=" ",
+      ...rest }: InputProps
+    ) => {
     return (
       <div className="mb-3 pt-0">
         <input
           type={type}
           name={name}
-          className="inputField"
+          className={className}
           placeholder={placeholder}
           {...rest}
         />
