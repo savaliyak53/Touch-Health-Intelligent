@@ -1,14 +1,12 @@
 import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import {
-    Button,
-    Input,
-  } from 'antd';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import "yup-phone";
 
 import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout';
+import Button from '../../components/Button';
+import InputField from '../../components/Input';
 import './index.scss';
 
 type IFormInputs = {
@@ -43,57 +41,55 @@ const SignUp = () => {
         <AuthenticationLayout caption="Sign Up Here">
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
                 <div>
-                    <Input
+                    <InputField
+                        id="name"
                         {...register('name', { required: true })}
-                        className="SingUnForm-inputField"
                         placeholder="Name"
                         type="text"
                     />
                     <p className="SingUnForm-error">{errors.name?.message}</p>
                 </div>
                 <div>
-                    <Input
+                    <InputField
+                        id="email"
                         {...register('email', { required: true })}
-                        className="SingUnForm-inputField"
                         placeholder="Email"
                         type="email"
                     />
                     <p className="SingUnForm-error">{errors.email?.message}</p>
                 </div>
                 <div>
-                    <Input
+                    <InputField
+                        id="phone"
                         {...register('phone', { required: true })}
-                        className="SingUnForm-inputField"
                         placeholder="Phone: 999-999-9999"
                         type="text"
                     />
                     <p className="SingUnForm-error">{errors.phone?.message}</p>
                 </div>
                 <div>
-                    <Input
+                    <InputField
+                        id="password"
                         {...register('password', { required: true })}
-                        className="SingUnForm-inputField"
                         placeholder="Password"
                         type="password"
                     />
                     <p className="SingUnForm-error">{errors.password?.message}</p>
                 </div>
                 <div>
-                    <input
+                    <InputField
+                        id="confirmPassword"
                         {...register('confirmPassword', { required: true })}
-                        className="SingUnForm-inputField"
                         placeholder="Confirm Password"
                         type="password"
                     />
                     <p className="SingUnForm-error">{errors.confirmPassword?.message}</p>
                 </div>
                 <Button
-                    type="primary"
-                    className="SingUnForm-loginButton"
-                    htmlType="submit"
-                    data-test="logIn"
+                    size="lg"
+                    onClick={handleSubmit(onSubmit)}
                 >
-                    Log in
+                    Sign Up
                 </Button>
             </form>
         </AuthenticationLayout>

@@ -1,0 +1,12 @@
+@import '../form-styles/mobile/input';
+
+.inputField {
+    padding: 6px 12px;
+    width: 274px;
+    margin-bottom: 2px;
+    @extend %form-input;
+    line-height: 1;
+    font-size: 12px;
+    min-height: 25px;
+    border: 1px solid #ced4da;
+}

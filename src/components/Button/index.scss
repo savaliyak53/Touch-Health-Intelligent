@@ -1,0 +1,26 @@
+@import '../form-styles/button';
+
+.button-md {
+    max-width: 150px;
+    width: 100%;
+    font-size: 18px;
+    font-weight: $font-weight-medium;
+    height: 40px;
+    border-color: $color-navy;
+    background-color: $color-navy;
+    border-radius: 4px;
+    color: $color-white;
+    margin-top: 24px;
+}
+
+.button-lg {
+    max-width: 250px;
+    width: 100%;
+    font-size: 18px;
+    font-weight: $font-weight-medium;
+    height: 40px;
+    border-color: $color-navy;
+    background-color: $color-navy;
+    border-radius: 4px;
+    color: $color-white;
+}
