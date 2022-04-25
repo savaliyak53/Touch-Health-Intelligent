@@ -1,4 +1,9 @@
-import React from "react";
+import React,{
+  FC,
+  forwardRef,
+  DetailedHTMLProps,
+  InputHTMLAttributes,
+} from "react";
 
 import './index.scss';
 
@@ -11,27 +16,30 @@ interface InputProps {
     className?: string;
   }
 
-const InputField = (
-    ({
-      id,
-      name,
-      placeholder='',
-      type, maxLength=50,
-      className=" ",
-      ...rest }: InputProps
+const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
+    (
+      {
+        id,
+        name,
+        placeholder='',
+        type, maxLength=50,
+        className=" ",
+        ...rest
+      }, ref
     ) => {
     return (
-      <div className="mb-3 pt-0">
-        <input
-          type={type}
+      <input
+        type={type}
           name={name}
           className={className}
           placeholder={placeholder}
+          ref={ref}
           {...rest}
         />
-      </div>
     );
   }
 );
+
+InputField.displayName = 'InputField'
 
 export default InputField;

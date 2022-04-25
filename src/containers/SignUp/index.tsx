@@ -23,15 +23,16 @@ const SignUp = () => {
         name: yup.string().required('Name is required'),
         email: yup.string().email('Email is invalid').required('Email is required'),
         phone: yup.string()
-            .phone('DE')
-            .required('Phone is required'),
+            .required('Phone is required')
+            .matches(new RegExp(/^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s.-]\d{4}$/g), "Phone must be in (999) 999-9999 format"),
         password: yup.string().required('Password is required'),
         confirmPassword: yup.string()
             .required('Confirmation Password is required')
-            .oneOf([yup.ref('newPassword')], 'Your Passwords do not match.'),
+            .oneOf([yup.ref('password')], 'Your Passwords do not match.'),
     }).required();
 
     const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
+        mode: 'onChange',
         resolver: yupResolver(schema)
     });
 
@@ -46,42 +47,49 @@ const SignUp = () => {
                         {...register('name', { required: true })}
                         placeholder="Name"
                         type="text"
+                        className="inputField"
+
                     />
                     <p className="SingUnForm-error">{errors.name?.message}</p>
                 </div>
                 <div>
                     <InputField
                         id="email"
-                        {...register('email', { required: true })}
+                        {...register('email')}
                         placeholder="Email"
                         type="email"
+                        className="inputField"
                     />
                     <p className="SingUnForm-error">{errors.email?.message}</p>
                 </div>
                 <div>
                     <InputField
                         id="phone"
-                        {...register('phone', { required: true })}
-                        placeholder="Phone: 999-999-9999"
+                        {...register('phone')}
+                        placeholder="Phone: (999) 999-9999"
                         type="text"
+                        className="inputField"
+
                     />
                     <p className="SingUnForm-error">{errors.phone?.message}</p>
                 </div>
                 <div>
                     <InputField
                         id="password"
-                        {...register('password', { required: true })}
+                        {...register('password')}
                         placeholder="Password"
                         type="password"
+                        className="inputField"
                     />
                     <p className="SingUnForm-error">{errors.password?.message}</p>
                 </div>
                 <div>
                     <InputField
                         id="confirmPassword"
-                        {...register('confirmPassword', { required: true })}
+                        {...register('confirmPassword')}
                         placeholder="Confirm Password"
                         type="password"
+                        className="inputField"
                     />
                     <p className="SingUnForm-error">{errors.confirmPassword?.message}</p>
                 </div>
