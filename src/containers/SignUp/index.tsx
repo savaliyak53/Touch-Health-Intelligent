@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -9,6 +10,7 @@ import AuthenticationLayout from '../../layouts/authentication-layout/Authentica
 import Button from '../../components/Button';
 import InputField from '../../components/Input';
 import './index.scss';
+import { signUpService } from '../../services/authservice'
 
 type IFormInputs = {
     name: string,
@@ -19,6 +21,7 @@ type IFormInputs = {
   };
 
 const SignUp = () => {
+    const navigate = useNavigate()
 
     const schema = yup.object({
         name: yup.string().required('Name is required'),
@@ -37,7 +40,10 @@ const SignUp = () => {
         resolver: yupResolver(schema)
     });
 
-    const onSubmit: SubmitHandler<IFormInputs> = data => console.log(data);
+    const onSubmit: SubmitHandler<IFormInputs> = (data) => {
+        signUpService(data);
+        navigate("/verify")
+    }
 
     return (
         <AuthenticationLayout caption="Sign Up Here">
