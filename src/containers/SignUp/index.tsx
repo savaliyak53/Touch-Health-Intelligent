@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { Link } from "react-router-dom";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import "yup-phone";
@@ -99,6 +100,12 @@ const SignUp = () => {
                 >
                     Sign Up
                 </Button>
+                <Link
+                  to="/login"
+                  className="kt-link kt-login__link-forgot"
+                >
+                    Already have an account?
+                </Link>
             </form>
         </AuthenticationLayout>
     )
