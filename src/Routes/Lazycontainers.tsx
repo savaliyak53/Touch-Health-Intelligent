@@ -5,3 +5,9 @@ export const SignUp = lazy(() =>
         default: SignUp,
     }))
 )
+
+export const Verify = lazy(() =>
+    import('../containers/Verify').then(({ default: Verify }) => ({
+        default: Verify,
+    }))
+)

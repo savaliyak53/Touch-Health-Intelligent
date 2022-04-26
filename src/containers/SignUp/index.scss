@@ -1,39 +1,13 @@
-@import '../../components/form-styles/button';
 @import '../../components/form-styles/mobile/input';
 @import '../../components/form-styles/mobile/password';
 
 .SingUnForm-form {
   width: 300px;
-}
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-.SingUnForm-loginButton {
-  width: 100%;
-  font-size: 18px;
-  font-weight: $font-weight-medium;
-  height: 60px;
-  border-color: $color-navy;
-  background-color: $color-navy;
-  border-radius: 2px;
-  color: $color-white;
-}
-
-
-.SingUnForm-inputField {
-  width: 300px;
-  margin-bottom: 2px;
-  @extend %form-input;
-}
-
-.SingUnForm-inputIcon {
-  color: rgba(0, 0, 0, .25);
-}
-
-.SingUnForm-passwordField {
-  @extend %form-password;
-}
-
-.SingUnForm-buttonsSection {
-  margin-top: 15px;
 }
 
 .SingUnForm-error {
