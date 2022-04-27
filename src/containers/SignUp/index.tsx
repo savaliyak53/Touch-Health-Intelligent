@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import "yup-phone";
 
 import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout';
 import Button from '../../components/Button';
@@ -29,7 +28,12 @@ const SignUp = () => {
         phone: yup.string()
             .required('Phone is required')
             .matches(new RegExp(/^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s.-]\d{4}$/g), "Phone must be in (999) 999-9999 format"),
-        password: yup.string().required('Password is required'),
+        password: yup.string().required('Password is required')
+            .min(8)
+            .matches(
+                /^(?=.*?[#?!@$%^&*-])/,
+               'Need one special character',
+            ),
         confirmPassword: yup.string()
             .required('Confirmation Password is required')
             .oneOf([yup.ref('password')], 'Your Passwords do not match.'),
