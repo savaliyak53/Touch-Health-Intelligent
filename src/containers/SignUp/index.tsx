@@ -12,9 +12,10 @@ import './index.scss';
 import { signUpService } from '../../services/authservice'
 
 type IFormInputs = {
-    name: string,
+    firstName: string,
+    lastName: string,
     email: string,
-    phone: string,
+    phoneNumber: string,
     password: string,
     confirmPassword: string,
   };
@@ -23,10 +24,11 @@ const SignUp = () => {
     const navigate = useNavigate()
 
     const schema = yup.object({
-        name: yup.string().required('Name is required'),
+        firstName: yup.string().required('First Name is required'),
+        lastName: yup.string().required('Last Name is required'),
         email: yup.string().email('Email is invalid').required('Email is required'),
-        phone: yup.string()
-            .required('Phone is required')
+        phoneNumber: yup.string()
+            .required('Phone Number is required')
             .matches(new RegExp(/^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s.-]\d{4}$/g), "Phone must be in (999) 999-9999 format"),
         password: yup.string().required('Password is required')
             .min(8)
@@ -54,14 +56,25 @@ const SignUp = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
                 <div>
                     <InputField
-                        id="name"
-                        {...register('name', { required: true })}
-                        placeholder="Name"
+                        id="firstName"
+                        {...register('firstName', { required: true })}
+                        placeholder="First Name"
                         type="text"
                         className="inputField"
 
                     />
-                    <p className="SingUnForm-error">{errors.name?.message}</p>
+                    <p className="SingUnForm-error">{errors.firstName?.message}</p>
+                </div>
+                <div>
+                    <InputField
+                        id="lastName"
+                        {...register('lastName', { required: true })}
+                        placeholder="Last Name"
+                        type="text"
+                        className="inputField"
+
+                    />
+                    <p className="SingUnForm-error">{errors.lastName?.message}</p>
                 </div>
                 <div>
                     <InputField
@@ -75,14 +88,14 @@ const SignUp = () => {
                 </div>
                 <div>
                     <InputField
-                        id="phone"
-                        {...register('phone')}
+                        id="phoneNumber"
+                        {...register('phoneNumber')}
                         placeholder="Phone: (999) 999-9999"
                         type="text"
                         className="inputField"
 
                     />
-                    <p className="SingUnForm-error">{errors.phone?.message}</p>
+                    <p className="SingUnForm-error">{errors.phoneNumber?.message}</p>
                 </div>
                 <div>
                     <InputField
