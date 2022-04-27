@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { toast } from 'react-toastify';
 
 import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout';
 import Button from '../../components/Button';
@@ -46,9 +47,16 @@ const SignUp = () => {
         resolver: yupResolver(schema)
     });
 
-    const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-        signUpService(data);
-        navigate("/verify")
+    const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+        const signUpResponse = await signUpService(data);
+
+        if(signUpResponse?.response?.data) {
+            toast.error(signUpResponse?.response?.data?.detail)
+        }
+        else {
+            toast.success("Check your email to verify OTP")
+            navigate("/verify")
+        }
     }
 
     return (
