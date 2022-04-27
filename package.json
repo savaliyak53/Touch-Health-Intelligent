@@ -2,6 +2,11 @@
     "name": "touch-health-assistant",
     "version": "0.1.0",
     "private": true,
+    "engines": {
+        "npm": "8.5.0",
+        "node": "16.14.2"
+    },
+
     "dependencies": {
         "@hookform/resolvers": "^2.8.8",
         "@testing-library/jest-dom": "^5.16.4",
@@ -12,6 +17,7 @@
         "@types/react": "^18.0.5",
         "@types/react-dom": "^18.0.1",
         "antd": "^4.19.5",
+        "axios": "^0.27.1",
         "node-sass": "^7.0.1",
         "prettier": "^2.6.2",
         "react": "^18.0.0",
