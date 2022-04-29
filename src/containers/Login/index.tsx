@@ -33,12 +33,12 @@ const Login = () => {
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
         setIsLoading(true);
         setIsDisabled(true);
-        const signUpResponse = await loginService(data);
+        const loginResponse = await loginService(data);
 
-        if(signUpResponse?.response?.data) {
+        if(loginResponse?.response?.data) {
             setIsDisabled(false);
             setIsLoading(false);
-            toast.error(signUpResponse?.response?.data?.detail)
+            toast.error(loginResponse?.response?.data?.detail)
         }
         else {
             reset();
