@@ -1,5 +1,3 @@
-/* eslint-disable no-debugger */
-/* eslint-disable no-unused-vars */
 import axios from 'axios'
 
 const apiClient = (url, method = 'get', data = {}) => {
