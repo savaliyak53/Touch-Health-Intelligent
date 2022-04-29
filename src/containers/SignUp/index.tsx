@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom";
@@ -23,6 +23,8 @@ type IFormInputs = {
 
 const SignUp = () => {
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(false);
 
     const schema = yup.object({
         firstName: yup.string().required('First Name is required'),
@@ -30,7 +32,7 @@ const SignUp = () => {
         email: yup.string().email('Email is invalid').required('Email is required'),
         phoneNumber: yup.string()
             .required('Phone Number is required')
-            .matches(new RegExp(/^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s.-]\d{4}$/g), "Phone must be in (999) 999-9999 format"),
+            .matches(new RegExp(/^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s.-]\d{4}$/g), "Phone must be in (XXX) XXX-XXXX format"),
         password: yup.string().required('Password is required')
             .min(8)
             .matches(
@@ -42,25 +44,31 @@ const SignUp = () => {
             .oneOf([yup.ref('password')], 'Your Passwords do not match.'),
     }).required();
 
-    const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<IFormInputs>({
         mode: 'onChange',
         resolver: yupResolver(schema)
     });
 
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+        setIsLoading(true);
+        setIsDisabled(true);
         const signUpResponse = await signUpService(data);
 
         if(signUpResponse?.response?.data) {
+            setIsDisabled(false);
+            setIsLoading(false);
             toast.error(signUpResponse?.response?.data?.detail)
         }
         else {
-            toast.success("Check your email to verify OTP")
-            navigate("/verify")
+            reset();
+            setIsDisabled(false);
+            setIsLoading(false);
+            toast.success("You have sign up successfully")
         }
     }
 
     return (
-        <AuthenticationLayout caption="Sign Up Here">
+        <AuthenticationLayout caption="Sign up Here">
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
                 <div>
                     <InputField
@@ -98,7 +106,7 @@ const SignUp = () => {
                     <InputField
                         id="phoneNumber"
                         {...register('phoneNumber')}
-                        placeholder="Phone: (999) 999-9999"
+                        placeholder="Phone: (XXX) XXX-XXXX"
                         type="text"
                         className="inputField"
 
@@ -128,8 +136,10 @@ const SignUp = () => {
                 <Button
                     size="lg"
                     onClick={handleSubmit(onSubmit)}
+                    loading={isLoading}
+                    disabled={isDisabled}
                 >
-                    Sign Up
+                    Sign up
                 </Button>
                 <Link
                   to="/login"

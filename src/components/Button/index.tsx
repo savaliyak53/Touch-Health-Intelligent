@@ -11,6 +11,7 @@ interface Props {
     onClick: () => void;
     size?: string, // sm, md, lg
     disabled?: boolean;
+    loading?: boolean;
 }
 
 const Button = ({
@@ -18,6 +19,7 @@ const Button = ({
     onClick,
     size = 'md',
     disabled = false,
+    loading = false,
     ...rest
 }: Props
 ) => {
@@ -29,6 +31,7 @@ const Button = ({
                 htmlType="submit"
                 onClick={onClick}
                 disabled={disabled}
+                loading={loading}
                 {...rest}
             >
                 {children}
