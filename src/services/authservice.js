@@ -8,3 +8,12 @@ export const signUpService =  async (data) => {
     return err;
   }
 };
+
+export const loginService =  async (data) => {
+  try {
+    const res = await APIClient("api/THA/PatientLogin", "post", data);
+    if (res) return res.data;
+  } catch (err) {
+    return err;
+  }
+};

@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import LoadingLayout from '../layouts/loading-layout/LoadingLayout'
-import { SignUp } from './Lazycontainers'
+import { SignUp, Login } from './Lazycontainers'
 import ROUTES from './Constants'
 
 const AppRoutes = () => {
@@ -10,6 +10,7 @@ const AppRoutes = () => {
         <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
             <Routes>
                 <Route path={ROUTES.signUp} element={<SignUp />} />
+                <Route path={ROUTES.login} element={<Login />} />
                 <Route path="/" element={<SignUp />} />
                 <Route path="*" element={<SignUp />} />
 
