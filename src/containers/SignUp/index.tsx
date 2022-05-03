@@ -22,7 +22,7 @@ type IFormInputs = {
   };
 
 const SignUp = () => {
-    const navigate = useNavigate()
+    //const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
 
