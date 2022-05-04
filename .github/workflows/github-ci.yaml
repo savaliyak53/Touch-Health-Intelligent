@@ -92,7 +92,7 @@ jobs:
     #  github.ref == 'refs/heads/main' || 
     #  (github.event_name == 'pull_request' && 
     #  github.event.pull_request.merged == true)
-    # remember to put the logics back
+    # remember to put the logics back and for the first task too
     steps:
       - name: trigger Jenkins deployment Job
         uses: appleboy/jenkins-action@master
