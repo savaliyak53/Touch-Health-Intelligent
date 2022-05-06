@@ -1,35 +1,170 @@
-import React from 'react';
-
-import './index.scss';
-import Button from '../../components/Button';
-import InputField from '../../components/Input';
+import React, { useState, useEffect } from 'react'
+import './index.scss'
+import Button from '../../components/Button'
+import OtpInput from 'react-otp-input'
+import {
+    requestEmailOTP,
+    requestPhoneOTP,
+    verifyEmailOTP,
+    verifyPhoneOTP,
+    validateSignUp,
+} from '../../services/authservice'
+import { toast } from 'react-toastify'
+import { Spin } from 'antd'
+import { useParams, useNavigate } from 'react-router-dom'
 
 const Verify = () => {
+    const { userId } = useParams()
+    const navigate = useNavigate()
+    const [emailOTP, setEmailOTP] = useState<string | undefined>()
+    const [emailLoading, setEmailLoading] = useState<boolean>(false)
+    const [isEmailVerified, setIsEmailVerified] = useState<boolean>(false)
+    const [phoneOTP, setPhoneOTP] = useState<string | undefined>()
+    const [phoneLoading, setPhoneLoading] = useState<boolean>(false)
+    const [isPhoneVerified, setIsPhoneVerified] = useState<boolean>(false)
+
+    useEffect(() => {
+        checkVerifications()
+    }, [])
+
+    const checkVerifications = async () => {
+        const check = await validateSignUp(userId)
+        console.log('ceck is ', check)
+        if (check) {
+            toast.error(check?.response?.data?.detail)
+        } else {
+            setIsEmailVerified(check.metadata.emailIsVerified)
+            setIsPhoneVerified(check.metadata.phoneIsVerified)
+            handleRedirect()
+        }
+    }
+
+    const onEmailOTPChange = (value: string) => {
+        setEmailOTP(value)
+    }
+    const onPhoneOTPChange = (value: string) => {
+        setPhoneOTP(value)
+    }
+    const sendEmailOTP = async () => {
+        //api call for sending email otp
+        setEmailLoading(true)
+        const emailRequestResponse = await requestEmailOTP(userId)
+        if (emailRequestResponse?.response?.data) {
+            setEmailLoading(false)
+            toast.error(emailRequestResponse?.response?.data?.detail)
+        } else {
+            setEmailLoading(false)
+            toast.success('OTP sent')
+        }
+    }
+
+    const emailVerification = async () => {
+        setEmailLoading(true)
+        const emailVerificationResponse = await verifyEmailOTP(emailOTP, userId)
+        if (emailVerificationResponse?.response?.data) {
+            setEmailLoading(false)
+            toast.error(emailVerificationResponse?.response?.data?.detail)
+        } else {
+            setEmailLoading(false)
+            setIsEmailVerified(true)
+            toast.success('Email Verified')
+        }
+    }
+
+    const sendPhoneOTP = async () => {
+        //api call to send email otp
+        setEmailLoading(true)
+        const phoneRequestResponse = await requestPhoneOTP(userId)
+        if (phoneRequestResponse?.response?.data) {
+            setPhoneLoading(false)
+            toast.error(phoneRequestResponse?.response?.data?.detail)
+        } else {
+            setPhoneLoading(false)
+            toast.success('OTP sent')
+            handleRedirect()
+        }
+    }
+
+    const phoneVerification = async () => {
+        setEmailLoading(true)
+        const emailVerificationResponse = await verifyPhoneOTP(phoneOTP, userId)
+        if (emailVerificationResponse?.response?.data) {
+            setEmailLoading(false)
+            toast.error(emailVerificationResponse?.response?.data?.detail)
+        } else {
+            setEmailLoading(false)
+            setIsPhoneVerified(true)
+            toast.success('Phone Verified')
+            handleRedirect()
+        }
+    }
+
+    const handleRedirect = () => {
+        if (isEmailVerified && isPhoneVerified) {
+            navigate('/preferences')
+        }
+    }
 
     return (
         <div className="verifyWrap">
-            <div className="prompt">
-                Enter the verification below to complete SignUp!
-            </div>
-
-            <form method="get" className="digit-group" data-group-name="digits" data-autosubmit="false" autoComplete="off">
-                <div className="inputGroup">
-                    <InputField type="text" id="digit-1" name="digit-1" data-next="digit-2" maxLength={1} />
-                    <InputField type="text" id="digit-2" name="digit-2" data-next="digit-3" data-previous="digit-1" maxLength={1} />
-                    <InputField type="text" id="digit-3" name="digit-3" data-next="digit-4" data-previous="digit-2" maxLength={1} />
-                    <InputField type="text" id="digit-4" name="digit-4" data-next="digit-5" data-previous="digit-3" maxLength={1} />
-                    <InputField type="text" id="digit-5" name="digit-5" data-next="digit-6" data-previous="digit-4" maxLength={1} />
-                    <InputField type="text" id="digit-6" name="digit-6" data-previous="digit-5" maxLength={1} />
+            {!isEmailVerified && (
+                <div>
+                    <div className="prompt">
+                        Enter the email verification OTP below
+                        {emailLoading && <Spin />}
+                    </div>
+                    <Spin />
+                    <div className="digit-group">
+                        <OtpInput
+                            value={emailOTP}
+                            onChange={onEmailOTPChange}
+                            numInputs={6}
+                            separator={<span>-</span>}
+                            isInputNum={true}
+                        />
+                        <span className="resend-otp" onClick={sendEmailOTP}>
+                            Resend Otp on Email?
+                        </span>
+                        <Button
+                            size="md"
+                            onClick={emailVerification}
+                            disabled={emailLoading}
+                        >
+                            VERIFY EMAIL
+                        </Button>
+                    </div>
                 </div>
-                <Button
-                    size="md"
-                    onClick={() => {"button is clicked"}}
-                >
-                    VERIFY
-                </Button>
-            </form>
+            )}
+
+            {!isPhoneVerified && (
+                <div style={{ marginTop: '10px' }}>
+                    <div className="prompt">
+                        Enter the email verification OTP below{' '}
+                        {phoneLoading && <Spin />}
+                    </div>
+                    <div className="digit-group">
+                        <OtpInput
+                            value={phoneOTP}
+                            onChange={onPhoneOTPChange}
+                            numInputs={6}
+                            separator={<span>-</span>}
+                            isInputNum={true}
+                        />
+                        <span className="resend-otp" onClick={sendPhoneOTP}>
+                            Resend Otp on Phone?
+                        </span>
+                        <Button
+                            size="md"
+                            onClick={phoneVerification}
+                            disabled={phoneLoading}
+                        >
+                            VERIFY PHONE
+                        </Button>
+                    </div>
+                </div>
+            )}
         </div>
     )
-};
+}
 
 export default Verify

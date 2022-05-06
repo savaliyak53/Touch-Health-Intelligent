@@ -78,5 +78,4 @@ test/.env.*.local
 
 .vscode/*
 
-.env
 .cache

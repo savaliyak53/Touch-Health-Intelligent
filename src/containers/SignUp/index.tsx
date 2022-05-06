@@ -1,69 +1,84 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useNavigate } from "react-router-dom"
-import { Link } from "react-router-dom";
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
-import { toast } from 'react-toastify';
-
-import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout';
-import Button from '../../components/Button';
-import InputField from '../../components/Input';
-import './index.scss';
+import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { toast } from 'react-toastify'
+import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout'
+import Button from '../../components/Button'
+import InputField from '../../components/Input'
+import './index.scss'
 import { signUpService } from '../../services/authservice'
 
 type IFormInputs = {
-    firstName: string,
-    lastName: string,
-    email: string,
-    phoneNumber: string,
-    password: string,
-    confirmPassword: string,
-  };
+    firstName: string
+    lastName: string
+    email: string
+    phoneNumber: string
+    password: string
+    confirmPassword: string
+}
 
 const SignUp = () => {
     const navigate = useNavigate()
-    const [isLoading, setIsLoading] = useState(false);
-    const [isDisabled, setIsDisabled] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
+    const [isDisabled, setIsDisabled] = useState(false)
 
-    const schema = yup.object({
-        firstName: yup.string().required('First Name is required'),
-        lastName: yup.string().required('Last Name is required'),
-        email: yup.string().email('Email is invalid').required('Email is required'),
-        phoneNumber: yup.string()
-            .required('Phone Number is required')
-            .matches(new RegExp(/^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s.-]\d{4}$/g), "Phone must be in (XXX) XXX-XXXX format"),
-        password: yup.string().required('Password is required')
-            .min(8)
-            .matches(
-                /^(?=.*?[#?!@$%^&*-])/,
-               'Need one special character',
-            ),
-        confirmPassword: yup.string()
-            .required('Confirmation Password is required')
-            .oneOf([yup.ref('password')], 'Your Passwords do not match.'),
-    }).required();
+    const schema = yup
+        .object({
+            firstName: yup.string().required('First Name is required'),
+            lastName: yup.string().required('Last Name is required'),
+            email: yup
+                .string()
+                .email('Email is invalid')
+                .required('Email is required'),
+            phoneNumber: yup
+                .string()
+                .required('Phone Number is required')
+                .matches(
+                    new RegExp(
+                        /^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s.-]\d{4}$/g
+                    ),
+                    'Phone must be in (XXX) XXX-XXXX format'
+                ),
+            password: yup
+                .string()
+                .required('Password is required')
+                .min(8)
+                .matches(/^(?=.*?[#?!@$%^&*-])/, 'Need one special character'),
+            confirmPassword: yup
+                .string()
+                .required('Confirmation Password is required')
+                .oneOf([yup.ref('password')], 'Your Passwords do not match.'),
+        })
+        .required()
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<IFormInputs>({
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm<IFormInputs>({
         mode: 'onChange',
-        resolver: yupResolver(schema)
-    });
+        resolver: yupResolver(schema),
+    })
 
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-        setIsLoading(true);
-        setIsDisabled(true);
-        const signUpResponse = await signUpService(data);
-
-        if(signUpResponse?.response?.data) {
-            setIsDisabled(false);
-            setIsLoading(false);
+        setIsLoading(true)
+        setIsDisabled(true)
+        const signUpResponse = await signUpService(data)
+        console.log(signUpResponse)
+        if (signUpResponse?.response?.data) {
+            setIsDisabled(false)
+            setIsLoading(false)
             toast.error(signUpResponse?.response?.data?.detail)
-        }
-        else {
-            reset();
-            setIsDisabled(false);
-            setIsLoading(false);
-            toast.success("You have sign up successfully")
+        } else {
+            reset()
+            setIsDisabled(false)
+            setIsLoading(false)
+            toast.success('You have sign up successfully')
+            navigate(`/verify/${signUpResponse.id}`)
         }
     }
 
@@ -77,9 +92,10 @@ const SignUp = () => {
                         placeholder="First Name"
                         type="text"
                         className="inputField"
-
                     />
-                    <p className="SingUnForm-error">{errors.firstName?.message}</p>
+                    <p className="SingUnForm-error">
+                        {errors.firstName?.message}
+                    </p>
                 </div>
                 <div>
                     <InputField
@@ -88,9 +104,10 @@ const SignUp = () => {
                         placeholder="Last Name"
                         type="text"
                         className="inputField"
-
                     />
-                    <p className="SingUnForm-error">{errors.lastName?.message}</p>
+                    <p className="SingUnForm-error">
+                        {errors.lastName?.message}
+                    </p>
                 </div>
                 <div>
                     <InputField
@@ -109,9 +126,10 @@ const SignUp = () => {
                         placeholder="Phone: (XXX) XXX-XXXX"
                         type="text"
                         className="inputField"
-
                     />
-                    <p className="SingUnForm-error">{errors.phoneNumber?.message}</p>
+                    <p className="SingUnForm-error">
+                        {errors.phoneNumber?.message}
+                    </p>
                 </div>
                 <div>
                     <InputField
@@ -121,7 +139,9 @@ const SignUp = () => {
                         type="password"
                         className="inputField"
                     />
-                    <p className="SingUnForm-error">{errors.password?.message}</p>
+                    <p className="SingUnForm-error">
+                        {errors.password?.message}
+                    </p>
                 </div>
                 <div>
                     <InputField
@@ -131,7 +151,9 @@ const SignUp = () => {
                         type="password"
                         className="inputField"
                     />
-                    <p className="SingUnForm-error">{errors.confirmPassword?.message}</p>
+                    <p className="SingUnForm-error">
+                        {errors.confirmPassword?.message}
+                    </p>
                 </div>
                 <Button
                     size="lg"
@@ -141,10 +163,7 @@ const SignUp = () => {
                 >
                     Sign up
                 </Button>
-                <Link
-                  to="/login"
-                  className="kt-link kt-login__link-forgot"
-                >
+                <Link to="/login" className="kt-link kt-login__link-forgot">
                     Already have an account?
                 </Link>
             </form>
