@@ -29,12 +29,16 @@ const Verify = () => {
 
     const checkVerifications = async () => {
         const check = await validateSignUp(userId)
-        console.log('ceck is ', check)
-        if (check) {
+        if (check?.response?.data) {
             toast.error(check?.response?.data?.detail)
         } else {
-            setIsEmailVerified(check.metadata.emailIsVerified)
-            setIsPhoneVerified(check.metadata.phoneIsVerified)
+            if (check.metadata.emailIsVerified) {
+                setIsEmailVerified(true)
+            }
+            if (check.metadata.phoneIsVerified) {
+                setIsPhoneVerified(true)
+            }
+
             handleRedirect()
         }
     }
@@ -135,7 +139,6 @@ const Verify = () => {
                     </div>
                 </div>
             )}
-
             {!isPhoneVerified && (
                 <div style={{ marginTop: '10px' }}>
                     <div className="prompt">

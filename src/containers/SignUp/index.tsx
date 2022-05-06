@@ -68,7 +68,6 @@ const SignUp = () => {
         setIsLoading(true)
         setIsDisabled(true)
         const signUpResponse = await signUpService(data)
-        console.log(signUpResponse)
         if (signUpResponse?.response?.data) {
             setIsDisabled(false)
             setIsLoading(false)
