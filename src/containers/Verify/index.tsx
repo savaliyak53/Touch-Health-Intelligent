@@ -104,7 +104,7 @@ const Verify = () => {
     }
 
     const handleRedirect = () => {
-        if (isEmailVerified && isPhoneVerified) {
+        if (isPhoneVerified) {
             navigate('/preferences')
         }
     }
