@@ -50,8 +50,9 @@ jobs:
         # Prepare
       - name: Install packages
         run: yarn install
-      - name: Run tests
-        run: yarn test
+      #No tests so github ci returns error code
+      #- name: Run tests
+      #  run: yarn test
       - name: Run build
         run: yarn build
         env:
