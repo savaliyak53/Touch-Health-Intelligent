@@ -48,10 +48,18 @@ jobs:
           echo "REPO=touch-tha-frontend-main" >> $GITHUB_ENV
         # echo "REPO=touch-tha-frontend-$BASE_BRANCH_NAME" >> $GITHUB_ENV
         # Prepare
-      - name: yarn install dependencies
-        run: yarn add
-      - name: yarn run build (nodeJS)
-        run: yarn run build
+      - name: Install packages
+        run: yarn install
+      - name: Run tests
+        run: yarn test
+      - name: Run build
+        run: yarn build
+        env:
+          CI: true
+      #- name: npm install dependencies
+      #  run: npm install
+      #- name: npm run build (nodeJS)
+      #  run: npm run build
       #- name: Save github sha commit
       #  run: echo ${GITHUB_SHA} > ./build/frontend.hash
       - name: Prepare building (folder)
