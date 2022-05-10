@@ -26,12 +26,16 @@ const Verify = () => {
         checkVerifications()
     }, [])
     useEffect(() => {
-        checkVerifications()
+        if (isPhoneVerified) {
+            handleRedirect()
+            localStorage.setItem('isVerified', 'true')
+        }
     }, [isPhoneVerified])
     const checkVerifications = async () => {
         const check = await validateSignUp(userId)
         if (check?.response?.data) {
             toast.error(check?.response?.data?.detail)
+            navigate('/signUp')
         } else {
             if (check.metadata.emailIsVerified) {
                 setIsEmailVerified(true)
@@ -86,13 +90,13 @@ const Verify = () => {
         }
     }
     const phoneVerification = async () => {
-        setEmailLoading(true)
-        const emailVerificationResponse = await verifyPhoneOTP(phoneOTP, userId)
-        if (emailVerificationResponse?.response?.data) {
-            setEmailLoading(false)
-            toast.error(emailVerificationResponse?.response?.data?.detail)
+        setPhoneLoading(true)
+        const phoneVerificationResponse = await verifyPhoneOTP(phoneOTP, userId)
+        if (phoneVerificationResponse?.response?.data) {
+            setPhoneLoading(false)
+            toast.error(phoneVerificationResponse?.response?.data?.detail)
         } else {
-            setEmailLoading(false)
+            setPhoneLoading(false)
             setIsPhoneVerified(true)
             toast.success('Phone Verified')
             handleRedirect()
@@ -100,7 +104,7 @@ const Verify = () => {
     }
     const handleRedirect = () => {
         if (isPhoneVerified) {
-            navigate('/preferences')
+            navigate(`/preferences/${userId}`)
         }
     }
     return (

@@ -1,0 +1,51 @@
+.Preferences-form {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+}
+
+.Preferences-form-error {
+    margin-top: 1rem;
+    color: red;
+}
+
+.mt-1 {
+    margin-top: 1rem;
+}
+.mt-3 {
+    margin-top: 3rem;
+}
+.question {
+    width: 480px;
+    font-style: bold;
+    margin-bottom: 2px;
+    line-height: 2;
+    font-size: 20px;
+    min-height: 25px;
+    margin-top: 3rem;
+}
+.checkbox {
+    //width: 274px;
+    margin-bottom: 2px;
+    flex-direction: row;
+    line-height: 1;
+    min-height: 25px;
+}
+.label {
+    margin-left: 2px;
+    margin-right: 2rem;
+}
+[type='checkbox'] {
+    vertical-align: middle;
+}
+ul.no-bullets {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+ul.no-bullets li {
+    float: left;
+    padding-right: 10px;
+}

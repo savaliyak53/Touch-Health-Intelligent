@@ -1,6 +1,5 @@
 @import '../../components/form-styles/mobile/input';
 @import '../../components/form-styles/mobile/password';
-
 .verifyWrap {
     display: flex;
     flex-direction: column;
@@ -8,17 +7,14 @@
     height: 100vh;
     justify-content: center;
     align-items: center;
-
     .digit-group {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-
         .inputGroup {
             display: flex;
         }
-
         input {
             width: 30px;
             height: 50px;
@@ -33,14 +29,12 @@
             }
         }
     }
-
     .prompt {
         margin-bottom: 20px;
         font-size: 20px;
         color: $color-black;
         text-align: center;
     }
-
     .resend-otp {
         text-decoration: underline;
         cursor: pointer;

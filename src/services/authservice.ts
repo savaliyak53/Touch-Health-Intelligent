@@ -1,6 +1,5 @@
 import { ISignUp, ILogin } from '../interfaces'
 import APIClient from '../utils/axios'
-
 export const signUpService = async (data: ISignUp) => {
     try {
         const res = await APIClient('api/THA/PatientSignup', 'post', data)
@@ -9,7 +8,6 @@ export const signUpService = async (data: ISignUp) => {
         return err
     }
 }
-
 export const loginService = async (data: ILogin) => {
     try {
         const res = await APIClient('api/THA/PatientLogin', 'post', data)
@@ -18,7 +16,6 @@ export const loginService = async (data: ILogin) => {
         return err
     }
 }
-
 export const validateSignUp = async (id: string | undefined) => {
     try {
         const res = await APIClient(`api/THA/PatientSignup/${id}`, 'get')
@@ -27,7 +24,6 @@ export const validateSignUp = async (id: string | undefined) => {
         return err
     }
 }
-
 export const requestEmailOTP = async (id: string | undefined) => {
     try {
         const response = await APIClient(
@@ -39,7 +35,6 @@ export const requestEmailOTP = async (id: string | undefined) => {
         return error
     }
 }
-
 export const verifyEmailOTP = async (
     otp: string | undefined,
     id: string | undefined
@@ -55,7 +50,6 @@ export const verifyEmailOTP = async (
         return error
     }
 }
-
 export const requestPhoneOTP = async (id: string | undefined) => {
     try {
         const response = await APIClient(
@@ -67,7 +61,6 @@ export const requestPhoneOTP = async (id: string | undefined) => {
         return error
     }
 }
-
 export const verifyPhoneOTP = async (
     otp: string | undefined,
     id: string | undefined
@@ -81,5 +74,13 @@ export const verifyPhoneOTP = async (
         if (response) return response.data
     } catch (error) {
         return error
+    }
+}
+export const preferencesService = async (data: any, id: string | undefined) => {
+    try {
+        const res = await APIClient(`/api/THA/PatientSignup/${id}`, 'put', data)
+        if (res) return res.data
+    } catch (err) {
+        return err
     }
 }
