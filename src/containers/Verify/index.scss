@@ -2,12 +2,12 @@
 @import '../../components/form-styles/mobile/password';
 
 .verifyWrap {
-display: flex;
-flex-direction: column;
-width: 100%;
-height: 100vh;
-justify-content: center;
-align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
 
     .digit-group {
         display: flex;
@@ -44,6 +44,10 @@ align-items: center;
     .resend-otp {
         text-decoration: underline;
         cursor: pointer;
-        color: #0281ED;
+        color: #0281ed;
+    }
+    .resend-otp-disabled {
+        cursor: none;
+        color: grey;
     }
 }
