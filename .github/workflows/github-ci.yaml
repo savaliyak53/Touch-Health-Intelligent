@@ -55,8 +55,8 @@ jobs:
       #  run: yarn test
       - name: Run build
         run: yarn build
-        env:
-          CI: true
+      #  env:
+      #    CI: true
       # will run npm install -g serve && serve -s build in docker compose
       #- name: npm install dependencies
       #  run: npm install
