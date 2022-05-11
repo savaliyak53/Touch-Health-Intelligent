@@ -9,7 +9,7 @@ interface InputProps {
     className?: string
     style?: CSSProperties
     value?: string
-    defaultValue?: number | string | boolean | any | undefined
+    defaultValue?: number | string | boolean | undefined
     minimum?: number
 }
 const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
