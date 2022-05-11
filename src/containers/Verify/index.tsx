@@ -10,9 +10,9 @@ import {
     validateSignUp,
 } from '../../services/authservice'
 import { toast } from 'react-toastify'
-import { Spin } from 'antd'
+import { Checkbox, Spin } from 'antd'
 import { useParams, useNavigate } from 'react-router-dom'
-
+import 'antd/dist/antd.css'
 const Verify = () => {
     const { userId } = useParams()
     const navigate = useNavigate()
@@ -22,15 +22,20 @@ const Verify = () => {
     const [phoneOTP, setPhoneOTP] = useState<string | undefined>()
     const [phoneLoading, setPhoneLoading] = useState<boolean>(false)
     const [isPhoneVerified, setIsPhoneVerified] = useState<boolean>(false)
-
     useEffect(() => {
         checkVerifications()
     }, [])
-
+    useEffect(() => {
+        if (isPhoneVerified) {
+            handleRedirect()
+            localStorage.setItem('isVerified', 'true')
+        }
+    }, [isPhoneVerified])
     const checkVerifications = async () => {
         const check = await validateSignUp(userId)
         if (check?.response?.data) {
             toast.error(check?.response?.data?.detail)
+            navigate('/signUp')
         } else {
             if (check.metadata.emailIsVerified) {
                 setIsEmailVerified(true)
@@ -38,11 +43,9 @@ const Verify = () => {
             if (check.metadata.phoneIsVerified) {
                 setIsPhoneVerified(true)
             }
-
             handleRedirect()
         }
     }
-
     const onEmailOTPChange = (value: string) => {
         setEmailOTP(value)
     }
@@ -58,10 +61,9 @@ const Verify = () => {
             toast.error(emailRequestResponse?.response?.data?.detail)
         } else {
             setEmailLoading(false)
-            toast.success('OTP sent')
+            toast.success('Email OTP sent')
         }
     }
-
     const emailVerification = async () => {
         setEmailLoading(true)
         const emailVerificationResponse = await verifyEmailOTP(emailOTP, userId)
@@ -74,50 +76,58 @@ const Verify = () => {
             toast.success('Email Verified')
         }
     }
-
     const sendPhoneOTP = async () => {
         //api call to send email otp
-        setEmailLoading(true)
+        setPhoneLoading(true)
         const phoneRequestResponse = await requestPhoneOTP(userId)
         if (phoneRequestResponse?.response?.data) {
             setPhoneLoading(false)
             toast.error(phoneRequestResponse?.response?.data?.detail)
         } else {
             setPhoneLoading(false)
-            toast.success('OTP sent')
+            toast.success('Phone OTP sent')
             handleRedirect()
         }
     }
-
     const phoneVerification = async () => {
-        setEmailLoading(true)
-        const emailVerificationResponse = await verifyPhoneOTP(phoneOTP, userId)
-        if (emailVerificationResponse?.response?.data) {
-            setEmailLoading(false)
-            toast.error(emailVerificationResponse?.response?.data?.detail)
+        setPhoneLoading(true)
+        const phoneVerificationResponse = await verifyPhoneOTP(phoneOTP, userId)
+        if (phoneVerificationResponse?.response?.data) {
+            setPhoneLoading(false)
+            toast.error(phoneVerificationResponse?.response?.data?.detail)
         } else {
-            setEmailLoading(false)
+            setPhoneLoading(false)
             setIsPhoneVerified(true)
             toast.success('Phone Verified')
             handleRedirect()
         }
     }
-
     const handleRedirect = () => {
         if (isPhoneVerified) {
-            navigate('/preferences')
+            navigate(`/preferences/${userId}`)
         }
     }
-
     return (
         <div className="verifyWrap">
+            {isEmailVerified && (
+                <div className="prompt">
+                    <Checkbox defaultChecked disabled /> Email Verified
+                </div>
+            )}
+            {isPhoneVerified && (
+                <div className="prompt">
+                    <Checkbox defaultChecked disabled /> Phone Verified
+                </div>
+            )}
             {!isEmailVerified && (
                 <div>
                     <div className="prompt">
                         Enter the email verification OTP below
-                        {emailLoading && <Spin />}
+                        <Spin
+                            spinning={emailLoading}
+                            style={{ marginLeft: '8px' }}
+                        />
                     </div>
-                    <Spin />
                     <div className="digit-group">
                         <OtpInput
                             value={emailOTP}
@@ -126,7 +136,14 @@ const Verify = () => {
                             separator={<span>-</span>}
                             isInputNum={true}
                         />
-                        <span className="resend-otp" onClick={sendEmailOTP}>
+                        <span
+                            className={
+                                emailLoading
+                                    ? 'resend-otp-disabled'
+                                    : 'resend-otp'
+                            }
+                            onClick={() => !emailLoading && sendEmailOTP()}
+                        >
                             Resend Otp on Email?
                         </span>
                         <Button
@@ -142,8 +159,11 @@ const Verify = () => {
             {!isPhoneVerified && (
                 <div style={{ marginTop: '10px' }}>
                     <div className="prompt">
-                        Enter the email verification OTP below{' '}
-                        {phoneLoading && <Spin />}
+                        Enter the phone verification OTP below{' '}
+                        <Spin
+                            spinning={phoneLoading}
+                            style={{ marginLeft: '8px' }}
+                        />
                     </div>
                     <div className="digit-group">
                         <OtpInput
@@ -153,7 +173,14 @@ const Verify = () => {
                             separator={<span>-</span>}
                             isInputNum={true}
                         />
-                        <span className="resend-otp" onClick={sendPhoneOTP}>
+                        <span
+                            className={
+                                phoneLoading
+                                    ? 'resend-otp-disabled'
+                                    : 'resend-otp'
+                            }
+                            onClick={() => !phoneLoading && sendPhoneOTP()}
+                        >
                             Resend Otp on Phone?
                         </span>
                         <Button
@@ -169,5 +196,4 @@ const Verify = () => {
         </div>
     )
 }
-
 export default Verify

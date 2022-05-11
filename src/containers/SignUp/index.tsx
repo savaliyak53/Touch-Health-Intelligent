@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
@@ -10,7 +10,6 @@ import Button from '../../components/Button'
 import InputField from '../../components/Input'
 import './index.scss'
 import { signUpService } from '../../services/authservice'
-
 type IFormInputs = {
     firstName: string
     lastName: string
@@ -19,12 +18,16 @@ type IFormInputs = {
     password: string
     confirmPassword: string
 }
-
 const SignUp = () => {
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
-
+    useEffect(() => {
+        const signUpResponse = localStorage.getItem('signUpResponse')
+        if (signUpResponse) {
+            navigate(`/verify/${signUpResponse}`)
+        }
+    }, [])
     const schema = yup
         .object({
             firstName: yup.string().required('First Name is required'),
@@ -53,7 +56,6 @@ const SignUp = () => {
                 .oneOf([yup.ref('password')], 'Your Passwords do not match.'),
         })
         .required()
-
     const {
         register,
         handleSubmit,
@@ -63,7 +65,6 @@ const SignUp = () => {
         mode: 'onChange',
         resolver: yupResolver(schema),
     })
-
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
         setIsLoading(true)
         setIsDisabled(true)
@@ -77,10 +78,10 @@ const SignUp = () => {
             setIsDisabled(false)
             setIsLoading(false)
             toast.success('You have sign up successfully')
+            localStorage.setItem('signUpResponse', `${signUpResponse.id}`)
             navigate(`/verify/${signUpResponse.id}`)
         }
     }
-
     return (
         <AuthenticationLayout caption="Sign up Here">
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
@@ -169,5 +170,4 @@ const SignUp = () => {
         </AuthenticationLayout>
     )
 }
-
 export default SignUp
