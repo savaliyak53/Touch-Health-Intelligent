@@ -76,7 +76,7 @@ export const verifyPhoneOTP = async (
         return error
     }
 }
-export const preferencesService = async (data: string, id: string | undefined) => {
+export const preferencesService = async (data: any, id: string | undefined) => {
     try {
         const res = await APIClient(`/api/THA/PatientSignup/${id}`, 'put', data)
         if (res) return res.data
