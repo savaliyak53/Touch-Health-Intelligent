@@ -21,7 +21,9 @@ const Verify = () => {
     const [isEmailVerified, setIsEmailVerified] = useState<boolean>(false)
     const [phoneOTP, setPhoneOTP] = useState<string | undefined>()
     const [phoneLoading, setPhoneLoading] = useState<boolean>(false)
+    // const [redirect, setRedirect] = useState<boolean>(false)
     const [isPhoneVerified, setIsPhoneVerified] = useState<boolean>(false)
+
     useEffect(() => {
         checkVerifications()
     }, [])
@@ -31,6 +33,7 @@ const Verify = () => {
             localStorage.setItem('isVerified', 'true')
         }
     }, [isPhoneVerified])
+
     const checkVerifications = async () => {
         const check = await validateSignUp(userId)
         if (check?.response?.data) {
@@ -43,9 +46,11 @@ const Verify = () => {
             if (check.metadata.phoneIsVerified) {
                 setIsPhoneVerified(true)
             }
+
             handleRedirect()
         }
     }
+
     const onEmailOTPChange = (value: string) => {
         setEmailOTP(value)
     }
@@ -64,6 +69,7 @@ const Verify = () => {
             toast.success('Email OTP sent')
         }
     }
+
     const emailVerification = async () => {
         setEmailLoading(true)
         const emailVerificationResponse = await verifyEmailOTP(emailOTP, userId)
@@ -76,6 +82,7 @@ const Verify = () => {
             toast.success('Email Verified')
         }
     }
+
     const sendPhoneOTP = async () => {
         //api call to send email otp
         setPhoneLoading(true)
@@ -89,6 +96,7 @@ const Verify = () => {
             handleRedirect()
         }
     }
+
     const phoneVerification = async () => {
         setPhoneLoading(true)
         const phoneVerificationResponse = await verifyPhoneOTP(phoneOTP, userId)
@@ -102,11 +110,13 @@ const Verify = () => {
             handleRedirect()
         }
     }
+
     const handleRedirect = () => {
         if (isPhoneVerified) {
             navigate(`/preferences/${userId}`)
         }
     }
+
     return (
         <div className="verifyWrap">
             {isEmailVerified && (
@@ -196,4 +206,5 @@ const Verify = () => {
         </div>
     )
 }
+
 export default Verify

@@ -1,4 +1,4 @@
-import { ISignUp, ILogin, IPreferencePayload } from '../interfaces'
+import { ISignUp, ILogin, IPreferencesService } from '../interfaces'
 import APIClient from '../utils/axios'
 export const signUpService = async (data: ISignUp) => {
     try {
@@ -76,14 +76,13 @@ export const verifyPhoneOTP = async (
         return error
     }
 }
+
 export const preferencesService = async (
-    data: IPreferencePayload,
+    data: IPreferencesService,
     id: string | undefined
 ) => {
     try {
-        const res = await APIClient(`/api/THA/PatientSignup/${id}`, 'put', {
-            data,
-        })
+        const res = await APIClient(`/api/THA/PatientSignup/${id}`, 'put', data)
         if (res) return res.data
     } catch (err) {
         return err

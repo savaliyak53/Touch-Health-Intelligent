@@ -9,5 +9,10 @@ export interface ILogin {
     email: string
     password: string
 }
-
-export interface IPreferencePayload {}
+export interface IPreferencesService {
+    preferences: {
+        minutesPerWeek: number
+        timeOfDay: string[]
+        conditions: string[]
+    }
+}
