@@ -10,6 +10,7 @@ import AuthenticationLayout from '../../layouts/authentication-layout/Authentica
 import Button from '../../components/Button'
 import { preferencesService } from '../../services/authservice'
 import { toast } from 'react-toastify'
+import { IPreferencePayload } from '../../interfaces'
 type IFormInputs = {
     minutesPerWeek: number
     timeOfDay: string[]
@@ -46,12 +47,10 @@ const Preferences = () => {
         resolver: yupResolver(schema),
     })
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-        const prefereceData = {
-            preferences: {
-                minutesPerWeek: data.minutesPerWeek,
-                timeOfDay: data.timeOfDay,
-                conditions: ['sleep', 'mood'],
-            },
+        const prefereceData: IPreferencePayload = {
+            minutesPerWeek: data.minutesPerWeek,
+            timeOfDay: data.timeOfDay,
+            conditions: ['sleep', 'mood'],
         }
         setIsLoading(true)
         setIsDisabled(true)
@@ -89,7 +88,6 @@ const Preferences = () => {
                         type="number"
                         className="inputField mt-1"
                         defaultValue={0}
-                        minimum={1}
                     />
                     <p className="Preferences-form-error">
                         {errors.minutesPerWeek?.message}
