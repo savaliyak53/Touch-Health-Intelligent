@@ -23,9 +23,13 @@ const Verify = () => {
     const [phoneLoading, setPhoneLoading] = useState<boolean>(false)
     // const [redirect, setRedirect] = useState<boolean>(false)
     const [isPhoneVerified, setIsPhoneVerified] = useState<boolean>(false)
-
+    const isUserSignedUp = localStorage.getItem('signUpResponse')
     useEffect(() => {
-        checkVerifications()
+        if (isUserSignedUp) {
+            checkVerifications()
+        } else {
+            navigate('/signUp')
+        }
     }, [])
     useEffect(() => {
         if (isPhoneVerified) {
@@ -37,7 +41,9 @@ const Verify = () => {
     const checkVerifications = async () => {
         const check = await validateSignUp(userId)
         if (check?.response?.data) {
-            toast.error(check?.response?.data?.detail)
+            toast.error('Invalid User Id, Try Signing Up Again')
+            localStorage.removeItem('isVerified')
+            localStorage.removeItem('signUpResponse')
             navigate('/signUp')
         } else {
             if (check.metadata.emailIsVerified) {

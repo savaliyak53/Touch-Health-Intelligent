@@ -1,6 +1,9 @@
 import React from 'react'
+
 import { Button as AntdButton } from 'antd'
+
 import './index.scss'
+
 interface Props {
     children: React.ReactNode
     onClick: () => void
@@ -9,6 +12,7 @@ interface Props {
     loading?: boolean
     className?: string
 }
+
 const Button = ({
     children,
     onClick,
@@ -33,4 +37,5 @@ const Button = ({
         </>
     )
 }
+
 export default Button
