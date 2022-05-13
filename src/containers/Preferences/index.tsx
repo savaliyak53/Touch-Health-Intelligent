@@ -83,8 +83,7 @@ const Preferences = () => {
             >
                 <div>
                     <div className="question">
-                        1) How many minutes do you want to invest in interacting
-                        with tha every week?
+                        1) How many minutes do you want to invest in interacting with tha every week?
                     </div>
                     <br />
                     <label>
@@ -95,12 +94,9 @@ const Preferences = () => {
                             type="number"
                             className="inputField mt-1"
                             defaultValue={0}
-                            style={{
-                                width: 'max-content',
-                                marginRight: '10px',
-                            }}
-                        />
-                        Minutes
+                            style={{width:'max-content', marginRight:'10px'}}
+                            />
+                            Minutes
                     </label>
                     <p className="Preferences-form-error">
                         {errors.minutesPerWeek?.message}
@@ -158,7 +154,7 @@ const Preferences = () => {
                                     name="remindMe"
                                     type="radio"
                                     className="checkbox"
-                                    value="true"
+                                    value='true'
                                 />
                                 Yes
                             </label>
@@ -170,7 +166,7 @@ const Preferences = () => {
                                     name="remindMe"
                                     type="radio"
                                     className="checkbox"
-                                    value="false"
+                                    value='false'
                                 />
                                 No
                             </label>

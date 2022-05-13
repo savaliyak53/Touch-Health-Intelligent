@@ -11,8 +11,8 @@ export interface ILogin {
 }
 export interface IPreferencesService {
     preferences: {
-        minutesPerWeek: number
-        timeOfDay: string[]
-        conditions: string[]
-    }
+        minutesPerWeek: number;
+        timeOfDay: string[];
+        conditions: string[];
+    };
 }
