@@ -83,7 +83,8 @@ const Preferences = () => {
             >
                 <div>
                     <div className="question">
-                        1) How many minutes do you want to invest in interacting with tha every week?
+                        How many minutes do you want to invest in interacting
+                        with tha every week?
                     </div>
                     <br />
                     <label>
@@ -94,9 +95,12 @@ const Preferences = () => {
                             type="number"
                             className="inputField mt-1"
                             defaultValue={0}
-                            style={{width:'max-content', marginRight:'10px'}}
-                            />
-                            Minutes
+                            style={{
+                                width: 'max-content',
+                                marginRight: '10px',
+                            }}
+                        />
+                        Minutes
                     </label>
                     <p className="Preferences-form-error">
                         {errors.minutesPerWeek?.message}
@@ -105,7 +109,7 @@ const Preferences = () => {
 
                 <div>
                     <div className="question">
-                        2) What are your prefered Times?
+                        What are your prefered Times?
                     </div>
                     <br />
                     <ul
@@ -142,9 +146,7 @@ const Preferences = () => {
                 </div>
 
                 <div>
-                    <div className="question">
-                        3) Do you want to get reminded?
-                    </div>
+                    <div className="question">Do you want to get reminded?</div>
                     <br />
                     <ul className="no-bullets">
                         <li>
@@ -154,7 +156,7 @@ const Preferences = () => {
                                     name="remindMe"
                                     type="radio"
                                     className="checkbox"
-                                    value='true'
+                                    value="true"
                                 />
                                 Yes
                             </label>
@@ -166,7 +168,7 @@ const Preferences = () => {
                                     name="remindMe"
                                     type="radio"
                                     className="checkbox"
-                                    value='false'
+                                    value="false"
                                 />
                                 No
                             </label>
