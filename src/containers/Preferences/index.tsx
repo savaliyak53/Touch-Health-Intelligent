@@ -10,7 +10,7 @@ import AuthenticationLayout from '../../layouts/authentication-layout/Authentica
 import Button from '../../components/Button'
 import { preferencesService } from '../../services/authservice'
 import { toast } from 'react-toastify'
-import { IPreferencePayload } from '../../interfaces'
+
 type IFormInputs = {
     minutesPerWeek: number
     timeOfDay: string[]
@@ -25,6 +25,7 @@ const Preferences = () => {
     const checkPreferences = async () => {
         //will get preferences and set their
     }
+
     const schema = yup
         .object({
             minutesPerWeek: yup
@@ -41,16 +42,20 @@ const Preferences = () => {
     const {
         register,
         handleSubmit,
+        // reset,
         formState: { errors },
     } = useForm<IFormInputs>({
         mode: 'onChange',
         resolver: yupResolver(schema),
     })
+
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-        const prefereceData: IPreferencePayload = {
-            minutesPerWeek: data.minutesPerWeek,
-            timeOfDay: data.timeOfDay,
-            conditions: ['sleep', 'mood'],
+        const prefereceData = {
+            preferences: {
+                minutesPerWeek: data.minutesPerWeek,
+                timeOfDay: data.timeOfDay,
+                conditions: ['sleep', 'mood'],
+            },
         }
         setIsLoading(true)
         setIsDisabled(true)
@@ -68,6 +73,7 @@ const Preferences = () => {
             toast.success('You have submitted Preferences successfully')
         }
     }
+
     const timeOfDay = ['Morning', 'Afternoon', 'Evenings']
     return (
         <AuthenticationLayout caption="Preferences">
@@ -77,25 +83,33 @@ const Preferences = () => {
             >
                 <div>
                     <div className="question">
-                        1). How many minutes Do you want to invest into
-                        interacting with THA every week?
+                        How many minutes do you want to invest in interacting
+                        with tha every week?
                     </div>
                     <br />
-                    <InputField
-                        id="minutesPerWeek"
-                        {...register('minutesPerWeek', { required: true })}
-                        placeholder="Minutes Per Week"
-                        type="number"
-                        className="inputField mt-1"
-                        defaultValue={0}
-                    />
+                    <label>
+                        <InputField
+                            id="minutesPerWeek"
+                            {...register('minutesPerWeek', { required: true })}
+                            placeholder="Minutes Per Week"
+                            type="number"
+                            className="inputField mt-1"
+                            defaultValue={0}
+                            style={{
+                                width: 'max-content',
+                                marginRight: '10px',
+                            }}
+                        />
+                        Minutes
+                    </label>
                     <p className="Preferences-form-error">
                         {errors.minutesPerWeek?.message}
                     </p>
                 </div>
+
                 <div>
                     <div className="question">
-                        2). What are your prefered Times?
+                        What are your prefered Times?
                     </div>
                     <br />
                     <ul
@@ -124,26 +138,43 @@ const Preferences = () => {
                         ))}
                     </ul>
                     <br />
+
                     <p className="Preferences-form-error">
                         {errors?.timeOfDay &&
                             'Please Select Atleast One Option'}
                     </p>
                 </div>
+
                 <div>
-                    <div className="question">
-                        3). Do you want to get reminded?
-                    </div>
+                    <div className="question">Do you want to get reminded?</div>
                     <br />
-                    <label>
-                        <InputField
-                            id="reminMe"
-                            name="remindMe"
-                            //placeholder="Minutes Per Week"
-                            type="checkbox"
-                            className="checkbox"
-                        />
-                        Remind Me
-                    </label>
+                    <ul className="no-bullets">
+                        <li>
+                            <label>
+                                <InputField
+                                    id="reminMe"
+                                    name="remindMe"
+                                    type="radio"
+                                    className="checkbox"
+                                    value="true"
+                                />
+                                Yes
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <InputField
+                                    id="reminMe"
+                                    name="remindMe"
+                                    type="radio"
+                                    className="checkbox"
+                                    value="false"
+                                />
+                                No
+                            </label>
+                        </li>
+                    </ul>
+                    <br />
                 </div>
                 <Button
                     className="mt-3"
@@ -158,4 +189,5 @@ const Preferences = () => {
         </AuthenticationLayout>
     )
 }
+
 export default Preferences

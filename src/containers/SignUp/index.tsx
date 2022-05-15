@@ -10,6 +10,7 @@ import Button from '../../components/Button'
 import InputField from '../../components/Input'
 import './index.scss'
 import { signUpService } from '../../services/authservice'
+
 type IFormInputs = {
     firstName: string
     lastName: string
@@ -18,6 +19,7 @@ type IFormInputs = {
     password: string
     confirmPassword: string
 }
+
 const SignUp = () => {
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
@@ -25,7 +27,11 @@ const SignUp = () => {
     useEffect(() => {
         const signUpResponse = localStorage.getItem('signUpResponse')
         if (signUpResponse) {
-            navigate(`/verify/${signUpResponse}`)
+            if (localStorage.getItem('isVerified') == 'true') {
+                navigate(`/preferences/${signUpResponse}`)
+            } else {
+                navigate(`/verify/${signUpResponse}`)
+            }
         }
     }, [])
     const schema = yup
@@ -56,6 +62,7 @@ const SignUp = () => {
                 .oneOf([yup.ref('password')], 'Your Passwords do not match.'),
         })
         .required()
+
     const {
         register,
         handleSubmit,
@@ -65,6 +72,7 @@ const SignUp = () => {
         mode: 'onChange',
         resolver: yupResolver(schema),
     })
+
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
         setIsLoading(true)
         setIsDisabled(true)
@@ -82,6 +90,7 @@ const SignUp = () => {
             navigate(`/verify/${signUpResponse.id}`)
         }
     }
+
     return (
         <AuthenticationLayout caption="Sign up Here">
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
@@ -170,4 +179,5 @@ const SignUp = () => {
         </AuthenticationLayout>
     )
 }
+
 export default SignUp

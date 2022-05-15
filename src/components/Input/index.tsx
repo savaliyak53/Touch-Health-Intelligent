@@ -1,5 +1,7 @@
 import React, { CSSProperties, FC, forwardRef } from 'react'
+
 import './index.scss'
+
 interface InputProps {
     id?: string
     name: string
@@ -9,9 +11,9 @@ interface InputProps {
     className?: string
     style?: CSSProperties
     value?: string
-    defaultValue?: number | string | boolean | any | undefined
-    minimum?: number
+    defaultValue?: any
 }
+
 const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
     (
         {
@@ -41,5 +43,7 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
         )
     }
 )
+
 InputField.displayName = 'InputField'
+
 export default InputField

@@ -14,7 +14,7 @@ const AppRoutes = () => {
                 <Route path="/" element={<SignUp />} />
                 <Route path="/verify/:userId" element={<Verify />} />
                 <Route path="*" element={<SignUp />} />
-                <Route path={ROUTES.preferences} element={<Preferences />} />
+                <Route path="/preferences/:userId" element={<Preferences />} />
             </Routes>
         </React.Suspense>
     )

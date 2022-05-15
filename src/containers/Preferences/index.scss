@@ -25,19 +25,24 @@
     font-size: 20px;
     min-height: 25px;
     margin-top: 3rem;
+    padding: 10px;
 }
 .checkbox {
-    //width: 274px;
+    // width: 274px;
     margin-bottom: 2px;
     flex-direction: row;
     line-height: 1;
     min-height: 25px;
+    margin-right: 4px;
 }
 .label {
     margin-left: 2px;
     margin-right: 2rem;
 }
 [type='checkbox'] {
+    vertical-align: middle;
+}
+[type='radio'] {
     vertical-align: middle;
 }
 ul.no-bullets {
@@ -47,5 +52,5 @@ ul.no-bullets {
 }
 ul.no-bullets li {
     float: left;
-    padding-right: 10px;
+    padding-right: 15px;
 }
