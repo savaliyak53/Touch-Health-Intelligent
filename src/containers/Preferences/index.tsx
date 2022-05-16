@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import 'antd/dist/antd.css'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import './index.scss'
@@ -17,6 +17,7 @@ type IFormInputs = {
 }
 const Preferences = () => {
     const { userId } = useParams()
+    const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
     useEffect(() => {
@@ -71,8 +72,14 @@ const Preferences = () => {
             setIsLoading(false)
             setIsDisabled(false)
             toast.success('You have submitted Preferences successfully')
+            handleRedirect()
         }
     }
+
+const handleRedirect = () => {
+            navigate(`/userInformation/${userId}`)
+    }
+
 
     const timeOfDay = ['Morning', 'Afternoon', 'Evenings']
     return (

@@ -1,4 +1,4 @@
-import { ISignUp, ILogin, IPreferencesService } from '../Interfaces'
+import { ISignUp, ILogin, IPreferencesService } from '../interfaces'
 import APIClient from '../utils/axios'
 
 export const signUpService = async (data: ISignUp) => {
