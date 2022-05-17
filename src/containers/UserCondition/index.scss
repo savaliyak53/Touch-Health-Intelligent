@@ -1,0 +1,29 @@
+.UserCondition-form {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+}
+
+.UserCondition-form-error {
+    margin-top: 1rem;
+    color: red;
+}
+
+.mt-1 {
+    margin-top: 1rem;
+}
+.mt-3 {
+    margin-top: 3rem;
+}
+.question {
+    width: 480px;
+    font-style: bold;
+    margin-bottom: 2px;
+    line-height: 2;
+    font-size: 20px;
+    min-height: 25px;
+    margin-top: 3rem;
+    padding: 0px;
+}
