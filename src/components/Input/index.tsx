@@ -4,7 +4,7 @@ import './index.scss'
 
 interface InputProps {
     id?: string
-    name: string
+    name?: string
     placeholder?: string
     type?: string
     maxLength?: number

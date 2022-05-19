@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -10,6 +10,7 @@ import Button from '../../components/Button'
 import InputField from '../../components/Input'
 import './index.scss'
 import { signUpService } from '../../services/authservice'
+import MaskedInput from 'react-text-mask'
 
 type IFormInputs = {
     firstName: string
@@ -67,12 +68,12 @@ const SignUp = () => {
         register,
         handleSubmit,
         reset,
+        control,
         formState: { errors },
     } = useForm<IFormInputs>({
         mode: 'onChange',
         resolver: yupResolver(schema),
     })
-
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
         setIsLoading(true)
         setIsDisabled(true)
@@ -90,7 +91,6 @@ const SignUp = () => {
             navigate(`/verify/${signUpResponse.id}`)
         }
     }
-
     return (
         <AuthenticationLayout caption="Sign up Here">
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
@@ -129,18 +129,29 @@ const SignUp = () => {
                     <p className="SingUnForm-error">{errors.email?.message}</p>
                 </div>
                 <div>
-                    <InputField
-                        id="phoneNumber"
-                        {...register('phoneNumber')}
-                        placeholder="Phone: (XXX) XXX-XXXX"
-                        type="text"
-                        className="inputField"
+                    <Controller
+                        control={control}
+                        name="phoneNumber"
+                        render={({ field: { onChange, onBlur } }) => (
+                            <MaskedInput
+                                mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/]}
+                                id="phoneNumber"
+                                placeholder="Phone: (XXX) XXX-XXXX"
+                                type="text"
+                                {...register('phoneNumber')}
+                                className="inputField"
+                                guide={false}
+                                onChange={onChange}
+                                onBlur={onBlur}
+                            />
+                        )}
                     />
                     <p className="SingUnForm-error">
                         {errors.phoneNumber?.message}
                     </p>
                 </div>
                 <div>
+
                     <InputField
                         id="password"
                         {...register('password')}
