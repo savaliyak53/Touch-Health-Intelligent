@@ -103,7 +103,7 @@ jobs:
     #  (github.event_name == 'pull_request' && 
     #  github.event.pull_request.merged == true)
     # remember to put the logics back and for the first task in line 12 to 16 & 92-96
-    # jenkins webhook step
+    # jenkins webhook
     steps:
       - name: trigger Jenkins deployment Job
         uses: appleboy/jenkins-action@master
