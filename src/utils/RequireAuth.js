@@ -10,6 +10,6 @@ export const RequireAuth = () => {
     return (
         userId && isVerified === 'true'
             ? <Outlet />
-            : <Navigate to='/' state={{ from: location }} replace/>
+            : <Navigate to='/' state={{ from: location }} replace />
     );
 }

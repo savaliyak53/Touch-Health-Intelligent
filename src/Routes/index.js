@@ -4,8 +4,9 @@ import LoadingLayout from '../layouts/loading-layout/LoadingLayout'
 import { SignUp, Login, Verify } from './Lazycontainers'
 import Preferences from '../containers/Preferences'
 import ROUTES from './Constants'
-import UserCondition from '../containers/UserCondition'
+import UserCondition from '../containers/Questionnaire'
 import { RequireAuth } from '../utils/RequireAuth'
+import ThankyouForSubmiting from '../containers/ThankyouForSubmiting'
 
 const AppRoutes = () => {
     return (
@@ -20,10 +21,11 @@ const AppRoutes = () => {
                 {/* Protected Routes */}
                 <Route element={<RequireAuth />}>
                     <Route path="/preferences/:userId" element={<Preferences />} />
-                    <Route path="/usercondition/:userId" element={<UserCondition />} />
+                    <Route path="/questionnaire/:userId" element={<UserCondition />} />
+                    <Route path="/questionnaire-submit" element={<ThankyouForSubmiting />} />
                 </Route>
 
-                
+
             </Routes>
         </React.Suspense>
     )

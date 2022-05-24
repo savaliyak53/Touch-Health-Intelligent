@@ -77,7 +77,7 @@ const Preferences = () => {
     }
 
 const handleRedirect = () => {
-            navigate(`/usercondition/${userId}`)
+            navigate(`/questionnaire/${userId}`)
     }
 
 

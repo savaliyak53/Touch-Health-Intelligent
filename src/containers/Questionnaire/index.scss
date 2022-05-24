@@ -27,3 +27,31 @@
     margin-top: 3rem;
     padding: 0px;
 }
+
+.checkbox {
+    margin-bottom: 2px;
+    flex-direction: row;
+    line-height: 1;
+    min-height: 25px;
+    margin-right: 4px;
+}
+
+.radio {
+    margin-bottom: 2px;
+    flex-direction: row;
+    line-height: 1;
+    min-height: 25px;
+    margin-right: 4px;
+}
+
+[type='checkbox'] {
+    vertical-align: middle;
+}
+
+.ant-slider-mark-text {
+    width: fit-content !important;
+}
+
+.ant-slider-dot-active {
+    border-color: #183284 !important;
+}
