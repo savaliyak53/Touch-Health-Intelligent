@@ -9,6 +9,7 @@ import { Slider } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
 import { inputData } from './inputData'
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+// import { Checkbox } from 'antd'
 
 // interface ItemProps {
 //     label: string;
@@ -25,7 +26,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 // })
 
 interface Anything {
-    [key: string]: any;
+    [key: string]: string | number;
 }
 
 
@@ -38,7 +39,20 @@ function UserCondition() {
     }
 
     const { register, handleSubmit, control, formState: { errors } } = useForm<Anything>();
-    const onSubmit: SubmitHandler<Anything> = data => { console.log(data); handleRedirect() };
+    const onSubmit: SubmitHandler<Anything> = data => {
+
+        const objectIntoArray = Object.entries(data)
+
+        const finalObject = objectIntoArray.map((d) => {
+            const finalValue = { 'selection': d[1] }
+            return {
+                'response': finalValue
+            }
+        });
+        console.log(finalObject);
+        handleRedirect();
+    }
+
 
     // const [value, setValue] = React.useState([]);
 
@@ -78,28 +92,27 @@ function UserCondition() {
                 </div> */}
 
                 {
-                    inputData.map((data, i) => {
+                    inputData.map((data, index) => {
                         switch (data.type) {
                             case 'MULTIPLE_CHOICE':
                                 return (
-                                    <div key={i}>
+                                    <div key={index}>
                                         <div className="question">{data.payload.q_str}</div>
                                         <br />
                                         <ul className="no-bullets"
-                                            {...register('exampleRequired', {
+                                            {...register(`questionnaire`, {
                                                 required: true,
                                             })}
                                         >
                                             {
                                                 data.payload.q_content.options?.map((option, i) => (
-                                                    // <div key={i}>{data}</div>
                                                     <li key={i}>
                                                         <label>
                                                             <InputField
                                                                 type="checkbox"
                                                                 className="checkbox"
                                                                 value={option}
-                                                                {...register("exampleRequired")}
+                                                                {...register(`questionnaire`)}
                                                             />
                                                             {option}
                                                         </label>
@@ -108,14 +121,14 @@ function UserCondition() {
                                             }
                                         </ul>
                                         <br />
-                                        {errors.exampleRequired && <p className="Questionnaire-error">This field is required</p>}
+                                        {errors.questionnaire && <p className="Questionnaire-error">This field is required</p>}
 
                                     </div>
                                 )
                                 break;
                             case 'YES_NO':
                                 return (
-                                    <div key={i}>
+                                    <div key={index}>
                                         <div className="question">{data.payload.q_str}</div>
                                         <br />
                                         <ul className="no-bullets"
@@ -163,7 +176,7 @@ function UserCondition() {
                                         },
                                     };
                                     return (
-                                        <div key={i}>
+                                        <div key={index}>
                                             <div className="question">
                                                 {data.payload.q_str}
                                             </div>
