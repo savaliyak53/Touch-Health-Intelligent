@@ -4,55 +4,55 @@ import AuthenticationLayout from '../../layouts/authentication-layout/Authentica
 import InputField from '../../components/Input'
 import { useNavigate } from 'react-router-dom'
 import Button from '../../components/Button'
-import { Select } from 'antd';
+// import { Select } from 'antd';
 import { Slider } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
+import { inputData } from './inputData'
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
-interface ItemProps {
-    label: string;
-    value: string;
+// interface ItemProps {
+//     label: string;
+//     value: string;
+// }
+// const data = ['Sleep', 'Pian', 'Sensations', 'Stress/Anxeitey/Depression/Mood/Somatic', 'Cognitive', 'Exercise', 'Body Function', 'Activity Lavel', 'Concussions', 'Diet']
+// const options: ItemProps[] = [];
+
+// data.map((value) => {
+//     options.push({
+//         label: `${value}`,
+//         value,
+//     });
+// })
+
+interface Anything {
+    [key: string]: any;
 }
-const data = ['Sleep', 'Pian', 'Sensations', 'Stress/Anxeitey/Depression/Mood/Somatic', 'Cognitive', 'Exercise', 'Body Function', 'Activity Lavel', 'Concussions', 'Diet']
-const options: ItemProps[] = [];
 
-data.map((value) => {
-    options.push({
-        label: `${value}`,
-        value,
-    });
-})
-
-const marks: SliderMarks = {
-    0: 'No pain',
-    10: {
-        style: {
-            color: '#f50',
-        },
-        label: <strong>Worse pain imaginable</strong>,
-    },
-};
 
 
 function UserCondition() {
     const navigate = useNavigate()
-    
+
     const handleRedirect = () => {
         navigate(`/questionnaire-submit`)
-}
-    
-    const [value, setValue] = React.useState([]);
+    }
 
-    const selectProps = {
-        mode: 'multiple' as const,
-        style: { width: '100%' },
-        value,
-        options,
-        onChange: (newValue: any) => {
-            setValue(newValue);
-        },
-        placeholder: 'Select Item...',
-        maxTagCount: 'responsive' as const,
-    };
+    const { register, handleSubmit, control, formState: { errors } } = useForm<Anything>();
+    const onSubmit: SubmitHandler<Anything> = data => { console.log(data); handleRedirect() };
+
+    // const [value, setValue] = React.useState([]);
+
+    // const selectProps = {
+    //     mode: 'multiple' as const,
+    //     style: { width: '100%' },
+    //     value,
+    //     options,
+    //     onChange: (newValue: any) => {
+    //         setValue(newValue);
+    //     },
+    //     placeholder: 'Select Item...',
+    //     maxTagCount: 'responsive' as const,
+    // };
 
     // const handleChange = (newValue: string[]) => (
     //     setValue(newValue)
@@ -63,6 +63,7 @@ function UserCondition() {
         <AuthenticationLayout caption="Questionnaire">
             <form
                 className="UserCondition-form"
+                onSubmit={handleSubmit(onSubmit)}
             >
                 {/* <div>
                     <div className="question">
@@ -76,7 +77,130 @@ function UserCondition() {
                     <br />
                 </div> */}
 
-                <div>
+                {
+                    inputData.map((data, i) => {
+                        switch (data.type) {
+                            case 'MULTIPLE_CHOICE':
+                                return (
+                                    <div key={i}>
+                                        <div className="question">{data.payload.q_str}</div>
+                                        <br />
+                                        <ul className="no-bullets"
+                                            {...register('exampleRequired', {
+                                                required: true,
+                                            })}
+                                        >
+                                            {
+                                                data.payload.q_content.options?.map((option, i) => (
+                                                    // <div key={i}>{data}</div>
+                                                    <li key={i}>
+                                                        <label>
+                                                            <InputField
+                                                                type="checkbox"
+                                                                className="checkbox"
+                                                                value={option}
+                                                                {...register("exampleRequired")}
+                                                            />
+                                                            {option}
+                                                        </label>
+                                                    </li>
+                                                ))
+                                            }
+                                        </ul>
+                                        <br />
+                                        {errors.exampleRequired && <p className="Questionnaire-error">This field is required</p>}
+
+                                    </div>
+                                )
+                                break;
+                            case 'YES_NO':
+                                return (
+                                    <div key={i}>
+                                        <div className="question">{data.payload.q_str}</div>
+                                        <br />
+                                        <ul className="no-bullets"
+                                            {...register('headache', {
+                                                required: true,
+                                            })}>
+                                            <li>
+                                                <label>
+                                                    <InputField
+                                                        type="radio"
+                                                        className="radio"
+                                                        value="true"
+                                                        {...register("headache")}
+                                                    />
+                                                    Yes
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                    <InputField
+                                                        type="radio"
+                                                        className="radio"
+                                                        value="false"
+                                                        {...register("headache")}
+                                                    />
+                                                    No
+                                                </label>
+                                            </li>
+                                        </ul>
+                                        <br />
+                                        {errors.headache && <p className="Questionnaire-error">This field is required</p>}
+
+                                    </div>
+                                )
+                                break;
+                            case 'SLIDER':
+                                {
+                                    const marks: SliderMarks = {
+                                        0: data.payload.q_content.lower?.qualifier,
+                                        10: {
+                                            style: {
+                                                color: '#f50',
+                                            },
+                                            label: <strong>{data.payload.q_content.upper?.qualifier}</strong>,
+                                        },
+                                    };
+                                    return (
+                                        <div key={i}>
+                                            <div className="question">
+                                                {data.payload.q_str}
+                                            </div>
+                                            <br />
+                                            <label>
+                                                <Controller
+                                                    control={control}
+                                                    name="slider"
+                                                    render={({ field: { onChange } }) => (
+                                                        <Slider
+                                                            marks={marks}
+                                                            min={0} max={10}
+                                                            step={data.payload.q_content.step}
+                                                            trackStyle={{ backgroundColor: '#183284' }}
+                                                            handleStyle={{ borderColor: '#183284' }}
+                                                            onChange={onChange}
+                                                        />
+                                                    )}
+                                                />
+                                            </label>
+                                        </div>
+                                    )
+                                }
+                                break;
+                        }
+                    })
+                }
+
+
+
+
+
+
+
+
+
+                {/* <div>
                     <div className="question">Which common symptoms of diabetes type II are you experiencing?</div>
                     <br />
                     <ul className="no-bullets">
@@ -148,12 +272,12 @@ function UserCondition() {
                     <label>
                         <Slider marks={marks} min={0} max={10} step={0.5} trackStyle={{ backgroundColor: '#183284' }} handleStyle={{ borderColor: '#183284' }} />
                     </label>
-                </div>
+                </div> */}
 
                 <Button
                     className="mt-3"
                     size="lg"
-                    onClick={() => { handleRedirect() }}
+                    onClick={() => { handleSubmit(onSubmit) }}
                 >
                     Proceed
                 </Button>
