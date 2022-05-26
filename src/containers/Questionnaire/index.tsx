@@ -9,21 +9,9 @@ import { Slider } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
 import { inputData } from './inputData'
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-// import { Checkbox } from 'antd'
+import { Checkbox } from 'antd'
+import { v4 as uuidv4 } from 'uuid';
 
-// interface ItemProps {
-//     label: string;
-//     value: string;
-// }
-// const data = ['Sleep', 'Pian', 'Sensations', 'Stress/Anxeitey/Depression/Mood/Somatic', 'Cognitive', 'Exercise', 'Body Function', 'Activity Lavel', 'Concussions', 'Diet']
-// const options: ItemProps[] = [];
-
-// data.map((value) => {
-//     options.push({
-//         label: `${value}`,
-//         value,
-//     });
-// })
 
 interface Anything {
     [key: string]: string | number;
@@ -46,6 +34,7 @@ function UserCondition() {
         const finalObject = objectIntoArray.map((d) => {
             const finalValue = { 'selection': d[1] }
             return {
+                'id': uuidv4(),
                 'response': finalValue
             }
         });
@@ -53,43 +42,13 @@ function UserCondition() {
         handleRedirect();
     }
 
-
-    // const [value, setValue] = React.useState([]);
-
-    // const selectProps = {
-    //     mode: 'multiple' as const,
-    //     style: { width: '100%' },
-    //     value,
-    //     options,
-    //     onChange: (newValue: any) => {
-    //         setValue(newValue);
-    //     },
-    //     placeholder: 'Select Item...',
-    //     maxTagCount: 'responsive' as const,
-    // };
-
-    // const handleChange = (newValue: string[]) => (
-    //     setValue(newValue)
-    // )
-
-    // const timeOfDay = ['Morning', 'Afternoon', 'Evenings']
     return (
         <AuthenticationLayout caption="Questionnaire">
             <form
                 className="UserCondition-form"
                 onSubmit={handleSubmit(onSubmit)}
             >
-                {/* <div>
-                    <div className="question">
-                        How many minutes do you want to invest in interacting
-                        with tha every week?
-                    </div>
-                    <br />
-                    <Select
-                        {...selectProps}
-                    />
-                    <br />
-                </div> */}
+
 
                 {
                     inputData.map((data, index) => {
@@ -99,27 +58,20 @@ function UserCondition() {
                                     <div key={index}>
                                         <div className="question">{data.payload.q_str}</div>
                                         <br />
-                                        <ul className="no-bullets"
-                                            {...register(`questionnaire`, {
-                                                required: true,
-                                            })}
-                                        >
-                                            {
-                                                data.payload.q_content.options?.map((option, i) => (
-                                                    <li key={i}>
-                                                        <label>
-                                                            <InputField
-                                                                type="checkbox"
-                                                                className="checkbox"
-                                                                value={option}
-                                                                {...register(`questionnaire`)}
-                                                            />
-                                                            {option}
-                                                        </label>
-                                                    </li>
-                                                ))
-                                            }
-                                        </ul>
+
+                                        <Controller
+                                            control={control}
+                                            {...register(`questionnaire`)}
+                                            render={({ field: { onChange } }) => (
+                                                <Checkbox.Group
+                                                    name="questionnaire"
+                                                    options={data.payload.q_content.options}
+                                                    onChange={onChange}
+                                                />
+                                            )}
+
+
+                                        />
                                         <br />
                                         {errors.questionnaire && <p className="Questionnaire-error">This field is required</p>}
 
@@ -190,8 +142,6 @@ function UserCondition() {
                                                             marks={marks}
                                                             min={0} max={10}
                                                             step={data.payload.q_content.step}
-                                                            trackStyle={{ backgroundColor: '#183284' }}
-                                                            handleStyle={{ borderColor: '#183284' }}
                                                             onChange={onChange}
                                                         />
                                                     )}
@@ -205,87 +155,6 @@ function UserCondition() {
                     })
                 }
 
-
-
-
-
-
-
-
-
-                {/* <div>
-                    <div className="question">Which common symptoms of diabetes type II are you experiencing?</div>
-                    <br />
-                    <ul className="no-bullets">
-                        <li>
-                            <label>
-                                <InputField
-                                    id="reminMe"
-                                    name="remindMe"
-                                    type="checkbox"
-                                    className="checkbox"
-                                    value="true"
-                                />
-                                fatigue
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                <InputField
-                                    id="reminMe"
-                                    name="remindMe"
-                                    type="checkbox"
-                                    className="checkbox"
-                                    value="false"
-                                />
-                                shortness-of-breath
-                            </label>
-                        </li>
-                    </ul>
-                    <br />
-                </div>
-
-                <div>
-                    <div className="question">Are you currently experiening a headache?</div>
-                    <br />
-                    <ul className="no-bullets">
-                        <li>
-                            <label>
-                                <InputField
-                                    id="headache"
-                                    name="headache"
-                                    type="radio"
-                                    className="radio"
-                                    value="true"
-                                />
-                                Yes
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                <InputField
-                                    id="headache"
-                                    name="headache"
-                                    type="radio"
-                                    className="radio"
-                                    value="false"
-                                />
-                                No
-                            </label>
-                        </li>
-                    </ul>
-                    <br />
-                </div>
-
-                <div>
-                    <div className="question">
-                        How painful is your headache?
-                    </div>
-                    <br />
-                    <label>
-                        <Slider marks={marks} min={0} max={10} step={0.5} trackStyle={{ backgroundColor: '#183284' }} handleStyle={{ borderColor: '#183284' }} />
-                    </label>
-                </div> */}
 
                 <Button
                     className="mt-3"
