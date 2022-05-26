@@ -4,14 +4,30 @@ import AuthenticationLayout from '../../layouts/authentication-layout/Authentica
 import InputField from '../../components/Input'
 import { useNavigate } from 'react-router-dom'
 import Button from '../../components/Button'
-// import { Select } from 'antd';
+import { Select } from 'antd';
 import { Slider } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
 import { inputData } from './inputData'
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { Checkbox } from 'antd'
 import { v4 as uuidv4 } from 'uuid';
 
+
+
+const options = (data: string[] | undefined) => {
+    interface OptionsProps {
+        label: string;
+        value: string;
+    }
+    const options: OptionsProps[] = [];
+    data?.map((value: string) => {
+        options.push({
+            label: `${value}`,
+            value,
+        });
+    })
+
+    return options
+}
 
 interface Anything {
     [key: string]: string | number;
@@ -19,7 +35,9 @@ interface Anything {
 
 
 
+
 function UserCondition() {
+
     const navigate = useNavigate()
 
     const handleRedirect = () => {
@@ -42,14 +60,19 @@ function UserCondition() {
         handleRedirect();
     }
 
+    const selectProps = {
+        mode: 'multiple' as const,
+        style: { width: '100%' },
+        placeholder: 'Select Item...',
+        maxTagCount: 'responsive' as const,
+    };
+
     return (
         <AuthenticationLayout caption="Questionnaire">
             <form
                 className="UserCondition-form"
                 onSubmit={handleSubmit(onSubmit)}
             >
-
-
                 {
                     inputData.map((data, index) => {
                         switch (data.type) {
@@ -58,23 +81,25 @@ function UserCondition() {
                                     <div key={index}>
                                         <div className="question">{data.payload.q_str}</div>
                                         <br />
-
-                                        <Controller
-                                            control={control}
-                                            {...register(`questionnaire`)}
-                                            render={({ field: { onChange } }) => (
-                                                <Checkbox.Group
-                                                    name="questionnaire"
-                                                    options={data.payload.q_content.options}
-                                                    onChange={onChange}
+                                        <>
+                                            {
+                                                <Controller
+                                                    control={control}
+                                                    {...register(`questionnaire`, {
+                                                        required: true,
+                                                    })}
+                                                    render={({ field: { onChange } }) => (
+                                                        <Select
+                                                            {...selectProps}
+                                                            options={options(data.payload.q_content.options)}
+                                                            onChange={onChange}
+                                                        />
+                                                    )}
                                                 />
-                                            )}
-
-
-                                        />
+                                            }
+                                        </>
                                         <br />
                                         {errors.questionnaire && <p className="Questionnaire-error">This field is required</p>}
-
                                     </div>
                                 )
                                 break;
@@ -112,7 +137,6 @@ function UserCondition() {
                                         </ul>
                                         <br />
                                         {errors.headache && <p className="Questionnaire-error">This field is required</p>}
-
                                     </div>
                                 )
                                 break;
@@ -136,7 +160,9 @@ function UserCondition() {
                                             <label>
                                                 <Controller
                                                     control={control}
-                                                    name="slider"
+                                                    {...register(`slider`, {
+                                                        required: true,
+                                                    })}
                                                     render={({ field: { onChange } }) => (
                                                         <Slider
                                                             marks={marks}
@@ -147,6 +173,8 @@ function UserCondition() {
                                                     )}
                                                 />
                                             </label>
+                                            <br />
+                                            {errors.slider && <p className="Questionnaire-error">This field is required</p>}
                                         </div>
                                     )
                                 }
@@ -154,8 +182,6 @@ function UserCondition() {
                         }
                     })
                 }
-
-
                 <Button
                     className="mt-3"
                     size="lg"
