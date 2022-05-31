@@ -5,7 +5,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import AppRoutes from './Routes/index';
 import './app.scss';
-import 'antd/dist/antd.less'
 
 const Application = () => {
     return (
