@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './index.scss'
 import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout'
 import InputField from '../../components/Input'
 import { useNavigate } from 'react-router-dom'
 import Button from '../../components/Button'
-import { Empty, Select } from 'antd';
+import { Select } from 'antd';
 import { Slider, Steps, message } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
 import { inputData } from './inputData'
@@ -21,17 +21,9 @@ const steps = [
 ];
 
 inputData.map((data, i) => {
-    const d = (
-        <div>{data.payload.q_str}</div>
-    )
-    const hi = data.payload.q_str
-    // const ara = new Array({
-    //   'title': '' + i,
-    //   'content': '' + hi
-    // })
     steps.push({
-        'title': '' + i,
-        'content': '' + i
+        'title': '',
+        'content': ''
     })
 })
 
@@ -52,19 +44,9 @@ const options = (data: string[] | undefined) => {
     return options
 }
 
-// const addType = (a: any, b: any) => {
-//     console.log(b)
-//     return {
-//         'type' : b,
-//         'data' : a,
-//     }
-// }
-
 interface Anything {
     [key: string]: number | string;
 }
-
-
 
 
 function UserCondition() {
@@ -75,7 +57,10 @@ function UserCondition() {
         navigate(`/questionnaire-submit`)
     }
 
-    const { register, handleSubmit, control, watch, formState: { errors } } = useForm<Anything>({ mode: 'onChange', });
+    const { register, handleSubmit, control, watch, trigger, formState: { errors, } } = useForm<Anything>({ mode: 'onChange' });
+
+    console.log(watch())
+
     const onSubmit: SubmitHandler<Anything> = data => {
 
         const objectIntoArray = Object.entries(data)
@@ -88,6 +73,7 @@ function UserCondition() {
             }
         });
         console.log(finalObject);
+        message.success('Processing complete!');
         handleRedirect();
         // console.log(data)
     }
@@ -100,16 +86,21 @@ function UserCondition() {
     };
 
 
-    const next = () => {
-        setCurrent(current + 1);
+    const next = async () => {
+        const is = await trigger()
+        if (is) {
+            setCurrent(current + 1);
+
+        }
     };
 
     const prev = () => {
         setCurrent(current - 1);
     };
-    // console.log(errors && Object.keys(errors) && Object.getPrototypeOf(errors) === Object.prototype)
+
     return (
         <AuthenticationLayout caption="Questionnaire">
+
             <form
                 className="UserCondition-form"
                 onSubmit={handleSubmit(onSubmit)}
@@ -119,7 +110,6 @@ function UserCondition() {
                         <Step key={item.title} />
                     ))}
                 </Steps>
-                {/* {errors.headache && <div>hello</div>} */}
                 {current === steps.length - 1 && <h3 className='mt-3'>Thankyou!</h3>}
                 {
                     inputData.map((data, index) => {
@@ -135,7 +125,7 @@ function UserCondition() {
                                                     {
                                                         <Controller
                                                             control={control}
-                                                            {...register(`questionnaire`, {
+                                                            {...register('questionnaire', {
                                                                 required: true,
                                                             })}
                                                             render={({ field: { onChange } }) => (
@@ -246,34 +236,17 @@ function UserCondition() {
                         }
                     })
                 }
-                {/* <Button
-                    className="mt-3"
-                    size="lg"
-                    onClick={() => { handleSubmit(onSubmit) }}
-                >
-                    Proceed
-                </Button> */}
-                {/* {current < steps.length - 1 && (
-                    <Button className='mt-3'  onClick={() => next()} size='lg'>
-                        Next
-                    </Button>
-                )} */}
-                {/* <Button className='mt-3' onClick={() => { handleSubmit(onSubmit); message.success('Processing complete!') }} size='lg'>
-                    Done
-                </Button> */}
-                {current === steps.length - 1 && (
+                {current === steps.length - 2 && (
                     <div className="align-center">
-                        <Button className='mt-3' onClick={() => { handleSubmit(onSubmit); message.success('Processing complete!') }} size='lg'>
-                            Done
+                        <Button className='mt-3' onClick={() => { handleSubmit(onSubmit); }} size='lg'>
+                            Submit
                         </Button>
                     </div>
                 )}
-
             </form>
-            {/* {errors.questionnaire && 'hello'} */}
             <div className="UserCondition-form align-center">
-                {current < steps.length - 1 && (
-                    <Button className='mt-3' disabled={errors.questionnaire && true || errors.headache && true || errors.slider && true} onClick={() => next()} size='lg'>
+                {current < steps.length - 2 && (
+                    <Button className='mt-3' onClick={() => { next() }} size='lg'>
                         Next
                     </Button>
                 )}
