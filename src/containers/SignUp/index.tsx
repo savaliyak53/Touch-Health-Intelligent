@@ -36,7 +36,8 @@ const SignUp = () => {
         }
     }, [])
     const schema = yup
-        .object({
+        .object()
+        .shape({
             firstName: yup.string().required('First Name is required'),
             lastName: yup.string().required('Last Name is required'),
             email: yup
