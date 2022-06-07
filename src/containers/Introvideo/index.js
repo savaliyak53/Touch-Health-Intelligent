@@ -6,11 +6,10 @@ import Button from '@mui/material/Button'
 import { useParams, useNavigate } from 'react-router-dom'
 
 function IntroVideoLayout(props) {
-    const { userId } = useParams()
     const navigate = useNavigate()
 
     const handleRedirect = () => {
-        navigate(`/questionnaire/${userId}`)
+        navigate(`/questionnaire/`)
     }
     return (
         <div className="cards-video-wrapper">
@@ -18,21 +17,7 @@ function IntroVideoLayout(props) {
                 <Typography gutterBottom variant="h5" component="div">
                     Welcome to touch health assistant
                 </Typography>
-                <Card
-                    sx={{
-                        maxWidth: '100%',
-                        minWidth: '450px',
-                        minHeight: '300px',
-                        padding: '16px',
-                    }}
-                >
-                    {/* <video height="300" controls autoPlay>
-                <source
-                  src="https://www.youtube.com/embed/I42Afr-OUso"
-                  type="video/mp4"
-                />
-              </video> */}
-
+                <Card className="video">
                     <iframe
                         width="500"
                         height="300"
@@ -48,6 +33,7 @@ function IntroVideoLayout(props) {
                         variant="contained"
                         size="large"
                         onClick={handleRedirect}
+                        className="button"
                     >
                         Done
                     </Button>

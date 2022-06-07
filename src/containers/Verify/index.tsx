@@ -12,7 +12,6 @@ import {
 import { toast } from 'react-toastify'
 import { Checkbox, Spin } from 'antd'
 import { useParams, useNavigate } from 'react-router-dom'
-import 'antd/dist/antd.min.css'
 const Verify = () => {
     const { userId } = useParams()
     const navigate = useNavigate()

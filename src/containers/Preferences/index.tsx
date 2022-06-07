@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import 'antd/dist/antd.min.css'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useParams, useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -76,10 +75,9 @@ const Preferences = () => {
         }
     }
 
-const handleRedirect = () => {
-            navigate(`/questionnaire/${userId}`)
+    const handleRedirect = () => {
+        navigate(`/questionnaire/${userId}`)
     }
-
 
     const timeOfDay = ['Morning', 'Afternoon', 'Evenings']
     return (
