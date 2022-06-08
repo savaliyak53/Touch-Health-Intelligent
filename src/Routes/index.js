@@ -1,12 +1,16 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import LoadingLayout from '../layouts/loading-layout/LoadingLayout'
-import { SignUp, Login, Verify } from './Lazycontainers'
+import { SignUp, Login } from './Lazycontainers'
 import Preferences from '../containers/Preferences'
 import ROUTES from './Constants'
 import UserCondition from '../containers/Questionnaire'
 import { RequireAuth } from '../utils/RequireAuth'
 import ThankyouForSubmiting from '../containers/ThankyouForSubmiting'
+import IntroVideo from '../containers/Introvideo'
+import EmailVerification from '../containers/EmailVerification'
+import VerificationMessage from '../containers/VerificationMessage'
+import PhoneVerification from '../containers/PhoneVerification'
 
 const AppRoutes = () => {
     return (
@@ -16,16 +20,29 @@ const AppRoutes = () => {
                 <Route path={ROUTES.login} element={<Login />} />
                 <Route path="/" element={<SignUp />} />
                 <Route path="*" element={<SignUp />} />
-                <Route path="/verify/:userId" element={<Verify />} />
-
+                {/* <Route path="/verify/:userId" element={<Verify />} /> */}
                 {/* Protected Routes */}
                 <Route element={<RequireAuth />}>
-                    <Route path="/preferences/:userId" element={<Preferences />} />
-                    <Route path="/questionnaire/:userId" element={<UserCondition />} />
-                    <Route path="/questionnaire-submit" element={<ThankyouForSubmiting />} />
+                    <Route
+                        path="/verify-email/:userId/:code"
+                        element={<EmailVerification />}
+                    />
+                    <Route
+                        path="/verify-phone/:userId/:code"
+                        element={<PhoneVerification />}
+                    />
+                    <Route
+                        path="/verification-message"
+                        element={<VerificationMessage />}
+                    />
+                    <Route path="/introvideo" element={<IntroVideo />} />
+                    <Route path="/questionnaire" element={<UserCondition />} />
+                    <Route path="/preferences" element={<Preferences />} />
+                    <Route
+                        path="/questionnaire-submit"
+                        element={<ThankyouForSubmiting />}
+                    />
                 </Route>
-
-
             </Routes>
         </React.Suspense>
     )
