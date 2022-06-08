@@ -25,11 +25,9 @@ const SignUp = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
     useEffect(() => {
-        const signUpResponse = localStorage.getItem('signUpResponse')
-        if (signUpResponse) {
-            if (localStorage.getItem('isVerified') == 'true') {
-                navigate(`/verification-message`)
-            }
+        const userId = localStorage.getItem('userId')
+        if (userId) {
+            navigate(`/verification-message`)
         }
     }, [])
     const schema = yup
@@ -40,15 +38,13 @@ const SignUp = () => {
                 .string()
                 .email('Email is invalid')
                 .required('Email is required'),
-            phone: yup
-                .string()
-                .required('Phone Number is required')
-                .matches(
-                    new RegExp(
-                        /^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s.-]\d{4}$/g
-                    ),
-                    'Phone must be in (XXX) XXX-XXXX format'
-                ),
+            phone: yup.string().required('Phone Number is required'),
+            // .matches(
+            //     new RegExp(
+            //         /^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s.-]\d{4}$/g
+            //     ),
+            //     'Phone must be in (XXX) XXX-XXXX format'
+            // ),
             password: yup
                 .string()
                 .required('Password is required')
@@ -75,17 +71,17 @@ const SignUp = () => {
         setIsLoading(true)
         setIsDisabled(true)
         const signUpResponse = await signUpService(data)
-        if (signUpResponse?.response?.data) {
-            setIsDisabled(false)
-            setIsLoading(false)
-            // toast.error(signUpResponse?.response?.data?.detail)
-        } else {
+        if (signUpResponse?.id) {
             reset()
             setIsDisabled(false)
             setIsLoading(false)
-            //  toast.success('You have sign up successfully')
-            localStorage.setItem('signUpResponse', `${signUpResponse.id}`)
-            navigate(`/verification-message`)
+            toast.success('You have sign up successfully')
+            localStorage.setItem('userId', `${signUpResponse.id}`)
+            navigate(`/verification-message/`)
+        } else {
+            setIsDisabled(false)
+            setIsLoading(false)
+            toast.error(signUpResponse?.response?.data?.detail)
         }
     }
     return (
@@ -118,23 +114,19 @@ const SignUp = () => {
                         render={({ field: { onChange, onBlur } }) => (
                             <MaskedInput
                                 mask={[
-                                    '(',
                                     /[1-9]/,
                                     /\d/,
                                     /\d/,
-                                    ')',
-                                    ' ',
                                     /\d/,
                                     /\d/,
                                     /\d/,
-                                    ' ',
                                     /\d/,
                                     /\d/,
                                     /\d/,
                                     /\d/,
                                 ]}
                                 id="phone"
-                                placeholder="Phone: (XXX) XXX-XXXX"
+                                placeholder="Phone: +XXX XXX-XXXX"
                                 type="text"
                                 {...register('phone')}
                                 className="inputField"

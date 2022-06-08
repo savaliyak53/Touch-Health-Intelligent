@@ -3,13 +3,13 @@ import './index.css'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-function IntroVideo(props) {
+function IntroVideo() {
     const navigate = useNavigate()
 
     const handleRedirect = () => {
-        navigate(`/questionnaire/`)
+        navigate(`/preferences`)
     }
     return (
         <div className="cards-video-wrapper">

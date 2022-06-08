@@ -3,7 +3,6 @@ import './index.css'
 import Typography from '@mui/material/Typography'
 import { useParams, useNavigate } from 'react-router-dom'
 import { verifyPhoneOTP } from '../../services/authservice'
-import { toast } from 'react-toastify'
 import { Spin } from 'antd'
 
 function PhoneVerification() {
@@ -15,7 +14,7 @@ function PhoneVerification() {
     const phoneVerification = async () => {
         setPhoneLoading(true)
         const phoneVerificationResponse = await verifyPhoneOTP(code, userId)
-        if (phoneVerificationResponse?.response?.data) {
+        if (phoneVerificationResponse?.is_phone_verified) {
             setPhoneLoading(false)
             setIsPhoneVerified(true)
             //toast.success('Phone Verified')

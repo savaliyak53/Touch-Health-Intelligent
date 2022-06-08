@@ -1,50 +1,64 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { Link } from "react-router-dom";
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
-import { toast } from 'react-toastify';
-
-import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout';
-import Button from '../../components/Button';
-import InputField from '../../components/Input';
-import './index.scss';
+import { Link } from 'react-router-dom'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout'
+import Button from '../../components/Button'
+import InputField from '../../components/Input'
+import './index.scss'
 import { loginService } from '../../services/authservice'
 
 type IFormInputs = {
-    email: string,
+    email: string
     password: string
-  };
+}
 
 const Login = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [isDisabled, setIsDisabled] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
+    const [isDisabled, setIsDisabled] = useState(false)
+    const navigate = useNavigate()
 
-    const schema = yup.object({
-        email: yup.string().required('Email or Phone is required'),
-        password: yup.string().required('Password is required'),
-    }).required();
+    useEffect(() => {
+        const token = localStorage.getItem('token')
+        if (token) {
+            navigate(`/introvideo`)
+        }
+    }, [])
+    const schema = yup
+        .object({
+            email: yup.string().required('Email or Phone is required'),
+            password: yup.string().required('Password is required'),
+        })
+        .required()
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<IFormInputs>({
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm<IFormInputs>({
         mode: 'onChange',
-        resolver: yupResolver(schema)
-    });
+        resolver: yupResolver(schema),
+    })
 
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-        setIsLoading(true);
-        setIsDisabled(true);
-        const loginResponse = await loginService(data);
-
-        if(loginResponse?.response?.data) {
-            setIsDisabled(false);
-            setIsLoading(false);
-            toast.error(loginResponse?.response?.data?.detail)
-        }
-        else {
-            reset();
-            setIsDisabled(false);
-            setIsLoading(false);
-            toast.success("You have login successfully")
+        setIsLoading(true)
+        setIsDisabled(true)
+        const loginResponse = await loginService(data)
+        if (loginResponse?.token) {
+            reset()
+            setIsDisabled(false)
+            setIsLoading(false)
+            localStorage.setItem('token', `${loginResponse.token}`)
+            toast.success('You have login successfully')
+            navigate('/preferences')
+        } else {
+            setIsDisabled(false)
+            setIsLoading(false)
+            toast.error(loginResponse?.response?.data?.details?.message)
         }
     }
 
@@ -58,7 +72,6 @@ const Login = () => {
                         placeholder="Email or Phone"
                         type="text"
                         className="inputField"
-
                     />
                     <p className="LoginForm-error">{errors.email?.message}</p>
                 </div>
@@ -70,7 +83,9 @@ const Login = () => {
                         type="password"
                         className="inputField"
                     />
-                    <p className="LoginForm-error">{errors.password?.message}</p>
+                    <p className="LoginForm-error">
+                        {errors.password?.message}
+                    </p>
                 </div>
                 <Button
                     size="lg"
@@ -80,10 +95,7 @@ const Login = () => {
                 >
                     Login
                 </Button>
-                <Link
-                  to="/signup"
-                  className="kt-link kt-login__link-forgot"
-                >
+                <Link to="/signup" className="kt-link kt-login__link-forgot">
                     Create an Account?
                 </Link>
             </form>
@@ -91,4 +103,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default Login

@@ -3,7 +3,6 @@ import './index.css'
 import Typography from '@mui/material/Typography'
 import { useParams } from 'react-router-dom'
 import { verifyEmailOTP } from '../../services/authservice'
-import { toast } from 'react-toastify'
 import { Spin } from 'antd'
 
 function EmailVerification() {
@@ -14,7 +13,7 @@ function EmailVerification() {
     const emailVerification = async () => {
         setEmailLoading(true)
         const emailVerificationResponse = await verifyEmailOTP(code, userId)
-        if (emailVerificationResponse?.response?.data) {
+        if (emailVerificationResponse?.is_email_verified) {
             setEmailLoading(false)
             setIsEmailVerified(true)
             //  toast.success('Email Verified, Please verify your phone number')
