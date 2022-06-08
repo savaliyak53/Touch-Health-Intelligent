@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { useParams, useNavigate } from 'react-router-dom'
 
-function IntroVideoLayout(props) {
+function IntroVideo(props) {
     const navigate = useNavigate()
 
     const handleRedirect = () => {
@@ -42,4 +42,4 @@ function IntroVideoLayout(props) {
         </div>
     )
 }
-export default IntroVideoLayout
+export default IntroVideo

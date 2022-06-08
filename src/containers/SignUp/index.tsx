@@ -13,10 +13,9 @@ import { signUpService } from '../../services/authservice'
 import MaskedInput from 'react-text-mask'
 
 type IFormInputs = {
-    firstName: string
-    lastName: string
+    name: string
     email: string
-    phoneNumber: string
+    phone: string
     password: string
     confirmPassword: string
 }
@@ -29,22 +28,19 @@ const SignUp = () => {
         const signUpResponse = localStorage.getItem('signUpResponse')
         if (signUpResponse) {
             if (localStorage.getItem('isVerified') == 'true') {
-                navigate(`/preferences/${signUpResponse}`)
-            } else {
-                navigate(`/verify/${signUpResponse}`)
+                navigate(`/verification-message`)
             }
         }
     }, [])
     const schema = yup
         .object()
         .shape({
-            firstName: yup.string().required('First Name is required'),
-            lastName: yup.string().required('Last Name is required'),
+            name: yup.string().required('Name is required'),
             email: yup
                 .string()
                 .email('Email is invalid')
                 .required('Email is required'),
-            phoneNumber: yup
+            phone: yup
                 .string()
                 .required('Phone Number is required')
                 .matches(
@@ -82,14 +78,14 @@ const SignUp = () => {
         if (signUpResponse?.response?.data) {
             setIsDisabled(false)
             setIsLoading(false)
-            toast.error(signUpResponse?.response?.data?.detail)
+            // toast.error(signUpResponse?.response?.data?.detail)
         } else {
             reset()
             setIsDisabled(false)
             setIsLoading(false)
-            toast.success('You have sign up successfully')
+            //  toast.success('You have sign up successfully')
             localStorage.setItem('signUpResponse', `${signUpResponse.id}`)
-            navigate(`/verify/${signUpResponse.id}`)
+            navigate(`/verification-message`)
         }
     }
     return (
@@ -97,27 +93,13 @@ const SignUp = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
                 <div>
                     <InputField
-                        id="firstName"
-                        {...register('firstName', { required: true })}
-                        placeholder="First Name"
+                        id="name"
+                        {...register('name', { required: true })}
+                        placeholder="Name"
                         type="text"
                         className="inputField"
                     />
-                    <p className="SingUnForm-error">
-                        {errors.firstName?.message}
-                    </p>
-                </div>
-                <div>
-                    <InputField
-                        id="lastName"
-                        {...register('lastName', { required: true })}
-                        placeholder="Last Name"
-                        type="text"
-                        className="inputField"
-                    />
-                    <p className="SingUnForm-error">
-                        {errors.lastName?.message}
-                    </p>
+                    <p className="SingUnForm-error">{errors.name?.message}</p>
                 </div>
                 <div>
                     <InputField
@@ -132,14 +114,29 @@ const SignUp = () => {
                 <div>
                     <Controller
                         control={control}
-                        name="phoneNumber"
+                        name="phone"
                         render={({ field: { onChange, onBlur } }) => (
                             <MaskedInput
-                                mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/]}
-                                id="phoneNumber"
+                                mask={[
+                                    '(',
+                                    /[1-9]/,
+                                    /\d/,
+                                    /\d/,
+                                    ')',
+                                    ' ',
+                                    /\d/,
+                                    /\d/,
+                                    /\d/,
+                                    ' ',
+                                    /\d/,
+                                    /\d/,
+                                    /\d/,
+                                    /\d/,
+                                ]}
+                                id="phone"
                                 placeholder="Phone: (XXX) XXX-XXXX"
                                 type="text"
-                                {...register('phoneNumber')}
+                                {...register('phone')}
                                 className="inputField"
                                 guide={false}
                                 onChange={onChange}
@@ -147,12 +144,9 @@ const SignUp = () => {
                             />
                         )}
                     />
-                    <p className="SingUnForm-error">
-                        {errors.phoneNumber?.message}
-                    </p>
+                    <p className="SingUnForm-error">{errors.phone?.message}</p>
                 </div>
                 <div>
-
                     <InputField
                         id="password"
                         {...register('password')}

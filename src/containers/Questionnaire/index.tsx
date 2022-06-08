@@ -63,8 +63,6 @@ function UserCondition() {
         formState: { errors },
     } = useForm<Anything>({ mode: 'onChange' })
 
-    console.log(watch())
-
     const onSubmit: SubmitHandler<Anything> = (data) => {
         const objectIntoArray = Object.entries(data)
 
@@ -75,10 +73,8 @@ function UserCondition() {
                 response: finalValue,
             }
         })
-        console.log(finalObject)
         message.success('Processing complete!')
         handleRedirect()
-        // console.log(data)
     }
 
     const selectProps = {

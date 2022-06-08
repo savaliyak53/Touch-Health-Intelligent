@@ -51,7 +51,6 @@ const Verify = () => {
             if (check.metadata.phoneIsVerified) {
                 setIsPhoneVerified(true)
             }
-
             handleRedirect()
         }
     }

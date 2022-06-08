@@ -7,7 +7,10 @@ import ROUTES from './Constants'
 import UserCondition from '../containers/Questionnaire'
 import { RequireAuth } from '../utils/RequireAuth'
 import ThankyouForSubmiting from '../containers/ThankyouForSubmiting'
-import IntroVideoLayout from '../containers/Introvideo'
+import IntroVideo from '../containers/Introvideo'
+import EmailVerification from '../containers/EmailVerification'
+import VerificationMessage from '../containers/VerificationMessage'
+import PhoneVerification from '../containers/PhoneVerification'
 
 const AppRoutes = () => {
     return (
@@ -15,14 +18,24 @@ const AppRoutes = () => {
             <Routes>
                 <Route path={ROUTES.signUp} element={<SignUp />} />
                 <Route path={ROUTES.login} element={<Login />} />
+                <Route path="/" element={<SignUp />} />
+                <Route path="*" element={<SignUp />} />
                 <Route path="/verify/:userId" element={<Verify />} />
+                <Route
+                    path="/verification-message"
+                    element={<VerificationMessage />}
+                />
+                <Route
+                    path="/verify-email/:userId/:code"
+                    element={<EmailVerification />}
+                />
+                <Route
+                    path="/verify-phone/:userId/:code"
+                    element={<PhoneVerification />}
+                />
                 {/* Protected Routes */}
-
                 <Route element={<RequireAuth />}>
-                    <Route
-                        path="/introvideo/:userId"
-                        element={<IntroVideoLayout />}
-                    />
+                    <Route path="/introvideo" element={<IntroVideo />} />
                     <Route
                         path="/questionnaire/:userId"
                         element={<UserCondition />}

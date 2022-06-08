@@ -3,7 +3,7 @@ import APIClient from '../utils/axios'
 
 export const signUpService = async (data: ISignUp) => {
     try {
-        const res = await APIClient('api/THA/PatientSignup', 'post', data)
+        const res = await APIClient('/api/v1/users/signup', 'post', data)
         if (res) return res.data
     } catch (err) {
         return err
@@ -46,7 +46,7 @@ export const verifyEmailOTP = async (
 ) => {
     try {
         const response = await APIClient(
-            `/api/THA/PatientSignup/${id}/email-verification`,
+            `/api/v1/users/${id}/email-verification`,
             'put',
             { code: otp }
         )
@@ -74,7 +74,7 @@ export const verifyPhoneOTP = async (
 ) => {
     try {
         const response = await APIClient(
-            `/api/THA/PatientSignup/${id}/phone-verification`,
+            `/api/v1/users/${id}/phone-verification`,
             'put',
             { code: otp }
         )

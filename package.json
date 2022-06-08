@@ -15,8 +15,6 @@
         "@testing-library/user-event": "^13.5.0",
         "@types/jest": "^27.4.1",
         "@types/node": "^16.11.27",
-        "@types/react": "^18.0.5",
-        "@types/react-dom": "^18.0.1",
         "@types/react-text-mask": "^5.4.11",
         "@types/uuid": "^8.3.4",
         "@types/yup": "^0.29.14",
@@ -58,6 +56,8 @@
         ]
     },
     "devDependencies": {
+        "@types/react": "^18.0.12",
+        "@types/react-dom": "^18.0.5",
         "@typescript-eslint/eslint-plugin": "^5.20.0",
         "@typescript-eslint/parser": "^5.20.0",
         "eslint": "^8.13.0",

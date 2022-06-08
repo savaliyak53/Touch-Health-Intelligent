@@ -1,9 +1,8 @@
 export interface ISignUp {
     email: string
     password: string
-    firstName: string
-    lastName: string
-    phoneNumber: string
+    name: string
+    phone: string
 }
 export interface ILogin {
     email: string
@@ -11,8 +10,8 @@ export interface ILogin {
 }
 export interface IPreferencesService {
     preferences: {
-        minutesPerWeek: number;
-        timeOfDay: string[];
-        conditions: string[];
-    };
+        minutesPerWeek: number
+        timeOfDay: string[]
+        conditions: string[]
+    }
 }
