@@ -12,7 +12,7 @@ import './index.scss'
 import { loginService } from '../../services/authservice'
 
 type IFormInputs = {
-    email: string
+    username: string
     password: string
 }
 
@@ -29,7 +29,7 @@ const Login = () => {
     }, [])
     const schema = yup
         .object({
-            email: yup.string().required('Email or Phone is required'),
+            username: yup.string().required('Email or Phone is required'),
             password: yup.string().required('Password is required'),
         })
         .required()
@@ -58,7 +58,7 @@ const Login = () => {
         } else {
             setIsDisabled(false)
             setIsLoading(false)
-            toast.error(loginResponse?.response?.data?.details?.message)
+            toast.error(loginResponse?.response?.data?.details)
         }
     }
 
@@ -67,13 +67,15 @@ const Login = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="LoginForm-form">
                 <div>
                     <InputField
-                        id="email"
-                        {...register('email', { required: true })}
+                        id="username"
+                        {...register('username', { required: true })}
                         placeholder="Email or Phone"
                         type="text"
                         className="inputField"
                     />
-                    <p className="LoginForm-error">{errors.email?.message}</p>
+                    <p className="LoginForm-error">
+                        {errors.username?.message}
+                    </p>
                 </div>
                 <div>
                     <InputField

@@ -23,14 +23,6 @@
     padding: 0;
     margin: 16px 0;
 }
-
-.action {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: '20px' !important;
-    margin-top: '20px' !important;
-}
 .video {
     max-width: '100%';
     min-width: '450px';
