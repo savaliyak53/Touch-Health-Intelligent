@@ -16,7 +16,7 @@ const apiClient = (url, method = 'get', data = {}) => {
 
     axios.interceptors.request.use((config) => {
         if (localStorage.token) {
-            config.headers.Authorization = `JWT ${localStorage.token}`
+            config.headers.Authorization = `JWT${localStorage.token}`
         }
         return config
     })
