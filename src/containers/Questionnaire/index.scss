@@ -1,4 +1,4 @@
-.UserInformation-form {
+.UserCondition-form {
     width: 300px;
     display: flex;
     flex-direction: column;
@@ -6,7 +6,7 @@
     justify-content: left;
 }
 
-.UserInformation-form-error {
+.UserCondition-form-error {
     margin-top: 1rem;
     color: red;
 }
@@ -27,30 +27,42 @@
     margin-top: 3rem;
     padding: 0px;
 }
+
 .checkbox {
-    // width: 274px;
     margin-bottom: 2px;
     flex-direction: row;
     line-height: 1;
     min-height: 25px;
     margin-right: 4px;
 }
-.label {
-    margin-left: 2px;
-    margin-right: 2rem;
+
+.radio {
+    margin-bottom: 2px;
+    flex-direction: row;
+    line-height: 1;
+    min-height: 25px;
+    margin-right: 4px;
 }
+
 [type='checkbox'] {
     vertical-align: middle;
 }
-[type='radio'] {
-    vertical-align: middle;
+
+.ant-slider-mark-text {
+    width: fit-content !important;
 }
-ul.no-bullets {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+
+// .ant-slider-dot-active {
+//     border-color: #183284 !important;
+// }
+
+.Questionnaire-error{
+    color: red;
+    margin: 1rem 0;
 }
-ul.no-bullets li {
-    float: left;
-    padding-right: 15px;
+
+.align-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

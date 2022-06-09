@@ -4,12 +4,12 @@
     max-width: 150px;
     width: 100%;
     font-size: 18px;
-    font-weight: $font-weight-medium;
+    font-weight: $font-weight-medium !important;
     height: 40px;
-    border-color: $color-navy;
-    background-color: $color-navy;
+    border-color: $color-navy !important;
+    background-color: $color-navy !important;
     border-radius: 4px;
-    color: $color-white;
+    color: $color-white !important;
     margin-top: 24px;
     cursor: pointer;
 }
@@ -18,12 +18,11 @@
     max-width: 250px;
     width: 100%;
     font-size: 18px;
-    font-weight: $font-weight-medium;
+    font-weight: $font-weight-medium !important;
     height: 40px;
-    border-color: $color-navy;
-    background-color: $color-navy;
+    border-color: $color-navy !important;
+    background-color: $color-navy !important;
     border-radius: 4px;
-    color: $color-white;
+    color: $color-white !important;
     cursor: pointer;
 }
-

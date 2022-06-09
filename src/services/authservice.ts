@@ -3,7 +3,7 @@ import APIClient from '../utils/axios'
 
 export const signUpService = async (data: ISignUp) => {
     try {
-        const res = await APIClient('api/THA/PatientSignup', 'post', data)
+        const res = await APIClient('/api/v1/users/signup', 'post', data)
         if (res) return res.data
     } catch (err) {
         return err
@@ -12,7 +12,7 @@ export const signUpService = async (data: ISignUp) => {
 
 export const loginService = async (data: ILogin) => {
     try {
-        const res = await APIClient('api/THA/PatientLogin', 'post', data)
+        const res = await APIClient('api/v1/auth/login', 'post', data)
         if (res) return res.data
     } catch (err) {
         return err
@@ -28,10 +28,10 @@ export const validateSignUp = async (id: string | undefined) => {
     }
 }
 
-export const requestEmailOTP = async (id: string | undefined) => {
+export const requestEmailOTP = async (id: string | null) => {
     try {
         const response = await APIClient(
-            `/api/THA/PatientSignup/${id}/email-verification`,
+            `/api/v1/users/${id}/email-verification `,
             'post'
         )
         if (response) return response.data
@@ -46,7 +46,7 @@ export const verifyEmailOTP = async (
 ) => {
     try {
         const response = await APIClient(
-            `/api/THA/PatientSignup/${id}/email-verification`,
+            `/api/v1/users/${id}/email-verification`,
             'put',
             { code: otp }
         )
@@ -56,10 +56,10 @@ export const verifyEmailOTP = async (
     }
 }
 
-export const requestPhoneOTP = async (id: string | undefined) => {
+export const requestPhoneOTP = async (id: string | null) => {
     try {
         const response = await APIClient(
-            `/api/THA/PatientSignup/${id}/phone-verification`,
+            `/api/v1/users/${id}/phone-verification`,
             'post'
         )
         if (response) return response.data
@@ -74,7 +74,7 @@ export const verifyPhoneOTP = async (
 ) => {
     try {
         const response = await APIClient(
-            `/api/THA/PatientSignup/${id}/phone-verification`,
+            `/api/v1/users/${id}/phone-verification`,
             'put',
             { code: otp }
         )
@@ -83,9 +83,12 @@ export const verifyPhoneOTP = async (
         return error
     }
 }
-export const preferencesService = async (data: IPreferencesService, id: string | undefined) => {
+export const preferencesService = async (
+    data: IPreferencesService,
+    id: string | null
+) => {
     try {
-        const res = await APIClient(`/api/THA/PatientSignup/${id}`, 'put', data)
+        const res = await APIClient(`/api/v1/users/${id}`, 'put', data)
         if (res) return res.data
     } catch (err) {
         return err

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import 'antd/dist/antd.css'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import './index.scss'
 import InputField from '../../components/Input'
 import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout'
 import Button from '../../components/Button'
-import { preferencesService } from '../../services/authservice'
+//import { preferencesService } from '../../services/authservice'
 import { toast } from 'react-toastify'
 
 type IFormInputs = {
@@ -16,7 +15,8 @@ type IFormInputs = {
     timeOfDay: string[]
 }
 const Preferences = () => {
-    const { userId } = useParams()
+    // const { userId } = useParams()
+    // const userId = localStorage.getItem('userId')
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
@@ -50,25 +50,26 @@ const Preferences = () => {
         resolver: yupResolver(schema),
     })
 
-    const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-        const prefereceData = {
-            preferences: {
-                minutesPerWeek: data.minutesPerWeek,
-                timeOfDay: data.timeOfDay,
-                conditions: ['sleep', 'mood'],
-            },
-        }
-        setIsLoading(true)
-        setIsDisabled(true)
-        const preferencesResponse = await preferencesService(
-            prefereceData,
-            userId
-        )
-        if (preferencesResponse?.response?.data) {
-            setIsLoading(false)
-            setIsDisabled(false)
-            toast.error(preferencesResponse?.response?.data?.detail)
-        } else {
+    const onSubmit: SubmitHandler<IFormInputs> = async () => {
+        // const prefereceData = {
+        //     preferences: {
+        //         minutesPerWeek: data.minutesPerWeek,
+        //         timeOfDay: data.timeOfDay,
+        //         conditions: ['sleep', 'mood'],
+        //     },
+        // }
+        // setIsLoading(true)
+        // setIsDisabled(true)
+        // const preferencesResponse = await preferencesService(
+        //     prefereceData,
+        //     userId
+        // )
+        // if (preferencesResponse?.response?.data) {
+        //     setIsLoading(false)
+        //     setIsDisabled(false)
+        //     toast.error(preferencesResponse?.message)
+        // } else {
+        {
             setIsLoading(false)
             setIsDisabled(false)
             toast.success('You have submitted Preferences successfully')
@@ -76,10 +77,9 @@ const Preferences = () => {
         }
     }
 
-const handleRedirect = () => {
-            navigate(`/userInformation/${userId}`)
+    const handleRedirect = () => {
+        navigate(`/questionnaire`)
     }
-
 
     const timeOfDay = ['Morning', 'Afternoon', 'Evenings']
     return (
