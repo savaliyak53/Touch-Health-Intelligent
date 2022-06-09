@@ -81,7 +81,7 @@ const SignUp = () => {
         } else {
             setIsDisabled(false)
             setIsLoading(false)
-            toast.error(signUpResponse?.response?.data?.detail)
+            toast.error(signUpResponse?.response?.data?.error?.message)
         }
     }
     return (
