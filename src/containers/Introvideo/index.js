@@ -15,7 +15,7 @@ function IntroVideo() {
         <div className="cards-video-wrapper">
             <div className="card-text">
                 <Typography gutterBottom variant="h5" component="div">
-                    Welcome to touch health assistant
+                    Welcome to Touch Health Assistant
                 </Typography>
                 <Card className="video">
                     <iframe
@@ -34,6 +34,7 @@ function IntroVideo() {
                         size="large"
                         onClick={handleRedirect}
                         className="button"
+                        sx={{ m: 2 }}
                     >
                         Done
                     </Button>

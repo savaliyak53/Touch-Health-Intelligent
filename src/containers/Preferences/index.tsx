@@ -7,7 +7,7 @@ import './index.scss'
 import InputField from '../../components/Input'
 import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout'
 import Button from '../../components/Button'
-import { preferencesService } from '../../services/authservice'
+//import { preferencesService } from '../../services/authservice'
 import { toast } from 'react-toastify'
 
 type IFormInputs = {
@@ -16,7 +16,7 @@ type IFormInputs = {
 }
 const Preferences = () => {
     // const { userId } = useParams()
-    const userId: string | null = localStorage.getItem('userId')
+    // const userId = localStorage.getItem('userId')
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
@@ -50,25 +50,26 @@ const Preferences = () => {
         resolver: yupResolver(schema),
     })
 
-    const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-        const prefereceData = {
-            preferences: {
-                minutesPerWeek: data.minutesPerWeek,
-                timeOfDay: data.timeOfDay,
-                conditions: ['sleep', 'mood'],
-            },
-        }
-        setIsLoading(true)
-        setIsDisabled(true)
-        const preferencesResponse = await preferencesService(
-            prefereceData,
-            userId
-        )
-        if (preferencesResponse?.response?.data) {
-            setIsLoading(false)
-            setIsDisabled(false)
-            toast.error(preferencesResponse?.message)
-        } else {
+    const onSubmit: SubmitHandler<IFormInputs> = async () => {
+        // const prefereceData = {
+        //     preferences: {
+        //         minutesPerWeek: data.minutesPerWeek,
+        //         timeOfDay: data.timeOfDay,
+        //         conditions: ['sleep', 'mood'],
+        //     },
+        // }
+        // setIsLoading(true)
+        // setIsDisabled(true)
+        // const preferencesResponse = await preferencesService(
+        //     prefereceData,
+        //     userId
+        // )
+        // if (preferencesResponse?.response?.data) {
+        //     setIsLoading(false)
+        //     setIsDisabled(false)
+        //     toast.error(preferencesResponse?.message)
+        // } else {
+        {
             setIsLoading(false)
             setIsDisabled(false)
             toast.success('You have submitted Preferences successfully')
