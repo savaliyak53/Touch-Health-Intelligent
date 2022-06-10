@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const apiClient = (url, method = 'get', data = {}) => {
-    const baseURL = process.env.REACT_APP_API_HOST
+    const baseURL = 'https://dev-tha-api.birch.touch-physio.com/'
+    // const baseURL = process.env.REACT_APP_API_HOST
     const config = {
         url: url,
         method: method,
