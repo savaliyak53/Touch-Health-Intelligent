@@ -22,9 +22,11 @@ type IFormInputs = {
 
 const SignUp = () => {
     const navigate = useNavigate()
+
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
     useEffect(() => {
+        console.log(process.env.REACT_APP_API_HOST)
         const userId = localStorage.getItem('userId')
         if (userId) {
             navigate(`/verification-message`)
