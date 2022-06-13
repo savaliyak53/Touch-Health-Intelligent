@@ -28,11 +28,11 @@ const AppRoutes = () => {
                 {/* Protected Routes */}
                 <Route element={<RequireSignup />}>
                     <Route
-                        path="/verify-email/:userId/:code"
+                        path="/verify/email/:userId/:code"
                         element={<EmailVerification />}
                     />
                     <Route
-                        path="/verify-phone/:userId/:code"
+                        path="/verify/phone/:userId/:code"
                         element={<PhoneVerification />}
                     />
                 </Route>
