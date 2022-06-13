@@ -65,7 +65,7 @@ function VerificationMessage() {
                         }
                         onClick={() => !emailLoading && sendEmailOTP()}
                     >
-                        Resend Otp on Email?
+                        Resend verification link on Email?
                     </span>
                     <span
                         className={
@@ -73,7 +73,7 @@ function VerificationMessage() {
                         }
                         onClick={() => !phoneLoading && sendPhoneOTP()}
                     >
-                        Resend Otp on Phone?
+                        Resend verification link on Phone?
                     </span>
                 </div>
             </div>
