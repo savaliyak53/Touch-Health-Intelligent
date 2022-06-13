@@ -34,7 +34,7 @@ function VerificationMessage() {
         const phoneRequestResponse = await requestPhoneOTP(userId)
         if (phoneRequestResponse?.response?.data) {
             setPhoneLoading(false)
-            toast.error(phoneRequestResponse?.response?.data?.details.message)
+            toast.error('Invalid Phone Number')
         } else {
             setPhoneLoading(false)
             toast.success('Phone OTP sent')
