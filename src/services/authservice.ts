@@ -28,7 +28,7 @@ export const validateSignUp = async (id: string | undefined) => {
     }
 }
 
-export const requestEmailOTP = async (id: string | null) => {
+export const requestEmailOTP = async (id: string | undefined) => {
     try {
         const response = await APIClient(
             `/api/v1/users/${id}/email-verification `,
@@ -56,7 +56,7 @@ export const verifyEmailOTP = async (
     }
 }
 
-export const requestPhoneOTP = async (id: string | null) => {
+export const requestPhoneOTP = async (id: string | undefined) => {
     try {
         const response = await APIClient(
             `/api/v1/users/${id}/phone-verification`,

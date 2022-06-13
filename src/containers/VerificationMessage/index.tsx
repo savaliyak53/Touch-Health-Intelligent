@@ -3,11 +3,12 @@ import './index.css'
 import Typography from '@mui/material/Typography'
 import { requestEmailOTP, requestPhoneOTP } from '../../services/authservice'
 import { toast } from 'react-toastify'
+import { useParams } from 'react-router'
 
 function VerificationMessage() {
     const [emailLoading, setEmailLoading] = useState<boolean>(false)
     const [phoneLoading, setPhoneLoading] = useState<boolean>(false)
-    const userId = localStorage.getItem('userId')
+    const { userId } = useParams()
 
     useEffect(() => {
         sendEmailOTP()
@@ -33,7 +34,7 @@ function VerificationMessage() {
         const phoneRequestResponse = await requestPhoneOTP(userId)
         if (phoneRequestResponse?.response?.data) {
             setPhoneLoading(false)
-            toast.error(phoneRequestResponse?.response?.data?.details.message)
+            toast.error('Invalid Phone Number')
         } else {
             setPhoneLoading(false)
             toast.success('Phone OTP sent')
@@ -64,7 +65,7 @@ function VerificationMessage() {
                         }
                         onClick={() => !emailLoading && sendEmailOTP()}
                     >
-                        Resend Otp on Email?
+                        Resend verification link on Email?
                     </span>
                     <span
                         className={
@@ -72,7 +73,7 @@ function VerificationMessage() {
                         }
                         onClick={() => !phoneLoading && sendPhoneOTP()}
                     >
-                        Resend Otp on Phone?
+                        Resend verification link on Phone?
                     </span>
                 </div>
             </div>

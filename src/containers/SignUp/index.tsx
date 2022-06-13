@@ -27,10 +27,6 @@ const SignUp = () => {
     const [isDisabled, setIsDisabled] = useState(false)
     useEffect(() => {
         console.log(process.env.REACT_APP_API_HOST)
-        const userId = localStorage.getItem('userId')
-        if (userId) {
-            navigate(`/verification-message`)
-        }
     }, [])
     const schema = yup
         .object()
@@ -43,9 +39,9 @@ const SignUp = () => {
             phone: yup.string().required('Phone Number is required'),
             // .matches(
             //     new RegExp(
-            //         /^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s.-]\d{4}$/g
+            //         /^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s]\d{4}$/g
             //     ),
-            //     'Phone must be in (XXX) XXX-XXXX format'
+            //     'Phone must be in 1XXXXXXXXX format'
             // ),
             password: yup
                 .string()
@@ -78,8 +74,8 @@ const SignUp = () => {
             setIsDisabled(false)
             setIsLoading(false)
             toast.success('You have sign up successfully')
-            localStorage.setItem('userId', `${signUpResponse.id}`)
-            navigate(`/verification-message/`)
+            localStorage.setItem('userId', signUpResponse.id)
+            navigate(`/verification-message/${signUpResponse.id}`)
         } else {
             setIsDisabled(false)
             setIsLoading(false)
@@ -116,7 +112,8 @@ const SignUp = () => {
                         render={({ field: { onChange, onBlur } }) => (
                             <MaskedInput
                                 mask={[
-                                    /[1-9]/,
+                                    /[1]/,
+                                    /\d/,
                                     /\d/,
                                     /\d/,
                                     /\d/,
@@ -128,7 +125,7 @@ const SignUp = () => {
                                     /\d/,
                                 ]}
                                 id="phone"
-                                placeholder="Phone: +XXX XXX-XXXX"
+                                placeholder="Phone: XXXXXXXXXX"
                                 type="text"
                                 {...register('phone')}
                                 className="inputField"
