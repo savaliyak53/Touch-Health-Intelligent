@@ -3,11 +3,12 @@ import './index.css'
 import Typography from '@mui/material/Typography'
 import { requestEmailOTP, requestPhoneOTP } from '../../services/authservice'
 import { toast } from 'react-toastify'
+import { useParams } from 'react-router'
 
 function VerificationMessage() {
     const [emailLoading, setEmailLoading] = useState<boolean>(false)
     const [phoneLoading, setPhoneLoading] = useState<boolean>(false)
-    const userId = localStorage.getItem('userId')
+    const { userId } = useParams()
 
     useEffect(() => {
         sendEmailOTP()
