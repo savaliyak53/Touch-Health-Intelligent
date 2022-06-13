@@ -25,9 +25,9 @@ const SignUp = () => {
 
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
-    useEffect(() => {
-        console.log(process.env.REACT_APP_API_HOST)
-    }, [])
+    // useEffect(() => {
+    //     console.log(process.env.REACT_APP_API_HOST)
+    // }, [])
     const schema = yup
         .object()
         .shape({
@@ -46,12 +46,12 @@ const SignUp = () => {
             password: yup
                 .string()
                 .required('Password is required')
-                .min(8)
+                .min(8, 'Passwords must be at least 8 characters')
                 .matches(/^(?=.*?[#?!@$%^&*-])/, 'Need one special character'),
             confirmPassword: yup
                 .string()
-                .required('Confirmation Password is required')
-                .oneOf([yup.ref('password')], 'Your Passwords do not match.'),
+                .required('Password confirmation is required')
+                .oneOf([yup.ref('password')], 'Your passwords do not match.'),
         })
         .required()
 

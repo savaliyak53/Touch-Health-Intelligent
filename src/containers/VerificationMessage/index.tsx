@@ -44,7 +44,12 @@ function VerificationMessage() {
     return (
         <div className="cards-video-wrapper">
             <div className="card-text">
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="div"
+                    className="resend"
+                >
                     Welcome to Touch Health Assistant
                 </Typography>
                 <Typography
@@ -53,11 +58,8 @@ function VerificationMessage() {
                     component="div"
                     className="response"
                 >
-                    You need to verify your phone number before you login
-                </Typography>
-                <p className="response">
                     Please check your provided phone and email for verification
-                </p>
+                </Typography>
                 <div className="resend">
                     <span
                         className={
