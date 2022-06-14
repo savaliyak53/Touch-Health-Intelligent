@@ -11,8 +11,11 @@ function VerificationMessage() {
     const { userId } = useParams()
 
     useEffect(() => {
-        sendEmailOTP()
-        sendPhoneOTP()
+        const callApi = async () => {
+            await sendEmailOTP()
+            await sendPhoneOTP()
+        }
+        callApi()
     }, [])
 
     const sendEmailOTP = async () => {
