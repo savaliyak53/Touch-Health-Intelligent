@@ -26,7 +26,7 @@ const AppRoutes = () => {
                 />
                 {/* <Route path="/verify/:userId" element={<Verify />} /> */}
                 {/* Protected Routes */}
-                <Route element={<RequireSignup />}>
+                {/* <Route element={<RequireSignup />}> */}
                     <Route
                         path="/verify/email/:userId/:code"
                         element={<EmailVerification />}
@@ -35,7 +35,7 @@ const AppRoutes = () => {
                         path="/verify/phone/:userId/:code"
                         element={<PhoneVerification />}
                     />
-                </Route>
+                {/* </Route> */}
                 <Route element={<RequireAuth />}>
                     <Route path="/introvideo" element={<IntroVideo />} />
                     <Route path="/questionnaire" element={<UserCondition />} />
