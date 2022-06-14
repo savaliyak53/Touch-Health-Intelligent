@@ -19,6 +19,7 @@ type IFormInputs = {
 const Login = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
+    const [passwordShown, setPasswordShown] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -62,6 +63,10 @@ const Login = () => {
         }
     }
 
+    const togglePassword = () => {
+        setPasswordShown(!passwordShown)
+    }
+
     return (
         <AuthenticationLayout caption="Login Here">
             <form onSubmit={handleSubmit(onSubmit)} className="LoginForm-form">
@@ -82,8 +87,10 @@ const Login = () => {
                         id="password"
                         {...register('password')}
                         placeholder="Password"
-                        type="password"
+                        type={passwordShown ? 'text' : 'password'}
                         className="inputField"
+                        isEye={true}
+                        togglePassword={togglePassword}
                     />
                     <p className="LoginForm-error">
                         {errors.password?.message}
