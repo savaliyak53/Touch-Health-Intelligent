@@ -1,4 +1,5 @@
 import React, { CSSProperties, FC, forwardRef } from 'react'
+import { AiOutlineEye } from 'react-icons/ai'
 
 import './index.scss'
 
@@ -10,7 +11,9 @@ interface InputProps {
     maxLength?: number
     className?: string
     style?: CSSProperties
+    isEye?: boolean
     value?: string
+    togglePassword?: any
     defaultValue?: any
 }
 
@@ -24,22 +27,31 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
             style,
             defaultValue,
             value,
+            isEye,
+            togglePassword,
             ...rest
         },
         ref
     ) => {
         return (
-            <input
-                type={type}
-                name={name}
-                className={className}
-                placeholder={placeholder}
-                ref={ref}
-                value={value}
-                style={style}
-                {...rest}
-                defaultValue={defaultValue}
-            />
+            <div className="input-element-wrapper">
+                <input
+                    type={type}
+                    name={name}
+                    className={className}
+                    placeholder={placeholder}
+                    ref={ref}
+                    value={value}
+                    style={style}
+                    {...rest}
+                    defaultValue={defaultValue}
+                />
+                {isEye ? (
+                    <button className="btn" onClick={togglePassword}>
+                        <AiOutlineEye />
+                    </button>
+                ) : null}
+            </div>
         )
     }
 )

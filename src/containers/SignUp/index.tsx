@@ -22,12 +22,10 @@ type IFormInputs = {
 
 const SignUp = () => {
     const navigate = useNavigate()
-
+    const [passwordShown, setPasswordShown] = useState(false)
+    const [confirmPasswordShown, setConfirmPasswordShown] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
-    // useEffect(() => {
-    //     console.log(process.env.REACT_APP_API_HOST)
-    // }, [])
     const schema = yup
         .object()
         .shape({
@@ -82,6 +80,15 @@ const SignUp = () => {
             toast.error(signUpResponse?.response?.data?.error?.message)
         }
     }
+
+    const togglePassword = () => {
+        setPasswordShown(!passwordShown)
+    }
+
+    const toggleConfirmPassword = () => {
+        setConfirmPasswordShown(!confirmPasswordShown)
+    }
+
     return (
         <AuthenticationLayout caption="Sign up Here">
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
@@ -142,8 +149,10 @@ const SignUp = () => {
                         id="password"
                         {...register('password')}
                         placeholder="Password"
-                        type="password"
+                        type={passwordShown ? 'text' : 'password'}
                         className="inputField"
+                        isEye={true}
+                        togglePassword={togglePassword}
                     />
                     <p className="SingUnForm-error">
                         {errors.password?.message}
@@ -154,8 +163,10 @@ const SignUp = () => {
                         id="confirmPassword"
                         {...register('confirmPassword')}
                         placeholder="Confirm Password"
-                        type="password"
+                        type={confirmPasswordShown ? 'text' : 'password'}
                         className="inputField"
+                        isEye={true}
+                        togglePassword={toggleConfirmPassword}
                     />
                     <p className="SingUnForm-error">
                         {errors.confirmPassword?.message}
