@@ -30,8 +30,8 @@ const Login = () => {
     }, [])
     const schema = yup
         .object({
-            username: yup.string().required('Email or Phone is required'),
-            password: yup.string().required('Password is required'),
+            username: yup.string().required('Phone is required.'),
+            password: yup.string().required('Password is required.'),
         })
         .required()
 
@@ -54,7 +54,7 @@ const Login = () => {
             setIsDisabled(false)
             setIsLoading(false)
             localStorage.setItem('token', `${loginResponse.token}`)
-            toast.success('You have login successfully')
+            toast.success('You have login successfully.')
             navigate('/preferences')
         } else {
             setIsDisabled(false)
