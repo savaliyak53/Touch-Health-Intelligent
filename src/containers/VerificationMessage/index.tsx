@@ -27,7 +27,7 @@ function VerificationMessage() {
             toast.error(emailRequestResponse?.response?.data?.details?.message)
         } else {
             setEmailLoading(false)
-            toast.success('Email OTP sent')
+            toast.success('Email verification link sent')
         }
     }
 
@@ -40,7 +40,7 @@ function VerificationMessage() {
             toast.error('Invalid Phone Number')
         } else {
             setPhoneLoading(false)
-            toast.success('Phone OTP sent')
+            toast.success('Phone verification link sent')
         }
     }
 

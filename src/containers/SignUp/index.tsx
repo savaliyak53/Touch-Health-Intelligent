@@ -29,12 +29,12 @@ const SignUp = () => {
     const schema = yup
         .object()
         .shape({
-            name: yup.string().required('Name is required'),
+            name: yup.string().required('Name is required.'),
             email: yup
                 .string()
-                .email('Email is invalid')
-                .required('Email is required'),
-            phone: yup.string().required('Phone Number is required'),
+                .email('Email is invalid.')
+                .required('Email is required.'),
+            phone: yup.string().required('Phone number is required.'),
             // .matches(
             //     new RegExp(
             //         /^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s]\d{4}$/g
@@ -43,12 +43,12 @@ const SignUp = () => {
             // ),
             password: yup
                 .string()
-                .required('Password is required')
-                .min(8, 'Passwords must be at least 8 characters')
-                .matches(/^(?=.*?[#?!@$%^&*-])/, 'Need one special character'),
+                .required('Password is required.')
+                .min(8, 'Password must be at least 8 characters.')
+                .matches(/^(?=.*?[#?!@$%^&*-])/, 'Need one special character.'),
             confirmPassword: yup
                 .string()
-                .required('Password confirmation is required')
+                .required('Password confirmation is required.')
                 .oneOf([yup.ref('password')], 'Your passwords do not match.'),
         })
         .required()
@@ -71,7 +71,7 @@ const SignUp = () => {
             reset()
             setIsDisabled(false)
             setIsLoading(false)
-            toast.success('You have sign up successfully')
+            toast.success('You have signed up successfully')
             localStorage.setItem('userId', signUpResponse.id)
             navigate(`/verification-message/${signUpResponse.id}`)
         } else {
