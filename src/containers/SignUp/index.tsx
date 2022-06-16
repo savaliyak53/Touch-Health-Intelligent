@@ -16,12 +16,15 @@ import MaskedInput from 'react-text-mask'
 type IFormInputs = {
     name: string
     phone: string
+    confirmPhone: string
     password: string
     confirmPassword: string
 }
 
 const SignUp = () => {
     const navigate = useNavigate()
+    const [countryCode, setCountryCode] = useState('+1')
+    const [number, setNumber] = useState('')
     const [userId, setUserId] = useState('')
     const [phoneLoading, setPhoneLoading] = useState<boolean>(false)
     const [passwordShown, setPasswordShown] = useState(false)
@@ -39,6 +42,10 @@ const SignUp = () => {
             //     ),
             //     'Phone must be in 1XXXXXXXXX format'
             // ),
+            confirmPhone: yup
+                .string()
+                .required('Phone confirmation is required.')
+                .oneOf([yup.ref('phone')], 'Your phone numbers do not match.'),
             password: yup
                 .string()
                 .required('Password is required.')
@@ -64,7 +71,12 @@ const SignUp = () => {
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
         setIsLoading(true)
         setIsDisabled(true)
-        const signUpResponse = await signUpService(data)
+        console.log(data)
+        const signUpResponse = await signUpService({
+            phone: '1' + data.phone,
+            name: data.name,
+            password: data.password,
+        })
         if (signUpResponse?.id) {
             reset()
             setUserId(signUpResponse.id)
@@ -118,47 +130,75 @@ const SignUp = () => {
                     />
                     <p className="SingUnForm-error">{errors.name?.message}</p>
                 </div>
-                {/* <div>
-                    <InputField
-                        id="email"
-                        {...register('email')}
-                        placeholder="Email"
-                        type="email"
-                        className="inputField"
-                    />
-                    <p className="SingUnForm-error">{errors.email?.message}</p>
-                </div> */}
                 <div>
                     <Controller
                         control={control}
                         name="phone"
                         render={({ field: { onChange, onBlur } }) => (
-                            <MaskedInput
-                                mask={[
-                                    /[1]/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                ]}
-                                id="phone"
-                                placeholder="Phone: XXXXXXXXXX"
-                                type="text"
-                                {...register('phone')}
-                                className="inputField"
-                                guide={false}
-                                onChange={onChange}
-                                onBlur={onBlur}
-                            />
+                            <div>
+                                <button className="flag">🚩+1 </button>
+                                <MaskedInput
+                                    mask={[
+                                        /[1]/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                    ]}
+                                    id="phone"
+                                    placeholder="Enter number here"
+                                    type="text"
+                                    {...register('phone')}
+                                    className="Input"
+                                    guide={false}
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+                                />
+                            </div>
                         )}
                     />
                     <p className="SingUnForm-error">{errors.phone?.message}</p>
+                </div>
+                <div>
+                    <Controller
+                        control={control}
+                        name="confirmPhone"
+                        render={({ field: { onChange, onBlur } }) => (
+                            <div>
+                                <button className="flag">🚩+1 </button>
+                                <MaskedInput
+                                    mask={[
+                                        /[1]/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                    ]}
+                                    id="confirmPhone"
+                                    placeholder="Enter number here"
+                                    type="text"
+                                    {...register('confirmPhone')}
+                                    className="Input"
+                                    guide={false}
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+                                />
+                            </div>
+                        )}
+                    />
+                    <p className="SingUnForm-error">
+                        {errors.confirmPhone?.message}
+                    </p>
                 </div>
                 <div>
                     <InputField
