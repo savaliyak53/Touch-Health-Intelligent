@@ -19,6 +19,7 @@ type IFormInputs = {
 const Login = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
+    const [passwordShown, setPasswordShown] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -29,8 +30,8 @@ const Login = () => {
     }, [])
     const schema = yup
         .object({
-            username: yup.string().required('Email or Phone is required'),
-            password: yup.string().required('Password is required'),
+            username: yup.string().required('Phone is required.'),
+            password: yup.string().required('Password is required.'),
         })
         .required()
 
@@ -53,13 +54,17 @@ const Login = () => {
             setIsDisabled(false)
             setIsLoading(false)
             localStorage.setItem('token', `${loginResponse.token}`)
-            toast.success('You have login successfully')
+            toast.success('You have login successfully.')
             navigate('/preferences')
         } else {
             setIsDisabled(false)
             setIsLoading(false)
             toast.error(loginResponse?.response?.data?.details)
         }
+    }
+
+    const togglePassword = () => {
+        setPasswordShown(!passwordShown)
     }
 
     return (
@@ -82,8 +87,10 @@ const Login = () => {
                         id="password"
                         {...register('password')}
                         placeholder="Password"
-                        type="password"
+                        type={passwordShown ? 'text' : 'password'}
                         className="inputField"
+                        isEye={true}
+                        togglePassword={togglePassword}
                     />
                     <p className="LoginForm-error">
                         {errors.password?.message}

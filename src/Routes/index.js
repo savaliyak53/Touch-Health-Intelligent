@@ -5,7 +5,7 @@ import { SignUp, Login } from './Lazycontainers'
 import Preferences from '../containers/Preferences'
 import ROUTES from './Constants'
 import UserCondition from '../containers/Questionnaire'
-import { RequireAuth } from '../utils/RequireAuth'
+import { RequireAuth, RequireSignup } from '../utils/RequireAuth'
 import ThankyouForSubmiting from '../containers/ThankyouForSubmiting'
 import IntroVideo from '../containers/Introvideo'
 import EmailVerification from '../containers/EmailVerification'
@@ -20,23 +20,22 @@ const AppRoutes = () => {
                 <Route path={ROUTES.login} element={<Login />} />
                 <Route path="/" element={<SignUp />} />
                 <Route path="*" element={<SignUp />} />
-                {/* <Route path="/verify/:userId" element={<Verify />} /> */}
+                <Route
+                    path="/verification-message/:userId"
+                    element={<VerificationMessage />}
+                />
                 {/* Protected Routes */}
+                <Route
+                    path="/verify/email/:userId/:code"
+                    element={<EmailVerification />}
+                />
+                <Route
+                    path="/verify/phone/:userId/:code"
+                    element={<PhoneVerification />}
+                />
+                <Route path="/questionnaire" element={<UserCondition />} />
                 <Route element={<RequireAuth />}>
-                    <Route
-                        path="/verify-email/:userId/:code"
-                        element={<EmailVerification />}
-                    />
-                    <Route
-                        path="/verify-phone/:userId/:code"
-                        element={<PhoneVerification />}
-                    />
-                    <Route
-                        path="/verification-message"
-                        element={<VerificationMessage />}
-                    />
                     <Route path="/introvideo" element={<IntroVideo />} />
-                    <Route path="/questionnaire" element={<UserCondition />} />
                     <Route path="/preferences" element={<Preferences />} />
                     <Route
                         path="/questionnaire-submit"

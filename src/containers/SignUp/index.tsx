@@ -22,40 +22,34 @@ type IFormInputs = {
 
 const SignUp = () => {
     const navigate = useNavigate()
-
+    const [passwordShown, setPasswordShown] = useState(false)
+    const [confirmPasswordShown, setConfirmPasswordShown] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
-    useEffect(() => {
-        console.log(process.env.REACT_APP_API_HOST)
-        const userId = localStorage.getItem('userId')
-        if (userId) {
-            navigate(`/verification-message`)
-        }
-    }, [])
     const schema = yup
         .object()
         .shape({
-            name: yup.string().required('Name is required'),
+            name: yup.string().required('Name is required.'),
             email: yup
                 .string()
-                .email('Email is invalid')
-                .required('Email is required'),
-            phone: yup.string().required('Phone Number is required'),
+                .email('Email is invalid.')
+                .required('Email is required.'),
+            phone: yup.string().required('Phone number is required.'),
             // .matches(
             //     new RegExp(
-            //         /^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s.-]\d{4}$/g
+            //         /^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s]\d{4}$/g
             //     ),
-            //     'Phone must be in (XXX) XXX-XXXX format'
+            //     'Phone must be in 1XXXXXXXXX format'
             // ),
             password: yup
                 .string()
-                .required('Password is required')
-                .min(8)
-                .matches(/^(?=.*?[#?!@$%^&*-])/, 'Need one special character'),
+                .required('Password is required.')
+                .min(8, 'Password must be at least 8 characters.')
+                .matches(/^(?=.*?[#?!@$%^&*-])/, 'Need one special character.'),
             confirmPassword: yup
                 .string()
-                .required('Confirmation Password is required')
-                .oneOf([yup.ref('password')], 'Your Passwords do not match.'),
+                .required('Password confirmation is required.')
+                .oneOf([yup.ref('password')], 'Your passwords do not match.'),
         })
         .required()
 
@@ -77,15 +71,24 @@ const SignUp = () => {
             reset()
             setIsDisabled(false)
             setIsLoading(false)
-            toast.success('You have sign up successfully')
-            localStorage.setItem('userId', `${signUpResponse.id}`)
-            navigate(`/verification-message/`)
+            toast.success('You have signed up successfully')
+            localStorage.setItem('userId', signUpResponse.id)
+            navigate(`/verification-message/${signUpResponse.id}`)
         } else {
             setIsDisabled(false)
             setIsLoading(false)
             toast.error(signUpResponse?.response?.data?.error?.message)
         }
     }
+
+    const togglePassword = () => {
+        setPasswordShown(!passwordShown)
+    }
+
+    const toggleConfirmPassword = () => {
+        setConfirmPasswordShown(!confirmPasswordShown)
+    }
+
     return (
         <AuthenticationLayout caption="Sign up Here">
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
@@ -116,7 +119,8 @@ const SignUp = () => {
                         render={({ field: { onChange, onBlur } }) => (
                             <MaskedInput
                                 mask={[
-                                    /[1-9]/,
+                                    /[1]/,
+                                    /\d/,
                                     /\d/,
                                     /\d/,
                                     /\d/,
@@ -128,7 +132,7 @@ const SignUp = () => {
                                     /\d/,
                                 ]}
                                 id="phone"
-                                placeholder="Phone: +XXX XXX-XXXX"
+                                placeholder="Phone: XXXXXXXXXX"
                                 type="text"
                                 {...register('phone')}
                                 className="inputField"
@@ -145,8 +149,10 @@ const SignUp = () => {
                         id="password"
                         {...register('password')}
                         placeholder="Password"
-                        type="password"
+                        type={passwordShown ? 'text' : 'password'}
                         className="inputField"
+                        isEye={true}
+                        togglePassword={togglePassword}
                     />
                     <p className="SingUnForm-error">
                         {errors.password?.message}
@@ -157,8 +163,10 @@ const SignUp = () => {
                         id="confirmPassword"
                         {...register('confirmPassword')}
                         placeholder="Confirm Password"
-                        type="password"
+                        type={confirmPasswordShown ? 'text' : 'password'}
                         className="inputField"
+                        isEye={true}
+                        togglePassword={toggleConfirmPassword}
                     />
                     <p className="SingUnForm-error">
                         {errors.confirmPassword?.message}

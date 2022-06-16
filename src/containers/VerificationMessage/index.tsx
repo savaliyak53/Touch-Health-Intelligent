@@ -3,15 +3,19 @@ import './index.css'
 import Typography from '@mui/material/Typography'
 import { requestEmailOTP, requestPhoneOTP } from '../../services/authservice'
 import { toast } from 'react-toastify'
+import { useParams } from 'react-router'
 
 function VerificationMessage() {
     const [emailLoading, setEmailLoading] = useState<boolean>(false)
     const [phoneLoading, setPhoneLoading] = useState<boolean>(false)
-    const userId = localStorage.getItem('userId')
+    const { userId } = useParams()
 
     useEffect(() => {
-        sendEmailOTP()
-        sendPhoneOTP()
+        const callApi = async () => {
+            await sendEmailOTP()
+            await sendPhoneOTP()
+        }
+        callApi()
     }, [])
 
     const sendEmailOTP = async () => {
@@ -23,7 +27,7 @@ function VerificationMessage() {
             toast.error(emailRequestResponse?.response?.data?.details?.message)
         } else {
             setEmailLoading(false)
-            toast.success('Email OTP sent')
+            toast.success('Email verification link sent')
         }
     }
 
@@ -33,17 +37,22 @@ function VerificationMessage() {
         const phoneRequestResponse = await requestPhoneOTP(userId)
         if (phoneRequestResponse?.response?.data) {
             setPhoneLoading(false)
-            toast.error(phoneRequestResponse?.response?.data?.details.message)
+            toast.error('Invalid Phone Number')
         } else {
             setPhoneLoading(false)
-            toast.success('Phone OTP sent')
+            toast.success('Phone verification link sent')
         }
     }
 
     return (
         <div className="cards-video-wrapper">
             <div className="card-text">
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="div"
+                    className="resend"
+                >
                     Welcome to Touch Health Assistant
                 </Typography>
                 <Typography
@@ -52,11 +61,8 @@ function VerificationMessage() {
                     component="div"
                     className="response"
                 >
-                    You need to verify your phone number before you login
-                </Typography>
-                <p className="response">
                     Please check your provided phone and email for verification
-                </p>
+                </Typography>
                 <div className="resend">
                     <span
                         className={
@@ -64,7 +70,7 @@ function VerificationMessage() {
                         }
                         onClick={() => !emailLoading && sendEmailOTP()}
                     >
-                        Resend Otp on Email?
+                        Resend verification link on Email?
                     </span>
                     <span
                         className={
@@ -72,7 +78,7 @@ function VerificationMessage() {
                         }
                         onClick={() => !phoneLoading && sendPhoneOTP()}
                     >
-                        Resend Otp on Phone?
+                        Resend verification link on Phone?
                     </span>
                 </div>
             </div>
