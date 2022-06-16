@@ -12,6 +12,5 @@ export interface IPreferencesService {
     preferences: {
         minutes_per_week: number
         time_of_day: string[]
-        conditions: string[]
     }
 }
