@@ -20,6 +20,7 @@ const AppRoutes = () => {
                 <Route path={ROUTES.login} element={<Login />} />
                 <Route path="/" element={<SignUp />} />
                 <Route path="*" element={<SignUp />} />
+                <Route path="/preferences" element={<Preferences />} />
                 <Route
                     path="/verification-message/:userId"
                     element={<VerificationMessage />}
@@ -36,7 +37,6 @@ const AppRoutes = () => {
                 <Route path="/questionnaire" element={<UserCondition />} />
                 <Route element={<RequireAuth />}>
                     <Route path="/introvideo" element={<IntroVideo />} />
-                    <Route path="/preferences" element={<Preferences />} />
                     <Route
                         path="/questionnaire-submit"
                         element={<ThankyouForSubmiting />}

@@ -1,100 +1,108 @@
 @import '../../variables.scss';
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 .AuthenticationLayout {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  position: relative;
-
-  .AuthenticationLayout-logo {
-    grid-area: logo;
-    justify-self: left;
-    width: 200px;
-    margin-top: 12px;
-    margin-left: 12px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    max-width: 50px;
-    @media screen and (min-width: 992px) {
-      max-width: 100px;
-    }
-  }
-
-  .AuthenticationLayout-form {
-    grid-area: form;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    @media screen and (min-width: 992px) {
-      width: 50%;
-    }
-  }
-
-  .AuthenticationLayout-graphics {
-    width: 50%;
     height: 100%;
-    background: url('../../../public/assets/images/background.png');
-    grid-area: image;
-    display: none;
-    @media screen and (min-width: 992px) {
-      display: block;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+
+    .AuthenticationLayout-logo {
+        grid-area: logo;
+        justify-self: left;
+        width: 200px;
+        margin-top: 12px;
+        margin-left: 12px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        max-width: 50px;
+        @media screen and (min-width: 992px) {
+            max-width: 100px;
+        }
     }
-  }
 
-  .AuthenticationLayout-caption {
-    font-family: $font-family;
-    text-align: center;
-    color: $color-blue;
-    font-size: 32px;
-    font-weight: $font-weight-semi-bold;
-  }
+    .AuthenticationLayout-form {
+        grid-area: form;
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        @media screen and (min-width: 992px) {
+            width: 50%;
+        }
+    }
 
-  .AuthenticationLayout-dividerSection {
-    display: grid;
-    grid-template-columns: 1fr 30px 1fr;
-  }
+    .AuthenticationLayout-graphics {
+        width: 50%;
+        height: 100%;
+        background: url('../../../public/assets/images/background.png');
+        grid-area: image;
+        display: none;
+        @media screen and (min-width: 992px) {
+            display: block;
+        }
+    }
 
-  .AuthenticationLayout-divider {
-    margin: 10px 0;
-  }
+    .AuthenticationLayout-caption {
+        font-family: $font-family;
+        text-align: center;
+        color: $color-blue;
+        margin-top: 30px;
+        font-size: 32px;
+        font-weight: $font-weight-semi-bold;
+    }
+
+    .AuthenticationLayout-dividerSection {
+        display: grid;
+        grid-template-columns: 1fr 30px 1fr;
+    }
+
+    .AuthenticationLayout-divider {
+        margin: 10px 0;
+    }
 }
 
 .AuthenticationMobileLayout {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 100px 1fr;
-  justify-items: center;
-  align-items: center;
-
-  .AuthenticationMobileLayout-logo {
-    justify-self: left;
-    padding-left: 30px;
-    width: 200px;
-  }
-
-  .AuthenticationMobileLayout-form {
-    padding: 20px;
-  }
-
-  .AuthenticationMobileLayout-caption {
-    text-align: center;
-    color: $color-blue;
-    font-size: 20px;
-    font-weight: $font-weight-semi-bold;
-  }
-
-  .AuthenticationMobileLayout-dividerSection {
+    width: 100%;
+    height: 100%;
     display: grid;
-    grid-template-columns: 1fr 30px 1fr;
-  }
+    grid-template-columns: 1fr;
+    grid-template-rows: 100px 1fr;
+    justify-items: center;
+    align-items: center;
 
-  .AuthenticationMobileLayout-divider {
-    margin: 10px 0;
-  }
+    .AuthenticationMobileLayout-logo {
+        justify-self: left;
+        padding-left: 30px;
+        width: 200px;
+    }
+
+    .AuthenticationMobileLayout-form {
+        padding: 20px;
+    }
+
+    .AuthenticationMobileLayout-caption {
+        text-align: center;
+        color: $color-blue;
+        font-size: 20px;
+        font-weight: $font-weight-semi-bold;
+    }
+
+    .AuthenticationMobileLayout-dividerSection {
+        display: grid;
+        grid-template-columns: 1fr 30px 1fr;
+    }
+
+    .AuthenticationMobileLayout-divider {
+        margin: 10px 0;
+    }
 }

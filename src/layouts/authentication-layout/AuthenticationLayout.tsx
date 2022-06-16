@@ -6,8 +6,8 @@ import { Divider } from 'antd'
 import './AuthenticationLayout.scss'
 
 type Props = {
-  caption: string,
-  children?: React.ReactChild | React.ReactChild[]
+    caption: string
+    children?: React.ReactChild | React.ReactChild[]
 }
 
 const AuthenticationLayout = ({ children, caption }: Props) => {

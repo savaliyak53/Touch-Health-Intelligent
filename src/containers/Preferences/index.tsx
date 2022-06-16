@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import type { SliderMarks } from 'antd/lib/slider'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Slider } from 'antd'
 import * as yup from 'yup'
 import './index.scss'
 import InputField from '../../components/Input'
@@ -15,9 +17,9 @@ type IFormInputs = {
     timeOfDay: string[]
 }
 const Preferences = () => {
-    // const { userId } = useParams()
     const userId = localStorage.getItem('userId')
     const navigate = useNavigate()
+    const [time, setTime] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
     useEffect(() => {
@@ -27,13 +29,18 @@ const Preferences = () => {
         //will get preferences and set their
     }
 
+    const marks = {
+        3: 3,
+        15: 15,
+    }
+
     const schema = yup
         .object({
-            minutesPerWeek: yup
-                .number()
-                .required('Minutes Per Week is required')
-                .positive()
-                .min(1),
+            // minutesPerWeek: yup
+            //     .number()
+            //     .required('Minutes Per Week is required')
+            //     .positive()
+            //     .min(1),
             timeOfDay: yup
                 .array()
                 .min(1, 'Please Select atleast One Option')
@@ -53,9 +60,8 @@ const Preferences = () => {
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
         const prefereceData = {
             preferences: {
-                minutes_per_week: data.minutesPerWeek,
+                minutes_per_week: time,
                 time_of_day: data.timeOfDay,
-                conditions: ['sleep', 'mood'],
             },
         }
         setIsLoading(true)
@@ -82,19 +88,26 @@ const Preferences = () => {
 
     const timeOfDay = ['Morning', 'Afternoon', 'Evenings']
     return (
-        <AuthenticationLayout caption="Preferences">
+        <AuthenticationLayout caption="Engagement Preferences">
+            <p className="intro">
+                Your health assistant will get to know you over time by asking
+                <br />
+                questions every week. These settings help your health assistant
+                <br />
+                communicate with you around your own schedule.
+            </p>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="Preferences-form"
             >
                 <div>
                     <div className="question">
-                        How many minutes do you want to invest in interacting
-                        with tha every week?
+                        How many minutes per week would you dedicate to
+                        answering your health assistant questions?
                     </div>
                     <br />
                     <label>
-                        <InputField
+                        {/* <InputField
                             id="minutesPerWeek"
                             {...register('minutesPerWeek', { required: true })}
                             placeholder="Minutes Per Week"
@@ -104,6 +117,17 @@ const Preferences = () => {
                             style={{
                                 width: 'max-content',
                                 marginRight: '10px',
+                            }}
+                        /> */}
+                        <Slider
+                            id="minutesPerWeek"
+                            {...register('minutesPerWeek', { required: true })}
+                            value={time}
+                            min={3}
+                            max={15}
+                            marks={marks}
+                            onChange={(value) => {
+                                setTime(value)
                             }}
                         />
                         Minutes
@@ -115,7 +139,8 @@ const Preferences = () => {
 
                 <div>
                     <div className="question">
-                        What are your prefered Times?
+                        What are your preferred times to be contacted? [select
+                        all that apply]
                     </div>
                     <br />
                     <ul
@@ -151,7 +176,7 @@ const Preferences = () => {
                     </p>
                 </div>
 
-                <div>
+                {/* <div>
                     <div className="question">Do you want to get reminded?</div>
                     <br />
                     <ul className="no-bullets">
@@ -181,7 +206,7 @@ const Preferences = () => {
                         </li>
                     </ul>
                     <br />
-                </div>
+                </div> */}
                 <Button
                     className="mt-3"
                     size="lg"
