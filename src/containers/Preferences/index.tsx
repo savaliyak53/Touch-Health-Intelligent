@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import type { SliderMarks } from 'antd/lib/slider'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Slider } from 'antd'
 import * as yup from 'yup'

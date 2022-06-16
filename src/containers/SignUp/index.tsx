@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import { requestPhoneOTP } from '../../services/authservice'
 import { toast } from 'react-toastify'
 import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout'
 import Button from '../../components/Button'
@@ -13,15 +14,18 @@ import { signUpService } from '../../services/authservice'
 import MaskedInput from 'react-text-mask'
 
 type IFormInputs = {
-    name: string
-    email: string
+    firstName: string
+    lastName: string
     phone: string
+    confirmPhone: string
     password: string
     confirmPassword: string
 }
 
 const SignUp = () => {
     const navigate = useNavigate()
+    const [userId, setUserId] = useState('')
+    const [phoneLoading, setPhoneLoading] = useState<boolean>(false)
     const [passwordShown, setPasswordShown] = useState(false)
     const [confirmPasswordShown, setConfirmPasswordShown] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -29,11 +33,16 @@ const SignUp = () => {
     const schema = yup
         .object()
         .shape({
-            name: yup.string().required('Name is required.'),
-            email: yup
+            firstName: yup
                 .string()
-                .email('Email is invalid.')
-                .required('Email is required.'),
+                .min(3, 'Min 3 characters')
+                .max(50, 'Max 50 characters')
+                .required('First name  is required.'),
+            lastName: yup
+                .string()
+                .min(3, 'Min 3 characters')
+                .max(50, 'Max 50 characters')
+                .required('Last name is required.'),
             phone: yup.string().required('Phone number is required.'),
             // .matches(
             //     new RegExp(
@@ -41,6 +50,10 @@ const SignUp = () => {
             //     ),
             //     'Phone must be in 1XXXXXXXXX format'
             // ),
+            confirmPhone: yup
+                .string()
+                .required('Phone confirmation is required.')
+                .oneOf([yup.ref('phone')], 'Your phone numbers do not match.'),
             password: yup
                 .string()
                 .required('Password is required.')
@@ -66,14 +79,22 @@ const SignUp = () => {
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
         setIsLoading(true)
         setIsDisabled(true)
-        const signUpResponse = await signUpService(data)
+        console.log(data)
+        const signUpResponse = await signUpService({
+            phone: '1' + data.phone,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            password: data.password,
+        })
         if (signUpResponse?.id) {
             reset()
+            setUserId(signUpResponse.id)
             setIsDisabled(false)
             setIsLoading(false)
-            toast.success('You have signed up successfully')
             localStorage.setItem('userId', signUpResponse.id)
-            navigate(`/verification-message/${signUpResponse.id}`)
+            const isOtpSent = await sendPhoneOTP()
+            if (isOtpSent)
+                navigate(`/verification-message/${signUpResponse.id}`)
         } else {
             setIsDisabled(false)
             setIsLoading(false)
@@ -89,60 +110,118 @@ const SignUp = () => {
         setConfirmPasswordShown(!confirmPasswordShown)
     }
 
+    const sendPhoneOTP = async () => {
+        //api call to send email otp
+        setPhoneLoading(true)
+        const phoneRequestResponse = await requestPhoneOTP(userId)
+        if (phoneRequestResponse?.response?.data) {
+            setPhoneLoading(false)
+            toast.error('Invalid Phone Number')
+            return true
+        } else {
+            setPhoneLoading(false)
+            toast.success('You have signed up successfully')
+            toast.success('Phone verification link sent')
+            return false
+        }
+    }
+
     return (
         <AuthenticationLayout caption="Sign up Here">
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
                 <div>
                     <InputField
-                        id="name"
-                        {...register('name', { required: true })}
-                        placeholder="Name"
+                        id="firstName"
+                        {...register('firstName', { required: true })}
+                        placeholder="First name"
                         type="text"
                         className="inputField"
                     />
-                    <p className="SingUnForm-error">{errors.name?.message}</p>
+                    <p className="SingUnForm-error">
+                        {errors.firstName?.message}
+                    </p>
                 </div>
                 <div>
                     <InputField
-                        id="email"
-                        {...register('email')}
-                        placeholder="Email"
-                        type="email"
+                        id="lastName"
+                        {...register('lastName', { required: true })}
+                        placeholder="Last name"
+                        type="text"
                         className="inputField"
                     />
-                    <p className="SingUnForm-error">{errors.email?.message}</p>
+                    <p className="SingUnForm-error">
+                        {errors.lastName?.message}
+                    </p>
                 </div>
                 <div>
                     <Controller
                         control={control}
                         name="phone"
                         render={({ field: { onChange, onBlur } }) => (
-                            <MaskedInput
-                                mask={[
-                                    /[1]/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                ]}
-                                id="phone"
-                                placeholder="Phone: XXXXXXXXXX"
-                                type="text"
-                                {...register('phone')}
-                                className="inputField"
-                                guide={false}
-                                onChange={onChange}
-                                onBlur={onBlur}
-                            />
+                            <div>
+                                <button className="flag">🚩+1 </button>
+                                <MaskedInput
+                                    mask={[
+                                        /[1]/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                    ]}
+                                    id="phone"
+                                    placeholder="Enter number here"
+                                    type="text"
+                                    {...register('phone')}
+                                    className="Input"
+                                    guide={false}
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+                                />
+                            </div>
                         )}
                     />
                     <p className="SingUnForm-error">{errors.phone?.message}</p>
+                </div>
+                <div>
+                    <Controller
+                        control={control}
+                        name="confirmPhone"
+                        render={({ field: { onChange, onBlur } }) => (
+                            <div>
+                                <button className="flag">🚩+1 </button>
+                                <MaskedInput
+                                    mask={[
+                                        /[1]/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                        /\d/,
+                                    ]}
+                                    id="confirmPhone"
+                                    placeholder="Enter number here"
+                                    type="text"
+                                    {...register('confirmPhone')}
+                                    className="Input"
+                                    guide={false}
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+                                />
+                            </div>
+                        )}
+                    />
+                    <p className="SingUnForm-error">
+                        {errors.confirmPhone?.message}
+                    </p>
                 </div>
                 <div>
                     <InputField

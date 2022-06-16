@@ -74,7 +74,7 @@ const Login = () => {
                     <InputField
                         id="username"
                         {...register('username', { required: true })}
-                        placeholder="Email or Phone"
+                        placeholder="Phone"
                         type="text"
                         className="inputField"
                     />
