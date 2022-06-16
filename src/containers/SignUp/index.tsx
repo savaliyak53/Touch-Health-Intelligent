@@ -14,7 +14,8 @@ import { signUpService } from '../../services/authservice'
 import MaskedInput from 'react-text-mask'
 
 type IFormInputs = {
-    name: string
+    firstName: string
+    lastName: string
     phone: string
     confirmPhone: string
     password: string
@@ -23,8 +24,6 @@ type IFormInputs = {
 
 const SignUp = () => {
     const navigate = useNavigate()
-    const [countryCode, setCountryCode] = useState('+1')
-    const [number, setNumber] = useState('')
     const [userId, setUserId] = useState('')
     const [phoneLoading, setPhoneLoading] = useState<boolean>(false)
     const [passwordShown, setPasswordShown] = useState(false)
@@ -34,7 +33,16 @@ const SignUp = () => {
     const schema = yup
         .object()
         .shape({
-            name: yup.string().required('Name is required.'),
+            firstName: yup
+                .string()
+                .min(3, 'Min 3 characters')
+                .max(50, 'Max 50 characters')
+                .required('First name  is required.'),
+            lastName: yup
+                .string()
+                .min(3, 'Min 3 characters')
+                .max(50, 'Max 50 characters')
+                .required('Last name is required.'),
             phone: yup.string().required('Phone number is required.'),
             // .matches(
             //     new RegExp(
@@ -74,7 +82,8 @@ const SignUp = () => {
         console.log(data)
         const signUpResponse = await signUpService({
             phone: '1' + data.phone,
-            name: data.name,
+            firstName: data.firstName,
+            lastName: data.lastName,
             password: data.password,
         })
         if (signUpResponse?.id) {
@@ -122,13 +131,27 @@ const SignUp = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
                 <div>
                     <InputField
-                        id="name"
-                        {...register('name', { required: true })}
-                        placeholder="Name"
+                        id="firstName"
+                        {...register('firstName', { required: true })}
+                        placeholder="First name"
                         type="text"
                         className="inputField"
                     />
-                    <p className="SingUnForm-error">{errors.name?.message}</p>
+                    <p className="SingUnForm-error">
+                        {errors.firstName?.message}
+                    </p>
+                </div>
+                <div>
+                    <InputField
+                        id="lastName"
+                        {...register('lastName', { required: true })}
+                        placeholder="Last name"
+                        type="text"
+                        className="inputField"
+                    />
+                    <p className="SingUnForm-error">
+                        {errors.lastName?.message}
+                    </p>
                 </div>
                 <div>
                     <Controller
