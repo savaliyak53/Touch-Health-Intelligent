@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import { requestPhoneOTP } from '../../services/authservice'
 import { toast } from 'react-toastify'
 import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout'
 import Button from '../../components/Button'
@@ -14,7 +15,6 @@ import MaskedInput from 'react-text-mask'
 
 type IFormInputs = {
     name: string
-    email: string
     phone: string
     password: string
     confirmPassword: string
@@ -22,6 +22,8 @@ type IFormInputs = {
 
 const SignUp = () => {
     const navigate = useNavigate()
+    const [userId, setUserId] = useState('')
+    const [phoneLoading, setPhoneLoading] = useState<boolean>(false)
     const [passwordShown, setPasswordShown] = useState(false)
     const [confirmPasswordShown, setConfirmPasswordShown] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -30,10 +32,6 @@ const SignUp = () => {
         .object()
         .shape({
             name: yup.string().required('Name is required.'),
-            email: yup
-                .string()
-                .email('Email is invalid.')
-                .required('Email is required.'),
             phone: yup.string().required('Phone number is required.'),
             // .matches(
             //     new RegExp(
@@ -69,11 +67,13 @@ const SignUp = () => {
         const signUpResponse = await signUpService(data)
         if (signUpResponse?.id) {
             reset()
+            setUserId(signUpResponse.id)
             setIsDisabled(false)
             setIsLoading(false)
-            toast.success('You have signed up successfully')
             localStorage.setItem('userId', signUpResponse.id)
-            navigate(`/verification-message/${signUpResponse.id}`)
+            const isOtpSent = await sendPhoneOTP()
+            if (isOtpSent)
+                navigate(`/verification-message/${signUpResponse.id}`)
         } else {
             setIsDisabled(false)
             setIsLoading(false)
@@ -89,6 +89,22 @@ const SignUp = () => {
         setConfirmPasswordShown(!confirmPasswordShown)
     }
 
+    const sendPhoneOTP = async () => {
+        //api call to send email otp
+        setPhoneLoading(true)
+        const phoneRequestResponse = await requestPhoneOTP(userId)
+        if (phoneRequestResponse?.response?.data) {
+            setPhoneLoading(false)
+            toast.error('Invalid Phone Number')
+            return true
+        } else {
+            setPhoneLoading(false)
+            toast.success('You have signed up successfully')
+            toast.success('Phone verification link sent')
+            return false
+        }
+    }
+
     return (
         <AuthenticationLayout caption="Sign up Here">
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
@@ -102,7 +118,7 @@ const SignUp = () => {
                     />
                     <p className="SingUnForm-error">{errors.name?.message}</p>
                 </div>
-                <div>
+                {/* <div>
                     <InputField
                         id="email"
                         {...register('email')}
@@ -111,7 +127,7 @@ const SignUp = () => {
                         className="inputField"
                     />
                     <p className="SingUnForm-error">{errors.email?.message}</p>
-                </div>
+                </div> */}
                 <div>
                     <Controller
                         control={control}

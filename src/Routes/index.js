@@ -5,10 +5,9 @@ import { SignUp, Login } from './Lazycontainers'
 import Preferences from '../containers/Preferences'
 import ROUTES from './Constants'
 import UserCondition from '../containers/Questionnaire'
-import { RequireAuth, RequireSignup } from '../utils/RequireAuth'
+import { RequireAuth } from '../utils/RequireAuth'
 import ThankyouForSubmiting from '../containers/ThankyouForSubmiting'
 import IntroVideo from '../containers/Introvideo'
-import EmailVerification from '../containers/EmailVerification'
 import VerificationMessage from '../containers/VerificationMessage'
 import PhoneVerification from '../containers/PhoneVerification'
 
@@ -26,10 +25,10 @@ const AppRoutes = () => {
                     element={<VerificationMessage />}
                 />
                 {/* Protected Routes */}
-                <Route
+                {/* <Route
                     path="/verify/email/:userId/:code"
                     element={<EmailVerification />}
-                />
+                /> */}
                 <Route
                     path="/verify/phone/:userId/:code"
                     element={<PhoneVerification />}
