@@ -163,7 +163,7 @@ const SignUp = () => {
                         name="phone"
                         render={({ field: { onChange, onBlur } }) => (
                             <div>
-                                <button className="flag">🚩+1 </button>
+                                <div className="flag">🚩+1 </div>
                                 <MaskedInput
                                     mask={[
                                         /\d/,
@@ -197,7 +197,7 @@ const SignUp = () => {
                         name="confirmPhone"
                         render={({ field: { onChange, onBlur } }) => (
                             <div>
-                                <button className="flag">🚩+1 </button>
+                                <div className="flag">🚩+1 </div>
                                 <MaskedInput
                                     mask={[
                                         /\d/,
