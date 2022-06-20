@@ -9,7 +9,8 @@ function IntroVideo() {
     const navigate = useNavigate()
 
     const handleRedirect = () => {
-        navigate(`/preferences`)
+        localStorage.removeItem('token')
+        navigate(`/`)
     }
     return (
         <div className="cards-video-wrapper">

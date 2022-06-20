@@ -19,7 +19,6 @@ const AppRoutes = () => {
                 <Route path={ROUTES.login} element={<Login />} />
                 <Route path="/" element={<SignUp />} />
                 <Route path="*" element={<SignUp />} />
-                <Route path="/preferences" element={<Preferences />} />
                 <Route
                     path="/verification-message/:userId"
                     element={<VerificationMessage />}
@@ -33,13 +32,14 @@ const AppRoutes = () => {
                     path="/verify/phone/:userId/:code"
                     element={<PhoneVerification />}
                 />
-                <Route path="/questionnaire" element={<UserCondition />} />
                 <Route element={<RequireAuth />}>
-                    <Route path="/introvideo" element={<IntroVideo />} />
                     <Route
                         path="/questionnaire-submit"
                         element={<ThankyouForSubmiting />}
                     />
+                    <Route path="/questionnaire" element={<UserCondition />} />
+                    <Route path="/preferences" element={<Preferences />} />
+                    <Route path="/introvideo" element={<IntroVideo />} />
                 </Route>
             </Routes>
         </React.Suspense>
