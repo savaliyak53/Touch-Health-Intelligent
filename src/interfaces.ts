@@ -1,7 +1,7 @@
 export interface ISignUp {
     password: string
-    firstName: string
-    lastName: string
+    first_name: string
+    last_name: string
     phone: string
 }
 export interface ILogin {

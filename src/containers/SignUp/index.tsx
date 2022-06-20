@@ -14,8 +14,8 @@ import { signUpService } from '../../services/authservice'
 import MaskedInput from 'react-text-mask'
 
 type IFormInputs = {
-    firstName: string
-    lastName: string
+    first_name: string
+    last_name: string
     phone: string
     confirmPhone: string
     password: string
@@ -24,7 +24,6 @@ type IFormInputs = {
 
 const SignUp = () => {
     const navigate = useNavigate()
-    const [userId, setUserId] = useState('')
     const [phoneLoading, setPhoneLoading] = useState<boolean>(false)
     const [passwordShown, setPasswordShown] = useState(false)
     const [confirmPasswordShown, setConfirmPasswordShown] = useState(false)
@@ -33,17 +32,20 @@ const SignUp = () => {
     const schema = yup
         .object()
         .shape({
-            firstName: yup
+            first_name: yup
                 .string()
                 .min(3, 'Min 3 characters')
                 .max(50, 'Max 50 characters')
                 .required('First name  is required.'),
-            lastName: yup
+            last_name: yup
                 .string()
                 .min(3, 'Min 3 characters')
                 .max(50, 'Max 50 characters')
                 .required('Last name is required.'),
-            phone: yup.string().required('Phone number is required.'),
+            phone: yup
+                .string()
+                .required('Phone number is required.')
+                .min(10, 'Phone number requires at least 11 digits'),
             // .matches(
             //     new RegExp(
             //         /^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s]\d{4}$/g
@@ -82,19 +84,20 @@ const SignUp = () => {
         console.log(data)
         const signUpResponse = await signUpService({
             phone: '1' + data.phone,
-            firstName: data.firstName,
-            lastName: data.lastName,
+            first_name: data.first_name,
+            last_name: data.last_name,
             password: data.password,
         })
         if (signUpResponse?.id) {
             reset()
-            setUserId(signUpResponse.id)
             setIsDisabled(false)
             setIsLoading(false)
             localStorage.setItem('userId', signUpResponse.id)
             const isOtpSent = await sendPhoneOTP()
-            if (isOtpSent)
+            if (isOtpSent) {
+                console.log(isOtpSent)
                 navigate(`/verification-message/${signUpResponse.id}`)
+            }
         } else {
             setIsDisabled(false)
             setIsLoading(false)
@@ -113,16 +116,17 @@ const SignUp = () => {
     const sendPhoneOTP = async () => {
         //api call to send email otp
         setPhoneLoading(true)
+        const userId = localStorage.getItem('userId')
         const phoneRequestResponse = await requestPhoneOTP(userId)
         if (phoneRequestResponse?.response?.data) {
             setPhoneLoading(false)
             toast.error('Invalid Phone Number')
-            return true
+            return false
         } else {
             setPhoneLoading(false)
             toast.success('You have signed up successfully')
             toast.success('Phone verification link sent')
-            return false
+            return true
         }
     }
 
@@ -131,26 +135,26 @@ const SignUp = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
                 <div>
                     <InputField
-                        id="firstName"
-                        {...register('firstName', { required: true })}
+                        id="first_name"
+                        {...register('first_name', { required: true })}
                         placeholder="First name"
                         type="text"
                         className="inputField"
                     />
                     <p className="SingUnForm-error">
-                        {errors.firstName?.message}
+                        {errors.first_name?.message}
                     </p>
                 </div>
                 <div>
                     <InputField
-                        id="lastName"
-                        {...register('lastName', { required: true })}
+                        id="last_name"
+                        {...register('last_name', { required: true })}
                         placeholder="Last name"
                         type="text"
                         className="inputField"
                     />
                     <p className="SingUnForm-error">
-                        {errors.lastName?.message}
+                        {errors.last_name?.message}
                     </p>
                 </div>
                 <div>
@@ -162,7 +166,7 @@ const SignUp = () => {
                                 <button className="flag">🚩+1 </button>
                                 <MaskedInput
                                     mask={[
-                                        /[1]/,
+                                        /\d/,
                                         /\d/,
                                         /\d/,
                                         /\d/,
@@ -196,7 +200,7 @@ const SignUp = () => {
                                 <button className="flag">🚩+1 </button>
                                 <MaskedInput
                                     mask={[
-                                        /[1]/,
+                                        /\d/,
                                         /\d/,
                                         /\d/,
                                         /\d/,
