@@ -9,7 +9,7 @@ function IntroVideo() {
     const navigate = useNavigate()
 
     const handleRedirect = () => {
-        navigate(`/preferences`)
+        navigate(`/questionnaire`)
     }
     return (
         <div className="cards-video-wrapper">

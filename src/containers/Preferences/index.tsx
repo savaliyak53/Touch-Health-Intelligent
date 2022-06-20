@@ -42,7 +42,7 @@ const Preferences = () => {
             //     .min(1),
             timeOfDay: yup
                 .array()
-                .min(1, 'Please Select atleast One Option')
+                .min(1, 'Please Select at least one option')
                 .required('required'),
         })
         .required()
@@ -82,10 +82,10 @@ const Preferences = () => {
     }
 
     const handleRedirect = () => {
-        navigate(`/questionnaire`)
+        navigate(`/introvideo`)
     }
 
-    const timeOfDay = ['Morning', 'Afternoon', 'Evenings']
+    const timeOfDay = ['Morning', 'Afternoon', 'Evening']
     return (
         <AuthenticationLayout caption="Engagement Preferences">
             <p className="intro">
@@ -106,18 +106,6 @@ const Preferences = () => {
                     </div>
                     <br />
                     <label>
-                        {/* <InputField
-                            id="minutesPerWeek"
-                            {...register('minutesPerWeek', { required: true })}
-                            placeholder="Minutes Per Week"
-                            type="number"
-                            className="inputField mt-1"
-                            defaultValue={0}
-                            style={{
-                                width: 'max-content',
-                                marginRight: '10px',
-                            }}
-                        /> */}
                         <Slider
                             id="minutesPerWeek"
                             {...register('minutesPerWeek', { required: true })}
@@ -158,7 +146,6 @@ const Preferences = () => {
                                             required: true,
                                         })}
                                         value={c}
-                                        //placeholder="Minutes Per Week"
                                         type="checkbox"
                                         className="checkbox"
                                     />
@@ -168,44 +155,12 @@ const Preferences = () => {
                         ))}
                     </ul>
                     <br />
-
                     <p className="Preferences-form-error">
+                        <br />
                         {errors?.timeOfDay &&
-                            'Please Select Atleast One Option'}
+                            'Please select at least one option'}
                     </p>
                 </div>
-
-                {/* <div>
-                    <div className="question">Do you want to get reminded?</div>
-                    <br />
-                    <ul className="no-bullets">
-                        <li>
-                            <label>
-                                <InputField
-                                    id="reminMe"
-                                    name="remindMe"
-                                    type="radio"
-                                    className="checkbox"
-                                    value="true"
-                                />
-                                Yes
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                <InputField
-                                    id="reminMe"
-                                    name="remindMe"
-                                    type="radio"
-                                    className="checkbox"
-                                    value="false"
-                                />
-                                No
-                            </label>
-                        </li>
-                    </ul>
-                    <br />
-                </div> */}
                 <Button
                     className="mt-3"
                     size="lg"
