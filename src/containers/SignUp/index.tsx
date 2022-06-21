@@ -34,13 +34,11 @@ const SignUp = () => {
         .shape({
             first_name: yup
                 .string()
-                .min(3, 'Min 3 characters')
-                .max(50, 'Max 50 characters')
+                .max(100, 'Max 100 characters')
                 .required('First name  is required.'),
             last_name: yup
                 .string()
-                .min(3, 'Min 3 characters')
-                .max(50, 'Max 50 characters')
+                .max(100, 'Max 100 characters')
                 .required('Last name is required.'),
             phone: yup
                 .string()
