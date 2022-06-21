@@ -59,13 +59,7 @@ const Login = () => {
         } else {
             setIsDisabled(false)
             setIsLoading(false)
-            console.log(loginResponse)
             toast.error(loginResponse?.response?.data?.details)
-            // if (loginResponse?.response?.status == '403') {
-            //     navigate(
-            //         `/verification-message/${loginResponse.response.data.userId}`
-            //     )
-            // }
         }
     }
 

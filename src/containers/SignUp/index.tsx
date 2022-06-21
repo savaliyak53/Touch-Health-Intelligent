@@ -34,26 +34,23 @@ const SignUp = () => {
         .shape({
             first_name: yup
                 .string()
-                .max(100, 'Max 100 characters')
+                .max(50, 'Max 50 characters')
                 .required('First name  is required.'),
             last_name: yup
                 .string()
-                .max(100, 'Max 100 characters')
+                .max(50, 'Max 50 characters')
                 .required('Last name is required.'),
             phone: yup
                 .string()
                 .required('Phone number is required.')
-                .min(10, 'Phone number requires at least 11 digits'),
-            // .matches(
-            //     new RegExp(
-            //         /^((\+0?1\s)?)\(?\d{3}\)?[\s.\s]\d{3}[\s]\d{4}$/g
-            //     ),
-            //     'Phone must be in 1XXXXXXXXX format'
-            // ),
+                .min(10, 'Phone number requires at least 10 digits'),
             confirmPhone: yup
                 .string()
                 .required('Phone confirmation is required.')
-                .oneOf([yup.ref('phone')], 'Your phone numbers do not match.'),
+                .oneOf(
+                    [yup.ref('phone'), null],
+                    'Your phone numbers do not match.'
+                ),
             password: yup
                 .string()
                 .required('Password is required.')
@@ -62,7 +59,10 @@ const SignUp = () => {
             confirmPassword: yup
                 .string()
                 .required('Password confirmation is required.')
-                .oneOf([yup.ref('password')], 'Your passwords do not match.'),
+                .oneOf(
+                    [yup.ref('password'), null],
+                    'Your passwords do not match.'
+                ),
         })
         .required()
 
@@ -79,7 +79,6 @@ const SignUp = () => {
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
         setIsLoading(true)
         setIsDisabled(true)
-        console.log(data)
         const signUpResponse = await signUpService({
             phone: '1' + data.phone,
             first_name: data.first_name,
@@ -93,7 +92,6 @@ const SignUp = () => {
             localStorage.setItem('userId', signUpResponse.id)
             const isOtpSent = await sendPhoneOTP()
             if (isOtpSent) {
-                console.log(isOtpSent)
                 navigate(`/verification-message/${signUpResponse.id}`)
             }
         } else {

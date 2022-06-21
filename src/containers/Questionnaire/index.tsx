@@ -9,7 +9,6 @@ import { Slider, Steps, message } from 'antd'
 import type { SliderMarks } from 'antd/lib/slider'
 import { inputData } from './inputData'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
-// import { v4 as uuidv4 } from 'uuid'
 const { Step } = Steps
 
 const steps = [
@@ -64,15 +63,6 @@ function UserCondition() {
     } = useForm<Anything>({ mode: 'onChange' })
 
     const onSubmit: SubmitHandler<Anything> = () => {
-        // const objectIntoArray = Object.entries(data)
-
-        // const finalObject = objectIntoArray.map((d) => {
-        //     const finalValue = { selection: d[1] }
-        //     return {
-        //         id: uuidv4(),
-        //         response: finalValue,
-        //     }
-        // })
         message.success('Processing complete!')
         handleRedirect()
     }

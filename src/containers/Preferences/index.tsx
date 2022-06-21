@@ -24,9 +24,7 @@ const Preferences = () => {
     useEffect(() => {
         checkPreferences()
     }, [])
-    const checkPreferences = async () => {
-        //will get preferences and set their
-    }
+    const checkPreferences = async () => {}
 
     const marks = {
         3: 3,
@@ -35,11 +33,6 @@ const Preferences = () => {
 
     const schema = yup
         .object({
-            // minutesPerWeek: yup
-            //     .number()
-            //     .required('Minutes Per Week is required')
-            //     .positive()
-            //     .min(1),
             timeOfDay: yup
                 .array()
                 .min(1, 'Please Select at least one option')
@@ -49,7 +42,6 @@ const Preferences = () => {
     const {
         register,
         handleSubmit,
-        // reset,
         formState: { errors },
     } = useForm<IFormInputs>({
         mode: 'onChange',

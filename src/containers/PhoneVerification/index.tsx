@@ -17,11 +17,9 @@ function PhoneVerification() {
         if (phoneVerificationResponse?.is_phone_verified) {
             setPhoneLoading(false)
             setIsPhoneVerified(true)
-            //toast.success('Phone Verified')
             navigate('/login')
         } else {
             setPhoneLoading(false)
-            // toast.error('Something went wrong')
         }
     }
     useEffect(() => {
