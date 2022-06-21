@@ -16,15 +16,12 @@ function EmailVerification() {
         if (emailVerificationResponse?.is_email_verified) {
             setEmailLoading(false)
             setIsEmailVerified(true)
-            //  toast.success('Email Verified, Please verify your phone number')
         } else {
             setEmailLoading(false)
-            //toast.error('Something went wrong')
         }
     }
     useEffect(() => {
         if (isEmailVerified) {
-            // toast.success('Email Verified, Please verify your phone number')
         } else emailVerification()
     }, [])
 

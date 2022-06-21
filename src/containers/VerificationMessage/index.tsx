@@ -9,19 +9,6 @@ function VerificationMessage() {
     const [phoneLoading, setPhoneLoading] = useState<boolean>(false)
     const { userId } = useParams()
 
-    // const sendEmailOTP = async () => {
-    //     //api call for sending email otp
-    //     setEmailLoading(true)
-    //     const emailRequestResponse = await requestEmailOTP(userId)
-    //     if (emailRequestResponse?.response?.data) {
-    //         setEmailLoading(false)
-    //         toast.error(emailRequestResponse?.response?.data?.details?.message)
-    //     } else {
-    //         setEmailLoading(false)
-    //         toast.success('Email verification link sent')
-    //     }
-    // }
-
     const sendPhoneOTP = async () => {
         //api call to send email otp
         setPhoneLoading(true)
