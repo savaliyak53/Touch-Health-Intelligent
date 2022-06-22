@@ -34,16 +34,17 @@ const SignUp = () => {
         .shape({
             first_name: yup
                 .string()
-                .max(50, 'Max 50 characters')
+                .max(100, 'Max 100 characters')
                 .required('First name  is required.'),
             last_name: yup
                 .string()
-                .max(50, 'Max 50 characters')
+                .max(100, 'Max 100 characters')
                 .required('Last name is required.'),
             phone: yup
                 .string()
                 .required('Phone number is required.')
-                .min(10, 'Phone number requires at least 10 digits'),
+                .min(10, 'Phone number requires at least 10 digits')
+                .max(10, 'Phone number requires maximum 10 digits'),
             confirmPhone: yup
                 .string()
                 .required('Phone confirmation is required.')
@@ -159,9 +160,17 @@ const SignUp = () => {
                         name="phone"
                         render={({ field: { onChange, onBlur } }) => (
                             <div>
-                                <div className="flag">🚩+1 </div>
+                                <div className="flag">
+                                    <img
+                                        src={`../../assets/images/Canadian_Flag.png`}
+                                        alt="Canadian Flag"
+                                        className="Input-flag"
+                                    />{' '}
+                                    +1
+                                </div>
                                 <MaskedInput
                                     mask={[
+                                        /\d/,
                                         /\d/,
                                         /\d/,
                                         /\d/,
@@ -180,6 +189,9 @@ const SignUp = () => {
                                     className="Input"
                                     guide={false}
                                     onChange={onChange}
+                                    // validate={({ form, field }) => {
+                                    //     form.validateForm();
+                                    // }}
                                     onBlur={onBlur}
                                 />
                             </div>
@@ -193,9 +205,17 @@ const SignUp = () => {
                         name="confirmPhone"
                         render={({ field: { onChange, onBlur } }) => (
                             <div>
-                                <div className="flag">🚩+1 </div>
+                                <div className="flag">
+                                    <img
+                                        src={`../../assets/images/Canadian_Flag.png`}
+                                        alt="Canadian Flag"
+                                        className="Input-flag"
+                                    />{' '}
+                                    +1
+                                </div>
                                 <MaskedInput
                                     mask={[
+                                        /\d/,
                                         /\d/,
                                         /\d/,
                                         /\d/,

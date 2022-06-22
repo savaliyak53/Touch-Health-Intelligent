@@ -14,13 +14,17 @@
 }
 
 .flag {
-    padding: 0.3rem;
+    padding: 0.2rem;
     position: absolute;
     font-size: 1rem;
     outline: none;
     border: none;
     background-color: transparent;
     margin-right: -2.76rem;
+}
+.Input-flag {
+    max-width: 15px;
+    height: 14px;
 }
 .Input {
     flex: 1;
