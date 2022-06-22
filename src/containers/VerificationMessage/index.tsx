@@ -39,7 +39,7 @@ function VerificationMessage() {
                     component="div"
                     className="response"
                 >
-                    Please check your provided phone and email for verification
+                    Please check your provided phone for verification
                 </Typography>
                 <div className="resend">
                     <span
@@ -48,7 +48,7 @@ function VerificationMessage() {
                         }
                         onClick={() => !phoneLoading && sendPhoneOTP()}
                     >
-                        Resend verification link on Phone?
+                        Resend verification link on Phone.
                     </span>
                 </div>
             </div>
