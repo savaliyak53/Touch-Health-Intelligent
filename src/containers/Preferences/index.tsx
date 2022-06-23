@@ -21,10 +21,6 @@ const Preferences = () => {
     const [time, setTime] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
-    useEffect(() => {
-        checkPreferences()
-    }, [])
-    const checkPreferences = async () => {}
 
     const marks = {
         3: 3,

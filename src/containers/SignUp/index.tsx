@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { useForm, SubmitHandler, Controller } from 'react-hook-form'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 import { requestPhoneOTP } from '../../services/authservice'
 import { toast } from 'react-toastify'
 import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout'
 import Button from '../../components/Button'
-import InputField from '../../components/Input'
 import './index.scss'
 import { signUpService } from '../../services/authservice'
-import MaskedInput from 'react-text-mask'
+import { AiOutlineEye } from 'react-icons/ai'
 
 type IFormInputs = {
     first_name: string
@@ -24,60 +21,24 @@ type IFormInputs = {
 
 const SignUp = () => {
     const navigate = useNavigate()
-    const [phoneLoading, setPhoneLoading] = useState<boolean>(false)
     const [passwordShown, setPasswordShown] = useState(false)
     const [confirmPasswordShown, setConfirmPasswordShown] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
-    const schema = yup
-        .object()
-        .shape({
-            first_name: yup
-                .string()
-                .max(100, 'Max 100 characters')
-                .required('First name  is required.'),
-            last_name: yup
-                .string()
-                .max(100, 'Max 100 characters')
-                .required('Last name is required.'),
-            phone: yup
-                .string()
-                .required('Phone number is required.')
-                .min(10, 'Phone number requires at least 10 digits')
-                .max(10, 'Phone number requires maximum 10 digits'),
-            confirmPhone: yup
-                .string()
-                .required('Phone confirmation is required.')
-                .oneOf(
-                    [yup.ref('phone'), null],
-                    'Your phone numbers do not match.'
-                ),
-            password: yup
-                .string()
-                .required('Password is required.')
-                .min(8, 'Password must be at least 8 characters.')
-                .matches(/^(?=.*?[#?!@$%^&*-])/, 'Need one special character.'),
-            confirmPassword: yup
-                .string()
-                .required('Password confirmation is required.')
-                .oneOf(
-                    [yup.ref('password'), null],
-                    'Your passwords do not match.'
-                ),
-        })
-        .required()
 
     const {
         register,
         handleSubmit,
         reset,
-        control,
+        getValues,
         formState: { errors },
     } = useForm<IFormInputs>({
-        mode: 'onChange',
-        resolver: yupResolver(schema),
+        mode: 'all',
+        reValidateMode: 'onBlur',
+        shouldFocusError: true,
+        shouldUnregister: false,
     })
-    const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+    const onSubmit = async (data: any) => {
         setIsLoading(true)
         setIsDisabled(true)
         const signUpResponse = await signUpService({
@@ -112,28 +73,31 @@ const SignUp = () => {
 
     const sendPhoneOTP = async () => {
         //api call to send email otp
-        setPhoneLoading(true)
         const userId = localStorage.getItem('userId')
         const phoneRequestResponse = await requestPhoneOTP(userId)
         if (phoneRequestResponse?.response?.data) {
-            setPhoneLoading(false)
             toast.error('Invalid Phone Number')
             return false
         } else {
-            setPhoneLoading(false)
             toast.success('You have signed up successfully')
             toast.success('Phone verification link sent')
             return true
         }
     }
-
     return (
         <AuthenticationLayout caption="Sign up Here">
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
                 <div>
-                    <InputField
+                    <input
                         id="first_name"
-                        {...register('first_name', { required: true })}
+                        {...register('first_name', {
+                            required: 'First name is required.',
+                            maxLength: {
+                                value: 50,
+                                message:
+                                    'First name can have maximum 50 characters.',
+                            },
+                        })}
                         placeholder="First name"
                         type="text"
                         className="inputField"
@@ -143,9 +107,16 @@ const SignUp = () => {
                     </p>
                 </div>
                 <div>
-                    <InputField
+                    <input
                         id="last_name"
-                        {...register('last_name', { required: true })}
+                        {...register('last_name', {
+                            required: 'Last name is required.',
+                            maxLength: {
+                                value: 50,
+                                message:
+                                    'Last name can have maximum 50 characters.',
+                            },
+                        })}
                         placeholder="Last name"
                         type="text"
                         className="inputField"
@@ -155,120 +126,123 @@ const SignUp = () => {
                     </p>
                 </div>
                 <div>
-                    <Controller
-                        control={control}
-                        name="phone"
-                        render={({ field: { onChange, onBlur } }) => (
-                            <div>
-                                <div className="flag">
-                                    <img
-                                        src={`../../assets/images/Canadian_Flag.png`}
-                                        alt="Canadian Flag"
-                                        className="Input-flag"
-                                    />{' '}
-                                    +1
-                                </div>
-                                <MaskedInput
-                                    mask={[
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                    ]}
-                                    id="phone"
-                                    placeholder="Enter number here"
-                                    type="text"
-                                    {...register('phone')}
-                                    className="Input"
-                                    guide={false}
-                                    onChange={onChange}
-                                    // validate={({ form, field }) => {
-                                    //     form.validateForm();
-                                    // }}
-                                    onBlur={onBlur}
-                                />
-                            </div>
-                        )}
-                    />
-                    <p className="SingUnForm-error">{errors.phone?.message}</p>
-                </div>
-                <div>
-                    <Controller
-                        control={control}
-                        name="confirmPhone"
-                        render={({ field: { onChange, onBlur } }) => (
-                            <div>
-                                <div className="flag">
-                                    <img
-                                        src={`../../assets/images/Canadian_Flag.png`}
-                                        alt="Canadian Flag"
-                                        className="Input-flag"
-                                    />{' '}
-                                    +1
-                                </div>
-                                <MaskedInput
-                                    mask={[
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                    ]}
-                                    id="confirmPhone"
-                                    placeholder="Enter number here"
-                                    type="text"
-                                    {...register('confirmPhone')}
-                                    className="Input"
-                                    guide={false}
-                                    onChange={onChange}
-                                    onBlur={onBlur}
-                                />
-                            </div>
-                        )}
-                    />
-                    <p className="SingUnForm-error">
-                        {errors.confirmPhone?.message}
-                    </p>
-                </div>
-                <div>
-                    <InputField
+                    <input
                         id="password"
-                        {...register('password')}
-                        placeholder="Password"
+                        placeholder="Enter password here"
                         type={passwordShown ? 'text' : 'password'}
                         className="inputField"
-                        isEye={true}
-                        togglePassword={togglePassword}
+                        {...register('password', {
+                            required: 'Password is required',
+                            minLength: {
+                                value: 8,
+                                message:
+                                    'Password should be of at least 8 characters.',
+                            },
+                            pattern: {
+                                value: /^(?=.*?[#?!@$%^&*-])/,
+                                message: 'Need a special character.',
+                            },
+                        })}
                     />
+                    <button
+                        className="btn"
+                        onClick={togglePassword}
+                        type="button"
+                    >
+                        <AiOutlineEye />
+                    </button>
                     <p className="SingUnForm-error">
                         {errors.password?.message}
                     </p>
                 </div>
                 <div>
-                    <InputField
+                    <input
                         id="confirmPassword"
-                        {...register('confirmPassword')}
-                        placeholder="Confirm Password"
+                        placeholder="Confirm password here"
                         type={confirmPasswordShown ? 'text' : 'password'}
                         className="inputField"
-                        isEye={true}
-                        togglePassword={toggleConfirmPassword}
+                        {...register('confirmPassword', {
+                            required: 'Confirm password is required',
+                            validate: (value: string) => {
+                                return (
+                                    value === getValues('password') ||
+                                    'Passwords do not match.'
+                                )
+                            },
+                        })}
+                    />
+                    <button
+                        className="btn"
+                        onClick={toggleConfirmPassword}
+                        type="button"
+                    >
+                        <AiOutlineEye />
+                    </button>
+                    <p className="SingUnForm-error">
+                        {getValues('password') !==
+                            getValues('confirmPassword') &&
+                            errors.confirmPassword?.message}
+                    </p>
+                </div>
+                <div>
+                    <div className="flag">
+                        <img
+                            src={`../../assets/images/Canadian_Flag.png`}
+                            alt="Canadian Flag"
+                            className="Input-flag"
+                        />
+                        +1
+                    </div>
+                    <input
+                        id="phone"
+                        type="number"
+                        className="Input"
+                        placeholder="Enter phone number here"
+                        {...register('phone', {
+                            required: 'Phone is required',
+                            pattern: {
+                                value: /^[1-9]*$/,
+                                message: 'Please enter a valid phone number.',
+                            },
+                            maxLength: {
+                                value: 10,
+                                message: 'Phone should be maximum 10 digits.',
+                            },
+                            minLength: {
+                                value: 10,
+                                message: 'Phone requires at least 10 digits.',
+                            },
+                        })}
+                    />
+                    <p className="SingUnForm-error">{errors.phone?.message}</p>
+                </div>
+                <div>
+                    <div className="flag">
+                        <img
+                            src={`../../assets/images/Canadian_Flag.png`}
+                            alt="Canadian Flag"
+                            className="Input-flag"
+                        />
+                        +1
+                    </div>
+                    <input
+                        id="confirmPhone"
+                        placeholder="Confirm your phone number here"
+                        type="number"
+                        className="Input"
+                        {...register('confirmPhone', {
+                            required: 'Phone confirmation is required.',
+                            validate: (value) => {
+                                return (
+                                    value === getValues('phone') ||
+                                    'Phone numbers do not match'
+                                )
+                            },
+                        })}
                     />
                     <p className="SingUnForm-error">
-                        {errors.confirmPassword?.message}
+                        {getValues('phone') !== getValues('confirmPhone') &&
+                            errors.confirmPhone?.message}
                     </p>
                 </div>
                 <Button

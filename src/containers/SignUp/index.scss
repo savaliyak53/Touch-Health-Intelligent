@@ -38,3 +38,23 @@
     min-height: 25px;
     border: 1px solid #ced4da;
 }
+.btn {
+    padding: 0.6rem;
+    font-size: 1.2rem;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    margin-left: -2.76rem;
+    cursor: pointer;
+}
+.inputField {
+    flex: 1;
+    padding: 6px 12px;
+    width: 274px;
+    margin-bottom: 2px;
+    @extend %form-input;
+    line-height: 1;
+    font-size: 12px;
+    min-height: 25px;
+    border: 1px solid #ced4da;
+}
