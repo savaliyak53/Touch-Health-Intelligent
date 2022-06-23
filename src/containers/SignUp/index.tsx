@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { useForm, SubmitHandler, Controller } from 'react-hook-form'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 import { requestPhoneOTP } from '../../services/authservice'
 import { toast } from 'react-toastify'
 import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout'
 import Button from '../../components/Button'
-import InputField from '../../components/Input'
 import './index.scss'
 import { signUpService } from '../../services/authservice'
-import MaskedInput from 'react-text-mask'
-import { Input } from 'antd'
+import { AiOutlineEye } from 'react-icons/ai'
 
 type IFormInputs = {
     first_name: string
@@ -25,7 +21,6 @@ type IFormInputs = {
 
 const SignUp = () => {
     const navigate = useNavigate()
-    const [phoneLoading, setPhoneLoading] = useState<boolean>(false)
     const [passwordShown, setPasswordShown] = useState(false)
     const [confirmPasswordShown, setConfirmPasswordShown] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -35,22 +30,15 @@ const SignUp = () => {
         register,
         handleSubmit,
         reset,
-        control,
         getValues,
         formState: { errors },
     } = useForm<IFormInputs>({
-        mode: 'onChange',
-        reValidateMode: 'onChange',
-        // defaultValues: {},
-        // resolver: undefined,
-        // context: undefined,
-        // criteriaMode: 'firstError',
+        mode: 'all',
+        reValidateMode: 'onBlur',
         shouldFocusError: true,
         shouldUnregister: false,
-        // shouldUseNativeValidation: false,
-        delayError: undefined,
     })
-    const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+    const onSubmit = async (data: any) => {
         setIsLoading(true)
         setIsDisabled(true)
         const signUpResponse = await signUpService({
@@ -85,22 +73,17 @@ const SignUp = () => {
 
     const sendPhoneOTP = async () => {
         //api call to send email otp
-        setPhoneLoading(true)
         const userId = localStorage.getItem('userId')
         const phoneRequestResponse = await requestPhoneOTP(userId)
         if (phoneRequestResponse?.response?.data) {
-            setPhoneLoading(false)
             toast.error('Invalid Phone Number')
             return false
         } else {
-            setPhoneLoading(false)
             toast.success('You have signed up successfully')
             toast.success('Phone verification link sent')
             return true
         }
     }
-    console.log('errors are  ', errors)
-
     return (
         <AuthenticationLayout caption="Sign up Here">
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
@@ -108,11 +91,11 @@ const SignUp = () => {
                     <input
                         id="first_name"
                         {...register('first_name', {
-                            required: true,
+                            required: 'First name is required.',
                             maxLength: {
                                 value: 50,
                                 message:
-                                    'This input can have maximum 50 characters',
+                                    'First name can have maximum 50 characters.',
                             },
                         })}
                         placeholder="First name"
@@ -127,11 +110,11 @@ const SignUp = () => {
                     <input
                         id="last_name"
                         {...register('last_name', {
-                            required: true,
+                            required: 'Last name is required.',
                             maxLength: {
                                 value: 50,
                                 message:
-                                    'This input can have maximum 50 characters',
+                                    'Last name can have maximum 50 characters.',
                             },
                         })}
                         placeholder="Last name"
@@ -140,6 +123,65 @@ const SignUp = () => {
                     />
                     <p className="SingUnForm-error">
                         {errors.last_name?.message}
+                    </p>
+                </div>
+                <div>
+                    <input
+                        id="password"
+                        placeholder="Enter password here"
+                        type={passwordShown ? 'text' : 'password'}
+                        className="inputField"
+                        {...register('password', {
+                            required: 'Password is required',
+                            minLength: {
+                                value: 8,
+                                message:
+                                    'Password should be of at least 8 characters.',
+                            },
+                            pattern: {
+                                value: /^(?=.*?[#?!@$%^&*-])/,
+                                message: 'Need a special character.',
+                            },
+                        })}
+                    />
+                    <button
+                        className="btn"
+                        onClick={togglePassword}
+                        type="button"
+                    >
+                        <AiOutlineEye />
+                    </button>
+                    <p className="SingUnForm-error">
+                        {errors.password?.message}
+                    </p>
+                </div>
+                <div>
+                    <input
+                        id="confirmPassword"
+                        placeholder="Confirm password here"
+                        type={confirmPasswordShown ? 'text' : 'password'}
+                        className="inputField"
+                        {...register('confirmPassword', {
+                            required: 'Confirm password is required',
+                            validate: (value: string) => {
+                                return (
+                                    value === getValues('password') ||
+                                    'Passwords do not match.'
+                                )
+                            },
+                        })}
+                    />
+                    <button
+                        className="btn"
+                        onClick={toggleConfirmPassword}
+                        type="button"
+                    >
+                        <AiOutlineEye />
+                    </button>
+                    <p className="SingUnForm-error">
+                        {getValues('password') !==
+                            getValues('confirmPassword') &&
+                            errors.confirmPassword?.message}
                     </p>
                 </div>
                 <div>
@@ -157,19 +199,18 @@ const SignUp = () => {
                         className="Input"
                         placeholder="Enter phone number here"
                         {...register('phone', {
-                            required: true,
+                            required: 'Phone is required',
                             pattern: {
-                                value: /^[1-9]\d*$/,
-                                message:
-                                    'Please enter a valid phone number(regex)',
+                                value: /^[1-9]*$/,
+                                message: 'Please enter a valid phone number.',
                             },
                             maxLength: {
                                 value: 10,
-                                message: 'Phone should be maximum 10 digits',
+                                message: 'Phone should be maximum 10 digits.',
                             },
                             minLength: {
                                 value: 10,
-                                message: 'Phone should 10 digits',
+                                message: 'Phone requires at least 10 digits.',
                             },
                         })}
                     />
@@ -190,58 +231,18 @@ const SignUp = () => {
                         type="number"
                         className="Input"
                         {...register('confirmPhone', {
-                            required: true,
-                            pattern: {
-                                value: /^[1-9]+[0-9]*$/,
-                                message:
-                                    'Please enter a valid phone number(regex)',
-                            },
-                            maxLength: {
-                                value: 10,
-                                message: 'Please enter a valid phone number',
-                            },
-                            minLength: {
-                                value: 10,
-                                message: 'Phone should 10 digits',
-                            },
+                            required: 'Phone confirmation is required.',
                             validate: (value) => {
                                 return (
                                     value === getValues('phone') ||
-                                    "Values don't match"
+                                    'Phone numbers do not match'
                                 )
                             },
                         })}
                     />
                     <p className="SingUnForm-error">
-                        {errors.confirmPhone?.message}
-                    </p>
-                </div>
-                <div>
-                    <InputField
-                        id="password"
-                        {...register('password')}
-                        placeholder="Password"
-                        type={passwordShown ? 'text' : 'password'}
-                        className="inputField"
-                        isEye={true}
-                        togglePassword={togglePassword}
-                    />
-                    <p className="SingUnForm-error">
-                        {errors.password?.message}
-                    </p>
-                </div>
-                <div>
-                    <InputField
-                        id="confirmPassword"
-                        {...register('confirmPassword')}
-                        placeholder="Confirm Password"
-                        type={confirmPasswordShown ? 'text' : 'password'}
-                        className="inputField"
-                        isEye={true}
-                        togglePassword={toggleConfirmPassword}
-                    />
-                    <p className="SingUnForm-error">
-                        {errors.confirmPassword?.message}
+                        {getValues('phone') !== getValues('confirmPhone') &&
+                            errors.confirmPhone?.message}
                     </p>
                 </div>
                 <Button
