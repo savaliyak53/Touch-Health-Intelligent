@@ -15,24 +15,24 @@ interface InputProps {
     value?: string
     togglePassword?: any
     defaultValue?: any
+    validate?: any
+    register?: any
 }
 
 const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
-    (
-        {
-            name,
-            placeholder,
-            type,
-            className,
-            style,
-            defaultValue,
-            value,
-            isEye,
-            togglePassword,
-            ...rest
-        },
-        ref
-    ) => {
+    ({
+        name,
+        placeholder,
+        type,
+        className,
+        style,
+        defaultValue,
+        value,
+        isEye,
+        togglePassword,
+        register,
+        ...rest
+    }) => {
         return (
             <div className="input-element-wrapper">
                 <input
@@ -40,7 +40,7 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
                     name={name}
                     className={className}
                     placeholder={placeholder}
-                    ref={ref}
+                    // {...register({ name })}
                     value={value}
                     style={style}
                     {...rest}

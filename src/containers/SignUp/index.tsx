@@ -72,6 +72,7 @@ const SignUp = () => {
         handleSubmit,
         reset,
         control,
+        getValues,
         formState: { errors },
     } = useForm<IFormInputs>({
         mode: 'onChange',
@@ -155,89 +156,54 @@ const SignUp = () => {
                     </p>
                 </div>
                 <div>
-                    <Controller
-                        control={control}
-                        name="phone"
-                        render={({ field: { onChange, onBlur } }) => (
-                            <div>
-                                <div className="flag">
-                                    <img
-                                        src={`../../assets/images/Canadian_Flag.png`}
-                                        alt="Canadian Flag"
-                                        className="Input-flag"
-                                    />{' '}
-                                    +1
-                                </div>
-                                <MaskedInput
-                                    mask={[
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                    ]}
-                                    id="phone"
-                                    placeholder="Enter number here"
-                                    type="text"
-                                    {...register('phone')}
-                                    className="Input"
-                                    guide={false}
-                                    onChange={onChange}
-                                    // validate={({ form, field }) => {
-                                    //     form.validateForm();
-                                    // }}
-                                    onBlur={onBlur}
-                                />
-                            </div>
-                        )}
+                    <div className="flag">
+                        <img
+                            src={`../../assets/images/Canadian_Flag.png`}
+                            alt="Canadian Flag"
+                            className="Input-flag"
+                        />
+                        +1
+                    </div>
+                    <input
+                        type="text"
+                        // name="phone"
+                        className="Input"
+                        placeholder="Enter phone number here"
+                        {...register('phone', {
+                            validate: {
+                                required: (v) =>
+                                    parseInt(v) == null ||
+                                    'Phone number is requireddddddd',
+                                lessThanTen: (v) =>
+                                    parseInt(v) < 10 ||
+                                    'should be lower than 10',
+                            },
+                        })}
                     />
-                    <p className="SingUnForm-error">{errors.phone?.message}</p>
                 </div>
                 <div>
-                    <Controller
-                        control={control}
-                        name="confirmPhone"
-                        render={({ field: { onChange, onBlur } }) => (
-                            <div>
-                                <div className="flag">
-                                    <img
-                                        src={`../../assets/images/Canadian_Flag.png`}
-                                        alt="Canadian Flag"
-                                        className="Input-flag"
-                                    />{' '}
-                                    +1
-                                </div>
-                                <MaskedInput
-                                    mask={[
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                        /\d/,
-                                    ]}
-                                    id="confirmPhone"
-                                    placeholder="Enter number here"
-                                    type="text"
-                                    {...register('confirmPhone')}
-                                    className="Input"
-                                    guide={false}
-                                    onChange={onChange}
-                                    onBlur={onBlur}
-                                />
-                            </div>
-                        )}
+                    <div className="flag">
+                        <img
+                            src={`../../assets/images/Canadian_Flag.png`}
+                            alt="Canadian Flag"
+                            className="Input-flag"
+                        />
+                        +1
+                    </div>
+                    <InputField
+                        id="confirmPhone"
+                        {...register('confirmPhone', { required: true })}
+                        placeholder="Confirm your phone number here"
+                        type="text"
+                        className="Input"
+                        {...register('phone', {
+                            validate: (value) => {
+                                if (value === getValues('confirmPhone')) {
+                                    console.log('one two three')
+                                }
+                                return value === getValues('confirmPhone')
+                            },
+                        })}
                     />
                     <p className="SingUnForm-error">
                         {errors.confirmPhone?.message}
