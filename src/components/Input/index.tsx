@@ -40,7 +40,7 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
                     name={name}
                     className={className}
                     placeholder={placeholder}
-                    // {...register({ name })}
+                    ref={register}
                     value={value}
                     style={style}
                     {...rest}

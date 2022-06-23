@@ -12,6 +12,7 @@ import InputField from '../../components/Input'
 import './index.scss'
 import { signUpService } from '../../services/authservice'
 import MaskedInput from 'react-text-mask'
+import { Input } from 'antd'
 
 type IFormInputs = {
     first_name: string
@@ -29,43 +30,6 @@ const SignUp = () => {
     const [confirmPasswordShown, setConfirmPasswordShown] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
-    const schema = yup
-        .object()
-        .shape({
-            first_name: yup
-                .string()
-                .max(100, 'Max 100 characters')
-                .required('First name  is required.'),
-            last_name: yup
-                .string()
-                .max(100, 'Max 100 characters')
-                .required('Last name is required.'),
-            phone: yup
-                .string()
-                .required('Phone number is required.')
-                .min(10, 'Phone number requires at least 10 digits')
-                .max(10, 'Phone number requires maximum 10 digits'),
-            confirmPhone: yup
-                .string()
-                .required('Phone confirmation is required.')
-                .oneOf(
-                    [yup.ref('phone'), null],
-                    'Your phone numbers do not match.'
-                ),
-            password: yup
-                .string()
-                .required('Password is required.')
-                .min(8, 'Password must be at least 8 characters.')
-                .matches(/^(?=.*?[#?!@$%^&*-])/, 'Need one special character.'),
-            confirmPassword: yup
-                .string()
-                .required('Password confirmation is required.')
-                .oneOf(
-                    [yup.ref('password'), null],
-                    'Your passwords do not match.'
-                ),
-        })
-        .required()
 
     const {
         register,
@@ -76,7 +40,15 @@ const SignUp = () => {
         formState: { errors },
     } = useForm<IFormInputs>({
         mode: 'onChange',
-        resolver: yupResolver(schema),
+        reValidateMode: 'onChange',
+        // defaultValues: {},
+        // resolver: undefined,
+        // context: undefined,
+        // criteriaMode: 'firstError',
+        shouldFocusError: true,
+        shouldUnregister: false,
+        // shouldUseNativeValidation: false,
+        delayError: undefined,
     })
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
         setIsLoading(true)
@@ -127,14 +99,22 @@ const SignUp = () => {
             return true
         }
     }
+    console.log('errors are  ', errors)
 
     return (
         <AuthenticationLayout caption="Sign up Here">
             <form onSubmit={handleSubmit(onSubmit)} className="SingUnForm-form">
                 <div>
-                    <InputField
+                    <input
                         id="first_name"
-                        {...register('first_name', { required: true })}
+                        {...register('first_name', {
+                            required: true,
+                            maxLength: {
+                                value: 50,
+                                message:
+                                    'This input can have maximum 50 characters',
+                            },
+                        })}
                         placeholder="First name"
                         type="text"
                         className="inputField"
@@ -144,9 +124,16 @@ const SignUp = () => {
                     </p>
                 </div>
                 <div>
-                    <InputField
+                    <input
                         id="last_name"
-                        {...register('last_name', { required: true })}
+                        {...register('last_name', {
+                            required: true,
+                            maxLength: {
+                                value: 50,
+                                message:
+                                    'This input can have maximum 50 characters',
+                            },
+                        })}
                         placeholder="Last name"
                         type="text"
                         className="inputField"
@@ -165,21 +152,28 @@ const SignUp = () => {
                         +1
                     </div>
                     <input
-                        type="text"
-                        // name="phone"
+                        id="phone"
+                        type="number"
                         className="Input"
                         placeholder="Enter phone number here"
                         {...register('phone', {
-                            validate: {
-                                required: (v) =>
-                                    parseInt(v) == null ||
-                                    'Phone number is requireddddddd',
-                                lessThanTen: (v) =>
-                                    parseInt(v) < 10 ||
-                                    'should be lower than 10',
+                            required: true,
+                            pattern: {
+                                value: /^[1-9]\d*$/,
+                                message:
+                                    'Please enter a valid phone number(regex)',
+                            },
+                            maxLength: {
+                                value: 10,
+                                message: 'Phone should be maximum 10 digits',
+                            },
+                            minLength: {
+                                value: 10,
+                                message: 'Phone should 10 digits',
                             },
                         })}
                     />
+                    <p className="SingUnForm-error">{errors.phone?.message}</p>
                 </div>
                 <div>
                     <div className="flag">
@@ -190,18 +184,31 @@ const SignUp = () => {
                         />
                         +1
                     </div>
-                    <InputField
+                    <input
                         id="confirmPhone"
-                        {...register('confirmPhone', { required: true })}
                         placeholder="Confirm your phone number here"
-                        type="text"
+                        type="number"
                         className="Input"
-                        {...register('phone', {
+                        {...register('confirmPhone', {
+                            required: true,
+                            pattern: {
+                                value: /^[1-9]+[0-9]*$/,
+                                message:
+                                    'Please enter a valid phone number(regex)',
+                            },
+                            maxLength: {
+                                value: 10,
+                                message: 'Please enter a valid phone number',
+                            },
+                            minLength: {
+                                value: 10,
+                                message: 'Phone should 10 digits',
+                            },
                             validate: (value) => {
-                                if (value === getValues('confirmPhone')) {
-                                    console.log('one two three')
-                                }
-                                return value === getValues('confirmPhone')
+                                return (
+                                    value === getValues('phone') ||
+                                    "Values don't match"
+                                )
                             },
                         })}
                     />
