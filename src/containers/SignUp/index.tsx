@@ -201,7 +201,7 @@ const SignUp = () => {
                         {...register('phone', {
                             required: 'Phone is required',
                             pattern: {
-                                value: /^[1-9]*$/,
+                                value: /^[0-9]*$/,
                                 message: 'Please enter a valid phone number.',
                             },
                             maxLength: {
