@@ -195,7 +195,7 @@ const SignUp = () => {
                     </div>
                     <input
                         id="phone"
-                        type="number"
+                        type="tel"
                         className="Input"
                         placeholder="Enter phone number here"
                         {...register('phone', {
@@ -228,7 +228,7 @@ const SignUp = () => {
                     <input
                         id="confirmPhone"
                         placeholder="Confirm your phone number here"
-                        type="number"
+                        type="tel"
                         className="Input"
                         {...register('confirmPhone', {
                             required: 'Phone confirmation is required.',
