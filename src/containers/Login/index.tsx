@@ -54,7 +54,7 @@ const Login = () => {
             setIsDisabled(false)
             setIsLoading(false)
             localStorage.setItem('token', `${loginResponse.token}`)
-            toast.success('You have login successfully.')
+            toast.success('You have logged in successfully.')
             navigate('/preferences')
         } else {
             setIsDisabled(false)

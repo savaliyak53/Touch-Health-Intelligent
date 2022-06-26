@@ -59,7 +59,7 @@ const SignUp = () => {
         } else {
             setIsDisabled(false)
             setIsLoading(false)
-            toast.error(signUpResponse?.response?.data?.error?.message)
+            toast.error(signUpResponse?.response?.data?.details?.message)
         }
     }
 
@@ -125,65 +125,7 @@ const SignUp = () => {
                         {errors.last_name?.message}
                     </p>
                 </div>
-                <div>
-                    <input
-                        id="password"
-                        placeholder="Enter password here"
-                        type={passwordShown ? 'text' : 'password'}
-                        className="inputField"
-                        {...register('password', {
-                            required: 'Password is required',
-                            minLength: {
-                                value: 8,
-                                message:
-                                    'Password should be of at least 8 characters.',
-                            },
-                            pattern: {
-                                value: /^(?=.*?[#?!@$%^&*-])/,
-                                message: 'Need a special character.',
-                            },
-                        })}
-                    />
-                    <button
-                        className="btn"
-                        onClick={togglePassword}
-                        type="button"
-                    >
-                        <AiOutlineEye />
-                    </button>
-                    <p className="SingUnForm-error">
-                        {errors.password?.message}
-                    </p>
-                </div>
-                <div>
-                    <input
-                        id="confirmPassword"
-                        placeholder="Confirm password here"
-                        type={confirmPasswordShown ? 'text' : 'password'}
-                        className="inputField"
-                        {...register('confirmPassword', {
-                            required: 'Confirm password is required',
-                            validate: (value: string) => {
-                                return (
-                                    value === getValues('password') ||
-                                    'Passwords do not match.'
-                                )
-                            },
-                        })}
-                    />
-                    <button
-                        className="btn"
-                        onClick={toggleConfirmPassword}
-                        type="button"
-                    >
-                        <AiOutlineEye />
-                    </button>
-                    <p className="SingUnForm-error">
-                        {getValues('password') !==
-                            getValues('confirmPassword') &&
-                            errors.confirmPassword?.message}
-                    </p>
-                </div>
+
                 <div>
                     <div className="flag">
                         <img
@@ -243,6 +185,65 @@ const SignUp = () => {
                     <p className="SingUnForm-error">
                         {getValues('phone') !== getValues('confirmPhone') &&
                             errors.confirmPhone?.message}
+                    </p>
+                </div>
+                <div>
+                    <input
+                        id="password"
+                        placeholder="Enter password here"
+                        type={passwordShown ? 'text' : 'password'}
+                        className="inputField"
+                        {...register('password', {
+                            required: 'Password is required',
+                            minLength: {
+                                value: 8,
+                                message:
+                                    'Password should be of at least 8 characters.',
+                            },
+                            pattern: {
+                                value: /^(?=.*?[#?!@$%^&*-])/,
+                                message: 'Need a special character.',
+                            },
+                        })}
+                    />
+                    <button
+                        className="btn"
+                        onClick={togglePassword}
+                        type="button"
+                    >
+                        <AiOutlineEye />
+                    </button>
+                    <p className="SingUnForm-error">
+                        {errors.password?.message}
+                    </p>
+                </div>
+                <div>
+                    <input
+                        id="confirmPassword"
+                        placeholder="Confirm password here"
+                        type={confirmPasswordShown ? 'text' : 'password'}
+                        className="inputField"
+                        {...register('confirmPassword', {
+                            required: 'Confirm password is required',
+                            validate: (value: string) => {
+                                return (
+                                    value === getValues('password') ||
+                                    'Passwords do not match.'
+                                )
+                            },
+                        })}
+                    />
+                    <button
+                        className="btn"
+                        onClick={toggleConfirmPassword}
+                        type="button"
+                    >
+                        <AiOutlineEye />
+                    </button>
+                    <p className="SingUnForm-error">
+                        {getValues('password') !==
+                            getValues('confirmPassword') &&
+                            errors.confirmPassword?.message}
                     </p>
                 </div>
                 <Button

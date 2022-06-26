@@ -17,8 +17,9 @@
 }
 .intro {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: right;
+    justify-content: right;
+    padding-left: 40px;
 }
 
 .mt-1 {
@@ -36,6 +37,7 @@
     min-height: 25px;
     margin-top: 3rem;
     padding: 10px;
+    padding-right: 15px;
 }
 .checkbox {
     margin-bottom: 2px;
