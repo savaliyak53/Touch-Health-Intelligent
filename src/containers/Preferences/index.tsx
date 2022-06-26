@@ -114,9 +114,9 @@ const Preferences = () => {
 
                 <div>
                     <div className="question">
-                        What are your preferred times to be contacted? [select
-                        all that apply]
+                        What are your preferred times to be contacted?
                     </div>
+                    <p>[select all that apply]</p>
                     <br />
                     <ul
                         className="no-bullets"
@@ -146,11 +146,11 @@ const Preferences = () => {
                     <p className="Preferences-form-error">
                         <br />
                         {errors?.timeOfDay &&
-                            'Please select at least one option'}
+                            'Please select at least one option.'}
                     </p>
                 </div>
                 <Button
-                    className="mt-3"
+                    className="mt-2"
                     size="lg"
                     loading={isLoading}
                     disabled={isDisabled}

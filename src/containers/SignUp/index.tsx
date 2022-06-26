@@ -59,7 +59,7 @@ const SignUp = () => {
         } else {
             setIsDisabled(false)
             setIsLoading(false)
-            toast.error(signUpResponse?.response?.data?.error?.message)
+            toast.error(signUpResponse?.response?.data?.details?.message)
         }
     }
 
@@ -125,6 +125,68 @@ const SignUp = () => {
                         {errors.last_name?.message}
                     </p>
                 </div>
+
+                <div>
+                    <div className="flag">
+                        <img
+                            src={`../../assets/images/Canadian_Flag.png`}
+                            alt="Canadian Flag"
+                            className="Input-flag"
+                        />
+                        +1
+                    </div>
+                    <input
+                        id="phone"
+                        type="tel"
+                        className="Input"
+                        placeholder="Enter phone number here"
+                        {...register('phone', {
+                            required: 'Phone is required',
+                            pattern: {
+                                value: /^[0-9]*$/,
+                                message: 'Please enter a valid phone number.',
+                            },
+                            maxLength: {
+                                value: 10,
+                                message: 'Phone should be maximum 10 digits.',
+                            },
+                            minLength: {
+                                value: 10,
+                                message: 'Phone requires at least 10 digits.',
+                            },
+                        })}
+                    />
+                    <p className="SingUnForm-error">{errors.phone?.message}</p>
+                </div>
+                <div>
+                    <div className="flag">
+                        <img
+                            src={`../../assets/images/Canadian_Flag.png`}
+                            alt="Canadian Flag"
+                            className="Input-flag"
+                        />
+                        +1
+                    </div>
+                    <input
+                        id="confirmPhone"
+                        placeholder="Confirm your phone number here"
+                        type="tel"
+                        className="Input"
+                        {...register('confirmPhone', {
+                            required: 'Phone confirmation is required.',
+                            validate: (value) => {
+                                return (
+                                    value === getValues('phone') ||
+                                    'Phone numbers do not match'
+                                )
+                            },
+                        })}
+                    />
+                    <p className="SingUnForm-error">
+                        {getValues('phone') !== getValues('confirmPhone') &&
+                            errors.confirmPhone?.message}
+                    </p>
+                </div>
                 <div>
                     <input
                         id="password"
@@ -182,67 +244,6 @@ const SignUp = () => {
                         {getValues('password') !==
                             getValues('confirmPassword') &&
                             errors.confirmPassword?.message}
-                    </p>
-                </div>
-                <div>
-                    <div className="flag">
-                        <img
-                            src={`../../assets/images/Canadian_Flag.png`}
-                            alt="Canadian Flag"
-                            className="Input-flag"
-                        />
-                        +1
-                    </div>
-                    <input
-                        id="phone"
-                        type="number"
-                        className="Input"
-                        placeholder="Enter phone number here"
-                        {...register('phone', {
-                            required: 'Phone is required',
-                            pattern: {
-                                value: /^[0-9]*$/,
-                                message: 'Please enter a valid phone number.',
-                            },
-                            maxLength: {
-                                value: 10,
-                                message: 'Phone should be maximum 10 digits.',
-                            },
-                            minLength: {
-                                value: 10,
-                                message: 'Phone requires at least 10 digits.',
-                            },
-                        })}
-                    />
-                    <p className="SingUnForm-error">{errors.phone?.message}</p>
-                </div>
-                <div>
-                    <div className="flag">
-                        <img
-                            src={`../../assets/images/Canadian_Flag.png`}
-                            alt="Canadian Flag"
-                            className="Input-flag"
-                        />
-                        +1
-                    </div>
-                    <input
-                        id="confirmPhone"
-                        placeholder="Confirm your phone number here"
-                        type="number"
-                        className="Input"
-                        {...register('confirmPhone', {
-                            required: 'Phone confirmation is required.',
-                            validate: (value) => {
-                                return (
-                                    value === getValues('phone') ||
-                                    'Phone numbers do not match'
-                                )
-                            },
-                        })}
-                    />
-                    <p className="SingUnForm-error">
-                        {getValues('phone') !== getValues('confirmPhone') &&
-                            errors.confirmPhone?.message}
                     </p>
                 </div>
                 <Button
