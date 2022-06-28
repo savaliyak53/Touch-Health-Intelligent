@@ -30,7 +30,6 @@ function UserCondition() {
     const [value, setValue] = useState<string>()
     const getInteraction = async () => {
         const question: any = await getInteractionService()
-        console.log('response', question)
         setQuestion(question)
     }
     useEffect(() => {
@@ -61,11 +60,9 @@ function UserCondition() {
                 shared: true,
             },
         })
-        // console.log('response ', response)
         if (response?.response.data.details.response.detail[0].msg) {
             toast(response?.response.data.details.response.detail[0].msg)
         }
-        // handleRedirect()
     }
 
     return (
