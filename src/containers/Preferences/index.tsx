@@ -18,7 +18,7 @@ type IFormInputs = {
 const Preferences = () => {
     const userId = localStorage.getItem('userId')
     const navigate = useNavigate()
-    const [time, setTime] = useState(0)
+    const [time, setTime] = useState(3)
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
 
