@@ -1,4 +1,9 @@
-import { ISignUp, ILogin, IPreferencesService } from '../interfaces'
+import {
+    ISignUp,
+    ILogin,
+    IPreferencesService,
+    InteractionService,
+} from '../interfaces'
 import APIClient from '../utils/axios'
 
 export const signUpService = async (data: ISignUp) => {
@@ -83,12 +88,31 @@ export const verifyPhoneOTP = async (
         return error
     }
 }
+
 export const preferencesService = async (
     data: IPreferencesService,
     id: string | null
 ) => {
     try {
         const res = await APIClient(`/api/v1/users/${id}`, 'put', data)
+        if (res) return res.data
+    } catch (err) {
+        return err
+    }
+}
+
+export const getInteractionService = async () => {
+    try {
+        const res = await APIClient(`/api/v1/interaction/`, 'get')
+        if (res) return res.data
+    } catch (err) {
+        return err
+    }
+}
+
+export const postInteractionService = async (data: InteractionService) => {
+    try {
+        const res = await APIClient(`/api/v1/interaction/`, 'post', data)
         if (res) return res.data
     } catch (err) {
         return err
