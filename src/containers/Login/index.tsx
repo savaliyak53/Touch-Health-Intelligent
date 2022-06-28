@@ -10,10 +10,17 @@ import Button from '../../components/Button'
 import InputField from '../../components/Input'
 import './index.scss'
 import { loginService } from '../../services/authservice'
+import jwt from 'jwt-decode'
 
 type IFormInputs = {
     username: string
     password: string
+}
+
+type User = {
+    exp: string
+    iat: string
+    id: string
 }
 
 const Login = () => {
@@ -45,6 +52,11 @@ const Login = () => {
         resolver: yupResolver(schema),
     })
 
+    const getId = (token: string) => {
+        const user: User = jwt(token)
+        return user.id
+    }
+
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
         setIsLoading(true)
         setIsDisabled(true)
@@ -54,6 +66,8 @@ const Login = () => {
             setIsDisabled(false)
             setIsLoading(false)
             localStorage.setItem('token', `${loginResponse.token}`)
+            const userId = getId(loginResponse.token)
+            localStorage.setItem('userId', userId)
             toast.success('You have logged in successfully.')
             navigate('/preferences')
         } else {
