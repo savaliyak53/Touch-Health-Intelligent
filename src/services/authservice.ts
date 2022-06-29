@@ -117,3 +117,7 @@ export const postInteractionService = async (data: InteractionService) => {
         return err
     }
 }
+
+export const getUser = (id: string) => {
+    return APIClient(`/api/v1/users/${id}`, 'GET')
+}
