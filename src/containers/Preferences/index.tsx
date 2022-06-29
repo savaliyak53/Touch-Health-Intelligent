@@ -47,7 +47,7 @@ const Preferences = () => {
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
         const prefereceData = {
             preferences: {
-                minutes_per_week: time,
+                minutes_per_week: time ?? 3,
                 time_of_day: data.timeOfDay,
             },
         }

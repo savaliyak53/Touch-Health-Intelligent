@@ -9,7 +9,7 @@ import AuthenticationLayout from '../../layouts/authentication-layout/Authentica
 import Button from '../../components/Button'
 import InputField from '../../components/Input'
 import './index.scss'
-import { loginService } from '../../services/authservice'
+import { getInteractionService, loginService } from '../../services/authservice'
 import jwt from 'jwt-decode'
 
 type IFormInputs = {
@@ -68,8 +68,8 @@ const Login = () => {
             localStorage.setItem('token', `${loginResponse.token}`)
             const userId = getId(loginResponse.token)
             localStorage.setItem('userId', userId)
-            toast.success('You have logged in successfully.')
-            navigate('/preferences')
+            // toast.success('You have logged in successfully.')
+            getInteraction()
         } else {
             setIsDisabled(false)
             setIsLoading(false)
@@ -79,6 +79,23 @@ const Login = () => {
 
     const togglePassword = () => {
         setPasswordShown(!passwordShown)
+    }
+
+    const getInteraction = async () => {
+        getInteractionService()
+            .then((response: any) => {
+                if (response.data.question) {
+                    navigate('/questionnaire')
+                } else {
+                    navigate('/preferences')
+                }
+            })
+            .catch((error) => {
+                console.log(
+                    'error occurred while getting user interaction ',
+                    error
+                )
+            })
     }
 
     return (

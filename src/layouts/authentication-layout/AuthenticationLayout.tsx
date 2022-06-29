@@ -6,7 +6,7 @@ type Props = {
     caption: string
     children?: React.ReactChild | React.ReactChild[]
 }
-
+//TODO(<HamzaIjaz>): Rename this component to authorised user layout
 const AuthenticationLayout = ({ children, caption }: Props) => {
     return (
         <div className="AuthenticationLayout">

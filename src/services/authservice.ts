@@ -102,15 +102,14 @@ export const preferencesService = async (
 }
 
 export const getInteractionService = async () => {
-    try {
-        const res = await APIClient(`/api/v1/interaction/`, 'get')
-        if (res) return res.data
-    } catch (err) {
-        return err
-    }
+    //only return the service like this and resolve the promise where you are calling this actual API
+    //TODO(<HamzaIjaz>): Refactor all the API calls like this
+    //TODO(<HamzaIjaz>): Create a new service file for interaction services and move this APi there
+    return APIClient(`/api/v1/interaction/`, 'get')
 }
 
 export const postInteractionService = async (data: InteractionService) => {
+    //TODO(<HamzaIjaz>): Create a new service file for interaction services and move this APi there
     try {
         const res = await APIClient(`/api/v1/interaction/`, 'post', data)
         if (res) return res.data
