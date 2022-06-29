@@ -1,15 +1,12 @@
 import React from 'react'
-import TextField from '@mui/material/TextField'
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { TimePicker } from '@mui/x-date-pickers/TimePicker'
-
+import moment from 'moment'
+import { TimePicker } from 'antd'
 interface Props {
     type: string | undefined
     q_str: string | undefined
-    value: string | undefined
+    questionValue: string
     control: any
-    setValue: any
+    setQuestionValue: any
     register: any
     errors: any
 }
@@ -25,11 +22,11 @@ const Question = ({
     control,
     register,
     errors,
-    value,
-    setValue,
+    questionValue,
+    setQuestionValue,
 }: Props) => {
     return (
-        <>
+        <div style={{ textAlign: 'center' }}>
             {mapArray.map((obj) => {
                 switch (type) {
                     case 'time':
@@ -38,7 +35,18 @@ const Question = ({
                                 <div className="question">{q_str}</div>
                                 <br />
                                 <>
-                                    <LocalizationProvider
+                                    <TimePicker
+                                        // defaultValue={moment(
+                                        //     new Date(),
+                                        //     'h:mm'
+                                        // )}
+                                        format={'h:mm'}
+                                        use12Hours
+                                        onChange={(time, timeString) => {
+                                            setQuestionValue(timeString)
+                                        }}
+                                    />
+                                    {/* <LocalizationProvider
                                         dateAdapter={AdapterDateFns}
                                     >
                                         <TimePicker
@@ -50,7 +58,7 @@ const Question = ({
                                                 <TextField {...params} />
                                             )}
                                         />
-                                    </LocalizationProvider>
+                                    </LocalizationProvider> */}
                                 </>
                                 <br />
                                 {errors.questionnaire && (
@@ -62,7 +70,7 @@ const Question = ({
                         )
                 }
             })}
-        </>
+        </div>
     )
 }
 
