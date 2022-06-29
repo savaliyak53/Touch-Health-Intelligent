@@ -9,7 +9,11 @@ import AuthenticationLayout from '../../layouts/authentication-layout/Authentica
 import Button from '../../components/Button'
 import InputField from '../../components/Input'
 import './index.scss'
-import { getInteractionService, loginService } from '../../services/authservice'
+import {
+    getInteractionService,
+    getUser,
+    loginService,
+} from '../../services/authservice'
 import jwt from 'jwt-decode'
 
 type IFormInputs = {
@@ -69,7 +73,7 @@ const Login = () => {
             const userId = getId(loginResponse.token)
             localStorage.setItem('userId', userId)
             // toast.success('You have logged in successfully.')
-            getInteraction()
+            getUserInfo(userId)
         } else {
             setIsDisabled(false)
             setIsLoading(false)
@@ -81,10 +85,10 @@ const Login = () => {
         setPasswordShown(!passwordShown)
     }
 
-    const getInteraction = async () => {
-        getInteractionService()
+    const getUserInfo = (userId: string) => {
+        getUser(userId)
             .then((response: any) => {
-                if (response.data.question) {
+                if (response.data.preferences) {
                     navigate('/questionnaire')
                 } else {
                     navigate('/preferences')
