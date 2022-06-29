@@ -26,7 +26,7 @@ const Question = ({
     setQuestionValue,
 }: Props) => {
     return (
-        <>
+        <div style={{ textAlign: 'center' }}>
             {mapArray.map((obj) => {
                 switch (type) {
                     case 'time':
@@ -36,10 +36,10 @@ const Question = ({
                                 <br />
                                 <>
                                     <TimePicker
-                                        defaultValue={moment(
-                                            new Date(),
-                                            'h:mm'
-                                        )}
+                                        // defaultValue={moment(
+                                        //     new Date(),
+                                        //     'h:mm'
+                                        // )}
                                         format={'h:mm'}
                                         use12Hours
                                         onChange={(time, timeString) => {
@@ -70,7 +70,7 @@ const Question = ({
                         )
                 }
             })}
-        </>
+        </div>
     )
 }
 
