@@ -2,7 +2,9 @@ name: Unit tests, build and push image
 on:
   push:
     branches:
-      - main
+      - develop
+      # - main
+      # - deploy-ci
   pull_request:
     branches:
       - main
