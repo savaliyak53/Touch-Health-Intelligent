@@ -110,12 +110,7 @@ export const getInteractionService = async () => {
 
 export const postInteractionService = async (data: InteractionService) => {
     //TODO(<HamzaIjaz>): Create a new service file for interaction services and move this APi there
-    try {
-        const res = await APIClient(`/api/v1/interaction/`, 'post', data)
-        if (res) return res.data
-    } catch (err) {
-        return err
-    }
+    return APIClient(`/api/v1/interaction/`, 'post', data)
 }
 
 export const getUser = (id: string) => {
