@@ -28,6 +28,7 @@ type Interaction = {
 function UserCondition() {
     const [question, setQuestion] = useState<Interaction | any>()
     const [value, setValue] = useState<string>('')
+    const [loading, setLoading] = useState<boolean>(false)
     const getInteraction = async () => {
         //resolve the service using promise
         //TODO(<HamzaIjaz>): Refactor all the API calls like this
@@ -59,22 +60,37 @@ function UserCondition() {
     } = useForm<any>({ mode: 'onChange' })
 
     const onSubmit = async () => {
+        setLoading(true)
         if (!value) {
             toast.error('Please select a value')
             return
         }
-        const { data } = await postInteractionService({
+        postInteractionService({
             type: question?.type,
             ref_id: question?.ref_id,
             question_response: {
                 ref_id: question.ref_id,
                 type: question.type,
-                selected_time: value,
+                value: value,
             },
             reward_nugget_response: {
                 shared: true,
             },
         })
+            .then(({ data }) => {
+                setLoading(false)
+                toast.success(data.reward_nugget.congratulations_str)
+                if (data.question) {
+                    setQuestion(data.question)
+                } else {
+                    //navigate to dashboard
+                }
+            })
+            .catch((error) => {
+                console.log('error is ', error)
+                setLoading(false)
+                toast.error('Somethig went wrong')
+            })
         // if (data.details.response.detail[0].msg) {
         //     toast(data.details.response.detail[0].msg)
         // }

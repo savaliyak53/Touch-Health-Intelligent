@@ -23,7 +23,7 @@ export interface InteractionService {
     question_response: {
         ref_id: string | undefined
         type: string | undefined
-        selected_time: string | undefined
+        value: any
     }
     reward_nugget_response: {
         shared: boolean
