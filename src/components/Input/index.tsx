@@ -1,8 +1,6 @@
 import React, { CSSProperties, FC, forwardRef } from 'react'
 import { AiOutlineEye } from 'react-icons/ai'
-
 import './index.scss'
-
 interface InputProps {
     id?: string
     name?: string
@@ -16,7 +14,6 @@ interface InputProps {
     togglePassword?: any
     defaultValue?: any
 }
-
 const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
     (
         {
@@ -47,7 +44,11 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
                     defaultValue={defaultValue}
                 />
                 {isEye ? (
-                    <button className="btn" onClick={togglePassword}>
+                    <button
+                        className="btn"
+                        onClick={togglePassword}
+                        type="button"
+                    >
                         <AiOutlineEye />
                     </button>
                 ) : null}
@@ -55,7 +56,5 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
         )
     }
 )
-
 InputField.displayName = 'InputField'
-
 export default InputField

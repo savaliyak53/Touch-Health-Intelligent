@@ -1,7 +1,9 @@
+import { Interface } from 'readline'
+
 export interface ISignUp {
-    email: string
     password: string
-    name: string
+    first_name: string
+    last_name: string
     phone: string
 }
 export interface ILogin {
@@ -12,6 +14,32 @@ export interface IPreferencesService {
     preferences: {
         minutes_per_week: number
         time_of_day: string[]
-        conditions: string[]
+    }
+}
+
+export interface InteractionService {
+    type: string | undefined
+    ref_id: string | undefined
+    question_response: {
+        ref_id: string | undefined
+        type: string | undefined
+        selected_time: string | undefined
+    }
+    reward_nugget_response: {
+        shared: boolean
+    }
+}
+
+export interface Interaction {
+    type: string
+    ref_id: string
+    question: {
+        ref_id: string
+        type: string
+        q_str: string
+    }
+    reward_nugget: {
+        congratulations_str: string
+        statistic_str: string
     }
 }

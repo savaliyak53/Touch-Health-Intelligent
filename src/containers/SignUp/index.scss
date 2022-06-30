@@ -2,14 +2,59 @@
 @import '../../components/form-styles/mobile/password';
 
 .SingUnForm-form {
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .SingUnForm-error {
-  color: red,
+    color: red;
+}
+
+.flag {
+    padding: 0.2rem;
+    position: absolute;
+    font-size: 1rem;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    margin-right: -2.76rem;
+}
+.Input-flag {
+    max-width: 15px;
+    height: 14px;
+}
+.Input {
+    flex: 1;
+    padding: 6px 12px;
+    padding-left: 35px;
+    width: 274px;
+    margin-bottom: 2px;
+    @extend %form-input;
+    line-height: 1;
+    font-size: 12px;
+    min-height: 25px;
+    border: 1px solid #ced4da;
+}
+.btn {
+    padding: 0.6rem;
+    font-size: 1.2rem;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    margin-left: -2.76rem;
+    cursor: pointer;
+}
+.inputField {
+    flex: 1;
+    padding: 6px 12px;
+    width: 274px;
+    margin-bottom: 2px;
+    @extend %form-input;
+    line-height: 1;
+    font-size: 12px;
+    min-height: 25px;
+    border: 1px solid #ced4da;
 }

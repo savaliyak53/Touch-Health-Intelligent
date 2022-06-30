@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Slider } from 'antd'
 import * as yup from 'yup'
 import './index.scss'
 import InputField from '../../components/Input'
@@ -15,35 +16,28 @@ type IFormInputs = {
     timeOfDay: string[]
 }
 const Preferences = () => {
-    // const { userId } = useParams()
     const userId = localStorage.getItem('userId')
     const navigate = useNavigate()
+    const [time, setTime] = useState(3)
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
-    useEffect(() => {
-        checkPreferences()
-    }, [])
-    const checkPreferences = async () => {
-        //will get preferences and set their
+
+    const marks = {
+        3: 3,
+        15: 15,
     }
 
     const schema = yup
         .object({
-            minutesPerWeek: yup
-                .number()
-                .required('Minutes Per Week is required')
-                .positive()
-                .min(1),
             timeOfDay: yup
                 .array()
-                .min(1, 'Please Select atleast One Option')
+                .min(1, 'Please Select at least one option')
                 .required('required'),
         })
         .required()
     const {
         register,
         handleSubmit,
-        // reset,
         formState: { errors },
     } = useForm<IFormInputs>({
         mode: 'onChange',
@@ -53,9 +47,8 @@ const Preferences = () => {
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
         const prefereceData = {
             preferences: {
-                minutes_per_week: data.minutesPerWeek,
+                minutes_per_week: time ?? 3,
                 time_of_day: data.timeOfDay,
-                conditions: ['sleep', 'mood'],
             },
         }
         setIsLoading(true)
@@ -77,33 +70,39 @@ const Preferences = () => {
     }
 
     const handleRedirect = () => {
-        navigate(`/questionnaire`)
+        navigate(`/introvideo`)
     }
 
-    const timeOfDay = ['Morning', 'Afternoon', 'Evenings']
+    const timeOfDay = ['Morning', 'Afternoon', 'Evening']
     return (
-        <AuthenticationLayout caption="Preferences">
+        <AuthenticationLayout caption="Engagement Preferences">
+            <p className="intro">
+                Your health assistant will get to know you over time by asking
+                <br />
+                questions every week. These settings help your health assistant
+                <br />
+                communicate with you around your own schedule.
+            </p>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="Preferences-form"
             >
                 <div>
                     <div className="question">
-                        How many minutes do you want to invest in interacting
-                        with tha every week?
+                        How many minutes per week would you dedicate to
+                        answering your health assistant questions?
                     </div>
                     <br />
                     <label>
-                        <InputField
+                        <Slider
                             id="minutesPerWeek"
                             {...register('minutesPerWeek', { required: true })}
-                            placeholder="Minutes Per Week"
-                            type="number"
-                            className="inputField mt-1"
-                            defaultValue={0}
-                            style={{
-                                width: 'max-content',
-                                marginRight: '10px',
+                            value={time}
+                            min={3}
+                            max={15}
+                            marks={marks}
+                            onChange={(value) => {
+                                setTime(value)
                             }}
                         />
                         Minutes
@@ -115,8 +114,9 @@ const Preferences = () => {
 
                 <div>
                     <div className="question">
-                        What are your prefered Times?
+                        What are your preferred times to be contacted?
                     </div>
+                    <p>[select all that apply]</p>
                     <br />
                     <ul
                         className="no-bullets"
@@ -134,7 +134,6 @@ const Preferences = () => {
                                             required: true,
                                         })}
                                         value={c}
-                                        //placeholder="Minutes Per Week"
                                         type="checkbox"
                                         className="checkbox"
                                     />
@@ -144,46 +143,14 @@ const Preferences = () => {
                         ))}
                     </ul>
                     <br />
-
                     <p className="Preferences-form-error">
+                        <br />
                         {errors?.timeOfDay &&
-                            'Please Select Atleast One Option'}
+                            'Please select at least one option.'}
                     </p>
                 </div>
-
-                <div>
-                    <div className="question">Do you want to get reminded?</div>
-                    <br />
-                    <ul className="no-bullets">
-                        <li>
-                            <label>
-                                <InputField
-                                    id="reminMe"
-                                    name="remindMe"
-                                    type="radio"
-                                    className="checkbox"
-                                    value="true"
-                                />
-                                Yes
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                <InputField
-                                    id="reminMe"
-                                    name="remindMe"
-                                    type="radio"
-                                    className="checkbox"
-                                    value="false"
-                                />
-                                No
-                            </label>
-                        </li>
-                    </ul>
-                    <br />
-                </div>
                 <Button
-                    className="mt-3"
+                    className="mt-2"
                     size="lg"
                     loading={isLoading}
                     disabled={isDisabled}

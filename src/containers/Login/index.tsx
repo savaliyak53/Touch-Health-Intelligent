@@ -9,11 +9,22 @@ import AuthenticationLayout from '../../layouts/authentication-layout/Authentica
 import Button from '../../components/Button'
 import InputField from '../../components/Input'
 import './index.scss'
-import { loginService } from '../../services/authservice'
+import {
+    getInteractionService,
+    getUser,
+    loginService,
+} from '../../services/authservice'
+import jwt from 'jwt-decode'
 
 type IFormInputs = {
     username: string
     password: string
+}
+
+type User = {
+    exp: string
+    iat: string
+    id: string
 }
 
 const Login = () => {
@@ -25,7 +36,7 @@ const Login = () => {
     useEffect(() => {
         const token = localStorage.getItem('token')
         if (token) {
-            navigate(`/introvideo`)
+            navigate(`/preferences`)
         }
     }, [])
     const schema = yup
@@ -45,6 +56,11 @@ const Login = () => {
         resolver: yupResolver(schema),
     })
 
+    const getId = (token: string) => {
+        const user: User = jwt(token)
+        return user.id
+    }
+
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
         setIsLoading(true)
         setIsDisabled(true)
@@ -54,8 +70,10 @@ const Login = () => {
             setIsDisabled(false)
             setIsLoading(false)
             localStorage.setItem('token', `${loginResponse.token}`)
-            toast.success('You have login successfully.')
-            navigate('/preferences')
+            const userId = getId(loginResponse.token)
+            localStorage.setItem('userId', userId)
+            // toast.success('You have logged in successfully.')
+            getUserInfo(userId)
         } else {
             setIsDisabled(false)
             setIsLoading(false)
@@ -67,6 +85,23 @@ const Login = () => {
         setPasswordShown(!passwordShown)
     }
 
+    const getUserInfo = (userId: string) => {
+        getUser(userId)
+            .then((response: any) => {
+                if (response.data.preferences) {
+                    navigate('/questionnaire')
+                } else {
+                    navigate('/preferences')
+                }
+            })
+            .catch((error) => {
+                console.log(
+                    'error occurred while getting user interaction ',
+                    error
+                )
+            })
+    }
+
     return (
         <AuthenticationLayout caption="Login Here">
             <form onSubmit={handleSubmit(onSubmit)} className="LoginForm-form">
@@ -74,7 +109,7 @@ const Login = () => {
                     <InputField
                         id="username"
                         {...register('username', { required: true })}
-                        placeholder="Email or Phone"
+                        placeholder="Phone"
                         type="text"
                         className="inputField"
                     />

@@ -1,3 +1,8 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 .Preferences-form {
     width: 300px;
     display: flex;
@@ -9,6 +14,12 @@
 .Preferences-form-error {
     margin-top: 1rem;
     color: red;
+}
+.intro {
+    display: flex;
+    align-items: right;
+    justify-content: right;
+    padding-left: 40px;
 }
 
 .mt-1 {
@@ -26,9 +37,9 @@
     min-height: 25px;
     margin-top: 3rem;
     padding: 10px;
+    padding-right: 15px;
 }
 .checkbox {
-    // width: 274px;
     margin-bottom: 2px;
     flex-direction: row;
     line-height: 1;

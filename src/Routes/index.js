@@ -5,10 +5,9 @@ import { SignUp, Login } from './Lazycontainers'
 import Preferences from '../containers/Preferences'
 import ROUTES from './Constants'
 import UserCondition from '../containers/Questionnaire'
-import { RequireAuth, RequireSignup } from '../utils/RequireAuth'
+import { RequireAuth } from '../utils/RequireAuth'
 import ThankyouForSubmiting from '../containers/ThankyouForSubmiting'
 import IntroVideo from '../containers/Introvideo'
-import EmailVerification from '../containers/EmailVerification'
 import VerificationMessage from '../containers/VerificationMessage'
 import PhoneVerification from '../containers/PhoneVerification'
 
@@ -24,23 +23,21 @@ const AppRoutes = () => {
                     path="/verification-message/:userId"
                     element={<VerificationMessage />}
                 />
-                {/* Protected Routes */}
-                <Route
-                    path="/verify/email/:userId/:code"
-                    element={<EmailVerification />}
-                />
                 <Route
                     path="/verify/phone/:userId/:code"
                     element={<PhoneVerification />}
                 />
-                <Route path="/questionnaire" element={<UserCondition />} />
+
+                {/* Protected Routes */}
                 <Route element={<RequireAuth />}>
-                    <Route path="/introvideo" element={<IntroVideo />} />
-                    <Route path="/preferences" element={<Preferences />} />
+                    <Route path="/questionnaire" element={<UserCondition />} />
                     <Route
                         path="/questionnaire-submit"
                         element={<ThankyouForSubmiting />}
                     />
+
+                    <Route path="/preferences" element={<Preferences />} />
+                    <Route path="/introvideo" element={<IntroVideo />} />
                 </Route>
             </Routes>
         </React.Suspense>

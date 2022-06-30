@@ -1,35 +1,13 @@
 import React from 'react'
 import { Divider } from 'antd'
-
-// import MobileDetector from '../../../utils/mobileDetector';
-
 import './AuthenticationLayout.scss'
 
 type Props = {
-  caption: string,
-  children?: React.ReactChild | React.ReactChild[]
+    caption: string
+    children?: React.ReactChild | React.ReactChild[]
 }
-
+//TODO(<HamzaIjaz>): Rename this component to authorised user layout
 const AuthenticationLayout = ({ children, caption }: Props) => {
-    // const isMobile = MobileDetector.mobile();
-    // if (isMobile) {
-    //   return <div className="AuthenticationMobileLayout">
-    //     <img
-    //       src={`${process.env.PUBLIC_URL}/assets/logo/touch-insights-logo.png`}
-    //       alt="Touch Logo"
-    //       className="AuthenticationMobileLayout-logo"
-    //     />
-    //     <div className="AuthenticationMobileLayout-form">
-    //       <div className="AuthenticationMobileLayout-caption">{caption}</div>
-    //       <div className="AuthenticationMobileLayout-dividerSection">
-    //         <Divider className="AuthenticationMobileLayout-divider"/>
-    //         <div/>
-    //         <Divider className="AuthenticationMobileLayout-divider"/>
-    //       </div>
-    //       {children}
-    //     </div>
-    //   </div>;
-    // }
     return (
         <div className="AuthenticationLayout">
             <img
