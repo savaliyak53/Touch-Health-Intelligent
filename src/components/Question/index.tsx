@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import moment from 'moment'
-import { TimePicker } from 'antd'
+import { DatePicker, TimePicker } from 'antd'
 interface Props {
     type: string | undefined
     q_str: string | undefined
@@ -8,29 +8,29 @@ interface Props {
     setQuestionValue: any
 }
 
-const mapArray = [
-    {
-        dummydata: 'dummy',
-    },
-]
 const Question = ({ type, q_str, setQuestionValue }: Props) => {
     const InputField = useCallback(() => {
         switch (type) {
             case 'time':
                 return (
                     <div>
-                        <div className="question">{q_str}</div>
-                        <br />
-                        <>
-                            <TimePicker
-                                format={'h:mm'}
-                                use12Hours
-                                onChange={(time, timeString) => {
-                                    setQuestionValue(timeString)
-                                }}
-                            />
-                        </>
-                        <br />
+                        <TimePicker
+                            format={'h:mm'}
+                            use12Hours
+                            onChange={(time, timeString) => {
+                                setQuestionValue(timeString)
+                            }}
+                        />
+                    </div>
+                )
+            case 'date':
+                return (
+                    <div>
+                        <DatePicker
+                            onChange={(date: any, dateString: any) =>
+                                setQuestionValue(dateString)
+                            }
+                        />
                     </div>
                 )
             default:
@@ -38,32 +38,13 @@ const Question = ({ type, q_str, setQuestionValue }: Props) => {
         }
     }, [q_str, type])
 
-    ;() => {
-        switch (type) {
-            case 'time':
-                return (
-                    <div>
-                        <div className="question">{q_str}</div>
-                        <br />
-                        <>
-                            <TimePicker
-                                format={'h:mm'}
-                                use12Hours
-                                onChange={(time, timeString) => {
-                                    setQuestionValue(timeString)
-                                }}
-                            />
-                        </>
-                        <br />
-                    </div>
-                )
-            default:
-                return <h2>Cannot determine input field</h2>
-        }
-    }
     return (
         <div style={{ textAlign: 'center' }}>
-            <InputField />
+            <div>
+                <div className="question">{q_str}</div>
+                <br />
+                <InputField />
+            </div>
         </div>
     )
 }
