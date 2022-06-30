@@ -3,7 +3,6 @@ import './index.scss'
 import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout'
 import { useNavigate } from 'react-router-dom'
 import Button from '../../components/Button'
-import { useForm, SubmitHandler } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import Question from '../../components/Question'
 import {
@@ -29,6 +28,7 @@ function UserCondition() {
     const [question, setQuestion] = useState<Interaction | any>()
     const [value, setValue] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(false)
+
     const getInteraction = async () => {
         //resolve the service using promise
         //TODO(<HamzaIjaz>): Refactor all the API calls like this
@@ -49,24 +49,14 @@ function UserCondition() {
     }, [])
     const navigate = useNavigate()
 
-    const handleRedirect = () => {
-        navigate(`/questionnaire-submit`)
-    }
-    const {
-        register,
-        handleSubmit,
-        control,
-        formState: { errors },
-    } = useForm<any>({ mode: 'onChange' })
-
     const onSubmit = async () => {
         setLoading(true)
         if (!value) {
             toast.error('Please select a value')
             return
         }
-        postInteractionService({
-            type: question?.type,
+        const payload = {
+            type: 'question',
             ref_id: question?.ref_id,
             question_response: {
                 ref_id: question.ref_id,
@@ -76,10 +66,14 @@ function UserCondition() {
             reward_nugget_response: {
                 shared: true,
             },
-        })
+        }
+        postInteractionService(payload)
             .then(({ data }) => {
+                console.log('response ', data)
                 setLoading(false)
-                toast.success(data.reward_nugget.congratulations_str)
+                if (data.reward_nugget) {
+                    toast.success(data.reward_nugget.congratulations_str)
+                }
                 if (data.question) {
                     setQuestion(data.question)
                 } else {
@@ -89,40 +83,30 @@ function UserCondition() {
             .catch((error) => {
                 console.log('error is ', error)
                 setLoading(false)
-                toast.error('Somethig went wrong')
+                toast.error('Something went wrong')
             })
-        // if (data.details.response.detail[0].msg) {
-        //     toast(data.details.response.detail[0].msg)
-        // }
     }
 
     return (
         <AuthenticationLayout caption="Questionnaire">
-            {/* <form
-                className="UserCondition-form"
-                onSubmit={handleSubmit(onSubmit)}
-            > */}
             <Question
                 type={question?.type}
                 q_str={question?.q_str}
-                control={control}
-                register={register}
-                errors={errors}
-                questionValue={value}
                 setQuestionValue={setValue}
             />
             <div className="align-center">
                 <Button
                     className="mt-3"
+                    size="lg"
                     onClick={() => {
                         onSubmit()
                     }}
-                    size="lg"
+                    loading={loading}
+                    disabled={loading}
                 >
-                    Submit
+                    Next
                 </Button>
             </div>
-            {/* </form> */}
         </AuthenticationLayout>
     )
 }

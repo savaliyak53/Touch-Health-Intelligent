@@ -35,7 +35,10 @@ const AppRoutes = () => {
                         path="/questionnaire-submit"
                         element={<ThankyouForSubmiting />}
                     />
-
+                    <Route
+                        path="/dashboard"
+                        element={<h1>This will be a dashboard</h1>}
+                    />
                     <Route path="/preferences" element={<Preferences />} />
                     <Route path="/introvideo" element={<IntroVideo />} />
                 </Route>
