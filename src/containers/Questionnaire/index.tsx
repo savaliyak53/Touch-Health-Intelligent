@@ -28,7 +28,7 @@ function UserCondition() {
     const [question, setQuestion] = useState<Interaction | any>()
     const [value, setValue] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(false)
-
+    const [refId, setRefId] = useState<string>('')
     const getInteraction = async () => {
         //resolve the service using promise
         //TODO(<HamzaIjaz>): Refactor all the API calls like this
@@ -36,6 +36,7 @@ function UserCondition() {
             .then((response) => {
                 console.log('service response is ', response)
                 setQuestion(response.data.question)
+                setRefId(response.data.ref_id)
             })
             .catch((error) => {
                 console.log(
@@ -57,7 +58,7 @@ function UserCondition() {
         }
         const payload = {
             type: 'question',
-            ref_id: question?.ref_id,
+            ref_id: refId,
             question_response: {
                 ref_id: question.ref_id,
                 type: question.type,
@@ -71,6 +72,7 @@ function UserCondition() {
             .then(({ data }) => {
                 console.log('response ', data)
                 setLoading(false)
+                setRefId(data.ref_id ?? '')
                 if (data.reward_nugget) {
                     toast.success(data.reward_nugget.congratulations_str)
                 }
