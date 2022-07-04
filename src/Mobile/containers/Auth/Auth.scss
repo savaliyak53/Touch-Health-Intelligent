@@ -1,0 +1,82 @@
+.Auth-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.Auth-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.Auth-title {
+    color: #fff;
+    font-size: 26px;
+    line-height: 36px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    margin-top: clamp(0px, 7.5vh, 96px);
+}
+
+.ant-btn.Auth-submit {
+    width: 100%;
+    border-radius: 100px;
+    padding: 16px 32px;
+    font-size: 24px;
+    line-height: 29px;
+    height: 100%;
+    margin-top: clamp(0px, 5.5vh, 62px);
+    background-color: rgba(#3A4A7F, 0.57);
+    border: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+        background-color: #3A4A7F;
+    }
+}
+
+.Auth-forgot-wrap {
+    width: 100%;
+}
+
+.Auth-forgot {
+    font-size: 20px;
+    line-height: 24px;
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+
+    &:hover {
+        color: #fff;
+        opacity: 0.8;
+    }
+}
+
+.Auth-terms{
+    text-align: center;
+    font-size: 16px;
+    line-height: 19px;
+    color: #272424;
+    padding: 7px 30px;
+    border-radius: 100px;
+    background-color: #fff;
+    margin-bottom: 52px;
+}
+.Auth-terms a{
+    font-size: 16px;
+    line-height: 19px;
+    color: #272424;
+    text-decoration: underline;
+
+    &:hover {
+        color: #272424;
+        text-decoration: underline;
+        opacity: 0.8;
+    }
+}
+
