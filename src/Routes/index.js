@@ -10,6 +10,11 @@ import ThankyouForSubmiting from '../containers/ThankyouForSubmiting'
 import IntroVideo from '../containers/Introvideo'
 import VerificationMessage from '../containers/VerificationMessage'
 import PhoneVerification from '../containers/PhoneVerification'
+// Mobile Components
+import SignUpMobile from '../Mobile/containers/Auth/Signup'
+import LoginMobile from '../Mobile/containers/Auth/Login'
+import Preference from '../Mobile/containers/Preferences/Preferences'
+
 
 const AppRoutes = () => {
     return (
@@ -17,7 +22,10 @@ const AppRoutes = () => {
             <Routes>
                 <Route path={ROUTES.signUp} element={<SignUp />} />
                 <Route path={ROUTES.login} element={<Login />} />
-                <Route path="/" element={<SignUp />} />
+                {/* <Route path="/" element={<SignUp />} /> */}
+                <Route path="/S" element={<SignUpMobile />} /> {/* Mobile Screen Route*/}
+                <Route path="/" element={<LoginMobile />} /> {/* Mobile Screen Route*/}
+                <Route path="/P" element={<Preference />} /> {/* Mobile Screen Route*/}
                 <Route path="*" element={<SignUp />} />
                 <Route
                     path="/verification-message/:userId"
