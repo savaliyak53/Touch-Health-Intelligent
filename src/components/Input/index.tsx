@@ -43,7 +43,7 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
                     {...rest}
                     defaultValue={defaultValue}
                 />
-                {isEye ? (
+                {/* {isEye ? (
                     <button
                         className="btn"
                         onClick={togglePassword}
@@ -51,7 +51,7 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
                     >
                         <AiOutlineEye />
                     </button>
-                ) : null}
+                ) : null} */}
             </div>
         )
     }

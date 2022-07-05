@@ -23,18 +23,16 @@ const Button = ({
     ...rest
 }: Props) => {
     return (
-        <>
-            <AntdButton
-                className={`button-${size} ${className}`}
-                htmlType="submit"
-                onClick={onClick}
-                disabled={disabled}
-                loading={loading}
-                {...rest}
-            >
-                {children}
-            </AntdButton>
-        </>
+        <AntdButton
+            className={className}
+            htmlType="submit"
+            onClick={onClick}
+            disabled={disabled}
+            loading={loading}
+            {...rest}
+        >
+            {children}
+        </AntdButton>
     )
 }
 
