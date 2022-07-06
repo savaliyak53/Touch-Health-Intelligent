@@ -23,3 +23,12 @@
 .input-element-wrapper {
     width: 100%;
 }
+.input-element-wrapper-password {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    &btn {
+        margin-bottom: 4px;
+    }
+}

@@ -1,13 +1,13 @@
 import { lazy } from 'react'
 
 export const SignUp = lazy(() =>
-    import('../containers/SignUp').then(({ default: SignUp }) => ({
+    import('../containers/Auth/Signup').then(({ default: SignUp }) => ({
         default: SignUp,
     }))
 )
 
 export const Login = lazy(() =>
-    import('../containers/Login').then(({ default: Login }) => ({
+    import('../containers/Auth/Login').then(({ default: Login }) => ({
         default: Login,
     }))
 )

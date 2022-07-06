@@ -33,6 +33,7 @@
         "react-dom": "^18.0.0",
         "react-hook-form": "^7.31.3",
         "react-icons": "^4.4.0",
+        "react-input-mask": "^3.0.0-alpha.2",
         "react-otp-input": "^2.4.0",
         "react-router": "^6.3.0",
         "react-router-dom": "^6.3.0",
@@ -67,6 +68,7 @@
     "devDependencies": {
         "@types/react": "^18.0.12",
         "@types/react-dom": "^18.0.5",
+        "@types/react-input-mask": "^3.0.1",
         "@typescript-eslint/eslint-plugin": "^5.20.0",
         "@typescript-eslint/parser": "^5.20.0",
         "eslint": "^8.13.0",

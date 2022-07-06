@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from '../../Layout/Layout'
+import Layout from '../../../layouts/Layout/Layout'
 import { Button, Input, Form } from 'antd'
 import './Auth.scss'
 

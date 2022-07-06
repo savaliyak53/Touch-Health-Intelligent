@@ -50,27 +50,13 @@
     color: #fff;
     text-decoration: none;
     margin-left: 20px;
-
+    font-weight: bold;
     &:hover {
         color: #fff;
         opacity: 0.8;
     }
 }
-.Auth-signup {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 20px;
-    line-height: 24px;
-    color: #fff;
-    text-decoration: none;
-    margin-left: 20px;
 
-    &:hover {
-        color: #fff;
-        opacity: 0.8;
-    }
-}
 .Auth-terms {
     text-align: center;
     font-size: 16px;
@@ -92,4 +78,63 @@
         text-decoration: underline;
         opacity: 0.8;
     }
+}
+.app-Input {
+    width: 100%;
+    border-radius: 100px;
+    margin-bottom: 14px;
+    padding: 18px 20px;
+    display: block;
+    font-size: 20px;
+    line-height: 24px;
+    border: 2px solid #272424;
+    background-color: #fff;
+    color: #272424;
+    font-size: 20px;
+    line-height: 24px;
+
+    &:hover,
+    &:focus {
+        border: 2px solid #272424;
+        background-color: #e3e3e3;
+        color: #272424;
+    }
+
+    &::placeholder {
+        color: rgba(#272424, 0.8);
+    }
+}
+
+.input-element-wrapper {
+    width: 100%;
+}
+.flag {
+    padding: 0.2rem;
+    position: absolute;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    margin-right: -2.76rem;
+    margin-top: 19px;
+    margin-left: 4px;
+}
+.Input-flag {
+    max-width: 15px;
+    height: 14px;
+}
+.phone {
+    padding-left: 3rem;
+}
+.input-element-wrapper-password {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    &btn {
+        margin-bottom: 4px;
+    }
+}
+.btn {
+    margin-bottom: 16px;
 }
