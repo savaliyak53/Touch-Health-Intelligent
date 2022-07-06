@@ -17,15 +17,15 @@
 }
 
 .Layout-graphics {
-        width: 100%;
-        max-width: 50%;
-        display: none;
-        background: url('../../../public/assets/mobileassets/background.png');
-        grid-area: image;
+    width: 100%;
+    max-width: 50%;
+    display: none;
+    background: url('../../../public/assets/mobileassets/background.png');
+    grid-area: image;
 
-        @media screen and (min-width: 992px) {
-            display: block;
-        }
+    @media screen and (min-width: 992px) {
+        display: block;
+    }
 }
 
 .MobileScreen {

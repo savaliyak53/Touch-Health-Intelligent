@@ -19,16 +19,14 @@ const AppRoutes = () => {
     return (
         <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
             <Routes>
-                <Route path={ROUTES.signUp} element={<SignUp />} />
                 <Route path={ROUTES.login} element={<Login />} />
+                <Route path={ROUTES.signUp} element={<SignUp />} />
                 {/* <Route path="/" element={<SignUp />} /> */}
                 <Route path="/S" element={<SignUpMobile />} />{' '}
                 {/* Mobile Screen Route*/}
-                <Route path="/L" element={<LoginMobile />} />{' '}
-                {/* Mobile Screen Route*/}
                 <Route path="/P" element={<Preference />} />{' '}
                 {/* Mobile Screen Route*/}
-                <Route path="*" element={<SignUp />} />
+                <Route path="*" element={<Login />} />
                 <Route
                     path="/verification-message/:userId"
                     element={<VerificationMessage />}
