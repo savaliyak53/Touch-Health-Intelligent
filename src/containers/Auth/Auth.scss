@@ -50,7 +50,7 @@
     color: #fff;
     text-decoration: none;
     margin-left: 20px;
-
+    font-weight: bold;
     &:hover {
         color: #fff;
         opacity: 0.8;
@@ -103,4 +103,38 @@
     &::placeholder {
         color: rgba(#272424, 0.8);
     }
+}
+
+.input-element-wrapper {
+    width: 100%;
+}
+.flag {
+    padding: 0.2rem;
+    position: absolute;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    margin-right: -2.76rem;
+    margin-top: 19px;
+    margin-left: 4px;
+}
+.Input-flag {
+    max-width: 15px;
+    height: 14px;
+}
+.phone {
+    padding-left: 3rem;
+}
+.input-element-wrapper-password {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    &btn {
+        margin-bottom: 4px;
+    }
+}
+.btn {
+    margin-bottom: 16px;
 }

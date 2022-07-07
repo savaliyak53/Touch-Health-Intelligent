@@ -15,18 +15,18 @@ import SignUpMobile from '../Mobile/containers/Auth/Signup'
 import LoginMobile from '../Mobile/containers/Auth/Login'
 import Preference from '../Mobile/containers/Preferences/Preferences'
 
-
 const AppRoutes = () => {
     return (
         <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
             <Routes>
-                <Route path={ROUTES.signUp} element={<SignUp />} />
                 <Route path={ROUTES.login} element={<Login />} />
+                <Route path={ROUTES.signUp} element={<SignUp />} />
                 {/* <Route path="/" element={<SignUp />} /> */}
-                <Route path="/S" element={<SignUpMobile />} /> {/* Mobile Screen Route*/}
-                <Route path="/" element={<LoginMobile />} /> {/* Mobile Screen Route*/}
-                <Route path="/P" element={<Preference />} /> {/* Mobile Screen Route*/}
-                <Route path="*" element={<SignUp />} />
+                <Route path="/S" element={<SignUpMobile />} />{' '}
+                {/* Mobile Screen Route*/}
+                <Route path="/P" element={<Preference />} />{' '}
+                {/* Mobile Screen Route*/}
+                <Route path="*" element={<Login />} />
                 <Route
                     path="/verification-message/:userId"
                     element={<VerificationMessage />}
@@ -35,7 +35,6 @@ const AppRoutes = () => {
                     path="/verify/phone/:userId/:code"
                     element={<PhoneVerification />}
                 />
-
                 {/* Protected Routes */}
                 <Route element={<RequireAuth />}>
                     <Route path="/questionnaire" element={<UserCondition />} />
