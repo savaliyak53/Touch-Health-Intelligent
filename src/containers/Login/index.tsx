@@ -9,11 +9,7 @@ import AuthenticationLayout from '../../layouts/authentication-layout/Authentica
 import Button from '../../components/Button'
 import InputField from '../../components/Input'
 import './index.scss'
-import {
-    getInteractionService,
-    getUser,
-    loginService,
-} from '../../services/authservice'
+import { getUser, loginService } from '../../services/authservice'
 import jwt from 'jwt-decode'
 
 type IFormInputs = {
@@ -36,7 +32,8 @@ const Login = () => {
     useEffect(() => {
         const token = localStorage.getItem('token')
         if (token) {
-            navigate(`/preferences`)
+            const userId = localStorage.getItem('userId')
+            getUserInfo(userId)
         }
     }, [])
     const schema = yup
@@ -56,7 +53,7 @@ const Login = () => {
         resolver: yupResolver(schema),
     })
 
-    const getId = (token: string) => {
+    const getId = (token: any) => {
         const user: User = jwt(token)
         return user.id
     }
@@ -85,7 +82,7 @@ const Login = () => {
         setPasswordShown(!passwordShown)
     }
 
-    const getUserInfo = (userId: string) => {
+    const getUserInfo = (userId: string | null | undefined) => {
         getUser(userId)
             .then((response: any) => {
                 if (response.data.preferences) {
@@ -94,17 +91,17 @@ const Login = () => {
                     navigate('/preferences')
                 }
             })
-            .catch((error) => {
-                console.log(
-                    'error occurred while getting user interaction ',
-                    error
-                )
+            .catch(() => {
+                toast('Unknown error')
             })
     }
 
     return (
         <AuthenticationLayout caption="Login Here">
-            <form onSubmit={handleSubmit(onSubmit)} className="LoginForm-form">
+            <form
+                onSubmit={() => handleSubmit(onSubmit)}
+                className="LoginForm-form"
+            >
                 <div>
                     <InputField
                         id="username"
@@ -135,7 +132,6 @@ const Login = () => {
                     size="lg"
                     onClick={handleSubmit(onSubmit)}
                     loading={isLoading}
-                    disabled={isDisabled}
                 >
                     Login
                 </Button>
