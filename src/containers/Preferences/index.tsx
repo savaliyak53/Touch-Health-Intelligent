@@ -10,6 +10,7 @@ import AuthenticationLayout from '../../layouts/authentication-layout/Authentica
 import Button from '../../components/Button'
 import { preferencesService } from '../../services/authservice'
 import { toast } from 'react-toastify'
+import Layout from '../../layouts/Layout/Layout'
 
 type IFormInputs = {
     minutesPerWeek: number
@@ -75,91 +76,88 @@ const Preferences = () => {
 
     const timeOfDay = ['Morning', 'Afternoon', 'Evening']
     return (
-        <AuthenticationLayout caption="Engagement Preferences">
-            <p className="intro">
-                Your health assistant will get to know you over time by asking
-                <br />
-                questions every week. These settings help your health assistant
-                <br />
-                communicate with you around your own schedule.
-            </p>
-            <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="Preferences-form"
-            >
-                <div>
-                    <div className="question">
-                        How many minutes per week would you dedicate to
-                        answering your health assistant questions?
-                    </div>
-                    <br />
-                    <label>
-                        <Slider
-                            id="minutesPerWeek"
-                            {...register('minutesPerWeek', { required: true })}
-                            value={time}
-                            min={3}
-                            max={15}
-                            marks={marks}
-                            onChange={(value) => {
-                                setTime(value)
-                            }}
-                        />
-                        Minutes
-                    </label>
-                    <p className="Preferences-form-error">
-                        {errors.minutesPerWeek?.message}
-                    </p>
-                </div>
-
-                <div>
-                    <div className="question">
-                        What are your preferred times to be contacted?
-                    </div>
-                    <p>[select all that apply]</p>
-                    <br />
-                    <ul
-                        className="no-bullets"
-                        {...register('timeOfDay', {
-                            required: true,
-                        })}
-                    >
-                        {timeOfDay.map((c, i) => (
-                            <li key={`${i}`}>
-                                <label>
-                                    <InputField
-                                        key={i}
-                                        id={`${c}`}
-                                        {...register('timeOfDay', {
-                                            required: true,
-                                        })}
-                                        value={c}
-                                        type="checkbox"
-                                        className="checkbox"
-                                    />
-                                    {c}
-                                </label>
-                            </li>
-                        ))}
-                    </ul>
-                    <br />
-                    <p className="Preferences-form-error">
-                        <br />
-                        {errors?.timeOfDay &&
-                            'Please select at least one option.'}
-                    </p>
-                </div>
-                <Button
-                    className="mt-2"
-                    size="lg"
-                    loading={isLoading}
-                    disabled={isDisabled}
-                    onClick={handleSubmit(onSubmit)}
+        <Layout defaultHeader={true} hamburger={false}>
+            <div className="Content-wrap Pref">
+                <h2 className="Pref-title">Preferences</h2>
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    //className="Preferences-form"
                 >
-                    Proceed
-                </Button>
-            </form>
-        </AuthenticationLayout>
+                    <div className="Question">
+                        <h3 className="Question-title">
+                            Check-in preferred time of day:
+                        </h3>
+                        <p>[select all that apply]</p>
+                        <br />
+                        <ul
+                            className="no-bullets"
+                            {...register('timeOfDay', {
+                                required: true,
+                            })}
+                        >
+                            {timeOfDay.map((c, i) => (
+                                <li key={`${i}`} className="Pref-checkbox">
+                                    <label>
+                                        <InputField
+                                            key={i}
+                                            id={`${c}`}
+                                            {...register('timeOfDay', {
+                                                required: true,
+                                            })}
+                                            value={c}
+                                            type="checkbox"
+                                            className="checkbox"
+                                        />
+                                        {c}
+                                    </label>
+                                </li>
+                            ))}
+                        </ul>
+                        <br />
+                        <p className="Preferences-form-error">
+                            <br />
+                            {errors?.timeOfDay &&
+                                'Please select at least one option.'}
+                        </p>
+                    </div>
+                    <div>
+                        <div className="question">
+                            How many minutes per week would you dedicate to
+                            answering your health assistant questions?
+                        </div>
+                        <br />
+                        <label>
+                            <Slider
+                                id="minutesPerWeek"
+                                {...register('minutesPerWeek', {
+                                    required: true,
+                                })}
+                                value={time}
+                                min={3}
+                                max={15}
+                                marks={marks}
+                                onChange={(value) => {
+                                    setTime(value)
+                                }}
+                            />
+                            Minutes
+                        </label>
+                        <p className="Preferences-form-error">
+                            {errors.minutesPerWeek?.message}
+                        </p>
+                    </div>
+                    <Button
+                        className="mt-2"
+                        size="lg"
+                        loading={isLoading}
+                        disabled={isDisabled}
+                        onClick={handleSubmit(onSubmit)}
+                    >
+                        Proceed
+                    </Button>
+                </form>
+            </div>
+        </Layout>
     )
 }
 

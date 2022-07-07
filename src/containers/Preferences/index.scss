@@ -28,17 +28,17 @@
 .mt-3 {
     margin-top: 3rem;
 }
-.question {
-    width: 480px;
-    font-style: bold;
-    margin-bottom: 2px;
-    line-height: 2;
-    font-size: 20px;
-    min-height: 25px;
-    margin-top: 3rem;
-    padding: 10px;
-    padding-right: 15px;
-}
+// .question {
+//     width: 480px;
+//     font-style: bold;
+//     margin-bottom: 2px;
+//     line-height: 2;
+//     font-size: 20px;
+//     min-height: 25px;
+//     margin-top: 3rem;
+//     padding: 10px;
+//     padding-right: 15px;
+// }
 .checkbox {
     margin-bottom: 2px;
     flex-direction: row;
@@ -64,4 +64,68 @@ ul.no-bullets {
 ul.no-bullets li {
     float: left;
     padding-right: 15px;
+}
+
+//Preferences.scss
+
+.Pref-title {
+    font-size: 26px;
+    line-height: 36px;
+    font-weight: 700;
+    color: #272424;
+    margin-top: clamp(0px, 7.5vh, 96px);
+    margin-bottom: clamp(0px, 7.5vh, 36px);
+}
+
+.Pref {
+    .Question {
+        margin-bottom: clamp(0px, 8vh, 60px);
+    }
+
+    .Question-title {
+        margin-bottom: 24px;
+    }
+}
+.Question {
+    margin-bottom: clamp(0px, 8vh, 60px);
+}
+
+.Question-title {
+    margin-bottom: 24px;
+}
+.Pref-slider.ant-slider {
+    margin: 4px 0 14px;
+
+    &:hover {
+        .ant-slider-rail,
+        .ant-slider-track {
+            background-color: #616c61;
+        }
+        .ant-slider-handle {
+            &:not(.ant-tooltip-open) {
+                border: 2px solid #616c61;
+            }
+        }
+    }
+
+    .ant-slider-rail,
+    .ant-slider-track {
+        background-color: #616c61;
+    }
+    .ant-slider-handle {
+        width: 30px;
+        height: 30px;
+        border: 2px solid #616c61;
+        margin-top: -13px;
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+}
+
+.Slider-range {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
