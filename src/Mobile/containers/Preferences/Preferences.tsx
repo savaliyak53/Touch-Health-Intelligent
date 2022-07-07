@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from '../../Layout/Layout'
+import Layout from '../../../layouts/Layout/Layout'
 import { Button, Checkbox, Slider } from 'antd'
 import type { CheckboxChangeEvent } from 'antd/es/checkbox'
 import './Preferences.scss'

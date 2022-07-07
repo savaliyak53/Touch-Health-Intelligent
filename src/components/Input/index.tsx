@@ -31,7 +31,13 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
         ref
     ) => {
         return (
-            <div className="input-element-wrapper">
+            <div
+                className={
+                    isEye
+                        ? 'input-element-wrapper-password'
+                        : 'input-element-wrapper'
+                }
+            >
                 <input
                     type={type}
                     name={name}
