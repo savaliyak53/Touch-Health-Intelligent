@@ -10,7 +10,7 @@ function IntroVideo() {
 
     const handleRedirect = () => {
         localStorage.removeItem('token')
-        navigate(`/`)
+        navigate(`/login`)
     }
     return (
         <div className="cards-video-wrapper">

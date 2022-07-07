@@ -37,9 +37,31 @@ export interface Interaction {
         ref_id: string
         type: string
         q_str: string
+        options: Array<string> | null
+        defaults: Array<number> | null
+        lower_value: number | null
+        upper_value: number | null
+        step_value: number | null
+        lower_qualifier: string | null
+        upper_qualifier: string | null
+        show_values: boolean | null
     }
     reward_nugget: {
         congratulations_str: string
         statistic_str: string
     }
 }
+
+// export interface Interaction {
+//     type: string
+//     ref_id: string
+//     question: {
+//         ref_id: string
+//         type: string
+//         q_str: string
+//     }
+//     reward_nugget: {
+//         congratulations_str: string
+//         statistic_str: string
+//     }
+// }

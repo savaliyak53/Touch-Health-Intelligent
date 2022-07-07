@@ -9,53 +9,41 @@ import {
     getInteractionService,
     postInteractionService,
 } from '../../services/authservice'
-
-type Interaction = {
-    type: string
-    ref_id: string
-    question: {
-        ref_id: string
-        type: string
-        q_str: string
-    }
-    reward_nugget: {
-        congratulations_str: string
-        statistic_str: string
-    }
-}
+import { Interaction } from '../../interfaces'
 
 function UserCondition() {
     const [question, setQuestion] = useState<Interaction | any>()
     const [value, setValue] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(false)
     const [refId, setRefId] = useState<string>('')
+    const navigate = useNavigate()
+
     const getInteraction = async () => {
         //resolve the service using promise
         //TODO(<HamzaIjaz>): Refactor all the API calls like this
         getInteractionService()
             .then((response) => {
-                console.log('service response is ', response)
-                setQuestion(response.data.question)
-                setRefId(response.data.ref_id)
+                if (response?.data?.question) {
+                    setQuestion(response?.data?.question)
+                    setRefId(response.data.ref_id)
+                } else {
+                    navigate('/questionnaire-submit')
+                }
             })
-            .catch((error) => {
-                console.log(
-                    'error occurred while getting user interaction ',
-                    error
-                )
+            .catch(() => {
+                toast('unkown error')
             })
     }
     useEffect(() => {
         getInteraction()
     }, [])
-    const navigate = useNavigate()
-
     const onSubmit = async () => {
         setLoading(true)
         if (!value) {
             toast.error('Please select a value')
             return
         }
+
         const payload = {
             type: 'question',
             ref_id: refId,
@@ -70,7 +58,6 @@ function UserCondition() {
         }
         postInteractionService(payload)
             .then(({ data }) => {
-                console.log('response ', data)
                 setLoading(false)
                 setRefId(data.ref_id ?? '')
                 if (data.reward_nugget) {
@@ -79,36 +66,40 @@ function UserCondition() {
                 if (data.question) {
                     setQuestion(data.question)
                 } else {
-                    //navigate to dashboard
+                    navigate('/questionnaire-submit')
                 }
             })
-            .catch((error) => {
-                console.log('error is ', error)
+            .catch(() => {
                 setLoading(false)
                 toast.error('Something went wrong')
+                setLoading(false)
             })
     }
 
     return (
         <AuthenticationLayout caption="Questionnaire">
             <Question
-                type={question?.type}
-                q_str={question?.q_str}
-                setQuestionValue={setValue}
+                question={question}
+                setValue={setValue}
+                onSubmit={onSubmit}
             />
-            <div className="align-center">
-                <Button
-                    className="mt-3"
-                    size="lg"
-                    onClick={() => {
-                        onSubmit()
-                    }}
-                    loading={loading}
-                    disabled={loading}
-                >
-                    Next
-                </Button>
-            </div>
+            {question?.type !== 'yes_no' ? (
+                <div className="align-center">
+                    <Button
+                        className="mt-3"
+                        size="lg"
+                        onClick={() => {
+                            onSubmit()
+                        }}
+                        loading={loading}
+                        disabled={loading}
+                    >
+                        Next
+                    </Button>
+                </div>
+            ) : (
+                <></>
+            )}
         </AuthenticationLayout>
     )
 }
