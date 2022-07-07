@@ -12,7 +12,6 @@ import { getUser, loginService } from '../../services/authservice'
 import jwt from 'jwt-decode'
 import './Auth.scss'
 import { Tooltip } from 'antd'
-import InputMask from 'react-input-mask'
 
 type IFormInputs = {
     username: string
@@ -105,30 +104,27 @@ const Login = () => {
                         title={errors.username?.message}
                         visible={errors.username ? true : false}
                     >
-                        <InputMask
+                        <InputField
                             className="app-Input"
                             id="username"
                             placeholder="Phone: XXXXXXXXXX"
                             type="text"
-                            mask={[
-                                /\d/,
-                                /\d/,
-                                /\d/,
-                                /\d/,
-                                /\d/,
-                                /\d/,
-                                /\d/,
-                                /\d/,
-                                /\d/,
-                                /\d/,
-                                /\d/,
-                            ]}
                             {...register('username', {
                                 required: 'Phone is required',
                                 pattern: {
                                     value: /^[0-9]*$/,
                                     message:
                                         'Please enter a valid phone number.',
+                                },
+                                maxLength: {
+                                    value: 11,
+                                    message:
+                                        'Phone should be maximum 11 digits.',
+                                },
+                                minLength: {
+                                    value: 11,
+                                    message:
+                                        'Phone requires at least 11 digits.',
                                 },
                             })}
                         />
