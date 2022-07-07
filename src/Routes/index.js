@@ -17,7 +17,6 @@ const AppRoutes = () => {
             <Routes>
                 <Route path={ROUTES.login} element={<Login />} />
                 <Route path={ROUTES.signUp} element={<SignUp />} />
-                <Route path="*" element={<Login />} />
                 <Route
                     path="/verification-message/:userId"
                     element={<VerificationMessage />}
