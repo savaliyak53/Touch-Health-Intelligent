@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Slider } from 'antd'
+import { Checkbox, Slider } from 'antd'
 import * as yup from 'yup'
 import './index.scss'
 import InputField from '../../components/Input'
@@ -74,86 +74,88 @@ const Preferences = () => {
         navigate(`/introvideo`)
     }
 
-    const timeOfDay = ['Morning', 'Afternoon', 'Evening']
+    const timeOfDay = [
+        'Morning (7 am to 11:59 am)',
+        'Mid-day (12 pm to 5.59 pm)',
+        'Evening (6 pm - 9 pm)',
+    ]
+    const handleOnChange = () => {
+        console.log('hey')
+    }
     return (
         <Layout defaultHeader={true} hamburger={false}>
             <div className="Content-wrap Pref">
                 <h2 className="Pref-title">Preferences</h2>
                 <form
                     onSubmit={handleSubmit(onSubmit)}
-                    //className="Preferences-form"
+                    className="Preferences-form"
                 >
                     <div className="Question">
                         <h3 className="Question-title">
                             Check-in preferred time of day:
                         </h3>
-                        <p>[select all that apply]</p>
-                        <br />
-                        <ul
-                            className="no-bullets"
-                            {...register('timeOfDay', {
-                                required: true,
-                            })}
-                        >
-                            {timeOfDay.map((c, i) => (
-                                <li key={`${i}`} className="Pref-checkbox">
-                                    <label>
-                                        <InputField
-                                            key={i}
-                                            id={`${c}`}
-                                            {...register('timeOfDay', {
-                                                required: true,
-                                            })}
-                                            value={c}
-                                            type="checkbox"
-                                            className="checkbox"
-                                        />
-                                        {c}
-                                    </label>
-                                </li>
-                            ))}
-                        </ul>
-                        <br />
+                        {timeOfDay.map((c, i) => (
+                            <>
+                                <Checkbox
+                                    key={i}
+                                    id={`${c}`}
+                                    {...register('timeOfDay', {
+                                        required: true,
+                                    })}
+                                    className="Pref-checkbox"
+                                    onChange={handleOnChange}
+                                >
+                                    {c}
+                                </Checkbox>
+                                <br />
+                            </>
+                        ))}
+
                         <p className="Preferences-form-error">
-                            <br />
                             {errors?.timeOfDay &&
                                 'Please select at least one option.'}
                         </p>
                     </div>
-                    <div>
-                        <div className="question">
-                            How many minutes per week would you dedicate to
-                            answering your health assistant questions?
+                    <div className="Question">
+                        <h3 className="Question-title">
+                            How much time do you have for check-ins each week?
+                        </h3>
+
+                        <Slider
+                            className="Pref-slider"
+                            id="minutesPerWeek"
+                            {...register('minutesPerWeek', {
+                                required: true,
+                            })}
+                            value={time}
+                            min={3}
+                            max={15}
+                            //marks={marks}
+                            onChange={(value) => {
+                                setTime(value)
+                            }}
+                            defaultValue={3}
+                            //tooltipVisible={false}
+                        />
+                        <div className="Slider-range">
+                            <span>3 min</span>
+                            <span></span>
+                            <span>10 min</span>
+                            <span>15 min</span>
                         </div>
-                        <br />
-                        <label>
-                            <Slider
-                                id="minutesPerWeek"
-                                {...register('minutesPerWeek', {
-                                    required: true,
-                                })}
-                                value={time}
-                                min={3}
-                                max={15}
-                                marks={marks}
-                                onChange={(value) => {
-                                    setTime(value)
-                                }}
-                            />
-                            Minutes
-                        </label>
+
                         <p className="Preferences-form-error">
                             {errors.minutesPerWeek?.message}
                         </p>
                     </div>
                     <Button
-                        className="mt-2"
-                        size="lg"
+                        className="Pref-btn btn"
+                        //size="lg"
                         loading={isLoading}
                         disabled={isDisabled}
                         onClick={handleSubmit(onSubmit)}
                     >
-                        Proceed
+                        Save and Next
                     </Button>
                 </form>
             </div>
