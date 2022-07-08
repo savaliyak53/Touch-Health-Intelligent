@@ -152,7 +152,7 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                 )
 
             default:
-                return <h2>Cannot determine input field</h2>
+                return <h2></h2>
         }
     }, [question?.q_str, question?.type])
 
