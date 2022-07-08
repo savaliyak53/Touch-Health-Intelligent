@@ -28,6 +28,7 @@ const AppRoutes = () => {
                 />
                 {/* Protected Routes */}
                 <Route element={<RequireAuth />}>
+                    <Route path="/questionnaire" element={<UserCondition />} />
                     <Route
                         path="/questionnaire-submit"
                         element={<ThankyouForSubmiting />}
