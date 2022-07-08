@@ -10,7 +10,7 @@ import { AiOutlineEye } from 'react-icons/ai'
 import Layout from '../../layouts/Layout/Layout'
 import { Tooltip } from 'antd'
 import './Auth.scss'
-import InputMask from 'react-input-mask'
+import InputField from '../../components/Input'
 type IFormInputs = {
     first_name: string
     last_name: string
@@ -144,7 +144,7 @@ const SignUp = () => {
                                 alt="Canadian Flag"
                                 className="Input-flag"
                             />
-                            +
+                            +1
                         </div>
                         <Tooltip
                             color="orange"
@@ -152,30 +152,27 @@ const SignUp = () => {
                             title={errors.phone?.message}
                             visible={errors.phone ? true : false}
                         >
-                            <InputMask
+                            <InputField
                                 className="app-Input phone"
-                                id="username"
+                                id="phone"
                                 placeholder="Enter phone number here"
                                 type="text"
-                                mask={[
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                ]}
                                 {...register('phone', {
                                     required: 'Phone is required',
                                     pattern: {
                                         value: /^[0-9]*$/,
                                         message:
                                             'Please enter a valid phone number.',
+                                    },
+                                    maxLength: {
+                                        value: 10,
+                                        message:
+                                            'Phone should be maximum 10 digits.',
+                                    },
+                                    minLength: {
+                                        value: 10,
+                                        message:
+                                            'Phone requires at least 10 digits.',
                                     },
                                 })}
                             />
@@ -188,7 +185,7 @@ const SignUp = () => {
                                 alt="Canadian Flag"
                                 className="Input-flag"
                             />
-                            +
+                            +1
                         </div>
                         <Tooltip
                             color="orange"
@@ -202,24 +199,11 @@ const SignUp = () => {
                                     : false
                             }
                         >
-                            <InputMask
+                            <InputField
                                 className="app-Input phone"
                                 id="confirmPhone"
                                 placeholder="Confirm your phone number here"
                                 type="text"
-                                mask={[
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                    /\d/,
-                                ]}
                                 {...register('confirmPhone', {
                                     required: 'Phone confirmation is required.',
                                     validate: (value) => {
