@@ -63,7 +63,6 @@ const Login = () => {
             localStorage.setItem('token', `${loginResponse.token}`)
             const userId = getId(loginResponse.token)
             localStorage.setItem('userId', userId)
-            // toast.success('You have logged in successfully.')
             getUserInfo(userId)
         } else {
             setIsDisabled(false)
