@@ -13,7 +13,7 @@ import { Interaction } from '../../interfaces'
 
 function UserCondition() {
     const [question, setQuestion] = useState<Interaction | any>()
-    const [value, setValue] = useState<string>('')
+    const [value, setValue] = useState<string | undefined>('')
     const [loading, setLoading] = useState<boolean>(false)
     const [refId, setRefId] = useState<string>('')
     const navigate = useNavigate()
@@ -37,13 +37,11 @@ function UserCondition() {
     useEffect(() => {
         getInteraction()
     }, [])
-    const onSubmit = async () => {
-        setLoading(true)
-        if (!value) {
+    const onSubmit = async (state?: string) => {
+        if (question.type !== 'yes_no' && !value) {
             toast.error('Please select a value')
             return
         }
-
         const payload = {
             type: 'question',
             ref_id: refId,
@@ -56,9 +54,14 @@ function UserCondition() {
                 shared: true,
             },
         }
+        if (question.type == 'yes_no') {
+            payload.question_response.value = state
+        }
+        setLoading(true)
         postInteractionService(payload)
             .then(({ data }) => {
                 setLoading(false)
+                setValue('')
                 setRefId(data.ref_id ?? '')
                 if (data.reward_nugget) {
                     toast.success(data.reward_nugget.congratulations_str)

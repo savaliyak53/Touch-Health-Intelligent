@@ -66,9 +66,9 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                         <button
                             className="but"
                             type="button"
-                            onClick={() => {
-                                setValue('true')
-                                onSubmit()
+                            onClick={async () => {
+                                await setValue('true')
+                                onSubmit('true')
                             }}
                         >
                             Yes
@@ -76,9 +76,9 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                         <button
                             type="button"
                             className="but"
-                            onClick={() => {
-                                setValue('false')
-                                onSubmit()
+                            onClick={async () => {
+                                await setValue('false')
+                                onSubmit('false')
                             }}
                         >
                             No
