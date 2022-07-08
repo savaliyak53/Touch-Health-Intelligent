@@ -22,6 +22,7 @@ const Preferences = () => {
     const [time, setTime] = useState(3)
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
+    const [checked, setChecked] = useState<string[]>([])
 
     const marks = {
         3: 3,
@@ -79,8 +80,18 @@ const Preferences = () => {
         'Mid-day (12 pm to 5.59 pm)',
         'Evening (6 pm - 9 pm)',
     ]
-    const handleOnChange = () => {
-        console.log('hey')
+    const handleOnChange = (e: any, value: string) => {
+        if (e.target.checked) {
+            setChecked([...checked, value])
+        } else {
+            setChecked(checked.filter((item) => item !== value))
+        }
+    }
+    const isChecked = (value: any) => {
+        if (checked.includes(value)) {
+            return true
+        }
+        return false
     }
     return (
         <Layout defaultHeader={true} hamburger={false}>
@@ -94,23 +105,44 @@ const Preferences = () => {
                         <h3 className="Question-title">
                             Check-in preferred time of day:
                         </h3>
-                        {timeOfDay.map((c, i) => (
-                            <>
-                                <Checkbox
-                                    key={i}
-                                    id={`${c}`}
-                                    {...register('timeOfDay', {
-                                        required: true,
-                                    })}
-                                    className="Pref-checkbox"
-                                    onChange={handleOnChange}
-                                >
-                                    {c}
-                                </Checkbox>
-                                <br />
-                            </>
-                        ))}
+                        <div
+                            className="no-bullets"
+                            {...register('timeOfDay', {
+                                required: true,
+                            })}
+                        >
+                            {timeOfDay.map((c, i) => (
+                                <div key={`${i}`}>
+                                    <label className="ant-checkbox-wrapper Pref-checkbox">
+                                        <span
+                                            className={`ant-checkbox ${
+                                                isChecked(c)
+                                                    ? 'ant-checkbox-checked'
+                                                    : ''
+                                            }`}
+                                        >
+                                            <InputField
+                                                key={i}
+                                                id={`${c}`}
+                                                {...register('timeOfDay', {
+                                                    required: true,
+                                                })}
+                                                value={c}
+                                                type="checkbox"
+                                                className="ant-checkbox-input"
+                                                onChange={(e: any) =>
+                                                    handleOnChange(e, c)
+                                                }
+                                            />
 
+                                            <span className="ant-checkbox-inner"></span>
+                                        </span>
+                                        <span> {c}</span>
+                                    </label>
+                                    <br />
+                                </div>
+                            ))}
+                        </div>
                         <p className="Preferences-form-error">
                             {errors?.timeOfDay &&
                                 'Please select at least one option.'}
