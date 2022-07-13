@@ -223,3 +223,35 @@
         color: rgba(#272424, 0.8);
     }
 }
+
+.option {
+    margin: 10px 10px 10px 0;
+    border: 2px solid #272424;
+    padding: 18px 20px;
+    border-radius: 100px;
+    height: 100%;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    background-color: #fff;
+    color: #272424;
+    &:hover {
+        color: #272424;
+    }
+}
+
+.selected-option {
+    margin: 10px 10px 10px 0;
+    border: 2px solid #272424;
+    padding: 18px 20px;
+    border-radius: 100px;
+    height: 100%;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    background-color: grey;
+    color: #272424;
+    &:hover {
+        color: #272424;
+    }
+}
