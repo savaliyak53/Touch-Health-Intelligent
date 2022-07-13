@@ -14,6 +14,7 @@ interface Props {
 }
 
 const Question = ({ question, setValue, onSubmit }: Props) => {
+    let radioOptions: string[] = []
     const formatter = (value: number | undefined) => `${value}`
     const marks: SliderMarks = {}
     marks[parseInt(question?.lower_value)] = `${question?.lower_value}`
@@ -36,6 +37,24 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
             <Option key={question?.options[i]}>{question?.options[i]}</Option>
         )
         i++
+    }
+    const handleClick = (e: any, item: string) => {
+        const index = question.options.indexOf(item)
+        if (radioOptions.includes(index)) {
+            const newArr = radioOptions.filter((item) => item !== index)
+            radioOptions = [...newArr]
+        } else {
+            radioOptions = [...radioOptions, index]
+        }
+        console.log(radioOptions)
+        setValue(radioOptions)
+    }
+    const isChecked = (item: string) => {
+        const index = question.options.indexOf(item)
+        if (radioOptions.includes(index)) {
+            return true
+        }
+        return false
     }
     const InputField = useCallback(() => {
         switch (question?.type) {
@@ -106,7 +125,6 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                         {children}
                     </Select>
                 )
-
             case 'select_one':
                 return (
                     <Radio.Group
@@ -132,20 +150,37 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                         ))}
                     </Radio.Group>
                 )
-            // case 'select_many':
-            //     return (
-            //         <>
-            //             {question.options.map((item: any, index: number) => (
-            //                 <input
-            //                     key={index}
-            //                     id="selectmany"
-            //                     disabled={true}
-            //                     value={item}
-            //                     className="radio-Input"
-            //                 />
-            //             ))}
-            //         </>
-            //     )
+            case 'select_many':
+                return (
+                    <div className="ant-radio-group ant-radio-group-outline Options">
+                        {question.options.map((item: any, index: number) => (
+                            <>
+                                <label
+                                    className={`ant-radio-button-wrapper Option${index} ${
+                                        isChecked(item)
+                                            ? 'ant-radio-button-wrapper-checked'
+                                            : ''
+                                    } `}
+                                    key={index}
+                                >
+                                    <span className={`ant-radio-button`}>
+                                        <input
+                                            type="radio"
+                                            className="ant-radio-button-input"
+                                            value={item}
+                                            onClick={(e) =>
+                                                handleClick(e, item)
+                                            }
+                                        />
+                                        <span className="ant-radio-button-inner"></span>
+                                    </span>
+                                    <span>{item}</span>
+                                </label>
+                                {index % 2 !== 0 && <br />}
+                            </>
+                        ))}
+                    </div>
+                )
             case 'slider':
                 return (
                     <div className="Slider-Vertical">
