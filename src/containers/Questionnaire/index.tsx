@@ -10,6 +10,7 @@ import {
     postInteractionService,
 } from '../../services/authservice'
 import { Interaction } from '../../interfaces'
+import Layout from '../../layouts/Layout/Layout'
 
 function UserCondition() {
     const [question, setQuestion] = useState<Interaction | any>()
@@ -80,30 +81,31 @@ function UserCondition() {
     }
 
     return (
-        <AuthenticationLayout caption="Questionnaire">
-            <Question
-                question={question}
-                setValue={setValue}
-                onSubmit={onSubmit}
-            />
-            {question?.type !== 'yes_no' ? (
-                <div className="align-center">
-                    <Button
-                        className="mt-3"
-                        size="lg"
-                        onClick={() => {
-                            onSubmit()
-                        }}
-                        loading={loading}
-                        disabled={loading}
-                    >
-                        Next
-                    </Button>
-                </div>
-            ) : (
-                <></>
-            )}
-        </AuthenticationLayout>
+        <Layout defaultHeader={true} hamburger={false}>
+            <div className="Content-wrap Pain">
+                <Question
+                    question={question}
+                    setValue={setValue}
+                    onSubmit={onSubmit}
+                />
+                {question?.type !== 'yes_no' ? (
+                    <div className="Btn-group">
+                        <Button
+                            className="Next"
+                            onClick={() => {
+                                onSubmit()
+                            }}
+                            loading={loading}
+                            disabled={loading}
+                        >
+                            Next
+                        </Button>
+                    </div>
+                ) : (
+                    <></>
+                )}
+            </div>
+        </Layout>
     )
 }
 

@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react'
-import { DatePicker, TimePicker } from 'antd'
+import { DatePicker, Radio, TimePicker } from 'antd'
 import { Slider } from 'antd'
 import type { SliderMarks } from 'antd/lib/slider'
 import { Select } from 'antd'
 const { Option } = Select
 import './index.scss'
+import TextArea from 'antd/lib/input/TextArea'
 
 interface Props {
     question: any
@@ -40,25 +41,23 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
         switch (question?.type) {
             case 'time':
                 return (
-                    <div>
-                        <TimePicker
-                            format={'h:mm'}
-                            use12Hours
-                            onChange={(time, timeString) => {
-                                setValue(timeString)
-                            }}
-                        />
-                    </div>
+                    <TimePicker
+                        className="Date-Select"
+                        format={'h:mm'}
+                        use12Hours
+                        onChange={(time, timeString) => {
+                            setValue(timeString)
+                        }}
+                    />
                 )
             case 'date':
                 return (
-                    <div>
-                        <DatePicker
-                            onChange={(date: any, dateString: any) =>
-                                setValue(dateString)
-                            }
-                        />
-                    </div>
+                    <DatePicker
+                        onChange={(date: any, dateString: any) =>
+                            setValue(dateString)
+                        }
+                        className="Date-Select"
+                    />
                 )
             case 'yes_no':
                 return (
@@ -110,44 +109,59 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
 
             case 'select_one':
                 return (
-                    <div>
-                        <Select
-                            allowClear
-                            style={{ width: '100%' }}
-                            placeholder="Please select"
-                            onChange={(value) => {
-                                const index = question.options.indexOf(value)
-                                setValue(index)
-                            }}
-                        >
-                            {children}
-                        </Select>
-                    </div>
+                    <Radio.Group
+                        className="Options"
+                        onChange={(value) => {
+                            const index = question.options.indexOf(value)
+                            setValue(index)
+                        }}
+                    >
+                        {question.options.map((item: any, index: number) => (
+                            <>
+                                <Radio.Button
+                                    className={`Option${index}`}
+                                    value={item}
+                                    key={item}
+                                >
+                                    {item}
+                                </Radio.Button>
+                                {index % 2 !== 0 && <br />}
+                            </>
+                        ))}
+                    </Radio.Group>
                 )
             case 'slider':
                 return (
-                    <div>
+                    <div className="Slider-Vertical">
+                        <span className="Text1">No pain</span>
                         <Slider
+                            className="Slider"
+                            vertical
                             tipFormatter={formatter}
                             min={question.lower_value}
                             max={question.upper_value}
                             step={question.step_value}
-                            marks={marks}
+                            tooltipVisible={true}
+                            //marks={marks}
                             onChange={(value) => {
                                 setValue(value)
                             }}
                         />
+                        <span className="Text2">Worst it’s been</span>
                     </div>
                 )
             case 'free_text':
                 return (
                     <div>
-                        <input
-                            style={{ width: '100%' }}
+                        <TextArea
+                            className="TextArea"
+                            rows={6}
+                            placeholder="Enter answer here…"
+                            maxLength={500}
                             onChange={(e) => {
                                 setValue(e.target.value)
                             }}
-                        ></input>
+                        />
                     </div>
                 )
 
@@ -157,13 +171,14 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
     }, [question?.q_str, question?.type])
 
     return (
-        <div style={{ textAlign: 'center' }}>
-            <div>
-                <div className="question">{question?.q_str}</div>
+        <>
+            <div className="Question">
+                <h3 className="Question-title">{question?.q_str}</h3>
+
                 <br />
                 <InputField />
             </div>
-        </div>
+        </>
     )
 }
 
