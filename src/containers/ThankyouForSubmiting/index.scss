@@ -1,0 +1,21 @@
+//Day Condition or thankyou page
+.DayCon {
+    .Question {
+        margin-top: clamp(0px, 8vh, 130px);
+        margin-bottom: clamp(0px, 25vh, 260px);
+    }
+
+    .Question-title {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .Description {
+        font-size: 20px;
+        line-height: 24px;
+        color: #272424;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+}

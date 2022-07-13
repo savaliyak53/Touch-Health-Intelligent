@@ -2,6 +2,7 @@
     width: 100%;
     display: flex;
     height: 100vh;
+    position: relative;
 }
 
 .Layout-Transparent {
@@ -14,6 +15,16 @@
     @media screen and (min-width: 992px) {
         max-width: 50%;
     }
+
+    &.header-transp {
+        .Navigation {
+            background-color: transparent;
+        }
+        .MobileScreen {
+            padding: 0;
+            padding-top: 0;
+        }
+    }
 }
 
 .Layout-graphics {
@@ -21,7 +32,9 @@
     max-width: 50%;
     display: none;
     background: url('../../../public/assets/mobileassets/background.png');
-    grid-area: image;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-color: rgba(#3a4a7e, 0.4);
 
     @media screen and (min-width: 992px) {
         display: block;
@@ -30,7 +43,6 @@
 
 .MobileScreen {
     padding: 0 20px 20px;
-    // max-width: 428px;
     max-width: 100%;
     width: 100%;
     height: 100%;
@@ -48,36 +60,4 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-}
-
-.Navigation {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    padding: 20px 20px 0;
-    background-color: white;
-    // max-width: 428px;
-    max-width: 100%;
-    @media screen and (min-width: 992px) {
-        max-width: 50%;
-    }
-
-    &.bg {
-        background-color: transparent;
-    }
-}
-
-.Toggler-btn {
-    button {
-        padding: 0;
-        border: none;
-        background-color: transparent;
-
-        &.d-none {
-            display: none;
-        }
-    }
 }
