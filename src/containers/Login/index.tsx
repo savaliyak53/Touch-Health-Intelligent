@@ -88,7 +88,7 @@ const Login = () => {
                 if (response.data.preferences) {
                     navigate('/questionnaire')
                 } else {
-                    navigate('/preferences')
+                    navigate('/dashboard')
                 }
             })
             .catch(() => {

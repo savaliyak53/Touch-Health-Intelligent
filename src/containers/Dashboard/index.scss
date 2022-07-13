@@ -1,0 +1,126 @@
+.Db-wrap {
+    overflow: hidden;
+    max-width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+    .btn-group {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(95px, 95px));
+        grid-gap: 26px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: -1;
+        transform: translate(-50%, -50%) rotate(45deg);
+
+        .Db-Btn {
+            padding: 15px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 95px;
+            height: 95px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            position: relative;
+            color: #e5ebe1;
+
+            svg {
+                height: 30px;
+                width: 30px;
+                transform: rotate(-45deg);
+
+                path {
+                    fill: #fff;
+                }
+            }
+
+            &:hover,
+            &:active,
+            &:focus {
+                background-color: rgba(#394a7e, 0.5);
+                border-color: transparent;
+
+                .inner-1,
+                .inner-2 {
+                    visibility: visible;
+                }
+            }
+
+            &.primary {
+                background-color: #394a7e;
+                border-color: #394a7e;
+                &.primary:hover,
+                &.primary:active,
+                &.primary:focus,
+                &.disabled {
+                    background-color: rgba(#394a7e, 0.5);
+                    border-color: transparent;
+                }
+            }
+
+            &.secondary {
+                background-color: #cd6052;
+                border-color: #cd6052;
+                &.secondary:hover,
+                &.secondary:active,
+                &.secondary:focus,
+                &.disabled {
+                    background-color: rgba(#cd6052, 0.5);
+                    border-color: transparent;
+                }
+            }
+
+            &.disabled,
+            &.disabled:hover,
+            &.disabled:active,
+            &.disabled:focus {
+                background-color: #e5ebe1;
+                border-color: #e5ebe1;
+                opacity: 0.3;
+                cursor: default;
+            }
+        }
+    }
+
+    .inner-1,
+    .inner-2 {
+        position: absolute;
+        visibility: hidden;
+    }
+    .inner-1 {
+        top: -20px;
+        right: 70px;
+    }
+
+    .inner-2 {
+        bottom: -20px;
+        left: 70px;
+    }
+
+    .btn-inner {
+        background-color: #394a7e;
+        border-color: #394a7e;
+        border-radius: 100px;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        svg {
+            height: 15px !important;
+            width: 15px !important;
+        }
+
+        &:hover,
+        &:focus,
+        &:active {
+            background-color: #394a7e;
+            border-color: #394a7e;
+            opacity: 0.5;
+        }
+    }
+}
