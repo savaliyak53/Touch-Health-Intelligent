@@ -8,6 +8,8 @@
     padding: 20px 20px 0;
     background-color: white;
     max-width: 100%;
+    z-index: 99999;
+
     @media screen and (min-width: 992px) {
         max-width: 50%;
     }
@@ -30,7 +32,7 @@
 }
 
 .Burger-menu {
-    background-color: #3A4A7E;
+    background-color: #3a4a7e;
     color: #fff;
     position: absolute;
     top: 0;

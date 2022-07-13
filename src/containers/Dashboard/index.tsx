@@ -16,7 +16,7 @@ const Dashboard = () => {
                         <Button className="Db-Btn disabled">.</Button>
                         <Button className="Db-Btn disabled">.</Button>
                         <Button className="Db-Btn disabled">.</Button>
-                        <Button className="Db-Btn primary">
+                        <div className="Db-Btn primary">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="36"
@@ -62,8 +62,8 @@ const Dashboard = () => {
                                     </g>
                                 </g>
                             </svg>
-                        </Button>
-                        <Button className="Db-Btn primary">
+                        </div>
+                        <div className="Db-Btn primary">
                             <div className="inner-1">
                                 <Button className="btn-inner">
                                     <svg
@@ -145,7 +145,7 @@ const Dashboard = () => {
                                     </svg>
                                 </Button>
                             </div>
-                        </Button>
+                        </div>
                         <Button className="Db-Btn disabled">.</Button>
                         <Button className="Db-Btn disabled">.</Button>
                         <Button className="Db-Btn disabled">.</Button>
