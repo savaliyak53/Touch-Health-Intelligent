@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Slider } from 'antd'
+import { Checkbox, Slider } from 'antd'
 import * as yup from 'yup'
 import './index.scss'
 import InputField from '../../components/Input'
@@ -10,6 +10,7 @@ import AuthenticationLayout from '../../layouts/authentication-layout/Authentica
 import Button from '../../components/Button'
 import { preferencesService } from '../../services/authservice'
 import { toast } from 'react-toastify'
+import Layout from '../../layouts/Layout/Layout'
 
 type IFormInputs = {
     minutesPerWeek: number
@@ -21,6 +22,7 @@ const Preferences = () => {
     const [time, setTime] = useState(3)
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
+    const [checked, setChecked] = useState<string[]>([])
 
     const marks = {
         3: 3,
@@ -73,93 +75,123 @@ const Preferences = () => {
         navigate(`/introvideo`)
     }
 
-    const timeOfDay = ['Morning', 'Afternoon', 'Evening']
+    const timeOfDay = [
+        'Morning (7 am to 11:59 am)',
+        'Mid-day (12 pm to 5.59 pm)',
+        'Evening (6 pm - 9 pm)',
+    ]
+    const handleOnChange = (e: any, value: string) => {
+        if (e.target.checked) {
+            setChecked([...checked, value])
+        } else {
+            setChecked(checked.filter((item) => item !== value))
+        }
+    }
+    const isChecked = (value: any) => {
+        if (checked.includes(value)) {
+            return true
+        }
+        return false
+    }
     return (
-        <AuthenticationLayout caption="Engagement Preferences">
-            <p className="intro">
-                Your health assistant will get to know you over time by asking
-                <br />
-                questions every week. These settings help your health assistant
-                <br />
-                communicate with you around your own schedule.
-            </p>
-            <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="Preferences-form"
-            >
-                <div>
-                    <div className="question">
-                        How many minutes per week would you dedicate to
-                        answering your health assistant questions?
+        <Layout defaultHeader={true} hamburger={false}>
+            <div className="Content-wrap Pref">
+                <h2 className="Pref-title">Preferences</h2>
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="Preferences-form"
+                >
+                    <div className="Question">
+                        <h3 className="Question-title">
+                            Check-in preferred time of day:
+                        </h3>
+                        <div
+                            className="no-bullets"
+                            {...register('timeOfDay', {
+                                required: true,
+                            })}
+                        >
+                            {timeOfDay.map((c, i) => (
+                                <div key={`${i}`}>
+                                    <label className="ant-checkbox-wrapper Pref-checkbox">
+                                        <span
+                                            className={`ant-checkbox ${
+                                                isChecked(c)
+                                                    ? 'ant-checkbox-checked'
+                                                    : ''
+                                            }`}
+                                        >
+                                            <InputField
+                                                key={i}
+                                                id={`${c}`}
+                                                {...register('timeOfDay', {
+                                                    required: true,
+                                                })}
+                                                value={c}
+                                                type="checkbox"
+                                                className="ant-checkbox-input"
+                                                onChange={(e: any) =>
+                                                    handleOnChange(e, c)
+                                                }
+                                            />
+
+                                            <span className="ant-checkbox-inner"></span>
+                                        </span>
+                                        <span> {c}</span>
+                                    </label>
+                                    <br />
+                                </div>
+                            ))}
+                        </div>
+                        <p className="Preferences-form-error">
+                            {errors?.timeOfDay &&
+                                'Please select at least one option.'}
+                        </p>
                     </div>
-                    <br />
-                    <label>
+                    <div className="Question">
+                        <h3 className="Question-title">
+                            How much time do you have for check-ins each week?
+                        </h3>
+
                         <Slider
+                            className="Pref-slider"
                             id="minutesPerWeek"
-                            {...register('minutesPerWeek', { required: true })}
+                            {...register('minutesPerWeek', {
+                                required: true,
+                            })}
                             value={time}
                             min={3}
                             max={15}
-                            marks={marks}
+                            //marks={marks}
                             onChange={(value) => {
                                 setTime(value)
                             }}
+                            defaultValue={3}
+                            //tooltipVisible={false}
                         />
-                        Minutes
-                    </label>
-                    <p className="Preferences-form-error">
-                        {errors.minutesPerWeek?.message}
-                    </p>
-                </div>
+                        <div className="Slider-range">
+                            <span>3 min</span>
+                            <span></span>
+                            <span>10 min</span>
+                            <span>15 min</span>
+                        </div>
 
-                <div>
-                    <div className="question">
-                        What are your preferred times to be contacted?
+                        <p className="Preferences-form-error">
+                            {errors.minutesPerWeek?.message}
+                        </p>
                     </div>
-                    <p>[select all that apply]</p>
-                    <br />
-                    <ul
-                        className="no-bullets"
-                        {...register('timeOfDay', {
-                            required: true,
-                        })}
+                    <Button
+                        className="Pref-btn btn"
+                        //size="lg"
+                        loading={isLoading}
+                        disabled={isDisabled}
+                        onClick={handleSubmit(onSubmit)}
                     >
-                        {timeOfDay.map((c, i) => (
-                            <li key={`${i}`}>
-                                <label>
-                                    <InputField
-                                        key={i}
-                                        id={`${c}`}
-                                        {...register('timeOfDay', {
-                                            required: true,
-                                        })}
-                                        value={c}
-                                        type="checkbox"
-                                        className="checkbox"
-                                    />
-                                    {c}
-                                </label>
-                            </li>
-                        ))}
-                    </ul>
-                    <br />
-                    <p className="Preferences-form-error">
-                        <br />
-                        {errors?.timeOfDay &&
-                            'Please select at least one option.'}
-                    </p>
-                </div>
-                <Button
-                    className="mt-2"
-                    size="lg"
-                    loading={isLoading}
-                    disabled={isDisabled}
-                    onClick={handleSubmit(onSubmit)}
-                >
-                    Proceed
-                </Button>
-            </form>
-        </AuthenticationLayout>
+                        Save and Next
+                    </Button>
+                </form>
+            </div>
+        </Layout>
     )
 }
 

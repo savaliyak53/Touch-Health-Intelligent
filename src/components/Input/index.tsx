@@ -13,6 +13,7 @@ interface InputProps {
     value?: string
     togglePassword?: any
     defaultValue?: any
+    onChange?: any
 }
 const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
     (
@@ -26,6 +27,7 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
             value,
             isEye,
             togglePassword,
+            onChange,
             ...rest
         },
         ref
@@ -47,6 +49,7 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
                     value={value}
                     style={style}
                     {...rest}
+                    onChange={onChange}
                     defaultValue={defaultValue}
                 />
                 {isEye ? (
