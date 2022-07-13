@@ -15,9 +15,9 @@ interface Props {
 }
 
 const Question = ({ question, setValue, onSubmit }: Props) => {
+    let radioOptions: string[] = []
     const formatter = (value: number | undefined) => `${value}`
     const marks: SliderMarks = {}
-    const indexArray: any = []
     marks[parseInt(question?.lower_value)] = `${question?.lower_value}`
     marks[parseInt(question?.upper_value)] = `${question?.upper_value}`
 
@@ -35,21 +35,21 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
         console.log('search:', value)
     }
 
-    const handleClick = (button: any) => {
-        if (button.className == 'option') {
-            button.className = 'selected-option'
-        } else {
-            button.className = 'option'
-        }
-        const index = question.options.indexOf(button.value)
-        const indexExist = indexArray.indexOf(index)
-        if (indexExist !== -1) {
-            indexArray.splice(indexExist, 1)
-        } else {
-            indexArray.push(index)
-        }
-        setValue(indexArray)
-    }
+    // const handleClick = (button: any) => {
+    //     if (button.className == 'option') {
+    //         button.className = 'selected-option'
+    //     } else {
+    //         button.className = 'option'
+    //     }
+    //     const index = question.options.indexOf(button.value)
+    //     const indexExist = indexArray.indexOf(index)
+    //     if (indexExist !== -1) {
+    //         indexArray.splice(indexExist, 1)
+    //     } else {
+    //         indexArray.push(index)
+    //     }
+    //     setValue(indexArray)
+    // }
 
     const children: React.ReactNode[] = []
     let i = 0
@@ -58,6 +58,24 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
             <Option key={question?.options[i]}>{question?.options[i]}</Option>
         )
         i++
+    }
+    const handleClick = (item: string) => {
+        const index = question.options.indexOf(item)
+        if (radioOptions.includes(index)) {
+            const newArr = radioOptions.filter((item) => item !== index)
+            radioOptions = [...newArr]
+        } else {
+            radioOptions = [...radioOptions, index]
+        }
+        console.log(radioOptions)
+        setValue(radioOptions)
+    }
+    const isChecked = (item: string) => {
+        const index = question.options.indexOf(item)
+        if (radioOptions.includes(index)) {
+            return true
+        }
+        return false
     }
     const InputField = useCallback(() => {
         switch (question?.type) {
@@ -144,7 +162,6 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                         <RightOutlined />
                     </div>
                 )
-
             case 'select_one':
                 return (
                     <Radio.Group
@@ -172,19 +189,30 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                 )
             case 'select_many':
                 return (
-                    <div className="Options">
-                        {question.options.map((item: string, index: number) => (
-                            <button
-                                key={index}
-                                id="selectmany"
-                                value={item}
-                                onClick={(e) =>
-                                    handleClick(e.target as HTMLInputElement)
-                                }
-                                className="option"
-                            >
-                                {item}
-                            </button>
+                    <div className="ant-radio-group ant-radio-group-outline Options">
+                        {question.options.map((item: any, index: number) => (
+                            <>
+                                <label
+                                    className={`ant-radio-button-wrapper Option${index} ${
+                                        isChecked(item)
+                                            ? 'ant-radio-button-wrapper-checked'
+                                            : ''
+                                    } `}
+                                    key={index}
+                                >
+                                    <span className={`ant-radio-button`}>
+                                        <input
+                                            type="radio"
+                                            className="ant-radio-button-input"
+                                            value={item}
+                                            onClick={() => handleClick(item)}
+                                        />
+                                        <span className="ant-radio-button-inner"></span>
+                                    </span>
+                                    <span>{item}</span>
+                                </label>
+                                {index % 2 !== 0 && <br />}
+                            </>
                         ))}
                     </div>
                 )
