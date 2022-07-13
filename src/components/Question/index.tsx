@@ -111,8 +111,10 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                 return (
                     <Radio.Group
                         className="Options"
-                        onChange={(value) => {
-                            const index = question.options.indexOf(value)
+                        onChange={(e) => {
+                            const index = question.options.indexOf(
+                                e.target.value
+                            )
                             setValue(index)
                         }}
                     >
@@ -130,6 +132,20 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                         ))}
                     </Radio.Group>
                 )
+            // case 'select_many':
+            //     return (
+            //         <>
+            //             {question.options.map((item: any, index: number) => (
+            //                 <input
+            //                     key={index}
+            //                     id="selectmany"
+            //                     disabled={true}
+            //                     value={item}
+            //                     className="radio-Input"
+            //                 />
+            //             ))}
+            //         </>
+            //     )
             case 'slider':
                 return (
                     <div className="Slider-Vertical">
