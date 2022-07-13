@@ -10,7 +10,8 @@ import ThankyouForSubmiting from '../containers/ThankyouForSubmiting'
 import IntroVideo from '../containers/Introvideo'
 import VerificationMessage from '../containers/VerificationMessage'
 import PhoneVerification from '../containers/PhoneVerification'
-
+import Dashboard from '../containers/Dashboard'
+import Analytics from '../containers/Analytics'
 const AppRoutes = () => {
     return (
         <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
@@ -28,6 +29,9 @@ const AppRoutes = () => {
                 />
                 {/* Protected Routes */}
                 <Route element={<RequireAuth />}>
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    {/* Adding Chart.js here */}
+                    <Route path="/analytics" element={<Analytics />} />
                     <Route path="/questionnaire" element={<UserCondition />} />
                     <Route
                         path="/questionnaire-submit"

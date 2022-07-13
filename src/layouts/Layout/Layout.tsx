@@ -1,38 +1,33 @@
 import React from 'react'
-import { Button } from 'antd'
+import SiteHeader from '../../components/SiteHeader/SiteHeader'
 import './Layout.scss'
 
 type Props = {
     defaultHeader: boolean
     hamburger: boolean
+    dashboard?: boolean
     children?: React.ReactChild | React.ReactChild[]
 }
-const Layout = ({ children, defaultHeader, hamburger }: Props) => {
+const Layout = ({ children, defaultHeader, hamburger, dashboard }: Props) => {
     return (
-        <div className='Layout'>
-            <div className='Layout-Transparent'>
-                    <header className={defaultHeader ? 'Navigation' : 'Navigation bg'}>
-                        <a href="#">
-                            <img
-                                src={`${process.env.PUBLIC_URL}/assets/mobileassets/${defaultHeader ? 'logo-black.svg' : 'logo-white.svg'}`}
-                                alt='Touch Logo'
-                                className='Layout-logo'
-                            />
-                        </a>
-                        <div className='Toggler-btn'>
-                            <Button className={hamburger ? 'd-block' : 'd-none'}>
-                                <img
-                                    src={`${process.env.PUBLIC_URL}/assets/mobileassets/hamburger.svg`}
-                                    alt='Touch Logo'
-                                    className='Hamburger-icon'
-                                />
-                            </Button>
-                        </div>
-                    </header>
-                <div className={defaultHeader ? 'MobileScreen' : 'MobileScreen bg'}>
-                    <div className="Layout-main">
-                        {children}
-                    </div>
+        <div className="Layout">
+            <div
+                className={
+                    dashboard
+                        ? 'Layout-Transparent header-transp'
+                        : 'Layout-Transparent'
+                }
+            >
+                <SiteHeader
+                    defaultHeader={defaultHeader}
+                    hamburger={hamburger}
+                />
+                <div
+                    className={
+                        defaultHeader ? 'MobileScreen' : 'MobileScreen bg'
+                    }
+                >
+                    <div className="Layout-main">{children}</div>
                 </div>
             </div>
             <div className="Layout-graphics" />
