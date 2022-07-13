@@ -2,7 +2,8 @@ import React, { useCallback } from 'react'
 import { DatePicker, Radio, TimePicker } from 'antd'
 import { Slider } from 'antd'
 import type { SliderMarks } from 'antd/lib/slider'
-import { Select } from 'antd'
+import { RightOutlined, SearchOutlined } from '@ant-design/icons'
+import { Select, Spin } from 'antd'
 const { Option } = Select
 import './index.scss'
 import TextArea from 'antd/lib/input/TextArea'
@@ -16,17 +17,38 @@ interface Props {
 const Question = ({ question, setValue, onSubmit }: Props) => {
     const formatter = (value: number | undefined) => `${value}`
     const marks: SliderMarks = {}
+    const indexArray: any = []
     marks[parseInt(question?.lower_value)] = `${question?.lower_value}`
     marks[parseInt(question?.upper_value)] = `${question?.upper_value}`
 
-    const getdefaultValues = () => {
+    const getDefaultValues = () => {
         const defaultArray = []
         let j = 0
         while (question?.defaults?.length > j) {
             defaultArray.push(question.options[question.defaults[j]])
             j++
         }
+        setValue(defaultArray)
         return defaultArray
+    }
+    const onSearch = (value: string) => {
+        console.log('search:', value)
+    }
+
+    const handleClick = (button: any) => {
+        if (button.className == 'option') {
+            button.className = 'selected-option'
+        } else {
+            button.className = 'option'
+        }
+        const index = question.options.indexOf(button.value)
+        const indexExist = indexArray.indexOf(index)
+        if (indexExist !== -1) {
+            indexArray.splice(indexExist, 1)
+        } else {
+            indexArray.push(index)
+        }
+        setValue(indexArray)
     }
 
     const children: React.ReactNode[] = []
@@ -84,27 +106,43 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                         </button>
                     </div>
                 )
+
             case 'multi_select':
                 return (
-                    <Select
-                        mode="multiple"
-                        allowClear
-                        style={{ width: '100%' }}
-                        defaultValue={getdefaultValues()}
-                        placeholder="Please select"
-                        onChange={(value) => {
-                            let i = 0
-                            const indexArray = []
-                            while (value.length > i) {
-                                const index = question.options.indexOf(value[i])
-                                indexArray.push(index)
-                                i++
+                    <div className="Select-Wrap">
+                        <SearchOutlined />
+                        <Select
+                            mode="multiple"
+                            allowClear
+                            defaultValue={getDefaultValues()}
+                            showSearch={true}
+                            showArrow={true}
+                            dropdownRender={(menu) => <>{menu}</>}
+                            placeholder="Add a condition"
+                            optionFilterProp="children"
+                            onSearch={onSearch}
+                            filterOption={(input, option) =>
+                                (option!.children as unknown as string)
+                                    .toLowerCase()
+                                    .includes(input.toLowerCase())
                             }
-                            setValue(indexArray)
-                        }}
-                    >
-                        {children}
-                    </Select>
+                            onChange={(value) => {
+                                let i = 0
+                                const indexArray = []
+                                while (value.length > i) {
+                                    const index = question.options.indexOf(
+                                        value[i]
+                                    )
+                                    indexArray.push(index)
+                                    i++
+                                }
+                                setValue(indexArray)
+                            }}
+                        >
+                            {children}
+                        </Select>
+                        <RightOutlined />
+                    </div>
                 )
 
             case 'select_one':
@@ -132,20 +170,24 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                         ))}
                     </Radio.Group>
                 )
-            // case 'select_many':
-            //     return (
-            //         <>
-            //             {question.options.map((item: any, index: number) => (
-            //                 <input
-            //                     key={index}
-            //                     id="selectmany"
-            //                     disabled={true}
-            //                     value={item}
-            //                     className="radio-Input"
-            //                 />
-            //             ))}
-            //         </>
-            //     )
+            case 'select_many':
+                return (
+                    <div className="Options">
+                        {question.options.map((item: string, index: number) => (
+                            <button
+                                key={index}
+                                id="selectmany"
+                                value={item}
+                                onClick={(e) =>
+                                    handleClick(e.target as HTMLInputElement)
+                                }
+                                className="option"
+                            >
+                                {item}
+                            </button>
+                        ))}
+                    </div>
+                )
             case 'slider':
                 return (
                     <div className="Slider-Vertical">
