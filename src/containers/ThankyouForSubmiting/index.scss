@@ -19,3 +19,24 @@
         margin-bottom: 50px;
     }
 }
+
+.submit {
+    border-radius: 100px;
+    height: auto;
+    padding: 18px 60px;
+    color: #fff;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    margin-top: 20px;
+    display: block;
+    border: 2px solid #3a4a7e;
+    background-color: #3a4a7e;
+    &:hover,
+    &:focus,
+    &:active {
+        background-color: #fff;
+        color: #3a4a7e;
+        border-color: #3a4a7e;
+    }
+}
