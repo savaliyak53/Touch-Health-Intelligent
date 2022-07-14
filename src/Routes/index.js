@@ -12,6 +12,7 @@ import VerificationMessage from '../containers/VerificationMessage'
 import PhoneVerification from '../containers/PhoneVerification'
 import Dashboard from '../containers/Dashboard'
 import Analytics from '../containers/Analytics'
+import ManageConditions from '../containers/Conditions'
 const AppRoutes = () => {
     return (
         <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
@@ -27,6 +28,7 @@ const AppRoutes = () => {
                     path="/verify/phone/:userId/:code"
                     element={<PhoneVerification />}
                 />
+                <Route path="/conditions" element={<ManageConditions />} />
                 {/* Protected Routes */}
                 <Route element={<RequireAuth />}>
                     <Route path="/dashboard" element={<Dashboard />} />
