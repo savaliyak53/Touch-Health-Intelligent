@@ -55,6 +55,7 @@ function UserCondition() {
                 shared: true,
             },
         }
+        console.log('payload :', payload)
         if (question.type == 'yes_no') {
             payload.question_response.value = state
         }

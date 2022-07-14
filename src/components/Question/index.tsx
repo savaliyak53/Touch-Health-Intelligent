@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { DatePicker, Radio, TimePicker } from 'antd'
 import { Slider } from 'antd'
 import type { SliderMarks } from 'antd/lib/slider'
@@ -7,6 +7,7 @@ import { Select, Spin } from 'antd'
 const { Option } = Select
 import './index.scss'
 import TextArea from 'antd/lib/input/TextArea'
+import type { SelectProps } from 'antd/es/select'
 
 interface Props {
     question: any
@@ -18,38 +19,23 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
     let radioOptions: string[] = []
     const formatter = (value: number | undefined) => `${value}`
     const marks: SliderMarks = {}
+    const [search, setSearch] = useState<string>()
     marks[parseInt(question?.lower_value)] = `${question?.lower_value}`
     marks[parseInt(question?.upper_value)] = `${question?.upper_value}`
-
-    const getDefaultValues = () => {
-        const defaultArray = []
-        let j = 0
-        while (question?.defaults?.length > j) {
-            defaultArray.push(question.options[question.defaults[j]])
-            j++
+    const onChange = (value: Array<string>) => {
+        let i = 0
+        const indexArray = []
+        while (value.length > i) {
+            const index = question.options.indexOf(value[i])
+            indexArray.push(index)
+            i++
         }
-        setValue(defaultArray)
-        return defaultArray
+        setValue(indexArray)
     }
     const onSearch = (value: string) => {
+        setSearch(value)
         console.log('search:', value)
     }
-
-    // const handleClick = (button: any) => {
-    //     if (button.className == 'option') {
-    //         button.className = 'selected-option'
-    //     } else {
-    //         button.className = 'option'
-    //     }
-    //     const index = question.options.indexOf(button.value)
-    //     const indexExist = indexArray.indexOf(index)
-    //     if (indexExist !== -1) {
-    //         indexArray.splice(indexExist, 1)
-    //     } else {
-    //         indexArray.push(index)
-    //     }
-    //     setValue(indexArray)
-    // }
 
     const children: React.ReactNode[] = []
     let i = 0
@@ -103,7 +89,7 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                 return (
                     <div className="align-center">
                         <button
-                            className="but"
+                            className="next"
                             type="button"
                             onClick={async () => {
                                 await setValue('true')
@@ -114,7 +100,7 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                         </button>
                         <button
                             type="button"
-                            className="but"
+                            className="skip"
                             onClick={async () => {
                                 await setValue('false')
                                 onSubmit('false')
@@ -128,34 +114,19 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
             case 'multi_select':
                 return (
                     <div className="Select-Wrap">
-                        <SearchOutlined />
+                        <SearchOutlined className="search" />
                         <Select
                             mode="multiple"
-                            allowClear
-                            defaultValue={getDefaultValues()}
-                            showSearch={true}
-                            showArrow={true}
-                            dropdownRender={(menu) => <>{menu}</>}
+                            showSearch
                             placeholder="Add a condition"
                             optionFilterProp="children"
+                            onChange={onChange}
                             onSearch={onSearch}
                             filterOption={(input, option) =>
                                 (option!.children as unknown as string)
                                     .toLowerCase()
                                     .includes(input.toLowerCase())
                             }
-                            onChange={(value) => {
-                                let i = 0
-                                const indexArray = []
-                                while (value.length > i) {
-                                    const index = question.options.indexOf(
-                                        value[i]
-                                    )
-                                    indexArray.push(index)
-                                    i++
-                                }
-                                setValue(indexArray)
-                            }}
                         >
                             {children}
                         </Select>
