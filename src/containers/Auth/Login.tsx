@@ -33,7 +33,8 @@ const Login = () => {
     useEffect(() => {
         const token = localStorage.getItem('token')
         if (token) {
-            navigate(`/preferences`)
+            const userId = localStorage.getItem('userId')
+            getUserInfo(userId)
         }
     }, [])
     const {
@@ -74,23 +75,35 @@ const Login = () => {
     const togglePassword = () => {
         setPasswordShown(!passwordShown)
     }
-
-    const getUserInfo = (userId: string) => {
+    const getUserInfo = (userId: string | null | undefined) => {
         getUser(userId)
             .then((response: any) => {
                 if (response.data.preferences) {
                     navigate('/questionnaire')
                 } else {
-                    navigate('/preferences')
+                    navigate('/dashboard')
                 }
             })
-            .catch((error) => {
-                console.log(
-                    'error occurred while getting user interaction ',
-                    error
-                )
+            .catch(() => {
+                toast('Unknown error')
             })
     }
+    // const getUserInfo = (userId: string) => {
+    //     getUser(userId)
+    //         .then((response: any) => {
+    //             if (response.data.preferences) {
+    //                 navigate('/questionnaire')
+    //             } else {
+    //                 navigate('/dashboard')
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.log(
+    //                 'error occurred while getting user interaction ',
+    //                 error
+    //             )
+    //         })
+    // }
 
     return (
         <Layout defaultHeader={false} hamburger={false}>
