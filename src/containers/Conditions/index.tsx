@@ -31,7 +31,6 @@ const ManageConditions = () => {
         const userId = localStorage.getItem('userId')
         try {
             const response = await getConditionsService(userId)
-            console.log(response)
         } catch (error) {
             toast
         }

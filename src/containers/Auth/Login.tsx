@@ -33,7 +33,8 @@ const Login = () => {
     useEffect(() => {
         const token = localStorage.getItem('token')
         if (token) {
-            navigate(`/preferences`)
+            const userId = localStorage.getItem('userId')
+            getUserInfo(userId)
         }
     }, [])
     const {
@@ -75,7 +76,7 @@ const Login = () => {
         setPasswordShown(!passwordShown)
     }
 
-    const getUserInfo = (userId: string) => {
+    const getUserInfo = (userId: string | null) => {
         getUser(userId)
             .then((response: any) => {
                 if (response.data.preferences) {
