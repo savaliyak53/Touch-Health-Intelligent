@@ -116,3 +116,7 @@ export const postInteractionService = async (data: InteractionService) => {
 export const getUser = (id: string | null | undefined) => {
     return APIClient(`/api/v1/users/${id}`, 'GET')
 }
+export const getInsights = async (id: string | null | undefined) => {
+    return await APIClient(`/api/v1/insights`, 'get')
+    //return APIClient(`/api/v1/insights`, 'GET')
+}

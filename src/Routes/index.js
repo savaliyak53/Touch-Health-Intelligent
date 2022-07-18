@@ -12,6 +12,7 @@ import VerificationMessage from '../containers/VerificationMessage'
 import PhoneVerification from '../containers/PhoneVerification'
 import Dashboard from '../containers/Dashboard'
 import Analytics from '../containers/Analytics'
+import Insights from '../containers/Insights'
 const AppRoutes = () => {
     return (
         <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
@@ -27,11 +28,13 @@ const AppRoutes = () => {
                     path="/verify/phone/:userId/:code"
                     element={<PhoneVerification />}
                 />
+                {/* <To-do-Nayab> put it in protected route */}
+                <Route path="/analytics" element={<Analytics />} />
                 {/* Protected Routes */}
                 <Route element={<RequireAuth />}>
                     <Route path="/dashboard" element={<Dashboard />} />
-                    {/* Adding Chart.js here */}
-                    <Route path="/analytics" element={<Analytics />} />
+
+                    <Route path="/insights" element={<Insights />} />
                     <Route path="/questionnaire" element={<UserCondition />} />
                     <Route
                         path="/questionnaire-submit"
