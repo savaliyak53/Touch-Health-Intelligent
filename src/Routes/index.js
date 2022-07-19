@@ -30,10 +30,9 @@ const AppRoutes = () => {
                 />
                 {/* <To-do-Nayab> put it in protected route */}
                 <Route path="/analytics" element={<Analytics />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 {/* Protected Routes */}
                 <Route element={<RequireAuth />}>
-                    <Route path="/dashboard" element={<Dashboard />} />
-
                     <Route path="/insights" element={<Insights />} />
                     <Route path="/questionnaire" element={<UserCondition />} />
                     <Route
