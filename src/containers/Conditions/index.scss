@@ -1,0 +1,59 @@
+.Con-title {
+    font-size: 26px;
+    line-height: 36px;
+    font-weight: 700;
+    color: #272424;
+    margin-top: clamp(0px, 7.5vh, 24px);
+}
+
+.Con-Description {
+    margin-bottom: 0;
+    font-size: 20px;
+    line-height: 24px;
+    color: #282f28;
+    margin-bottom: clamp(0px, 7.5vh, 22px);
+}
+
+.Con {
+    .Search-Input {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100px;
+        padding: 18px 20px;
+        border: 2px solid #272424;
+        background-color: #fff;
+        margin-bottom: 14px;
+        .anticon {
+            font-size: 22px;
+        }
+        .Input {
+            border: none;
+            padding: 0;
+            margin-bottom: 0;
+            padding-left: 16px;
+
+            &:hover,
+            &:focus,
+            &.Selected {
+                border: none;
+                background-color: transparent;
+                color: #272424;
+                outline: none;
+                box-shadow: none;
+            }
+        }
+    }
+
+    .Switch-wrap {
+        .Title {
+            color: #616c61;
+            font-size: 20px;
+            line-height: 24px;
+            font-weight: 400;
+            margin-bottom: 24px;
+            margin-top: 24px;
+            opacity: 0.5;
+        }
+    }
+}

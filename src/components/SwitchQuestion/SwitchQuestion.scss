@@ -1,0 +1,64 @@
+.Single-Switch{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    .Text-wrap {
+        margin-right: 10px;
+        .title {
+            color: #616C61;
+            font-size: 24px;
+            line-height: 29px;
+            font-weight: 500;
+            $font-family: 'Barlow', sans-serif;
+        }
+        .text {
+            color: #272424;
+            font-size: 20px;
+            line-height: 24px;
+            font-weight: 500;
+            $font-family: 'Barlow', sans-serif;
+            margin-bottom: 0;
+        }
+    }
+    .Switch-btn-wrap {
+        display: flex;
+        align-items: center;
+        .ant-switch {
+            background-color: #F4F4F4;
+            height: 33px;
+            min-width: 54px;
+            &.ant-switch-checked {
+                background-color: #E1E4EB;
+                .ant-switch-handle{
+                    left: calc(100% - 30px);
+                    &:before {
+                        background-color: #3A4A7E;
+                    }
+                }
+            }
+            .ant-switch-handle {
+                width: 30px;
+                height: 30px;
+                &:before {
+                    background-color: #282F28;
+                    border-radius: 30px;
+                }
+            }
+        }
+
+        .ant-btn {
+            padding: 0;
+            margin-left: 10px;
+            border: none;
+            svg {
+                height: 20px;
+                width: 20px;
+                path {
+                    fill: #CD6052;
+                }
+            }
+        }
+    }
+}

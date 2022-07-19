@@ -6,20 +6,16 @@ import { useNavigate } from 'react-router-dom'
 const index = () => {
     const navigate = useNavigate()
     return (
-        <Layout defaultHeader={true} hamburger={true} dashboard={false}>
+        <Layout defaultHeader={true} hamburger={true}>
             <div className="Content-wrap DayCon">
                 <div className="Question">
                     <h3 className="Question-title">
                         Thankyou for Submiting Questionnaire
                     </h3>
-                    <p className="Description">
-                        Is there anything else you would like to do before you
-                        go?
-                    </p>
                 </div>
-                {/* <Button className="btn" onClick={() => navigate('/dashboard')}>
-                    Dashboard
-                </Button> */}
+                <button className="submit">Manages conditions</button>
+                <button className="submit">Manage concerns</button>
+                <button className="submit">Home</button>
             </div>
         </Layout>
     )

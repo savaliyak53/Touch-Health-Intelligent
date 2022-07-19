@@ -34,7 +34,6 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
     }
     const onSearch = (value: string) => {
         setSearch(value)
-        console.log('search:', value)
     }
 
     const children: React.ReactNode[] = []
@@ -53,7 +52,6 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
         } else {
             radioOptions = [...radioOptions, index]
         }
-        console.log(radioOptions)
         setValue(radioOptions)
     }
     const isChecked = (item: string) => {
