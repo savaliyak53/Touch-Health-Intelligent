@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { DatePicker, Radio, TimePicker } from 'antd'
+import { DatePicker, Input, Radio, TimePicker } from 'antd'
 import { Slider } from 'antd'
 import type { SliderMarks } from 'antd/lib/slider'
 import { RightOutlined, SearchOutlined } from '@ant-design/icons'
@@ -219,7 +219,17 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                         />
                     </div>
                 )
-
+            case 'numeric':
+                return (
+                    <Input
+                        className="NumberInput"
+                        placeholder="Enter a number"
+                        type="number"
+                        onChange={(e) => {
+                            setValue(e.target.value)
+                        }}
+                    />
+                )
             default:
                 return <h2></h2>
         }
