@@ -12,6 +12,7 @@ import {
     Tooltip,
     Legend,
     ChartData,
+    ChartOptions,
 } from 'chart.js'
 import { Line } from 'react-chartjs-2'
 import './index.scss'
@@ -58,9 +59,17 @@ const dateHighlighter = {
     },
 }
 export const plugins = [dateHighlighter]
-export const options = {
+export const options: ChartOptions<'line'> = {
     responsive: true,
     scales: {
+        x: {
+            type: 'time' as const,
+            time: {
+                displayFormats: {
+                    quarter: 'MMM YYYY',
+                },
+            },
+        },
         yAxis: {
             min: 0,
             max: 1,
@@ -109,11 +118,13 @@ const Analytics = () => {
         //setCategory
         setCategory(selectedinsight.category.name)
         const forecastTime = selectedinsight.forecast.times.map((item: any) => {
-            return dateFormat(item)
+            return item
+            //return dateFormat(item)
         })
         const historicalTime = selectedinsight.historical.times.map(
             (item: any) => {
-                return dateFormat(item)
+                return item
+                //return dateFormat(item)
             }
         )
         //setLabels

@@ -3631,6 +3631,11 @@
   "resolved" "https://registry.npmjs.org/chart.js/-/chart.js-3.8.0.tgz"
   "version" "3.8.0"
 
+"chartjs-adapter-date-fns@^2.0.0":
+  "integrity" "sha512-rmZINGLe+9IiiEB0kb57vH3UugAtYw33anRiw5kS2Tu87agpetDDoouquycWc9pRsKtQo5j+vLsYHyr8etAvFw=="
+  "resolved" "https://registry.npmjs.org/chartjs-adapter-date-fns/-/chartjs-adapter-date-fns-2.0.0.tgz"
+  "version" "2.0.0"
+
 "check-types@^11.1.1":
   "integrity" "sha512-tzWzvgePgLORb9/3a0YenggReLKAIb2owL03H2Xdoe5pKcUyWRSEQ8xfCar8t2SIAuEDwtmx2da1YB52YuHQMQ=="
   "resolved" "https://registry.npmjs.org/check-types/-/check-types-11.1.2.tgz"
