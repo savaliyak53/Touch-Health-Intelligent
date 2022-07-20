@@ -78,10 +78,11 @@ const Login = () => {
     const getUserInfo = (userId: string | null | undefined) => {
         getUser(userId)
             .then((response: any) => {
-                if (response.data.preferences) {
+                // console.log(response?.data?.preferences?.time_of_day)
+                if (response?.data?.preferences?.time_of_day) {
                     navigate('/questionnaire')
                 } else {
-                    navigate('/dashboard')
+                    navigate('/preferences')
                 }
             })
             .catch(() => {

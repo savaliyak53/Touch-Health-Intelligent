@@ -14,6 +14,7 @@ import Dashboard from '../containers/Dashboard'
 import Analytics from '../containers/Analytics'
 import Insights from '../containers/Insights'
 import ManageConditions from '../containers/Conditions'
+import Diamond from '../components/diamond'
 const AppRoutes = () => {
     return (
         <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
@@ -31,6 +32,8 @@ const AppRoutes = () => {
                 />
                 {/* <To-do-Nayab> put it in protected route */}
                 <Route path="/analytics" element={<Analytics />} />
+                {/* <To-do-Hamza> remove this route  */}
+                <Route path="/diamond" element={<Diamond />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/conditions" element={<ManageConditions />} />
                 {/* Protected Routes */}
