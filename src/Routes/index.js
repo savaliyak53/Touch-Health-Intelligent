@@ -12,7 +12,7 @@ import VerificationMessage from '../containers/VerificationMessage'
 import PhoneVerification from '../containers/PhoneVerification'
 import Dashboard from '../containers/Dashboard'
 import Analytics from '../containers/Analytics'
-import Insights from '../containers/Insights'
+import Timeline from '../containers/Timeline'
 import ManageConditions from '../containers/Conditions'
 import Diamond from '../components/diamond'
 const AppRoutes = () => {
@@ -30,15 +30,16 @@ const AppRoutes = () => {
                     path="/verify/phone/:userId/:code"
                     element={<PhoneVerification />}
                 />
-                {/* <To-do-Nayab> put it in protected route */}
-                <Route path="/analytics" element={<Analytics />} />
+
                 {/* <To-do-Hamza> remove this route  */}
                 <Route path="/diamond" element={<Diamond />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/conditions" element={<ManageConditions />} />
                 {/* Protected Routes */}
                 <Route element={<RequireAuth />}>
-                    <Route path="/insights" element={<Insights />} />
+                    {/* <To-do-Nayab> put it in protected route */}
+                    <Route path="/analytics" element={<Analytics />} />
+                    <Route path="/timeline" element={<Timeline />} />
                     <Route path="/questionnaire" element={<UserCondition />} />
                     <Route
                         path="/questionnaire-submit"

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { RightOutlined } from '@ant-design/icons'
-import { Button, Select } from 'antd'
+import { Button, Select, Spin } from 'antd'
 import {
     Chart as ChartJS,
     Filler,
@@ -13,123 +13,106 @@ import {
     Legend,
     ChartData,
     ChartOptions,
+    TimeScale,
 } from 'chart.js'
 import { Line } from 'react-chartjs-2'
 import './index.scss'
 import Layout from '../../layouts/Layout/Layout'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
-import { getInsightsService } from '../../services/dashboardservice'
-import { type } from 'os'
-import { dateFormat, response } from '../../utils/lib'
-import { draw, generate } from 'patternomaly'
+import 'chartjs-adapter-date-fns'
+import { InsightContext } from '../../contexts/InsightContext'
 const { Option } = Select
-const handleChange = (value: string) => {
-    console.log(`selected ${value}`)
-}
-
 ChartJS.register(
     CategoryScale,
     LinearScale,
     PointElement,
     LineElement,
+    TimeScale,
     Title,
     Tooltip,
     Legend,
     Filler
 )
-const dateHighlighter = {
-    id: 'dateHighlighter',
-    beforeDatasetsDraw(chart: any, args: any, pluginOptions: any) {
-        const {
-            ctx,
-            chartArea: { top, bottom, left, right, width, height },
-            scales: { x, y },
-        } = chart
-        ctx.fillStyle = 'rgba(0,0,0,0.2)'
-        const forecastStartDate = localStorage.getItem('forecastStartDate')
-        const forecastEndDate = localStorage.getItem('forecastEndDate')
-        console.log('called')
-        ctx.fillRect(
-            x.getPixelForValue(forecastStartDate),
-            top,
-            x.getPixelForValue(forecastEndDate) -
-                x.getPixelForValue(forecastStartDate),
-            height
-        )
-    },
-}
-export const plugins = [dateHighlighter]
-export const options: ChartOptions<'line'> = {
-    responsive: true,
-    scales: {
-        x: {
-            type: 'time' as const,
-            time: {
-                displayFormats: {
-                    quarter: 'MMM YYYY',
-                },
-            },
-        },
-        yAxis: {
-            min: 0,
-            max: 1,
-        },
-    },
-}
 
-type IData = {
-    labels?: string[] | undefined
-    datasets: any
-}
 const Analytics = () => {
-    const selectedInsight = localStorage.getItem('selectedInsight')
-    let data: IData = {
-        labels: [],
-        datasets: [],
-    }
+    const context = useContext(InsightContext)
     const navigate = useNavigate()
     const userId = localStorage.getItem('userId')
-    const [dataset, setDataset] = useState<ChartData<'line'>>()
-    const [forecast, setForecast] = useState<any>()
-    const [labels, setLabel] = useState<string[]>()
-    const [historical, setHistorical] = useState<any>()
-    const [category, setCategory] = useState<string>()
-
+    const [dataset, setDataset] = useState()
+    const [category, setCategory] = useState()
+    let data = {}
     //selected Insight from localstorage is saved as [i]-[j]
-    const [insight, setInsight] = useState<any>()
+    const [insight, setInsight] = useState()
+    const [type, setType] = useState('day')
+    const [vmin, setVmin] = useState(0)
+    const [vmax, setVmax] = useState(1)
 
-    const [selectInsight, setSelectedInsight] = useState<'' | number[] | null>()
+    const dateHighlighter = {
+        id: 'dateHighlighter',
+        beforeDatasetsDraw(chart, args, pluginOptions) {
+            const {
+                ctx,
+                chartArea: { top, bottom, left, right, width, height },
+                scales: { x, y },
+            } = chart
+            ctx.fillStyle = 'rgba(0,0,0,0.2)'
+            // <To-do-Nayab> Replace with actual dates from store using pluginOptions or useState
+            const newDate = new Date('2022-07-21T10:50:52.635702')
+            const newDate2 = new Date('2022-07-22T10:50:52.635710')
+            ctx.fillRect(
+                x.getPixelForValue(newDate),
+                top,
+                x.getPixelForValue(newDate2) - x.getPixelForValue(newDate),
+                height
+            )
+        },
+    }
+    const options = {
+        responsive: true,
+        scales: {
+            x: {
+                type: 'time',
+                time: {
+                    unit: type,
+                    displayFormats: {
+                        quarter: 'MMM YYYY',
+                    },
+                },
+            },
+            y: {
+                min: vmin,
+                max: vmax,
+            },
+        },
+    }
+    const selectedInsight = localStorage.getItem('selectedInsight')
+    //<To-do-hamza >move this to dashboard
     const getSelectedInsight = async () => {
+        const response = await context.commands.loadInsights()
+        console.log('context.insights: ', response)
         const splitIndex = selectedInsight && selectedInsight.split('-')
         const insightIndex = splitIndex && splitIndex.map(Number)
-        setSelectedInsight(insightIndex)
-        calculate(insightIndex)
+        calculate(insightIndex, response)
     }
     useEffect(() => {
         //getInsightsData()
         getSelectedInsight()
     }, [])
 
-    const calculate = (insightArray: any) => {
+    const calculate = (insightArray, response) => {
         const i = insightArray[0]
         const j = insightArray[1]
         const selectedinsight = response.insights[i][j]
         selectedInsight && setInsight(selectedInsight)
+        setYAxis(selectedinsight)
         //setCategory
         setCategory(selectedinsight.category.name)
-        const forecastTime = selectedinsight.forecast.times.map((item: any) => {
+        const forecastTime = selectedinsight.forecast.times.map((item) => {
             return item
-            //return dateFormat(item)
         })
-        const historicalTime = selectedinsight.historical.times.map(
-            (item: any) => {
-                return item
-                //return dateFormat(item)
-            }
-        )
-        //setLabels
-        const labelsArray = historicalTime.concat(forecastTime)
-        setLabel(labelsArray)
+        const historicalTime = selectedinsight.historical.times.map((item) => {
+            return item
+        })
         //setHistoricalData
         const expectation = selectedinsight.historical.expectation
         const historicalArray = []
@@ -139,7 +122,6 @@ const Analytics = () => {
             dataArray.push(expectation[i])
             historicalArray.push(dataArray)
         }
-        setHistorical(historicalArray)
         //setForecastData
         const forecast = selectedinsight.forecast.expectation
         const forecastArray = []
@@ -149,9 +131,7 @@ const Analytics = () => {
             dataArray.push(forecast[i])
             forecastArray.push(dataArray)
         }
-        setForecast(forecastArray)
         data = {
-            labels: labelsArray,
             datasets: [
                 {
                     label: 'Historical',
@@ -173,11 +153,11 @@ const Analytics = () => {
                     backgroundColor: '#FF0000',
                     segment: {
                         borderColor: '#FF0000',
-                        //backgroundColor: '#FFC0CB',
                     },
                 },
             ],
         }
+
         setDataset(data)
     }
     const handleCategoryChange = () => {
@@ -186,18 +166,30 @@ const Analytics = () => {
         if (!insightIndex) return
         const iIndex = insightIndex[0]
         const jIndex = insightIndex[1]
-        const jIndexlength = response.insights[iIndex].length
+        const jIndexlength = context.insights.insights[iIndex].length
+        const iIndexlength = context.insights.insights.length
         if (jIndex < jIndexlength - 1) {
             localStorage.setItem('selectedInsight', `${iIndex}-${jIndex + 1}`)
-            localStorage.setItem('forecastStartDate', '18-Jul-2022')
-            localStorage.setItem('forecastEndDate', '20-Jul-2022')
             if (insight) {
                 console.log('mock: ', insight.forecast)
+            }
+        } else if (jIndex >= jIndexlength - 1) {
+            if (iIndex < iIndexlength - 1) {
+                localStorage.setItem('selectedInsight', `${iIndex + 1}-${0}`)
+            } else {
+                localStorage.setItem('selectedInsight', `0-0`)
             }
         } else {
             localStorage.setItem('selectedInsight', `${iIndex}-${jIndex}`)
         }
         window.location.reload()
+    }
+    const setYAxis = (selectedinsight) => {
+        setVmin(selectedinsight.historical.vmin)
+        setVmax(selectedinsight.historical.vmax)
+    }
+    const handleTimelineChange = () => {
+        navigate('/timeline')
     }
     return (
         <>
@@ -205,7 +197,8 @@ const Analytics = () => {
                 <div className="Content-wrap Analytic">
                     <div className="Insite-btn">
                         <Button>
-                            Timeline <RightOutlined />
+                            Timeline{' '}
+                            <RightOutlined onClick={handleTimelineChange} />
                         </Button>
                     </div>
                     <div className="Title-wrap">
@@ -215,8 +208,8 @@ const Analytics = () => {
                         </h2>
                         <RightOutlined onClick={handleCategoryChange} />
                     </div>
-                    {/* <div className="filters-wrap">
-                        <Select
+                    <div className="filters-wrap">
+                        {/* <Select
                             defaultValue="2022"
                             dropdownStyle={{
                                 padding: '0',
@@ -231,42 +224,30 @@ const Analytics = () => {
                             <Option value="2019">2019</Option>
                             <Option value="2018">2018</Option>
                             <Option value="2017">2017</Option>
-                        </Select>
+                        </Select> */}
                         <Select
-                            defaultValue="month"
+                            defaultValue="day"
+                            placeholder="Select View"
                             dropdownStyle={{
                                 padding: '0',
                                 borderRadius: '4px',
                                 borderColor: '#616C61',
                             }}
-                            onChange={handleChange}
+                            onChange={(value) => setType(value)}
                         >
-                            <Option value="month">Month</Option>
-                            <Option value="jan">Jan</Option>
-                            <Option value="feb">Feb</Option>
-                            <Option value="mar">Mar</Option>
+                            <Option value="day">Daily</Option>
+                            <Option value="hour">Hourly</Option>
+                            <Option value="week">Weekly</Option>
                         </Select>
-                        <Select
-                            defaultValue="relation"
-                            dropdownStyle={{
-                                padding: '0',
-                                borderRadius: '4px',
-                                borderColor: '#616C61',
-                            }}
-                            onChange={handleChange}
-                        >
-                            <Option value="relation">Relationship</Option>
-                            <Option value="tion">Relationship 1</Option>
-                            <Option value="lation">Relationship 2</Option>
-                        </Select>
-                    </div> */}
-                    {dataset && (
+                    </div>
+                    {dataset && context.insights && (
                         <Line
                             options={options}
                             data={dataset}
                             plugins={[dateHighlighter]}
                         />
                     )}
+                    {!context.insights && <Spin spinning={true} />}
                 </div>
             </Layout>
         </>
