@@ -47,7 +47,7 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
                         <a href="/dashboard">Home</a>
                     </li>
                     <li>
-                        <a href="#">Insights</a>
+                        <a href="/insights">Insights</a>
                     </li>
                     <li>
                         <a href="/preferences">Preferences</a>

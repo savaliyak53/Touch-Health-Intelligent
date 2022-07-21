@@ -75,23 +75,36 @@ const Login = () => {
     const togglePassword = () => {
         setPasswordShown(!passwordShown)
     }
-
-    const getUserInfo = (userId: string | null) => {
+    const getUserInfo = (userId: string | null | undefined) => {
         getUser(userId)
             .then((response: any) => {
-                if (response.data.preferences) {
+                // console.log(response?.data?.preferences?.time_of_day)
+                if (response?.data?.preferences?.time_of_day) {
                     navigate('/questionnaire')
                 } else {
                     navigate('/preferences')
                 }
             })
-            .catch((error) => {
-                console.log(
-                    'error occurred while getting user interaction ',
-                    error
-                )
+            .catch(() => {
+                toast('Unknown error')
             })
     }
+    // const getUserInfo = (userId: string) => {
+    //     getUser(userId)
+    //         .then((response: any) => {
+    //             if (response.data.preferences) {
+    //                 navigate('/questionnaire')
+    //             } else {
+    //                 navigate('/dashboard')
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.log(
+    //                 'error occurred while getting user interaction ',
+    //                 error
+    //             )
+    //         })
+    // }
 
     return (
         <Layout defaultHeader={false} hamburger={false}>

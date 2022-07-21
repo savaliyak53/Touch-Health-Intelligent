@@ -6,12 +6,14 @@ import 'react-toastify/dist/ReactToastify.css'
 import AppRoutes from './Routes/index'
 import './app.scss'
 import 'antd/dist/antd.min.css'
+import InsightContext from './contexts/InsightContext'
 
 const Application = () => {
     return (
         <>
-            <AppRoutes />
-            <ToastContainer />
+            <InsightContext>
+                <AppRoutes />
+            </InsightContext>
         </>
     )
 }

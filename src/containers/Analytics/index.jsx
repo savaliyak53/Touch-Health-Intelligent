@@ -1,0 +1,257 @@
+import React, { useEffect, useState, useContext } from 'react'
+import { RightOutlined } from '@ant-design/icons'
+import { Button, Select, Spin } from 'antd'
+import {
+    Chart as ChartJS,
+    Filler,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+    ChartData,
+    ChartOptions,
+    TimeScale,
+} from 'chart.js'
+import { Line } from 'react-chartjs-2'
+import './index.scss'
+import Layout from '../../layouts/Layout/Layout'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import 'chartjs-adapter-date-fns'
+import { InsightContext } from '../../contexts/InsightContext'
+const { Option } = Select
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    TimeScale,
+    Title,
+    Tooltip,
+    Legend,
+    Filler
+)
+
+const Analytics = () => {
+    const context = useContext(InsightContext)
+    const navigate = useNavigate()
+    const userId = localStorage.getItem('userId')
+    const [dataset, setDataset] = useState()
+    const [category, setCategory] = useState()
+    let data = {}
+    //selected Insight from localstorage is saved as [i]-[j]
+    const [insight, setInsight] = useState()
+    const [type, setType] = useState('day')
+    const [vmin, setVmin] = useState(0)
+    const [vmax, setVmax] = useState(1)
+
+    const dateHighlighter = {
+        id: 'dateHighlighter',
+        beforeDatasetsDraw(chart, args, pluginOptions) {
+            const {
+                ctx,
+                chartArea: { top, bottom, left, right, width, height },
+                scales: { x, y },
+            } = chart
+            ctx.fillStyle = 'rgba(0,0,0,0.2)'
+            // <To-do-Nayab> Replace with actual dates from store using pluginOptions or useState
+            const newDate = new Date('2022-07-21T10:50:52.635702')
+            const newDate2 = new Date('2022-07-22T10:50:52.635710')
+            ctx.fillRect(
+                x.getPixelForValue(newDate),
+                top,
+                x.getPixelForValue(newDate2) - x.getPixelForValue(newDate),
+                height
+            )
+        },
+    }
+    const options = {
+        responsive: true,
+        scales: {
+            x: {
+                type: 'time',
+                time: {
+                    unit: type,
+                    displayFormats: {
+                        quarter: 'MMM YYYY',
+                    },
+                },
+            },
+            y: {
+                min: vmin,
+                max: vmax,
+            },
+        },
+    }
+    const selectedInsight = localStorage.getItem('selectedInsight')
+    //<To-do-hamza >move this to dashboard
+    const getSelectedInsight = async () => {
+        const response = await context.commands.loadInsights()
+        console.log('context.insights: ', response)
+        const splitIndex = selectedInsight && selectedInsight.split('-')
+        const insightIndex = splitIndex && splitIndex.map(Number)
+        calculate(insightIndex, response)
+    }
+    useEffect(() => {
+        //getInsightsData()
+        getSelectedInsight()
+    }, [])
+
+    const calculate = (insightArray, response) => {
+        const i = insightArray[0]
+        const j = insightArray[1]
+        const selectedinsight = response.insights[i][j]
+        selectedInsight && setInsight(selectedInsight)
+        setYAxis(selectedinsight)
+        //setCategory
+        setCategory(selectedinsight.category.name)
+        const forecastTime = selectedinsight.forecast.times.map((item) => {
+            return item
+        })
+        const historicalTime = selectedinsight.historical.times.map((item) => {
+            return item
+        })
+        //setHistoricalData
+        const expectation = selectedinsight.historical.expectation
+        const historicalArray = []
+        for (let i = 0; i < expectation.length; i++) {
+            const dataArray = []
+            dataArray.push(historicalTime[i])
+            dataArray.push(expectation[i])
+            historicalArray.push(dataArray)
+        }
+        //setForecastData
+        const forecast = selectedinsight.forecast.expectation
+        const forecastArray = []
+        for (let i = 0; i < forecast.length; i++) {
+            const dataArray = []
+            dataArray.push(forecastTime[i])
+            dataArray.push(forecast[i])
+            forecastArray.push(dataArray)
+        }
+        data = {
+            datasets: [
+                {
+                    label: 'Historical',
+                    data: historicalArray,
+                    fill: false,
+                    borderColor: '#3A4A7E',
+                    backgroundColor: '#3A4A7E',
+                    lineTension: 0.4,
+                    min: 0,
+                    max: 1,
+                },
+                {
+                    label: 'Forecast',
+                    data: forecastArray,
+                    fill: false,
+                    lineTension: 0.4,
+                    min: 0,
+                    max: 1,
+                    backgroundColor: '#FF0000',
+                    segment: {
+                        borderColor: '#FF0000',
+                    },
+                },
+            ],
+        }
+
+        setDataset(data)
+    }
+    const handleCategoryChange = () => {
+        const splitIndex = selectedInsight && selectedInsight.split('-')
+        const insightIndex = splitIndex && splitIndex.map(Number)
+        if (!insightIndex) return
+        const iIndex = insightIndex[0]
+        const jIndex = insightIndex[1]
+        const jIndexlength = context.insights.insights[iIndex].length
+        const iIndexlength = context.insights.insights.length
+        if (jIndex < jIndexlength - 1) {
+            localStorage.setItem('selectedInsight', `${iIndex}-${jIndex + 1}`)
+            if (insight) {
+                console.log('mock: ', insight.forecast)
+            }
+        } else if (jIndex >= jIndexlength - 1) {
+            if (iIndex < iIndexlength - 1) {
+                localStorage.setItem('selectedInsight', `${iIndex + 1}-${0}`)
+            } else {
+                localStorage.setItem('selectedInsight', `0-0`)
+            }
+        } else {
+            localStorage.setItem('selectedInsight', `${iIndex}-${jIndex}`)
+        }
+        window.location.reload()
+    }
+    const setYAxis = (selectedinsight) => {
+        setVmin(selectedinsight.historical.vmin)
+        setVmax(selectedinsight.historical.vmax)
+    }
+    const handleTimelineChange = () => {
+        navigate('/timeline')
+    }
+    return (
+        <>
+            <Layout defaultHeader={true} hamburger={true} dashboard={false}>
+                <div className="Content-wrap Analytic">
+                    <div className="Insite-btn">
+                        <Button>
+                            Timeline{' '}
+                            <RightOutlined onClick={handleTimelineChange} />
+                        </Button>
+                    </div>
+                    <div className="Title-wrap">
+                        <h2 className="Analytic-title">
+                            {category && category}
+                            {/* Hypertension <br /> management */}
+                        </h2>
+                        <RightOutlined onClick={handleCategoryChange} />
+                    </div>
+                    <div className="filters-wrap">
+                        {/* <Select
+                            defaultValue="2022"
+                            dropdownStyle={{
+                                padding: '0',
+                                borderRadius: '4px',
+                                borderColor: '#616C61',
+                            }}
+                            onChange={handleChange}
+                        >
+                            <Option value="2022">2022</Option>
+                            <Option value="2021">2021</Option>
+                            <Option value="2020">2020</Option>
+                            <Option value="2019">2019</Option>
+                            <Option value="2018">2018</Option>
+                            <Option value="2017">2017</Option>
+                        </Select> */}
+                        <Select
+                            defaultValue="day"
+                            placeholder="Select View"
+                            dropdownStyle={{
+                                padding: '0',
+                                borderRadius: '4px',
+                                borderColor: '#616C61',
+                            }}
+                            onChange={(value) => setType(value)}
+                        >
+                            <Option value="day">Daily</Option>
+                            <Option value="hour">Hourly</Option>
+                            <Option value="week">Weekly</Option>
+                        </Select>
+                    </div>
+                    {dataset && context.insights && (
+                        <Line
+                            options={options}
+                            data={dataset}
+                            plugins={[dateHighlighter]}
+                        />
+                    )}
+                    {!context.insights && <Spin spinning={true} />}
+                </div>
+            </Layout>
+        </>
+    )
+}
+
+export default Analytics

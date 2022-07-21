@@ -1,0 +1,152 @@
+.Corr-title {
+    font-size: 26px;
+    line-height: 36px;
+    font-weight: 700;
+    color: #272424;
+    margin-bottom: 30px;
+}
+
+.Corr-Description {
+    margin-bottom: 0;
+    font-size: 20px;
+    line-height: 24px;
+    color: #282f28;
+    margin-bottom: clamp(0px, 7.5vh, 22px);
+}
+
+.Corr {
+    .Insite-btn {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        width: 100%;
+        margin-top: 20px;
+        .ant-btn {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            font-size: 22px;
+            line-height: 27px;
+            color: #3a3a3a;
+        }
+    }
+    .Title-wrap {
+        display: flex;
+        align-items: flex-start;
+        margin-top: clamp(0px, 7.5vh, 24px);
+        > span {
+            margin-top: 20px;
+            margin-top: 13px;
+            margin-left: 10px;
+        }
+    }
+    .Corr-Title {
+        font-size: 20px;
+        line-height: 24px;
+        font-weight: 400;
+        color: rgba(#282f28, 0.5);
+
+        svg {
+            path {
+                fill: #39b42f;
+            }
+        }
+    }
+    .Each-Relation {
+        padding: 12px 23px 23px 23px;
+        background-color: #ebedf2;
+        border-radius: 16px;
+        margin-bottom: 14px;
+        .Relation-x {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            .ant-btn {
+                background-color: transparent;
+                padding: 0;
+                border: none;
+                svg {
+                    height: 20px;
+                    width: 20px;
+                    path {
+                        fill: #cd6052;
+                    }
+                }
+            }
+        }
+    }
+    .Text-btn {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .Text {
+            font-size: 20px;
+            line-height: 24px;
+            font-weight: 400;
+            color: #282f28;
+            margin-right: 10px;
+        }
+    }
+
+    .Arrow-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .arrwo {
+            margin-right: 8px;
+            &.up {
+                svg {
+                    path {
+                        fill: #39b42f;
+                    }
+                }
+            }
+            svg {
+                height: 40px;
+                width: 30px;
+                path {
+                    fill: #f53f4a;
+                }
+            }
+        }
+    }
+
+    .Heart-Btn {
+        background-color: #cd6052;
+        padding: 15px;
+        border-radius: 26px;
+        display: block;
+        width: 70px;
+        height: 70px;
+        border: 2px solid #cd6052;
+        transform: rotate(45deg);
+
+        svg {
+            height: 40px;
+            width: 30px;
+            transform: rotate(-45deg);
+
+            path {
+                fill: #fff;
+            }
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: transparent;
+            border-color: #cd6052;
+
+            svg {
+                path {
+                    fill: #cd6052;
+                }
+            }
+        }
+    }
+
+    .btn.ant-btn {
+        width: unset;
+    }
+}

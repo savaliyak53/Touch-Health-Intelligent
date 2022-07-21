@@ -12,7 +12,9 @@ import VerificationMessage from '../containers/VerificationMessage'
 import PhoneVerification from '../containers/PhoneVerification'
 import Dashboard from '../containers/Dashboard'
 import Analytics from '../containers/Analytics'
+import Timeline from '../containers/Timeline'
 import ManageConditions from '../containers/Conditions'
+import Diamond from '../components/diamond'
 const AppRoutes = () => {
     return (
         <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
@@ -28,20 +30,20 @@ const AppRoutes = () => {
                     path="/verify/phone/:userId/:code"
                     element={<PhoneVerification />}
                 />
+
+                {/* <To-do-Hamza> remove this route  */}
+                <Route path="/diamond" element={<Diamond />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/conditions" element={<ManageConditions />} />
                 {/* Protected Routes */}
                 <Route element={<RequireAuth />}>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    {/* Adding Chart.js here */}
+                    {/* <To-do-Nayab> put it in protected route */}
                     <Route path="/analytics" element={<Analytics />} />
+                    <Route path="/timeline" element={<Timeline />} />
                     <Route path="/questionnaire" element={<UserCondition />} />
                     <Route
                         path="/questionnaire-submit"
                         element={<ThankyouForSubmiting />}
-                    />
-                    <Route
-                        path="/dashboard"
-                        element={<h1>This will be a dashboard</h1>}
                     />
                     <Route path="/preferences" element={<Preferences />} />
                     <Route path="/introvideo" element={<IntroVideo />} />
