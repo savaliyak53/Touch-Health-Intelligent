@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 
-import Button from '../../components/Button'
-import InputField from '../../components/Input'
-import Layout from '../../layouts/Layout/Layout'
+import Button from '../../../components/Button'
+import InputField from '../../../components/Input'
+import Layout from '../../../layouts/Layout/Layout'
 
-import { getUser, loginService } from '../../services/authservice'
+import { getUser, loginService } from '../../../services/authservice'
 import jwt from 'jwt-decode'
-import './Auth.scss'
+import './index.scss'
 import { Tooltip } from 'antd'
 
 type IFormInputs = {
@@ -78,33 +78,17 @@ const Login = () => {
     const getUserInfo = (userId: string | null | undefined) => {
         getUser(userId)
             .then((response: any) => {
-                // console.log(response?.data?.preferences?.time_of_day)
                 if (response?.data?.preferences?.time_of_day) {
                     navigate('/questionnaire')
                 } else {
                     navigate('/preferences')
                 }
             })
-            .catch(() => {
+            .catch((error) => {
                 toast('Unknown error')
+                console.log(error)
             })
     }
-    // const getUserInfo = (userId: string) => {
-    //     getUser(userId)
-    //         .then((response: any) => {
-    //             if (response.data.preferences) {
-    //                 navigate('/questionnaire')
-    //             } else {
-    //                 navigate('/dashboard')
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.log(
-    //                 'error occurred while getting user interaction ',
-    //                 error
-    //             )
-    //         })
-    // }
 
     return (
         <Layout defaultHeader={false} hamburger={false}>
