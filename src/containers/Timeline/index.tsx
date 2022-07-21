@@ -10,8 +10,10 @@ import {
 import './index.scss'
 import Layout from '../../layouts/Layout/Layout'
 import { InsightContext } from '../../contexts/InsightContext'
+import { useNavigate } from 'react-router-dom'
 const Timeline = () => {
     const context = useContext(InsightContext)
+    const navigate = useNavigate()
     const [insight, setInsight] = useState<any>()
     const [patterns, setPatterns] = useState<any>()
     const [category, setCategory] = useState<string>()
@@ -34,25 +36,21 @@ const Timeline = () => {
         //setPatternData
         const patterns = selectedinsight.patterns
         setPatterns(patterns)
-        // const historicalArray = []
-        // for (let i = 0; i < expectation.length; i++) {
-        //     const dataArray = []
-        //     dataArray.push(historicalTime[i])
-        //     dataArray.push(expectation[i])
-        //     historicalArray.push(dataArray)
-        // }
     }
     useEffect(() => {
-        //getInsightsData()
         getSelectedInsight()
     }, [])
+    const handleInsightsChange = () => {
+        navigate('/analytics')
+    }
     return (
         <>
             <Layout defaultHeader={true} hamburger={true} dashboard={false}>
                 <div className="Content-wrap Corr">
                     <div className="Insite-btn">
                         <Button>
-                            Insights <RightOutlined />
+                            Insights{' '}
+                            <RightOutlined onClick={handleInsightsChange} />
                         </Button>
                     </div>
                     <div className="Title-wrap">
