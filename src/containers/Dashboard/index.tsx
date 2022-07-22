@@ -5,6 +5,7 @@ import { getInsightsService } from '../../services/dashboardservice'
 import DashboardButton from '../../components/DashboardButton/DashboardButton'
 import { useNavigate } from 'react-router'
 import { InsightContext } from '../../contexts/InsightContext'
+import { Spin } from 'antd'
 
 const Dashboard = () => {
     const [insights, setInsights] = useState<any>()
@@ -17,24 +18,16 @@ const Dashboard = () => {
     let rowNumber = 0
     const getInsights = async () => {
         try {
-            const response = await context?.commands?.loadInsights()
-            // console.log(response?.insights)
-            // setInsights(response?.insights)
+            await context?.commands?.loadInsights()
         } catch (error) {
             console.log(error)
         }
     }
 
-    const handleRedirect = async (insight: any) => {
-        console.log('insight :', insight)
-        context?.commands?.loadSelectedInsight(insight)
-        navigate('/analytics')
-    }
-
     const Section = (outer: number) => {
         const section: React.ReactNode[] = []
-
-        for (let i = 0; i < context?.insights[outer]?.length; i++) {
+        const insights = context?.insights?.insights
+        for (let i = 0; i < insights[outer]?.length; i++) {
             {
                 rowNumber++
             }
@@ -47,28 +40,22 @@ const Dashboard = () => {
                         <DashboardButton
                             innerButtons={false}
                             innerButtonImage={`${
-                                context?.insights[outer][i - 1]?.category?.icon
+                                insights[outer][i - 1]?.category?.icon
                             }`}
-                            image={`${
-                                context?.insights[outer][i - 1]?.category?.icon
-                            }`}
+                            image={`${insights[outer][i - 1]?.category?.icon}`}
                             disabled={false}
-                            color={`${
-                                context?.insights[outer][i - 1]?.category?.color
-                            }`}
+                            color={`${insights[outer][i - 1]?.category?.color}`}
                             outerButton={false}
-                            onClick={handleRedirect}
-                            insight={context?.insights[outer][i - 1]}
+                            insight={insights[outer][i - 1]}
                         />
                         <DashboardButton
                             innerButtons={false}
-                            innerButtonImage={`${context?.insights[outer][i]?.category?.icon}`}
-                            image={`${context?.insights[outer][i]?.category?.icon}`}
+                            innerButtonImage={`${insights[outer][i]?.category?.icon}`}
+                            image={`${insights[outer][i]?.category?.icon}`}
                             disabled={false}
-                            color={`${context?.insights[outer][i]?.category?.color}`}
+                            color={`${insights[outer][i]?.category?.color}`}
                             outerButton={false}
-                            onClick={handleRedirect}
-                            insight={context?.insights[outer][i - 1]}
+                            insight={insights[outer][i - 1]}
                         />
                     </div>
                 )
@@ -77,33 +64,28 @@ const Dashboard = () => {
                     <div className="btn-group">
                         <DashboardButton
                             innerButtons={false}
-                            innerButtonImage={`${context?.insights[outer][i]?.category?.icon}`}
-                            image={`${context?.insights[outer][i]?.category?.icon}`}
+                            innerButtonImage={`${insights[outer][i]?.category?.icon}`}
+                            image={`${insights[outer][i]?.category?.icon}`}
                             disabled={true}
-                            color={`${context?.insights[outer][i]?.category?.color}`}
+                            color={`${insights[outer][i]?.category?.color}`}
                             outerButton={true}
-                            onClick=""
-                            insight=""
                         />
                         <DashboardButton
                             innerButtons={false}
-                            innerButtonImage={`${context?.insights[outer][i]?.category?.icon}`}
-                            image={`${context?.insights[outer][i]?.category?.icon}`}
+                            innerButtonImage={`${insights[outer][i]?.category?.icon}`}
+                            image={`${insights[outer][i]?.category?.icon}`}
                             disabled={false}
-                            color={`${context?.insights[outer][i]?.category?.color}`}
+                            color={`${insights[outer][i]?.category?.color}`}
                             outerButton={false}
-                            onClick={handleRedirect}
-                            insight={context?.insights[outer][i - 1]}
+                            insight={insights[outer][i]}
                         />
                         <DashboardButton
                             innerButtons={false}
-                            innerButtonImage={`${context?.insights[outer][i]?.category?.icon}`}
-                            image={`${context?.insights[outer][i]?.category?.icon}`}
+                            innerButtonImage={`${insights[outer][i]?.category?.icon}`}
+                            image={`${insights[outer][i]?.category?.icon}`}
                             disabled={true}
-                            color={`${context?.insights[outer][i]?.category?.color}`}
+                            color={`${insights[outer][i]?.category?.color}`}
                             outerButton={true}
-                            onClick=""
-                            insight=""
                         />
                     </div>
                 )
@@ -123,25 +105,22 @@ const Dashboard = () => {
                                     innerButtonImage=""
                                     image=""
                                     disabled={true}
-                                    color={`${insights[0][0]?.category?.color}`}
+                                    color={`${context.insights.insights[0][0]?.category?.color}`}
                                     outerButton={true}
-                                    onClick=""
-                                    insight=""
                                 />
                                 <DashboardButton
                                     innerButtons={false}
                                     innerButtonImage=""
                                     image=""
                                     disabled={true}
-                                    color={`${insights[0][0]?.category?.color}`}
+                                    color={`${context.insights.insights[0][0]?.category?.color}`}
                                     outerButton={true}
-                                    onClick=""
-                                    insight=""
                                 />
                             </div>
-                            {Section(0)} {Section(1)}
+                            {Section(0)}
                         </div>
                     )}
+                    <Spin spinning={!context?.insights}></Spin>
                 </div>
             </Layout>
         </>

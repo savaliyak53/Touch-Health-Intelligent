@@ -14,6 +14,7 @@ export interface InsightContextModel {
     commands: {
         loadInsights: () => Promise<any>
         loadSelectedInsight: (selectedData: any) => Promise<void>
+        loadSelectedInsightIndex: (selectedIndex: any) => Promise<void>
     }
 }
 
@@ -56,6 +57,7 @@ const InsightContextProvider = ({ children, brandId }: Props) => {
                 commands: {
                     loadInsights,
                     loadSelectedInsight,
+                    loadSelectedInsightIndex,
                 },
             }}
         >
