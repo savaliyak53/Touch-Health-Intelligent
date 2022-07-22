@@ -9,7 +9,11 @@ import AuthenticationLayout from '../../layouts/authentication-layout/Authentica
 import Button from '../../components/Button'
 import InputField from '../../components/Input'
 import './index.scss'
-import { getUser, loginService } from '../../services/authservice'
+import {
+    getInteractionService,
+    getUser,
+    loginService,
+} from '../../services/authservice'
 import jwt from 'jwt-decode'
 
 type IFormInputs = {
@@ -81,12 +85,30 @@ const Login = () => {
     const togglePassword = () => {
         setPasswordShown(!passwordShown)
     }
-
+    const getInteraction = async () => {
+        //resolve the service using promise
+        //TODO(<HamzaIjaz>): Refactor all the API calls like this
+        getInteractionService()
+            .then((response) => {
+                alert('hello?')
+                if (
+                    response?.data?.reward_nugget.congratulations_str ===
+                    'Thanks for answering 10 questions!'
+                ) {
+                    navigate('/dashboard')
+                } else {
+                    navigate('/questionnaire')
+                }
+            })
+            .catch(() => {
+                toast('unkown error')
+            })
+    }
     const getUserInfo = (userId: string | null | undefined) => {
         getUser(userId)
             .then((response: any) => {
                 if (response.data.preferences) {
-                    navigate('/questionnaire')
+                    getInteraction()
                 } else {
                     navigate('/dashboard')
                 }

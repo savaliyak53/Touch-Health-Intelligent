@@ -31,15 +31,13 @@ const AppRoutes = () => {
                     element={<PhoneVerification />}
                 />
 
-                {/* <To-do-Hamza> remove this route  */}
-                <Route path="/diamond" element={<Diamond />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/conditions" element={<ManageConditions />} />
                 {/* Protected Routes */}
                 <Route element={<RequireAuth />}>
-                    {/* <To-do-Nayab> put it in protected route */}
                     <Route path="insights" element={<Insights />} />
                     <Route path="/insights/guideline" element={<Timeline />} />
+                    <Route path="/diamond" element={<Diamond />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/conditions" element={<ManageConditions />} />
                     <Route path="/questionnaire" element={<UserCondition />} />
                     <Route
                         path="/questionnaire-submit"

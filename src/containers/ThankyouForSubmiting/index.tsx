@@ -10,12 +10,17 @@ const index = () => {
             <div className="Content-wrap DayCon">
                 <div className="Question">
                     <h3 className="Question-title">
-                        Thankyou for Submiting Questionnaire
+                        You&apos;re done for the day!
                     </h3>
                 </div>
                 <button className="submit">Manages conditions</button>
                 <button className="submit">Manage concerns</button>
-                <button className="submit">Home</button>
+                <button
+                    className="submit"
+                    onClick={() => navigate('/dashboard')}
+                >
+                    Home
+                </button>
             </div>
         </Layout>
     )

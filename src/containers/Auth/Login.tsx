@@ -8,7 +8,11 @@ import Button from '../../components/Button'
 import InputField from '../../components/Input'
 import Layout from '../../layouts/Layout/Layout'
 
-import { getUser, loginService } from '../../services/authservice'
+import {
+    getInteractionService,
+    getUser,
+    loginService,
+} from '../../services/authservice'
 import jwt from 'jwt-decode'
 import './Auth.scss'
 import { Tooltip } from 'antd'
@@ -75,14 +79,28 @@ const Login = () => {
     const togglePassword = () => {
         setPasswordShown(!passwordShown)
     }
+    const getInteraction = async () => {
+        getInteractionService()
+            .then((response) => {
+                // <To-do-Nayab> Make Sure this congratulations_str never changes </To-do-Nayab>
+                if (
+                    response?.data?.reward_nugget.congratulations_str ===
+                    'Thanks for answering 10 questions!'
+                ) {
+                    navigate('/dashboard')
+                } else {
+                    navigate('/questionnaire')
+                }
+            })
+            .catch(() => {
+                toast('unkown error')
+            })
+    }
     const getUserInfo = (userId: string | null | undefined) => {
         getUser(userId)
             .then((response: any) => {
-                // console.log(response?.data?.preferences?.time_of_day)
-                if (response?.data?.preferences?.time_of_day) {
-                    navigate('/questionnaire')
-                } else {
-                    navigate('/preferences')
+                if (response?.data) {
+                    getInteraction()
                 }
             })
             .catch(() => {
