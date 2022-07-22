@@ -18,7 +18,6 @@ function UserCondition() {
     const [loading, setLoading] = useState<boolean>(false)
     const [refId, setRefId] = useState<string>('')
     const navigate = useNavigate()
-
     const getInteraction = async () => {
         //resolve the service using promise
         //TODO(<HamzaIjaz>): Refactor all the API calls like this
@@ -39,10 +38,17 @@ function UserCondition() {
         getInteraction()
     }, [])
     const onSubmit = async (state?: string) => {
-        if (question.type !== 'yes_no' && !value) {
+        if (
+            question.type !== 'yes_no' &&
+            question.type !== 'slider' &&
+            question.type !== 'select_one' &&
+            !value
+        ) {
+            console.log(value)
             toast.error('Please select a value')
             return
         }
+
         const payload = {
             type: 'question',
             ref_id: refId,
@@ -54,6 +60,9 @@ function UserCondition() {
             reward_nugget_response: {
                 shared: true,
             },
+        }
+        if (question.type === 'slider' && !value) {
+            payload.question_response.value = '0'
         }
         if (question.type == 'yes_no') {
             payload.question_response.value = state

@@ -3,12 +3,14 @@ import React, { useState } from 'react'
 import { Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import './SiteHeader.scss'
+import { Navigate, useNavigate } from 'react-router'
 type Props = {
     defaultHeader: boolean
     hamburger: boolean
 }
 const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
     const [BurgerMenu, setBurgerMenu] = useState(false)
+    const navigate = useNavigate()
     return (
         <>
             {/* Navigation */}
@@ -79,7 +81,15 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
                         <a>–</a>
                     </li>
                     <li>
-                        <Button>Sign out</Button>
+                        <Button
+                            onClick={() => {
+                                localStorage.removeItem('userId')
+                                localStorage.removeItem('token')
+                                navigate('/login')
+                            }}
+                        >
+                            Sign out
+                        </Button>
                     </li>
                 </ul>
             </div>

@@ -8,7 +8,11 @@ import Button from '../../components/Button'
 import InputField from '../../components/Input'
 import Layout from '../../layouts/Layout/Layout'
 
-import { getUser, loginService } from '../../services/authservice'
+import {
+    getInteractionService,
+    getUser,
+    loginService,
+} from '../../services/authservice'
 import jwt from 'jwt-decode'
 import './Auth.scss'
 import { Tooltip } from 'antd'
@@ -75,36 +79,20 @@ const Login = () => {
     const togglePassword = () => {
         setPasswordShown(!passwordShown)
     }
+
     const getUserInfo = (userId: string | null | undefined) => {
         getUser(userId)
             .then((response: any) => {
-                // console.log(response?.data?.preferences?.time_of_day)
-                if (response?.data?.preferences?.time_of_day) {
+                if (response?.data?.preferences) {
                     navigate('/questionnaire')
                 } else {
                     navigate('/preferences')
                 }
             })
-            .catch(() => {
-                toast('Unknown error')
+            .catch((e) => {
+                toast('Something went wrong')
             })
     }
-    // const getUserInfo = (userId: string) => {
-    //     getUser(userId)
-    //         .then((response: any) => {
-    //             if (response.data.preferences) {
-    //                 navigate('/questionnaire')
-    //             } else {
-    //                 navigate('/dashboard')
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.log(
-    //                 'error occurred while getting user interaction ',
-    //                 error
-    //             )
-    //         })
-    // }
 
     return (
         <Layout defaultHeader={false} hamburger={false}>
