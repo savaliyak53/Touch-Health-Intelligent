@@ -11,8 +11,8 @@ import IntroVideo from '../containers/Introvideo'
 import VerificationMessage from '../containers/VerificationMessage'
 import PhoneVerification from '../containers/PhoneVerification'
 import Dashboard from '../containers/Dashboard'
-import Analytics from '../containers/Analytics'
-import Timeline from '../containers/Timeline'
+import Insights from '../containers/Insights'
+import Timeline from '../containers/Timeline/index'
 import ManageConditions from '../containers/Conditions'
 import Diamond from '../components/diamond'
 const AppRoutes = () => {
@@ -38,8 +38,8 @@ const AppRoutes = () => {
                 {/* Protected Routes */}
                 <Route element={<RequireAuth />}>
                     {/* <To-do-Nayab> put it in protected route */}
-                    <Route path="/analytics" element={<Analytics />} />
-                    <Route path="/timeline" element={<Timeline />} />
+                    <Route path="insights" element={<Insights />} />
+                    <Route path="/insights/guideline" element={<Timeline />} />
                     <Route path="/questionnaire" element={<UserCondition />} />
                     <Route
                         path="/questionnaire-submit"

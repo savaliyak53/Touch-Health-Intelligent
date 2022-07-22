@@ -34,7 +34,7 @@ ChartJS.register(
     Filler
 )
 
-const Analytics = () => {
+const Insights = () => {
     const context = useContext(InsightContext)
     const navigate = useNavigate()
     const userId = localStorage.getItem('userId')
@@ -86,6 +86,7 @@ const Analytics = () => {
         },
     }
     const selectedInsight = localStorage.getItem('selectedInsight')
+
     //<To-do-hamza >move this to dashboard
     const getSelectedInsight = async () => {
         const response = await context.commands.loadInsights()
@@ -95,6 +96,8 @@ const Analytics = () => {
         calculate(insightIndex, response)
     }
     useEffect(() => {
+        const selectedInsight = localStorage.getItem('selectedInsight')
+
         //getInsightsData()
         getSelectedInsight()
     }, [])
@@ -189,69 +192,54 @@ const Analytics = () => {
         setVmax(selectedinsight.historical.vmax)
     }
     const handleTimelineChange = () => {
-        navigate('/timeline')
+        navigate('/insights/guideline')
     }
     return (
         <>
             <Layout defaultHeader={true} hamburger={true} dashboard={false}>
-                <div className="Content-wrap Analytic">
-                    <div className="Insite-btn">
-                        <Button>
-                            Timeline{' '}
-                            <RightOutlined onClick={handleTimelineChange} />
-                        </Button>
+                <Spin spinning={!context?.insights}>
+                    <div className="Content-wrap Analytic">
+                        <div className="Insite-btn">
+                            <Button>
+                                Timeline{' '}
+                                <RightOutlined onClick={handleTimelineChange} />
+                            </Button>
+                        </div>
+                        <div className="Title-wrap">
+                            <h2 className="Analytic-title">
+                                {category && category}
+                                {/* Hypertension <br /> management */}
+                            </h2>
+                            <RightOutlined onClick={handleCategoryChange} />
+                        </div>
+                        <div className="filters-wrap">
+                            <Select
+                                defaultValue="day"
+                                placeholder="Select View"
+                                dropdownStyle={{
+                                    padding: '0',
+                                    borderRadius: '4px',
+                                    borderColor: '#616C61',
+                                }}
+                                onChange={(value) => setType(value)}
+                            >
+                                <Option value="day">Daily</Option>
+                                <Option value="hour">Hourly</Option>
+                                <Option value="week">Weekly</Option>
+                            </Select>
+                        </div>
+                        {dataset && context.insights && (
+                            <Line
+                                options={options}
+                                data={dataset}
+                                plugins={[dateHighlighter]}
+                            />
+                        )}
                     </div>
-                    <div className="Title-wrap">
-                        <h2 className="Analytic-title">
-                            {category && category}
-                            {/* Hypertension <br /> management */}
-                        </h2>
-                        <RightOutlined onClick={handleCategoryChange} />
-                    </div>
-                    <div className="filters-wrap">
-                        {/* <Select
-                            defaultValue="2022"
-                            dropdownStyle={{
-                                padding: '0',
-                                borderRadius: '4px',
-                                borderColor: '#616C61',
-                            }}
-                            onChange={handleChange}
-                        >
-                            <Option value="2022">2022</Option>
-                            <Option value="2021">2021</Option>
-                            <Option value="2020">2020</Option>
-                            <Option value="2019">2019</Option>
-                            <Option value="2018">2018</Option>
-                            <Option value="2017">2017</Option>
-                        </Select> */}
-                        <Select
-                            defaultValue="day"
-                            placeholder="Select View"
-                            dropdownStyle={{
-                                padding: '0',
-                                borderRadius: '4px',
-                                borderColor: '#616C61',
-                            }}
-                            onChange={(value) => setType(value)}
-                        >
-                            <Option value="day">Daily</Option>
-                            <Option value="hour">Hourly</Option>
-                            <Option value="week">Weekly</Option>
-                        </Select>
-                    </div>
-                    {dataset && context.insights && (
-                        <Line
-                            options={options}
-                            data={dataset}
-                            plugins={[dateHighlighter]}
-                        />
-                    )}
-                    {!context.insights && <Spin spinning={true} />}
-                </div>
+                </Spin>
             </Layout>
         </>
     )
 }
 
-export default Analytics
+export default Insights
