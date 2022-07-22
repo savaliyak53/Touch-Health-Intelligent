@@ -9,6 +9,7 @@ type Props = {
     color: string
     outerButton: boolean
     onClick: any
+    insight: any
 }
 function DashboardButton({
     innerButtons,
@@ -18,6 +19,7 @@ function DashboardButton({
     color,
     outerButton,
     onClick,
+    insight,
 }: Props) {
     return (
         <>
@@ -25,7 +27,10 @@ function DashboardButton({
                 className={`Diamond-Btn ${
                     color === '#394A7E' ? 'primary' : 'secondary'
                 }  ${disabled ? 'disabled' : ''}`}
-                onClick={onClick}
+                onClick={() => {
+                    onClick(insight)
+                    console.log(insight)
+                }}
             >
                 {innerButtons ? (
                     <div className="inner-1">
