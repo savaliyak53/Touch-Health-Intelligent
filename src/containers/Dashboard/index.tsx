@@ -1,16 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react'
 import Layout from '../../layouts/Layout/Layout'
 import './index.scss'
-import { getInsightsService } from '../../services/dashboardservice'
 import DashboardButton from '../../components/DashboardButton/DashboardButton'
-import { useNavigate } from 'react-router'
 import { InsightContext } from '../../contexts/InsightContext'
 import { Spin } from 'antd'
+import { toast } from 'react-toastify'
 
 const Dashboard = () => {
-    const [insights, setInsights] = useState<any>()
     const context = useContext(InsightContext)
-    const navigate = useNavigate()
     useEffect(() => {
         getInsights()
     }, [])
@@ -20,7 +17,7 @@ const Dashboard = () => {
         try {
             await context?.commands?.loadInsights()
         } catch (error) {
-            console.log(error)
+            toast('unknown error')
         }
     }
 
@@ -47,6 +44,8 @@ const Dashboard = () => {
                             color={`${insights[outer][i - 1]?.category?.color}`}
                             outerButton={false}
                             insight={insights[outer][i - 1]}
+                            outer={outer}
+                            inner={i - 1}
                         />
                         <DashboardButton
                             innerButtons={false}
@@ -55,7 +54,9 @@ const Dashboard = () => {
                             disabled={false}
                             color={`${insights[outer][i]?.category?.color}`}
                             outerButton={false}
-                            insight={insights[outer][i - 1]}
+                            insight={insights[outer][i]}
+                            outer={outer}
+                            inner={i}
                         />
                     </div>
                 )
@@ -78,6 +79,8 @@ const Dashboard = () => {
                             color={`${insights[outer][i]?.category?.color}`}
                             outerButton={false}
                             insight={insights[outer][i]}
+                            outer={outer}
+                            inner={i}
                         />
                         <DashboardButton
                             innerButtons={false}

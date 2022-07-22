@@ -22,7 +22,6 @@ const Timeline = () => {
     //<To-do-hamza >move this to dashboard
     const getSelectedInsight = async () => {
         const response = await context?.commands.loadInsights()
-        console.log('context.insights: ', response)
         const splitIndex = selectedInsight && selectedInsight.split('-')
         const insightIndex = splitIndex && splitIndex.map(Number)
         calculate(insightIndex, response)
@@ -53,9 +52,6 @@ const Timeline = () => {
         const iIndexlength = context?.insights.insights.length
         if (jIndex < jIndexlength - 1) {
             localStorage.setItem('selectedInsight', `${iIndex}-${jIndex + 1}`)
-            if (insight) {
-                console.log('mock: ', insight.forecast)
-            }
         } else if (jIndex >= jIndexlength - 1) {
             if (iIndex < iIndexlength - 1) {
                 localStorage.setItem('selectedInsight', `${iIndex + 1}-${0}`)

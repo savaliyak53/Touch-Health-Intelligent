@@ -86,7 +86,6 @@ const Login = () => {
             })
             .catch((error) => {
                 toast('Unknown error')
-                console.log(error)
             })
     }
 

@@ -1,12 +1,6 @@
 import React, { useContext } from 'react'
 import { Button } from 'antd'
-import {
-    RightOutlined,
-    ArrowDownOutlined,
-    DownOutlined,
-    CloseOutlined,
-    ArrowUpOutlined,
-} from '@ant-design/icons'
+import { ArrowUpOutlined } from '@ant-design/icons'
 import './DashboardButton.scss'
 import { useNavigate } from 'react-router-dom'
 import { InsightContext } from '../../contexts/InsightContext'
@@ -17,6 +11,8 @@ type Props = {
     disabled: boolean
     color: string
     outerButton: boolean
+    inner?: number
+    outer?: number
     insight?: any
 }
 function DashboardButton({
@@ -27,13 +23,15 @@ function DashboardButton({
     color,
     outerButton,
     insight,
+    outer,
+    inner,
 }: Props) {
     const context = useContext(InsightContext)
     const navigate = useNavigate()
     const handleRedirect = async () => {
-        //await context?.commands?.loadSelectedInsightIndex('1-0')
+        await context?.commands?.loadSelectedInsightIndex(`${outer}-${inner}`)
         await context?.commands?.loadSelectedInsight(insight)
-        navigate('/analytics')
+        navigate('/insight')
     }
     return (
         <>
@@ -43,25 +41,19 @@ function DashboardButton({
                 }  ${disabled ? 'disabled' : ''}`}
                 onClick={handleRedirect}
             >
-                {innerButtons ? (
-                    <div className="inner-1">
-                        <Button className="btn-inner">
-                            <img src={innerButtonImage} alt="" />
-                        </Button>
-                    </div>
-                ) : (
-                    ''
-                )}
+                <div className="inner-1">
+                    <Button className="btn-inner">
+                        <img src={innerButtonImage} alt="" />
+                    </Button>
+                </div>
+
                 {outerButton ? '.' : <ArrowUpOutlined />}
-                {innerButtons ? (
-                    <div className="inner-2">
-                        <Button className="btn-inner">
-                            <img src={innerButtonImage} alt="" />
-                        </Button>
-                    </div>
-                ) : (
-                    ''
-                )}
+
+                <div className="inner-2">
+                    <Button className="btn-inner">
+                        <img src={innerButtonImage} alt="" />
+                    </Button>
+                </div>
             </Button>
         </>
     )

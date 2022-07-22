@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify'
 import { getInsightsService } from '../../services/dashboardservice'
 export const INSIGHTS_ADDED = 'INSIGHTS_ADDED'
 
@@ -14,6 +15,6 @@ export const storeInsights = async (dispatch: any) => {
             })
         }
     } catch (error) {
-        console.log(error)
+        toast('unknown error')
     }
 }
