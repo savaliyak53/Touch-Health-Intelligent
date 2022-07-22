@@ -47,7 +47,24 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
                         <a href="/dashboard">Home</a>
                     </li>
                     <li>
-                        <a href="/insights">Insights</a>
+                        <a
+                            href="/insights"
+                            onClick={() =>
+                                localStorage.setItem('selectedInsight', '0-0')
+                            }
+                        >
+                            Insights
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="/insights/guideline"
+                            onClick={() =>
+                                localStorage.setItem('selectedInsight', '0-0')
+                            }
+                        >
+                            Insights Guideline
+                        </a>
                     </li>
                     <li>
                         <a href="/preferences">Preferences</a>
