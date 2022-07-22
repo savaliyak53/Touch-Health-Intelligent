@@ -79,50 +79,20 @@ const Login = () => {
     const togglePassword = () => {
         setPasswordShown(!passwordShown)
     }
-    const getInteraction = async () => {
-        getInteractionService()
-            .then((response) => {
-                // <To-do-Nayab> Make Sure this congratulations_str never changes </To-do-Nayab>
-                if (
-                    response?.data?.reward_nugget.congratulations_str ===
-                    'Thanks for answering 10 questions!'
-                ) {
-                    navigate('/dashboard')
-                } else {
-                    navigate('/questionnaire')
-                }
-            })
-            .catch(() => {
-                toast('unkown error')
-            })
-    }
+
     const getUserInfo = (userId: string | null | undefined) => {
         getUser(userId)
             .then((response: any) => {
-                if (response?.data) {
-                    getInteraction()
+                if (response?.data?.preferences) {
+                    navigate('/questionnaire')
+                } else {
+                    navigate('/preferences')
                 }
             })
-            .catch(() => {
-                toast('Unknown error')
+            .catch((e) => {
+                toast('Something went wrong')
             })
     }
-    // const getUserInfo = (userId: string) => {
-    //     getUser(userId)
-    //         .then((response: any) => {
-    //             if (response.data.preferences) {
-    //                 navigate('/questionnaire')
-    //             } else {
-    //                 navigate('/dashboard')
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.log(
-    //                 'error occurred while getting user interaction ',
-    //                 error
-    //             )
-    //         })
-    // }
 
     return (
         <Layout defaultHeader={false} hamburger={false}>

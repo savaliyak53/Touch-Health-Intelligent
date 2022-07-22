@@ -18,7 +18,6 @@ function UserCondition() {
     const [loading, setLoading] = useState<boolean>(false)
     const [refId, setRefId] = useState<string>('')
     const navigate = useNavigate()
-
     const getInteraction = async () => {
         //resolve the service using promise
         //TODO(<HamzaIjaz>): Refactor all the API calls like this
@@ -39,12 +38,13 @@ function UserCondition() {
         getInteraction()
     }, [])
     const onSubmit = async (state?: string) => {
-        alert(value)
         if (
             question.type !== 'yes_no' &&
             question.type !== 'slider' &&
+            question.type !== 'select_one' &&
             !value
         ) {
+            console.log(value)
             toast.error('Please select a value')
             return
         }
