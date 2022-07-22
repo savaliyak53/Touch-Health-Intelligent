@@ -120,7 +120,20 @@ const Dashboard = () => {
                                     outerButton={true}
                                 />
                             </div>
+                            {/* {context?.insights?.insights?.map(
+                                (insight: any, index: number) => {
+                                    {
+                                        console.log('insight :', insight)
+                                        console.log('index :', index)
+                                    }
+
+                                    {
+                                        Section(index)
+                                    }
+                                }
+                            )} */}
                             {Section(0)}
+                            {Section(1)}
                         </div>
                     )}
                     <Spin spinning={!context?.insights}></Spin>
