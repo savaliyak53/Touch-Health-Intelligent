@@ -39,6 +39,9 @@ const Insights = () => {
     const navigate = useNavigate()
     const userId = localStorage.getItem('userId')
     const [dataset, setDataset] = useState()
+    const [startDate, setForecastStartDate] = useState()
+    const [lastDate, setForecastLastDate] = useState()
+
     const [category, setCategory] = useState()
     let data = {}
     //selected Insight from localstorage is saved as [i]-[j]
@@ -56,13 +59,13 @@ const Insights = () => {
                 scales: { x, y },
             } = chart
             ctx.fillStyle = 'rgba(0,0,0,0.2)'
-            // <To-do-Nayab> Replace with actual dates from store using pluginOptions or useState
-            const newDate = new Date('2022-07-21T10:50:52.635702')
-            const newDate2 = new Date('2022-07-22T10:50:52.635710')
+            const forecastStartDate = new Date(startDate)
+            const forecastLastDate = new Date(lastDate)
             ctx.fillRect(
-                x.getPixelForValue(newDate),
+                x.getPixelForValue(forecastStartDate),
                 top,
-                x.getPixelForValue(newDate2) - x.getPixelForValue(newDate),
+                x.getPixelForValue(forecastLastDate) -
+                    x.getPixelForValue(forecastStartDate),
                 height
             )
         },
@@ -112,6 +115,8 @@ const Insights = () => {
         const forecastTime = selectedinsight.forecast.times.map((item) => {
             return item
         })
+        setForecastStartDate(forecastTime[0])
+        setForecastLastDate(forecastTime[forecastTime.length - 1])
         const historicalTime = selectedinsight.historical.times.map((item) => {
             return item
         })
