@@ -1,29 +1,138 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Layout from '../../layouts/Layout/Layout'
-import { Button } from 'antd'
-import { response } from '../../utils/lib'
 import './index.scss'
-import Diamond from '../../components/diamond'
-import { getInsightsService } from '../../services/dashboardservice'
+import DashboardButton from '../../components/DashboardButton/DashboardButton'
+import { InsightContext } from '../../contexts/InsightContext'
+import { Spin } from 'antd'
+import { toast } from 'react-toastify'
 
 const Dashboard = () => {
-    const [insights, setInsights] = useState<any>()
-    const getInsights = async () => {
-        try {
-            const response = await getInsightsService()
-            setInsights(response?.data?.insights)
-            console.log(response.data.insights)
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    const context = useContext(InsightContext)
     useEffect(() => {
         getInsights()
     }, [])
+
+    let rowNumber = 0
+    const getInsights = async () => {
+        try {
+            await context?.commands?.loadInsights()
+        } catch (error) {
+            toast('unknown error')
+        }
+    }
+
+    const Section = (outer: number) => {
+        const section: React.ReactNode[] = []
+        const insights = context?.insights?.insights
+        for (let i = 0; i < insights[outer]?.length; i++) {
+            {
+                rowNumber++
+            }
+            if (rowNumber % 2 == 0) {
+                {
+                    i++
+                }
+                section.push(
+                    <div className="btn-group">
+                        <DashboardButton
+                            innerButtons={false}
+                            innerButtonImage={`${
+                                insights[outer][i - 1]?.category?.icon
+                            }`}
+                            image={`${insights[outer][i - 1]?.category?.icon}`}
+                            disabled={false}
+                            color={`${insights[outer][i - 1]?.category?.color}`}
+                            outerButton={false}
+                            insight={insights[outer][i - 1]}
+                            outer={outer}
+                            inner={i - 1}
+                        />
+                        <DashboardButton
+                            innerButtons={false}
+                            innerButtonImage={`${insights[outer][i]?.category?.icon}`}
+                            image={`${insights[outer][i]?.category?.icon}`}
+                            disabled={false}
+                            color={`${insights[outer][i]?.category?.color}`}
+                            outerButton={false}
+                            insight={insights[outer][i]}
+                            outer={outer}
+                            inner={i}
+                        />
+                    </div>
+                )
+            } else {
+                section.push(
+                    <div className="btn-group">
+                        <DashboardButton
+                            innerButtons={false}
+                            innerButtonImage={`${insights[outer][i]?.category?.icon}`}
+                            image={`${insights[outer][i]?.category?.icon}`}
+                            disabled={true}
+                            color={`${insights[outer][i]?.category?.color}`}
+                            outerButton={true}
+                        />
+                        <DashboardButton
+                            innerButtons={false}
+                            innerButtonImage={`${insights[outer][i]?.category?.icon}`}
+                            image={`${insights[outer][i]?.category?.icon}`}
+                            disabled={false}
+                            color={`${insights[outer][i]?.category?.color}`}
+                            outerButton={false}
+                            insight={insights[outer][i]}
+                            outer={outer}
+                            inner={i}
+                        />
+                        <DashboardButton
+                            innerButtons={false}
+                            innerButtonImage={`${insights[outer][i]?.category?.icon}`}
+                            image={`${insights[outer][i]?.category?.icon}`}
+                            disabled={true}
+                            color={`${insights[outer][i]?.category?.color}`}
+                            outerButton={true}
+                        />
+                    </div>
+                )
+            }
+        }
+        return section
+    }
+    const Dashboard = () => {
+        const dashboard: React.ReactNode[] = []
+        const insights = context?.insights?.insights
+        for (let i = 0; i < insights.length; i++) {
+            dashboard.push(Section(i))
+        }
+        return dashboard
+    }
     return (
         <>
             <Layout defaultHeader={true} hamburger={true} dashboard={true}>
-                <Diamond></Diamond>
+                <div className="Db-wrap">
+                    {context?.insights && (
+                        <div className="dsgbtn-group">
+                            <div className="btn-group">
+                                <DashboardButton
+                                    innerButtons={false}
+                                    innerButtonImage=""
+                                    image=""
+                                    disabled={true}
+                                    color={`${context.insights.insights[0][0]?.category?.color}`}
+                                    outerButton={true}
+                                />
+                                <DashboardButton
+                                    innerButtons={false}
+                                    innerButtonImage=""
+                                    image=""
+                                    disabled={true}
+                                    color={`${context.insights.insights[0][0]?.category?.color}`}
+                                    outerButton={true}
+                                />
+                            </div>
+                            {Dashboard()}
+                        </div>
+                    )}
+                    <Spin spinning={!context?.insights}></Spin>
+                </div>
             </Layout>
         </>
     )

@@ -4,17 +4,17 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 
-import Button from '../../components/Button'
-import InputField from '../../components/Input'
-import Layout from '../../layouts/Layout/Layout'
+import Button from '../../../components/Button'
+import InputField from '../../../components/Input'
+import Layout from '../../../layouts/Layout/Layout'
 
 import {
     getInteractionService,
     getUser,
     loginService,
-} from '../../services/authservice'
+} from '../../../services/authservice'
 import jwt from 'jwt-decode'
-import './Auth.scss'
+import './index.scss'
 import { Tooltip } from 'antd'
 
 type IFormInputs = {
@@ -83,14 +83,14 @@ const Login = () => {
     const getUserInfo = (userId: string | null | undefined) => {
         getUser(userId)
             .then((response: any) => {
-                if (response?.data?.preferences) {
+                if (response?.data?.preferences?.time_of_day) {
                     navigate('/questionnaire')
                 } else {
                     navigate('/preferences')
                 }
             })
-            .catch((e) => {
-                toast('Something went wrong')
+            .catch((error) => {
+                toast('Unknown error')
             })
     }
 
