@@ -31,13 +31,13 @@ function DashboardButton({
     const handleRedirectInsights = async () => {
         await context?.commands?.loadSelectedInsightIndex(`${outer}-${inner}`)
         await context?.commands?.loadSelectedInsight(insight)
-        navigate('/insight')
+        navigate('/insights')
     }
 
     const handleRedirectTimeline = async () => {
         await context?.commands?.loadSelectedInsightIndex(`${outer}-${inner}`)
         await context?.commands?.loadSelectedInsight(insight)
-        navigate('/insight')
+        //navigate('/timeline')
     }
     return (
         <>

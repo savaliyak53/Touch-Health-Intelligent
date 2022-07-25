@@ -96,6 +96,14 @@ const Dashboard = () => {
         }
         return section
     }
+    const Dashboard = () => {
+        const dashboard: React.ReactNode[] = []
+        const insights = context?.insights?.insights
+        for (let i = 0; i < insights.length; i++) {
+            dashboard.push(Section(i))
+        }
+        return dashboard
+    }
     return (
         <>
             <Layout defaultHeader={true} hamburger={true} dashboard={true}>
@@ -120,20 +128,7 @@ const Dashboard = () => {
                                     outerButton={true}
                                 />
                             </div>
-                            {/* {context?.insights?.insights?.map(
-                                (insight: any, index: number) => {
-                                    {
-                                        console.log('insight :', insight)
-                                        console.log('index :', index)
-                                    }
-
-                                    {
-                                        Section(index)
-                                    }
-                                }
-                            )} */}
-                            {Section(0)}
-                            {Section(1)}
+                            {Dashboard()}
                         </div>
                     )}
                     <Spin spinning={!context?.insights}></Spin>
