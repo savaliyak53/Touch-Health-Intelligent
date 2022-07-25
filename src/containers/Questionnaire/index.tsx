@@ -37,12 +37,13 @@ function UserCondition() {
     useEffect(() => {
         getInteraction()
     }, [])
-    const onSubmit = async (state?: string) => {
+    const onSubmit = async (state?: string, skip?: boolean) => {
         if (
             question.type !== 'yes_no' &&
             question.type !== 'slider' &&
             question.type !== 'select_one' &&
-            !value
+            !value &&
+            !skip
         ) {
             console.log(value)
             toast.error('Please select a value')
@@ -55,16 +56,16 @@ function UserCondition() {
             question_response: {
                 ref_id: question.ref_id,
                 type: question.type,
-                value: value,
+                value: skip ? null : value,
             },
             reward_nugget_response: {
                 shared: true,
             },
         }
-        if (question.type === 'slider' && !value) {
+        if (question.type === 'slider' && !value && !skip) {
             payload.question_response.value = '0'
         }
-        if (question.type == 'yes_no') {
+        if (question.type == 'yes_no' && !skip) {
             payload.question_response.value = state
         }
         setLoading(true)
@@ -99,6 +100,16 @@ function UserCondition() {
                 />
                 {question?.type !== 'yes_no' ? (
                     <div className="Btn-group">
+                        <Button
+                            className="Skip"
+                            onClick={() => {
+                                onSubmit('', true)
+                            }}
+                            loading={loading}
+                            disabled={loading}
+                        >
+                            Skip
+                        </Button>
                         <Button
                             className="Next"
                             onClick={() => {
