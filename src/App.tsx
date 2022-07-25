@@ -14,6 +14,7 @@ const Application = () => {
             <InsightContext>
                 <AppRoutes />
             </InsightContext>
+            <ToastContainer />
         </>
     )
 }

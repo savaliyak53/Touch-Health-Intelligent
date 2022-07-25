@@ -8,7 +8,11 @@ import Button from '../../../components/Button'
 import InputField from '../../../components/Input'
 import Layout from '../../../layouts/Layout/Layout'
 
-import { getUser, loginService } from '../../../services/authservice'
+import {
+    getInteractionService,
+    getUser,
+    loginService,
+} from '../../../services/authservice'
 import jwt from 'jwt-decode'
 import './index.scss'
 import { Tooltip } from 'antd'
@@ -75,6 +79,7 @@ const Login = () => {
     const togglePassword = () => {
         setPasswordShown(!passwordShown)
     }
+
     const getUserInfo = (userId: string | null | undefined) => {
         getUser(userId)
             .then((response: any) => {
