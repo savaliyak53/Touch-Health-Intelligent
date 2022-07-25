@@ -28,7 +28,13 @@ function DashboardButton({
 }: Props) {
     const context = useContext(InsightContext)
     const navigate = useNavigate()
-    const handleRedirect = async () => {
+    const handleRedirectInsights = async () => {
+        await context?.commands?.loadSelectedInsightIndex(`${outer}-${inner}`)
+        await context?.commands?.loadSelectedInsight(insight)
+        navigate('/insight')
+    }
+
+    const handleRedirectTimeline = async () => {
         await context?.commands?.loadSelectedInsightIndex(`${outer}-${inner}`)
         await context?.commands?.loadSelectedInsight(insight)
         navigate('/insight')
@@ -39,11 +45,16 @@ function DashboardButton({
                 className={`Diamond-Btn ${
                     color === '#394A7E' ? 'primary' : 'secondary'
                 }  ${disabled ? 'disabled' : ''}`}
-                onClick={handleRedirect}
             >
                 <div className="inner-1">
-                    <Button className="btn-inner">
-                        <img src={innerButtonImage} alt="" />
+                    <Button
+                        className="btn-inner"
+                        onClick={handleRedirectInsights}
+                    >
+                        <img
+                            src={`${process.env.PUBLIC_URL}/assets/mobileassets/Block-Chart-2.png`}
+                            alt=""
+                        />
                     </Button>
                 </div>
 
@@ -51,7 +62,10 @@ function DashboardButton({
 
                 <div className="inner-2">
                     <Button className="btn-inner">
-                        <img src={innerButtonImage} alt="" />
+                        <img
+                            src={`${process.env.PUBLIC_URL}/assets/mobileassets/Diagram-2.png`}
+                            alt=""
+                        />
                     </Button>
                 </div>
             </Button>
