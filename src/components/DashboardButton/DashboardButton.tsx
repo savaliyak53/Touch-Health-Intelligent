@@ -31,9 +31,9 @@ function DashboardButton({
 }: Props) {
     const context = useContext(InsightContext)
     const navigate = useNavigate()
-    let base64ToString = Buffer.from(image, 'base64').toString()
-    base64ToString = JSON.parse(base64ToString)
-    console.log(base64ToString)
+    // let base64ToString = Buffer.from(image, 'base64').toString()
+    // base64ToString = JSON.parse(base64ToString)
+    //console.log(base64ToString)
     const handleRedirectInsights = async () => {
         await context?.commands?.loadSelectedInsightIndex(`${outer}-${inner}`)
         await context?.commands?.loadSelectedInsight(insight)
