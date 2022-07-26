@@ -5,7 +5,6 @@ import './DashboardButton.scss'
 import { useNavigate } from 'react-router-dom'
 import { InsightContext } from '../../contexts/InsightContext'
 import { Buffer } from 'buffer'
-// var Buffer = require('buffer/').Buffer
 
 type Props = {
     innerButtons: boolean
