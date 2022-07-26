@@ -88,7 +88,7 @@ const Insights = () => {
             },
         },
     }
-    const selectedInsight = localStorage.getItem('selectedInsight')
+    const selectedInsight = localStorage.getItem('selectedInsight') //store.selectedInsights
 
     //<To-do-hamza >move this to dashboard
     const getSelectedInsight = async () => {
