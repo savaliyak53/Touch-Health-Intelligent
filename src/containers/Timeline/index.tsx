@@ -68,18 +68,23 @@ const Timeline = () => {
             <Layout defaultHeader={true} hamburger={true} dashboard={false}>
                 <Spin spinning={!context?.insights}>
                     <div className="Content-wrap Corr">
-                        <div className="Insite-btn">
+                        <div
+                            className="Insite-btn"
+                            onClick={handleInsightsChange}
+                        >
                             <Button>
-                                Insights{' '}
-                                <RightOutlined onClick={handleInsightsChange} />
+                                Insights <RightOutlined />
                             </Button>
                         </div>
 
-                        <div className="Title-wrap">
+                        <div
+                            className="Title-wrap"
+                            onClick={handleCategoryChange}
+                        >
                             <h2 className="Corr-title">
                                 {category && category}
                             </h2>
-                            <RightOutlined onClick={handleCategoryChange} />
+                            <RightOutlined />
                         </div>
 
                         <div className="Corr-wrap">
