@@ -28,11 +28,12 @@ const ManageConditions = () => {
     const [data, setData] = useState<any>()
 
     const getConditions = async () => {
-        const userId = localStorage.getItem('userId')
+        // const userId = localStorage.getItem('userId')
         try {
-            const response = await getConditionsService(userId)
+            const response = await getConditionsService()
+            setData(response.data.conditions)
         } catch (error) {
-            toast
+            toast('unknown error')
         }
     }
     useEffect(() => {
@@ -62,7 +63,7 @@ const ManageConditions = () => {
                         {data?.map((data: any, i: any) => (
                             <SwitchQuestion
                                 key={i}
-                                Title={data.Title}
+                                Title={data.title}
                                 Text={data.Text}
                                 Checked={data.Checked}
                             />
