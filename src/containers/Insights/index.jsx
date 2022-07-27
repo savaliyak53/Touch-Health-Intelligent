@@ -200,18 +200,23 @@ const Insights = () => {
             <Layout defaultHeader={true} hamburger={true} dashboard={false}>
                 <Spin spinning={!context?.insights}>
                     <div className="Content-wrap Analytic">
-                        <div className="Insite-btn">
+                        <div
+                            className="Insite-btn"
+                            onClick={handleTimelineChange}
+                        >
                             <Button>
-                                Timeline{' '}
-                                <RightOutlined onClick={handleTimelineChange} />
+                                Timeline <RightOutlined />
                             </Button>
                         </div>
-                        <div className="Title-wrap">
+                        <div
+                            className="Title-wrap"
+                            onClick={handleCategoryChange}
+                        >
                             <h2 className="Analytic-title">
                                 {category && category}
                                 {/* Hypertension <br /> management */}
                             </h2>
-                            <RightOutlined onClick={handleCategoryChange} />
+                            <RightOutlined />
                         </div>
                         <div className="filters-wrap">
                             <Select

@@ -24,6 +24,7 @@
     .Title-wrap {
         display: flex;
         align-items: flex-start;
+        cursor: pointer;
         margin-top: clamp(0px, 7.5vh, 24px);
         > span {
             margin-top: 20px;
