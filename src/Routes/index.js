@@ -15,6 +15,7 @@ import Insights from '../containers/Insights'
 import Timeline from '../containers/Timeline/index'
 import ManageConditions from '../containers/Conditions'
 import Diamond from '../components/diamond'
+import Correlations from '../containers/Guidance'
 const AppRoutes = () => {
     return (
         <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
@@ -34,7 +35,10 @@ const AppRoutes = () => {
                 {/* Protected Routes */}
                 <Route element={<RequireAuth />}>
                     <Route path="insights" element={<Insights />} />
-                    <Route path="/insights/guideline" element={<Timeline />} />
+                    <Route
+                        path="/insights/guideline"
+                        element={<Correlations />}
+                    />
                     <Route path="/diamond" element={<Diamond />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/conditions" element={<ManageConditions />} />
