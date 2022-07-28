@@ -84,7 +84,17 @@ const Login = () => {
         getUser(userId)
             .then((response: any) => {
                 if (response?.data?.preferences?.time_of_day) {
-                    navigate('/questionnaire')
+                    getInteractionService()
+                        .then((response) => {
+                            if (response?.data?.question) {
+                                navigate('/questionnaire')
+                            } else {
+                                navigate('/dashboard')
+                            }
+                        })
+                        .catch(() => {
+                            toast('unkown error')
+                        })
                 } else {
                     navigate('/preferences')
                 }

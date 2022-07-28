@@ -16,6 +16,7 @@ type Props = {
     inner?: number
     outer?: number
     insight?: any
+    highlight: number
 }
 function DashboardButton({
     innerButtons,
@@ -27,12 +28,10 @@ function DashboardButton({
     insight,
     outer,
     inner,
+    highlight,
 }: Props) {
     const context = useContext(InsightContext)
     const navigate = useNavigate()
-    // let base64ToString = Buffer.from(image, 'base64').toString()
-    // base64ToString = JSON.parse(base64ToString)
-    //console.log(base64ToString)
     const handleRedirectInsights = async () => {
         await context?.commands?.loadSelectedInsightIndex(`${outer}-${inner}`)
         await context?.commands?.loadSelectedInsight(insight)
@@ -44,12 +43,15 @@ function DashboardButton({
         await context?.commands?.loadSelectedInsight(insight)
         navigate('/insights/guideline')
     }
+    console.log('image', image)
     return (
         <>
             <Button
                 className={`Diamond-Btn ${
                     color === '#394A7E' ? 'primary' : 'secondary'
-                }  ${disabled ? 'disabled' : ''}`}
+                }  ${highlight > 0 ? 'highlight' : ''}  ${
+                    disabled ? 'disabled' : ''
+                }`}
             >
                 <div className="inner-1">
                     <Button
@@ -62,9 +64,7 @@ function DashboardButton({
                         />
                     </Button>
                 </div>
-
-                {outerButton ? '.' : <ArrowUpOutlined />}
-
+                {outerButton ? '.' : <img src={image} />}
                 <div className="inner-2">
                     <Button
                         className="btn-inner"

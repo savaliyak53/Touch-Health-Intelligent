@@ -19,8 +19,6 @@ function UserCondition() {
     const [refId, setRefId] = useState<string>('')
     const navigate = useNavigate()
     const getInteraction = async () => {
-        //resolve the service using promise
-        //TODO(<HamzaIjaz>): Refactor all the API calls like this
         getInteractionService()
             .then((response) => {
                 if (response?.data?.question) {
