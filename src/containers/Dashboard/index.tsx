@@ -46,17 +46,19 @@ const Dashboard = () => {
                             insight={insights[outer][i - 1]}
                             outer={outer}
                             inner={i - 1}
+                            highlight={1}
                         />
                         <DashboardButton
                             innerButtons={false}
                             innerButtonImage={`${insights[outer][i]?.category?.icon}`}
-                            image={`${insights[outer][i]?.category?.icon}`}
+                            image={`${insights[outer][i - 1]?.category?.icon}`}
                             disabled={false}
-                            color={`${insights[outer][i]?.category?.color}`}
+                            color={`${insights[outer][i - 1]?.category?.color}`}
                             outerButton={false}
-                            insight={insights[outer][i]}
+                            insight={insights[outer][i - 1]}
                             outer={outer}
                             inner={i}
+                            highlight={0}
                         />
                     </div>
                 )
@@ -70,6 +72,7 @@ const Dashboard = () => {
                             disabled={true}
                             color={`${insights[outer][i]?.category?.color}`}
                             outerButton={true}
+                            highlight={0}
                         />
                         <DashboardButton
                             innerButtons={false}
@@ -81,6 +84,7 @@ const Dashboard = () => {
                             insight={insights[outer][i]}
                             outer={outer}
                             inner={i}
+                            highlight={0}
                         />
                         <DashboardButton
                             innerButtons={false}
@@ -89,6 +93,7 @@ const Dashboard = () => {
                             disabled={true}
                             color={`${insights[outer][i]?.category?.color}`}
                             outerButton={true}
+                            highlight={0}
                         />
                     </div>
                 )
@@ -102,6 +107,7 @@ const Dashboard = () => {
         for (let i = 0; i < insights.length; i++) {
             dashboard.push(Section(i))
         }
+        rowNumber++
         return dashboard
     }
     return (
@@ -118,6 +124,7 @@ const Dashboard = () => {
                                     disabled={true}
                                     color={`${context.insights.insights[0][0]?.category?.color}`}
                                     outerButton={true}
+                                    highlight={0}
                                 />
                                 <DashboardButton
                                     innerButtons={false}
@@ -126,11 +133,65 @@ const Dashboard = () => {
                                     disabled={true}
                                     color={`${context.insights.insights[0][0]?.category?.color}`}
                                     outerButton={true}
+                                    highlight={0}
                                 />
                             </div>
                             {Dashboard()}
+                            {rowNumber % 2 == 0 ? (
+                                <div className="btn-group">
+                                    <DashboardButton
+                                        innerButtons={false}
+                                        innerButtonImage=""
+                                        image=""
+                                        disabled={true}
+                                        color={`${context.insights.insights[0][0]?.category?.color}`}
+                                        outerButton={true}
+                                        highlight={0}
+                                    />
+                                    <DashboardButton
+                                        innerButtons={false}
+                                        innerButtonImage=""
+                                        image=""
+                                        disabled={true}
+                                        color={`${context.insights.insights[0][0]?.category?.color}`}
+                                        outerButton={true}
+                                        highlight={0}
+                                    />
+                                </div>
+                            ) : (
+                                <div className="btn-group">
+                                    <DashboardButton
+                                        innerButtons={false}
+                                        innerButtonImage=""
+                                        image=""
+                                        disabled={true}
+                                        color={`${context.insights.insights[0][0]?.category?.color}`}
+                                        outerButton={true}
+                                        highlight={0}
+                                    />
+                                    <DashboardButton
+                                        innerButtons={false}
+                                        innerButtonImage=""
+                                        image=""
+                                        disabled={true}
+                                        color={`${context.insights.insights[0][0]?.category?.color}`}
+                                        outerButton={true}
+                                        highlight={0}
+                                    />
+                                    <DashboardButton
+                                        innerButtons={false}
+                                        innerButtonImage=""
+                                        image=""
+                                        disabled={true}
+                                        color={`${context.insights.insights[0][0]?.category?.color}`}
+                                        outerButton={true}
+                                        highlight={0}
+                                    />
+                                </div>
+                            )}
                         </div>
                     )}
+
                     <Spin spinning={!context?.insights}></Spin>
                 </div>
             </Layout>
