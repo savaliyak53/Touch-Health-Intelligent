@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { Slider } from 'antd'
-import * as yup from 'yup'
 import './index.scss'
 import InputField from '../../components/Input'
 import Button from '../../components/Button'
@@ -13,7 +11,6 @@ import Layout from '../../layouts/Layout/Layout'
 import type { RadioChangeEvent } from 'antd'
 import { Radio, Space, DatePicker } from 'antd'
 import moment from 'moment'
-import { AnyObject } from 'yup/lib/object'
 
 type IFormInputs = {
     minutesPerWeek: number
@@ -30,62 +27,44 @@ const Preferences = () => {
     const [checked, setChecked] = useState<string[]>([])
     const [value, setValue] = useState('')
 
-    const schema = yup
-        .object({
-            timeOfDay: yup
-                .array()
-                .min(1, 'Please Select at least one option')
-                .required('required'),
-            yob: yup.mixed().required('Year of birth is required.'),
-            sex: yup.mixed().required('Gender is required.'),
-        })
-        .required()
     const {
         register,
         handleSubmit,
         control,
-        formState: { errors },
+        formState: { errors, isValid },
     } = useForm<IFormInputs>({
         mode: 'onChange',
-        resolver: yupResolver(schema),
     })
     const onChangeRadio = (e: RadioChangeEvent) => {
         setValue(e.target.value)
     }
 
-    const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-        console.log('time zone', new Date().getTimezoneOffset())
+    const onSubmit: SubmitHandler<IFormInputs> = (data) => {
         const prefereceData = {
             sex: data.sex,
-            yob: parseInt(moment(data.yob).format('YYYY')),
+            yob: data.yob,
             preferences: {
                 minutes_per_week: time ?? 3,
                 preferred_engagement_slots: data.timeOfDay,
                 timezone: `${new Date().getTimezoneOffset()}`,
             },
         }
-        console.log('preference data', prefereceData)
         setIsLoading(true)
         setIsDisabled(true)
-        const preferencesResponse = await preferencesService(
-            prefereceData,
-            userId
-        )
-        if (preferencesResponse?.response?.data) {
-            setIsLoading(false)
-            setIsDisabled(false)
-            toast.error(preferencesResponse?.response?.data?.message)
-        } else {
-            setIsLoading(false)
-            setIsDisabled(false)
-            toast.success('You have submitted Preferences successfully')
-            handleRedirect()
-        }
-    }
-    function disabledDate(current: any) {
-        console.log('value ', moment(current).format('YYYY'))
-        console.log('condition ', moment(current).format('YYYY') < '2006')
-        return current.isSameOrBefore('2006')
+        preferencesService(prefereceData, userId)
+            .then((preferencesResponse) => {
+                setIsLoading(false)
+                setIsDisabled(false)
+                toast.success('You have submitted Preferences successfully')
+                handleRedirect()
+            })
+            .catch((error) => {
+                setIsLoading(false)
+                setIsDisabled(false)
+                toast.error(
+                    `${error.response?.data?.title} Please check values and try again.`
+                )
+            })
     }
     const handleRedirect = () => {
         navigate(`/introvideo`)
@@ -106,11 +85,6 @@ const Preferences = () => {
         return false
     }
 
-    const onChangeDate = (date: any) => {
-        if (parseInt(moment(date).format('YYYY')) > 2006) {
-            // errors.yob.message = 'Year must be before 2007'
-        }
-    }
     return (
         <Layout defaultHeader={true} hamburger={false}>
             <div className="Content-wrap Pref">
@@ -170,27 +144,33 @@ const Preferences = () => {
                         <h3 className="Question-title">
                             How much time do you have for check-ins each week?
                         </h3>
-
-                        <Slider
-                            className="Pref-slider"
-                            id="minutesPerWeek"
-                            {...register('minutesPerWeek', {
-                                required: true,
-                            })}
-                            value={time}
-                            min={3}
-                            max={15}
-                            onChange={(value) => {
-                                setTime(value)
+                        <Controller
+                            control={control}
+                            name="minutesPerWeek"
+                            rules={{
+                                required: 'Please Select a check-in value',
                             }}
                             defaultValue={3}
+                            render={({ field: { onChange, value } }) => (
+                                <>
+                                    <Slider
+                                        className="Pref-slider"
+                                        id="minutesPerWeek"
+                                        value={value}
+                                        min={3}
+                                        max={15}
+                                        onChange={onChange}
+                                        defaultValue={3}
+                                    />
+                                    <div className="Slider-range">
+                                        <span>3 min</span>
+                                        <span></span>
+                                        <span>10 min</span>
+                                        <span>15 min</span>
+                                    </div>
+                                </>
+                            )}
                         />
-                        <div className="Slider-range">
-                            <span>3 min</span>
-                            <span></span>
-                            <span>10 min</span>
-                            <span>15 min</span>
-                        </div>
 
                         <p className="Preferences-form-error">
                             {errors.minutesPerWeek?.message}
@@ -203,17 +183,24 @@ const Preferences = () => {
                         <Controller
                             control={control}
                             name="yob"
+                            rules={{
+                                required: 'Please Select an year',
+                                validate: (value) => {
+                                    return value > 2006
+                                        ? 'You must older than 16'
+                                        : true
+                                },
+                            }}
                             render={({
                                 field: { onChange, onBlur, value, name, ref },
                             }) => (
                                 <DatePicker
-                                    {...register('yob', {
-                                        required: true,
-                                    })}
-                                    onChange={onChangeDate}
+                                    onChange={(
+                                        selectedValue,
+                                        selectedValueString
+                                    ) => onChange(selectedValueString)}
                                     picker="year"
                                     format="YYYY"
-                                    //disabledDate={() => disabledDate(value)}
                                 />
                             )}
                         />
@@ -227,16 +214,9 @@ const Preferences = () => {
                         <Controller
                             control={control}
                             name="sex"
-                            render={({
-                                field: { onChange, onBlur, value, name, ref },
-                            }) => (
-                                <Radio.Group
-                                    value={value}
-                                    {...register('sex', {
-                                        required: true,
-                                    })}
-                                    onChange={onChange}
-                                >
+                            rules={{ required: 'Please Select your gender' }}
+                            render={({ field: { onChange, value } }) => (
+                                <Radio.Group value={value} onChange={onChange}>
                                     <Space direction="vertical">
                                         <Radio value="male">Male</Radio>
                                         <Radio value="female">Female</Radio>
@@ -255,7 +235,7 @@ const Preferences = () => {
                     <Button
                         className="Pref-btn btn"
                         loading={isLoading}
-                        disabled={isDisabled}
+                        disabled={!isValid}
                         onClick={handleSubmit(onSubmit)}
                     >
                         Save and Next
