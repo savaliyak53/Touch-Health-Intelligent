@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Slider } from 'antd'
@@ -12,8 +12,7 @@ import { toast } from 'react-toastify'
 import Layout from '../../layouts/Layout/Layout'
 import type { RadioChangeEvent } from 'antd'
 import { Radio, Space, DatePicker } from 'antd'
-import type { DatePickerProps } from 'antd'
-import * as moment from 'moment'
+import moment from 'moment'
 
 type IFormInputs = {
     minutesPerWeek: number
@@ -29,12 +28,6 @@ const Preferences = () => {
     const [isDisabled, setIsDisabled] = useState(false)
     const [checked, setChecked] = useState<string[]>([])
     const [value, setValue] = useState('')
-    const [date, setDate] = useState<any>()
-
-    const marks = {
-        3: 3,
-        15: 15,
-    }
 
     const schema = yup
         .object({
@@ -42,31 +35,32 @@ const Preferences = () => {
                 .array()
                 .min(1, 'Please Select at least one option')
                 .required('required'),
-            yob: yup.number().required('Year of birth is required.'),
+            yob: yup.mixed().required('Year of birth is required.'),
         })
         .required()
     const {
         register,
         handleSubmit,
+        control,
         formState: { errors },
     } = useForm<IFormInputs>({
         mode: 'onChange',
         resolver: yupResolver(schema),
     })
-    const onChange = (e: RadioChangeEvent) => {
-        console.log('radio checked', e.target.value)
+    const onChangeRadio = (e: RadioChangeEvent) => {
         setValue(e.target.value)
     }
 
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
         const prefereceData = {
-            sex: data.sex,
-            yob: date,
+            sex: value,
+            yob: parseInt(moment(data.yob).format('YYYY')),
             preferences: {
                 minutes_per_week: time ?? 3,
                 time_of_day: data.timeOfDay,
             },
         }
+        console.log('preference data', prefereceData)
         setIsLoading(true)
         setIsDisabled(true)
         const preferencesResponse = await preferencesService(
@@ -87,12 +81,6 @@ const Preferences = () => {
 
     const handleRedirect = () => {
         navigate(`/introvideo`)
-    }
-
-    const onChangeDate: DatePickerProps['onChange'] = (date, dateString) => {
-        console.log(dateString)
-        setDate(parseInt(dateString))
-        // setDate(moment(dateString).format('YYYY'))
     }
 
     const timeOfDay = [
@@ -202,13 +190,21 @@ const Preferences = () => {
                         <h3 className="Question-title">
                             What is your year of birth?
                         </h3>
-                        <DatePicker
-                            {...register('yob', {
-                                required: true,
-                            })}
-                            value={date}
-                            onChange={onChangeDate}
-                            picker="year"
+                        <Controller
+                            control={control}
+                            name="yob"
+                            render={({
+                                field: { onChange, onBlur, value, name, ref },
+                            }) => (
+                                <DatePicker
+                                    {...register('yob', {
+                                        required: true,
+                                    })}
+                                    onChange={onChange}
+                                    picker="year"
+                                    format="YYYY"
+                                />
+                            )}
                         />
 
                         <p className="Preferences-form-error">
@@ -223,7 +219,7 @@ const Preferences = () => {
                             {...register('sex', {
                                 required: true,
                             })}
-                            onChange={onChange}
+                            onChange={onChangeRadio}
                         >
                             <Space direction="vertical">
                                 <Radio value="male">Male</Radio>

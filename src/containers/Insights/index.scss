@@ -65,3 +65,32 @@
         }
     }
 }
+
+.chart-wrap {
+    width: 100%;
+    overflow-x: auto;
+    .chart {
+        height: 400px;
+        width: 700px;
+        @media screen and (min-width: 992px) {
+            height: 100%;
+            width: 100%;
+        }
+    }
+}
+.tooltip {
+    position: absolute;
+    bottom: 16px;
+    left: 24px;
+    .link-text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #3a4a7e;
+        width: 34px;
+        height: 34px;
+        border-radius: 100px;
+        color: #fff;
+        cursor: pointer;
+    }
+}
