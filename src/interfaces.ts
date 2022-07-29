@@ -11,9 +11,12 @@ export interface ILogin {
     password: string
 }
 export interface IPreferencesService {
+    sex: string
+    yob: number
     preferences: {
         minutes_per_week: number
-        time_of_day: string[]
+        preferred_engagement_slots: string[]
+        timezone: string
     }
 }
 

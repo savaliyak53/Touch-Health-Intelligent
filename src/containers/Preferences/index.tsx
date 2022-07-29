@@ -13,6 +13,7 @@ import Layout from '../../layouts/Layout/Layout'
 import type { RadioChangeEvent } from 'antd'
 import { Radio, Space, DatePicker } from 'antd'
 import moment from 'moment'
+import { AnyObject } from 'yup/lib/object'
 
 type IFormInputs = {
     minutesPerWeek: number
@@ -36,6 +37,7 @@ const Preferences = () => {
                 .min(1, 'Please Select at least one option')
                 .required('required'),
             yob: yup.mixed().required('Year of birth is required.'),
+            sex: yup.mixed().required('Gender is required.'),
         })
         .required()
     const {
@@ -52,12 +54,14 @@ const Preferences = () => {
     }
 
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+        console.log('time zone', new Date().getTimezoneOffset())
         const prefereceData = {
-            sex: value,
+            sex: data.sex,
             yob: parseInt(moment(data.yob).format('YYYY')),
             preferences: {
                 minutes_per_week: time ?? 3,
-                time_of_day: data.timeOfDay,
+                preferred_engagement_slots: data.timeOfDay,
+                timezone: `${new Date().getTimezoneOffset()}`,
             },
         }
         console.log('preference data', prefereceData)
@@ -78,16 +82,16 @@ const Preferences = () => {
             handleRedirect()
         }
     }
-
+    function disabledDate(current: any) {
+        console.log('value ', moment(current).format('YYYY'))
+        console.log('condition ', moment(current).format('YYYY') < '2006')
+        return current.isSameOrBefore('2006')
+    }
     const handleRedirect = () => {
         navigate(`/introvideo`)
     }
 
-    const timeOfDay = [
-        'Morning (7 am to 11:59 am)',
-        'Mid-day (12 pm to 5.59 pm)',
-        'Evening (6 pm - 9 pm)',
-    ]
+    const timeOfDay = ['morning', 'afternoon', 'evening']
     const handleOnChange = (e: any, value: string) => {
         if (e.target.checked) {
             setChecked([...checked, value])
@@ -100,6 +104,12 @@ const Preferences = () => {
             return true
         }
         return false
+    }
+
+    const onChangeDate = (date: any) => {
+        if (parseInt(moment(date).format('YYYY')) > 2006) {
+            // errors.yob.message = 'Year must be before 2007'
+        }
     }
     return (
         <Layout defaultHeader={true} hamburger={false}>
@@ -200,9 +210,10 @@ const Preferences = () => {
                                     {...register('yob', {
                                         required: true,
                                     })}
-                                    onChange={onChange}
+                                    onChange={onChangeDate}
                                     picker="year"
                                     format="YYYY"
+                                    //disabledDate={() => disabledDate(value)}
                                 />
                             )}
                         />
@@ -213,20 +224,29 @@ const Preferences = () => {
                     </div>
                     <div className="Question">
                         <h3 className="Question-title">What is your gender?</h3>
-
-                        <Radio.Group
-                            value={value}
-                            {...register('sex', {
-                                required: true,
-                            })}
-                            onChange={onChangeRadio}
-                        >
-                            <Space direction="vertical">
-                                <Radio value="male">Male</Radio>
-                                <Radio value="female">Female</Radio>
-                                <Radio value="x">Better not to say</Radio>
-                            </Space>
-                        </Radio.Group>
+                        <Controller
+                            control={control}
+                            name="sex"
+                            render={({
+                                field: { onChange, onBlur, value, name, ref },
+                            }) => (
+                                <Radio.Group
+                                    value={value}
+                                    {...register('sex', {
+                                        required: true,
+                                    })}
+                                    onChange={onChange}
+                                >
+                                    <Space direction="vertical">
+                                        <Radio value="male">Male</Radio>
+                                        <Radio value="female">Female</Radio>
+                                        <Radio value="x">
+                                            Better not to say
+                                        </Radio>
+                                    </Space>
+                                </Radio.Group>
+                            )}
+                        />
 
                         <p className="Preferences-form-error">
                             {errors.sex?.message}
