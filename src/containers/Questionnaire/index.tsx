@@ -43,7 +43,6 @@ function UserCondition() {
             !value &&
             !skip
         ) {
-            console.log(value)
             toast.error('Please select a value')
             return
         }

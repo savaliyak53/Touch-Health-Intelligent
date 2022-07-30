@@ -21,6 +21,17 @@ const Dashboard = () => {
         }
     }
 
+    const getOpacity = (insight: any) => {
+        const alpha_max = 1
+        const alpha_min = 0.25
+        const alpha =
+            alpha_min +
+            ((insight.present_value.expectation - insight.forecast.vmin) *
+                (alpha_max - alpha_min)) /
+                (insight.forecast.vmax - insight.forecast.vmin)
+        return alpha
+    }
+
     const Section = (outer: number) => {
         const section: React.ReactNode[] = []
         const insights = context?.insights?.insights
@@ -46,7 +57,7 @@ const Dashboard = () => {
                             insight={insights[outer][i - 1]}
                             outer={outer}
                             inner={i - 1}
-                            highlight={1}
+                            highlight={getOpacity(insights[outer][i - 1])}
                         />
                         <DashboardButton
                             innerButtons={false}
@@ -58,7 +69,7 @@ const Dashboard = () => {
                             insight={insights[outer][i - 1]}
                             outer={outer}
                             inner={i}
-                            highlight={0}
+                            highlight={getOpacity(insights[outer][i - 1])}
                         />
                     </div>
                 )
@@ -72,7 +83,7 @@ const Dashboard = () => {
                             disabled={true}
                             color={`${insights[outer][i]?.category?.color}`}
                             outerButton={true}
-                            highlight={0}
+                            highlight={getOpacity(insights[outer][i])}
                         />
                         <DashboardButton
                             innerButtons={false}
@@ -84,7 +95,7 @@ const Dashboard = () => {
                             insight={insights[outer][i]}
                             outer={outer}
                             inner={i}
-                            highlight={0}
+                            highlight={getOpacity(insights[outer][i])}
                         />
                         <DashboardButton
                             innerButtons={false}
@@ -93,7 +104,7 @@ const Dashboard = () => {
                             disabled={true}
                             color={`${insights[outer][i]?.category?.color}`}
                             outerButton={true}
-                            highlight={0}
+                            highlight={getOpacity(insights[outer][i])}
                         />
                     </div>
                 )

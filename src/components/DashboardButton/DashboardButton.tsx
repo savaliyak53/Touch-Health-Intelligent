@@ -43,7 +43,6 @@ function DashboardButton({
         await context?.commands?.loadSelectedInsight(insight)
         navigate('/insights/guideline')
     }
-    console.log('image', image)
     return (
         <>
             <Button
