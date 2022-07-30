@@ -16,6 +16,7 @@
         "@testing-library/react": "^13.1.1",
         "@testing-library/user-event": "^13.5.0",
         "@types/jest": "^27.4.1",
+        "@types/moment-timezone": "^0.5.30",
         "@types/node": "^16.11.27",
         "@types/react-text-mask": "^5.4.11",
         "@types/uuid": "^8.3.4",

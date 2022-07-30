@@ -11,6 +11,7 @@ import Layout from '../../layouts/Layout/Layout'
 import type { RadioChangeEvent } from 'antd'
 import { Radio, Space, DatePicker } from 'antd'
 import moment from 'moment'
+import 'moment-timezone'
 
 type IFormInputs = {
     minutesPerWeek: number
@@ -25,7 +26,6 @@ const Preferences = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
     const [checked, setChecked] = useState<string[]>([])
-    const [value, setValue] = useState('')
 
     const {
         register,
@@ -35,18 +35,18 @@ const Preferences = () => {
     } = useForm<IFormInputs>({
         mode: 'onChange',
     })
-    const onChangeRadio = (e: RadioChangeEvent) => {
-        setValue(e.target.value)
-    }
 
     const onSubmit: SubmitHandler<IFormInputs> = (data) => {
+        const zoneVal = moment()
+            .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+            .format('Z')
         const prefereceData = {
             sex: data.sex,
             yob: data.yob,
             preferences: {
                 minutes_per_week: time ?? 3,
                 preferred_engagement_slots: data.timeOfDay,
-                timezone: `${new Date().getTimezoneOffset()}`,
+                timezone: zoneVal,
             },
         }
         setIsLoading(true)
