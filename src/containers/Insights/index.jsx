@@ -42,6 +42,9 @@ const Insights = () => {
     const [startDate, setForecastStartDate] = useState()
     const [lastDate, setForecastLastDate] = useState()
 
+    console.log('insights', context.insights)
+    console.log('insight', context.selectedInsight)
+
     const [category, setCategory] = useState()
     let data = {}
     //selected Insight from localstorage is saved as [i]-[j]
@@ -88,12 +91,14 @@ const Insights = () => {
             },
         },
     }
-    const selectedInsight = localStorage.getItem('selectedInsight') //store.selectedInsights
+    const selectedInsightIndex = context.selectedInsightIndex
+    const selectedInsight = context.selectedInsight
 
     //<To-do-hamza >move this to dashboard
     const getSelectedInsight = async () => {
         const response = await context.commands.loadInsights()
-        const splitIndex = selectedInsight && selectedInsight.split('-')
+        const splitIndex =
+            selectedInsightIndex && selectedInsightIndex.split('-')
         const insightIndex = splitIndex && splitIndex.map(Number)
         calculate(insightIndex, response)
     }
@@ -168,7 +173,8 @@ const Insights = () => {
         setDataset(data)
     }
     const handleCategoryChange = () => {
-        const splitIndex = selectedInsight && selectedInsight.split('-')
+        const splitIndex =
+            selectedInsightIndex && selectedInsightIndex.split('-')
         const insightIndex = splitIndex && splitIndex.map(Number)
         if (!insightIndex) return
         const iIndex = insightIndex[0]
@@ -235,12 +241,19 @@ const Insights = () => {
                             </Select>
                         </div>
                         {dataset && context.insights && (
-                            <Line
-                                options={options}
-                                data={dataset}
-                                plugins={[dateHighlighter]}
-                            />
+                            <div className="chart-wrap">
+                                <div className="chart">
+                                    <Line
+                                        options={options}
+                                        data={dataset}
+                                        plugins={[dateHighlighter]}
+                                    />
+                                </div>
+                            </div>
                         )}
+                    </div>
+                    <div className="tooltip">
+                        <span className="link-text">?</span>
                     </div>
                 </Spin>
             </Layout>
