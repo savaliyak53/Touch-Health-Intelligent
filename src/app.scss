@@ -73,12 +73,25 @@
     }
 }
 
+.ant-picker{
+    width:100% !important
+}
+    .ant-picker-focused,
+    .ant-picker:hover {
+        border-color: #3a4a7e !important;
+    }
+    .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
+        background: #3a4a7e !important;
+    }
+
+
 .Content-wrap {
     width: 100%;
     display: flex;
     flex-direction: column;
     padding-left: 10px;
     padding-right: 10px;
+    margin-bottom: 25px;
 }
 
 .Btn-group {

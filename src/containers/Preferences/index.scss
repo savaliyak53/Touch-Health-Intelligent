@@ -48,7 +48,7 @@
     font-variant: tabular-nums;
     line-height: 1.5715;
     list-style: none;
-    font-feature-settings: 'tnum';
+    font-feature-settings: "tnum";
     position: relative;
     top: 0.2em;
     line-height: 1;
@@ -68,14 +68,34 @@
     cursor: pointer;
     opacity: 0;
 }
+.radio-input {
+    font-size: 22px !important;
+    line-height: 27px !important;
+    font-weight: 500 !important;
+    color: #272424 !important;
+    font-family: "Barlow", sans-serif !important;
+
+    .ant-radio-checked .ant-radio-inner {
+        border-color: #3a4a7e !important ;
+    }
+
+    .ant-radio-checked .ant-radio-inner:after {
+        background-color: #3a4a7e;
+    }
+
+    .ant-radio:hover .ant-radio-inner {
+        border-color: #3a4a7e;
+    }
+}
+
 .label {
     margin-left: 2px;
     margin-right: 2rem;
 }
-[type='checkbox'] {
+[type="checkbox"] {
     vertical-align: middle;
 }
-[type='radio'] {
+[type="radio"] {
     vertical-align: middle;
 }
 ul.no-bullets {
