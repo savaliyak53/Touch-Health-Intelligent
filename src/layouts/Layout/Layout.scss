@@ -1,8 +1,9 @@
 .Layout {
     width: 100%;
     display: flex;
-    height: 100vh;
+    height: auto;
     position: relative;
+    min-height: 100vh;
 }
 
 .Layout-Transparent {
@@ -32,7 +33,7 @@
     max-width: 50%;
     display: none;
     background: url('../../../public/assets/mobileassets/background.png');
-    background-size: 100%;
+    background-size: cover;
     background-repeat: no-repeat;
     background-color: rgba(#3a4a7e, 0.4);
 

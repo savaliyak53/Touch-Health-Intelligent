@@ -15,7 +15,7 @@ import {
 } from '../../../services/authservice';
 import jwt from 'jwt-decode';
 import './index.scss';
-import { Spin, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 
 type IFormInputs = {
   username: string;
@@ -30,8 +30,6 @@ type User = {
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoader, setLoader] = useState(false);
-
   const [isDisabled, setIsDisabled] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
   const navigate = useNavigate();
@@ -83,7 +81,6 @@ const Login = () => {
   };
 
   const getUserInfo = (userId: string | null | undefined) => {
-    setLoader(true);
     getUser(userId)
       .then((response: any) => {
         if (response?.data?.preferences?.timezone) {
@@ -111,7 +108,6 @@ const Login = () => {
     <Layout defaultHeader={false} hamburger={false}>
       <div className="Auth-wrap">
         <form onSubmit={handleSubmit(onSubmit)} className="Auth-form">
-          <Spin spinning={isLoader} />
           <h2 className="Auth-title">Login</h2>
           <Tooltip
             color="orange"
