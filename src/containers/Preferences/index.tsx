@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Slider, Tooltip } from 'antd';
+import { Slider } from 'antd';
 import './index.scss';
 import InputField from '../../components/Input';
 import Button from '../../components/Button';
@@ -10,8 +10,6 @@ import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
 import type { RadioChangeEvent } from 'antd';
 import { Radio, Space, DatePicker } from 'antd';
-import moment from 'moment';
-import 'moment-timezone';
 
 type IFormInputs = {
   minutesPerWeek: number;
@@ -26,7 +24,7 @@ const Preferences = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [checked, setChecked] = useState<string[]>([]);
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [value, setValue] = useState('');
 
   const {
     register,
@@ -36,18 +34,37 @@ const Preferences = () => {
   } = useForm<IFormInputs>({
     mode: 'onChange',
   });
+  const onChangeRadio = (e: RadioChangeEvent) => {
+    setValue(e.target.value);
+  };
+
+  const formatOffsetToHhMm = (offsetInMins: number) => {
+    const negative = offsetInMins < 0 ? '-' : '';
+    const positiveMins = Math.abs(offsetInMins);
+
+    const hours = Math.floor(positiveMins / 60);
+    const mins = Math.floor(positiveMins - (hours * 3600) / 60);
+    let hourString,
+      minString = '';
+    if (hours < 10) {
+      hourString = '0' + hours;
+    }
+    if (mins < 10) {
+      minString = '0' + mins;
+    }
+
+    return negative + hourString + ':' + minString;
+  };
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    const zoneVal = moment()
-      .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
-      .format('Z');
     const prefereceData = {
       sex: data.sex,
       yob: data.yob,
       preferences: {
-        minutes_per_week: time ?? 3,
+        minutes_per_week: data.minutesPerWeek ?? 3,
         preferred_engagement_slots: data.timeOfDay,
-        timezone: zoneVal,
+        // timezone: `${new Date().getTimezoneOffset()}`,
+        timezone: formatOffsetToHhMm(new Date().getTimezoneOffset()),
       },
     };
     setIsLoading(true);
@@ -85,14 +102,7 @@ const Preferences = () => {
     }
     return false;
   };
-  useEffect(() => {
-    if (showTooltip) {
-      setTimeout(() => {
-        console.log('This will run after 1 second!');
-        setShowTooltip(false);
-      }, 1000);
-    }
-  }, [showTooltip]);
+
   return (
     <Layout defaultHeader={true} hamburger={false}>
       <div className="Content-wrap Pref">
@@ -140,29 +150,8 @@ const Preferences = () => {
           </div>
           <div className="Question">
             <h3 className="Question-title">
-              How much communication would you like to have with your health
-              assistant?
+              How much time do you have for check-ins each week?
             </h3>
-
-            <Tooltip
-              title="The more time you give your health assistant, the better it gets to know your personal health, and the better it will guide you to optimal health."
-              placement="topRight"
-              overlayStyle={{ maxWidth: '350px' }}
-              color="blue"
-              visible={showTooltip}
-              mouseLeaveDelay={0}
-            >
-              <h5
-                onMouseEnter={() => {
-                  setShowTooltip(true);
-                }}
-              >
-                Tip: by enabling integrations with smart wearables and health
-                apps you may be using, your health assistant can get to know you
-                better with less communication.
-              </h5>
-            </Tooltip>
-            <br />
             <Controller
               control={control}
               name="minutesPerWeek"
@@ -182,18 +171,10 @@ const Preferences = () => {
                     defaultValue={3}
                   />
                   <div className="Slider-range">
-                    <div className="flex-container">
-                      <span>Very little</span>
-                      <span> (approx. 3 min. / week)</span>
-                    </div>
-                    <div className="flex-container">
-                      <span>Medium</span>
-                      <span> (approx. 10 min. / week)</span>
-                    </div>
-                    <div className="flex-container">
-                      <span>Complete</span>
-                      <span> (approx. 15 min. / week)</span>
-                    </div>
+                    <span>3 min</span>
+                    <span></span>
+                    <span>10 min</span>
+                    <span>15 min</span>
                   </div>
                 </>
               )}
@@ -236,9 +217,15 @@ const Preferences = () => {
               render={({ field: { onChange, value } }) => (
                 <Radio.Group value={value} onChange={onChange}>
                   <Space direction="vertical">
-                    <Radio value="male">Male</Radio>
-                    <Radio value="female">Female</Radio>
-                    <Radio value="x">Better not to say</Radio>
+                    <Radio value="male" className="radio-input">
+                      Male
+                    </Radio>
+                    <Radio value="female" className="radio-input">
+                      Female
+                    </Radio>
+                    <Radio value="x" className="radio-input">
+                      Better not to say
+                    </Radio>
                   </Space>
                 </Radio.Group>
               )}

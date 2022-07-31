@@ -43,6 +43,7 @@
     transform: translateX(-100%);
     transition: 0.2s all ease-in-out;
     max-width: 428px;
+    min-height: 100%;
     &.display {
         transform: translateX(0%);
     }
@@ -79,7 +80,7 @@
         a,
         .ant-btn {
             font-size: 34px;
-            line-height: 80px;
+            line-height: 72px;
             color: #fff;
             font-weight: 400;
             background-color: transparent;
