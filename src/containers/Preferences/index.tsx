@@ -32,6 +32,8 @@ const Preferences = () => {
   const [checked, setChecked] = useState<string[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
   const [preferences, setPreferences] = useState<any>({});
+  const [yob, setYob] = useState<any>('');
+  const [sex, setSex] = useState<any>('');
 
   const {
     register,
@@ -107,8 +109,9 @@ const Preferences = () => {
       .then((response: any) => {
         if (response?.data?.preferences?.timezone) {
           setPreferences(response?.data?.preferences);
+          setYob(response.data.yob);
+          setSex(response.data.sex);
           setChecked([...response.data.preferences.preferred_engagement_slots]);
-          console.log(response?.data?.preferences);
         }
       })
       .catch((error) => {
@@ -230,49 +233,56 @@ const Preferences = () => {
               {errors.minutesPerWeek?.message}
             </p>
           </div>
-          <div className="Question">
-            <h3 className="Question-title">What is your year of birth?</h3>
-            <Controller
-              control={control}
-              name="yob"
-              rules={{
-                required: 'Please Select an year',
-                validate: (value) => {
-                  return value > 2006 ? 'You must older than 16' : true;
-                },
-              }}
-              render={({ field: { onChange, onBlur, value, name, ref } }) => (
-                <DatePicker
-                  onChange={(selectedValue, selectedValueString) =>
-                    onChange(selectedValueString)
-                  }
-                  picker="year"
-                  format="YYYY"
-                />
-              )}
-            />
+          {yob && (
+            <div className="Question">
+              <h3 className="Question-title">What is your year of birth?</h3>
+              <Controller
+                control={control}
+                name="yob"
+                defaultValue={yob}
+                rules={{
+                  required: 'Please Select an year',
+                  validate: (value) => {
+                    return value > 2006 ? 'You must older than 16' : true;
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value, name, ref } }) => (
+                  <DatePicker
+                    onChange={(selectedValue, selectedValueString) =>
+                      onChange(selectedValueString)
+                    }
+                    picker="year"
+                    format="YYYY"
+                  />
+                )}
+              />
 
-            <p className="Preferences-form-error">{errors.yob?.message}</p>
-          </div>
-          <div className="Question">
-            <h3 className="Question-title">What is your gender?</h3>
-            <Controller
-              control={control}
-              name="sex"
-              rules={{ required: 'Please Select your gender' }}
-              render={({ field: { onChange, value } }) => (
-                <Radio.Group value={value} onChange={onChange}>
-                  <Space direction="vertical">
-                    <Radio value="male">Male</Radio>
-                    <Radio value="female">Female</Radio>
-                    <Radio value="x">Better not to say</Radio>
-                  </Space>
-                </Radio.Group>
-              )}
-            />
+              <p className="Preferences-form-error">{errors.yob?.message}</p>
+            </div>
+          )}
 
-            <p className="Preferences-form-error">{errors.sex?.message}</p>
-          </div>
+          {sex && (
+            <div className="Question">
+              <h3 className="Question-title">What is your gender?</h3>
+              <Controller
+                control={control}
+                name="sex"
+                defaultValue={sex && sex}
+                rules={{ required: 'Please Select your gender' }}
+                render={({ field: { onChange, value } }) => (
+                  <Radio.Group value={value} onChange={onChange}>
+                    <Space direction="vertical">
+                      <Radio value="male">Male</Radio>
+                      <Radio value="female">Female</Radio>
+                      <Radio value="x">Better not to say</Radio>
+                    </Space>
+                  </Radio.Group>
+                )}
+              />
+
+              <p className="Preferences-form-error">{errors.sex?.message}</p>
+            </div>
+          )}
           <Button
             className="Pref-btn btn"
             loading={isLoading}
