@@ -12,7 +12,11 @@ import type { RadioChangeEvent } from 'antd';
 import { Radio, Space, DatePicker } from 'antd';
 import moment from 'moment';
 import 'moment-timezone';
-
+import {
+  getInteractionService,
+  getUser,
+  loginService,
+} from '../../services/authservice';
 type IFormInputs = {
   minutesPerWeek: number;
   timeOfDay: string[];
@@ -27,6 +31,7 @@ const Preferences = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [checked, setChecked] = useState<string[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [preferences, setPreferences] = useState<any>({});
 
   const {
     register,
@@ -57,7 +62,11 @@ const Preferences = () => {
         setIsLoading(false);
         setIsDisabled(false);
         toast.success('You have submitted Preferences successfully');
-        handleRedirect();
+        if (preferences) {
+          navigate('/dashboard');
+        } else {
+          handleRedirect();
+        }
       })
       .catch((error) => {
         setIsLoading(false);
@@ -88,11 +97,29 @@ const Preferences = () => {
   useEffect(() => {
     if (showTooltip) {
       setTimeout(() => {
-        console.log('This will run after 1 second!');
         setShowTooltip(false);
       }, 1000);
     }
   }, [showTooltip]);
+  const getUserInfo = (userId: string | null | undefined) => {
+    //setLoader(true);
+    getUser(userId)
+      .then((response: any) => {
+        if (response?.data?.preferences?.timezone) {
+          setPreferences(response?.data?.preferences);
+          setChecked([...response.data.preferences.preferred_engagement_slots]);
+          console.log(response?.data?.preferences);
+        }
+      })
+      .catch((error) => {
+        toast('Unknown error');
+      });
+  };
+  useEffect(() => {
+    const userId = localStorage.getItem('userId');
+    getUserInfo(userId);
+  }, []);
+  console.log('checked: ', checked);
   return (
     <Layout defaultHeader={true} hamburger={false}>
       <div className="Content-wrap Pref">
@@ -169,7 +196,7 @@ const Preferences = () => {
               rules={{
                 required: 'Please Select a check-in value',
               }}
-              defaultValue={3}
+              defaultValue={preferences ? preferences.minutes_per_week : 3}
               render={({ field: { onChange, value } }) => (
                 <>
                   <Slider
