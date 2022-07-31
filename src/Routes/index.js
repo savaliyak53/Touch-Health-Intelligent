@@ -15,6 +15,7 @@ import Insights from '../containers/Insights';
 import Timeline from '../containers/Timeline/index';
 import ManageConditions from '../containers/Conditions';
 import Diamond from '../components/diamond';
+import PostPreferences from '../containers/PostPrefernces';
 const AppRoutes = () => {
   return (
     <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
@@ -39,6 +40,8 @@ const AppRoutes = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/conditions" element={<ManageConditions />} />
           <Route path="/questionnaire" element={<UserCondition />} />
+          <Route path="/post-preferences" element={<PostPreferences />} />
+
           <Route
             path="/questionnaire-submit"
             element={<ThankyouForSubmiting />}
