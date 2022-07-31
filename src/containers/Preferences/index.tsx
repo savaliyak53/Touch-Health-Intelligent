@@ -34,6 +34,7 @@ const Preferences = () => {
   const [preferences, setPreferences] = useState<any>({});
   const [yob, setYob] = useState<any>('');
   const [sex, setSex] = useState<any>('');
+  const [minutes, setMinutes] = useState<number>();
 
   const {
     register,
@@ -114,6 +115,7 @@ const Preferences = () => {
           setYob(response.data.yob);
           setSex(response.data.sex);
           setChecked([...response.data.preferences.preferred_engagement_slots]);
+          setMinutes(response.data.preferences.minutes_per_week);
         }
       })
       .catch((error) => {
@@ -124,6 +126,7 @@ const Preferences = () => {
     const userId = localStorage.getItem('userId');
     getUserInfo(userId);
   }, []);
+  console.log(minutes);
   return (
     <Layout defaultHeader={true} hamburger={false}>
       <div className="Content-wrap Pref">
@@ -194,41 +197,43 @@ const Preferences = () => {
               </h5>
             </Tooltip>
             <br />
-            <Controller
-              control={control}
-              name="minutesPerWeek"
-              rules={{
-                required: 'Please Select a check-in value',
-              }}
-              defaultValue={preferences ? preferences.minutes_per_week : 3}
-              render={({ field: { onChange, value } }) => (
-                <>
-                  <Slider
-                    className="Pref-slider"
-                    id="minutesPerWeek"
-                    value={value}
-                    min={3}
-                    max={15}
-                    onChange={onChange}
-                    defaultValue={3}
-                  />
-                  <div className="Slider-range">
-                    <div className="flex-container">
-                      <span>Very little</span>
-                      <span> (approx. 3 min. / week)</span>
+            {minutes && (
+              <Controller
+                control={control}
+                name="minutesPerWeek"
+                rules={{
+                  required: 'Please Select a check-in value',
+                }}
+                defaultValue={minutes && minutes}
+                render={({ field: { onChange, value } }) => (
+                  <>
+                    <Slider
+                      className="Pref-slider"
+                      id="minutesPerWeek"
+                      value={value}
+                      min={3}
+                      max={15}
+                      onChange={onChange}
+                    />
+
+                    <div className="Slider-range">
+                      <div className="flex-container">
+                        <span>Very little</span>
+                        <span> (approx. 3 min. / week)</span>
+                      </div>
+                      <div className="flex-container">
+                        <span>Medium</span>
+                        <span> (approx. 10 min. / week)</span>
+                      </div>
+                      <div className="flex-container">
+                        <span>Complete</span>
+                        <span> (approx. 15 min. / week)</span>
+                      </div>
                     </div>
-                    <div className="flex-container">
-                      <span>Medium</span>
-                      <span> (approx. 10 min. / week)</span>
-                    </div>
-                    <div className="flex-container">
-                      <span>Complete</span>
-                      <span> (approx. 15 min. / week)</span>
-                    </div>
-                  </div>
-                </>
-              )}
-            />
+                  </>
+                )}
+              />
+            )}
 
             <p className="Preferences-form-error">
               {errors.minutesPerWeek?.message}
