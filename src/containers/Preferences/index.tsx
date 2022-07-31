@@ -52,11 +52,13 @@ const Preferences = () => {
       sex: data.sex,
       yob: data.yob,
       preferences: {
-        minutes_per_week: time ?? 3,
+        minutes_per_week: data.minutesPerWeek ?? 3,
         preferred_engagement_slots: data.timeOfDay,
         timezone: zoneVal,
       },
     };
+    console.log('prefrences ', prefereceData);
+
     setIsLoading(true);
     setIsDisabled(true);
     preferencesService(prefereceData, userId)
@@ -122,7 +124,6 @@ const Preferences = () => {
     const userId = localStorage.getItem('userId');
     getUserInfo(userId);
   }, []);
-  console.log('checked: ', checked);
   return (
     <Layout defaultHeader={true} hamburger={false}>
       <div className="Content-wrap Pref">
