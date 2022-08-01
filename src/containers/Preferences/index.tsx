@@ -251,7 +251,6 @@ const Preferences = () => {
                   }
                   picker="year"
                   format="YYYY"
-                  defaultValue={moment(yob, 'YYYY')}
                 />
               )}
             />
