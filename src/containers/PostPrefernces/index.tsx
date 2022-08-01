@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Slider, Tooltip } from 'antd';
+import { Slider, Spin, Tooltip } from 'antd';
 import './index.scss';
 import InputField from '../../components/Input';
 import Button from '../../components/Button';
@@ -26,6 +26,8 @@ const PostPreferences = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [checked, setChecked] = useState<string[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [loading, setloading] = useState(false);
+
   const [preferences, setPreferences] = useState<any>({});
   const [yob, setYob] = useState<any>('');
   const [sex, setSex] = useState<any>('');
@@ -125,6 +127,7 @@ const PostPreferences = () => {
               ...response.data.preferences.preferred_engagement_slots,
             ],
           });
+          setloading(false);
         }
       })
       .catch((error) => {
@@ -133,190 +136,197 @@ const PostPreferences = () => {
   };
   useEffect(() => {
     const userId = localStorage.getItem('userId');
+    setloading(true);
     getUserInfo(userId);
   }, []);
   console.log(isValid, errors);
   return (
     <Layout defaultHeader={true} hamburger={false}>
-      <div className="Content-wrap Pref">
-        <h2 className="Pref-title">Preferences</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="Preferences-form">
-          <div className="Question">
-            <h3 className="Question-title">Check-in preferred time of day:</h3>
-            <div
-              className="no-bullets"
-              {...register('timeOfDay', {
-                required: true,
-              })}
-            >
-              {timeOfDay.map((c, i) => (
-                <div key={`${i}`}>
-                  <label className="ant-checkbox-wrapper Pref-checkbox">
-                    <span
-                      className={`ant-checkbox ${
-                        isChecked(c) ? 'ant-checkbox-checked' : ''
-                      }`}
-                    >
-                      <InputField
-                        key={i}
-                        id={`${c}`}
-                        {...register('timeOfDay', {
-                          required: true,
-                        })}
-                        value={c}
-                        type="checkbox"
-                        className="ant-checkbox-input"
-                        onChange={(e: any) => handleOnChange(e, c)}
-                      />
-
-                      <span className="ant-checkbox-inner"></span>
-                    </span>
-                    <span> {c}</span>
-                  </label>
-                  <br />
-                </div>
-              ))}
-            </div>
-            <p className="Preferences-form-error">
-              {errors?.timeOfDay && 'Please select at least one option.'}
-            </p>
-          </div>
-          <div className="Question">
-            <h3 className="Question-title">
-              How much communication would you like to have with your health
-              assistant?
-            </h3>
-
-            <Tooltip
-              title="The more time you give your health assistant, the better it gets to know your personal health, and the better it will guide you to optimal health."
-              placement="topRight"
-              overlayStyle={{ maxWidth: '350px' }}
-              color="blue"
-              visible={showTooltip}
-              mouseLeaveDelay={0}
-            >
-              <h5
-                onMouseEnter={() => {
-                  setShowTooltip(true);
-                }}
-              >
-                Tip: by enabling integrations with smart wearables and health
-                apps you may be using, your health assistant can get to know you
-                better with less communication.
-              </h5>
-            </Tooltip>
-            <br />
-            {minutes && (
-              <Controller
-                control={control}
-                name="minutesPerWeek"
-                rules={{
-                  required: 'Please Select a check-in value',
-                }}
-                defaultValue={minutes && minutes}
-                render={({ field: { onChange, value } }) => (
-                  <>
-                    <Slider
-                      className="Pref-slider"
-                      id="minutesPerWeek"
-                      value={value}
-                      min={3}
-                      max={15}
-                      onChange={onChange}
-                    />
-
-                    <div className="Slider-range">
-                      <div className="flex-container">
-                        <span>Very little</span>
-                        <span> (approx. 3 min. / week)</span>
-                      </div>
-                      <div className="flex-container">
-                        <span>Medium</span>
-                        <span> (approx. 10 min. / week)</span>
-                      </div>
-                      <div className="flex-container">
-                        <span>Complete</span>
-                        <span> (approx. 15 min. / week)</span>
-                      </div>
-                    </div>
-                  </>
-                )}
-              />
-            )}
-
-            <p className="Preferences-form-error">
-              {errors.minutesPerWeek?.message}
-            </p>
-          </div>
-          {yob && (
-            <div className="Question">
-              <h3 className="Question-title">What is your year of birth?</h3>
-              <Controller
-                control={control}
-                name="yob"
-                defaultValue={yob}
-                rules={{
-                  required: 'Please Select an year',
-                  validate: (value) => {
-                    return value > 2006 ? 'You must older than 16' : true;
-                  },
-                }}
-                render={({ field: { onChange, onBlur, value, name, ref } }) => (
-                  <DatePicker
-                    onChange={(selectedValue, selectedValueString) =>
-                      onChange(selectedValueString)
-                    }
-                    picker="year"
-                    format="YYYY"
-                    defaultValue={moment(yob, 'YYYY')}
-                  />
-                )}
-              />
-
-              <p className="Preferences-form-error">{errors.yob?.message}</p>
-            </div>
-          )}
-
-          {sex && (
+      <Spin spinning={loading}>
+        <div className="Content-wrap Pref">
+          <h2 className="Pref-title">Preferences</h2>
+          <form onSubmit={handleSubmit(onSubmit)} className="Preferences-form">
             <div className="Question">
               <h3 className="Question-title">
-                Assigned sex at the time of birth
+                Check-in preferred time of day:
               </h3>
-              <Controller
-                control={control}
-                name="sex"
-                defaultValue={sex && sex}
-                rules={{ required: 'Please Select one' }}
-                render={({ field: { onChange, value } }) => (
-                  <Radio.Group value={value} onChange={onChange}>
-                    <Space direction="vertical">
-                      <Radio value="male" className="radio-input">
-                        Male
-                      </Radio>
-                      <Radio value="female" className="radio-input">
-                        Female
-                      </Radio>
-                      <Radio value="x" className="radio-input">
-                        Prefer not to say
-                      </Radio>
-                    </Space>
-                  </Radio.Group>
-                )}
-              />
+              <div
+                className="no-bullets"
+                {...register('timeOfDay', {
+                  required: true,
+                })}
+              >
+                {timeOfDay.map((c, i) => (
+                  <div key={`${i}`}>
+                    <label className="ant-checkbox-wrapper Pref-checkbox">
+                      <span
+                        className={`ant-checkbox ${
+                          isChecked(c) ? 'ant-checkbox-checked' : ''
+                        }`}
+                      >
+                        <InputField
+                          key={i}
+                          id={`${c}`}
+                          {...register('timeOfDay', {
+                            required: true,
+                          })}
+                          value={c}
+                          type="checkbox"
+                          className="ant-checkbox-input"
+                          onChange={(e: any) => handleOnChange(e, c)}
+                        />
 
-              <p className="Preferences-form-error">{errors.sex?.message}</p>
+                        <span className="ant-checkbox-inner"></span>
+                      </span>
+                      <span> {c}</span>
+                    </label>
+                    <br />
+                  </div>
+                ))}
+              </div>
+              <p className="Preferences-form-error">
+                {errors?.timeOfDay && 'Please select at least one option.'}
+              </p>
             </div>
-          )}
-          <Button
-            className="Pref-btn btn"
-            loading={isLoading}
-            // disabled={!isValid}
-            onClick={handleSubmit(onSubmit)}
-          >
-            Save and Next
-          </Button>
-        </form>
-      </div>
+            <div className="Question">
+              <h3 className="Question-title">
+                How much communication would you like to have with your health
+                assistant?
+              </h3>
+
+              <Tooltip
+                title="The more time you give your health assistant, the better it gets to know your personal health, and the better it will guide you to optimal health."
+                placement="topRight"
+                overlayStyle={{ maxWidth: '350px' }}
+                color="blue"
+                visible={showTooltip}
+                mouseLeaveDelay={0}
+              >
+                <h5
+                  onMouseEnter={() => {
+                    setShowTooltip(true);
+                  }}
+                >
+                  Tip: by enabling integrations with smart wearables and health
+                  apps you may be using, your health assistant can get to know
+                  you better with less communication.
+                </h5>
+              </Tooltip>
+              <br />
+              {minutes && (
+                <Controller
+                  control={control}
+                  name="minutesPerWeek"
+                  rules={{
+                    required: 'Please Select a check-in value',
+                  }}
+                  defaultValue={minutes && minutes}
+                  render={({ field: { onChange, value } }) => (
+                    <>
+                      <Slider
+                        className="Pref-slider"
+                        id="minutesPerWeek"
+                        value={value}
+                        min={3}
+                        max={15}
+                        onChange={onChange}
+                      />
+
+                      <div className="Slider-range">
+                        <div className="flex-container">
+                          <span>Very little</span>
+                          <span> (approx. 3 min. / week)</span>
+                        </div>
+                        <div className="flex-container">
+                          <span>Medium</span>
+                          <span> (approx. 10 min. / week)</span>
+                        </div>
+                        <div className="flex-container">
+                          <span>Complete</span>
+                          <span> (approx. 15 min. / week)</span>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                />
+              )}
+
+              <p className="Preferences-form-error">
+                {errors.minutesPerWeek?.message}
+              </p>
+            </div>
+            {yob && (
+              <div className="Question">
+                <h3 className="Question-title">What is your year of birth?</h3>
+                <Controller
+                  control={control}
+                  name="yob"
+                  defaultValue={yob}
+                  rules={{
+                    required: 'Please Select an year',
+                    validate: (value) => {
+                      return value > 2006 ? 'You must older than 16' : true;
+                    },
+                  }}
+                  render={({
+                    field: { onChange, onBlur, value, name, ref },
+                  }) => (
+                    <DatePicker
+                      onChange={(selectedValue, selectedValueString) =>
+                        onChange(selectedValueString)
+                      }
+                      picker="year"
+                      format="YYYY"
+                      defaultValue={moment(yob, 'YYYY')}
+                    />
+                  )}
+                />
+
+                <p className="Preferences-form-error">{errors.yob?.message}</p>
+              </div>
+            )}
+
+            {sex && (
+              <div className="Question">
+                <h3 className="Question-title">
+                  How do you identify yourself?
+                </h3>
+                <Controller
+                  control={control}
+                  name="sex"
+                  defaultValue={sex && sex}
+                  rules={{ required: 'Please Select one' }}
+                  render={({ field: { onChange, value } }) => (
+                    <Radio.Group value={value} onChange={onChange}>
+                      <Space direction="vertical">
+                        <Radio value="male" className="radio-input">
+                          Male
+                        </Radio>
+                        <Radio value="female" className="radio-input">
+                          Female
+                        </Radio>
+                        <Radio value="x" className="radio-input">
+                          Prefer not to say
+                        </Radio>
+                      </Space>
+                    </Radio.Group>
+                  )}
+                />
+
+                <p className="Preferences-form-error">{errors.sex?.message}</p>
+              </div>
+            )}
+            <Button
+              className="Pref-btn btn"
+              loading={isLoading}
+              // disabled={!isValid}
+              onClick={handleSubmit(onSubmit)}
+            >
+              Save and Next
+            </Button>
+          </form>
+        </div>
+      </Spin>
     </Layout>
   );
 };

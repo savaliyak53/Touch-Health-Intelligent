@@ -62,11 +62,7 @@ const Preferences = () => {
         setIsLoading(false);
         setIsDisabled(false);
         toast.success('You have submitted Preferences successfully');
-        if (preferences) {
-          navigate('/dashboard');
-        } else {
-          handleRedirect();
-        }
+        handleRedirect();
       })
       .catch((error) => {
         setIsLoading(false);
