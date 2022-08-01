@@ -251,6 +251,7 @@ const SignUp = () => {
             loading={isLoading}
             disabled={isDisabled}
             className="Auth-submit"
+            style={{ color: 'white' }}
           >
             Sign up
           </Button>
