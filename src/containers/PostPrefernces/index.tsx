@@ -8,15 +8,10 @@ import Button from '../../components/Button';
 import { preferencesService } from '../../services/authservice';
 import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
-import type { RadioChangeEvent } from 'antd';
 import { Radio, Space, DatePicker } from 'antd';
 import moment from 'moment';
 import 'moment-timezone';
-import {
-  getInteractionService,
-  getUser,
-  loginService,
-} from '../../services/authservice';
+import { getUser } from '../../services/authservice';
 type IFormInputs = {
   minutesPerWeek: number;
   timeOfDay: string[];
@@ -41,8 +36,16 @@ const PostPreferences = () => {
     handleSubmit,
     control,
     formState: { errors, isValid },
+    reset,
   } = useForm<IFormInputs>({
-    mode: 'onChange',
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+    defaultValues: {
+      yob: yob,
+      sex: sex,
+      minutesPerWeek: minutes,
+      timeOfDay: checked,
+    },
   });
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
@@ -58,7 +61,6 @@ const PostPreferences = () => {
         timezone: zoneVal,
       },
     };
-    console.log('prefrences ', prefereceData);
 
     setIsLoading(true);
     setIsDisabled(true);
@@ -107,7 +109,6 @@ const PostPreferences = () => {
     }
   }, [showTooltip]);
   const getUserInfo = (userId: string | null | undefined) => {
-    //setLoader(true);
     getUser(userId)
       .then((response: any) => {
         if (response?.data?.preferences?.timezone) {
@@ -116,6 +117,14 @@ const PostPreferences = () => {
           setSex(response.data.sex);
           setChecked([...response.data.preferences.preferred_engagement_slots]);
           setMinutes(response.data.preferences.minutes_per_week);
+          reset({
+            yob: response.data.yob,
+            sex: response.data.sex,
+            minutesPerWeek: response.data.preferences.minutes_per_week,
+            timeOfDay: [
+              ...response.data.preferences.preferred_engagement_slots,
+            ],
+          });
         }
       })
       .catch((error) => {
@@ -126,7 +135,7 @@ const PostPreferences = () => {
     const userId = localStorage.getItem('userId');
     getUserInfo(userId);
   }, []);
-  console.log(minutes);
+  console.log(isValid, errors);
   return (
     <Layout defaultHeader={true} hamburger={false}>
       <div className="Content-wrap Pref">
@@ -299,7 +308,7 @@ const PostPreferences = () => {
           <Button
             className="Pref-btn btn"
             loading={isLoading}
-            disabled={!isValid}
+            // disabled={!isValid}
             onClick={handleSubmit(onSubmit)}
           >
             Save and Next

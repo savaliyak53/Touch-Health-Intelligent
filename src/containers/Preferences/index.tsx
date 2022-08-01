@@ -8,15 +8,10 @@ import Button from '../../components/Button';
 import { preferencesService } from '../../services/authservice';
 import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
-import type { RadioChangeEvent } from 'antd';
 import { Radio, Space, DatePicker } from 'antd';
 import moment from 'moment';
 import 'moment-timezone';
-import {
-  getInteractionService,
-  getUser,
-  loginService,
-} from '../../services/authservice';
+import { getUser } from '../../services/authservice';
 type IFormInputs = {
   minutesPerWeek: number;
   timeOfDay: string[];
@@ -126,7 +121,6 @@ const Preferences = () => {
     const userId = localStorage.getItem('userId');
     getUserInfo(userId);
   }, []);
-  console.log(minutes);
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <div className="Content-wrap Pref">
@@ -257,6 +251,7 @@ const Preferences = () => {
                   }
                   picker="year"
                   format="YYYY"
+                  defaultValue={moment(yob, 'YYYY')}
                 />
               )}
             />
@@ -290,7 +285,6 @@ const Preferences = () => {
 
             <p className="Preferences-form-error">{errors.sex?.message}</p>
           </div>
-
           <Button
             className="Pref-btn btn"
             loading={isLoading}
