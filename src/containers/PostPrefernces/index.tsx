@@ -289,7 +289,7 @@ const PostPreferences = () => {
             {sex && (
               <div className="Question">
                 <h3 className="Question-title">
-                  How do you identify yourself?
+                  Assigned sex at the time of birth
                 </h3>
                 <Controller
                   control={control}
