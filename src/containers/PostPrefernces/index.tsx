@@ -279,12 +279,12 @@ const PostPreferences = () => {
 
           {sex && (
             <div className="Question">
-              <h3 className="Question-title">What is your gender?</h3>
+              <h3 className="Question-title">How do you identify yourself?</h3>
               <Controller
                 control={control}
                 name="sex"
                 defaultValue={sex && sex}
-                rules={{ required: 'Please Select your gender' }}
+                rules={{ required: 'Please Select one' }}
                 render={({ field: { onChange, value } }) => (
                   <Radio.Group value={value} onChange={onChange}>
                     <Space direction="vertical">
@@ -295,7 +295,7 @@ const PostPreferences = () => {
                         Female
                       </Radio>
                       <Radio value="x" className="radio-input">
-                        Better not to say
+                        Prefer not to say
                       </Radio>
                     </Space>
                   </Radio.Group>
