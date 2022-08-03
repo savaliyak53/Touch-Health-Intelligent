@@ -93,12 +93,7 @@ export const preferencesService = async (
     data: IPreferencesService,
     id: string | null
 ) => {
-    try {
-        const res = await APIClient(`/api/v1/users/${id}`, 'put', data)
-        if (res) return res.data
-    } catch (err) {
-        return err
-    }
+    return APIClient(`/api/v1/users/${id}`, 'put', data)
 }
 
 export const getInteractionService = async () => {

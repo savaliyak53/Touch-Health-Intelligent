@@ -1,5 +1,5 @@
 .Diamond-Btn.ant-btn {
-    padding: 15px;
+    padding: 0;
     border-radius: 16px;
     display: flex;
     align-items: center;
@@ -10,8 +10,9 @@
     cursor: pointer;
     position: relative;
     color: rgba(#394a7e, 0.5);
-    margin: 16px 20px;
+    margin: 10px 20px;
     transform: rotate(45deg);
+    opacity: 0.5;
 
     img {
         height: 30px;
@@ -22,34 +23,60 @@
             fill: #fff;
         }
     }
+    
+    .Btn-img {
+        display: block;
+    }
 
-    &:hover,
+    .Btn-text {
+        font-size: 20px;
+        line-height: 24px;
+        font-weight: 400;
+        color: #fff;
+        transform: rotate(-45deg);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: none;
+    }
+
+    &.highlight {
+        opacity: 1;
+    }
+
     &:active,
     &:focus {
-        background-color: rgba(#394a7e, 0.5);
-        border-color: transparent;
-
         .inner-1,
         .inner-2 {
             visibility: visible;
+        }
+        .Btn-img {
+            display: none;
+        }
+        .Btn-text {
+            display: block;
         }
     }
 
     &.primary {
         background-color: #394a7e;
         border-color: #394a7e;
-        &.primary:hover,
-        &.primary:active,
-        &.primary:focus,
-        &.disabled {
+        &:hover {
+            background-color: #394a7e;
+            border-color: #394a7e;
+        }
+        &:active,
+        &:focus {
             background-color: rgba(#394a7e, 0.5);
             border-color: transparent;
         }
-
         .btn-inner {
             background-color: #394a7e;
             border-color: #394a7e;
-            &:hover,
+            &:hover {
+                background-color: #394a7e;
+                border-color: #394a7e;
+            }
             &:focus,
             &:active {
                 background-color: #394a7e;
@@ -62,10 +89,12 @@
     &.secondary {
         background-color: #cd6052;
         border-color: #cd6052;
-        &.secondary:hover,
-        &.secondary:active,
-        &.secondary:focus,
-        &.disabled {
+        &:hover {
+            background-color: #cd6052;
+            border-color: #cd6052;
+        }
+        &:active,
+        &:focus {
             background-color: rgba(#cd6052, 0.5);
             border-color: transparent;
         }
@@ -73,7 +102,6 @@
         .btn-inner {
             background-color: #cd6052;
             border-color: #cd6052;
-            &:hover,
             &:focus,
             &:active {
                 background-color: #cd6052;
@@ -89,14 +117,15 @@
     &.disabled:focus {
         background-color: #e5ebe1;
         border-color: #e5ebe1;
+        color: #e5ebe1;
         opacity: 0.3;
         cursor: default;
+
         .inner-1,
         .inner-2 {
             visibility: hidden;
         }
     }
-
     .inner-1,
     .inner-2 {
         position: absolute;

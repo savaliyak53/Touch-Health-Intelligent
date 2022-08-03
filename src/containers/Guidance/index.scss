@@ -10,12 +10,12 @@
     margin-bottom: 0;
     font-size: 20px;
     line-height: 24px;
-    color: #282f28;
+    color: #282F28;
     margin-bottom: clamp(0px, 7.5vh, 22px);
 }
 
 .Corr {
-    .Insite-btn {
+    .Insite-btn{ 
         display: flex;
         align-items: flex-end;
         justify-content: flex-end;
@@ -27,13 +27,12 @@
             padding: 0;
             font-size: 22px;
             line-height: 27px;
-            color: #3a3a3a;
+            color: #3A3A3A;
         }
     }
     .Title-wrap {
         display: flex;
         align-items: flex-start;
-        cursor: pointer;
         margin-top: clamp(0px, 7.5vh, 24px);
         > span {
             margin-top: 20px;
@@ -45,20 +44,20 @@
         font-size: 20px;
         line-height: 24px;
         font-weight: 400;
-        color: rgba(#282f28, 0.5);
+        color: rgba(#282F28, 0.5);
 
         svg {
             path {
-                fill: #39b42f;
+                fill: #39B42F;
             }
         }
     }
     .Each-Relation {
         padding: 12px 23px 23px 23px;
-        background-color: #ebedf2;
+        background-color: #EBEDF2;
         border-radius: 16px;
         margin-bottom: 14px;
-        .Relation-x {
+        .Relation-x{
             display: flex;
             align-items: flex-end;
             justify-content: flex-end;
@@ -70,7 +69,7 @@
                     height: 20px;
                     width: 20px;
                     path {
-                        fill: #cd6052;
+                        fill: #CD6052;
                     }
                 }
             }
@@ -84,7 +83,7 @@
             font-size: 20px;
             line-height: 24px;
             font-weight: 400;
-            color: #282f28;
+            color: #282F28;
             margin-right: 10px;
         }
     }
@@ -99,7 +98,7 @@
             &.up {
                 svg {
                     path {
-                        fill: #39b42f;
+                        fill: #39B42F;
                     }
                 }
             }
@@ -107,20 +106,20 @@
                 height: 40px;
                 width: 30px;
                 path {
-                    fill: #f53f4a;
+                    fill: #F53F4A;
                 }
             }
         }
     }
 
     .Heart-Btn {
-        background-color: #cd6052;
+        background-color: #CD6052;
         padding: 15px;
         border-radius: 26px;
         display: block;
         width: 70px;
         height: 70px;
-        border: 2px solid #cd6052;
+        border: 2px solid #CD6052;
         transform: rotate(45deg);
 
         svg {
@@ -137,11 +136,11 @@
         &:active,
         &:focus {
             background-color: transparent;
-            border-color: #cd6052;
+            border-color: #CD6052;
 
             svg {
                 path {
-                    fill: #cd6052;
+                    fill: #CD6052;
                 }
             }
         }
