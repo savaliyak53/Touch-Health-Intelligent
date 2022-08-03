@@ -1,30 +1,32 @@
-import React from 'react'
-import { Button, Switch } from 'antd'
-import { CloseOutlined } from '@ant-design/icons'
-import './SwitchQuestion.scss'
+import React from 'react';
+import { Button, Switch } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
+import './SwitchQuestion.scss';
 type Props = {
-    Title?: string
-    Text?: string
-    Checked?: boolean
-}
+  title?: string;
+  text?: string;
+  checked?: boolean;
+  id?: string;
+  handleClose?: any;
+};
 
-const SwitchQuestion = ({ Title, Text, Checked }: Props) => {
-    return (
-        <>
-            <div className="Single-Switch">
-                <div className="Text-wrap">
-                    {Title == '' ? '' : <h4 className="title">{Title}</h4>}
-                    <p className="text">{Text}</p>
-                </div>
-                <div className="Switch-btn-wrap">
-                    {Checked ? <Switch defaultChecked /> : <Switch />}
-                    <Button className="">
-                        <CloseOutlined />
-                    </Button>
-                </div>
-            </div>
-        </>
-    )
-}
+const SwitchQuestion = ({ title, text, checked }: Props) => {
+  return (
+    <>
+      <div className="Single-Switch">
+        <div className="Text-wrap">
+          {title == '' ? '' : <h4 className="title">{title}</h4>}
+          <p className="text">{text}</p>
+        </div>
+        <div className="Switch-btn-wrap">
+          {checked ? <Switch defaultChecked /> : <Switch />}
+          <Button className="">
+            <CloseOutlined />
+          </Button>
+        </div>
+      </div>
+    </>
+  );
+};
 
-export default SwitchQuestion
+export default SwitchQuestion;

@@ -58,7 +58,12 @@ function DashboardButton({
             />
           </Button>
         </div>
-        {outerButton ? '.' : <img src={image} />}
+        {outerButton ? (
+          '.'
+        ) : (
+          <span className="Btn-text">{insight?.category.name}</span>
+        )}
+        {outerButton ? '.' : <img src={image} className="Btn-img" />}
         <div className="inner-2">
           <Button className="btn-inner" onClick={handleRedirectTimeline}>
             <img
