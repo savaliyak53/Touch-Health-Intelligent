@@ -95,7 +95,6 @@ function UserCondition() {
               onClick={() => {
                 onSubmit('', true);
               }}
-              loading={loading}
               disabled={loading}
             >
               Skip

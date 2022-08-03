@@ -259,6 +259,11 @@ const SignUp = () => {
         <div className="Auth-terms">
           <Link to="/login">Already have an account?</Link>
         </div>
+        <div className="Auth-terms">
+          By creating your account, you agree to the
+          <br />
+          <Link to="#">Terms & Conditions</Link>
+        </div>
       </div>
     </Layout>
   );
