@@ -26,10 +26,6 @@ const Preferences = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [checked, setChecked] = useState<string[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [preferences, setPreferences] = useState<any>({});
-  const [yob, setYob] = useState<any>('');
-  const [sex, setSex] = useState<any>('');
-  const [minutes, setMinutes] = useState<number>();
 
   const {
     register,
@@ -91,31 +87,8 @@ const Preferences = () => {
     return false;
   };
   useEffect(() => {
-    if (showTooltip) {
-      setTimeout(() => {
-        setShowTooltip(false);
-      }, 1000);
-    }
-  }, [showTooltip]);
-  const getUserInfo = (userId: string | null | undefined) => {
-    //setLoader(true);
-    getUser(userId)
-      .then((response: any) => {
-        if (response?.data?.preferences?.timezone) {
-          setPreferences(response?.data?.preferences);
-          setYob(response.data.yob);
-          setSex(response.data.sex);
-          setChecked([...response.data.preferences.preferred_engagement_slots]);
-          setMinutes(response.data.preferences.minutes_per_week);
-        }
-      })
-      .catch((error) => {
-        toast('Unknown error');
-      });
-  };
-  useEffect(() => {
     const userId = localStorage.getItem('userId');
-    getUserInfo(userId);
+    //getUserInfo(userId);
   }, []);
   return (
     <Layout defaultHeader={true} hamburger={true}>
@@ -180,6 +153,9 @@ const Preferences = () => {
                 onMouseEnter={() => {
                   setShowTooltip(true);
                 }}
+                onMouseLeave={() => {
+                  setShowTooltip(false);
+                }}
               >
                 Tip: by enabling integrations with smart wearables and health
                 apps you may be using, your health assistant can get to know you
@@ -193,7 +169,7 @@ const Preferences = () => {
               rules={{
                 required: 'Please Select a check-in value',
               }}
-              defaultValue={minutes && minutes}
+              defaultValue={3}
               render={({ field: { onChange, value } }) => (
                 <>
                   <Slider
@@ -233,7 +209,6 @@ const Preferences = () => {
             <Controller
               control={control}
               name="yob"
-              defaultValue={yob}
               rules={{
                 required: 'Please Select an year',
                 validate: (value) => {
@@ -261,7 +236,6 @@ const Preferences = () => {
             <Controller
               control={control}
               name="sex"
-              defaultValue={sex && sex}
               rules={{ required: 'Please Select one' }}
               render={({ field: { onChange, value } }) => (
                 <Radio.Group value={value} onChange={onChange}>
