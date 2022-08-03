@@ -6,6 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { getInsightsService } from '../services/dashboardservice';
+import { hardCodedresponse } from '../utils/lib';
 
 export interface InsightContextModel {
   insights?: any;
@@ -38,6 +39,7 @@ const InsightContextProvider = ({ children, brandId }: Props) => {
 
     const response = await getInsightsService();
     if (response.data) {
+      //setInsights(hardCodedresponse);
       setInsights(response.data);
       return response.data;
     }

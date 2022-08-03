@@ -103,13 +103,6 @@ const PostPreferences = () => {
     }
     return false;
   };
-  useEffect(() => {
-    if (showTooltip) {
-      setTimeout(() => {
-        setShowTooltip(false);
-      }, 1000);
-    }
-  }, [showTooltip]);
   const getUserInfo = (userId: string | null | undefined) => {
     getUser(userId)
       .then((response: any) => {
@@ -205,6 +198,9 @@ const PostPreferences = () => {
                 <h5
                   onMouseEnter={() => {
                     setShowTooltip(true);
+                  }}
+                  onMouseLeave={() => {
+                    setShowTooltip(false);
                   }}
                 >
                   Tip: by enabling integrations with smart wearables and health
