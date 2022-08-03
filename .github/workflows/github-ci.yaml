@@ -7,7 +7,6 @@ on:
   pull_request:
     branches:
       - develop
-      # - main
 
 jobs:
   build-image:
@@ -55,7 +54,7 @@ jobs:
       - name: Install packages
         run: yarn install
       #No tests so github ci returns error code
-      #]- name: Run tests
+      #- name: Run tests
       #  run: yarn test
       - name: Run build
         run: yarn build
