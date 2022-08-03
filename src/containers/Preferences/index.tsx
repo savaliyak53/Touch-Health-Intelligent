@@ -72,7 +72,7 @@ const Preferences = () => {
     navigate(`/introvideo`);
   };
 
-  const timeOfDay = ['morning', 'afternoon', 'evening'];
+  const timeOfDay = ['Morning', 'Afternoon', 'Evening'];
   const handleOnChange = (e: any, value: string) => {
     if (e.target.checked) {
       setChecked([...checked, value]);
