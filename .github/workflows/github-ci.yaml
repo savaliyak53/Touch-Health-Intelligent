@@ -1,4 +1,5 @@
 name: Unit tests, build and push image
+#Uncomment as necessary for develop and main
 on:
   push:
     branches:
@@ -6,7 +7,8 @@ on:
       # - main
   pull_request:
     branches:
-      - main
+      - develop
+      # - main
 
 jobs:
   build-image:
@@ -48,7 +50,10 @@ jobs:
         # Env vars repo and tag
       - name: Export REPO env
         run: |
+# For develop, use below
           echo "REPO=touch-tha-frontend-main" >> $GITHUB_ENV
+      # For main, use below
+          echo "REPO=touch-tha-frontend-test" >> $GITHUB_ENV
         # echo "REPO=touch-tha-frontend-$BASE_BRANCH_NAME" >> $GITHUB_ENV
         # Prepare
       - name: Install packages
