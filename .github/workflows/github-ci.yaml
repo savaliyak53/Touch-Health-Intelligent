@@ -1,9 +1,8 @@
 name: Unit tests, build and push image
-#Uncomment as necessary for develop and main
 on:
-  push:
-    branches:
-     - develop
+#  push:
+#    branches:
+#     - develop
   pull_request:
     branches:
       - develop
