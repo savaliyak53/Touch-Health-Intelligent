@@ -224,6 +224,10 @@
                     display: none;
                 }
             }
+            .ant-select-selection-search-input {
+                height: 64px !important;
+                padding: 17px 30px !important;
+            }
         }
         .ant-select-arrow {
             display: none;
@@ -290,4 +294,13 @@
 }
 .Toastify__toast {
     margin-top: 52px;
+}
+
+.Spinner{
+    &.ant-spin {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 50%;
+    }
 }
