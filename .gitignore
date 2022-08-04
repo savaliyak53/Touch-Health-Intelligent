@@ -79,3 +79,4 @@ test/.env.*.local
 .vscode/*
 
 .cache
+src/.DS_Store
