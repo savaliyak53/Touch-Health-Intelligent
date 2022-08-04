@@ -1,14 +1,11 @@
 name: Unit tests, build and push image
-#Uncomment as necessary for develop and main
 on:
   push:
     branches:
-      - develop
-      # - main
+     - main
   pull_request:
     branches:
-      - develop
-      # - main
+      - main
 
 jobs:
   build-image:
@@ -50,7 +47,7 @@ jobs:
         # Env vars repo and tag
       - name: Export REPO env
         run: |
-          echo "REPO=touch-tha-frontend-main" >> $GITHUB_ENV
+          echo "REPO=touch-tha-frontend-test" >> $GITHUB_ENV
         # Prepare
       - name: Install packages
         run: yarn install
@@ -115,4 +112,4 @@ jobs:
           url: "https://jenkins.touch.clinic"
           user: "autochief"
           token: ${{ secrets.JENKINS_TOKEN }}
-          job: "aws-tha-deploy-front"
+          job: "aws-tha-deploy-front-test"
