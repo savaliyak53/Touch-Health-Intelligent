@@ -1,5 +1,6 @@
 name: Unit tests, build and push image
 on:
+# temporarily disable push
 #  push:
 #    branches:
 #     - develop
