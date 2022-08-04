@@ -1,14 +1,11 @@
 name: Unit tests, build and push image
-#Uncomment as necessary for develop and main
 on:
-  push:
-    branches:
-      - develop
-      # - main
+#  push:
+#    branches:
+#     - develop
   pull_request:
     branches:
       - develop
-      # - main
 
 jobs:
   build-image:
@@ -61,11 +58,6 @@ jobs:
         run: yarn build
         env:
           CI: false
-      # will run npm install -g serve && serve -s build in docker compose
-      #- name: npm install dependencies
-      #  run: npm install
-      #- name: npm run build (nodeJS)
-      #  run: npm run build
       #- name: Save github sha commit
       #  run: echo ${GITHUB_SHA} > ./build/frontend.hash
       - name: Prepare building (folder)
