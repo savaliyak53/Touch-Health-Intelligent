@@ -13,6 +13,7 @@ const Dashboard = () => {
   }, []);
 
   let rowNumber = 0;
+  let itemPrinted = 0;
   const getInsights = async () => {
     try {
       await context?.commands?.loadInsights();
@@ -38,15 +39,13 @@ const Dashboard = () => {
       {
         rowNumber++;
       }
-      if (rowNumber % 2 == 0) {
+      if (rowNumber % 2 === 0) {
         {
           i++;
         }
         section.push(
           <div className="btn-group">
             <DashboardButton
-              innerButtons={false}
-              innerButtonImage={`${insights[outer][i - 1]?.category?.icon}`}
               image={`${insights[outer][i - 1]?.category?.icon}`}
               disabled={false}
               color={`${insights[outer][i - 1]?.category?.color}`}
@@ -57,12 +56,14 @@ const Dashboard = () => {
               highlight={getOpacity(insights[outer][i - 1])}
             />
             <DashboardButton
-              innerButtons={false}
-              innerButtonImage={`${insights[outer][i]?.category?.icon}`}
               image={`${insights[outer][i - 1]?.category?.icon}`}
-              disabled={false}
+              disabled={
+                insights[outer]?.length - itemPrinted === 1 ? true : false
+              }
               color={`${insights[outer][i - 1]?.category?.color}`}
-              outerButton={false}
+              outerButton={
+                insights[outer]?.length - itemPrinted === 1 ? true : false
+              }
               insight={insights[outer][i - 1]}
               outer={outer}
               inner={i}
@@ -70,12 +71,13 @@ const Dashboard = () => {
             />
           </div>
         );
+        {
+          itemPrinted = itemPrinted + 2;
+        }
       } else {
         section.push(
           <div className="btn-group">
             <DashboardButton
-              innerButtons={false}
-              innerButtonImage={`${insights[outer][i]?.category?.icon}`}
               image={`${insights[outer][i]?.category?.icon}`}
               disabled={true}
               color={`${insights[outer][i]?.category?.color}`}
@@ -83,8 +85,6 @@ const Dashboard = () => {
               highlight={getOpacity(insights[outer][i])}
             />
             <DashboardButton
-              innerButtons={false}
-              innerButtonImage={`${insights[outer][i]?.category?.icon}`}
               image={`${insights[outer][i]?.category?.icon}`}
               disabled={false}
               color={`${insights[outer][i]?.category?.color}`}
@@ -95,8 +95,6 @@ const Dashboard = () => {
               highlight={getOpacity(insights[outer][i])}
             />
             <DashboardButton
-              innerButtons={false}
-              innerButtonImage={`${insights[outer][i]?.category?.icon}`}
               image={`${insights[outer][i]?.category?.icon}`}
               disabled={true}
               color={`${insights[outer][i]?.category?.color}`}
@@ -105,8 +103,12 @@ const Dashboard = () => {
             />
           </div>
         );
+        {
+          itemPrinted = itemPrinted + 1;
+        }
       }
     }
+    itemPrinted = 0;
     return section;
   };
   const Dashboard = () => {
@@ -126,8 +128,6 @@ const Dashboard = () => {
             <div className="dsgbtn-group">
               <div className="btn-group">
                 <DashboardButton
-                  innerButtons={false}
-                  innerButtonImage=""
                   image=""
                   disabled={true}
                   color={`${context.insights.insights[0][0]?.category?.color}`}
@@ -135,8 +135,6 @@ const Dashboard = () => {
                   highlight={0}
                 />
                 <DashboardButton
-                  innerButtons={false}
-                  innerButtonImage=""
                   image=""
                   disabled={true}
                   color={`${context.insights.insights[0][0]?.category?.color}`}
@@ -145,11 +143,10 @@ const Dashboard = () => {
                 />
               </div>
               {Dashboard()}
+
               {rowNumber % 2 == 0 ? (
                 <div className="btn-group">
                   <DashboardButton
-                    innerButtons={false}
-                    innerButtonImage=""
                     image=""
                     disabled={true}
                     color={`${context.insights.insights[0][0]?.category?.color}`}
@@ -157,8 +154,6 @@ const Dashboard = () => {
                     highlight={0}
                   />
                   <DashboardButton
-                    innerButtons={false}
-                    innerButtonImage=""
                     image=""
                     disabled={true}
                     color={`${context.insights.insights[0][0]?.category?.color}`}
@@ -169,8 +164,6 @@ const Dashboard = () => {
               ) : (
                 <div className="btn-group">
                   <DashboardButton
-                    innerButtons={false}
-                    innerButtonImage=""
                     image=""
                     disabled={true}
                     color={`${context.insights.insights[0][0]?.category?.color}`}
@@ -178,8 +171,6 @@ const Dashboard = () => {
                     highlight={0}
                   />
                   <DashboardButton
-                    innerButtons={false}
-                    innerButtonImage=""
                     image=""
                     disabled={true}
                     color={`${context.insights.insights[0][0]?.category?.color}`}
@@ -187,8 +178,6 @@ const Dashboard = () => {
                     highlight={0}
                   />
                   <DashboardButton
-                    innerButtons={false}
-                    innerButtonImage=""
                     image=""
                     disabled={true}
                     color={`${context.insights.insights[0][0]?.category?.color}`}

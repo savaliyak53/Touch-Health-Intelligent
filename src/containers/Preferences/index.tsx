@@ -136,11 +136,6 @@ const Preferences = () => {
             </p>
           </div>
           <div className="Question">
-            <h3 className="Question-title">
-              How much communication would you like to have with your health
-              assistant?
-            </h3>
-
             <Tooltip
               title="The more time you give your health assistant, the better it gets to know your personal health, and the better it will guide you to optimal health."
               placement="topRight"
@@ -149,7 +144,8 @@ const Preferences = () => {
               visible={showTooltip}
               mouseLeaveDelay={0}
             >
-              <h5
+              <h3
+                className="Question-title"
                 onMouseEnter={() => {
                   setShowTooltip(true);
                 }}
@@ -157,11 +153,16 @@ const Preferences = () => {
                   setShowTooltip(false);
                 }}
               >
-                Tip: by enabling integrations with smart wearables and health
-                apps you may be using, your health assistant can get to know you
-                better with less communication.
-              </h5>
+                How much communication would you like to have with your health
+                assistant?
+              </h3>
             </Tooltip>
+            <h5>
+              Tip: by enabling integrations with smart wearables and health apps
+              you may be using, your health assistant can get to know you better
+              with less communication.
+            </h5>
+
             <br />
             <Controller
               control={control}

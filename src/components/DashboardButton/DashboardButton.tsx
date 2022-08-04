@@ -7,20 +7,16 @@ import { InsightContext } from '../../contexts/InsightContext';
 import { Buffer } from 'buffer';
 
 type Props = {
-  innerButtons: boolean;
-  image: string;
-  innerButtonImage: string;
-  disabled: boolean;
-  color: string;
-  outerButton: boolean;
+  image?: string;
+  disabled?: boolean;
+  color?: string;
+  outerButton?: boolean;
   inner?: number;
   outer?: number;
   insight?: any;
-  highlight: number;
+  highlight?: number;
 };
 function DashboardButton({
-  innerButtons,
-  innerButtonImage,
   image,
   disabled,
   color,
@@ -48,7 +44,9 @@ function DashboardButton({
       <Button
         className={`Diamond-Btn ${
           color === '394A7E' ? 'primary' : 'secondary'
-        }  ${highlight > 0 ? 'highlight' : ''}  ${disabled ? 'disabled' : ''}`}
+        }  ${highlight && highlight > 0 ? 'highlight' : ''}  ${
+          disabled ? 'disabled' : ''
+        }`}
       >
         <div className="inner-1">
           <Button className="btn-inner" onClick={handleRedirectInsights}>
