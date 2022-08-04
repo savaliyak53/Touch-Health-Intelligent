@@ -200,7 +200,7 @@ const Dashboard = () => {
             </div>
           )}
 
-          <Spin spinning={!context?.insights}></Spin>
+          <Spin spinning={!context?.insights} className="Spinner"></Spin>
         </div>
       </Layout>
     </>
