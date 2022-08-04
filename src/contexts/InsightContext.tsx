@@ -6,6 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { getInsightsService } from '../services/dashboardservice';
+import { hardCodedresponse } from '../utils/lib';
 
 export interface InsightContextModel {
   insights?: any;
