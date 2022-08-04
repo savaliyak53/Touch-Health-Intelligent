@@ -98,13 +98,13 @@ const SignUp = () => {
               <input
                 id="name"
                 {...register('name', {
-                  required: 'Name is required.',
+                  required: 'Username is required.',
                   maxLength: {
                     value: 50,
-                    message: 'Name can have maximum 50 characters.',
+                    message: 'Username can have maximum 50 characters.',
                   },
                 })}
-                placeholder="Name"
+                placeholder="Username"
                 type="text"
                 className="app-Input"
               />
