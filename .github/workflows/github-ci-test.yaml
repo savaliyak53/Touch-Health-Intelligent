@@ -103,7 +103,7 @@ jobs:
     #  github.ref == 'refs/heads/main' || 
     #  (github.event_name == 'pull_request' && 
     #  github.event.pull_request.merged == true)
-    # jenkins webhook test
+    # jenkins webhook testing
     steps:
       - name: trigger Jenkins deployment Job
         uses: appleboy/jenkins-action@master
