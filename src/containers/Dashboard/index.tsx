@@ -43,6 +43,7 @@ const Dashboard = () => {
         {
           i++;
         }
+        console.log('outer: ', outer, 'i:', i);
         section.push(
           <div className="btn-group">
             <DashboardButton
@@ -56,18 +57,18 @@ const Dashboard = () => {
               highlight={getOpacity(insights[outer][i - 1])}
             />
             <DashboardButton
-              image={`${insights[outer][i - 1]?.category?.icon}`}
+              image={`${insights[outer][i]?.category?.icon}`}
               disabled={
                 insights[outer]?.length - itemPrinted === 1 ? true : false
               }
-              color={`${insights[outer][i - 1]?.category?.color}`}
+              color={`${insights[outer][i]?.category?.color}`}
               outerButton={
                 insights[outer]?.length - itemPrinted === 1 ? true : false
               }
-              insight={insights[outer][i - 1]}
+              insight={insights[outer][i]}
               outer={outer}
               inner={i}
-              highlight={getOpacity(insights[outer][i - 1])}
+              highlight={insights[outer][i] && getOpacity(insights[outer][i])}
             />
           </div>
         );
