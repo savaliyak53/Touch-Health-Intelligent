@@ -50,15 +50,12 @@ jobs:
         # Env vars repo and tag
       - name: Export REPO env
         run: |
-        # For develop, use below
           echo "REPO=touch-tha-frontend-main" >> $GITHUB_ENV
-        # For main, use below
-          #echo "REPO=touch-tha-frontend-test" >> $GITHUB_ENV
         # Prepare
       - name: Install packages
         run: yarn install
       #No tests so github ci returns error code
-      #]- name: Run tests
+      #- name: Run tests
       #  run: yarn test
       - name: Run build
         run: yarn build
