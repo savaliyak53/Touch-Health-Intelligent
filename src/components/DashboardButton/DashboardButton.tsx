@@ -44,9 +44,8 @@ function DashboardButton({
       <Button
         className={`Diamond-Btn ${
           color === '394A7E' ? 'primary' : 'secondary'
-        }  ${highlight && highlight > 0 ? 'highlight' : ''}  ${
-          disabled ? 'disabled' : ''
-        }`}
+        }    ${disabled ? 'disabled' : ''}`}
+        style={{ opacity: highlight }}
       >
         <div className="inner-1">
           <Button className="btn-inner" onClick={handleRedirectInsights}>
