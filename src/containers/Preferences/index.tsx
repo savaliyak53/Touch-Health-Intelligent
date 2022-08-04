@@ -45,7 +45,9 @@ const Preferences = () => {
       yob: data.yob,
       preferences: {
         minutes_per_week: data.minutesPerWeek ?? 3,
-        preferred_engagement_slots: data.timeOfDay,
+        preferred_engagement_slots: checked.map(
+          (item: any) => item[0].toLowerCase() + item.slice(1)
+        ),
         timezone: zoneVal,
       },
     };

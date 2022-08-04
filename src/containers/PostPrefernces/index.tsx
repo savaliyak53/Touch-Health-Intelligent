@@ -59,7 +59,9 @@ const PostPreferences = () => {
       yob: data.yob,
       preferences: {
         minutes_per_week: data.minutesPerWeek ?? 3,
-        preferred_engagement_slots: data.timeOfDay,
+        preferred_engagement_slots: checked.map(
+          (item: any) => item[0].toLowerCase() + item.slice(1)
+        ),
         timezone: zoneVal,
       },
     };
@@ -110,7 +112,12 @@ const PostPreferences = () => {
           setPreferences(response?.data?.preferences);
           setYob(response.data.yob);
           setSex(response.data.sex);
-          setChecked([...response.data.preferences.preferred_engagement_slots]);
+
+          setChecked([
+            ...response.data.preferences.preferred_engagement_slots.map(
+              (item: any) => item[0].toUpperCase() + item.slice(1)
+            ),
+          ]);
           setMinutes(response.data.preferences.minutes_per_week);
           reset({
             yob: response.data.yob,
