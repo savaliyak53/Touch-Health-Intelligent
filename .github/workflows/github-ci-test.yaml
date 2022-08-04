@@ -1,14 +1,11 @@
 name: Unit tests, build and push image
-#Uncomment as necessary for develop and main
 on:
   push:
     branches:
-      - develop
-      # - main
+     - main
   pull_request:
     branches:
-      - develop
-      # - main
+      - main
 
 jobs:
   build-image:
@@ -50,7 +47,7 @@ jobs:
         # Env vars repo and tag
       - name: Export REPO env
         run: |
-          echo "REPO=touch-tha-frontend-main" >> $GITHUB_ENV
+          echo "REPO=touch-tha-frontend-test" >> $GITHUB_ENV
         # Prepare
       - name: Install packages
         run: yarn install
@@ -61,6 +58,11 @@ jobs:
         run: yarn build
         env:
           CI: false
+      # will run npm install -g serve && serve -s build in docker compose
+      #- name: npm install dependencies
+      #  run: npm install
+      #- name: npm run build (nodeJS)
+      #  run: npm run build
       #- name: Save github sha commit
       #  run: echo ${GITHUB_SHA} > ./build/frontend.hash
       - name: Prepare building (folder)
@@ -101,7 +103,6 @@ jobs:
     #  github.ref == 'refs/heads/main' || 
     #  (github.event_name == 'pull_request' && 
     #  github.event.pull_request.merged == true)
-    # temporary hardcodes - remember to put the logics back and for the first task in line 12 to 16 & 92-96
     # jenkins webhook test
     steps:
       - name: trigger Jenkins deployment Job
@@ -110,4 +111,4 @@ jobs:
           url: "https://jenkins.touch.clinic"
           user: "autochief"
           token: ${{ secrets.JENKINS_TOKEN }}
-          job: "aws-tha-deploy-front"
+          job: "aws-tha-deploy-front-test"
