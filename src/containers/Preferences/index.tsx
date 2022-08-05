@@ -74,7 +74,7 @@ const Preferences = () => {
     navigate(`/introvideo`);
   };
 
-  const timeOfDay = ['Morning', 'Afternoon', 'Evening'];
+  const timeOfDay = ['morning', 'afternoon', 'evening'];
   const handleOnChange = (e: any, value: string) => {
     if (e.target.checked) {
       setChecked([...checked, value]);
@@ -88,10 +88,7 @@ const Preferences = () => {
     }
     return false;
   };
-  useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    //getUserInfo(userId);
-  }, []);
+
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <div className="Content-wrap Pref">

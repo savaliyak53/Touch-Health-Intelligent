@@ -91,7 +91,7 @@ const PostPreferences = () => {
     navigate(`/introvideo`);
   };
 
-  const timeOfDay = ['Morning', 'Afternoon', 'Evening'];
+  const timeOfDay = ['morning', 'afternoon', 'evening'];
   const handleOnChange = (e: any, value: string) => {
     if (e.target.checked) {
       setChecked([...checked, value]);
@@ -139,7 +139,7 @@ const PostPreferences = () => {
     setloading(true);
     getUserInfo(userId);
   }, []);
-  console.log(isValid, errors);
+
   return (
     <Layout defaultHeader={true} hamburger={false}>
       <Spin spinning={loading}>
