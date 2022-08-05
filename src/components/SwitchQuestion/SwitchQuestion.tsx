@@ -6,11 +6,29 @@ type Props = {
   title?: string;
   text?: string;
   checked?: boolean;
-  id?: string;
+  id: string;
   handleClose?: any;
+  handleDelete: (id: string) => void;
+  handleUpdate: (id: string, checked: boolean) => void;
 };
 
-const SwitchQuestion = ({ title, text, checked }: Props) => {
+const SwitchQuestion = ({
+  title,
+  text,
+  checked,
+  id,
+  handleDelete,
+  handleUpdate,
+}: Props) => {
+  const [conditionChecked, setConditionChecked] = React.useState(checked);
+  const handleSwitchChange = (checked: boolean) => {
+    setConditionChecked(checked);
+    handleUpdate(id, checked);
+  };
+
+  React.useEffect(() => {
+    setConditionChecked(checked);
+  }, [checked]);
   return (
     <>
       <div className="Single-Switch">
@@ -19,8 +37,12 @@ const SwitchQuestion = ({ title, text, checked }: Props) => {
           <p className="text">{text}</p>
         </div>
         <div className="Switch-btn-wrap">
-          {checked ? <Switch defaultChecked /> : <Switch />}
-          <Button className="">
+          <Switch
+            defaultChecked
+            checked={conditionChecked}
+            onClick={handleSwitchChange}
+          />
+          <Button onClick={() => handleDelete(id)}>
             <CloseOutlined />
           </Button>
         </div>

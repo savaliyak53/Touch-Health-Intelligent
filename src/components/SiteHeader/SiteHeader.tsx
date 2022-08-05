@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import { Button } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import './SiteHeader.scss';
-import { Navigate, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
+
 type Props = {
   defaultHeader: boolean;
   hamburger: boolean;
@@ -43,35 +45,32 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
         </div>
         <ul>
           <li>
-            <a href="/dashboard">Home</a>
+            <Link to="/dashboard">Home</Link>
           </li>
           <li>
-            <a
-              href="/insights"
+            <Link
+              to="/insights"
               onClick={() => localStorage.setItem('selectedInsight', '0-0')}
             >
               Insights
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="/insights/guideline"
+            <Link
+              to="/insights/guideline"
               onClick={() => localStorage.setItem('selectedInsight', '0-0')}
             >
               Insights Guideline
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/post-preferences">Preferences</a>
+            <Link to="/post-preferences">Preferences</Link>
           </li>
           <li>
-            <a href="#">Conditions</a>
+            <Link to="/conditions">Conditions</Link>
           </li>
           <li>
-            <a href="#">Concerns</a>
-          </li>
-          <li>
-            <a>–</a>
+            <Link to="/concerns">Concerns</Link>
           </li>
           <li>
             <Button
