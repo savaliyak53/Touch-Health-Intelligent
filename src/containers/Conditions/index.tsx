@@ -10,37 +10,42 @@ import {
 } from '../../services/dashboardservice';
 import { toast } from 'react-toastify';
 import { RightOutlined, SearchOutlined } from '@ant-design/icons';
-import { AutoComplete } from 'antd';
+import { AutoComplete, Spin } from 'antd';
 
 const ManageConditions = () => {
   const [data, setData] = useState<any>();
   const [result, setResult] = useState<any>([]);
+  const [loading, setLoading] = useState(true);
+
   const getConditions = async () => {
-    // const userId = localStorage.getItem('userId')
-    try {
-      const response: any = await getConditionsService();
-      // <To-do-hamza> attach api data
-      // setData(response.data.conditions)
-      setData(response.conditions);
-      setResult(response.conditions);
-    } catch (error) {
-      toast('unknown error');
-    }
+    setLoading(true);
+    getConditionsService()
+      .then((response) => {
+        console.log('response is ', response);
+        setLoading(false);
+        setData([...response.data.conditions]);
+      })
+      .catch((error) => {
+        console.log('error is ', error);
+        setLoading(false);
+        toast('Something went wrong');
+      });
   };
+
   useEffect(() => {
     getConditions();
   }, []);
+
   const handleClose = (id: string) => {
     setData(data.filter((item: any) => item.condition_id !== id));
   };
 
   const handleSearch = (value: string) => {
-    let res: string[] = [];
-    if (!value) {
-      res = [];
-    } else {
+    if (value) {
+      setLoading(true);
       getConditionsSearch(value)
         .then((response: any) => {
+          setLoading(false);
           if (response?.data) {
             setResult(
               response.data.map((item: any) => {
@@ -50,35 +55,49 @@ const ManageConditions = () => {
           }
         })
         .catch((error) => {
-          toast('Unknown error');
+          setLoading(false);
+          console.log('error while searching ', error);
+          toast('Something went wrong. Please contact support.');
         });
     }
   };
 
-  const handleOptionSelect = (value: string, option: any) => {
+  const addUpdateCondition = (conditions: any) => {
+    setLoading(true);
     addConditionsService({
-      conditions: [{ condition_id: value, active: true }],
+      conditions: conditions,
     })
       .then((response) => {
-        toast.success('Conditioned added successfully');
+        setLoading(false);
+        toast.success('Conditions updated successfully');
         getConditions();
       })
       .catch((error) => {
+        setLoading(false);
         console.log('error while adding condition', error);
+        toast.error('Something went wrong. Please contact support.');
       });
   };
 
+  const handleOptionSelect = (value: string, option: any) => {
+    addUpdateCondition([{ condition_id: option.key, active: true }]);
+  };
+
+  const handleUpdateCondition = (id: string, checked: boolean) => {
+    addUpdateCondition([{ condition_id: id, active: checked }]);
+  };
+
   const handleDeleteCondition = (id: string) => {
+    setLoading(true);
     deleteCondition(id)
       .then((response: any) => {
-        toast.success('Conditioned removed');
+        setLoading(false);
+        toast.success('Condition removed');
         getConditions();
       })
       .catch((error: any) => {
-        toast.success(
-          'Something went wrong while removing the condition',
-          error
-        );
+        setLoading(false);
+        toast.error('Something went wrong while removing the condition', error);
       });
   };
 
@@ -86,7 +105,9 @@ const ManageConditions = () => {
     <>
       <Layout defaultHeader={true} hamburger={true}>
         <div className="Content-wrap Con">
-          <h2 className="Con-title">Manage conditionss</h2>
+          <h2 className="Con-title">
+            Manage conditions <Spin spinning={loading} />
+          </h2>
           <p className="Con-Description">
             These are your current conditions, turn them off to remove, add a
             new one using the search bar.
@@ -96,7 +117,7 @@ const ManageConditions = () => {
             <SearchOutlined className="search" />
             <AutoComplete
               onSearch={handleSearch}
-              placeholder="input here"
+              placeholder="Search"
               options={result}
               onSelect={handleOptionSelect}
             ></AutoComplete>
@@ -113,7 +134,9 @@ const ManageConditions = () => {
                 text={data.text}
                 id={data.condition_id}
                 handleClose={handleClose}
-                checked={data.Checked}
+                checked={data.active}
+                handleDelete={handleDeleteCondition}
+                handleUpdate={handleUpdateCondition}
               />
             ))}
           </div>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Spin } from 'antd';
+import { Button, Dropdown, Menu, Space, Spin } from 'antd';
 import {
   RightOutlined,
   ArrowDownOutlined,
@@ -20,7 +20,6 @@ const Timeline = () => {
   const [image, setImage] = useState<string>();
 
   const selectedInsight = localStorage.getItem('selectedInsight');
-  //<To-do-hamza >move this to dashboard
   const getSelectedInsight = async () => {
     const response = await context?.commands.loadInsights();
     const splitIndex = selectedInsight && selectedInsight.split('-');
@@ -65,6 +64,43 @@ const Timeline = () => {
     }
     window.location.reload();
   };
+  const sortByUp = () => {
+    const up = patterns.filter((item: any) => item.direction === 'up');
+    const down = patterns.filter((item: any) => item.direction === 'down');
+    setPatterns(up.concat(down));
+  };
+  const sortByDown = () => {
+    const up = patterns.filter((item: any) => item.direction === 'up');
+    const down = patterns.filter((item: any) => item.direction === 'down');
+    setPatterns(down.concat(up));
+  };
+  const menu = (
+    <Menu
+      items={[
+        {
+          label: (
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={sortByUp}
+              //href="https://www.antgroup.com"
+            >
+              Sort by Up
+            </a>
+          ),
+          key: '0',
+        },
+        {
+          label: (
+            <a target="_blank" rel="noopener noreferrer" onClick={sortByDown}>
+              Sort By Down
+            </a>
+          ),
+          key: '1',
+        },
+      ]}
+    />
+  );
   return (
     <>
       <Layout defaultHeader={true} hamburger={true} dashboard={false}>
@@ -82,10 +118,14 @@ const Timeline = () => {
             </div>
 
             <div className="Corr-wrap">
-              <h3 className="Corr-Title">
-                Most recent
-                {/* Most recent <DownOutlined /> */}
-              </h3>
+              <Dropdown overlay={menu} trigger={['click']}>
+                <a onClick={(e) => e.preventDefault()} className="Corr-Title">
+                  <Space>
+                    Most recent
+                    <DownOutlined />
+                  </Space>
+                </a>
+              </Dropdown>
 
               {patterns &&
                 patterns.map((pattern: any, index: number) => (

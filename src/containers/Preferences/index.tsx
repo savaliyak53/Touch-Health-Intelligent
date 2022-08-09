@@ -45,7 +45,9 @@ const Preferences = () => {
       yob: data.yob,
       preferences: {
         minutes_per_week: data.minutesPerWeek ?? 3,
-        preferred_engagement_slots: data.timeOfDay,
+        preferred_engagement_slots: checked.map(
+          (item: any) => item[0].toLowerCase() + item.slice(1)
+        ),
         timezone: zoneVal,
       },
     };
@@ -86,10 +88,7 @@ const Preferences = () => {
     }
     return false;
   };
-  useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    //getUserInfo(userId);
-  }, []);
+
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <div className="Content-wrap Pref">
