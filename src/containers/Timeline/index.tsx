@@ -20,7 +20,6 @@ const Timeline = () => {
   const [image, setImage] = useState<string>();
 
   const selectedInsight = localStorage.getItem('selectedInsight');
-  //<To-do-hamza >move this to dashboard
   const getSelectedInsight = async () => {
     const response = await context?.commands.loadInsights();
     const splitIndex = selectedInsight && selectedInsight.split('-');
