@@ -17,6 +17,8 @@ import ManageConditions from '../containers/Conditions';
 import Diamond from '../components/diamond';
 import PostPreferences from '../containers/PostPrefernces';
 import ManageConcerns from '../containers/Concerns';
+import Subscription from '../containers/Subscription/Subscription';
+
 const AppRoutes = () => {
   return (
     <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
@@ -43,13 +45,13 @@ const AppRoutes = () => {
           <Route path="/concerns" element={<ManageConcerns />} />
           <Route path="/questionnaire" element={<UserCondition />} />
           <Route path="/post-preferences" element={<PostPreferences />} />
-
           <Route
             path="/questionnaire-submit"
             element={<ThankyouForSubmiting />}
           />
           <Route path="/preferences" element={<Preferences />} />
           <Route path="/introvideo" element={<IntroVideo />} />
+          <Route path="/subscription" element={<Subscription />} />
         </Route>
       </Routes>
     </React.Suspense>
