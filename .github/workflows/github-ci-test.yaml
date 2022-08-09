@@ -6,10 +6,13 @@ on:
   pull_request:
     branches:
       - main
+    types:
+      - closed
 
 jobs:
   build-image:
     name: Run prepare and build image
+    if: github.event.pull_request.merged
     runs-on: ubuntu-latest
     #if: |
     #  startsWith(github.ref, 'refs/tags') ||
