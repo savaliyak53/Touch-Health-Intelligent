@@ -253,10 +253,10 @@ const SignUp = () => {
             className="Auth-submit"
             style={{ color: 'white' }}
           >
-            Sign up
+            Sign Up
           </Button>
         </form>
-        <div className="Auth-terms">
+        <div className="Auth-terms-signup">
           <Link to="/login">Already have an account?</Link>
         </div>
         <div className="Auth-terms">
