@@ -73,6 +73,9 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
             <Link to="/concerns">Concerns</Link>
           </li>
           <li>
+            <Link to="/subscription">Subscription</Link>
+          </li>
+          <li>
             <Button
               onClick={() => {
                 localStorage.removeItem('userId');
