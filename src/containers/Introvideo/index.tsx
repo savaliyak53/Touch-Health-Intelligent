@@ -18,7 +18,7 @@ const IntroVideo = () => {
         <Title level={2}>Welcome to Touch Health Assistant</Title>
         <iframe
           className="video-iframe"
-          src={`https://www.youtube.com/embed/I42Afr-OUso`}
+          src={`https://www.youtube.com/embed/B6AaGFXa10A`}
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
