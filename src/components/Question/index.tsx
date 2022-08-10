@@ -167,7 +167,7 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
         return (
           <div className="ant-radio-group ant-radio-group-outline Options">
             {question.options.map((item: any, index: number) => (
-              <>
+              <div key={index}>
                 <label
                   className={`ant-radio-button-wrapper Option${index} ${
                     isChecked(item) ? 'ant-radio-button-wrapper-checked' : ''
@@ -186,7 +186,7 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                   <span>{item}</span>
                 </label>
                 {index % 2 !== 0 && <br />}
-              </>
+              </div>
             ))}
           </div>
         );
@@ -202,7 +202,6 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
               max={question.upper_value}
               step={question.step_value}
               tooltipVisible={question.show_values}
-              //   marks={sliderMarks}
               onChange={(value) => {
                 setValue(value);
               }}

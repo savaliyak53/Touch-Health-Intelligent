@@ -70,8 +70,28 @@ const Insights = () => {
       );
     },
   };
+  const legendMargin = {
+    id: 'legendMargin',
+    beforeInit(chart, legend, options) {
+      const fitValue = chart.legend.fit;
+      chart.legend.fit = function fit() {
+        fitValue.bind(chart.legend)();
+        return (this.height += 20);
+      };
+    },
+  };
   const options = {
     responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+        align: 'start',
+        labels: {
+          usePointStyle: true,
+          pointStyle: 'circle',
+        },
+      },
+    },
     scales: {
       x: {
         type: 'time',
@@ -228,9 +248,10 @@ const Insights = () => {
               <div className="chart-wrap">
                 <div className="chart">
                   <Line
+                    id="myChart"
                     options={options}
                     data={dataset}
-                    plugins={[dateHighlighter]}
+                    plugins={[dateHighlighter, legendMargin]}
                   />
                 </div>
               </div>

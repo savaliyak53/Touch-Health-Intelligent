@@ -79,12 +79,7 @@ const Timeline = () => {
       items={[
         {
           label: (
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={sortByUp}
-              //href="https://www.antgroup.com"
-            >
+            <a target="_blank" rel="noopener noreferrer" onClick={sortByUp}>
               Sort by Up
             </a>
           ),

@@ -141,7 +141,7 @@ const PostPreferences = () => {
   }, []);
 
   return (
-    <Layout defaultHeader={true} hamburger={false}>
+    <Layout defaultHeader={true} hamburger={true}>
       <Spin spinning={loading}>
         <div className="Content-wrap Pref">
           <h2 className="Pref-title">Preferences</h2>
