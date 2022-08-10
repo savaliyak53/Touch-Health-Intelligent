@@ -193,7 +193,7 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
       case 'slider':
         return (
           <div className="Slider-Vertical">
-            <span className="Text1">{question.upper_qualifier}</span>
+            <span className="Text1">{question.lower_qualifier}</span>
             <Slider
               className="Slider"
               vertical
@@ -207,7 +207,7 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
                 setValue(value);
               }}
             />
-            <span className="Text2">{question.lower_qualifier}</span>
+            <span className="Text2">{question.upper_qualifier}</span>
           </div>
         );
       case 'free_text':
