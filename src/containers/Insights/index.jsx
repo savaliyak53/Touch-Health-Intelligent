@@ -42,9 +42,6 @@ const Insights = () => {
   const [startDate, setForecastStartDate] = useState();
   const [lastDate, setForecastLastDate] = useState();
 
-  console.log('insights', context.insights);
-  console.log('selected insight', context.selectedInsightIndex);
-
   const [category, setCategory] = useState();
   let data = {};
   //selected Insight from localstorage is saved as [i]-[j]

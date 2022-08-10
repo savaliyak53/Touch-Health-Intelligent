@@ -42,13 +42,13 @@ function DashboardButton({
   return (
     <>
       <Button
-        key={insight?.category.name}
+        key={insight?.category.name + Math.random().toString()}
         className={`Diamond-Btn ${
           color === '394A7E' ? 'primary' : 'secondary'
         }    ${disabled ? 'disabled' : ''}`}
         style={{ opacity: highlight }}
       >
-        <div className="inner-1">
+        <div className="inner-1" key={Math.random()}>
           <a className="btn-inner" onClick={handleRedirectInsights}>
             <img
               src={`${process.env.PUBLIC_URL}/assets/mobileassets/Block-Chart-2.png`}
@@ -62,7 +62,7 @@ function DashboardButton({
           <span className="Btn-text">{insight?.category.name}</span>
         )}
         {outerButton ? '.' : <img src={image} className="Btn-img" />}
-        <div className="inner-2">
+        <div className="inner-2" key={Math.random()}>
           <a className="btn-inner" onClick={handleRedirectTimeline}>
             <img
               src={`${process.env.PUBLIC_URL}/assets/mobileassets/Diagram-2.png`}

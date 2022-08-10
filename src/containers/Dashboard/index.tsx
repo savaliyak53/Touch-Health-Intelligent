@@ -43,9 +43,8 @@ const Dashboard = () => {
         {
           i++;
         }
-        console.log('outer: ', outer, 'i:', i);
         section.push(
-          <div className="btn-group">
+          <div className="btn-group" key={Math.random().toString()}>
             <DashboardButton
               image={`${insights[outer][i - 1]?.category?.icon}`}
               disabled={false}
@@ -77,7 +76,7 @@ const Dashboard = () => {
         }
       } else {
         section.push(
-          <div className="btn-group">
+          <div className="btn-group" key={Math.random().toString()}>
             <DashboardButton
               image={`${insights[outer][i]?.category?.icon}`}
               disabled={true}
@@ -127,63 +126,63 @@ const Dashboard = () => {
         <div className="Db-wrap">
           {context?.insights && (
             <div className="dsgbtn-group">
-              <div className="btn-group">
+              <div className="btn-group" key="extraUpperButton">
                 <DashboardButton
+                  key="extraUpperButton1"
                   image=""
                   disabled={true}
                   color={`${context.insights.insights[0][0]?.category?.color}`}
                   outerButton={true}
-                  highlight={0}
                 />
                 <DashboardButton
+                  key="extraUpperButton2"
                   image=""
                   disabled={true}
                   color={`${context.insights.insights[0][0]?.category?.color}`}
                   outerButton={true}
-                  highlight={0}
                 />
               </div>
               {Dashboard()}
 
               {rowNumber % 2 == 0 ? (
-                <div className="btn-group">
+                <div className="btn-group" key="extraLowerButton">
                   <DashboardButton
+                    key="extraLowerButton1"
                     image=""
                     disabled={true}
                     color={`${context.insights.insights[0][0]?.category?.color}`}
                     outerButton={true}
-                    highlight={0}
                   />
                   <DashboardButton
+                    key="extraLowerButton2"
                     image=""
                     disabled={true}
                     color={`${context.insights.insights[0][0]?.category?.color}`}
                     outerButton={true}
-                    highlight={0}
                   />
                 </div>
               ) : (
-                <div className="btn-group">
+                <div className="btn-group" key="lowerButton">
                   <DashboardButton
+                    key="lowerButton1"
                     image=""
                     disabled={true}
                     color={`${context.insights.insights[0][0]?.category?.color}`}
                     outerButton={true}
-                    highlight={0}
                   />
                   <DashboardButton
+                    key="lowerButton2"
                     image=""
                     disabled={true}
                     color={`${context.insights.insights[0][0]?.category?.color}`}
                     outerButton={true}
-                    highlight={0}
                   />
                   <DashboardButton
+                    key="lowerButton3"
                     image=""
                     disabled={true}
                     color={`${context.insights.insights[0][0]?.category?.color}`}
                     outerButton={true}
-                    highlight={0}
                   />
                 </div>
               )}
