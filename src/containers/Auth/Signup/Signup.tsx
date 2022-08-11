@@ -11,6 +11,7 @@ import Layout from '../../../layouts/Layout/Layout';
 import { Tooltip } from 'antd';
 import './index.scss';
 import InputField from '../../../components/Input';
+import CountryCode from '../Country/CountryCode';
 type IFormInputs = {
   name: string;
   phone: string;
@@ -31,6 +32,7 @@ const SignUp = () => {
     handleSubmit,
     reset,
     getValues,
+    control,
     formState: { errors },
   } = useForm<IFormInputs>({
     mode: 'all',
@@ -42,7 +44,7 @@ const SignUp = () => {
     setIsLoading(true);
     setIsDisabled(true);
     const signUpResponse = await signUpService({
-      phone: '1' + data.phone,
+      phone: data.phone,
       name: data.name,
       password: data.password,
     });
@@ -110,54 +112,8 @@ const SignUp = () => {
               />
             </Tooltip>
           </div>
-
+          <CountryCode register={register} errors={errors} control={control} />
           <div className="input-element-wrapper">
-            <div className="flag">
-              <img
-                src={`../../assets/images/Canadian_Flag.png`}
-                alt="Canadian Flag"
-                className="Input-flag"
-              />
-              +1
-            </div>
-            <Tooltip
-              color="orange"
-              placement="bottomLeft"
-              title={errors.phone?.message}
-              visible={errors.phone ? true : false}
-            >
-              <InputField
-                className="app-Input phone"
-                id="phone"
-                placeholder="Enter phone number here"
-                type="text"
-                {...register('phone', {
-                  required: 'Phone is required',
-                  pattern: {
-                    value: /^[0-9]*$/,
-                    message: 'Please enter a valid phone number.',
-                  },
-                  maxLength: {
-                    value: 10,
-                    message: 'Phone should be maximum 10 digits.',
-                  },
-                  minLength: {
-                    value: 10,
-                    message: 'Phone requires at least 10 digits.',
-                  },
-                })}
-              />
-            </Tooltip>
-          </div>
-          <div className="input-element-wrapper">
-            <div className="flag">
-              <img
-                src={`../../assets/images/Canadian_Flag.png`}
-                alt="Canadian Flag"
-                className="Input-flag"
-              />
-              +1
-            </div>
             <Tooltip
               color="orange"
               placement="bottomLeft"
@@ -170,7 +126,7 @@ const SignUp = () => {
               }
             >
               <InputField
-                className="app-Input phone"
+                className="app-Input"
                 id="confirmPhone"
                 placeholder="Confirm your phone number here"
                 type="text"
@@ -270,3 +226,44 @@ const SignUp = () => {
 };
 
 export default SignUp;
+// import React from 'react';
+// import {   , Controller } from 'react-hook-form';
+// import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+
+// import 'react-phone-number-input/style.css';
+
+// const MyForm = () => {
+//   const {
+//     handleSubmit,
+//     formState: { errors },
+//     control,
+//   } = useForm();
+
+//   const onSubmit = (data: any) => {
+//     console.log(data);
+//   };
+//   console.log('erroe: ', errors);
+//   return (
+//     <form onSubmit={handleSubmit(onSubmit)} className="user-info-form">
+//       <div>
+//         <label htmlFor="phone">Phone Number</label>
+//         <Controller
+//           name="phone"
+//           control={control}
+//           rules={{ required: true, validate: isValidPhoneNumber }}
+//           render={({ field: { onChange, value } }) => (
+//             <PhoneInput
+//               value={value}
+//               onChange={onChange}
+//               defaultCountry="TH"
+//               id="phone"
+//             />
+//           )}
+//         />
+//         {errors.phone && <p className="error-message">Invalid Phone</p>}
+//       </div>
+//     </form>
+//   );
+// };
+
+// export default MyForm;
