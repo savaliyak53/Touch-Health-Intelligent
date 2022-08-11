@@ -3,21 +3,16 @@ import Layout from '../../layouts/Layout/Layout';
 import { Input, Select, Spin } from 'antd';
 import './index.scss';
 import Button from '../../components/Button';
+import { securityQuestions } from '../../constants';
 const { Option } = Select;
 
 const SecurityQuestions = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
 
-  const questions = [
-    {
-      id: '1',
-      text: 'question 1',
-    },
-  ];
-
   const onChange = (option: any) => {
+    setQuestion(option);
     console.log('options is', option);
   };
 
@@ -44,7 +39,7 @@ const SecurityQuestions = () => {
               optionFilterProp="children"
               onChange={onChange}
             >
-              {questions.map((item) => (
+              {securityQuestions.map((item) => (
                 <Option key={item.id} value={item.text}>
                   {item.text}
                 </Option>
@@ -61,7 +56,11 @@ const SecurityQuestions = () => {
         </div>
 
         <div className="action">
-          <Button onClick={handleSave} className="btn">
+          <Button
+            onClick={handleSave}
+            disabled={loading || !question || !answer}
+            className="btn"
+          >
             Save
           </Button>
         </div>
