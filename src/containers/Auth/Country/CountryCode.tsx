@@ -5,28 +5,22 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import './index.scss';
 interface IProps {
-  register?: any;
   errors?: any;
   control?: any;
+  fieldName?: string;
 }
-const CountryCode = ({ register, errors, control }: IProps) => {
-  const [value, setValue] = useState<any>(undefined);
-  console.log('errors', errors);
-  const handleChange = (value: any) => {
-    console.log('valy: ', value);
-    setValue(value);
-  };
-  const whitelist: any = ['WS', 'SB', 'TK', 'TO', 'TV', 'VU', 'WF', 'HK'];
+const CountryCode = ({ errors, control, fieldName }: IProps) => {
+  const whitelist: any = ['AU', 'CA', 'JM', 'IE', 'NZ', 'PK', 'ZA', 'US', 'GB'];
   return (
     <div className="input-element-wrapper">
       <Tooltip
         color="orange"
         placement="bottomLeft"
-        title={errors.phone ? 'Invalid Phone Number' : ''}
-        visible={errors.phone ? true : false}
+        title={errors ? 'Invalid Phone Number' : ''}
+        visible={errors ? true : false}
       >
         <Controller
-          name="phone"
+          name={fieldName ? fieldName : 'phone'}
           control={control}
           rules={{ required: true, validate: isValidPhoneNumber }}
           render={({ field: { onChange, value } }) => (
@@ -35,8 +29,8 @@ const CountryCode = ({ register, errors, control }: IProps) => {
               className="app-Input"
               value={value}
               onChange={onChange}
-              defaultCountry="TH"
-              id="phone"
+              defaultCountry="CA"
+              id={fieldName}
             />
           )}
         />

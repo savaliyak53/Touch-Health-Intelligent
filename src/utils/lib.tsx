@@ -17,6 +17,9 @@ export const dateFormat = (d: any) => {
   const t = new Date(d);
   return t.getDate() + '-' + monthNames[t.getMonth()] + '-' + t.getFullYear();
 };
+export const onlyNumbers = (str: string) => {
+  return str.replace(/[^\d]/g, '');
+};
 export const hardCodedresponse = {
   experiment_group: 'a',
   insights: [

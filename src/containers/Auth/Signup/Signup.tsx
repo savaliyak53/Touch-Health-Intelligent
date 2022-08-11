@@ -12,6 +12,7 @@ import { Tooltip } from 'antd';
 import './index.scss';
 import InputField from '../../../components/Input';
 import CountryCode from '../Country/CountryCode';
+import { onlyNumbers } from '../../../utils/lib';
 type IFormInputs = {
   name: string;
   phone: string;
@@ -44,7 +45,7 @@ const SignUp = () => {
     setIsLoading(true);
     setIsDisabled(true);
     const signUpResponse = await signUpService({
-      phone: data.phone,
+      phone: onlyNumbers(data.phone),
       name: data.name,
       password: data.password,
     });
@@ -112,7 +113,11 @@ const SignUp = () => {
               />
             </Tooltip>
           </div>
-          <CountryCode register={register} errors={errors} control={control} />
+          <CountryCode
+            errors={errors.phone}
+            control={control}
+            fieldName="phone"
+          />
           <div className="input-element-wrapper">
             <Tooltip
               color="orange"
@@ -134,7 +139,7 @@ const SignUp = () => {
                   required: 'Phone confirmation is required.',
                   validate: (value) => {
                     return (
-                      value === getValues('phone') ||
+                      onlyNumbers(value) === onlyNumbers(getValues('phone')) ||
                       'Phone numbers do not match'
                     );
                   },
@@ -226,44 +231,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-// import React from 'react';
-// import {   , Controller } from 'react-hook-form';
-// import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
-
-// import 'react-phone-number-input/style.css';
-
-// const MyForm = () => {
-//   const {
-//     handleSubmit,
-//     formState: { errors },
-//     control,
-//   } = useForm();
-
-//   const onSubmit = (data: any) => {
-//     console.log(data);
-//   };
-//   console.log('erroe: ', errors);
-//   return (
-//     <form onSubmit={handleSubmit(onSubmit)} className="user-info-form">
-//       <div>
-//         <label htmlFor="phone">Phone Number</label>
-//         <Controller
-//           name="phone"
-//           control={control}
-//           rules={{ required: true, validate: isValidPhoneNumber }}
-//           render={({ field: { onChange, value } }) => (
-//             <PhoneInput
-//               value={value}
-//               onChange={onChange}
-//               defaultCountry="TH"
-//               id="phone"
-//             />
-//           )}
-//         />
-//         {errors.phone && <p className="error-message">Invalid Phone</p>}
-//       </div>
-//     </form>
-//   );
-// };
-
-// export default MyForm;
