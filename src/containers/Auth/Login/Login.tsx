@@ -83,6 +83,9 @@ const Login = () => {
   const getUserInfo = (userId: string | null | undefined) => {
     getUser(userId)
       .then((response: any) => {
+        if (!response?.data?.security_questions?.length) {
+          return navigate('/security');
+        }
         if (response?.data?.preferences?.timezone) {
           getInteractionService()
             .then((response) => {
