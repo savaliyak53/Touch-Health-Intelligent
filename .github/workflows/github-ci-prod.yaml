@@ -68,4 +68,7 @@ jobs:
           aws-region: ca-central-1
       # --delete tag aggresively deletes existing components of the app
       - name: Deploy static site to S3 bucket
-        run: aws s3 sync ./build s3://touch-tha --delete 
+        run: aws s3 sync ./build s3://touch-tha --delete
+      # Ensure Cloudfront cache invalidation (regularly refreshes cache) 
+      - name: Ensure Cloudfront Cache is invalidated 
+        run: aws cloudfront create-invalidation --distribution-id E3T7YBPRT4VU4I --paths /\*  
