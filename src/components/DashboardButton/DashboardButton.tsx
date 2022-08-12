@@ -7,20 +7,16 @@ import { InsightContext } from '../../contexts/InsightContext';
 import { Buffer } from 'buffer';
 
 type Props = {
-  innerButtons: boolean;
-  image: string;
-  innerButtonImage: string;
-  disabled: boolean;
-  color: string;
-  outerButton: boolean;
+  image?: string;
+  disabled?: boolean;
+  color?: string;
+  outerButton?: boolean;
   inner?: number;
   outer?: number;
   insight?: any;
-  highlight: number;
+  highlight?: number;
 };
 function DashboardButton({
-  innerButtons,
-  innerButtonImage,
   image,
   disabled,
   color,
@@ -46,17 +42,19 @@ function DashboardButton({
   return (
     <>
       <Button
+        key={insight?.category.name + Math.random().toString()}
         className={`Diamond-Btn ${
           color === '394A7E' ? 'primary' : 'secondary'
-        }  ${highlight > 0 ? 'highlight' : ''}  ${disabled ? 'disabled' : ''}`}
+        }    ${disabled ? 'disabled' : ''}`}
+        style={{ opacity: highlight }}
       >
-        <div className="inner-1">
-          <Button className="btn-inner" onClick={handleRedirectInsights}>
+        <div className="inner-1" key={Math.random()}>
+          <a className="btn-inner" onClick={handleRedirectInsights}>
             <img
               src={`${process.env.PUBLIC_URL}/assets/mobileassets/Block-Chart-2.png`}
               alt=""
             />
-          </Button>
+          </a>
         </div>
         {outerButton ? (
           '.'
@@ -64,13 +62,13 @@ function DashboardButton({
           <span className="Btn-text">{insight?.category.name}</span>
         )}
         {outerButton ? '.' : <img src={image} className="Btn-img" />}
-        <div className="inner-2">
-          <Button className="btn-inner" onClick={handleRedirectTimeline}>
+        <div className="inner-2" key={Math.random()}>
+          <a className="btn-inner" onClick={handleRedirectTimeline}>
             <img
               src={`${process.env.PUBLIC_URL}/assets/mobileassets/Diagram-2.png`}
               alt=""
             />
-          </Button>
+          </a>
         </div>
       </Button>
     </>

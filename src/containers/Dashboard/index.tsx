@@ -13,6 +13,7 @@ const Dashboard = () => {
   }, []);
 
   let rowNumber = 0;
+  let itemPrinted = 0;
   const getInsights = async () => {
     try {
       await context?.commands?.loadInsights();
@@ -38,15 +39,13 @@ const Dashboard = () => {
       {
         rowNumber++;
       }
-      if (rowNumber % 2 == 0) {
+      if (rowNumber % 2 === 0) {
         {
           i++;
         }
         section.push(
-          <div className="btn-group">
+          <div className="btn-group" key={Math.random().toString()}>
             <DashboardButton
-              innerButtons={false}
-              innerButtonImage={`${insights[outer][i - 1]?.category?.icon}`}
               image={`${insights[outer][i - 1]?.category?.icon}`}
               disabled={false}
               color={`${insights[outer][i - 1]?.category?.color}`}
@@ -57,25 +56,28 @@ const Dashboard = () => {
               highlight={getOpacity(insights[outer][i - 1])}
             />
             <DashboardButton
-              innerButtons={false}
-              innerButtonImage={`${insights[outer][i]?.category?.icon}`}
-              image={`${insights[outer][i - 1]?.category?.icon}`}
-              disabled={false}
-              color={`${insights[outer][i - 1]?.category?.color}`}
-              outerButton={false}
-              insight={insights[outer][i - 1]}
+              image={`${insights[outer][i]?.category?.icon}`}
+              disabled={
+                insights[outer]?.length - itemPrinted === 1 ? true : false
+              }
+              color={`${insights[outer][i]?.category?.color}`}
+              outerButton={
+                insights[outer]?.length - itemPrinted === 1 ? true : false
+              }
+              insight={insights[outer][i]}
               outer={outer}
               inner={i}
-              highlight={getOpacity(insights[outer][i - 1])}
+              highlight={insights[outer][i] && getOpacity(insights[outer][i])}
             />
           </div>
         );
+        {
+          itemPrinted = itemPrinted + 2;
+        }
       } else {
         section.push(
-          <div className="btn-group">
+          <div className="btn-group" key={Math.random().toString()}>
             <DashboardButton
-              innerButtons={false}
-              innerButtonImage={`${insights[outer][i]?.category?.icon}`}
               image={`${insights[outer][i]?.category?.icon}`}
               disabled={true}
               color={`${insights[outer][i]?.category?.color}`}
@@ -83,8 +85,6 @@ const Dashboard = () => {
               highlight={getOpacity(insights[outer][i])}
             />
             <DashboardButton
-              innerButtons={false}
-              innerButtonImage={`${insights[outer][i]?.category?.icon}`}
               image={`${insights[outer][i]?.category?.icon}`}
               disabled={false}
               color={`${insights[outer][i]?.category?.color}`}
@@ -95,8 +95,6 @@ const Dashboard = () => {
               highlight={getOpacity(insights[outer][i])}
             />
             <DashboardButton
-              innerButtons={false}
-              innerButtonImage={`${insights[outer][i]?.category?.icon}`}
               image={`${insights[outer][i]?.category?.icon}`}
               disabled={true}
               color={`${insights[outer][i]?.category?.color}`}
@@ -105,8 +103,12 @@ const Dashboard = () => {
             />
           </div>
         );
+        {
+          itemPrinted = itemPrinted + 1;
+        }
       }
     }
+    itemPrinted = 0;
     return section;
   };
   const Dashboard = () => {
@@ -124,76 +126,63 @@ const Dashboard = () => {
         <div className="Db-wrap">
           {context?.insights && (
             <div className="dsgbtn-group">
-              <div className="btn-group">
+              <div className="btn-group" key="extraUpperButton">
                 <DashboardButton
-                  innerButtons={false}
-                  innerButtonImage=""
+                  key="extraUpperButton1"
                   image=""
                   disabled={true}
                   color={`${context.insights.insights[0][0]?.category?.color}`}
                   outerButton={true}
-                  highlight={0}
                 />
                 <DashboardButton
-                  innerButtons={false}
-                  innerButtonImage=""
+                  key="extraUpperButton2"
                   image=""
                   disabled={true}
                   color={`${context.insights.insights[0][0]?.category?.color}`}
                   outerButton={true}
-                  highlight={0}
                 />
               </div>
               {Dashboard()}
+
               {rowNumber % 2 == 0 ? (
-                <div className="btn-group">
+                <div className="btn-group" key="extraLowerButton">
                   <DashboardButton
-                    innerButtons={false}
-                    innerButtonImage=""
+                    key="extraLowerButton1"
                     image=""
                     disabled={true}
                     color={`${context.insights.insights[0][0]?.category?.color}`}
                     outerButton={true}
-                    highlight={0}
                   />
                   <DashboardButton
-                    innerButtons={false}
-                    innerButtonImage=""
+                    key="extraLowerButton2"
                     image=""
                     disabled={true}
                     color={`${context.insights.insights[0][0]?.category?.color}`}
                     outerButton={true}
-                    highlight={0}
                   />
                 </div>
               ) : (
-                <div className="btn-group">
+                <div className="btn-group" key="lowerButton">
                   <DashboardButton
-                    innerButtons={false}
-                    innerButtonImage=""
+                    key="lowerButton1"
                     image=""
                     disabled={true}
                     color={`${context.insights.insights[0][0]?.category?.color}`}
                     outerButton={true}
-                    highlight={0}
                   />
                   <DashboardButton
-                    innerButtons={false}
-                    innerButtonImage=""
+                    key="lowerButton2"
                     image=""
                     disabled={true}
                     color={`${context.insights.insights[0][0]?.category?.color}`}
                     outerButton={true}
-                    highlight={0}
                   />
                   <DashboardButton
-                    innerButtons={false}
-                    innerButtonImage=""
+                    key="lowerButton3"
                     image=""
                     disabled={true}
                     color={`${context.insights.insights[0][0]?.category?.color}`}
                     outerButton={true}
-                    highlight={0}
                   />
                 </div>
               )}

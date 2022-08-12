@@ -87,7 +87,14 @@ function UserCondition() {
   return (
     <Layout defaultHeader={true} hamburger={false}>
       <div className="Content-wrap Pain">
-        <Question question={question} setValue={setValue} onSubmit={onSubmit} />
+        {question && (
+          <Question
+            question={question}
+            setValue={setValue}
+            onSubmit={onSubmit}
+          />
+        )}
+
         {question?.type !== 'yes_no' ? (
           <div className="Btn-group">
             <Button

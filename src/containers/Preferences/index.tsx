@@ -45,7 +45,9 @@ const Preferences = () => {
       yob: data.yob,
       preferences: {
         minutes_per_week: data.minutesPerWeek ?? 3,
-        preferred_engagement_slots: data.timeOfDay,
+        preferred_engagement_slots: checked.map(
+          (item: any) => item[0].toLowerCase() + item.slice(1)
+        ),
         timezone: zoneVal,
       },
     };
@@ -86,10 +88,7 @@ const Preferences = () => {
     }
     return false;
   };
-  useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    //getUserInfo(userId);
-  }, []);
+
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <div className="Content-wrap Pref">
@@ -136,11 +135,6 @@ const Preferences = () => {
             </p>
           </div>
           <div className="Question">
-            <h3 className="Question-title">
-              How much communication would you like to have with your health
-              assistant?
-            </h3>
-
             <Tooltip
               title="The more time you give your health assistant, the better it gets to know your personal health, and the better it will guide you to optimal health."
               placement="topRight"
@@ -149,7 +143,8 @@ const Preferences = () => {
               visible={showTooltip}
               mouseLeaveDelay={0}
             >
-              <h5
+              <h3
+                className="Question-title"
                 onMouseEnter={() => {
                   setShowTooltip(true);
                 }}
@@ -157,11 +152,16 @@ const Preferences = () => {
                   setShowTooltip(false);
                 }}
               >
-                Tip: by enabling integrations with smart wearables and health
-                apps you may be using, your health assistant can get to know you
-                better with less communication.
-              </h5>
+                How much communication would you like to have with your health
+                assistant?
+              </h3>
             </Tooltip>
+            <h5>
+              Tip: by enabling integrations with smart wearables and health apps
+              you may be using, your health assistant can get to know you better
+              with less communication.
+            </h5>
+
             <br />
             <Controller
               control={control}
