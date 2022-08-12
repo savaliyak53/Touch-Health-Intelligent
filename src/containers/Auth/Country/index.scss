@@ -1,0 +1,13 @@
+.PhoneInputInput {
+  border: 0ch;
+  &:hover,
+  &:focus {
+    //border: 2px solid #272424;
+    background-color: #e3e3e3;
+    color: #272424;
+  }
+
+  &::placeholder {
+    color: rgba(#272424, 0.8);
+  }
+}

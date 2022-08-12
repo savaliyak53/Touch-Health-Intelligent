@@ -11,6 +11,8 @@ import Layout from '../../../layouts/Layout/Layout';
 import { Tooltip } from 'antd';
 import './index.scss';
 import InputField from '../../../components/Input';
+import CountryCode from '../Country/CountryCode';
+import { onlyNumbers } from '../../../utils/lib';
 type IFormInputs = {
   name: string;
   phone: string;
@@ -31,6 +33,7 @@ const SignUp = () => {
     handleSubmit,
     reset,
     getValues,
+    control,
     formState: { errors },
   } = useForm<IFormInputs>({
     mode: 'all',
@@ -42,7 +45,7 @@ const SignUp = () => {
     setIsLoading(true);
     setIsDisabled(true);
     const signUpResponse = await signUpService({
-      phone: '1' + data.phone,
+      phone: onlyNumbers(data.phone),
       name: data.name,
       password: data.password,
     });
@@ -110,54 +113,12 @@ const SignUp = () => {
               />
             </Tooltip>
           </div>
-
+          <CountryCode
+            errors={errors.phone}
+            control={control}
+            fieldName="phone"
+          />
           <div className="input-element-wrapper">
-            <div className="flag">
-              <img
-                src={`../../assets/images/Canadian_Flag.png`}
-                alt="Canadian Flag"
-                className="Input-flag"
-              />
-              +1
-            </div>
-            <Tooltip
-              color="orange"
-              placement="bottomLeft"
-              title={errors.phone?.message}
-              visible={errors.phone ? true : false}
-            >
-              <InputField
-                className="app-Input phone"
-                id="phone"
-                placeholder="Enter phone number here"
-                type="text"
-                {...register('phone', {
-                  required: 'Phone is required',
-                  pattern: {
-                    value: /^[0-9]*$/,
-                    message: 'Please enter a valid phone number.',
-                  },
-                  maxLength: {
-                    value: 10,
-                    message: 'Phone should be maximum 10 digits.',
-                  },
-                  minLength: {
-                    value: 10,
-                    message: 'Phone requires at least 10 digits.',
-                  },
-                })}
-              />
-            </Tooltip>
-          </div>
-          <div className="input-element-wrapper">
-            <div className="flag">
-              <img
-                src={`../../assets/images/Canadian_Flag.png`}
-                alt="Canadian Flag"
-                className="Input-flag"
-              />
-              +1
-            </div>
             <Tooltip
               color="orange"
               placement="bottomLeft"
@@ -170,7 +131,7 @@ const SignUp = () => {
               }
             >
               <InputField
-                className="app-Input phone"
+                className="app-Input"
                 id="confirmPhone"
                 placeholder="Confirm your phone number here"
                 type="text"
@@ -178,7 +139,7 @@ const SignUp = () => {
                   required: 'Phone confirmation is required.',
                   validate: (value) => {
                     return (
-                      value === getValues('phone') ||
+                      onlyNumbers(value) === onlyNumbers(getValues('phone')) ||
                       'Phone numbers do not match'
                     );
                   },

@@ -16,6 +16,9 @@ import {
 import jwt from 'jwt-decode';
 import './index.scss';
 import { Tooltip } from 'antd';
+import CountryCode from '../Country/CountryCode';
+import { ILogin } from '../../../interfaces';
+import { onlyNumbers } from '../../../utils/lib';
 
 type IFormInputs = {
   username: string;
@@ -45,6 +48,7 @@ const Login = () => {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<IFormInputs>({
     mode: 'onChange',
@@ -60,7 +64,11 @@ const Login = () => {
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     setIsLoading(true);
     setIsDisabled(true);
-    const loginResponse = await loginService(data);
+    const loginRequest: ILogin = {
+      username: onlyNumbers(data.username),
+      password: data.password,
+    };
+    const loginResponse = await loginService(loginRequest);
     if (loginResponse?.token) {
       reset();
       setIsDisabled(false);
@@ -109,34 +117,11 @@ const Login = () => {
       <div className="Auth-wrap">
         <form onSubmit={handleSubmit(onSubmit)} className="Auth-form">
           <h2 className="Auth-title">Login</h2>
-          <Tooltip
-            color="orange"
-            placement="bottomLeft"
-            title={errors.username?.message}
-            visible={errors.username ? true : false}
-          >
-            <InputField
-              className="app-Input"
-              id="username"
-              placeholder="Phone: XXXXXXXXXX"
-              type="text"
-              {...register('username', {
-                required: 'Phone is required',
-                pattern: {
-                  value: /^[0-9]*$/,
-                  message: 'Please enter a valid phone number.',
-                },
-                maxLength: {
-                  value: 11,
-                  message: 'Phone should be maximum 11 digits.',
-                },
-                minLength: {
-                  value: 11,
-                  message: 'Phone requires at least 11 digits.',
-                },
-              })}
-            />
-          </Tooltip>
+          <CountryCode
+            errors={errors.username}
+            control={control}
+            fieldName="username"
+          />
           <Tooltip
             color="orange"
             placement="bottomLeft"
