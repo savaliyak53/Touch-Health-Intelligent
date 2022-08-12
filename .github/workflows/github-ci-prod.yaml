@@ -66,5 +66,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_S3 }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_S3 }}
           aws-region: ca-central-1
+      # --delete tag aggresively deletes existing components of the app
       - name: Deploy static site to S3 bucket
-        run: aws s3 sync ./build s3://touch-tha 
+        run: aws s3 sync ./build s3://touch-tha --delete 
