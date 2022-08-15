@@ -114,7 +114,6 @@ const Login = () => {
         toast('Unknown error');
       });
   };
-
   return (
     <Layout defaultHeader={false} hamburger={false}>
       <div className="Auth-wrap">

@@ -24,7 +24,18 @@ const CountryCode = ({
   isConfirmPhone,
   phone,
 }: IProps) => {
-  const whitelist: any = ['AU', 'CA', 'JM', 'IE', 'NZ', 'PK', 'ZA', 'US', 'GB'];
+  const whitelist: any = [
+    'AU',
+    'CA',
+    'JM',
+    'IE',
+    'NL',
+    'NZ',
+    'PK',
+    'ZA',
+    'US',
+    'GB',
+  ];
   return (
     <div className="input-element-wrapper">
       <Tooltip
@@ -41,7 +52,10 @@ const CountryCode = ({
           name={fieldName ? fieldName : 'phone'}
           control={control}
           rules={{
-            required: true,
+            required: {
+              value: true,
+              message: 'Phone is required',
+            },
             validate: (value) => {
               if (fieldName === 'confirmPhone') {
                 return (
@@ -49,7 +63,7 @@ const CountryCode = ({
                   'Phone numbers do not match'
                 );
               }
-              return isValidPhoneNumber(value);
+              return isValidPhoneNumber(value) || 'Invalid Phone Number';
             },
           }}
           render={({ field: { onChange, value } }) => (

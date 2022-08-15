@@ -119,6 +119,16 @@ const Insights = () => {
   useEffect(() => {
     getSelectedInsight();
   }, []);
+  const getOpacity = (insight) => {
+    const alpha_max = 1;
+    const alpha_min = 0.25;
+    const alpha =
+      alpha_min +
+      ((insight.present_value.expectation - insight.forecast.vmin) *
+        (alpha_max - alpha_min)) /
+        (insight.forecast.vmax - insight.forecast.vmin);
+    return alpha;
+  };
 
   const calculate = (insightArray, response) => {
     const i = insightArray[0];
@@ -127,6 +137,10 @@ const Insights = () => {
     selectedInsight && setInsight(selectedInsight);
     setYAxis(selectedinsight);
     //setCategory
+    console.log(
+      'This log is for Rahmeen to test opacity of this insight tile: ',
+      getOpacity(selectedInsight)
+    );
     setCategory(selectedinsight.category.name);
     const forecastTime = selectedinsight.forecast.times.map((item) => {
       return item;

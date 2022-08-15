@@ -76,15 +76,16 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
             <Link to="/subscription">Subscription</Link>
           </li>
           <li>
-            <Button
+            <a
               onClick={() => {
                 localStorage.removeItem('userId');
                 localStorage.removeItem('token');
                 navigate('/login');
               }}
             >
+              {' '}
               Sign out
-            </Button>
+            </a>
           </li>
         </ul>
       </div>
