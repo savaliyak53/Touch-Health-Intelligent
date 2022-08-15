@@ -24,7 +24,18 @@ const CountryCode = ({
   isConfirmPhone,
   phone,
 }: IProps) => {
-  const whitelist: any = ['AU', 'CA', 'JM', 'IE', 'NZ', 'PK', 'ZA', 'US', 'GB'];
+  const whitelist: any = [
+    'AU',
+    'CA',
+    'JM',
+    'IE',
+    'NL                                               ',
+    'NZ',
+    'PK',
+    'ZA',
+    'US',
+    'GB',
+  ];
   return (
     <div className="input-element-wrapper">
       <Tooltip
