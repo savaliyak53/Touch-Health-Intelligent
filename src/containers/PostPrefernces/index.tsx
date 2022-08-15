@@ -139,7 +139,6 @@ const PostPreferences = () => {
     setloading(true);
     getUserInfo(userId);
   }, []);
-
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <Spin spinning={loading}>
@@ -150,12 +149,7 @@ const PostPreferences = () => {
               <h3 className="Question-title">
                 Check-in preferred time of day:
               </h3>
-              <div
-                className="no-bullets"
-                {...register('timeOfDay', {
-                  required: true,
-                })}
-              >
+              <div className="no-bullets">
                 {timeOfDay.map((c, i) => (
                   <div key={`${i}`}>
                     <label className="ant-checkbox-wrapper Pref-checkbox">
@@ -168,7 +162,10 @@ const PostPreferences = () => {
                           key={i}
                           id={`${c}`}
                           {...register('timeOfDay', {
-                            required: true,
+                            required: {
+                              value: checked.length > 0 ? false : true,
+                              message: 'Time of Day is required',
+                            },
                           })}
                           value={c}
                           type="checkbox"
