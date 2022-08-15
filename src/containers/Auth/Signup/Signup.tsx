@@ -10,7 +10,7 @@ import { AiOutlineEye } from 'react-icons/ai';
 import Layout from '../../../layouts/Layout/Layout';
 import { Tooltip } from 'antd';
 import './index.scss';
-import InputField from '../../../components/Input';
+
 import CountryCode from '../Country/CountryCode';
 import { onlyNumbers } from '../../../utils/lib';
 type IFormInputs = {
@@ -86,6 +86,12 @@ const SignUp = () => {
       return true;
     }
   };
+  const isConfirmPhone = () => {
+    return getValues('phone') !== getValues('confirmPhone') &&
+      errors.confirmPhone
+      ? true
+      : false;
+  };
   return (
     <Layout defaultHeader={false} hamburger={false}>
       <div className="Auth-wrap">
@@ -118,35 +124,13 @@ const SignUp = () => {
             control={control}
             fieldName="phone"
           />
-          <div className="input-element-wrapper">
-            <Tooltip
-              color="orange"
-              placement="bottomLeft"
-              title={errors.confirmPhone?.message}
-              visible={
-                getValues('phone') !== getValues('confirmPhone') &&
-                errors.confirmPhone
-                  ? true
-                  : false
-              }
-            >
-              <InputField
-                className="app-Input"
-                id="confirmPhone"
-                placeholder="Confirm your phone number here"
-                type="text"
-                {...register('confirmPhone', {
-                  required: 'Phone confirmation is required.',
-                  validate: (value) => {
-                    return (
-                      onlyNumbers(value) === onlyNumbers(getValues('phone')) ||
-                      'Phone numbers do not match'
-                    );
-                  },
-                })}
-              />
-            </Tooltip>
-          </div>
+          <CountryCode
+            errors={errors.confirmPhone}
+            control={control}
+            fieldName="confirmPhone"
+            isConfirmPhone={isConfirmPhone}
+            phone={getValues('phone')}
+          />
           <div className="input-element-wrapper-password">
             <Tooltip
               color="orange"
