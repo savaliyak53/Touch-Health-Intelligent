@@ -17,7 +17,7 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
     <>
       {/* Navigation */}
       <header className={defaultHeader ? 'Navigation' : 'Navigation bg'}>
-        <a href="#">
+        <a href="/dashboard">
           <img
             src={`${process.env.PUBLIC_URL}/assets/mobileassets/${
               defaultHeader ? 'logo-black.svg' : 'logo-white.svg'

@@ -51,8 +51,7 @@ const Login = () => {
     control,
     formState: { errors },
   } = useForm<IFormInputs>({
-    mode: 'onChange',
-    reValidateMode: 'onBlur',
+    mode: 'onSubmit',
     shouldFocusError: true,
     shouldUnregister: false,
   });
@@ -134,14 +133,6 @@ const Login = () => {
               id="password"
               {...register('password', {
                 required: 'Password is required',
-                minLength: {
-                  value: 8,
-                  message: 'Password should be of at least 8 characters.',
-                },
-                pattern: {
-                  value: /^(?=.*?[#?!@$%^&*-])/,
-                  message: 'Need a special character.',
-                },
               })}
               placeholder="Password"
               type={passwordShown ? 'text' : 'password'}

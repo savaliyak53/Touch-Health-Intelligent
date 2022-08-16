@@ -230,6 +230,7 @@ const PostPreferences = () => {
                         min={3}
                         max={15}
                         onChange={onChange}
+                        tooltipVisible={false}
                       />
 
                       <div className="Slider-range">
