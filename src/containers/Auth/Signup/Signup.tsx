@@ -36,8 +36,7 @@ const SignUp = () => {
     control,
     formState: { errors },
   } = useForm<IFormInputs>({
-    mode: 'all',
-    reValidateMode: 'onBlur',
+    mode: 'onSubmit',
     shouldFocusError: true,
     shouldUnregister: false,
   });
@@ -128,8 +127,8 @@ const SignUp = () => {
             errors={errors.confirmPhone}
             control={control}
             fieldName="confirmPhone"
-            isConfirmPhone={isConfirmPhone}
-            phone={getValues('phone')}
+            //isConfirmPhone={isConfirmPhone}
+            //phone={getValues('phone')}
           />
           <div className="input-element-wrapper-password">
             <Tooltip

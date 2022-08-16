@@ -68,6 +68,11 @@ const CountryCode = ({
           }}
           render={({ field: { onChange, value } }) => (
             <PhoneInput
+              placeholder={
+                fieldName === 'phone' || fieldName === 'username'
+                  ? 'Phone Number'
+                  : 'Confirm Phone Number'
+              }
               countries={whitelist}
               className="app-Input"
               value={value}

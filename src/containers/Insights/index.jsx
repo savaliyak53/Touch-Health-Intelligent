@@ -271,9 +271,10 @@ const Insights = () => {
               </div>
             )}
           </div>
+          {/* <To-do-Nayab> Please take tooltip data from oracle</To-do-Nayab>
           <div className="tooltip">
             <span className="link-text">?</span>
-          </div>
+          </div> */}
         </Spin>
       </Layout>
     </>
