@@ -128,7 +128,7 @@ const SignUp = () => {
             control={control}
             fieldName="confirmPhone"
             //isConfirmPhone={isConfirmPhone}
-            //phone={getValues('phone')}
+            phone={getValues('phone')}
           />
           <div className="input-element-wrapper-password">
             <Tooltip

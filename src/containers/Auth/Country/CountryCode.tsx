@@ -16,6 +16,7 @@ interface IProps {
   setCountry?: any;
   isConfirmPhone?: any;
   phone?: any;
+  disabled?: boolean;
 }
 const CountryCode = ({
   errors,
@@ -23,6 +24,7 @@ const CountryCode = ({
   fieldName,
   isConfirmPhone,
   phone,
+  disabled,
 }: IProps) => {
   const whitelist: any = [
     'AU',
@@ -41,9 +43,7 @@ const CountryCode = ({
       <Tooltip
         color="orange"
         placement="bottomLeft"
-        title={
-          errors && errors.message ? errors.message : 'Invalid Phone number'
-        }
+        title={errors?.message ?? 'Invalid Phone number'}
         visible={
           fieldName === 'confirmPhone' ? isConfirmPhone : errors ? true : false
         }
@@ -68,6 +68,7 @@ const CountryCode = ({
           }}
           render={({ field: { onChange, value } }) => (
             <PhoneInput
+              disabled={disabled}
               placeholder={
                 fieldName === 'phone' || fieldName === 'username'
                   ? 'Phone Number'

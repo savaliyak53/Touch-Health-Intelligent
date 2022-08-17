@@ -1,4 +1,4 @@
-@import './variables.scss';
+@import "./variables.scss";
 .ApplicationLayout {
   width: 100%;
   min-height: 100%;
@@ -36,7 +36,7 @@
   line-height: 27px;
   font-weight: 500;
   color: #272424;
-  font-family: 'Barlow', sans-serif;
+  font-family: "Barlow", sans-serif;
   display: flex;
   align-items: center;
   text-transform: capitalize;
@@ -302,19 +302,4 @@
     height: 100%;
     top: 50%;
   }
-}
-// .Toastify__toast--success {
-//   //background: #ffe8bc !important;
-//   //width: '10px';
-//   max-width: '5px';
-// }
-// @media only screen and (max-width: 400px) {
-//   .Toastify__toast-container {
-//     width: 100%;
-//   }
-// }
-
-.Toastify__toast-container {
-  width: 30vh;
-  margin-left: 30vh;
 }

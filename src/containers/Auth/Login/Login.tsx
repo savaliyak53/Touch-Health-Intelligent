@@ -152,6 +152,11 @@ const Login = () => {
             Login
           </Button>
         </form>
+        <div className="Auth-terms-reset">
+          <Link to="/reset-password" className="Auth-signup">
+            Reset Password?
+          </Link>
+        </div>
         <div className="Auth-terms">
           <Link to="/signup" className="Auth-signup">
             Create an Account?

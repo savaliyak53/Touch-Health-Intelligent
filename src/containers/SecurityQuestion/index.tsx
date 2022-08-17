@@ -11,6 +11,8 @@ import {
 } from '../../services/authservice';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import { RightOutlined } from '@ant-design/icons';
+
 const { Option } = Select;
 
 const SecurityQuestions = () => {
@@ -65,7 +67,7 @@ const SecurityQuestions = () => {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={true}>
+    <Layout defaultHeader={true} hamburger={false}>
       <div className="Content-wrap Con">
         <h2 className="Con-title">
           Security Question <Spin spinning={loading} />
@@ -89,7 +91,7 @@ const SecurityQuestions = () => {
                 </Option>
               ))}
             </Select>
-            {/* <RightOutlined /> */}
+            <RightOutlined />
           </div>
           <div className="Input-Wrap">
             <Input
