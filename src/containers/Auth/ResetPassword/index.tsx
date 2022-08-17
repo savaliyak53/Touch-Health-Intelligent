@@ -18,9 +18,6 @@ import InputField from '../../../components/Input';
 import CountryCode from '../Country/CountryCode';
 import { onlyNumbers } from '../../../utils/lib';
 const { Option } = Select;
-type IFormInputs = {
-  username: string;
-};
 type IRecoverFormInputs = {
   username: string;
   code: string;
@@ -52,7 +49,7 @@ const ResetPassword = () => {
     handleSubmit,
     control,
     getValues,
-    formState: { errors: errors2 },
+    formState: { errors },
   } = useForm<IRecoverFormInputs>({
     mode: 'onSubmit',
     shouldFocusError: true,
@@ -101,7 +98,7 @@ const ResetPassword = () => {
           <h2 className="Auth-title">Reset Password</h2>
           <CountryCode
             disabled={isCodeSent}
-            errors={errors2.username}
+            errors={errors.username}
             control={control}
             fieldName="username"
           />
@@ -111,8 +108,8 @@ const ResetPassword = () => {
               <Tooltip
                 color="orange"
                 placement="bottomLeft"
-                title={errors2.code?.message}
-                visible={errors2.code ? true : false}
+                title={errors.code?.message}
+                visible={errors.code ? true : false}
               >
                 <InputField
                   id="code"
@@ -128,8 +125,8 @@ const ResetPassword = () => {
                 <Tooltip
                   color="orange"
                   placement="bottomLeft"
-                  title={errors2.new_password?.message}
-                  visible={errors2.new_password ? true : false}
+                  title={errors.new_password?.message}
+                  visible={errors.new_password ? true : false}
                 >
                   <input
                     id="new_password"
