@@ -4,15 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import {
   postResetPassword,
-  requestPhoneOTP,
   resetPassword,
 } from '../../../services/authservice';
 import { toast } from 'react-toastify';
 import Button from '../../../components/Button';
-import { signUpService } from '../../../services/authservice';
 import { AiOutlineEye } from 'react-icons/ai';
 import Layout from '../../../layouts/Layout/Layout';
-import { Input, Select, Tooltip } from 'antd';
+import { Select, Tooltip } from 'antd';
 import './index.scss';
 import InputField from '../../../components/Input';
 import CountryCode from '../Country/CountryCode';
@@ -189,8 +187,6 @@ const ResetPassword = () => {
               )}
               <Button
                 onClick={handleSubmit(onSubmitRecover)}
-                //loading={isLoading}
-                //disabled={isDisabled}
                 className="Auth-submit"
                 style={{ color: 'white' }}
               >
