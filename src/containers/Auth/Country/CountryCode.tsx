@@ -58,10 +58,7 @@ const CountryCode = ({
             },
             validate: (value) => {
               if (fieldName === 'confirmPhone') {
-                return (
-                  onlyNumbers(value) === onlyNumbers(phone) ||
-                  'Phone numbers do not match'
-                );
+                return value === phone || 'Phone numbers do not match';
               }
               return isValidPhoneNumber(value) || 'Invalid Phone Number';
             },

@@ -8,11 +8,12 @@ import Button from '../../../components/Button';
 import { signUpService } from '../../../services/authservice';
 import { AiOutlineEye } from 'react-icons/ai';
 import Layout from '../../../layouts/Layout/Layout';
-import { Tooltip } from 'antd';
+import { Checkbox, Tooltip } from 'antd';
 import './index.scss';
 
 import CountryCode from '../Country/CountryCode';
 import { onlyNumbers } from '../../../utils/lib';
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 type IFormInputs = {
   name: string;
   phone: string;
@@ -27,6 +28,7 @@ const SignUp = () => {
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [termsAndConditions, setTermAndConditions] = useState(false);
 
   const {
     register,
@@ -90,6 +92,9 @@ const SignUp = () => {
       errors.confirmPhone
       ? true
       : false;
+  };
+  const onChange = (e: CheckboxChangeEvent) => {
+    setTermAndConditions(e.target.checked);
   };
   return (
     <Layout defaultHeader={false} hamburger={false}>
@@ -190,6 +195,16 @@ const SignUp = () => {
               <AiOutlineEye />
             </button>
           </div>
+          <div className="Auth-terms">
+            <Checkbox
+              id="termsAndConditions"
+              checked={termsAndConditions}
+              onChange={onChange}
+            >
+              By creating your account, you agree to the
+              <Link to="#"> Terms & Conditions</Link>
+            </Checkbox>
+          </div>
           <Button
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
@@ -202,11 +217,6 @@ const SignUp = () => {
         </form>
         <div className="Auth-terms-signup">
           <Link to="/login">Already have an account?</Link>
-        </div>
-        <div className="Auth-terms">
-          By creating your account, you agree to the
-          <br />
-          <Link to="#">Terms & Conditions</Link>
         </div>
       </div>
     </Layout>
