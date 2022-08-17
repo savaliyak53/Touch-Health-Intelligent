@@ -17,7 +17,7 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
     <>
       {/* Navigation */}
       <header className={defaultHeader ? 'Navigation' : 'Navigation bg'}>
-        <a href="#">
+        <a href="/dashboard">
           <img
             src={`${process.env.PUBLIC_URL}/assets/mobileassets/${
               defaultHeader ? 'logo-black.svg' : 'logo-white.svg'
@@ -76,15 +76,16 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
             <Link to="/subscription">Subscription</Link>
           </li>
           <li>
-            <Button
+            <a
               onClick={() => {
                 localStorage.removeItem('userId');
                 localStorage.removeItem('token');
                 navigate('/login');
               }}
             >
+              {' '}
               Sign out
-            </Button>
+            </a>
           </li>
         </ul>
       </div>

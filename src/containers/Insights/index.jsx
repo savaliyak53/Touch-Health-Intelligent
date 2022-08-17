@@ -70,8 +70,28 @@ const Insights = () => {
       );
     },
   };
+  const legendMargin = {
+    id: 'legendMargin',
+    beforeInit(chart, legend, options) {
+      const fitValue = chart.legend.fit;
+      chart.legend.fit = function fit() {
+        fitValue.bind(chart.legend)();
+        return (this.height += 20);
+      };
+    },
+  };
   const options = {
     responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+        align: 'start',
+        labels: {
+          usePointStyle: true,
+          pointStyle: 'circle',
+        },
+      },
+    },
     scales: {
       x: {
         type: 'time',
@@ -99,6 +119,16 @@ const Insights = () => {
   useEffect(() => {
     getSelectedInsight();
   }, []);
+  const getOpacity = (insight) => {
+    const alpha_max = 1;
+    const alpha_min = 0.25;
+    const alpha =
+      alpha_min +
+      ((insight.present_value.expectation - insight.forecast.vmin) *
+        (alpha_max - alpha_min)) /
+        (insight.forecast.vmax - insight.forecast.vmin);
+    return alpha;
+  };
 
   const calculate = (insightArray, response) => {
     const i = insightArray[0];
@@ -107,6 +137,10 @@ const Insights = () => {
     selectedInsight && setInsight(selectedInsight);
     setYAxis(selectedinsight);
     //setCategory
+    console.log(
+      'This log is for Rahmeen to test opacity of this insight tile: ',
+      getOpacity(selectedInsight)
+    );
     setCategory(selectedinsight.category.name);
     const forecastTime = selectedinsight.forecast.times.map((item) => {
       return item;
@@ -228,17 +262,19 @@ const Insights = () => {
               <div className="chart-wrap">
                 <div className="chart">
                   <Line
+                    id="myChart"
                     options={options}
                     data={dataset}
-                    plugins={[dateHighlighter]}
+                    plugins={[dateHighlighter, legendMargin]}
                   />
                 </div>
               </div>
             )}
           </div>
+          {/* <To-do-Nayab> Please take tooltip data from oracle</To-do-Nayab>
           <div className="tooltip">
             <span className="link-text">?</span>
-          </div>
+          </div> */}
         </Spin>
       </Layout>
     </>

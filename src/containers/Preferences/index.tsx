@@ -90,7 +90,7 @@ const Preferences = () => {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={true}>
+    <Layout defaultHeader={true} hamburger={false}>
       <div className="Content-wrap Pref">
         <h2 className="Pref-title">Preferences</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="Preferences-form">
@@ -179,6 +179,7 @@ const Preferences = () => {
                     min={3}
                     max={15}
                     onChange={onChange}
+                    tooltipVisible={false}
                   />
 
                   <div className="Slider-range">

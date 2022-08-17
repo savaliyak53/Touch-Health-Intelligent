@@ -8,9 +8,12 @@ import Button from '../../../components/Button';
 import { signUpService } from '../../../services/authservice';
 import { AiOutlineEye } from 'react-icons/ai';
 import Layout from '../../../layouts/Layout/Layout';
-import { Tooltip } from 'antd';
+import { Checkbox, Tooltip } from 'antd';
 import './index.scss';
-import InputField from '../../../components/Input';
+
+import CountryCode from '../Country/CountryCode';
+import { onlyNumbers } from '../../../utils/lib';
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 type IFormInputs = {
   name: string;
   phone: string;
@@ -25,16 +28,17 @@ const SignUp = () => {
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [termsAndConditions, setTermAndConditions] = useState(false);
 
   const {
     register,
     handleSubmit,
     reset,
     getValues,
+    control,
     formState: { errors },
   } = useForm<IFormInputs>({
-    mode: 'all',
-    reValidateMode: 'onBlur',
+    mode: 'onSubmit',
     shouldFocusError: true,
     shouldUnregister: false,
   });
@@ -42,7 +46,7 @@ const SignUp = () => {
     setIsLoading(true);
     setIsDisabled(true);
     const signUpResponse = await signUpService({
-      phone: '1' + data.phone,
+      phone: onlyNumbers(data.phone),
       name: data.name,
       password: data.password,
     });
@@ -83,6 +87,15 @@ const SignUp = () => {
       return true;
     }
   };
+  const isConfirmPhone = () => {
+    return getValues('phone') !== getValues('confirmPhone') &&
+      errors.confirmPhone
+      ? true
+      : false;
+  };
+  const onChange = (e: CheckboxChangeEvent) => {
+    setTermAndConditions(e.target.checked);
+  };
   return (
     <Layout defaultHeader={false} hamburger={false}>
       <div className="Auth-wrap">
@@ -110,82 +123,18 @@ const SignUp = () => {
               />
             </Tooltip>
           </div>
-
-          <div className="input-element-wrapper">
-            <div className="flag">
-              <img
-                src={`../../assets/images/Canadian_Flag.png`}
-                alt="Canadian Flag"
-                className="Input-flag"
-              />
-              +1
-            </div>
-            <Tooltip
-              color="orange"
-              placement="bottomLeft"
-              title={errors.phone?.message}
-              visible={errors.phone ? true : false}
-            >
-              <InputField
-                className="app-Input phone"
-                id="phone"
-                placeholder="Enter phone number here"
-                type="text"
-                {...register('phone', {
-                  required: 'Phone is required',
-                  pattern: {
-                    value: /^[0-9]*$/,
-                    message: 'Please enter a valid phone number.',
-                  },
-                  maxLength: {
-                    value: 10,
-                    message: 'Phone should be maximum 10 digits.',
-                  },
-                  minLength: {
-                    value: 10,
-                    message: 'Phone requires at least 10 digits.',
-                  },
-                })}
-              />
-            </Tooltip>
-          </div>
-          <div className="input-element-wrapper">
-            <div className="flag">
-              <img
-                src={`../../assets/images/Canadian_Flag.png`}
-                alt="Canadian Flag"
-                className="Input-flag"
-              />
-              +1
-            </div>
-            <Tooltip
-              color="orange"
-              placement="bottomLeft"
-              title={errors.confirmPhone?.message}
-              visible={
-                getValues('phone') !== getValues('confirmPhone') &&
-                errors.confirmPhone
-                  ? true
-                  : false
-              }
-            >
-              <InputField
-                className="app-Input phone"
-                id="confirmPhone"
-                placeholder="Confirm your phone number here"
-                type="text"
-                {...register('confirmPhone', {
-                  required: 'Phone confirmation is required.',
-                  validate: (value) => {
-                    return (
-                      value === getValues('phone') ||
-                      'Phone numbers do not match'
-                    );
-                  },
-                })}
-              />
-            </Tooltip>
-          </div>
+          <CountryCode
+            errors={errors.phone}
+            control={control}
+            fieldName="phone"
+          />
+          <CountryCode
+            errors={errors.confirmPhone}
+            control={control}
+            fieldName="confirmPhone"
+            isConfirmPhone={isConfirmPhone}
+            phone={getValues('phone')}
+          />
           <div className="input-element-wrapper-password">
             <Tooltip
               color="orange"
@@ -246,6 +195,16 @@ const SignUp = () => {
               <AiOutlineEye />
             </button>
           </div>
+          <div className="Auth-terms">
+            <Checkbox
+              id="termsAndConditions"
+              checked={termsAndConditions}
+              onChange={onChange}
+            >
+              By creating your account, you agree to the
+              <Link to="#"> Terms & Conditions</Link>
+            </Checkbox>
+          </div>
           <Button
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
@@ -258,11 +217,6 @@ const SignUp = () => {
         </form>
         <div className="Auth-terms-signup">
           <Link to="/login">Already have an account?</Link>
-        </div>
-        <div className="Auth-terms">
-          By creating your account, you agree to the
-          <br />
-          <Link to="#">Terms & Conditions</Link>
         </div>
       </div>
     </Layout>

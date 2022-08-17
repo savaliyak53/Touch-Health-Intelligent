@@ -16,6 +16,9 @@ import {
 import jwt from 'jwt-decode';
 import './index.scss';
 import { Tooltip } from 'antd';
+import CountryCode from '../Country/CountryCode';
+import { ILogin } from '../../../interfaces';
+import { onlyNumbers } from '../../../utils/lib';
 
 type IFormInputs = {
   username: string;
@@ -45,10 +48,10 @@ const Login = () => {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<IFormInputs>({
-    mode: 'onChange',
-    reValidateMode: 'onBlur',
+    mode: 'onSubmit',
     shouldFocusError: true,
     shouldUnregister: false,
   });
@@ -60,7 +63,11 @@ const Login = () => {
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     setIsLoading(true);
     setIsDisabled(true);
-    const loginResponse = await loginService(data);
+    const loginRequest: ILogin = {
+      username: onlyNumbers(data.username),
+      password: data.password,
+    };
+    const loginResponse = await loginService(loginRequest);
     if (loginResponse?.token) {
       reset();
       setIsDisabled(false);
@@ -83,6 +90,9 @@ const Login = () => {
   const getUserInfo = (userId: string | null | undefined) => {
     getUser(userId)
       .then((response: any) => {
+        if (!response?.data?.security_questions?.length) {
+          return navigate('/security');
+        }
         if (response?.data?.preferences?.timezone) {
           getInteractionService()
             .then((response) => {
@@ -103,40 +113,16 @@ const Login = () => {
         toast('Unknown error');
       });
   };
-
   return (
     <Layout defaultHeader={false} hamburger={false}>
       <div className="Auth-wrap">
         <form onSubmit={handleSubmit(onSubmit)} className="Auth-form">
           <h2 className="Auth-title">Login</h2>
-          <Tooltip
-            color="orange"
-            placement="bottomLeft"
-            title={errors.username?.message}
-            visible={errors.username ? true : false}
-          >
-            <InputField
-              className="app-Input"
-              id="username"
-              placeholder="Phone: XXXXXXXXXX"
-              type="text"
-              {...register('username', {
-                required: 'Phone is required',
-                pattern: {
-                  value: /^[0-9]*$/,
-                  message: 'Please enter a valid phone number.',
-                },
-                maxLength: {
-                  value: 11,
-                  message: 'Phone should be maximum 11 digits.',
-                },
-                minLength: {
-                  value: 11,
-                  message: 'Phone requires at least 11 digits.',
-                },
-              })}
-            />
-          </Tooltip>
+          <CountryCode
+            errors={errors.username}
+            control={control}
+            fieldName="username"
+          />
           <Tooltip
             color="orange"
             placement="bottomLeft"
@@ -147,14 +133,6 @@ const Login = () => {
               id="password"
               {...register('password', {
                 required: 'Password is required',
-                minLength: {
-                  value: 8,
-                  message: 'Password should be of at least 8 characters.',
-                },
-                pattern: {
-                  value: /^(?=.*?[#?!@$%^&*-])/,
-                  message: 'Need a special character.',
-                },
               })}
               placeholder="Password"
               type={passwordShown ? 'text' : 'password'}
@@ -174,6 +152,11 @@ const Login = () => {
             Login
           </Button>
         </form>
+        <div className="Auth-terms-reset">
+          <Link to="/reset-password" className="Auth-signup">
+            Reset Password?
+          </Link>
+        </div>
         <div className="Auth-terms">
           <Link to="/signup" className="Auth-signup">
             Create an Account?

@@ -1,140 +1,168 @@
 .Auth-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .Auth-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .Auth-title {
-    color: #fff;
-    font-size: 26px;
-    line-height: 36px;
-    font-weight: 700;
-    margin-bottom: 32px;
-    margin-top: clamp(0px, 7.5vh, 96px);
+  color: #fff;
+  font-size: 26px;
+  line-height: 36px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  margin-top: clamp(0px, 7.5vh, 96px);
 }
 
 .ant-btn.Auth-submit {
-    width: 100%;
-    border-radius: 100px;
-    padding: 16px 32px;
-    font-size: 24px;
-    line-height: 29px;
-    height: 100%;
-    margin-top: clamp(0px, 5.5vh, 62px);
-    background-color: rgba(#3a4a7f, 0.57);
-    border: none;
+  width: 100%;
+  border-radius: 100px;
+  padding: 16px 32px;
+  font-size: 24px;
+  line-height: 29px;
+  height: 100%;
+  margin-top: clamp(0px, 5.5vh, 62px);
+  background-color: rgba(#3a4a7f, 0.57);
+  border: none;
 
-    &:hover,
-    &:focus,
-    &:active {
-        background-color: #3a4a7f;
-    }
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #3a4a7f;
+  }
 }
 
 .Auth-forgot-wrap {
-    width: 100%;
+  width: 100%;
 }
 
 .Auth-forgot {
-    font-size: 20px;
-    line-height: 24px;
+  font-size: 20px;
+  line-height: 24px;
+  color: #fff;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: bold;
+  &:hover {
     color: #fff;
-    text-decoration: none;
-    margin-left: 20px;
-    font-weight: bold;
-    &:hover {
-        color: #fff;
-        opacity: 0.8;
-    }
+    opacity: 0.8;
+  }
 }
 
 .Auth-terms {
-    text-align: center;
-    font-size: 16px;
-    line-height: 19px;
-    color: #272424;
-    padding: 7px 30px;
-    border-radius: 100px;
-    background-color: #fff;
-    margin-bottom: 52px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 19px;
+  color: #272424;
+  padding: 7px 30px;
+  border-radius: 100px;
+  background-color: #fff;
+  margin-bottom: 52px;
 }
+
+.Auth-terms-reset {
+  text-align: center;
+  font-size: 16px;
+  line-height: 15px;
+  color: #272424;
+  padding: 7px 30px;
+  border-radius: 100px;
+  background-color: #fff;
+  margin-top: 150px;
+  margin-bottom: 5px;
+}
+
 .Auth-terms a {
-    font-size: 16px;
-    line-height: 19px;
+  font-size: 16px;
+  line-height: 19px;
+  color: #272424;
+  text-decoration: underline;
+
+  &:hover {
     color: #272424;
     text-decoration: underline;
-
-    &:hover {
-        color: #272424;
-        text-decoration: underline;
-        opacity: 0.8;
-    }
+    opacity: 0.8;
+  }
 }
-.app-Input {
-    width: 100%;
-    border-radius: 100px;
-    margin-bottom: 14px;
-    padding: 18px 20px;
-    display: block;
-    font-size: 20px;
-    line-height: 24px;
-    border: 2px solid #272424;
-    background-color: #fff;
+
+.Auth-terms-reset a {
+  font-size: 16px;
+  line-height: 19px;
+  color: #272424;
+  text-decoration: underline;
+
+  &:hover {
     color: #272424;
-    font-size: 20px;
-    line-height: 24px;
+    text-decoration: underline;
+    opacity: 0.8;
+  }
+}
 
-    &:hover,
-    &:focus {
-        border: 2px solid #272424;
-        background-color: #e3e3e3;
-        color: #272424;
-    }
+.app-Input {
+  width: 100%;
+  border-radius: 100px;
+  margin-bottom: 14px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  line-height: 24px;
+  border: 2px solid #272424;
+  background-color: #fff;
+  color: #272424;
+  font-size: 20px;
+  line-height: 24px;
 
-    &::placeholder {
-        color: rgba(#272424, 0.8);
-    }
+  &:hover,
+  &:focus {
+    border: 2px solid #272424;
+    background-color: #e3e3e3;
+    color: #272424;
+  }
+
+  &::placeholder {
+    color: rgba(#272424, 0.8);
+  }
 }
 
 .input-element-wrapper {
-    width: 100%;
+  width: 100%;
 }
 .flag {
-    padding: 0.2rem;
-    position: absolute;
-    font-size: 20px;
-    outline: none;
-    border: none;
-    background-color: transparent;
-    margin-right: -2.76rem;
-    margin-top: 19px;
-    margin-left: 4px;
+  padding: 0.2rem;
+  position: absolute;
+  font-size: 20px;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  margin-right: -2.76rem;
+  margin-top: 19px;
+  margin-left: 4px;
 }
 .Input-flag {
-    max-width: 15px;
-    height: 14px;
+  max-width: 15px;
+  height: 14px;
 }
 .phone {
-    padding-left: 3rem;
+  padding-left: 3rem;
 }
 .input-element-wrapper-password {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    &btn {
-        margin-bottom: 4px;
-    }
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  &btn {
+    margin-bottom: 4px;
+  }
 }
 .btn {
-    margin-bottom: 16px;
+  margin-bottom: 16px;
 }
