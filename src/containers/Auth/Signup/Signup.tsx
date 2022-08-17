@@ -127,7 +127,7 @@ const SignUp = () => {
             errors={errors.confirmPhone}
             control={control}
             fieldName="confirmPhone"
-            //isConfirmPhone={isConfirmPhone}
+            isConfirmPhone={isConfirmPhone}
             phone={getValues('phone')}
           />
           <div className="input-element-wrapper-password">
