@@ -39,6 +39,7 @@ const Insights = () => {
   const navigate = useNavigate();
   const userId = localStorage.getItem('userId');
   const [dataset, setDataset] = useState();
+  const [loader, setLoader] = useState(false);
   const [startDate, setForecastStartDate] = useState();
   const [lastDate, setForecastLastDate] = useState();
 
@@ -108,27 +109,19 @@ const Insights = () => {
       },
     },
   };
-  const selectedInsightIndex = localStorage.getItem('selectedInsight');
+  //const selectedInsightIndex = localStorage.getItem('selectedInsight');
   const selectedInsight = context.selectedInsight;
-  const getSelectedInsight = async () => {
+  const getSelectedInsight = async (index) => {
+    setLoader(true);
     const response = await context.commands.loadInsights();
-    const splitIndex = selectedInsightIndex && selectedInsightIndex.split('-');
+    const splitIndex = index && index.split('-');
     const insightIndex = splitIndex && splitIndex.map(Number);
     calculate(insightIndex, response);
   };
+  const selectedInsightIndex = localStorage.getItem('selectedInsight');
   useEffect(() => {
-    getSelectedInsight();
+    getSelectedInsight(selectedInsightIndex);
   }, []);
-  const getOpacity = (insight) => {
-    const alpha_max = 1;
-    const alpha_min = 0.25;
-    const alpha =
-      alpha_min +
-      ((insight.present_value.expectation - insight.forecast.vmin) *
-        (alpha_max - alpha_min)) /
-        (insight.forecast.vmax - insight.forecast.vmin);
-    return alpha;
-  };
 
   const calculate = (insightArray, response) => {
     const i = insightArray[0];
@@ -136,10 +129,6 @@ const Insights = () => {
     const selectedinsight = response.insights[i][j];
     selectedInsight && setInsight(selectedInsight);
     setYAxis(selectedinsight);
-    // console.log(
-    //   'This log is for Rahmeen to test opacity of this insight tile: ',
-    //   getOpacity(response.insights[i][j])
-    // );
     setCategory(selectedinsight.category.name);
     const forecastTime = selectedinsight.forecast.times.map((item) => {
       return item;
@@ -195,6 +184,7 @@ const Insights = () => {
     };
 
     setDataset(data);
+    setLoader(false);
   };
   const handleCategoryChange = () => {
     const splitIndex = selectedInsightIndex && selectedInsightIndex.split('-');
@@ -204,18 +194,24 @@ const Insights = () => {
     const jIndex = insightIndex[1];
     const jIndexlength = context.insights.insights[iIndex].length;
     const iIndexlength = context.insights.insights.length;
+    let exactIndex = '';
     if (jIndex < jIndexlength - 1) {
+      exactIndex = `${iIndex}-${jIndex + 1}`;
       localStorage.setItem('selectedInsight', `${iIndex}-${jIndex + 1}`);
     } else if (jIndex >= jIndexlength - 1) {
       if (iIndex < iIndexlength - 1) {
+        exactIndex = `${iIndex + 1}-${0}`;
         localStorage.setItem('selectedInsight', `${iIndex + 1}-${0}`);
       } else {
+        exactIndex = '0-0';
         localStorage.setItem('selectedInsight', `0-0`);
       }
     } else {
+      exactIndex = `${iIndex}-${jIndex}`;
       localStorage.setItem('selectedInsight', `${iIndex}-${jIndex}`);
     }
-    window.location.reload();
+    getSelectedInsight(exactIndex);
+    //window.location.reload();
   };
   const setYAxis = (selectedinsight) => {
     setVmin(selectedinsight.historical.vmin);
@@ -227,7 +223,7 @@ const Insights = () => {
   return (
     <>
       <Layout defaultHeader={true} hamburger={true} dashboard={false}>
-        <Spin spinning={!context?.insights}>
+        <Spin spinning={loader}>
           <div className="Content-wrap Analytic">
             <div className="Insite-btn" onClick={handleTimelineChange}>
               <Button>
