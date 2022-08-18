@@ -18,7 +18,7 @@ const Dashboard = () => {
     try {
       await context?.commands?.loadInsights();
     } catch (error) {
-      toast('unknown error');
+      //toast('unknown error');
     }
   };
   const getOpacity = (insight: any) => {

@@ -42,11 +42,11 @@ function PhoneVerification() {
             {' '}
             {isPhoneVerified ? (
               <p className="success-response">
-                Phone number Verified please login.{' '}
+                Phone number Verified please login ...{' '}
               </p>
             ) : (
               <p className="fail-response">
-                Invaid code please contact support,{' '}
+                Invaid code please contact support ...{' '}
               </p>
             )}{' '}
           </div>

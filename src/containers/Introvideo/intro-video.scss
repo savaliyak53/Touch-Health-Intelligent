@@ -1,22 +1,16 @@
-.intro-video {
-    padding: 20px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: url("../../../public//assets/mobileassets/background.png");
-    background-size: 100% 100%;
-    text-align: center;
-    h2 {
-        color: white !important;
-    }
-    .video-iframe {
-        width: 100%;
-    }
-    .video {
-        max-width: "100%";
-        min-width: "450px";
-        min-height: "300px";
-        padding: "16px";
-    }
+intro-video {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .video-iframe {
+    width: 100%;
+  }
+  .video {
+    max-width: '100%';
+    min-width: '450px';
+    min-height: '300px';
+    padding: '16px';
+  }
 }

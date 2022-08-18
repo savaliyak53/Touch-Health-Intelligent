@@ -148,3 +148,15 @@
     }
   }
 }
+.Burger-menu-wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(#3a4a7e, 0.5);
+  z-index: 999999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  &.display {
+    display: none;
+  }
+}
