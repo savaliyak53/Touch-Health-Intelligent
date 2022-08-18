@@ -102,8 +102,8 @@ const Login = () => {
                 navigate('/dashboard');
               }
             })
-            .catch(() => {
-              toast('unkown error');
+            .catch((error) => {
+              toast(error.response.data.details.message);
             });
         } else {
           navigate('/preferences');
