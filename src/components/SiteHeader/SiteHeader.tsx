@@ -36,6 +36,12 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
           </Button>
         </div>
       </header>
+      <div
+        className={
+          BurgerMenu ? 'Burger-menu-wrapper ' : 'Burger-menu-wrapper display'
+        }
+        onClick={() => setBurgerMenu(!BurgerMenu)}
+      ></div>
       {/* Burger/Toggle Menu */}
       <div className={BurgerMenu ? 'Burger-menu display' : 'Burger-menu'}>
         <div className="Cross-btn">
