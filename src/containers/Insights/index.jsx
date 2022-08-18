@@ -136,10 +136,10 @@ const Insights = () => {
     const selectedinsight = response.insights[i][j];
     selectedInsight && setInsight(selectedInsight);
     setYAxis(selectedinsight);
-    console.log(
-      'This log is for Rahmeen to test opacity of this insight tile: ',
-      getOpacity(response.insights[i][j])
-    );
+    // console.log(
+    //   'This log is for Rahmeen to test opacity of this insight tile: ',
+    //   getOpacity(response.insights[i][j])
+    // );
     setCategory(selectedinsight.category.name);
     const forecastTime = selectedinsight.forecast.times.map((item) => {
       return item;
