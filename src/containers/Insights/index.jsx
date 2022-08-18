@@ -126,65 +126,71 @@ const Insights = () => {
   const calculate = (insightArray, response) => {
     const i = insightArray[0];
     const j = insightArray[1];
-    const selectedinsight = response.insights[i][j];
-    selectedInsight && setInsight(selectedInsight);
-    setYAxis(selectedinsight);
-    setCategory(selectedinsight.category.name);
-    const forecastTime = selectedinsight.forecast.times.map((item) => {
-      return item;
-    });
-    setForecastStartDate(forecastTime[0]);
-    setForecastLastDate(forecastTime[forecastTime.length - 1]);
-    const historicalTime = selectedinsight.historical.times.map((item) => {
-      return item;
-    });
-    //setHistoricalData
-    const expectation = selectedinsight.historical.expectation;
-    const historicalArray = [];
-    for (let i = 0; i < expectation.length; i++) {
-      const dataArray = [];
-      dataArray.push(historicalTime[i]);
-      dataArray.push(expectation[i]);
-      historicalArray.push(dataArray);
-    }
-    //setForecastData
-    const forecast = selectedinsight.forecast.expectation;
-    const forecastArray = [];
-    for (let i = 0; i < forecast.length; i++) {
-      const dataArray = [];
-      dataArray.push(forecastTime[i]);
-      dataArray.push(forecast[i]);
-      forecastArray.push(dataArray);
-    }
-    data = {
-      datasets: [
-        {
-          label: 'Historical',
-          data: historicalArray,
-          fill: false,
-          borderColor: '#3A4A7E',
-          backgroundColor: '#3A4A7E',
-          lineTension: 0.4,
-          min: 0,
-          max: 1,
-        },
-        {
-          label: 'Forecast',
-          data: forecastArray,
-          fill: false,
-          lineTension: 0.4,
-          min: 0,
-          max: 1,
-          backgroundColor: '#FF0000',
-          segment: {
-            borderColor: '#FF0000',
+    if (response.insights[i].length) {
+      const selectedinsight = response.insights[i][j];
+      selectedInsight && setInsight(selectedInsight);
+      setYAxis(selectedinsight);
+      setCategory(selectedinsight.category.name);
+      const forecastTime = selectedinsight.forecast.times.map((item) => {
+        return item;
+      });
+      setForecastStartDate(forecastTime[0]);
+      setForecastLastDate(forecastTime[forecastTime.length - 1]);
+      const historicalTime = selectedinsight.historical.times.map((item) => {
+        return item;
+      });
+      //setHistoricalData
+      const expectation = selectedinsight.historical.expectation;
+      const historicalArray = [];
+      for (let i = 0; i < expectation.length; i++) {
+        const dataArray = [];
+        dataArray.push(historicalTime[i]);
+        dataArray.push(expectation[i]);
+        historicalArray.push(dataArray);
+      }
+      //setForecastData
+      const forecast = selectedinsight.forecast.expectation;
+      const forecastArray = [];
+      for (let i = 0; i < forecast.length; i++) {
+        const dataArray = [];
+        dataArray.push(forecastTime[i]);
+        dataArray.push(forecast[i]);
+        forecastArray.push(dataArray);
+      }
+      data = {
+        datasets: [
+          {
+            label: 'Historical',
+            data: historicalArray,
+            fill: false,
+            borderColor: '#3A4A7E',
+            backgroundColor: '#3A4A7E',
+            lineTension: 0.4,
+            min: 0,
+            max: 1,
           },
-        },
-      ],
-    };
+          {
+            label: 'Forecast',
+            data: forecastArray,
+            fill: false,
+            lineTension: 0.4,
+            min: 0,
+            max: 1,
+            backgroundColor: '#FF0000',
+            segment: {
+              borderColor: '#FF0000',
+            },
+          },
+        ],
+      };
 
-    setDataset(data);
-    setLoader(false);
+      setDataset(data);
+      setLoader(false);
+    } else {
+      setCategory('');
+      setDataset({ datasets: [] });
+      setLoader(false);
+    }
   };
   const handleCategoryChange = () => {
     const splitIndex = selectedInsightIndex && selectedInsightIndex.split('-');
