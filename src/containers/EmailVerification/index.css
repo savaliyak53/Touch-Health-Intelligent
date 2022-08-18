@@ -1,4 +1,4 @@
-.cards-video-wrapper {
+cards-video-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6,13 +6,8 @@
   height: 100vh;
   background-color: #fff;
   overflow: hidden;
-  /* background-image: url('../../images/background.png'); */
-  background-image: url('../../../public//assets/mobileassets/background.png') !important;
-  background-size: 100% 100%;
-  color: white;
-  text-align: center;
-  filter: brightness(85%);
-  /* z-index: 5; */
+  background-image: url('../../images/background.png');
+  z-index: 5;
 }
 
 .cards-video-wrapper .css-h93ljk-MuiTypography-root {
@@ -46,7 +41,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600 !important;
 }
 
 .fail-response {

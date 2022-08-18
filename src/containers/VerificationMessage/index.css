@@ -6,13 +6,8 @@
   height: 100vh;
   background-color: #fff;
   overflow: hidden;
-  /* background-image: url('../../images/background.png');
-  z-index: 5; */
-  background-image: url('../../../public//assets/mobileassets/background.png') !important;
-  background-size: 100% 100%;
-  color: white;
-  text-align: center;
-  filter: brightness(85%);
+  background-image: url('../../images/background.png');
+  z-index: 5;
 }
 
 .cards-video-wrapper .css-h93ljk-MuiTypography-root {
@@ -47,26 +42,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600 !important;
 }
 .resend-otp {
-  color: #09f0f8;
-  font-weight: 600;
   text-decoration: underline;
   cursor: pointer;
-  /* color: #0281ed; */
+  color: #0281ed;
   padding: 10px;
 }
 .resend-otp-disabled {
   cursor: none;
-  /* color: grey; */
+  color: grey;
   padding: 10px;
-  color: #ffff;
 }
 
 .resend {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white !important;
 }

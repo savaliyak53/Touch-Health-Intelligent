@@ -38,7 +38,7 @@ function PhoneVerification() {
         {phoneLoading ? (
           <p className="response">Verifying your given phone number ... </p>
         ) : (
-          <div className="competition-wrapper">
+          <div>
             {' '}
             {isPhoneVerified ? (
               <p className="success-response">
