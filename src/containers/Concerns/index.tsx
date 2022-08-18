@@ -9,7 +9,7 @@ import {
   getConcernsService,
 } from '../../services/dashboardservice';
 import { toast } from 'react-toastify';
-import { RightOutlined, SearchOutlined } from '@ant-design/icons';
+import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Input, Spin } from 'antd';
 const ManageConcerns = () => {
   const [data, setData] = useState<any>();
@@ -122,7 +122,7 @@ const ManageConcerns = () => {
               onSelect={handleOptionSelect}
             ></AutoComplete>
 
-            <RightOutlined />
+            <DownOutlined />
           </div>
 
           <div className="Switch-wrap">
