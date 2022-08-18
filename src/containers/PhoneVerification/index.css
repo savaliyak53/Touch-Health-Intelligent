@@ -1,64 +1,83 @@
 .cards-video-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100vh;
-    background-color: #fff;
-    overflow: hidden;
-    background-image: url('../../images/background.png');
-    z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #fff;
+  overflow: hidden;
+  /* background-image: url('../../images/background.png');
+  z-index: 5; */
+  background-image: url('../../../public//assets/mobileassets/background.png');
+  background-size: 100% 100%;
+  text-align: center;
 }
 
 .cards-video-wrapper .css-h93ljk-MuiTypography-root {
-    text-align: center;
-    font-size: 32px;
-    line-height: 48px;
-    color: #000;
+  text-align: center;
+  font-size: 32px;
+  line-height: 48px;
+  color: #000;
 }
 
 .cards-video-wrapper .css-1n06mrc-MuiPaper-root-MuiCard-root {
-    display: flex;
-    background-color: transparent;
-    padding: 0;
-    margin: 16px 0;
+  display: flex;
+  background-color: transparent;
+  padding: 0;
+  margin: 16px 0;
 }
 
 .action {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: '20px' !important;
-    margin-top: '20px' !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: '20px' !important;
+  margin-top: '20px' !important;
 }
 .video {
-    max-width: '100%';
-    min-width: '450px';
-    min-height: '300px';
-    padding: '16px';
+  max-width: '100%';
+  min-width: '450px';
+  min-height: '300px';
+  padding: '16px';
 }
 .response {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .fail-response {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* color: red; */
+  width: 90%;
+  background: red;
+  color: white;
+  padding-bottom: 5px;
+  border-radius: 4px;
 }
 
 .success-response {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* color: green; */
+  width: 90%;
+  background: green;
+  color: white;
+  padding-bottom: 5px;
+  border-radius: 4px;
 }
 
 .spin {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.competition-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
