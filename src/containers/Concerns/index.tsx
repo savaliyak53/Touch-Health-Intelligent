@@ -15,12 +15,11 @@ const ManageConcerns = () => {
   const [data, setData] = useState<any>();
   const [result, setResult] = useState<any>([]);
   const [loading, setLoading] = useState(true);
-
+  const [selectedValue, setSelectedValue] = useState('');
   const getConcerns = async () => {
     setLoading(true);
     getConcernsService()
       .then((response) => {
-        console.log('response is ', response);
         setLoading(false);
         setData([...response.data.concerns]);
       })
@@ -40,6 +39,7 @@ const ManageConcerns = () => {
   };
 
   const handleSearch = (value: string) => {
+    setSelectedValue(value);
     if (value) {
       setLoading(true);
       getConcernsSearch(value)
@@ -69,6 +69,7 @@ const ManageConcerns = () => {
       .then((response) => {
         setLoading(false);
         toast.success('Concerns updated successfully');
+        setSelectedValue('');
         getConcerns();
       })
       .catch((error) => {
@@ -79,6 +80,10 @@ const ManageConcerns = () => {
   };
 
   const handleOptionSelect = (value: string, option: any) => {
+    const concern = data.find((d: any) => d.concern_id === option.key);
+    if (concern) {
+      return toast('Concern already exists');
+    }
     addUpdateConcern([{ concern_id: option.key, active: true }]);
   };
 
@@ -120,6 +125,7 @@ const ManageConcerns = () => {
               placeholder="Search"
               options={result}
               onSelect={handleOptionSelect}
+              value={selectedValue}
             ></AutoComplete>
 
             <DownOutlined />
