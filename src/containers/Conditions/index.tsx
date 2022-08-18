@@ -9,7 +9,7 @@ import {
   getConditionsService,
 } from '../../services/dashboardservice';
 import { toast } from 'react-toastify';
-import { RightOutlined, SearchOutlined } from '@ant-design/icons';
+import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Spin } from 'antd';
 
 const ManageConditions = () => {
@@ -122,7 +122,7 @@ const ManageConditions = () => {
               onSelect={handleOptionSelect}
             ></AutoComplete>
 
-            <RightOutlined />
+            <DownOutlined />
           </div>
 
           <div className="Switch-wrap">
