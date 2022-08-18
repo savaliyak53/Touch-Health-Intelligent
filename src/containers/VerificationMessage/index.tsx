@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import { requestPhoneOTP } from '../../services/authservice';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
+import Layout from '../../layouts/Layout/Layout';
 
 function VerificationMessage() {
   const [phoneLoading, setPhoneLoading] = useState<boolean>(false);
@@ -23,34 +24,36 @@ function VerificationMessage() {
   };
 
   return (
-    <div className="cards-video-wrapper">
-      <div className="card-text">
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="div"
-          className="resend"
-        >
-          Welcome to Touch Health Assistant
-        </Typography>
-        <Typography
-          gutterBottom
-          variant="h6"
-          component="div"
-          className="response"
-        >
-          Please check your provided phone for verification
-        </Typography>
-        <div className="resend">
-          <span
-            className={phoneLoading ? 'resend-otp-disabled' : 'resend-otp'}
-            onClick={() => !phoneLoading && sendPhoneOTP()}
+    <Layout defaultHeader={true} hamburger={false}>
+      <div className="cards-video-wrapper">
+        <div className="card-text">
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            className="resend"
           >
-            Resend verification link on Phone.
-          </span>
+            Welcome to Touch Health Assistant
+          </Typography>
+          <Typography
+            gutterBottom
+            variant="h6"
+            component="div"
+            className="response"
+          >
+            Please check your provided phone for verification
+          </Typography>
+          <div className="resend">
+            <span
+              className={phoneLoading ? 'resend-otp-disabled' : 'resend-otp'}
+              onClick={() => !phoneLoading && sendPhoneOTP()}
+            >
+              Resend verification link on Phone.
+            </span>
+          </div>
         </div>
-      </div>
-    </div>
+      </div>{' '}
+    </Layout>
   );
 }
 export default VerificationMessage;

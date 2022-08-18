@@ -39,6 +39,7 @@ const SignUp = () => {
     formState: { errors },
   } = useForm<IFormInputs>({
     mode: 'onSubmit',
+    reValidateMode: 'onChange',
     shouldFocusError: true,
     shouldUnregister: false,
   });
