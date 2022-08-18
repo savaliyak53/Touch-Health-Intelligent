@@ -60,7 +60,7 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
               to="/insights/guideline"
               onClick={() => localStorage.setItem('selectedInsight', '0-0')}
             >
-              Insights Guideline
+              Guideline
             </Link>
           </li>
           <li>
