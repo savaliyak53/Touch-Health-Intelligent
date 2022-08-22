@@ -52,9 +52,6 @@ const SignUp = () => {
       password: data.password,
     });
     if (signUpResponse?.id) {
-      reset();
-      setIsDisabled(false);
-      setIsLoading(false);
       localStorage.setItem('userId', signUpResponse.id);
       const isOtpSent = await sendPhoneOTP();
       if (isOtpSent) {
@@ -81,8 +78,13 @@ const SignUp = () => {
     const phoneRequestResponse = await requestPhoneOTP(userId);
     if (phoneRequestResponse?.response?.data) {
       toast.error('Invalid Phone Number');
+      setIsDisabled(false);
+      setIsLoading(false);
       return false;
     } else {
+      reset();
+      setIsDisabled(false);
+      setIsLoading(false);
       toast.success('You have signed up successfully');
       toast.success('Phone verification link sent');
       return true;
