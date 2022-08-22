@@ -20,7 +20,7 @@ type IRecoverFormInputs = {
   username: string;
   code: string;
   new_password: string;
-  security_question: ISecurityQuestion;
+  security_question?: ISecurityQuestion;
 };
 type ISecurityQuestion = {
   question: string;
@@ -56,6 +56,12 @@ const ResetPassword = () => {
   const onSubmitRecover = async (data: any) => {
     if (isCodeSent) {
       data.username = onlyNumbers(getValues('username'));
+      if (question && question.length > 0) {
+        data.security_question.question = question;
+        data.security_question.answer;
+      } else {
+        data.security_question = undefined;
+      }
       data.security_question.question = question;
       data.security_question.answer;
       postResetPassword(data)
@@ -148,7 +154,7 @@ const ResetPassword = () => {
                   <AiOutlineEye />
                 </button>
               </div>
-              {resetResponse && (
+              {resetResponse && resetResponse.security_questions.length && (
                 <>
                   <div
                     className="Select-Wrap input-element-wrapper"
@@ -195,7 +201,7 @@ const ResetPassword = () => {
             </>
           )}
           <Button
-            onClick={sendCode}
+            onClick={handleSubmit(sendCode)}
             loading={isLoading}
             disabled={isDisabled}
             className="Auth-submit"

@@ -303,3 +303,28 @@
     top: 50%;
   }
 }
+
+.Cancel-btn.btn.ant-btn,
+.btn.ant-btn {
+  border-radius: 100px;
+  height: 100%;
+  padding: 18px 54px;
+  color: #fff;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  background-color: #cd6052;
+  border: 2px solid#CD6052;
+  margin: 20px auto 0;
+  max-width: 400px;
+  display: block;
+  width: 100%;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #fff;
+    color: #cd6052;
+    border-color: #cd6052;
+  }
+}
