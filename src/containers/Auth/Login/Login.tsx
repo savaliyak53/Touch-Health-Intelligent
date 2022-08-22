@@ -52,6 +52,7 @@ const Login = () => {
     formState: { errors },
   } = useForm<IFormInputs>({
     mode: 'onSubmit',
+    reValidateMode: 'onChange',
     shouldFocusError: true,
     shouldUnregister: false,
   });
@@ -102,8 +103,8 @@ const Login = () => {
                 navigate('/dashboard');
               }
             })
-            .catch(() => {
-              toast('unkown error');
+            .catch((error) => {
+              toast(error.response.data.details.message);
             });
         } else {
           navigate('/preferences');

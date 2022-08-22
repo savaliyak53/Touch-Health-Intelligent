@@ -36,6 +36,12 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
           </Button>
         </div>
       </header>
+      <div
+        className={
+          BurgerMenu ? 'Burger-menu-wrapper ' : 'Burger-menu-wrapper display'
+        }
+        onClick={() => setBurgerMenu(!BurgerMenu)}
+      ></div>
       {/* Burger/Toggle Menu */}
       <div className={BurgerMenu ? 'Burger-menu display' : 'Burger-menu'}>
         <div className="Cross-btn">
@@ -60,7 +66,7 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
               to="/insights/guideline"
               onClick={() => localStorage.setItem('selectedInsight', '0-0')}
             >
-              Insights Guideline
+              Guideline
             </Link>
           </li>
           <li>

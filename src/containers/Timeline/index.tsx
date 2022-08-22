@@ -18,27 +18,35 @@ const Timeline = () => {
   const [patterns, setPatterns] = useState<any>();
   const [category, setCategory] = useState<string>();
   const [image, setImage] = useState<string>();
+  const [loader, setLoader] = useState<boolean>();
 
   const selectedInsight = localStorage.getItem('selectedInsight');
-  const getSelectedInsight = async () => {
+  const getSelectedInsight = async (index: any) => {
+    setLoader(true);
     const response = await context?.commands.loadInsights();
-    const splitIndex = selectedInsight && selectedInsight.split('-');
+    const splitIndex = index && index.split('-');
     const insightIndex = splitIndex && splitIndex.map(Number);
     calculate(insightIndex, response);
   };
   const calculate = (insightArray: any, response: any) => {
     const i = insightArray[0];
     const j = insightArray[1];
-    const selectedinsight = response.insights[i][j];
-    selectedInsight && setInsight(selectedInsight);
-    setCategory(selectedinsight.category.name);
-    setImage(selectedinsight.category.icon);
-    //setPatternData
-    const patterns = selectedinsight.patterns;
-    setPatterns(patterns);
+    if (response.insights[i].length) {
+      const selectedinsight = response.insights[i][j];
+      selectedInsight && setInsight(selectedInsight);
+      setCategory(selectedinsight.category.name);
+      setImage(selectedinsight.category.icon);
+      //setPatternData
+      const patterns = selectedinsight.patterns;
+      setPatterns(patterns);
+      setLoader(false);
+    } else {
+      setLoader(false);
+    }
   };
+  // const selectedInsightIndex = localStorage.getItem('selectedInsight');
   useEffect(() => {
-    getSelectedInsight();
+    getSelectedInsight(selectedInsight);
   }, []);
   const handleInsightsChange = () => {
     navigate('/insights');
@@ -51,18 +59,24 @@ const Timeline = () => {
     const jIndex = insightIndex[1];
     const jIndexlength = context?.insights.insights[iIndex].length;
     const iIndexlength = context?.insights.insights.length;
+    let exactIndex = '';
     if (jIndex < jIndexlength - 1) {
+      exactIndex = `${iIndex}-${jIndex + 1}`;
       localStorage.setItem('selectedInsight', `${iIndex}-${jIndex + 1}`);
     } else if (jIndex >= jIndexlength - 1) {
       if (iIndex < iIndexlength - 1) {
+        exactIndex = `${iIndex + 1}-${0}`;
         localStorage.setItem('selectedInsight', `${iIndex + 1}-${0}`);
       } else {
+        exactIndex = '0-0';
         localStorage.setItem('selectedInsight', `0-0`);
       }
     } else {
+      exactIndex = `${iIndex}-${jIndex}`;
       localStorage.setItem('selectedInsight', `${iIndex}-${jIndex}`);
     }
-    window.location.reload();
+    getSelectedInsight(exactIndex);
+    //window.location.reload();
   };
   const sortByUp = () => {
     const up = patterns.filter((item: any) => item.direction === 'up');
@@ -99,7 +113,7 @@ const Timeline = () => {
   return (
     <>
       <Layout defaultHeader={true} hamburger={true} dashboard={false}>
-        <Spin spinning={!context?.insights}>
+        <Spin spinning={loader}>
           <div className="Content-wrap Corr">
             <div className="Insite-btn" onClick={handleInsightsChange}>
               <Button>

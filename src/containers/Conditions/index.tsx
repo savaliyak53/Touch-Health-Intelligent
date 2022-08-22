@@ -9,19 +9,19 @@ import {
   getConditionsService,
 } from '../../services/dashboardservice';
 import { toast } from 'react-toastify';
-import { RightOutlined, SearchOutlined } from '@ant-design/icons';
+import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Spin } from 'antd';
 
 const ManageConditions = () => {
   const [data, setData] = useState<any>();
   const [result, setResult] = useState<any>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedValue, setSelectedValue] = useState('');
 
   const getConditions = async () => {
     setLoading(true);
     getConditionsService()
       .then((response) => {
-        console.log('response is ', response);
         setLoading(false);
         setData([...response.data.conditions]);
       })
@@ -41,6 +41,7 @@ const ManageConditions = () => {
   };
 
   const handleSearch = (value: string) => {
+    setSelectedValue(value);
     if (value) {
       setLoading(true);
       getConditionsSearch(value)
@@ -70,6 +71,7 @@ const ManageConditions = () => {
       .then((response) => {
         setLoading(false);
         toast.success('Conditions updated successfully');
+        setSelectedValue('');
         getConditions();
       })
       .catch((error) => {
@@ -80,6 +82,10 @@ const ManageConditions = () => {
   };
 
   const handleOptionSelect = (value: string, option: any) => {
+    const condition = data.find((d: any) => d.condition_id === option.key);
+    if (condition) {
+      return toast('Condition already exists');
+    }
     addUpdateCondition([{ condition_id: option.key, active: true }]);
   };
 
@@ -102,47 +108,45 @@ const ManageConditions = () => {
   };
 
   return (
-    <>
-      <Layout defaultHeader={true} hamburger={true}>
-        <div className="Content-wrap Con">
-          <h2 className="Con-title">
-            Manage conditions <Spin spinning={loading} />
-          </h2>
-          <p className="Con-Description">
-            These are your current conditions, turn them off to remove, add a
-            new one using the search bar.
-          </p>
+    <Layout defaultHeader={true} hamburger={true}>
+      <div className="Content-wrap Con">
+        <h2 className="Con-title">
+          Manage conditions <Spin spinning={loading} />
+        </h2>
+        <p className="Con-Description">
+          These are your current conditions, turn them off to remove, add a new
+          one using the search bar.
+        </p>
 
-          <div className="Select-Wrap">
-            <SearchOutlined className="search" />
-            <AutoComplete
-              onSearch={handleSearch}
-              placeholder="Search"
-              options={result}
-              onSelect={handleOptionSelect}
-            ></AutoComplete>
+        <div className="Select-Wrap">
+          <SearchOutlined className="search" />
+          <AutoComplete
+            onSearch={handleSearch}
+            placeholder="Search"
+            options={result}
+            onSelect={handleOptionSelect}
+          ></AutoComplete>
 
-            <RightOutlined />
-          </div>
-
-          <div className="Switch-wrap">
-            <h3 className="Title">My Conditions</h3>
-            {data?.map((data: any, i: any) => (
-              <SwitchQuestion
-                key={i}
-                title={data.title}
-                text={data.text}
-                id={data.condition_id}
-                handleClose={handleClose}
-                checked={data.active}
-                handleDelete={handleDeleteCondition}
-                handleUpdate={handleUpdateCondition}
-              />
-            ))}
-          </div>
+          <DownOutlined />
         </div>
-      </Layout>
-    </>
+
+        <div className="Switch-wrap">
+          <h3 className="Title">My Conditions</h3>
+          {data?.map((data: any, i: any) => (
+            <SwitchQuestion
+              key={i}
+              title={data.title}
+              text={data.text}
+              id={data.condition_id}
+              handleClose={handleClose}
+              checked={data.active}
+              handleDelete={handleDeleteCondition}
+              handleUpdate={handleUpdateCondition}
+            />
+          ))}
+        </div>
+      </div>
+    </Layout>
   );
 };
 
