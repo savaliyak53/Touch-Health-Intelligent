@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -29,6 +29,7 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [termsAndConditions, setTermAndConditions] = useState(false);
+  const [highlight, setHighlight] = useState(false);
 
   const {
     register,
@@ -98,6 +99,7 @@ const SignUp = () => {
   };
   const onChange = (e: CheckboxChangeEvent) => {
     setTermAndConditions(e.target.checked);
+    setHighlight(false);
   };
   return (
     <Layout defaultHeader={false} hamburger={false}>
@@ -198,7 +200,9 @@ const SignUp = () => {
               <AiOutlineEye />
             </button>
           </div>
-          <div className="Auth-terms">
+          <div
+            className={`Auth-terms ${highlight === true ? `highlight` : ``}`}
+          >
             <Checkbox
               id="termsAndConditions"
               checked={termsAndConditions}
@@ -208,15 +212,30 @@ const SignUp = () => {
               <Link to="#"> Terms & Conditions</Link>
             </Checkbox>
           </div>
-          <Button
-            onClick={handleSubmit(onSubmit)}
-            loading={isLoading}
-            disabled={isDisabled}
-            className="Auth-submit"
-            style={{ color: 'white' }}
+          <div
+            onTouchStart={() => {
+              if (!termsAndConditions) {
+                setHighlight(true);
+              }
+            }}
+            onMouseOver={() => {
+              if (!termsAndConditions) {
+                setHighlight(true);
+              }
+            }}
+            onMouseLeave={() => setHighlight(false)}
+            className="Auth-submit-div"
           >
-            Sign Up
-          </Button>
+            <Button
+              onClick={handleSubmit(onSubmit)}
+              loading={isLoading}
+              disabled={isDisabled || !termsAndConditions}
+              className="Auth-submit"
+              style={{ color: 'white' }}
+            >
+              Sign Up
+            </Button>
+          </div>
         </form>
         <div className="Auth-terms-signup">
           <Link to="/login">Already have an account?</Link>
