@@ -12,6 +12,7 @@ import { AiOutlineEye } from 'react-icons/ai';
 import Layout from '../../../layouts/Layout/Layout';
 import { Select, Tooltip } from 'antd';
 import './index.scss';
+import '../index.scss';
 import InputField from '../../../components/Input';
 import CountryCode from '../Country/CountryCode';
 import { onlyNumbers } from '../../../utils/lib';
