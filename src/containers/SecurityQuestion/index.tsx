@@ -11,7 +11,7 @@ import {
 } from '../../services/authservice';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { RightOutlined } from '@ant-design/icons';
+import { DownOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
@@ -91,7 +91,7 @@ const SecurityQuestions = () => {
                 </Option>
               ))}
             </Select>
-            <RightOutlined />
+            <DownOutlined />
           </div>
           <div className="Input-Wrap">
             <Input
