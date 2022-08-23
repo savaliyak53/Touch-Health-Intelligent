@@ -15,6 +15,7 @@ import {
 } from '../../../services/authservice';
 import jwt from 'jwt-decode';
 import './index.scss';
+import '../index.scss';
 import { Tooltip } from 'antd';
 import CountryCode from '../Country/CountryCode';
 import { ILogin } from '../../../interfaces';

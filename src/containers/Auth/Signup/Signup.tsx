@@ -10,7 +10,7 @@ import { AiOutlineEye } from 'react-icons/ai';
 import Layout from '../../../layouts/Layout/Layout';
 import { Checkbox, Tooltip } from 'antd';
 import './index.scss';
-
+import '../index.scss';
 import CountryCode from '../Country/CountryCode';
 import { onlyNumbers } from '../../../utils/lib';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
@@ -231,7 +231,6 @@ const SignUp = () => {
               loading={isLoading}
               disabled={isDisabled || !termsAndConditions}
               className="Auth-submit"
-              style={{ color: 'white' }}
             >
               Sign Up
             </Button>
