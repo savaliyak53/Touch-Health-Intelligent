@@ -125,6 +125,7 @@ const ManageConditions = () => {
             placeholder="Search"
             options={result}
             onSelect={handleOptionSelect}
+            value={selectedValue}
           ></AutoComplete>
 
           <DownOutlined />
