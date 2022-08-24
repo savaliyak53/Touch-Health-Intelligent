@@ -122,7 +122,7 @@ const ManageConcerns = () => {
             <SearchOutlined className="search" />
             <AutoComplete
               onSearch={handleSearch}
-              placeholder="Search"
+              placeholder="Search Concern"
               options={result}
               onSelect={handleOptionSelect}
               value={selectedValue}

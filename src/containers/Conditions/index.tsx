@@ -122,9 +122,10 @@ const ManageConditions = () => {
           <SearchOutlined className="search" />
           <AutoComplete
             onSearch={handleSearch}
-            placeholder="Search"
+            placeholder="Search Condition"
             options={result}
             onSelect={handleOptionSelect}
+            value={selectedValue}
           ></AutoComplete>
 
           <DownOutlined />

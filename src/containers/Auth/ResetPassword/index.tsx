@@ -16,11 +16,14 @@ import '../index.scss';
 import InputField from '../../../components/Input';
 import CountryCode from '../Country/CountryCode';
 import { onlyNumbers } from '../../../utils/lib';
+import { securityQuestions } from '../../../constants';
+
 const { Option } = Select;
 type IRecoverFormInputs = {
   username: string;
   code: string;
   new_password: string;
+  confirmPassword: string;
   security_question?: ISecurityQuestion;
 };
 type ISecurityQuestion = {
@@ -35,13 +38,16 @@ const ResetPassword = () => {
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [question, setQuestion] = useState('');
   const [resetResponse, setResetResponse] = useState<any>();
-
+  const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
   const [answer, setAnswer] = useState('');
   const onChange = (option: any) => {
     setQuestion(option);
   };
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
+  };
+  const toggleConfirmPassword = () => {
+    setConfirmPasswordShown(!confirmPasswordShown);
   };
   const {
     register,
@@ -135,7 +141,7 @@ const ResetPassword = () => {
                 >
                   <input
                     id="new_password"
-                    placeholder="Enter password here"
+                    placeholder="Enter new password here"
                     type={passwordShown ? 'text' : 'password'}
                     className="app-Input"
                     {...register('new_password', {
@@ -155,49 +161,75 @@ const ResetPassword = () => {
                   <AiOutlineEye />
                 </button>
               </div>
-              {resetResponse && resetResponse.security_questions.length && (
-                <>
-                  <div
-                    className="Select-Wrap input-element-wrapper"
-                    style={{ marginBottom: '14px' }}
-                  >
-                    <Select
-                      {...register('security_question.question', {
-                        // required: 'Question is required',
-                      })}
-                      id="security_question.question"
-                      placeholder="Select a question"
-                      optionFilterProp="children"
-                      onChange={onChange}
-                    >
-                      {resetResponse.security_questions.map((item: any) => (
-                        <Option key={item.id} value={item.question}>
-                          {item.question}
-                        </Option>
-                      ))}
-                    </Select>
-                  </div>
-
-                  <div className="input-element-wrapper">
-                    <InputField
-                      id="security_question.answer"
-                      {...register('security_question.answer', {
-                        //required: 'Answer is required',
-                      })}
-                      type="text"
-                      className="app-Input"
-                      placeholder="Answer"
-                      onChange={(event: any) => setAnswer(event.target.value)}
-                    />
-                  </div>
-                </>
-              )}
+              <div className="input-element-wrapper-password">
+                <Tooltip
+                  color="orange"
+                  placement="bottomLeft"
+                  title={errors.confirmPassword?.message}
+                  visible={errors.confirmPassword ? true : false}
+                >
+                  <input
+                    id="confirmPassword"
+                    placeholder="Confirm password here"
+                    type={confirmPasswordShown ? 'text' : 'password'}
+                    className="app-Input"
+                    {...register('confirmPassword', {
+                      required: 'Confirm password is required',
+                      validate: (value: string) => {
+                        return (
+                          value === getValues('new_password') ||
+                          'Passwords do not match.'
+                        );
+                      },
+                    })}
+                  />
+                </Tooltip>
+                <button
+                  className="btn"
+                  onClick={toggleConfirmPassword}
+                  type="button"
+                >
+                  <AiOutlineEye />
+                </button>
+              </div>
+              <div
+                className="Select-Wrap input-element-wrapper"
+                style={{ marginBottom: '14px' }}
+              >
+                <Select
+                  {...register('security_question.question', {
+                    // required: 'Question is required',
+                  })}
+                  id="security_question.question"
+                  placeholder="Select a question"
+                  optionFilterProp="children"
+                  onChange={onChange}
+                >
+                  {securityQuestions.map((item: any) => (
+                    <Option key={item.id} value={item.text}>
+                      {item.text}
+                    </Option>
+                  ))}
+                </Select>
+              </div>
+              <div className="input-element-wrapper">
+                <InputField
+                  id="security_question.answer"
+                  {...register('security_question.answer', {
+                    //required: 'Answer is required',
+                  })}
+                  type="text"
+                  className="app-Input"
+                  placeholder="Answer"
+                  onChange={(event: any) => setAnswer(event.target.value)}
+                />
+              </div>
               <Button
                 onClick={handleSubmit(onSubmitRecover)}
                 className="Auth-submit"
                 style={{ color: 'white' }}
               >
-                Recover Password
+                Reset Password
               </Button>
             </>
           )}

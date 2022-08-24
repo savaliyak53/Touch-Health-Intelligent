@@ -156,7 +156,7 @@ const Login = () => {
         </form>
         <div className="Auth-terms-reset">
           <Link to="/reset-password" className="Auth-signup">
-            Reset Password?
+            Forgot Password?
           </Link>
         </div>
         <div className="Auth-terms">
