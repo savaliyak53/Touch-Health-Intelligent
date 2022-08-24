@@ -56,7 +56,7 @@ const CountryCode = ({
               value: true,
               message: 'Phone is required',
             },
-            validate: (value) => {
+            validate: (value: any) => {
               if (fieldName === 'confirmPhone') {
                 return value === phone || 'Phone numbers do not match';
               }
@@ -77,6 +77,7 @@ const CountryCode = ({
               onChange={onChange}
               defaultCountry="CA"
               id={fieldName}
+              addInternationalOption={false}
             />
           )}
         />
