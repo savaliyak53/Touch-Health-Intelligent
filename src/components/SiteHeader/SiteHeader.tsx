@@ -17,15 +17,13 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
     <>
       {/* Navigation */}
       <header className={defaultHeader ? 'Navigation' : 'Navigation bg'}>
-        <a href="/dashboard">
-          <img
-            src={`${process.env.PUBLIC_URL}/assets/mobileassets/${
-              defaultHeader ? 'logo-black.svg' : 'logo-white.svg'
-            }`}
-            alt="Touch Logo"
-            className="Layout-logo"
-          />
-        </a>
+        <img
+          src={`${process.env.PUBLIC_URL}/assets/mobileassets/${
+            defaultHeader ? 'logo-black.svg' : 'logo-white.svg'
+          }`}
+          alt="Touch Logo"
+          className="Layout-logo"
+        />
         <div className="Toggler-btn" onClick={() => setBurgerMenu(!BurgerMenu)}>
           <Button className={hamburger ? 'd-block' : 'd-none'}>
             <img
