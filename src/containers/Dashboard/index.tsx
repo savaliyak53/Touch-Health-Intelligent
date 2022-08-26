@@ -8,7 +8,6 @@ import { toast } from 'react-toastify';
 
 const Dashboard = () => {
   const context = useContext(InsightContext);
-  const [showButton, setShowButton] = useState(false);
   useEffect(() => {
     getInsights();
   }, []);
