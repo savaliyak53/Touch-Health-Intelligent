@@ -1,167 +1,172 @@
 .Diamond-Btn.ant-btn {
-    padding: 0;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 95px;
-    height: 95px;
-    border: 2px solid transparent;
-    cursor: pointer;
-    position: relative;
-    color: rgba(#394a7e, 0.5);
-    margin: 10px 20px;
-    transform: rotate(45deg);
-    opacity: 0.5;
+  padding: 0;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 95px;
+  height: 95px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  position: relative;
+  color: rgba(#394a7e, 0.5);
+  margin: 10px 20px;
+  transform: rotate(45deg);
+  opacity: 0.5;
 
-    img {
-        height: 30px;
-        width: 30px;
-        transform: rotate(-45deg);
+  img {
+    height: 30px;
+    width: 30px;
+    transform: rotate(-45deg);
 
-        path {
-            fill: #fff;
-        }
+    path {
+      fill: #fff;
     }
-    
-    .Btn-img {
-        display: block;
-    }
+  }
 
-    .Btn-text {
-        font-size: 20px;
-        line-height: 24px;
-        font-weight: 400;
-        color: #fff;
-        transform: rotate(-45deg);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: none;
-    }
+  .Btn-img {
+    display: block;
+  }
 
-    &.highlight {
-        opacity: 1;
-    }
+  .Btn-text {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    color: #fff;
+    transform: rotate(-45deg);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: none;
+  }
 
-    &:active,
-    &:focus {
-        .inner-1,
-        .inner-2 {
-            visibility: visible;
-        }
-        .Btn-img {
-            display: none;
-        }
-        .Btn-text {
-            display: block;
-        }
-    }
+  &.highlight {
+    opacity: 1;
+  }
 
-    &.primary {
-        background-color: #394a7e;
-        border-color: #394a7e;
-        &:hover {
-            background-color: #394a7e;
-            border-color: #394a7e;
-        }
-        &:active,
-        &:focus {
-            background-color: rgba(#394a7e, 0.5);
-            border-color: transparent;
-        }
-        .btn-inner {
-            background-color: #394a7e;
-            border-color: #394a7e;
-            &:hover {
-                background-color: #394a7e;
-                border-color: #394a7e;
-            }
-            &:focus,
-            &:active {
-                background-color: #394a7e;
-                border-color: #394a7e;
-                opacity: 0.5;
-            }
-        }
-    }
-
-    &.secondary {
-        background-color: #cd6052;
-        border-color: #cd6052;
-        &:hover {
-            background-color: #cd6052;
-            border-color: #cd6052;
-        }
-        &:active,
-        &:focus {
-            background-color: rgba(#cd6052, 0.5);
-            border-color: transparent;
-        }
-
-        .btn-inner {
-            background-color: #cd6052;
-            border-color: #cd6052;
-            &:focus,
-            &:active {
-                background-color: #cd6052;
-                border-color: #cd6052;
-                opacity: 0.5;
-            }
-        }
-    }
-
-    &.disabled,
-    &.disabled:hover,
-    &.disabled:active,
-    &.disabled:focus {
-        background-color: #e5ebe1;
-        border-color: #e5ebe1;
-        color: #e5ebe1;
-        opacity: 0.3;
-        cursor: default;
-
-        .inner-1,
-        .inner-2 {
-            visibility: hidden;
-        }
-    }
+  &.show,
+  &:active,
+  &:focus {
     .inner-1,
     .inner-2 {
-        position: absolute;
-        visibility: hidden;
+      visibility: visible;
     }
-    .inner-1 {
-        top: -20px;
-        right: 70px;
+    .Btn-img {
+      display: none;
     }
+    .Btn-text {
+      display: block;
+    }
+  }
 
-    .inner-2 {
-        bottom: -20px;
-        left: 70px;
+  &.primary {
+    background-color: #394a7e;
+    border-color: #394a7e;
+    &:hover {
+      background-color: #394a7e;
+      border-color: #394a7e;
+    }
+    &.show,
+    &:active,
+    &:focus {
+      background-color: rgba(#394a7e, 0.5);
+      border-color: transparent;
+    }
+    .btn-inner {
+      background-color: #394a7e;
+      border-color: #394a7e;
+      &:hover {
+        background-color: #394a7e;
+        border-color: #394a7e;
+      }
+      &.show,
+      &:focus,
+      &:active {
+        background-color: #394a7e;
+        border-color: #394a7e;
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &.secondary {
+    background-color: #cd6052;
+    border-color: #cd6052;
+    &:hover {
+      background-color: #cd6052;
+      border-color: #cd6052;
+    }
+    &.show,
+    &:active,
+    &:focus {
+      background-color: rgba(#cd6052, 0.5);
+      border-color: transparent;
     }
 
     .btn-inner {
-        background-color: #394a7e;
-        border-color: #394a7e;
-        border-radius: 100px;
-        width: 40px;
-        height: 40px;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        img {
-            height: 15px !important;
-            width: 15px !important;
-        }
-
-        &:hover,
-        &:focus,
-        &:active {
-            background-color: #394a7e;
-            border-color: #394a7e;
-            opacity: 0.5;
-        }
+      background-color: #cd6052;
+      border-color: #cd6052;
+      &.show,
+      &:focus,
+      &:active {
+        background-color: #cd6052;
+        border-color: #cd6052;
+        opacity: 0.5;
+      }
     }
+  }
+
+  &.disabled,
+  &.disabled:hover,
+  &.disabled:active,
+  &.disabled:focus {
+    background-color: #e5ebe1;
+    border-color: #e5ebe1;
+    color: #e5ebe1;
+    opacity: 0.3;
+    cursor: default;
+
+    .inner-1,
+    .inner-2 {
+      visibility: hidden;
+    }
+  }
+  .inner-1,
+  .inner-2 {
+    position: absolute;
+    visibility: hidden;
+  }
+  .inner-1 {
+    top: -20px;
+    right: 70px;
+  }
+
+  .inner-2 {
+    bottom: -20px;
+    left: 70px;
+  }
+
+  .btn-inner {
+    background-color: #394a7e;
+    border-color: #394a7e;
+    border-radius: 100px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      height: 15px !important;
+      width: 15px !important;
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #394a7e;
+      border-color: #394a7e;
+      opacity: 0.5;
+    }
+  }
 }

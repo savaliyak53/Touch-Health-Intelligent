@@ -12,10 +12,12 @@ export interface InsightContextModel {
   insights?: any;
   selectedInsight?: any;
   selectedInsightIndex?: [];
+  showButton?: string | undefined;
   commands: {
     loadInsights: () => Promise<any>;
     loadSelectedInsight: (selectedData: any) => Promise<void>;
     loadSelectedInsightIndex: (selectedIndex: any) => Promise<void>;
+    setInsightButton: any;
   };
 }
 
@@ -33,6 +35,7 @@ const InsightContextProvider = ({ children, brandId }: Props) => {
   const [insights, setInsights] = useState<any>();
   const [selectedInsight, setSelectedInsight] = useState<any>();
   const [selectedInsightIndex, setSelectedInsightIndex] = useState<any>();
+  const [showButton, setShowButton] = useState<string | undefined>();
 
   const loadInsights = async () => {
     //setIsReady(false)
@@ -52,16 +55,22 @@ const InsightContextProvider = ({ children, brandId }: Props) => {
     setSelectedInsightIndex(selectedData);
     localStorage.setItem('selectedInsight', selectedData);
   };
+  const setInsightButton = async (index: string) => {
+    setShowButton(index);
+    //localStorage.setItem('selectedInsight', selectedData);
+  };
   return (
     <InsightContext.Provider
       value={{
         insights,
         selectedInsight,
         selectedInsightIndex,
+        showButton,
         commands: {
           loadInsights,
           loadSelectedInsight,
           loadSelectedInsightIndex,
+          setInsightButton,
         },
       }}
     >
