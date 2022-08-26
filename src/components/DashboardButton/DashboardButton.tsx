@@ -51,7 +51,9 @@ function DashboardButton({
     }
   }, [context?.showButton]);
   const handleClick = () => {
-    context?.commands.setInsightButton(`${outer}-${inner}`);
+    if (!disabled) {
+      context?.commands.setInsightButton(`${outer}-${inner}`);
+    }
   };
   return (
     <>
