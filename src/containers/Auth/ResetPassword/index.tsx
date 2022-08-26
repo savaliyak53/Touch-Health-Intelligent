@@ -17,7 +17,7 @@ import InputField from '../../../components/Input';
 import CountryCode from '../Country/CountryCode';
 import { onlyNumbers } from '../../../utils/lib';
 import { securityQuestions } from '../../../constants';
-
+import { DownOutlined } from '@ant-design/icons';
 const { Option } = Select;
 type IRecoverFormInputs = {
   username: string;
@@ -126,6 +126,11 @@ const ResetPassword = () => {
                   id="code"
                   {...register('code', {
                     required: 'Code is required',
+                    maxLength: {
+                      value: 6,
+                      message:
+                        'Verification code should not be greater than 6 digits.',
+                    },
                   })}
                   placeholder="Verification Code"
                   type="number"
@@ -211,6 +216,7 @@ const ResetPassword = () => {
                     </Option>
                   ))}
                 </Select>
+                <DownOutlined />
               </div>
               <div className="input-element-wrapper">
                 <InputField
