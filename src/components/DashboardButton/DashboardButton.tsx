@@ -27,9 +27,7 @@ function DashboardButton({
   outer,
   inner,
   highlight,
-}: // onClick,
-// show,
-Props) {
+}: Props) {
   const context = useContext(InsightContext);
   const [show, setShow] = useState(false);
 
