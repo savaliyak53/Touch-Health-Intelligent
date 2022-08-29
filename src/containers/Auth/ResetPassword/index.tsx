@@ -89,15 +89,23 @@ const ResetPassword = () => {
     setIsDisabled(true);
     resetPassword(onlyNumbers(getValues('username')))
       .then((response: any) => {
-        setIsCodeSent(true);
-        setResetResponse(response);
-        setQuestion(response.security_questions[0].question);
-        toast.success('Verification Code sent');
-        setIsLoading(false);
-        setIsDisabled(false);
+        if (response && response.security_questions) {
+          setIsCodeSent(true);
+          setResetResponse(response);
+          setQuestion(response.security_questions[0].question);
+          toast.success('Verification Code sent');
+          setIsLoading(false);
+          setIsDisabled(false);
+        } else if (response.code === 'ERR_BAD_REQUEST') {
+          toast(response.response.data.details);
+          setIsLoading(false);
+          setIsDisabled(false);
+        }
       })
       .catch((error: any) => {
-        toast('Unknown error');
+        toast('unknown error');
+        setIsLoading(false);
+        setIsDisabled(false);
       });
   };
   return (
@@ -228,7 +236,7 @@ const ResetPassword = () => {
             </>
           )}
           <Button
-            onClick={handleSubmit(sendCode)}
+            onClick={isCodeSent ? sendCode : handleSubmit(onSubmitRecover)}
             loading={isLoading}
             disabled={isDisabled}
             className="Auth-submit"
