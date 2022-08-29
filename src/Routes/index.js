@@ -20,6 +20,7 @@ import ManageConcerns from '../containers/Concerns';
 import Subscription from '../containers/Subscription/Subscription';
 import SecurityQuestion from '../containers/SecurityQuestion';
 import ResetPassword from '../containers/Auth/ResetPassword';
+import TermsAndCondtions from '../containers/TermsAndConditions';
 
 const AppRoutes = () => {
   return (
@@ -38,6 +39,7 @@ const AppRoutes = () => {
           element={<PhoneVerification />}
         />
         <Route path="/security" element={<SecurityQuestion />} />
+        <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />
         {/* Protected Routes */}
         <Route element={<RequireAuth />}>
           <Route path="insights" element={<Insights />} />

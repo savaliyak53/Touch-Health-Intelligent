@@ -54,10 +54,7 @@ const SignUp = () => {
     });
     if (signUpResponse?.id) {
       localStorage.setItem('userId', signUpResponse.id);
-      const isOtpSent = await sendPhoneOTP();
-      if (isOtpSent) {
-        navigate(`/verification-message/${signUpResponse.id}`);
-      }
+      navigate(`/terms-and-conditions`);
     } else {
       setIsDisabled(false);
       setIsLoading(false);
@@ -200,41 +197,14 @@ const SignUp = () => {
               <AiOutlineEye />
             </button>
           </div>
-          <div
-            className={`Auth-terms ${highlight === true ? `highlight` : ``}`}
+          <Button
+            onClick={handleSubmit(onSubmit)}
+            loading={isLoading}
+            disabled={isDisabled}
+            className="Auth-submit"
           >
-            <Checkbox
-              id="termsAndConditions"
-              checked={termsAndConditions}
-              onChange={onChange}
-            >
-              By creating your account, you agree to the
-              <Link to="#"> Terms & Conditions</Link>
-            </Checkbox>
-          </div>
-          <div
-            onTouchStart={() => {
-              if (!termsAndConditions) {
-                setHighlight(true);
-              }
-            }}
-            onMouseOver={() => {
-              if (!termsAndConditions) {
-                setHighlight(true);
-              }
-            }}
-            onMouseLeave={() => setHighlight(false)}
-            className="Auth-submit-div"
-          >
-            <Button
-              onClick={handleSubmit(onSubmit)}
-              loading={isLoading}
-              disabled={isDisabled || !termsAndConditions}
-              className="Auth-submit"
-            >
-              Sign Up
-            </Button>
-          </div>
+            Sign Up
+          </Button>
         </form>
         <div className="Auth-terms-signup">
           <Link to="/login">Already have an account?</Link>
