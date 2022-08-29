@@ -10,15 +10,12 @@ import { toast } from 'react-toastify';
 import Button from '../../../components/Button';
 import { AiOutlineEye } from 'react-icons/ai';
 import Layout from '../../../layouts/Layout/Layout';
-import { Select, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 import './index.scss';
 import '../index.scss';
 import InputField from '../../../components/Input';
 import CountryCode from '../Country/CountryCode';
 import { onlyNumbers } from '../../../utils/lib';
-import { securityQuestions } from '../../../constants';
-
-const { Option } = Select;
 type IRecoverFormInputs = {
   username: string;
   code: string;
@@ -94,6 +91,7 @@ const ResetPassword = () => {
       .then((response: any) => {
         setIsCodeSent(true);
         setResetResponse(response);
+        setQuestion(response.security_questions[0].question);
         toast.success('Verification Code sent');
         setIsLoading(false);
         setIsDisabled(false);
@@ -126,6 +124,11 @@ const ResetPassword = () => {
                   id="code"
                   {...register('code', {
                     required: 'Code is required',
+                    maxLength: {
+                      value: 6,
+                      message:
+                        'Verification code should not be greater than 6 digits.',
+                    },
                   })}
                   placeholder="Verification Code"
                   type="number"
@@ -192,31 +195,22 @@ const ResetPassword = () => {
                   <AiOutlineEye />
                 </button>
               </div>
-              <div
-                className="Select-Wrap input-element-wrapper"
-                style={{ marginBottom: '14px' }}
-              >
-                <Select
-                  {...register('security_question.question', {
-                    // required: 'Question is required',
-                  })}
+              <div className="input-element-wrapper">
+                <InputField
                   id="security_question.question"
-                  placeholder="Select a question"
-                  optionFilterProp="children"
-                  onChange={onChange}
-                >
-                  {securityQuestions.map((item: any) => (
-                    <Option key={item.id} value={item.text}>
-                      {item.text}
-                    </Option>
-                  ))}
-                </Select>
+                  {...register('security_question.question')}
+                  type="text"
+                  className="app-Input"
+                  placeholder="Answer"
+                  value={question}
+                  disabled={true}
+                />
               </div>
               <div className="input-element-wrapper">
                 <InputField
                   id="security_question.answer"
                   {...register('security_question.answer', {
-                    //required: 'Answer is required',
+                    required: 'Answer is required',
                   })}
                   type="text"
                   className="app-Input"
