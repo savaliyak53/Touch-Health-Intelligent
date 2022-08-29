@@ -89,7 +89,16 @@ const Subscription = () => {
       .then((response) => {
         setLoading(false);
         setDisableButton(false);
-        window.location.assign(response.data.url);
+        if (
+          location.pathname === '/subscription' &&
+          response.data.status === 'active'
+        ) {
+          localStorage.removeItem('userId');
+          localStorage.removeItem('token');
+          navigate('/login');
+        } else {
+          window.location.assign(response.data.url);
+        }
       })
       .catch((error) => {
         setLoading(false);
