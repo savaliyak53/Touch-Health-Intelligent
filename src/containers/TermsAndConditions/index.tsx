@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import Typography from '@mui/material/Typography';
+import { Typography } from 'antd';
 import { useForm } from 'react-hook-form';
 import { requestPhoneOTP } from '../../services/authservice';
 import { toast } from 'react-toastify';
@@ -16,12 +16,10 @@ function TermsAndCondtions() {
   const navigate = useNavigate();
   const [termsAndConditions, setTermAndConditions] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const { Title, Paragraph } = Typography;
   const {
     register,
     handleSubmit,
-    control,
-    getValues,
     formState: { errors },
   } = useForm<ITerms>({
     mode: 'onSubmit',
@@ -31,16 +29,18 @@ function TermsAndCondtions() {
   const sendPhoneOTP = async () => {
     //api call to send email otp
     const userId = localStorage.getItem('userId');
-    const phoneRequestResponse = await requestPhoneOTP(userId);
-    if (phoneRequestResponse?.response?.data) {
-      toast.error('Invalid Phone Number');
-      setIsLoading(false);
-      return false;
-    } else {
-      setIsLoading(false);
-      toast.success('You have signed up successfully');
-      toast.success('Phone verification link sent');
-      return true;
+    if (userId) {
+      const phoneRequestResponse = await requestPhoneOTP(userId);
+      if (phoneRequestResponse?.response?.data) {
+        toast.error('Invalid Phone Number');
+        setIsLoading(false);
+        return false;
+      } else {
+        setIsLoading(false);
+        toast.success('You have signed up successfully');
+        toast.success('Phone verification link sent');
+        return true;
+      }
     }
   };
   const onSubmit = async () => {
@@ -59,20 +59,8 @@ function TermsAndCondtions() {
       <div className="container">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="div"
-              className="resend"
-            >
-              Welcome to Touch Health Assistant
-            </Typography>
-            <Typography
-              gutterBottom
-              variant="h6"
-              component="div"
-              className="response"
-            >
+            <Title level={4}>Welcome to Touch Health Assistant</Title>
+            <Paragraph>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry.Lorem Ipsum has been the industrys standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
@@ -92,7 +80,7 @@ function TermsAndCondtions() {
               containing Lorem Ipsum passages, and more recently with desktop
               publishing software like Aldus PageMaker including versions of
               Lorem Ipsum.
-            </Typography>
+            </Paragraph>
             <div className={`Auth-terms`}>
               <Checkbox
                 id="termsAndConditions"
