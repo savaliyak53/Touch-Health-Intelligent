@@ -10,12 +10,16 @@ import {
 } from '../../services/dashboardservice';
 import { toast } from 'react-toastify';
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
-import { AutoComplete, Input, Spin } from 'antd';
+import { AutoComplete, Button, Input, Spin } from 'antd';
+import { useNavigate } from 'react-router';
 const ManageConcerns = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState<any>();
   const [result, setResult] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const [selectedValue, setSelectedValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   const getConcerns = async () => {
     setLoading(true);
     getConcernsService()
@@ -104,10 +108,16 @@ const ManageConcerns = () => {
         toast.error('Something went wrong while removing the Concern', error);
       });
   };
-
+  const handleNavigate = () => {
+    setIsLoading(true);
+    navigate('/subscription');
+  };
   return (
     <>
-      <Layout defaultHeader={true} hamburger={true}>
+      <Layout
+        defaultHeader={true}
+        hamburger={location.pathname === '/concerns' ? false : true}
+      >
         <div className="Content-wrap Concerns">
           <h2 className="Concerns-title">
             Manage concerns
@@ -146,6 +156,15 @@ const ManageConcerns = () => {
               />
             ))}
           </div>
+          {location.pathname === '/concerns' && (
+            <Button
+              className="Pref-btn btn"
+              onClick={handleNavigate}
+              loading={isLoading}
+            >
+              Next
+            </Button>
+          )}
         </div>
       </Layout>
     </>

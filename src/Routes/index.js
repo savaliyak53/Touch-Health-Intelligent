@@ -49,7 +49,6 @@ const AppRoutes = () => {
           <Route path="/conditions" element={<ManageConditions />} />
           <Route path="/concerns" element={<ManageConcerns />} />
           <Route path="/questionnaire" element={<UserCondition />} />
-          <Route path="/post-preferences" element={<PostPreferences />} />
           <Route
             path="/questionnaire-submit"
             element={<ThankyouForSubmiting />}
@@ -57,6 +56,10 @@ const AppRoutes = () => {
           <Route path="/preferences" element={<Preferences />} />
           <Route path="/introvideo" element={<IntroVideo />} />
           <Route path="/subscription" element={<Subscription />} />
+          <Route path="/post-preferences" element={<PostPreferences />} />
+          <Route path="/post-conditions" element={<ManageConditions />} />
+          <Route path="/post-concerns" element={<ManageConcerns />} />
+          <Route path="/post-subscription" element={<Subscription />} />
         </Route>
       </Routes>
     </React.Suspense>

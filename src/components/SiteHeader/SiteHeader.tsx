@@ -71,13 +71,13 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
             <Link to="/post-preferences">Preferences</Link>
           </li>
           <li>
-            <Link to="/conditions">Conditions</Link>
+            <Link to="/post-conditions">Conditions</Link>
           </li>
           <li>
-            <Link to="/concerns">Concerns</Link>
+            <Link to="/post-concerns">Concerns</Link>
           </li>
           <li>
-            <Link to="/subscription">Subscription</Link>
+            <Link to="/post-subscription">Subscription</Link>
           </li>
           <li>
             <a
