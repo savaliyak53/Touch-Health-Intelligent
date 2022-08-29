@@ -2,18 +2,17 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import { Button, Spin } from 'antd';
 import './Subscription.scss';
-import { useNavigate } from 'react-router';
 import {
   checkoutPlan,
   getPlansService,
+  getSubscriptionStatus,
   getUserSubscription,
 } from '../../services/subscriptionService';
-import { Card, Carousel } from 'antd';
+import { Card, Carousel, Tag } from 'antd';
 import { toast } from 'react-toastify';
 
 const { Meta } = Card;
-
-type ISubscriptionPlan = {
+interface ISubscriptionPlan {
   id: string;
   currency: string;
   interval: string;
@@ -22,13 +21,14 @@ type ISubscriptionPlan = {
   amount: number;
   description: string | null;
   name: string;
-};
+}
 
 const Subscription = () => {
   const [plans, setPlans] = useState<ISubscriptionPlan[]>([]);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [userPlan, setUserPlan] = useState<any>({});
   const [disableButton, setDisableButton] = useState(false);
+  const [userPlanStatus, setUserPlanStatus] = useState('');
 
   const fetchPlans = () => {
     setLoading(true);
@@ -48,7 +48,7 @@ const Subscription = () => {
     getUserSubscription()
       .then((response: any) => {
         setLoading(false);
-        console.log('user subscriptions are ', response.data);
+        setUserPlan(response.data);
       })
       .catch((error) => {
         setLoading(false);
@@ -56,7 +56,18 @@ const Subscription = () => {
       });
   };
 
+  const userSubscriptionStatus = () => {
+    getSubscriptionStatus()
+      .then((response) => {
+        setUserPlanStatus(response.data.status);
+      })
+      .catch((error) => {
+        console.log('Error while getting user plan. ', error);
+      });
+  };
+
   useEffect(() => {
+    userSubscriptionStatus();
     fetchPlans();
     fetchUserSubscription();
   }, []);
@@ -73,7 +84,7 @@ const Subscription = () => {
       .catch((error) => {
         setLoading(false);
         setDisableButton(false);
-        console.log('error for plan is ', error);
+        console.log('error while subscribing ', error);
         toast.error('Something went wrong while subscribing');
       });
   };
@@ -92,6 +103,9 @@ const Subscription = () => {
                 description={
                   <div className="Question">
                     <p>{plan.description}</p>
+                    {userPlan?.plan?.id === plan.id && (
+                      <Tag color="#3a4a7e">{userPlanStatus}</Tag>
+                    )}
                     <p className="Description">
                       {plan.amount}
                       {plan.currency}/{plan.interval}
@@ -104,9 +118,15 @@ const Subscription = () => {
                       <Button
                         className="Next"
                         onClick={() => handleSubscribeClick(plan.id)}
-                        disabled={disableButton}
+                        disabled={
+                          disableButton ||
+                          loading ||
+                          userPlan?.plan?.id === plan.id
+                        }
                       >
-                        Subscribe
+                        {userPlan?.plan?.id === plan.id
+                          ? 'Subscribed'
+                          : 'Subscribe'}
                       </Button>
                     </div>
                   </div>
