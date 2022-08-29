@@ -30,7 +30,7 @@ const SecurityQuestions = () => {
     setLoading(true);
     preferencesService({ security_questions: securityQuestion }, userId)
       .then((response) => {
-        toast.success('Question saved successfully');
+        toast.success('Security Question saved successfully');
         getUserInfo(userId);
       })
       .catch((error) => {
