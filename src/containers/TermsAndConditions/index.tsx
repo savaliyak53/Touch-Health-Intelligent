@@ -26,29 +26,33 @@ function TermsAndCondtions() {
     shouldFocusError: true,
     shouldUnregister: false,
   });
-  const sendPhoneOTP = async () => {
+  const sendPhoneOTP = async (userId: any) => {
     //api call to send email otp
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      const phoneRequestResponse = await requestPhoneOTP(userId);
-      if (phoneRequestResponse?.response?.data) {
-        toast.error('Invalid Phone Number');
-        setIsLoading(false);
-        return false;
-      } else {
-        setIsLoading(false);
-        toast.success('You have signed up successfully');
-        toast.success('Phone verification link sent');
-        return true;
-      }
+
+    const phoneRequestResponse = await requestPhoneOTP(userId);
+    if (phoneRequestResponse?.response?.data) {
+      toast.error('Invalid Phone Number');
+      setIsLoading(false);
+      return false;
+    } else {
+      setIsLoading(false);
+      toast.success('You have signed up successfully');
+      toast.success('Phone verification link sent');
+      return true;
     }
   };
   const onSubmit = async () => {
     setIsLoading(true);
     const userId = localStorage.getItem('userId');
-    const isOtpSent = await sendPhoneOTP();
-    if (isOtpSent) {
-      navigate(`/verification-message/${userId}`);
+    if (userId) {
+      const isOtpSent = await sendPhoneOTP(userId);
+      if (isOtpSent) {
+        navigate(`/verification-message/${userId}`);
+      }
+    } else {
+      setIsLoading(false);
+      toast.error('Error fetching user data');
+      navigate('/signup');
     }
   };
   const onChange = (e: CheckboxChangeEvent) => {
