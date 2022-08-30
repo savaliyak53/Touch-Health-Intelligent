@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout/Layout';
 import { Input, Select, Spin } from 'antd';
 import './index.scss';
 import Button from '../../components/Button';
+import InputField from '../../components/Input';
 import { securityQuestions } from '../../constants';
 import {
   getInteractionService,
@@ -52,7 +53,6 @@ const SecurityQuestions = () => {
         </p>
 
         <div className="Switch-wrap">
-          <h3 className="Title">Question</h3>
           <div className="Select-Wrap">
             <Select
               placeholder="Select a question"
@@ -67,10 +67,13 @@ const SecurityQuestions = () => {
             </Select>
             <DownOutlined />
           </div>
-          <div className="Input-Wrap">
-            <Input
+          <div className="input-element-wrapper" style={{ marginTop: '10px' }}>
+            <InputField
               placeholder="Answer"
-              onChange={(event) => setAnswer(event.target.value)}
+              onChange={(event: {
+                target: { value: React.SetStateAction<string> };
+              }) => setAnswer(event.target.value)}
+              className="app-Input"
             />
           </div>
         </div>
@@ -80,7 +83,7 @@ const SecurityQuestions = () => {
             loading={loading}
             onClick={handleSave}
             disabled={loading || !question || !answer}
-            className="btn"
+            className="Pref-btn btn"
           >
             Save
           </Button>

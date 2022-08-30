@@ -279,6 +279,7 @@ const PostPreferences = () => {
                       picker="year"
                       format="YYYY"
                       defaultValue={moment(yob, 'YYYY')}
+                      className="Date-Select"
                     />
                   )}
                 />

@@ -21,6 +21,7 @@ const ManageConditions = () => {
   const [loading, setLoading] = useState(true);
   const [selectedValue, setSelectedValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
 
   const getConditions = async () => {
     setLoading(true);
@@ -136,9 +137,11 @@ const ManageConditions = () => {
             options={result}
             onSelect={handleOptionSelect}
             value={selectedValue}
+            open={isDropdownOpen}
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           ></AutoComplete>
 
-          <DownOutlined />
+          <DownOutlined onClick={() => setIsDropdownOpen(!isDropdownOpen)} />
         </div>
 
         <div className="Switch-wrap">
