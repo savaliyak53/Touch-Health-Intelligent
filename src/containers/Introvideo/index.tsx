@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './intro-video.scss';
-import { Card } from 'antd';
 import Button from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
 import { Typography } from 'antd';
@@ -54,7 +53,11 @@ const IntroVideo = () => {
           title="Embedded youtube"
         />
         <div className="action">
-          <Button onClick={handleRedirect} className="btn" loading={loading}>
+          <Button
+            onClick={handleRedirect}
+            className="Pref-btn btn"
+            loading={loading}
+          >
             Done
           </Button>
         </div>
