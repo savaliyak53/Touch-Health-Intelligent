@@ -19,6 +19,7 @@ const ManageConcerns = () => {
   const [loading, setLoading] = useState(true);
   const [selectedValue, setSelectedValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
 
   const getConcerns = async () => {
     setLoading(true);
@@ -118,7 +119,10 @@ const ManageConcerns = () => {
         defaultHeader={true}
         hamburger={location.pathname === '/concerns' ? false : true}
       >
-        <div className="Content-wrap Concerns">
+        <div
+          className="Content-wrap Concerns"
+          // onClick={() => setIsDropdownOpen(false)}
+        >
           <h2 className="Concerns-title">
             Manage concerns
             <Spin spinning={loading} />
@@ -136,9 +140,11 @@ const ManageConcerns = () => {
               options={result}
               onSelect={handleOptionSelect}
               value={selectedValue}
+              open={isDropdownOpen}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             ></AutoComplete>
 
-            <DownOutlined />
+            <DownOutlined onClick={() => setIsDropdownOpen(!isDropdownOpen)} />
           </div>
 
           <div className="Switch-wrap">
