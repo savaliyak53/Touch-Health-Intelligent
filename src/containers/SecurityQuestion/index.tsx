@@ -31,38 +31,12 @@ const SecurityQuestions = () => {
     preferencesService({ security_questions: securityQuestion }, userId)
       .then((response) => {
         toast.success('Security Question saved successfully');
-        getUserInfo(userId);
+        // getUserInfo(userId);
+        navigate('/introvideo');
       })
       .catch((error) => {
         setLoading(false);
         toast.error('Something went wrong while saving the Question');
-      });
-  };
-
-  const getUserInfo = (userId: string | null | undefined) => {
-    getUser(userId)
-      .then((response: any) => {
-        if (response?.data?.preferences?.timezone) {
-          getInteractionService()
-            .then((response) => {
-              if (response?.data?.question) {
-                navigate('/questionnaire');
-              } else {
-                navigate('/dashboard');
-              }
-            })
-            .catch((error) => {
-              toast('Unkown Error');
-              console.log('error occured', error);
-            });
-        } else {
-          navigate('/preferences');
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        toast('Unknown Error');
-        console.log('error occured', error);
       });
   };
 

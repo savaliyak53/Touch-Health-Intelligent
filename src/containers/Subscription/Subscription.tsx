@@ -10,6 +10,7 @@ import {
 } from '../../services/subscriptionService';
 import { Card, Carousel, Tag } from 'antd';
 import { toast } from 'react-toastify';
+import { Navigate, useNavigate } from 'react-router';
 
 const { Meta } = Card;
 interface ISubscriptionPlan {
@@ -24,6 +25,7 @@ interface ISubscriptionPlan {
 }
 
 const Subscription = () => {
+  const navigate = useNavigate();
   const [plans, setPlans] = useState<ISubscriptionPlan[]>([]);
   const [loading, setLoading] = useState(false);
   const [userPlan, setUserPlan] = useState<any>({});
@@ -60,6 +62,14 @@ const Subscription = () => {
     getSubscriptionStatus()
       .then((response) => {
         setUserPlanStatus(response.data.status);
+        if (
+          location.pathname === '/subscription' &&
+          response.data.status === 'active'
+        ) {
+          localStorage.removeItem('userId');
+          localStorage.removeItem('token');
+          navigate('/login');
+        }
       })
       .catch((error) => {
         console.log('Error while getting user plan. ', error);
@@ -79,7 +89,16 @@ const Subscription = () => {
       .then((response) => {
         setLoading(false);
         setDisableButton(false);
-        window.location.assign(response.data.url);
+        if (
+          location.pathname === '/subscription' &&
+          response.data.status === 'active'
+        ) {
+          localStorage.removeItem('userId');
+          localStorage.removeItem('token');
+          navigate('/login');
+        } else {
+          window.location.assign(response.data.url);
+        }
       })
       .catch((error) => {
         setLoading(false);
@@ -90,7 +109,11 @@ const Subscription = () => {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={true} dashboard={false}>
+    <Layout
+      defaultHeader={true}
+      hamburger={location.pathname === '/subscription' ? false : true}
+      dashboard={false}
+    >
       <div className="Content-wrap Sub">
         <h2 className="Sub-title">
           Subscription <Spin spinning={loading} />

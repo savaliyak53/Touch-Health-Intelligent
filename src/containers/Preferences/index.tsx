@@ -40,7 +40,7 @@ const Preferences = () => {
     const zoneVal = moment()
       .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
       .format('Z');
-    const prefereceData = {
+    const preferenceData = {
       sex: data.sex,
       yob: data.yob,
       preferences: {
@@ -51,11 +51,10 @@ const Preferences = () => {
         timezone: zoneVal,
       },
     };
-    console.log('prefrences ', prefereceData);
 
     setIsLoading(true);
     setIsDisabled(true);
-    preferencesService(prefereceData, userId)
+    preferencesService(preferenceData, userId)
       .then((preferencesResponse) => {
         setIsLoading(false);
         setIsDisabled(false);
@@ -71,7 +70,7 @@ const Preferences = () => {
       });
   };
   const handleRedirect = () => {
-    navigate(`/introvideo`);
+    navigate(`/conditions`);
   };
 
   const timeOfDay = ['Morning', 'Afternoon', 'Evening'];
