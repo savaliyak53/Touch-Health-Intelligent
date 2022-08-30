@@ -1,0 +1,25 @@
+.ant-tooltip-arrow {
+  display: none;
+}
+.ant-btn.verification-btn {
+  width: 100%;
+  border-radius: 100px;
+  padding: 16px 32px;
+  font-size: 24px;
+  color: white;
+  line-height: 29px;
+  height: 60%;
+  margin-top: clamp(0px, 10vh, 62px);
+  background-color: rgba(#3a4a7f, 0.57);
+  border: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #3a4a7f !important;
+  }
+
+  &:disabled {
+    background-color: rgba(#3a4a7f, 0.57) !important;
+  }
+}
