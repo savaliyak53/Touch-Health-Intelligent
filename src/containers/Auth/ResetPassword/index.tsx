@@ -32,7 +32,7 @@ const ResetPassword = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  const [isCodeSent, setIsCodeSent] = useState(false);
+  const [isCodeSent, setIsCodeSent] = useState(true);
   const [question, setQuestion] = useState('');
   const [resetResponse, setResetResponse] = useState<any>();
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
@@ -209,7 +209,7 @@ const ResetPassword = () => {
                   {...register('security_question.question')}
                   type="text"
                   className="app-Input"
-                  placeholder="Answer"
+                  placeholder="Question"
                   value={question}
                   disabled={true}
                 />
@@ -246,9 +246,9 @@ const ResetPassword = () => {
           </Button>
         </form>
 
-        <div className="Auth-terms-signup">
+        {/* <div className="Auth-terms-signup">
           <Link to="/login">Already have an account?</Link>
-        </div>
+        </div> */}
       </div>
     </Layout>
   );
