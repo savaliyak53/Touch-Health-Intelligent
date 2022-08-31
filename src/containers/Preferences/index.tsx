@@ -222,6 +222,7 @@ const Preferences = () => {
                   }
                   picker="year"
                   format="YYYY"
+                  className="Date-Select"
                 />
               )}
             />

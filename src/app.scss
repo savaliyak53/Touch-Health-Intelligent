@@ -328,3 +328,31 @@
     border-color: #cd6052;
   }
 }
+
+.ant-picker.Date-Select {
+  padding: 18px 20px;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  width: 100%;
+  border-radius: 100px;
+  border: 2px solid #272424;
+  color: rgba(#272424, 0.7);
+  max-width: 300px;
+  display: block;
+  &.ant-picker-focused,
+  &:hover,
+  &:focus,
+  &:active {
+    border: 2px solid #272424;
+    box-shadow: none;
+    background-color: #e3e3e3;
+    outline: none;
+  }
+  input {
+    font-size: 20px;
+    line-height: 24px;
+    color: rgba(#272424, 0.7);
+    font-weight: 400;
+  }
+}
