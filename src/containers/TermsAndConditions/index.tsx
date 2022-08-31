@@ -31,12 +31,11 @@ function TermsAndCondtions() {
 
     const phoneRequestResponse = await requestPhoneOTP(userId);
     if (phoneRequestResponse?.response?.data) {
-      toast.error('Invalid Phone Number');
+      toast.error(phoneRequestResponse?.response?.data.details);
       setIsLoading(false);
       return false;
     } else {
       setIsLoading(false);
-      toast.success('You have signed up successfully');
       toast.success('Phone verification link sent');
       return true;
     }
@@ -47,7 +46,7 @@ function TermsAndCondtions() {
     if (userId) {
       const isOtpSent = await sendPhoneOTP(userId);
       if (isOtpSent) {
-        navigate(`/verification-message/${userId}`);
+        navigate(`/verification-code`);
       }
     } else {
       setIsLoading(false);
@@ -111,7 +110,7 @@ function TermsAndCondtions() {
             loading={isLoading}
             onClick={handleSubmit(onSubmit)}
           >
-            Continue to Signup
+            Continue to Verification
           </Button>
         </form>
       </div>
