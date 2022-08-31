@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -10,27 +10,16 @@ import Layout from '../../../layouts/Layout/Layout';
 import { Tooltip } from 'antd';
 import './index.scss';
 import ReactCodeInput from 'react-code-input';
+import { requestPhoneOTP, verifyPhoneOTP } from '../../../services/authservice';
 type IVerificationCode = {
-  code: any;
+  code: string;
 };
 const Verification = () => {
+  const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
 
-  const [valueInput, setValueInput] = useState(false);
-  const [valid, setValid] = useState(true);
-
-  const handleValueInput = (e: any) => {
-    if (String(e).replace(/[A-Za-z]/g, '').length === 6) {
-      setValueInput(true);
-      if (e !== '222222') {
-        setValid(false);
-      } else {
-        setValid(true);
-      }
-    } else {
-      setValueInput(false);
-    }
-  };
   const {
     register,
     handleSubmit,
@@ -42,40 +31,63 @@ const Verification = () => {
     shouldFocusError: true,
     shouldUnregister: false,
   });
+  useEffect(() => {
+    if (!userId) {
+      navigate('/');
+    }
+  }, []);
   const onSubmit = async (data: any) => {
-    console.log;
+    if (userId) {
+      setIsVerifying(true);
+      const phoneVerificationResponse = await verifyPhoneOTP(data.code, userId);
+      if (phoneVerificationResponse?.is_phone_verified) {
+        setIsVerifying(false);
+        navigate('/security');
+      } else if (phoneVerificationResponse?.response?.data) {
+        toast.info(phoneVerificationResponse?.response?.data?.details);
+        setIsVerifying(false);
+      }
+    }
   };
-  console.log('errors: ', errors);
-
+  const sendPhoneOTP = async () => {
+    //api call to send phone otp
+    setIsLoading(true);
+    const phoneRequestResponse = await requestPhoneOTP(userId);
+    if (phoneRequestResponse?.response?.data) {
+      toast.error(phoneRequestResponse?.response?.data.details);
+      setIsLoading(false);
+      return false;
+    } else {
+      setIsLoading(false);
+      toast.success('Phone verification link sent');
+      return true;
+    }
+  };
   return (
     <Layout defaultHeader={false} hamburger={false}>
-      <div className="Auth-wrap">
-        <form onSubmit={handleSubmit(onSubmit)} className="Auth-form">
+      <div className="Verification-wrap">
+        <form onSubmit={handleSubmit(onSubmit)} className="Verification-form">
           <h2 className="Auth-title">Verification Code</h2>
           <Controller
             control={control}
             name="code"
             rules={{
-              required: 'Verification code is required',
               validate: (value) => {
-                return value > 2006 ? 'You must older than 16' : true;
+                return value && value.length === 6
+                  ? true
+                  : !value
+                  ? 'Verification Code is required'
+                  : 'Invalid Verification Code';
               },
             }}
             render={({ field: { onChange, onBlur, value, name, ref } }) => (
               <ReactCodeInput
-                name="code"
+                name={name}
                 inputMode="numeric"
                 fields={6}
                 type="number"
-                // {...register('code', {
-                //   //required: 'Verification Code is required',
-                //   validate: (value) => {
-                //     console.log('value: ', value);
-                //     return value > 2006 ? 'You must older than 16' : true;
-                //   },
-                // })}
-                onChange={(e) => handleValueInput(e)}
-                //isValid={valid}
+                onChange={onChange}
+                value={value}
               />
             )}
           />
@@ -86,11 +98,21 @@ const Verification = () => {
             title={errors.code?.message}
             visible={errors.code ? true : false}
           />
-          {/* {valueInput ? 'ee' : null} */}
-          <Button onClick={handleSubmit(onSubmit)} className="verification-btn">
-            Reset Password
+          <Button
+            onClick={handleSubmit(onSubmit)}
+            className="verification-btn"
+            loading={isVerifying}
+          >
+            Verify
           </Button>
         </form>
+        <Button
+          onClick={sendPhoneOTP}
+          className="resendotp-btn"
+          loading={isLoading}
+        >
+          Resend Otp
+        </Button>
       </div>
     </Layout>
   );
