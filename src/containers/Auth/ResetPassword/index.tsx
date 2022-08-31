@@ -209,7 +209,7 @@ const ResetPassword = () => {
                   {...register('security_question.question')}
                   type="text"
                   className="app-Input"
-                  placeholder="Answer"
+                  placeholder="Question"
                   value={question}
                   disabled={true}
                 />
@@ -245,10 +245,6 @@ const ResetPassword = () => {
             {isCodeSent ? 'Resend Code' : 'Send Code'}
           </Button>
         </form>
-
-        <div className="Auth-terms-signup">
-          <Link to="/login">Already have an account?</Link>
-        </div>
       </div>
     </Layout>
   );
