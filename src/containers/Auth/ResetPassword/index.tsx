@@ -32,7 +32,7 @@ const ResetPassword = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  const [isCodeSent, setIsCodeSent] = useState(true);
+  const [isCodeSent, setIsCodeSent] = useState(false);
   const [question, setQuestion] = useState('');
   const [resetResponse, setResetResponse] = useState<any>();
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
@@ -245,10 +245,6 @@ const ResetPassword = () => {
             {isCodeSent ? 'Resend Code' : 'Send Code'}
           </Button>
         </form>
-
-        {/* <div className="Auth-terms-signup">
-          <Link to="/login">Already have an account?</Link>
-        </div> */}
       </div>
     </Layout>
   );
