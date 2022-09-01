@@ -33,32 +33,6 @@ export const validateSignUp = async (id: string | undefined) => {
   }
 };
 
-export const requestEmailOTP = async (id: string | undefined) => {
-  try {
-    const response = await APIClient(
-      `/users/${id}/email-verification `,
-      'post'
-    );
-    if (response) return response.data;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const verifyEmailOTP = async (
-  otp: string | undefined,
-  id: string | undefined
-) => {
-  try {
-    const response = await APIClient(`/users/${id}/email-verification`, 'put', {
-      code: otp,
-    });
-    if (response) return response.data;
-  } catch (error) {
-    return error;
-  }
-};
-
 export const requestPhoneOTP = async (id: string | null | undefined) => {
   try {
     const response = await APIClient(`/users/${id}/phone-verification`, 'post');
