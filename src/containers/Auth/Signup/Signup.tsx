@@ -47,19 +47,24 @@ const SignUp = () => {
   const onSubmit = async (data: any) => {
     setIsLoading(true);
     setIsDisabled(true);
-    const signUpResponse = await signUpService({
+    await signUpService({
       phone: onlyNumbers(data.phone),
       name: data.name,
       password: data.password,
-    });
-    if (signUpResponse?.id) {
-      localStorage.setItem('userId', signUpResponse.id);
-      navigate(`/terms-and-conditions`);
-    } else {
-      setIsDisabled(false);
-      setIsLoading(false);
-      toast.error(signUpResponse?.response?.data?.details?.message);
-    }
+    })
+      .then((response) => {
+        if (response?.id) {
+          localStorage.setItem('userId', response.id);
+          navigate(`/terms-and-conditions`);
+        } else {
+          setIsDisabled(false);
+          setIsLoading(false);
+          toast.error(response?.response?.data?.details?.message);
+        }
+      })
+      .catch((error: any) => {
+        toast('Unknown error');
+      });
   };
 
   const togglePassword = () => {
@@ -70,24 +75,6 @@ const SignUp = () => {
     setConfirmPasswordShown(!confirmPasswordShown);
   };
 
-  const sendPhoneOTP = async () => {
-    //api call to send email otp
-    const userId = localStorage.getItem('userId');
-    const phoneRequestResponse = await requestPhoneOTP(userId);
-    if (phoneRequestResponse?.response?.data) {
-      toast.error('Invalid Phone Number');
-      setIsDisabled(false);
-      setIsLoading(false);
-      return false;
-    } else {
-      reset();
-      setIsDisabled(false);
-      setIsLoading(false);
-      toast.success('You have signed up successfully');
-      toast.success('Phone verification link sent');
-      return true;
-    }
-  };
   const isConfirmPhone = () => {
     return getValues('phone') !== getValues('confirmPhone') &&
       errors.confirmPhone
