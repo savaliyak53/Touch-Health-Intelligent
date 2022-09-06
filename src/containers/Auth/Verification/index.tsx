@@ -42,6 +42,7 @@ const Verification = () => {
       const phoneVerificationResponse = await verifyPhoneOTP(data.code, userId);
       if (phoneVerificationResponse?.is_phone_verified) {
         setIsVerifying(false);
+        toast.success('Verified');
         navigate('/security');
       } else if (phoneVerificationResponse?.response?.data) {
         toast.info(phoneVerificationResponse?.response?.data?.details);
@@ -59,7 +60,7 @@ const Verification = () => {
       return false;
     } else {
       setIsLoading(false);
-      toast.success('Phone verification link sent');
+      toast.success('Phone verification code sent');
       return true;
     }
   };
