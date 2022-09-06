@@ -47,7 +47,7 @@ const SignUp = () => {
   const onSubmit = async (data: any) => {
     setIsLoading(true);
     setIsDisabled(true);
-    await signUpService({
+    signUpService({
       phone: onlyNumbers(data.phone),
       name: data.name,
       password: data.password,
