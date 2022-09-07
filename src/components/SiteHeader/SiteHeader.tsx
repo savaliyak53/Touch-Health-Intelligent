@@ -10,7 +10,7 @@ type Props = {
   defaultHeader: boolean;
   hamburger: boolean;
 };
-const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
+const SiteHeader = ({ defaultHeader, hamburger }:Props) => {
   const [BurgerMenu, setBurgerMenu] = useState(false);
   const navigate = useNavigate();
   return (
@@ -80,10 +80,14 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
             <Link to="/post-subscription">Subscription</Link>
           </li>
           <li>
+            <Link to="/help-and-support">Help and Support</Link>
+          </li>
+          <li>
             <a
               onClick={() => {
                 localStorage.removeItem('userId');
                 localStorage.removeItem('token');
+                (window as any).Intercom('shutdown')
                 navigate('/login');
               }}
             >
