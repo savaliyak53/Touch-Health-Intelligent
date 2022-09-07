@@ -75,7 +75,6 @@ const Subscription = () => {
       .then((response: any) => {
         setLoading(false);
         setUserPlan(response.data);
-        console.log('user plan ', response);
       })
       .catch((error) => {
         setLoading(false);
@@ -87,7 +86,6 @@ const Subscription = () => {
     getSubscriptionStatus()
       .then((response) => {
         setUserPlanStatus(response.data.status);
-        console.log('user plan status ', response);
         if (
           location.pathname === '/subscription' &&
           response.data.status === 'active'
@@ -142,7 +140,6 @@ const Subscription = () => {
       .then((response) => {
         setLoading(false);
         setDisableButton(false);
-        console.log('cancel response', response);
         toast.info('Subscription Cancelled');
         fetchUserSubscription();
       })
@@ -150,8 +147,7 @@ const Subscription = () => {
         setLoading(false);
         setDisableButton(false);
         console.log('error while subscribing ', error);
-        // toast.error('Something went wrong while subscribing');
-        toast.info('Subscription Cancelled');
+        toast.error('Something went wrong while subscribing');
       });
   };
 
@@ -164,7 +160,6 @@ const Subscription = () => {
       .then((response) => {
         setLoading(false);
         setDisableButton(false);
-        console.log('pause response', response);
         toast.info('Subscription Paused');
         fetchUserSubscription();
       })
@@ -183,7 +178,6 @@ const Subscription = () => {
       .then((response) => {
         setLoading(false);
         setDisableButton(false);
-        console.log('renew response', response);
         toast.info('Subscription Renewed');
         fetchUserSubscription();
       })
@@ -191,8 +185,7 @@ const Subscription = () => {
         setLoading(false);
         setDisableButton(false);
         console.log('error while subscribing ', error);
-        // toast.error('Something went wrong while subscribing');
-        toast.info('Subscription Renewed');
+        toast.error('Something went wrong while subscribing');
       });
   };
   const handleResumeClick = () => {
@@ -203,7 +196,6 @@ const Subscription = () => {
       .then((response) => {
         setLoading(false);
         setDisableButton(false);
-        console.log('resume response', response);
         toast.info('Subscription Resumed');
         fetchUserSubscription();
       })
@@ -211,19 +203,13 @@ const Subscription = () => {
         setLoading(false);
         setDisableButton(false);
         console.log('error while subscribing ', error);
-        // toast.error('Something went wrong while subscribing');
-        toast.info('Subscription Resumed');
+        toast.error('Something went wrong while subscribing');
       });
   };
 
   const getDate = (dateObj: any, dateString: string) => {
-    // console.log('date', dateObj);
     const date = new Date(dateString);
-
-    // console.log('date obj ', dateObj.getMilliSeconds());
-
     const timestampInMs = date.getTime();
-    console.log('date class ', timestampInMs);
     setEndDate(timestampInMs);
   };
 
@@ -253,14 +239,7 @@ const Subscription = () => {
                   (userPlan.status === 'trialing' ||
                     userPlan.status === 'active') ? (
                   <>
-                    <p className="Description">
-                      {/* {userPlan?.plan.interval_count} &nbsp;
-                      {userPlan?.plan.interval}&nbsp;{userPlan?.plan.object}
-                      <br />
-                      {userPlan?.plan.amount / 100}
-                      {userPlan?.plan.currency}/{userPlan?.plan.interval} */}
-                      Subscription Active
-                    </p>
+                    <p className="Description">Subscription Active</p>
                     <div className="Btn-group quest">
                       <Button
                         className="Next"
@@ -301,14 +280,7 @@ const Subscription = () => {
                   </>
                 ) : userPlan.status === 'pause' ? (
                   <>
-                    <p className="Description">
-                      {/* {userPlan.plan.interval_count} &nbsp;
-                      {userPlan.plan.interval}&nbsp;{userPlan.plan.object}
-                      <br />
-                      {userPlan.plan.amount / 100}
-                      {userPlan.plan.currency}/{userPlan.plan.interval} */}
-                      Subscription Paused
-                    </p>
+                    <p className="Description">Subscription Paused</p>
                     <div className="Btn-group quest">
                       <Button
                         className="Next"
