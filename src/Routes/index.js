@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import LoadingLayout from '../layouts/loading-layout/LoadingLayout';
 import { SignUp, Login } from './Lazycontainers';
 import Preferences from '../containers/Preferences';
@@ -22,8 +22,17 @@ import SecurityQuestion from '../containers/SecurityQuestion';
 import ResetPassword from '../containers/Auth/ResetPassword';
 import TermsAndCondtions from '../containers/TermsAndConditions';
 import Verification from '../containers/Auth/Verification';
+import HelpAndSupport from '../containers/HelpAndSupport';
 
 const AppRoutes = () => {
+  const location=useLocation();
+  useEffect(() => {
+    if(location.pathname!=="/help-and-support") {
+      window.Intercom('update', {
+        hide_default_launcher: true,
+      });
+    }
+   }, [location]);
   return (
     <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
       <Routes>
@@ -64,6 +73,7 @@ const AppRoutes = () => {
           <Route path="/post-conditions" element={<ManageConditions />} />
           <Route path="/post-concerns" element={<ManageConcerns />} />
           <Route path="/post-subscription" element={<Subscription />} />
+          <Route path="/help-and-support" element={<HelpAndSupport />} />
         </Route>
       </Routes>
     </React.Suspense>
