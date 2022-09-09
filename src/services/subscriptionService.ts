@@ -9,7 +9,11 @@ export const getUserSubscription = () => {
 };
 
 export const checkoutPlan = (planId: string) => {
-  return APIClient('/payments/checkout', 'POST', { planId: planId });
+  return APIClient('/payments/checkout', 'POST', {
+    planId: planId,
+    cancelURL: '/',
+    successURL: '/',
+  });
 };
 
 export const getSubscriptionStatus = () => {

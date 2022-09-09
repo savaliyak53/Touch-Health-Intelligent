@@ -135,13 +135,13 @@ const Subscription = () => {
   const handleCancelClick = () => {
     setLoading(true);
     setDisableButton(true);
-    setUserPlan({ status: 'cancel' });
     cancelSubscription()
       .then((response) => {
         setLoading(false);
         setDisableButton(false);
         toast.info('Subscription Cancelled');
         fetchUserSubscription();
+        userSubscriptionStatus();
       })
       .catch((error) => {
         setLoading(false);
@@ -154,7 +154,6 @@ const Subscription = () => {
   const handlePauseClick = (endDate: number) => {
     setLoading(true);
     setDisableButton(true);
-    setUserPlan({ status: 'pause' });
     showModal();
     pauseSubscription(endDate)
       .then((response) => {
@@ -162,6 +161,7 @@ const Subscription = () => {
         setDisableButton(false);
         toast.info('Subscription Paused');
         fetchUserSubscription();
+        userSubscriptionStatus();
       })
       .catch((error) => {
         setLoading(false);
@@ -173,13 +173,13 @@ const Subscription = () => {
   const handleRenewClick = () => {
     setLoading(true);
     setDisableButton(true);
-    setUserPlan({ status: 'active' });
     uncancelSubscription()
       .then((response) => {
         setLoading(false);
         setDisableButton(false);
         toast.info('Subscription Renewed');
         fetchUserSubscription();
+        userSubscriptionStatus();
       })
       .catch((error) => {
         setLoading(false);
@@ -191,13 +191,14 @@ const Subscription = () => {
   const handleResumeClick = () => {
     setLoading(true);
     setDisableButton(true);
-    setUserPlan({ status: 'active' });
+    userSubscriptionStatus();
     resumeSubscription()
       .then((response) => {
         setLoading(false);
         setDisableButton(false);
         toast.info('Subscription Resumed');
         fetchUserSubscription();
+        userSubscriptionStatus();
       })
       .catch((error) => {
         setLoading(false);
@@ -232,74 +233,95 @@ const Subscription = () => {
           <Meta
             title={<h3 className="Question-title"> Current Plan:</h3>}
             description={
-              <div className="Question">
-                {userPlanStatus === 'NOT_SUBSCRIBED' ? (
-                  <p className="Description">Not Subscribed to any Plan</p>
-                ) : userPlanStatus === 'ACTIVE' &&
-                  (userPlan.status === 'trialing' ||
-                    userPlan.status === 'active') ? (
-                  <>
-                    <p className="Description">Subscription Active</p>
-                    <div className="Btn-group quest">
-                      <Button
-                        className="Next"
-                        onClick={() => handleCancelClick()}
-                      >
-                        Cancel
-                      </Button>
-                      <Button className="Next" onClick={() => showModal()}>
-                        Pause
-                      </Button>
-                      <Modal
-                        title="Basic Modal"
-                        visible={isModalOpen}
-                        onOk={handleOk}
-                        onCancel={handleCancel}
-                      >
-                        <DatePicker
-                          onChange={(date: any, dateString: any) => {
-                            getDate(date, dateString);
-                          }}
-                          disabledDate={(d) => d.isBefore(moment())}
-                          className="Date-Select"
-                        />
-                      </Modal>
-                    </div>
-                  </>
-                ) : userPlan.status === 'cancel' ? (
-                  <>
-                    <p className="Description">Subscription Cancelled</p>
-                    <div className="Btn-group quest">
-                      <Button
-                        className="Next"
-                        onClick={() => handleRenewClick()}
-                      >
-                        Renew
-                      </Button>
-                    </div>
-                  </>
-                ) : userPlan.status === 'pause' ? (
-                  <>
-                    <p className="Description">Subscription Paused</p>
-                    <div className="Btn-group quest">
-                      <Button
-                        className="Next"
-                        onClick={() => handleResumeClick()}
-                      >
-                        Resume
-                      </Button>
-                      <Button
-                        className="Next"
-                        onClick={() => handleCancelClick()}
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                  </>
-                ) : (
-                  ''
-                )}
-              </div>
+              <>
+                <h3 className="Question-title">
+                  {' '}
+                  {userPlan?.plan?.interval_count}&nbsp;
+                  {userPlan?.plan?.interval}
+                  &nbsp;{userPlan?.plan?.object}
+                </h3>
+                <div className="Question">
+                  {userPlan.cancel_at ? (
+                    <p>
+                      Your Plan will end at{' '}
+                      {moment(userPlan.cancel_at).format('DD/MM/YYYY')}
+                    </p>
+                  ) : (
+                    ''
+                  )}
+                  <Tag color="#3a4a7e">{userPlanStatus}</Tag>
+
+                  <p className="Description">
+                    ${userPlan?.plan?.amount / 100}
+                    {userPlan?.currency?.toUpperCase()}/
+                    {userPlan?.plan?.interval}
+                  </p>
+                  {userPlanStatus === 'NOT_SUBSCRIBED' ? (
+                    <p className="Description">Not Subscribed to any Plan</p>
+                  ) : userPlanStatus === 'ACTIVE' ? (
+                    <>
+                      <div className="Btn-group">
+                        <Button
+                          className="Cancel-btn btn ant-btn Subscribe"
+                          onClick={() => handleCancelClick()}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          className="Subscribe"
+                          onClick={() => showModal()}
+                        >
+                          Pause
+                        </Button>
+                        <Modal
+                          title="Basic Modal"
+                          visible={isModalOpen}
+                          onOk={handleOk}
+                          onCancel={handleCancel}
+                        >
+                          <DatePicker
+                            onChange={(date: any, dateString: any) => {
+                              getDate(date, dateString);
+                            }}
+                            disabledDate={(d) => d.isBefore(moment())}
+                            className="Date-Select"
+                          />
+                        </Modal>
+                      </div>
+                    </>
+                  ) : userPlanStatus === 'CANCELED' ? (
+                    <>
+                      <div className="Btn-group quest">
+                        <Button
+                          className="Next"
+                          onClick={() => handleRenewClick()}
+                        >
+                          Renew
+                        </Button>
+                      </div>
+                    </>
+                  ) : userPlan.status === 'pause' ? (
+                    <>
+                      <div className="Btn-group">
+                        <Button
+                          className="Next"
+                          onClick={() => handleResumeClick()}
+                        >
+                          Resume
+                        </Button>
+                        <Button
+                          className="Next"
+                          onClick={() => handleCancelClick()}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </>
+                  ) : (
+                    ''
+                  )}
+                </div>
+              </>
             }
           />
         </Card>
