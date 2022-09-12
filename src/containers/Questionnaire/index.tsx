@@ -30,8 +30,8 @@ function UserCondition() {
           setRefId(response.data.ref_id);
         }
       })
-      .catch(() => {
-        toast('Cannot get question');
+      .catch((error) => {
+        toast(error.details.message ?? 'Cannot get question');
         navigate('/dashboard');
         setSkeletonLoading(false);
       });
