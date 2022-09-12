@@ -8,8 +8,6 @@ import UserCondition from '../containers/Questionnaire';
 import { RequireAuth, RequireSignup } from '../utils/RequireAuth';
 import ThankyouForSubmiting from '../containers/ThankyouForSubmiting';
 import IntroVideo from '../containers/Introvideo';
-import VerificationMessage from '../containers/VerificationMessage';
-import PhoneVerification from '../containers/PhoneVerification';
 import Dashboard from '../containers/Dashboard';
 import Insights from '../containers/Insights';
 import Timeline from '../containers/Timeline/index';
@@ -40,14 +38,6 @@ const AppRoutes = () => {
         <Route path={ROUTES.signUp} element={<SignUp />} />
         <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
         <Route path="*" element={<Login />} />
-        <Route
-          path="/verification-message/:userId"
-          element={<VerificationMessage />}
-        />
-        <Route
-          path="/verify/phone/:userId/:code"
-          element={<PhoneVerification />}
-        />
         <Route element={<RequireSignup />}>
           <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />
           <Route path="/verification-code" element={<Verification />} />

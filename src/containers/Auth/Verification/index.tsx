@@ -40,9 +40,10 @@ const Verification = () => {
     if (userId) {
       setIsVerifying(true);
       const phoneVerificationResponse = await verifyPhoneOTP(data.code, userId);
-      if (phoneVerificationResponse?.is_phone_verified) {
+      if (phoneVerificationResponse?.token) {
         setIsVerifying(false);
         toast.success('Verified');
+        localStorage.setItem('token', phoneVerificationResponse.token)
         navigate('/security');
       } else if (phoneVerificationResponse?.response?.data) {
         toast.info(phoneVerificationResponse?.response?.data?.details);
