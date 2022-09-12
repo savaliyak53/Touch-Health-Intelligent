@@ -4,22 +4,13 @@
   justify-content: center;
   width: 100%;
   height: 100vh;
-  background-color: #fff;
   overflow: hidden;
   background-image: url('../../images/background.png');
   z-index: 5;
-}
-
-.cards-video-wrapper  {
   text-align: center;
   font-size: 32px;
   line-height: 48px;
   color: #000;
-}
-
-.cards-video-wrapper {
-  display: flex;
-  background-color: transparent;
   padding: 0;
   margin: 16px 0;
 }
