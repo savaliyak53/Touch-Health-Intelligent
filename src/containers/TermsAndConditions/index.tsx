@@ -36,7 +36,7 @@ function TermsAndCondtions() {
       return false;
     } else {
       setIsLoading(false);
-      toast.success('Phone verification link sent');
+      toast.success('Phone verification code sent');
       return true;
     }
   };
