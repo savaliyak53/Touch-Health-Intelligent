@@ -37,3 +37,7 @@ export const uncancelSubscription = () => {
 export const resumeSubscription = () => {
   return APIClient('/payments/subscription/unpause', 'POST');
 };
+
+export const updateSubscription = (planId: string) => {
+  return APIClient('/payments/subscription/update', 'POST', { planId: planId });
+};

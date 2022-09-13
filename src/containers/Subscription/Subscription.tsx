@@ -13,6 +13,7 @@ import {
   cancelSubscription,
   uncancelSubscription,
   resumeSubscription,
+  updateSubscription,
 } from '../../services/subscriptionService';
 import { Card, Carousel, Tag } from 'antd';
 import { toast } from 'react-toastify';
@@ -109,27 +110,29 @@ const Subscription = () => {
   const handleSubscribeClick = (id: string) => {
     setLoading(true);
     setDisableButton(true);
-    checkoutPlan(id)
-      .then((response) => {
-        setLoading(false);
-        setDisableButton(false);
-        if (
-          location.pathname === '/subscription' &&
-          response.data.status === 'active'
-        ) {
-          localStorage.removeItem('userId');
-          localStorage.removeItem('token');
-          navigate('/login');
-        } else {
-          window.location.assign(response.data.url);
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        setDisableButton(false);
-        console.log('error while subscribing ', error);
-        toast.error('Something went wrong while subscribing');
-      });
+    userPlan.plan.id !== null
+      ? updateSubscription(id)
+      : checkoutPlan(id)
+          .then((response) => {
+            setLoading(false);
+            setDisableButton(false);
+            if (
+              location.pathname === '/subscription' &&
+              response.data.status === 'active'
+            ) {
+              localStorage.removeItem('userId');
+              localStorage.removeItem('token');
+              navigate('/login');
+            } else {
+              window.location.assign(response.data.url);
+            }
+          })
+          .catch((error) => {
+            setLoading(false);
+            setDisableButton(false);
+            console.log('error while subscribing ', error);
+            toast.error('Something went wrong while subscribing');
+          });
   };
 
   const handleCancelClick = () => {

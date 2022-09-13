@@ -73,9 +73,9 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
           <li>
             <Link to="/post-conditions">Conditions</Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/post-concerns">Concerns</Link>
-          </li>
+          </li> */}
           <li>
             <Link to="/post-subscription">Subscription</Link>
           </li>

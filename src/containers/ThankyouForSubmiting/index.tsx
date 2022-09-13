@@ -14,9 +14,9 @@ const index = () => {
         <button className="submit">
           <Link to="/conditions">Manage conditions</Link>
         </button>
-        <button className="submit">
+        {/* <button className="submit">
           <Link to="/concerns">Manage concerns</Link>
-        </button>
+        </button> */}
         <button className="submit" onClick={() => navigate('/dashboard')}>
           Home
         </button>
