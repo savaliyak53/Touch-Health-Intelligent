@@ -35,7 +35,9 @@ export const validateSignUp = async (id: string | undefined) => {
 
 export const requestPhoneOTP = async (id: string | null | undefined) => {
   try {
-    const response = await APIClient(`/users/${id}/phone-verification`, 'post');
+    const response = await APIClient(`/auth/verify-phone`, 'post', {
+      user_id:id,
+    });
     if (response) return response.data;
   } catch (error) {
     return error;
@@ -47,7 +49,8 @@ export const verifyPhoneOTP = async (
   id: string | undefined
 ) => {
   try {
-    const response = await APIClient(`/users/${id}/phone-verification`, 'put', {
+    const response = await APIClient(`/auth/verify-phone`, 'put', {
+      user_id:id,
       code: otp,
     });
     if (response) return response.data;

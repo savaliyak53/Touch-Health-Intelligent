@@ -38,6 +38,7 @@ const Insights = () => {
   const context = useContext(InsightContext);
   const navigate = useNavigate();
   const userId = localStorage.getItem('userId');
+  const [insightResponse, setInsightResponse] = useState();
   const [dataset, setDataset] = useState();
   const [loader, setLoader] = useState(false);
   const [startDate, setForecastStartDate] = useState();
@@ -45,7 +46,7 @@ const Insights = () => {
 
   const [category, setCategory] = useState();
   let data = {};
-  //selected Insight from localstorage is saved as [i]-[j]
+  //selected Insight from localstorage is saved as (selectedInsight,i-j)
   const [insight, setInsight] = useState();
   const [type, setType] = useState('day');
   const [vmin, setVmin] = useState(0);
@@ -111,16 +112,20 @@ const Insights = () => {
   };
   //const selectedInsightIndex = localStorage.getItem('selectedInsight');
   const selectedInsight = context.selectedInsight;
-  const getSelectedInsight = async (index) => {
+  const loadInsights = async (index) => {
     setLoader(true);
     const response = await context.commands.loadInsights();
+    setInsightResponse(response);
+    getSelectedInsight(index,response);
+  };
+  const getSelectedInsight = async (index, insightResp) => {   
     const splitIndex = index && index.split('-');
     const insightIndex = splitIndex && splitIndex.map(Number);
-    calculate(insightIndex, response);
+    calculate(insightIndex, insightResp);
   };
   const selectedInsightIndex = localStorage.getItem('selectedInsight');
-  useEffect(() => {
-    getSelectedInsight(selectedInsightIndex);
+  useEffect(() => {   
+    loadInsights(selectedInsightIndex);
   }, []);
 
   const calculate = (insightArray, response) => {
@@ -183,16 +188,21 @@ const Insights = () => {
           },
         ],
       };
-
       setDataset(data);
-      setLoader(false);
+      setTimeout(() => {
+        setLoader(false);
+      }, 500);
+      
     } else {
       setCategory('');
       setDataset({ datasets: [] });
-      setLoader(false);
+      setTimeout(() => {
+        setLoader(false);
+      }, 500);
     }
   };
   const handleCategoryChange = () => {
+    setLoader(true);
     const splitIndex = selectedInsightIndex && selectedInsightIndex.split('-');
     const insightIndex = splitIndex && splitIndex.map(Number);
     if (!insightIndex) return;
@@ -202,21 +212,25 @@ const Insights = () => {
     const iIndexlength = context.insights.insights.length;
     let exactIndex = '';
     if (jIndex < jIndexlength - 1) {
+      //iterate inner loop
       exactIndex = `${iIndex}-${jIndex + 1}`;
       localStorage.setItem('selectedInsight', `${iIndex}-${jIndex + 1}`);
     } else if (jIndex >= jIndexlength - 1) {
       if (iIndex < iIndexlength - 1) {
+        //iterate outer loop
         exactIndex = `${iIndex + 1}-${0}`;
         localStorage.setItem('selectedInsight', `${iIndex + 1}-${0}`);
       } else {
+        //if outer loop ended move to beginning
         exactIndex = '0-0';
         localStorage.setItem('selectedInsight', `0-0`);
       }
     } else {
+      //outer loop and inner loop are as it is
       exactIndex = `${iIndex}-${jIndex}`;
       localStorage.setItem('selectedInsight', `${iIndex}-${jIndex}`);
     }
-    getSelectedInsight(exactIndex);
+    getSelectedInsight(exactIndex,insightResponse);
     //window.location.reload();
   };
   const setYAxis = (selectedinsight) => {

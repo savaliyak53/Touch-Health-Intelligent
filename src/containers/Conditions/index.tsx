@@ -113,7 +113,7 @@ const ManageConditions = () => {
   };
   const handleNavigate = () => {
     setIsLoading(true);
-    navigate('/concerns');
+    navigate('/subscription');
   };
   return (
     <Layout

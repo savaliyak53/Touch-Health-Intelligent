@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import LoadingLayout from '../layouts/loading-layout/LoadingLayout';
 import { SignUp, Login } from './Lazycontainers';
 import Preferences from '../containers/Preferences';
@@ -8,8 +8,6 @@ import UserCondition from '../containers/Questionnaire';
 import { RequireAuth, RequireSignup } from '../utils/RequireAuth';
 import ThankyouForSubmiting from '../containers/ThankyouForSubmiting';
 import IntroVideo from '../containers/Introvideo';
-import VerificationMessage from '../containers/VerificationMessage';
-import PhoneVerification from '../containers/PhoneVerification';
 import Dashboard from '../containers/Dashboard';
 import Insights from '../containers/Insights';
 import Timeline from '../containers/Timeline/index';
@@ -22,8 +20,17 @@ import SecurityQuestion from '../containers/SecurityQuestion';
 import ResetPassword from '../containers/Auth/ResetPassword';
 import TermsAndCondtions from '../containers/TermsAndConditions';
 import Verification from '../containers/Auth/Verification';
+import HelpAndSupport from '../containers/HelpAndSupport';
 
 const AppRoutes = () => {
+  const location=useLocation();
+  useEffect(() => {
+    if(location.pathname!=="/help-and-support") {
+      window.Intercom('update', {
+        hide_default_launcher: true,
+      });
+    }
+   }, [location]);
   return (
     <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
       <Routes>
@@ -31,14 +38,6 @@ const AppRoutes = () => {
         <Route path={ROUTES.signUp} element={<SignUp />} />
         <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
         <Route path="*" element={<Login />} />
-        <Route
-          path="/verification-message/:userId"
-          element={<VerificationMessage />}
-        />
-        <Route
-          path="/verify/phone/:userId/:code"
-          element={<PhoneVerification />}
-        />
         <Route element={<RequireSignup />}>
           <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />
           <Route path="/verification-code" element={<Verification />} />
@@ -64,6 +63,7 @@ const AppRoutes = () => {
           <Route path="/post-conditions" element={<ManageConditions />} />
           {/* <Route path="/post-concerns" element={<ManageConcerns />} /> */}
           <Route path="/post-subscription" element={<Subscription />} />
+          <Route path="/help-and-support" element={<HelpAndSupport />} />
         </Route>
       </Routes>
     </React.Suspense>
