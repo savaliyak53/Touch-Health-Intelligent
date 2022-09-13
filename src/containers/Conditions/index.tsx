@@ -10,13 +10,18 @@ import {
 } from '../../services/dashboardservice';
 import { toast } from 'react-toastify';
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
-import { AutoComplete, Spin } from 'antd';
+import { AutoComplete, Button, Spin } from 'antd';
+import { useNavigate } from 'react-router';
 
 const ManageConditions = () => {
+  const path = location.pathname;
+  const navigate = useNavigate();
   const [data, setData] = useState<any>();
   const [result, setResult] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const [selectedValue, setSelectedValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
 
   const getConditions = async () => {
     setLoading(true);
@@ -106,9 +111,15 @@ const ManageConditions = () => {
         toast.error('Something went wrong while removing the condition', error);
       });
   };
-
+  const handleNavigate = () => {
+    setIsLoading(true);
+    navigate('/concerns');
+  };
   return (
-    <Layout defaultHeader={true} hamburger={true}>
+    <Layout
+      defaultHeader={true}
+      hamburger={location.pathname === '/conditions' ? false : true}
+    >
       <div className="Content-wrap Con">
         <h2 className="Con-title">
           Manage conditions <Spin spinning={loading} />
@@ -122,12 +133,15 @@ const ManageConditions = () => {
           <SearchOutlined className="search" />
           <AutoComplete
             onSearch={handleSearch}
-            placeholder="Search"
+            placeholder="Search Condition"
             options={result}
             onSelect={handleOptionSelect}
+            value={selectedValue}
+            open={isDropdownOpen}
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           ></AutoComplete>
 
-          <DownOutlined />
+          <DownOutlined onClick={() => setIsDropdownOpen(!isDropdownOpen)} />
         </div>
 
         <div className="Switch-wrap">
@@ -145,6 +159,15 @@ const ManageConditions = () => {
             />
           ))}
         </div>
+        {location.pathname === '/conditions' && (
+          <Button
+            className="Pref-btn btn"
+            onClick={handleNavigate}
+            loading={isLoading}
+          >
+            Next
+          </Button>
+        )}
       </div>
     </Layout>
   );

@@ -112,7 +112,7 @@ function UserCondition() {
                 onSubmit();
               }}
               loading={loading}
-              disabled={loading}
+              disabled={value === null || loading}
             >
               Next
             </Button>

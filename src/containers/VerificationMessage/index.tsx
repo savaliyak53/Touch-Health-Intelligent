@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
-import Typography from '@mui/material/Typography';
 import { requestPhoneOTP } from '../../services/authservice';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
 import Layout from '../../layouts/Layout/Layout';
+import { Typography } from 'antd';
+
+const { Title } = Typography;
 
 function VerificationMessage() {
   const [phoneLoading, setPhoneLoading] = useState<boolean>(false);
@@ -27,22 +29,10 @@ function VerificationMessage() {
     <Layout defaultHeader={true} hamburger={false}>
       <div className="cards-video-wrapper">
         <div className="card-text">
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="div"
-            className="resend"
-          >
-            Welcome to Touch Health Assistant
-          </Typography>
-          <Typography
-            gutterBottom
-            variant="h6"
-            component="div"
-            className="response"
-          >
+          <Title level={2}>Welcome to Touch Health Assistant</Title>
+          <Title level={3}>
             Please check your provided phone for verification
-          </Typography>
+          </Title>
           <div className="resend">
             <span
               className={phoneLoading ? 'resend-otp-disabled' : 'resend-otp'}
@@ -52,7 +42,7 @@ function VerificationMessage() {
             </span>
           </div>
         </div>
-      </div>{' '}
+      </div>
     </Layout>
   );
 }

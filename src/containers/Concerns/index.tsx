@@ -10,12 +10,17 @@ import {
 } from '../../services/dashboardservice';
 import { toast } from 'react-toastify';
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
-import { AutoComplete, Input, Spin } from 'antd';
+import { AutoComplete, Button, Input, Spin } from 'antd';
+import { useNavigate } from 'react-router';
 const ManageConcerns = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState<any>();
   const [result, setResult] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const [selectedValue, setSelectedValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
+
   const getConcerns = async () => {
     setLoading(true);
     getConcernsService()
@@ -104,11 +109,20 @@ const ManageConcerns = () => {
         toast.error('Something went wrong while removing the Concern', error);
       });
   };
-
+  const handleNavigate = () => {
+    setIsLoading(true);
+    navigate('/subscription');
+  };
   return (
     <>
-      <Layout defaultHeader={true} hamburger={true}>
-        <div className="Content-wrap Concerns">
+      <Layout
+        defaultHeader={true}
+        hamburger={location.pathname === '/concerns' ? false : true}
+      >
+        <div
+          className="Content-wrap Concerns"
+          // onClick={() => setIsDropdownOpen(false)}
+        >
           <h2 className="Concerns-title">
             Manage concerns
             <Spin spinning={loading} />
@@ -122,13 +136,15 @@ const ManageConcerns = () => {
             <SearchOutlined className="search" />
             <AutoComplete
               onSearch={handleSearch}
-              placeholder="Search"
+              placeholder="Search Concern"
               options={result}
               onSelect={handleOptionSelect}
               value={selectedValue}
+              open={isDropdownOpen}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             ></AutoComplete>
 
-            <DownOutlined />
+            <DownOutlined onClick={() => setIsDropdownOpen(!isDropdownOpen)} />
           </div>
 
           <div className="Switch-wrap">
@@ -146,6 +162,15 @@ const ManageConcerns = () => {
               />
             ))}
           </div>
+          {location.pathname === '/concerns' && (
+            <Button
+              className="Pref-btn btn"
+              onClick={handleNavigate}
+              loading={isLoading}
+            >
+              Next
+            </Button>
+          )}
         </div>
       </Layout>
     </>

@@ -10,6 +10,7 @@ const Dashboard = () => {
   const context = useContext(InsightContext);
   useEffect(() => {
     getInsights();
+    context?.commands.setInsightButton('');
   }, []);
 
   let rowNumber = 0;

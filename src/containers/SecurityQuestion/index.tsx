@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout/Layout';
 import { Input, Select, Spin } from 'antd';
 import './index.scss';
 import Button from '../../components/Button';
+import InputField from '../../components/Input';
 import { securityQuestions } from '../../constants';
 import {
   getInteractionService,
@@ -11,7 +12,7 @@ import {
 } from '../../services/authservice';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { RightOutlined } from '@ant-design/icons';
+import { DownOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
@@ -30,39 +31,13 @@ const SecurityQuestions = () => {
     setLoading(true);
     preferencesService({ security_questions: securityQuestion }, userId)
       .then((response) => {
-        toast.success('Question saved successfully');
-        getUserInfo(userId);
+        toast.success('Security Question saved successfully');
+        // getUserInfo(userId);
+        navigate('/introvideo');
       })
       .catch((error) => {
         setLoading(false);
         toast.error('Something went wrong while saving the Question');
-      });
-  };
-
-  const getUserInfo = (userId: string | null | undefined) => {
-    getUser(userId)
-      .then((response: any) => {
-        if (response?.data?.preferences?.timezone) {
-          getInteractionService()
-            .then((response) => {
-              if (response?.data?.question) {
-                navigate('/questionnaire');
-              } else {
-                navigate('/dashboard');
-              }
-            })
-            .catch((error) => {
-              toast('Unkown Error');
-              console.log('error occured', error);
-            });
-        } else {
-          navigate('/preferences');
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        toast('Unknown Error');
-        console.log('error occured', error);
       });
   };
 
@@ -78,7 +53,6 @@ const SecurityQuestions = () => {
         </p>
 
         <div className="Switch-wrap">
-          <h3 className="Title">Question</h3>
           <div className="Select-Wrap">
             <Select
               placeholder="Select a question"
@@ -91,12 +65,15 @@ const SecurityQuestions = () => {
                 </Option>
               ))}
             </Select>
-            <RightOutlined />
+            <DownOutlined />
           </div>
-          <div className="Input-Wrap">
-            <Input
+          <div className="input-element-wrapper" style={{ marginTop: '10px' }}>
+            <InputField
               placeholder="Answer"
-              onChange={(event) => setAnswer(event.target.value)}
+              onChange={(event: {
+                target: { value: React.SetStateAction<string> };
+              }) => setAnswer(event.target.value)}
+              className="app-Input"
             />
           </div>
         </div>
@@ -106,7 +83,7 @@ const SecurityQuestions = () => {
             loading={loading}
             onClick={handleSave}
             disabled={loading || !question || !answer}
-            className="btn"
+            className="Pref-btn btn"
           >
             Save
           </Button>

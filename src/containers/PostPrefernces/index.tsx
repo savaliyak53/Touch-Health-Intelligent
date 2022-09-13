@@ -279,6 +279,7 @@ const PostPreferences = () => {
                       picker="year"
                       format="YYYY"
                       defaultValue={moment(yob, 'YYYY')}
+                      className="Date-Select"
                     />
                   )}
                 />
@@ -317,14 +318,25 @@ const PostPreferences = () => {
                 <p className="Preferences-form-error">{errors.sex?.message}</p>
               </div>
             )}
-            <Button
-              className="Pref-btn btn"
-              loading={isLoading}
-              // disabled={!isValid}
-              onClick={handleSubmit(onSubmit)}
-            >
-              Save and Next
-            </Button>
+            <div className="button-group">
+              <Button
+                className="Cancel-post-btn btn"
+                onClick={() => {
+                  navigate('/dashboard');
+                }}
+                disabled={loading}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="Pref-post-btn btn"
+                loading={isLoading}
+                // disabled={!isValid}
+                onClick={handleSubmit(onSubmit)}
+              >
+                Save
+              </Button>
+            </div>
           </form>
         </div>
       </Spin>

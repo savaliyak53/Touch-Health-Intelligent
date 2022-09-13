@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
-import Typography from '@mui/material/Typography';
+import { Typography } from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import { verifyPhoneOTP } from '../../services/authservice';
 import { Spin } from 'antd';
-
+const { Title } = Typography;
 function PhoneVerification() {
   const { code, userId } = useParams();
   const navigate = useNavigate();
@@ -31,9 +31,8 @@ function PhoneVerification() {
   return (
     <div className="cards-video-wrapper">
       <div className="card-text">
-        <Typography gutterBottom variant="h5" component="div">
-          Welcome to Touch Health Assistant
-        </Typography>
+        <Title level={2}>Welcome to Touch Health Assistant</Title>
+
         {}
         {phoneLoading ? (
           <p className="response">Verifying your given phone number ... </p>
