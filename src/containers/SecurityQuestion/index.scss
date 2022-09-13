@@ -1,0 +1,23 @@
+.Input-Wrap {
+  border: 2px solid #272424;
+  display: inline-block;
+  border-radius: 100px;
+  position: relative;
+  display: block;
+  margin-top: 15px;
+
+  .ant-input{
+    height: 64px !important;
+    padding: 17px 30px !important;
+    border: none;
+    outline: none;
+    background: transparent;
+    &:placeholder-shown{
+      color: #272424 !important;
+    font-size: 20px !important;
+    line-height: 24px !important;
+    white-space: nowrap;
+    }
+    
+  }
+}

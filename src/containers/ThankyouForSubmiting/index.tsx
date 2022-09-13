@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import { Button } from 'antd';
 import './index.scss';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const index = () => {
   const navigate = useNavigate();
   return (
@@ -11,8 +11,12 @@ const index = () => {
         <div className="Question">
           <h3 className="Question-title">You&apos;re done for the day!</h3>
         </div>
-        <button className="submit">Manage conditions</button>
-        <button className="submit">Manage concerns</button>
+        <button className="submit">
+          <Link to="/conditions">Manage conditions</Link>
+        </button>
+        <button className="submit">
+          <Link to="/concerns">Manage concerns</Link>
+        </button>
         <button className="submit" onClick={() => navigate('/dashboard')}>
           Home
         </button>

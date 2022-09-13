@@ -1,343 +1,346 @@
 .but {
-    background-color: #061c62;
-    color: white;
-    padding: 10px;
-    margin: 10px;
-    cursor: pointer;
+  background-color: #061c62;
+  color: white;
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
 }
 .Pain {
-    .Question {
-        margin-top: clamp(0px, 8vh, 130px);
-        margin-bottom: clamp(0px, 8vh, 60px);
-    }
+  .Question {
+    margin-top: clamp(0px, 8vh, 130px);
+    margin-bottom: clamp(0px, 8vh, 60px);
+  }
 
-    .Question-title {
-        margin-bottom: 24px;
-    }
+  .Question-title {
+    margin-bottom: 24px;
+  }
 }
 
 .Slider-Vertical {
-    display: flex;
-    justify-content: center;
-    margin-right: 30px;
+  display: flex;
+  justify-content: center;
+  margin-right: 30px;
 
-    .Text1,
-    .Text2 {
-        font-size: 20px;
-        line-height: 24px;
-        color: rgba(#282f28, 0.7);
+  .Text1,
+  .Text2 {
+    font-size: 20px;
+    line-height: 24px;
+    color: rgba(#282f28, 0.7);
+  }
+
+  .Text1 {
+    align-self: flex-end;
+  }
+
+  .Text2 {
+    align-self: flex-start;
+  }
+
+  .Slider {
+    height: 350px;
+    margin-left: 24px;
+    margin-right: 24px;
+
+    .ant-slider-rail {
+      background-color: rgba(#616c61, 0.45);
     }
 
-    .Text1 {
-        align-self: flex-end;
+    .ant-slider-track {
+      background-color: transparent;
     }
 
-    .Text2 {
-        align-self: flex-start;
+    .ant-slider-handle {
+      width: 50px;
+      height: 50px;
+      margin-left: -23px;
+      border: 3px solid #3a4a7e;
+      background-color: #3a4a7e;
     }
 
-    .Slider {
-        height: 350px;
-        margin-left: 24px;
-        margin-right: 24px;
-
-        .ant-slider-rail {
-            background-color: rgba(#616c61, 0.45);
+    &:hover {
+      .ant-slider-handle {
+        &:not(.ant-tooltip-open) {
+          border-color: #3a4a7e;
         }
-
-        .ant-slider-track {
-            background-color: transparent;
-        }
-
-        .ant-slider-handle {
-            width: 50px;
-            height: 50px;
-            margin-left: -23px;
-            border: 3px solid #3a4a7e;
-            background-color: #3a4a7e;
-        }
-
-        &:hover {
-            .ant-slider-handle {
-                &:not(.ant-tooltip-open) {
-                    border-color: #3a4a7e;
-                }
-            }
-            .ant-slider-track {
-                background-color: transparent;
-            }
-        }
+      }
+      .ant-slider-track {
+        background-color: transparent;
+      }
     }
+  }
 }
 //date type
 
 .Exp {
-    .Question {
-        margin-top: clamp(0px, 8vh, 130px);
-        margin-bottom: clamp(0px, 25vh, 260px);
-    }
+  .Question {
+    margin-top: clamp(0px, 8vh, 130px);
+    margin-bottom: clamp(0px, 25vh, 260px);
+  }
 
-    .Question-title {
-        margin-bottom: 50px;
-    }
+  .Question-title {
+    margin-bottom: 50px;
+  }
 }
 
 .ant-picker.Date-Select {
-    padding: 18px 20px;
+  padding: 18px 20px;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  width: 100%;
+  border-radius: 100px;
+  border: 2px solid #272424;
+  color: rgba(#272424, 0.7);
+  max-width: 300px;
+  display: block;
+  margin: 0 auto;
+
+  &.ant-picker-focused,
+  &:hover,
+  &:focus,
+  &:active {
+    border: 2px solid #272424;
+    box-shadow: none;
+    background-color: #e3e3e3;
+    outline: none;
+  }
+
+  input {
     font-size: 20px;
     line-height: 24px;
-    font-weight: 400;
-    width: 100%;
-    border-radius: 100px;
-    border: 2px solid #272424;
     color: rgba(#272424, 0.7);
-    max-width: 300px;
-    display: block;
-    margin: 0 auto;
-
-    &.ant-picker-focused,
-    &:hover,
-    &:focus,
-    &:active {
-        border: 2px solid #272424;
-        box-shadow: none;
-        background-color: #e3e3e3;
-        outline: none;
-    }
-
-    input {
-        font-size: 20px;
-        line-height: 24px;
-        color: rgba(#272424, 0.7);
-        font-weight: 400;
-    }
+    font-weight: 400;
+  }
 }
 //Text-area
 .ant-input.TextArea {
+  border: 2px solid #272424ed;
+  border-radius: 30px;
+  padding: 22px 33px;
+  font-size: 20px;
+  line-height: 24px;
+  color: rgba(#272424, 0.7);
+
+  &:hover,
+  &:focus,
+  &:active {
     border: 2px solid #272424ed;
-    border-radius: 30px;
-    padding: 22px 33px;
-    font-size: 20px;
-    line-height: 24px;
+    background-color: #e3e3e3;
+    color: #272424;
+    box-shadow: none;
+    outline: none;
+  }
+
+  &::placeholder {
     color: rgba(#272424, 0.7);
-
-    &:hover,
-    &:focus,
-    &:active {
-        border: 2px solid #272424ed;
-        background-color: #e3e3e3;
-        color: #272424;
-        box-shadow: none;
-        outline: none;
-    }
-
-    &::placeholder {
-        color: rgba(#272424, 0.7);
-    }
+  }
 }
 //select_many
 .Options {
-    .ant-radio-button-wrapper,
-    .ant-radio-button-wrapper:first-child,
-    .ant-radio-button-wrapper:last-child {
-        margin: 10px 10px 10px 0;
-        border: 2px solid #272424;
-        padding: 18px 20px;
-        border-radius: 100px;
-        height: 100%;
-        font-size: 20px;
-        line-height: 24px;
-        font-weight: 400;
-        background-color: #fff;
-        color: #272424;
-
-        &:not(:first-child):before {
-            display: none;
-        }
-
-        &:hover {
-            color: #272424;
-        }
-    }
-
-    .Option1 {
-        min-width: 178px;
-    }
-    .Option2 {
-        min-width: 150px;
-    }
-    .Option3 {
-        min-width: 273px;
-    }
-    .Option4 {
-        min-width: 117px;
-    }
-    .Option5 {
-        min-width: 198px;
-    }
-
-    .ant-radio-button-wrapper-checked {
-        &:not(.ant-radio-button-wrapper-disabled) {
-            background-color: rgba(#3a4a7e, 0.47);
-            border-color: transparent;
-            color: #fff;
-
-            &:focus-within {
-                box-shadow: none;
-            }
-
-            &:hover {
-                background-color: rgba(#3a4a7e, 0.47);
-                border-color: transparent;
-                color: #fff;
-            }
-            &.ant-radio-button-wrapper:first-child {
-                border-color: transparent;
-            }
-        }
-    }
-}
-.radio-Input {
-    //max-width: 40%;
-    min-width: 30%;
-    border-radius: 100px;
-    margin-bottom: 14px;
+  .ant-radio-button-wrapper,
+  .ant-radio-button-wrapper:first-child,
+  .ant-radio-button-wrapper:last-child {
+    margin: 10px 10px 10px 0;
+    border: 2px solid #272424;
     padding: 18px 20px;
-    display: block;
+    border-radius: 100px;
+    height: 100%;
     font-size: 20px;
     line-height: 24px;
-    border: 2px solid #272424;
+    font-weight: 400;
     background-color: #fff;
     color: #272424;
-    font-size: 20px;
-    line-height: 24px;
 
-    &:hover,
-    &:focus {
-        border: 2px solid #272424;
-        background-color: #e3e3e3;
-        color: #272424;
+    &:not(:first-child):before {
+      display: none;
     }
 
-    &::placeholder {
-        color: rgba(#272424, 0.8);
+    &:hover {
+      color: #272424;
     }
+  }
+
+  .Option1 {
+    min-width: 178px;
+  }
+  .Option2 {
+    min-width: 150px;
+  }
+  .Option3 {
+    min-width: 273px;
+  }
+  .Option4 {
+    min-width: 117px;
+  }
+  .Option5 {
+    min-width: 198px;
+  }
+
+  .ant-radio-button-wrapper-checked {
+    &:not(.ant-radio-button-wrapper-disabled) {
+      background-color: rgba(#3a4a7e, 0.47);
+      border-color: transparent;
+      color: #fff;
+
+      &:focus-within {
+        box-shadow: none;
+      }
+
+      &:hover {
+        background-color: rgba(#3a4a7e, 0.47);
+        border-color: transparent;
+        color: #fff;
+      }
+      &.ant-radio-button-wrapper:first-child {
+        border-color: transparent;
+      }
+    }
+  }
+}
+.radio-Input {
+  //max-width: 40%;
+  min-width: 30%;
+  border-radius: 100px;
+  margin-bottom: 14px;
+  padding: 18px 20px;
+  display: block;
+  font-size: 20px;
+  line-height: 24px;
+  border: 2px solid #272424;
+  background-color: #fff;
+  color: #272424;
+  font-size: 20px;
+  line-height: 24px;
+
+  &:hover,
+  &:focus {
+    border: 2px solid #272424;
+    background-color: #e3e3e3;
+    color: #272424;
+  }
+
+  &::placeholder {
+    color: rgba(#272424, 0.8);
+  }
 }
 
 .option {
-    margin: 10px 10px 10px 0;
-    border: 2px solid #272424;
-    padding: 18px 20px;
-    border-radius: 100px;
-    height: 100%;
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: 400;
-    background-color: #fff;
+  margin: 10px 10px 10px 0;
+  border: 2px solid #272424;
+  padding: 18px 20px;
+  border-radius: 100px;
+  height: 100%;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  background-color: #fff;
+  color: #272424;
+  &:hover {
     color: #272424;
-    &:hover {
-        color: #272424;
-    }
+  }
 }
 
 .selected-option {
-    margin: 10px 10px 10px 0;
-    border: 2px solid #272424;
-    padding: 18px 20px;
-    border-radius: 100px;
-    height: 100%;
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: 400;
-    background-color: grey;
+  margin: 10px 10px 10px 0;
+  border: 2px solid #272424;
+  padding: 18px 20px;
+  border-radius: 100px;
+  height: 100%;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  background-color: grey;
+  color: #272424;
+  &:hover {
     color: #272424;
-    &:hover {
-        color: #272424;
-    }
+  }
 }
 
 .wrap {
-    border: 2px solid #272424;
-    display: inline-block;
-    border-radius: 100px;
-    position: relative;
-    display: block;
+  border: 2px solid #272424;
+  display: inline-block;
+  border-radius: 100px;
+  position: relative;
+  display: block;
 }
 
 .multi-select {
-    padding: 0;
-    width: 100%;
-    color: #272424 !important;
-    font-size: 20px !important;
-    line-height: 24px !important;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    display: block !important;
-    height: 64px;
+  padding: 0;
+  width: 100%;
+  color: #272424 !important;
+  font-size: 20px !important;
+  line-height: 24px !important;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block !important;
+  height: 64px;
 }
 .next {
-    border-radius: 100px;
-    height: auto;
-    padding: 18px 60px;
-    color: #fff;
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: 400;
-    margin-top: 20px;
-    display: block;
-    border: 2px solid #3a4a7e;
-    background-color: #3a4a7e;
-    &:hover,
-    &:focus,
-    &:active {
-        background-color: #fff;
-        color: #3a4a7e;
-        border-color: #3a4a7e;
-    }
+  border-radius: 100px;
+  height: auto;
+  padding: 18px 60px;
+  color: #fff;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  margin-top: 20px;
+  display: block;
+  border: 2px solid #3a4a7e;
+  background-color: #3a4a7e;
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #fff;
+    color: #3a4a7e;
+    border-color: #3a4a7e;
+  }
 }
 
 .skip {
-    border-radius: 100px;
-    height: auto;
-    padding: 18px 60px;
-    color: #fff;
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: 400;
-    margin-top: 20px;
-    display: block;
-    background-color: #cd6052;
-    border: 2px solid#CD6052;
-    margin-right: 24px;
-    &:hover,
-    &:focus,
-    &:active {
-        background-color: #fff;
-        color: #cd6052;
-        border-color: #cd6052;
-    }
+  border-radius: 100px;
+  height: auto;
+  padding: 18px 60px;
+  color: #fff;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  margin-top: 20px;
+  display: block;
+  background-color: #cd6052;
+  border: 2px solid#CD6052;
+  margin-right: 24px;
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #fff;
+    color: #cd6052;
+    border-color: #cd6052;
+  }
 }
 //numeric
 
 .ant-input.NumberInput {
-    padding: 18px 20px;
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: 400;
-    width: 100%;
-    border-radius: 100px;
-    border: 2px solid #272424;
-    color: rgba(#272424, 0.7);
-    max-width: 300px;
-    display: block;
-    margin: 0 auto;
+  padding: 18px 20px;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  width: 100%;
+  border-radius: 100px;
+  border: 2px solid #272424;
+  color: rgba(#272424, 0.7);
+  max-width: 300px;
+  display: block;
+  margin: 0 auto;
 
-    &:hover,
-    &:focus,
-    &:active {
-        border: 2px solid #272424;
-        box-shadow: none;
-        background-color: #e3e3e3;
-        outline: none;
-    }
+  &:hover,
+  &:focus,
+  &:active {
+    border: 2px solid #272424;
+    box-shadow: none;
+    background-color: #e3e3e3;
+    outline: none;
+  }
+}
+.ant-radio-button-wrapper:first-child:last-child {
+  border-radius: 100px !important;
 }

@@ -5,8 +5,8 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { toast } from 'react-toastify';
 import { getInsightsService } from '../services/dashboardservice';
-import { hardCodedresponse } from '../utils/lib';
 
 export interface InsightContextModel {
   insights?: any;
@@ -41,6 +41,8 @@ const InsightContextProvider = ({ children, brandId }: Props) => {
     if (response.data) {
       setInsights(response.data);
       return response.data;
+    } else {
+      toast.error('Unknown error');
     }
   };
   const loadSelectedInsight = async (selectedData: any) => {

@@ -17,7 +17,7 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
     <>
       {/* Navigation */}
       <header className={defaultHeader ? 'Navigation' : 'Navigation bg'}>
-        <a href="#">
+        <a href="/dashboard">
           <img
             src={`${process.env.PUBLIC_URL}/assets/mobileassets/${
               defaultHeader ? 'logo-black.svg' : 'logo-white.svg'
@@ -36,6 +36,12 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
           </Button>
         </div>
       </header>
+      <div
+        className={
+          BurgerMenu ? 'Burger-menu-wrapper ' : 'Burger-menu-wrapper display'
+        }
+        onClick={() => setBurgerMenu(!BurgerMenu)}
+      ></div>
       {/* Burger/Toggle Menu */}
       <div className={BurgerMenu ? 'Burger-menu display' : 'Burger-menu'}>
         <div className="Cross-btn">
@@ -60,7 +66,7 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
               to="/insights/guideline"
               onClick={() => localStorage.setItem('selectedInsight', '0-0')}
             >
-              Insights Guideline
+              Guideline
             </Link>
           </li>
           <li>
@@ -76,15 +82,16 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
             <Link to="/subscription">Subscription</Link>
           </li>
           <li>
-            <Button
+            <a
               onClick={() => {
                 localStorage.removeItem('userId');
                 localStorage.removeItem('token');
                 navigate('/login');
               }}
             >
+              {' '}
               Sign out
-            </Button>
+            </a>
           </li>
         </ul>
       </div>

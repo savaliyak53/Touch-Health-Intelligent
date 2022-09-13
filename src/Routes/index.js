@@ -18,6 +18,8 @@ import Diamond from '../components/diamond';
 import PostPreferences from '../containers/PostPrefernces';
 import ManageConcerns from '../containers/Concerns';
 import Subscription from '../containers/Subscription/Subscription';
+import SecurityQuestion from '../containers/SecurityQuestion';
+import ResetPassword from '../containers/Auth/ResetPassword';
 
 const AppRoutes = () => {
   return (
@@ -25,6 +27,7 @@ const AppRoutes = () => {
       <Routes>
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.signUp} element={<SignUp />} />
+        <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
         <Route path="*" element={<Login />} />
         <Route
           path="/verification-message/:userId"
@@ -34,7 +37,7 @@ const AppRoutes = () => {
           path="/verify/phone/:userId/:code"
           element={<PhoneVerification />}
         />
-
+        <Route path="/security" element={<SecurityQuestion />} />
         {/* Protected Routes */}
         <Route element={<RequireAuth />}>
           <Route path="insights" element={<Insights />} />
