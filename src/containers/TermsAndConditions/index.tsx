@@ -97,7 +97,7 @@ function TermsAndCondtions() {
                 })}
                 onChange={onChange}
               >
-                By creating your account, you agree to the Terms & Conditions
+                I agree to the Terms & Conditions
               </Checkbox>
             </div>
             <span className="error-message">
@@ -110,7 +110,7 @@ function TermsAndCondtions() {
             loading={isLoading}
             onClick={handleSubmit(onSubmit)}
           >
-            Continue to Verification
+            Continue
           </Button>
         </form>
       </div>

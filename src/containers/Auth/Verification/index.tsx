@@ -66,10 +66,10 @@ const Verification = () => {
     }
   };
   return (
-    <Layout defaultHeader={false} hamburger={false}>
+    <Layout defaultHeader={true} hamburger={false}>
       <div className="Verification-wrap">
         <form onSubmit={handleSubmit(onSubmit)} className="Verification-form">
-          <h2 className="Auth-title">Verification Code</h2>
+          <h2 className="Verification-title">Verification Code</h2>
           <Controller
             control={control}
             name="code"
@@ -102,7 +102,7 @@ const Verification = () => {
           />
           <Button
             onClick={handleSubmit(onSubmit)}
-            className="verification-btn"
+            className="Pref-btn btn"
             loading={isVerifying}
           >
             Verify
@@ -110,10 +110,10 @@ const Verification = () => {
         </form>
         <Button
           onClick={sendPhoneOTP}
-          className="resendotp-btn"
+          className="Pref-btn btn"
           loading={isLoading}
         >
-          Resend Otp
+          Resend OTP
         </Button>
       </div>
     </Layout>
