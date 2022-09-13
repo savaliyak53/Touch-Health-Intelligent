@@ -60,7 +60,7 @@ const IntroVideo = () => {
             className="Pref-btn btn"
             loading={loading}
           >
-            Done
+            Next
           </Button>
         </div>
       </div>
