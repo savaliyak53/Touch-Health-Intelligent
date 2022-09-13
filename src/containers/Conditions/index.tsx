@@ -162,7 +162,7 @@ const ManageConditions = () => {
         {location.pathname === '/conditions' && (
           <Button
             className="Pref-btn btn"
-            onClick={handleNavigate}
+            // onClick={handleNavigate}
             loading={isLoading}
           >
             Next

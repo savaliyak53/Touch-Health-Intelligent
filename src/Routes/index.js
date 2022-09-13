@@ -50,7 +50,7 @@ const AppRoutes = () => {
           <Route path="/diamond" element={<Diamond />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/conditions" element={<ManageConditions />} />
-          <Route path="/concerns" element={<ManageConcerns />} />
+          {/* <Route path="/concerns" element={<ManageConcerns />} /> */}
           <Route path="/questionnaire" element={<UserCondition />} />
           <Route
             path="/questionnaire-submit"
@@ -61,7 +61,7 @@ const AppRoutes = () => {
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/post-preferences" element={<PostPreferences />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
-          <Route path="/post-concerns" element={<ManageConcerns />} />
+          {/* <Route path="/post-concerns" element={<ManageConcerns />} /> */}
           <Route path="/post-subscription" element={<Subscription />} />
           <Route path="/help-and-support" element={<HelpAndSupport />} />
         </Route>
