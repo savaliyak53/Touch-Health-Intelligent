@@ -257,22 +257,6 @@ const Insights = () => {
               </h2>
               <RightOutlined />
             </div>
-            <div className="filters-wrap">
-              <Select
-                defaultValue="day"
-                placeholder="Select View"
-                dropdownStyle={{
-                  padding: '0',
-                  borderRadius: '4px',
-                  borderColor: '#616C61',
-                }}
-                onChange={(value) => setType(value)}
-              >
-                <Option value="day">Daily</Option>
-                <Option value="hour">Hourly</Option>
-                <Option value="week">Weekly</Option>
-              </Select>
-            </div>
             {dataset && context.insights && (
               <div className="chart-wrap">
                 <div className="chart">
