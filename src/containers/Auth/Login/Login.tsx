@@ -41,8 +41,7 @@ const Login = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      const userId = localStorage.getItem('userId');
-      getUserInfo(userId);
+      getInteraction();
     }
   }, []);
   const {
@@ -77,7 +76,7 @@ const Login = () => {
       localStorage.setItem('token', `${loginResponse.token}`);
       const userId = getId(loginResponse.token);
       localStorage.setItem('userId', userId);
-      getUserInfo(userId);
+      getInteraction();
     } else {
       setIsDisabled(false);
       setIsLoading(false);
@@ -89,31 +88,18 @@ const Login = () => {
     setPasswordShown(!passwordShown);
   };
 
-  const getUserInfo = (userId: string | null | undefined) => {
-    getUser(userId)
-      .then((response: any) => {
-        if (!response?.data?.security_questions?.length) {
-          return navigate('/security');
-        }
-        if (response?.data?.preferences?.timezone) {
-          getInteractionService()
-            .then((response) => {
-              if (response?.data?.question) {
-                navigate('/questionnaire');
-              } else {
-                navigate('/dashboard');
-              }
-            })
-            .catch((error) => {
-              toast(error.response.data.details.message);
-            });
+  const getInteraction = () => { 
+   getInteractionService()
+      .then((response) => {
+        if (response?.data?.question) {
+          navigate('/questionnaire');
         } else {
-          navigate('/preferences');
+          navigate('/dashboard');
         }
       })
       .catch((error) => {
-        toast('Unknown error');
-      });
+        toast(error.response.data.details.message);
+      });   
   };
   return (
     <Layout defaultHeader={false} hamburger={false}>
