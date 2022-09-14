@@ -19,6 +19,7 @@ function UserCondition() {
   const [loading, setLoading] = useState<boolean>(false);
   const [refId, setRefId] = useState<string>('');
   const [skeletonLoading, setSkeletonLoading] = useState(true);
+  const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const getInteraction = () => {
@@ -88,6 +89,11 @@ function UserCondition() {
         navigate('/dashboard');
       });
   };
+  useEffect(() => {
+    question?.type === 'slider'
+      ? setDisableNextButton(true)
+      : setDisableNextButton(false);
+  }, [question]);
 
   return (
     <Layout defaultHeader={true} hamburger={false}>
@@ -100,6 +106,7 @@ function UserCondition() {
               question={question}
               setValue={setValue}
               onSubmit={onSubmit}
+              setDisableNextButton={setDisableNextButton}
             />
             {question?.type !== 'yes_no' && (
               <div className="Btn-group">
@@ -118,7 +125,7 @@ function UserCondition() {
                     onSubmit();
                   }}
                   loading={loading}
-                  disabled={value === null || loading}
+                  disabled={value === null || loading || disableNextButton}
                 >
                   Next
                 </Button>
