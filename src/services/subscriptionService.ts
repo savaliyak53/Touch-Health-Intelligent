@@ -11,8 +11,8 @@ export const getUserSubscription = () => {
 export const checkoutPlan = (planId: string) => {
   return APIClient('/payments/checkout', 'POST', {
     planId: planId,
-    cancelURL: '/',
-    successURL: '/',
+    cancelURL: '/error',
+    successURL: '/success',
   });
 };
 
