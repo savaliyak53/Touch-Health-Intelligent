@@ -64,7 +64,6 @@ const AppRoutes = () => {
           <Route path="/post-preferences" element={<PostPreferences />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
           {/* <Route path="/post-concerns" element={<ManageConcerns />} /> */}
-          <Route path="/post-subscription" element={<Subscription />} />
           <Route path="/help-and-support" element={<HelpAndSupport />} />
           <Route path="/success" element={<Success />} />
           <Route path="/error" element={<Error />} />

@@ -48,7 +48,6 @@ const Subscription = () => {
   const [userPlanStatus, setUserPlanStatus] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [endDate, setEndDate] = useState(0);
-  const [visible, setVisible] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -62,7 +61,6 @@ const Subscription = () => {
     setLoading(true);
     getPlansService()
       .then(({ data }) => {
-        console.log('data ', data);
         setLoading(false);
         setPlans(data.plans);
       })
@@ -78,7 +76,6 @@ const Subscription = () => {
       .then((response: any) => {
         setLoading(false);
         setUserPlan(response.data);
-        console.log('userPlan ', userPlan);
       })
       .catch((error) => {
         setLoading(false);
@@ -90,7 +87,6 @@ const Subscription = () => {
     getSubscriptionStatus()
       .then((response) => {
         setUserPlanStatus(response.data.status);
-        console.log('userPlanStatus ', userPlanStatus);
         if (
           location.pathname === '/subscription' &&
           response.data.status === 'active'
@@ -109,13 +105,11 @@ const Subscription = () => {
     userSubscriptionStatus();
     fetchPlans();
     fetchUserSubscription();
-    console.log('plans', plans);
   }, []);
 
   const handleSubscribeClick = (id: string) => {
     setLoading(true);
     setDisableButton(true);
-    console.log('userPlan id', userPlan?.plan?.id);
     userPlan?.plan?.id != null
       ? updateSubscription(id)
       : checkoutPlan(id)
