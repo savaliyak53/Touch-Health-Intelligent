@@ -21,16 +21,18 @@ import ResetPassword from '../containers/Auth/ResetPassword';
 import TermsAndCondtions from '../containers/TermsAndConditions';
 import Verification from '../containers/Auth/Verification';
 import HelpAndSupport from '../containers/HelpAndSupport';
+import Success from '../containers/Success';
+import Error from '../containers/Error';
 
 const AppRoutes = () => {
-  const location=useLocation();
+  const location = useLocation();
   useEffect(() => {
-    if(location.pathname!=="/help-and-support") {
+    if (location.pathname !== '/help-and-support') {
       window.Intercom('update', {
         hide_default_launcher: true,
       });
     }
-   }, [location]);
+  }, [location]);
   return (
     <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
       <Routes>
@@ -62,8 +64,9 @@ const AppRoutes = () => {
           <Route path="/post-preferences" element={<PostPreferences />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
           {/* <Route path="/post-concerns" element={<ManageConcerns />} /> */}
-          <Route path="/post-subscription" element={<Subscription />} />
           <Route path="/help-and-support" element={<HelpAndSupport />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/error" element={<Error />} />
         </Route>
       </Routes>
     </React.Suspense>

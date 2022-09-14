@@ -110,22 +110,13 @@ const Subscription = () => {
   const handleSubscribeClick = (id: string) => {
     setLoading(true);
     setDisableButton(true);
-    userPlan.plan.id !== null
+    userPlan?.plan?.id != null
       ? updateSubscription(id)
       : checkoutPlan(id)
           .then((response) => {
             setLoading(false);
             setDisableButton(false);
-            if (
-              location.pathname === '/subscription' &&
-              response.data.status === 'active'
-            ) {
-              localStorage.removeItem('userId');
-              localStorage.removeItem('token');
-              navigate('/login');
-            } else {
-              window.location.assign(response.data.url);
-            }
+            window.location.assign(response.data.url);
           })
           .catch((error) => {
             setLoading(false);
@@ -232,102 +223,120 @@ const Subscription = () => {
         <h2 className="Sub-title">
           Subscription <Spin spinning={loading} />
         </h2>
-        <Card>
-          <Meta
-            title={<h3 className="Question-title"> Current Plan:</h3>}
-            description={
-              <>
-                <h3 className="Question-title">
-                  {' '}
-                  {userPlan?.plan?.interval_count}&nbsp;
-                  {userPlan?.plan?.interval}
-                  &nbsp;{userPlan?.plan?.object}
-                </h3>
-                <div className="Question">
-                  {userPlan.cancel_at ? (
-                    <p>
-                      Your Plan will end at{' '}
-                      {moment(userPlan.cancel_at).format('DD/MM/YYYY')}
-                    </p>
-                  ) : (
-                    ''
-                  )}
-                  <Tag color="#3a4a7e">{userPlanStatus}</Tag>
-
-                  <p className="Description">
-                    ${userPlan?.plan?.amount / 100}
-                    {userPlan?.currency?.toUpperCase()}/
+        {userPlanStatus === 'NOT_SUBSCRIBED' ? (
+          <Tag color="#3a4a7e">
+            {'User is currently not subscribed to any plan'}
+          </Tag>
+        ) : (
+          <Card>
+            <Meta
+              title={<h3 className="Question-title"> Current Plan:</h3>}
+              description={
+                <>
+                  <h3 className="Question-title">
+                    {userPlan?.plan?.interval_count}&nbsp;
                     {userPlan?.plan?.interval}
-                  </p>
-                  {userPlanStatus === 'NOT_SUBSCRIBED' ? (
-                    <p className="Description">Not Subscribed to any Plan</p>
-                  ) : userPlanStatus === 'ACTIVE' ? (
-                    <>
-                      <div className="Btn-group">
-                        <Button
-                          className="Cancel-btn btn ant-btn Subscribe"
-                          onClick={() => handleCancelClick()}
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          className="Subscribe"
-                          onClick={() => showModal()}
-                        >
-                          Pause
-                        </Button>
-                        <Modal
-                          title="Basic Modal"
-                          visible={isModalOpen}
-                          onOk={handleOk}
-                          onCancel={handleCancel}
-                        >
-                          <DatePicker
-                            onChange={(date: any, dateString: any) => {
-                              getDate(date, dateString);
-                            }}
-                            disabledDate={(d) => d.isBefore(moment())}
-                            className="Date-Select"
-                          />
-                        </Modal>
-                      </div>
-                    </>
-                  ) : userPlanStatus === 'CANCELED' ? (
-                    <>
-                      <div className="Btn-group quest">
-                        <Button
-                          className="Next"
-                          onClick={() => handleRenewClick()}
-                        >
-                          Renew
-                        </Button>
-                      </div>
-                    </>
-                  ) : userPlan.status === 'pause' ? (
-                    <>
-                      <div className="Btn-group">
-                        <Button
-                          className="Next"
-                          onClick={() => handleResumeClick()}
-                        >
-                          Resume
-                        </Button>
-                        <Button
-                          className="Next"
-                          onClick={() => handleCancelClick()}
-                        >
-                          Cancel
-                        </Button>
-                      </div>
-                    </>
-                  ) : (
-                    ''
-                  )}
-                </div>
-              </>
-            }
-          />
-        </Card>
+                    &nbsp;{userPlan?.plan?.object}
+                  </h3>
+                  <div className="Question">
+                    {userPlan.cancel_at ? (
+                      <p>
+                        Your Plan will end at{' '}
+                        {moment(userPlan.cancel_at).format('DD/MM/YYYY')}
+                      </p>
+                    ) : (
+                      ''
+                    )}
+                    <Tag color="#3a4a7e">{userPlanStatus}</Tag>
+
+                    <p className="Description">
+                      ${userPlan?.plan?.amount / 100}
+                      {userPlan?.currency?.toUpperCase()}/
+                      {userPlan?.plan?.interval}
+                    </p>
+                    {userPlanStatus === 'ACTIVE' ? (
+                      <>
+                        <div className="Btn-group">
+                          <Button
+                            className="Cancel-btn btn Subscribe"
+                            onClick={() => handleCancelClick()}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            className="Subscribe"
+                            onClick={() => showModal()}
+                          >
+                            Pause
+                          </Button>
+                          <Modal
+                            title="Enter date to pause subsciption:"
+                            visible={isModalOpen}
+                            closable={false}
+                            footer={
+                              <div className="Btn-group">
+                                <Button
+                                  className="Modal-cancel-btn Subscribe"
+                                  onClick={handleCancel}
+                                >
+                                  Cancel
+                                </Button>
+                                <Button
+                                  className="Subscribe"
+                                  onClick={handleOk}
+                                >
+                                  Ok
+                                </Button>
+                              </div>
+                            }
+                          >
+                            <DatePicker
+                              onChange={(date: any, dateString: any) => {
+                                getDate(date, dateString);
+                              }}
+                              disabledDate={(d) => d.isBefore(moment())}
+                              className="Date-Select"
+                            />
+                          </Modal>
+                        </div>
+                      </>
+                    ) : userPlanStatus === 'CANCELED' ? (
+                      <>
+                        <div className="Btn-group quest">
+                          <Button
+                            className="Subscribe"
+                            onClick={() => handleRenewClick()}
+                          >
+                            Renew
+                          </Button>
+                        </div>
+                      </>
+                    ) : userPlanStatus === 'PAUSED' ? (
+                      <>
+                        <div className="Btn-group">
+                          <Button
+                            className="Cancel-btn btn ant-btn Subscribe"
+                            onClick={() => handleCancelClick()}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            className="Subscribe"
+                            onClick={() => handleResumeClick()}
+                          >
+                            Resume
+                          </Button>
+                        </div>
+                      </>
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                </>
+              }
+            />
+          </Card>
+        )}
         <Carousel effect="fade">
           {plans.map((plan: ISubscriptionPlan) => (
             <Card key={plan.id} type="inner">
@@ -346,22 +355,21 @@ const Subscription = () => {
                     {plan.trialPeriod?.interval && (
                       <p>Trial Period: {plan.trialPeriod?.interval}</p>
                     )}
-
-                    <div className="Btn-group quest">
-                      <Button
-                        className="Next"
-                        onClick={() => handleSubscribeClick(plan.id)}
-                        disabled={
-                          disableButton ||
-                          loading ||
-                          userPlan?.plan?.id === plan.id
-                        }
-                      >
-                        {userPlan?.plan?.id === plan.id
-                          ? 'Subscribed'
-                          : 'Subscribe'}
-                      </Button>
-                    </div>
+                    {userPlan?.plan?.id !== plan.id && (
+                      <div className="Btn-group quest">
+                        <Button
+                          className="Next"
+                          onClick={() => handleSubscribeClick(plan.id)}
+                          disabled={
+                            disableButton ||
+                            loading ||
+                            userPlan?.plan?.id === plan.id
+                          }
+                        >
+                          Subscribe
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 }
               />

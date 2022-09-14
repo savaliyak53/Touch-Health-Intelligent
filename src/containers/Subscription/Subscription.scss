@@ -35,7 +35,7 @@
     }
   }
   .ant-carousel {
-    margin-top: 14vh;
+    margin-top: 20px;
   }
   .ant-carousel .slick-dots li button {
     background: #272424 !important;
@@ -43,5 +43,28 @@
 
   .ant-card-meta {
     justify-content: center;
+  }
+}
+
+.Modal-cancel-btn {
+  border-radius: 100px;
+  height: 100%;
+  padding: 18px 54px;
+  color: #fff;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  background-color: #cd6052 !important;
+  border: 2px solid#CD6052 !important;
+  margin: 20px 0 0;
+  max-width: 400px;
+  display: block;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #fff;
+    color: #cd6052;
+    border-color: #cd6052;
   }
 }
