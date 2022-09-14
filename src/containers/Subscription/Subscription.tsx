@@ -258,7 +258,7 @@ const Subscription = () => {
                       <>
                         <div className="Btn-group">
                           <Button
-                            className="Cancel-btn btn ant-btn Subscribe"
+                            className="Cancel-btn btn Subscribe"
                             onClick={() => handleCancelClick()}
                           >
                             Cancel
@@ -272,10 +272,11 @@ const Subscription = () => {
                           <Modal
                             title="Enter date to pause subsciption:"
                             visible={isModalOpen}
+                            closable={false}
                             footer={
-                              <div className="Btn-group quest">
+                              <div className="Btn-group">
                                 <Button
-                                  className="Cancel-btn btn ant-btn Subscribe"
+                                  className="Modal-cancel-btn Subscribe"
                                   onClick={handleCancel}
                                 >
                                   Cancel
@@ -354,22 +355,21 @@ const Subscription = () => {
                     {plan.trialPeriod?.interval && (
                       <p>Trial Period: {plan.trialPeriod?.interval}</p>
                     )}
-
-                    <div className="Btn-group quest">
-                      <Button
-                        className="Next"
-                        onClick={() => handleSubscribeClick(plan.id)}
-                        disabled={
-                          disableButton ||
-                          loading ||
-                          userPlan?.plan?.id === plan.id
-                        }
-                      >
-                        {userPlan?.plan?.id === plan.id
-                          ? 'Subscribed'
-                          : 'Subscribe'}
-                      </Button>
-                    </div>
+                    {userPlan?.plan?.id !== plan.id && (
+                      <div className="Btn-group quest">
+                        <Button
+                          className="Next"
+                          onClick={() => handleSubscribeClick(plan.id)}
+                          disabled={
+                            disableButton ||
+                            loading ||
+                            userPlan?.plan?.id === plan.id
+                          }
+                        >
+                          Subscribe
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 }
               />
