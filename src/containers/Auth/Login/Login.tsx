@@ -135,7 +135,6 @@ const Login = () => {
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
             disabled={isDisabled}
-            style={{ color: 'white' }}
           >
             Login
           </Button>
