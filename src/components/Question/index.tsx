@@ -13,9 +13,15 @@ interface Props {
   question: any;
   onSubmit: any;
   setValue: any;
+  setDisableNextButton: any;
 }
 
-const Question = ({ question, setValue, onSubmit }: Props) => {
+const Question = ({
+  question,
+  setValue,
+  onSubmit,
+  setDisableNextButton,
+}: Props) => {
   let radioOptions: string[] = [];
   const formatter = (value: number | undefined) => `${value}`;
   const [sliderMarks, setSliderMarks] = useState({});
@@ -204,6 +210,7 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
               tooltipVisible={question.show_values}
               onChange={(value) => {
                 setValue(value);
+                setDisableNextButton(false);
               }}
             />
             <span className="Text2">{question.upper_qualifier}</span>
