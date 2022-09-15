@@ -214,11 +214,7 @@ const Subscription = () => {
   };
 
   return (
-    <Layout
-      defaultHeader={true}
-      hamburger={location.pathname === '/subscription' ? false : true}
-      dashboard={false}
-    >
+    <Layout defaultHeader={true} hamburger={true} dashboard={false}>
       <div className="Content-wrap Sub">
         <h2 className="Sub-title">
           Subscription <Spin spinning={loading} />
