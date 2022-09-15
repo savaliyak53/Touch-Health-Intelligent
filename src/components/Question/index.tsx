@@ -78,7 +78,7 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
         return (
           <TimePicker
             className="Date-Select"
-            format={'h:mm'}
+            format={'h:mm a'}
             use12Hours
             onChange={(time, timeString) => {
               setValue(timeString);

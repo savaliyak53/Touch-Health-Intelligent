@@ -58,7 +58,7 @@ const Preferences = () => {
       .then((preferencesResponse) => {
         setIsLoading(false);
         setIsDisabled(false);
-        toast.success('You have submitted Preferences successfully');
+        toast.success('Preferences submitted');
         handleRedirect();
       })
       .catch((error) => {
