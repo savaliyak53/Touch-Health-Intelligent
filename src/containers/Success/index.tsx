@@ -19,6 +19,7 @@ const SubscriptionSuccess = () => {
         <div className="Question">
           <Alert message="Subscription successful" type="success" />
         </div>
+        <h3 className="Question-title">Thankyou for Subscribing</h3>
         <button className="submit">
           <Link to="/subscription">Check Subscription</Link>
         </button>
