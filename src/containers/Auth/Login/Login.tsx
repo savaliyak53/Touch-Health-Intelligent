@@ -109,15 +109,11 @@ const Login = () => {
     if (userId) {
       getUser(userId)
         .then((response) => {
-          console.log(response);
           if (response.data.security_questions == null) {
             navigate('/security');
           } else if (response.data.preferences == null) {
             navigate('/preferences');
           }
-          // if (response.data.preferences == null) {
-          //   navigate('/preferences');
-          // }
         })
         .catch((error) => {
           console.log(error);
