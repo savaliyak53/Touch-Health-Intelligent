@@ -273,9 +273,7 @@ const PostPreferences = () => {
                     field: { onChange, onBlur, value, name, ref },
                   }) => (
                     <DatePicker
-                      onChange={(selectedValue, selectedValueString) =>
-                        onChange(selectedValueString)
-                      }
+                      disabled={true}
                       picker="year"
                       format="YYYY"
                       defaultValue={moment(yob, 'YYYY')}
@@ -298,8 +296,8 @@ const PostPreferences = () => {
                   name="sex"
                   defaultValue={sex && sex}
                   rules={{ required: 'Please Select one' }}
-                  render={({ field: { onChange, value } }) => (
-                    <Radio.Group value={value} onChange={onChange}>
+                  render={({ field: { value } }) => (
+                    <Radio.Group value={value} disabled={true}>
                       <Space direction="vertical">
                         <Radio value="male" className="radio-input">
                           Male
