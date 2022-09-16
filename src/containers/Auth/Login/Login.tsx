@@ -39,6 +39,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    checkUserData();
     const token = localStorage.getItem('token');
     if (token) {
       getInteraction();
@@ -76,6 +77,7 @@ const Login = () => {
       localStorage.setItem('token', `${loginResponse.token}`);
       const userId = getId(loginResponse.token);
       localStorage.setItem('userId', userId);
+      checkUserData();
       getInteraction();
     } else {
       setIsDisabled(false);
@@ -88,8 +90,8 @@ const Login = () => {
     setPasswordShown(!passwordShown);
   };
 
-  const getInteraction = () => { 
-   getInteractionService()
+  const getInteraction = () => {
+    getInteractionService()
       .then((response) => {
         if (response?.data?.question) {
           navigate('/questionnaire');
@@ -99,7 +101,28 @@ const Login = () => {
       })
       .catch((error) => {
         toast(error.response.data.details.message);
-      });   
+      });
+  };
+
+  const checkUserData = () => {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      getUser(userId)
+        .then((response) => {
+          console.log(response);
+          if (response.data.security_questions == null) {
+            navigate('/security');
+          } else if (response.data.preferences == null) {
+            navigate('/preferences');
+          }
+          // if (response.data.preferences == null) {
+          //   navigate('/preferences');
+          // }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
   return (
     <Layout defaultHeader={false} hamburger={false}>
