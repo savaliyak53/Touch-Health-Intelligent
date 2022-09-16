@@ -26,27 +26,14 @@ const Preferences = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [checked, setChecked] = useState<string[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [loading, setloading] = useState(false);
-  const [preferences, setPreferences] = useState<any>({});
-  const [yob, setYob] = useState<any>('');
-  const [sex, setSex] = useState<any>('');
-  const [minutes, setMinutes] = useState<number>();
 
   const {
     register,
     handleSubmit,
-    reset,
     control,
     formState: { errors, isValid },
   } = useForm<IFormInputs>({
-    mode: 'onSubmit',
-    reValidateMode: 'onSubmit',
-    defaultValues: {
-      yob: yob,
-      sex: sex,
-      minutesPerWeek: minutes,
-      timeOfDay: checked,
-    },
+    mode: 'onChange',
   });
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
