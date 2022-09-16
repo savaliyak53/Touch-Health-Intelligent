@@ -8,15 +8,17 @@
   margin-top: clamp(0px, 5.5vh, 62px);
   background-color: rgba(#3a4a7f, 0.57);
   border: none;
-
+  color: #fff;
   &:hover,
   &:focus,
   &:active {
     background-color: #3a4a7f !important;
+    color: #fff;
   }
 
   &:disabled {
     background-color: rgba(#3a4a7f, 0.57) !important;
+    color: #fff;
   }
 }
 .app-Input {
@@ -121,6 +123,7 @@
     &:focus,
     &:active {
       background-color: #3a4a7f;
+      color: #fff;
     }
     &:disabled {
       background-color: rgba(#3a4a7f, 0.57);

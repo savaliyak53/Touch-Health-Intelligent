@@ -189,20 +189,15 @@ const Insights = () => {
         ],
       };
       setDataset(data);
-      setTimeout(() => {
-        setLoader(false);
-      }, 500);
+      setLoader(false);
       
     } else {
       setCategory('');
       setDataset({ datasets: [] });
-      setTimeout(() => {
-        setLoader(false);
-      }, 500);
+      setLoader(false);
     }
   };
   const handleCategoryChange = () => {
-    setLoader(true);
     const splitIndex = selectedInsightIndex && selectedInsightIndex.split('-');
     const insightIndex = splitIndex && splitIndex.map(Number);
     if (!insightIndex) return;
@@ -243,7 +238,7 @@ const Insights = () => {
   return (
     <>
       <Layout defaultHeader={true} hamburger={true} dashboard={false}>
-        <Spin spinning={loader}>
+      <Spin spinning={loader}>
           <div className="Content-wrap Analytic">
             <div className="Insite-btn" onClick={handleTimelineChange}>
               <Button>
@@ -274,7 +269,7 @@ const Insights = () => {
           <div className="tooltip">
             <span className="link-text">?</span>
           </div> */}
-        </Spin>
+          </Spin>
       </Layout>
     </>
   );

@@ -185,10 +185,10 @@ const SignUp = () => {
             </button>
           </div>
           <Button
+            className="Auth-submit"
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
             disabled={isDisabled}
-            className="Auth-submit"
           >
             Sign Up
           </Button>

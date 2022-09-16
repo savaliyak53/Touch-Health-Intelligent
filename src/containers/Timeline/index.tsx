@@ -19,14 +19,12 @@ const Timeline = () => {
   const [category, setCategory] = useState<string>();
   const [image, setImage] = useState<string>();
   const [loader, setLoader] = useState<boolean>();
-
+  const [insightResponse, setInsightResponse] = useState();
   const selectedInsight = localStorage.getItem('selectedInsight');
-  const getSelectedInsight = async (index: any) => {
-    setLoader(true);
-    const response = await context?.commands.loadInsights();
+  const getSelectedInsight = async (index:any, insightResp:any) => {   
     const splitIndex = index && index.split('-');
     const insightIndex = splitIndex && splitIndex.map(Number);
-    calculate(insightIndex, response);
+    calculate(insightIndex, insightResp);
   };
   const calculate = (insightArray: any, response: any) => {
     const i = insightArray[0];
@@ -40,13 +38,20 @@ const Timeline = () => {
       const patterns = selectedinsight.patterns;
       setPatterns(patterns);
       setLoader(false);
-    } else {
-      setLoader(false);
+    }
+    else { 
+     setLoader(false); 
     }
   };
+  const loadInsights = async (index: any) => {
+    setLoader(true);
+    const response = await context?.commands.loadInsights();
+    setInsightResponse(response);
+    getSelectedInsight(index,response);
+  };
   // const selectedInsightIndex = localStorage.getItem('selectedInsight');
-  useEffect(() => {
-    getSelectedInsight(selectedInsight);
+  useEffect(() => {   
+    loadInsights(selectedInsight);
   }, []);
   const handleInsightsChange = () => {
     navigate('/insights');
@@ -75,7 +80,7 @@ const Timeline = () => {
       exactIndex = `${iIndex}-${jIndex}`;
       localStorage.setItem('selectedInsight', `${iIndex}-${jIndex}`);
     }
-    getSelectedInsight(exactIndex);
+    getSelectedInsight(exactIndex,insightResponse);
     //window.location.reload();
   };
   const sortByUp = () => {
