@@ -84,7 +84,7 @@ const Question = ({
         return (
           <TimePicker
             className="Date-Select"
-            format={'h:mm a'}
+            format={'HH:MM'}
             use12Hours
             onChange={(time, timeString) => {
               setValue(timeString);
@@ -151,6 +151,7 @@ const Question = ({
           <Radio.Group
             className="Options"
             onChange={(e) => {
+              console.log('here');
               const index = question.options.indexOf(e.target.value);
               setValue(index);
             }}
