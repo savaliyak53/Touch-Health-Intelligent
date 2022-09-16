@@ -37,16 +37,14 @@ const Timeline = () => {
       //setPatternData
       const patterns = selectedinsight.patterns;
       setPatterns(patterns);
-      setTimeout(() => {
-        setLoader(false);
-      }, 500);
-    } else {
-      setTimeout(() => {
-        setLoader(false);
-      }, 500);
+      setLoader(false);
+    }
+    else { 
+     setLoader(false); 
     }
   };
   const loadInsights = async (index: any) => {
+    setLoader(true);
     const response = await context?.commands.loadInsights();
     setInsightResponse(response);
     getSelectedInsight(index,response);
@@ -59,7 +57,6 @@ const Timeline = () => {
     navigate('/insights');
   };
   const handleCategoryChange = () => {
-    setLoader(true);
     const splitIndex = selectedInsight && selectedInsight.split('-');
     const insightIndex = splitIndex && splitIndex.map(Number);
     if (!insightIndex) return;
