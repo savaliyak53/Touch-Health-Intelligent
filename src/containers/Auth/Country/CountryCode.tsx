@@ -68,8 +68,8 @@ const CountryCode = ({
               disabled={disabled}
               placeholder={
                 fieldName === 'phone' || fieldName === 'username'
-                  ? 'Phone Number'
-                  : 'Confirm Phone Number'
+                  ? 'Phone'
+                  : 'Confirm Phone'
               }
               countries={whitelist}
               className="app-Input"
