@@ -84,7 +84,7 @@ const Question = ({
         return (
           <TimePicker
             className="Date-Select"
-            format={'HH:MM'}
+            format={'HH:MM:SS.ssssss'} //format provided by Josh
             use12Hours
             onChange={(time, timeString) => {
               setValue(timeString);
