@@ -15,7 +15,7 @@ import { Skeleton } from 'antd';
 
 function UserCondition() {
   const [question, setQuestion] = useState<Interaction | any>();
-  const [value, setValue] = useState<string | undefined>('');
+  const [value, setValue] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
   const [refId, setRefId] = useState<string>('');
   const [skeletonLoading, setSkeletonLoading] = useState(true);
@@ -74,7 +74,7 @@ function UserCondition() {
     postInteractionService(payload)
       .then(({ data }) => {
         setLoading(false);
-        setValue('');
+        setValue(undefined);
         setRefId(data.ref_id ?? '');
         if (data.question) {
           setQuestion(data.question);
@@ -108,6 +108,7 @@ function UserCondition() {
               onSubmit={onSubmit}
               setDisableNextButton={setDisableNextButton}
             />
+            {console.log('value ', value)}
             {question?.type !== 'yes_no' && (
               <div className="Btn-group">
                 <Button
@@ -125,7 +126,7 @@ function UserCondition() {
                     onSubmit();
                   }}
                   loading={loading}
-                  disabled={value === null || loading || disableNextButton}
+                  disabled={typeof value === 'undefined' || loading}
                 >
                   Next
                 </Button>

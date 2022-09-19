@@ -6,20 +6,19 @@
   cursor: pointer;
 }
 .Pain {
-  .Question {
-    margin-top: clamp(0px, 8vh, 130px);
-    margin-bottom: clamp(0px, 8vh, 60px);
-  }
+  // .Question {
+  //   margin-top: clamp(0px, 8vh, 130px);
+  //   margin-bottom: clamp(0px, 8vh, 60px);
+  // }
 
   .Question-title {
-    margin-bottom: 24px;
+    margin-top: 20px;
   }
 }
 
 .Slider-Vertical {
   display: flex;
   justify-content: center;
-  margin-right: 30px;
 
   .Text1,
   .Text2 {
