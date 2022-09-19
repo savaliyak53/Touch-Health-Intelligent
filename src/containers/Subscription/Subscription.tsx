@@ -214,7 +214,11 @@ const Subscription = () => {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={true} dashboard={false}>
+    <Layout
+      defaultHeader={true}
+      hamburger={userPlanStatus === 'NOT_SUBSCRIBED' ? false : true}
+      dashboard={false}
+    >
       <div className="Content-wrap Sub">
         <h2 className="Sub-title">
           Subscription <Spin spinning={loading} />

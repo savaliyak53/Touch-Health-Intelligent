@@ -13,6 +13,7 @@ import {
   getUser,
   loginService,
 } from '../../../services/authservice';
+import { getSubscriptionStatus } from '../../../services/subscriptionService';
 import jwt from 'jwt-decode';
 import './index.scss';
 import '../index.scss';
@@ -114,6 +115,15 @@ const Login = () => {
           } else if (response.data.preferences == null) {
             navigate('/preferences');
           }
+          getSubscriptionStatus()
+            .then((response) => {
+              if (response.data.status == 'NOT_SUBSCRIBED') {
+                navigate('/subscription');
+              }
+            })
+            .catch((error) => {
+              console.log('Error while getting user plan. ', error);
+            });
         })
         .catch((error) => {
           console.log(error);
