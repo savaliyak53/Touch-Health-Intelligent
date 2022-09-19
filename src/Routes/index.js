@@ -54,6 +54,7 @@ const AppRoutes = () => {
           <Route path="/conditions" element={<ManageConditions />} />
           {/* <Route path="/concerns" element={<ManageConcerns />} /> */}
           <Route path="/questionnaire" element={<UserCondition />} />
+          <Route path="/contact" element={<UserCondition />} />
           <Route
             path="/questionnaire-submit"
             element={<ThankyouForSubmiting />}
