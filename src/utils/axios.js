@@ -2,37 +2,39 @@ import axios from 'axios'
 
 const apiClient = (url, method = 'get', data = {}) => {
     const baseURL = process.env.REACT_APP_API_HOST
-    const config = {
-        url: url,
-        method: method,
-        baseURL: baseURL,
+  const config = {
+    url: url,
+    method: method,
+    baseURL: baseURL,
     }
 
-    if (method.toLocaleLowerCase === 'get') {
+  if (method.toLocaleLowerCase === 'get') {
         config['params'] = data
-    } else {
+  } else {
         config['data'] = data
-    }
+  }
 
     const token = localStorage.getItem('token')
 
-    axios.interceptors.request.use((config) => {
-        if (token) {
+  axios.interceptors.request.use((config) => {
+    if (token) {
             config.headers.Authorization = `Bearer ${localStorage.token}`
-        }
+    }
         return config
     })
 
-    axios.interceptors.response.use(
-        (response) => {
+  axios.interceptors.response.use(
+    (response) => {
             return response
-        },
-        (error) => {
-            if (error.response.status === 401) {
-                localStorage.removeItem('token')
-            }
+    },
+    (error) => {
+      if (error.response.status === 401) {
+        localStorage.removeItem('userId');
+        localStorage.removeItem('token');
+        window.location = '/login';
+      }
             return Promise.reject(error)
-        }
+    }
     )
     return axios(config)
 }
