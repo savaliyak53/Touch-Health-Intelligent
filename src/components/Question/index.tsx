@@ -84,10 +84,11 @@ const Question = ({
         return (
           <TimePicker
             className="Date-Select"
-            format={'HH:MM'}
+            format={'HH:mm:SS a'}
             use12Hours
             onChange={(time, timeString) => {
-              setValue(timeString);
+              const selectedtime= timeString.includes('am')?timeString.split(' am').join(''):timeString.split(' pm').join('')
+              setValue(selectedtime);
             }}
           />
         );

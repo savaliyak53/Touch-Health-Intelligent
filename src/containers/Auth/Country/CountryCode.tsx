@@ -29,6 +29,7 @@ const CountryCode = ({
   const whitelist: any = [
     'AU',
     'CA',
+    'DO',
     'JM',
     'IE',
     'NL',
