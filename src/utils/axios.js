@@ -1,7 +1,4 @@
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-
-const navigate = useNavigate();
+import axios from 'axios'
 
 const apiClient = (url, method = 'get', data = {}) => {
     const baseURL = process.env.REACT_APP_API_HOST
@@ -32,8 +29,7 @@ const apiClient = (url, method = 'get', data = {}) => {
         },
         (error) => {
             if (error.response.status === 401) {
-                localStorage.removeItem('token');
-                navigate('/login');
+                localStorage.removeItem('token')
             }
             return Promise.reject(error)
         }
