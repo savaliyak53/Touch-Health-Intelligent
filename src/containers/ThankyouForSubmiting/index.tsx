@@ -12,7 +12,7 @@ const index = () => {
           <h3 className="Question-title">You&apos;re done for the day!</h3>
         </div>
         <button className="submit">
-          <Link to="/conditions">Manage conditions</Link>
+          <Link to="/post-conditions">Manage conditions</Link>
         </button>
         {/* <button className="submit">
           <Link to="/concerns">Manage concerns</Link>
