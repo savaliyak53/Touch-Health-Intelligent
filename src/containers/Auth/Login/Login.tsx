@@ -3,17 +3,11 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-
 import Button from '../../../components/Button';
 import InputField from '../../../components/Input';
 import Layout from '../../../layouts/Layout/Layout';
 
-import {
-  getInteractionService,
-  getUser,
-  loginService,
-} from '../../../services/authservice';
-import { getSubscriptionStatus } from '../../../services/subscriptionService';
+import { loginService } from '../../../services/authservice';
 import jwt from 'jwt-decode';
 import './index.scss';
 import '../index.scss';
@@ -38,14 +32,6 @@ const Login = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    checkUserData();
-    const token = localStorage.getItem('token');
-    if (token) {
-      getInteraction();
-    }
-  }, []);
   const {
     register,
     handleSubmit,
@@ -78,8 +64,7 @@ const Login = () => {
       localStorage.setItem('token', `${loginResponse.token}`);
       const userId = getId(loginResponse.token);
       localStorage.setItem('userId', userId);
-      checkUserData();
-      getInteraction();
+      navigate('/');
     } else {
       setIsDisabled(false);
       setIsLoading(false);
@@ -91,45 +76,6 @@ const Login = () => {
     setPasswordShown(!passwordShown);
   };
 
-  const getInteraction = () => {
-    getInteractionService()
-      .then((response) => {
-        if (response?.data?.question) {
-          navigate('/questionnaire');
-        } else {
-          navigate('/dashboard');
-        }
-      })
-      .catch((error) => {
-        toast(error.response.data.details.message);
-      });
-  };
-
-  const checkUserData = () => {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      getUser(userId)
-        .then((response) => {
-          if (response.data.security_questions == null) {
-            navigate('/security');
-          } else if (response.data.preferences == null) {
-            navigate('/preferences');
-          }
-          getSubscriptionStatus()
-            .then((response) => {
-              if (response.data.status == 'NOT_SUBSCRIBED') {
-                navigate('/subscription');
-              }
-            })
-            .catch((error) => {
-              console.log('Error while getting user plan. ', error);
-            });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  };
   return (
     <Layout defaultHeader={false} hamburger={false}>
       <div className="Auth-wrap">
