@@ -23,6 +23,7 @@ import Verification from '../containers/Auth/Verification';
 import HelpAndSupport from '../containers/HelpAndSupport';
 import Success from '../containers/Success';
 import Error from '../containers/Error';
+import Home from '../containers/Home';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -39,7 +40,7 @@ const AppRoutes = () => {
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.signUp} element={<SignUp />} />
         <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
-        <Route path="*" element={<Login />} />
+        <Route path="*" element={<Home />} />
         <Route element={<RequireSignup />}>
           <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />
           <Route path="/verification-code" element={<Verification />} />
