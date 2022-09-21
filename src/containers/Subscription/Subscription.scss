@@ -3,8 +3,8 @@
   line-height: 36px;
   font-weight: 700;
   color: #272424;
-  margin-top: clamp(0px, 7.5vh, 96px);
-  margin-bottom: clamp(0px, 7.5vh, 36px);
+  margin-top: clamp(0px, 3.5vh, 20px);
+  margin-bottom: clamp(0px, 1.5vh, 36px);
 }
 
 .Sub {
@@ -15,19 +15,21 @@
 
   .Question-title {
     margin-bottom: 10px;
+    font-size: 14px !important;
+    text-align: center;
   }
 
   .Description {
-    font-size: 20px;
+    font-size: 36px;
     line-height: 24px;
     color: #272424;
     font-weight: 500;
-    margin-bottom: 0;
+    margin-bottom: 3px;
     font-family: 'Barlow', sans-serif;
   }
 
   .Btn-group {
-    margin-top: 40px;
+    //margin-top: 40px;
     gap: 30px;
     &.quest {
       margin-top: 0;
@@ -43,6 +45,13 @@
 
   .ant-card-meta {
     justify-content: center;
+    height:220px
+  }
+  .ant-card-meta-title {
+    height: 30px;
+  }
+  .ant-card-type-inner .ant-card-body {
+    height:240px
   }
 }
 
@@ -66,5 +75,61 @@
     background-color: #fff;
     color: #cd6052;
     border-color: #cd6052;
+  }
+}
+.Subscribe-btn.btn.ant-btn,
+.btn.ant-btn {
+  border-radius: 80px;
+  height: 30%;
+  padding: 10px 54px;
+  background-color: #3a4a7e;
+  color: #fff;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  border: 2px solid #3a4a7e;
+  margin: 20px auto 0;
+  max-width: 300px;
+  display: block;
+  width: 30%;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #fff;
+    color: #3a4a7e;
+    border-color: #3a4a7e;
+  }
+}
+@media (max-width: 400px) {
+  .Subscribe-btn.btn.ant-btn,
+  .btn.ant-btn {
+    border-radius: 80px;
+    height: 30%;
+    padding: 10px;
+    background-color: #3a4a7e;
+    color: #fff;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    border: 2px solid #3a4a7e;
+    margin: 10px auto 0;
+    max-width: 100px;
+    display: block;
+    width: 30%;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #fff;
+      color: #3a4a7e;
+      border-color: #3a4a7e;
+    }
+  }
+  .button-group {
+    display: flex;
+    flex-direction: row;
+    margin-right: 10px;
+    margin-left: 10px;
   }
 }
