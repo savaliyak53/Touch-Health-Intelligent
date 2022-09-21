@@ -40,23 +40,26 @@ const Home = () => {
           } else if (response.data.preferences == null) {
             navigate('/preferences');
           } else {
-            getSubscriptionStatus()
-              .then((response) => {
-                if (response.data.status == 'NOT_SUBSCRIBED') {
-                  navigate('/subscription');
-                } else {
-                  getInteraction();
-                }
-              })
-              .catch((error) => {
-                console.log('Error while getting user plan. ', error);
-              });
+            getUserSubscription();
           }
         })
         .catch((error) => {
           console.log(error);
         });
     }
+  };
+  const getUserSubscription = () => {
+    getSubscriptionStatus()
+      .then((response) => {
+        if (response.data.status == 'NOT_SUBSCRIBED') {
+          navigate('/subscription');
+        } else {
+          getInteraction();
+        }
+      })
+      .catch((error) => {
+        console.log('Error while getting user plan. ', error);
+      });
   };
   return (
     <div className="Btn-group">

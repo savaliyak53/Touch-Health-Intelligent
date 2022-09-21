@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { DatePicker, Modal } from 'antd';
 import moment from 'moment';
 import Layout from '../../layouts/Layout/Layout';
-import { Button, Spin } from 'antd';
+import { Button, Spin, Popconfirm } from 'antd';
 import './Subscription.scss';
 import {
   checkoutPlan,
@@ -11,13 +10,12 @@ import {
   getUserSubscription,
   pauseSubscription,
   cancelSubscription,
-  uncancelSubscription,
   resumeSubscription,
   updateSubscription,
 } from '../../services/subscriptionService';
 import { Card, Carousel, Tag } from 'antd';
 import { toast } from 'react-toastify';
-import { Navigate, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 const { Meta } = Card;
 
@@ -46,16 +44,6 @@ const Subscription = () => {
   const [userPlan, setUserPlan] = useState<any>({});
   const [disableButton, setDisableButton] = useState(false);
   const [userPlanStatus, setUserPlanStatus] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [endDate, setEndDate] = useState(0);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
   const fetchPlans = () => {
     setLoading(true);
@@ -145,11 +133,10 @@ const Subscription = () => {
       });
   };
 
-  const handlePauseClick = (endDate: number) => {
+  const handlePauseClick = () => {
     setLoading(true);
     setDisableButton(true);
-    showModal();
-    pauseSubscription(endDate)
+    pauseSubscription()
       .then((response) => {
         setLoading(false);
         setDisableButton(false);
@@ -162,24 +149,6 @@ const Subscription = () => {
         setDisableButton(false);
         console.log('error while subscribing ', error);
         toast.error(error.response.data.details);
-      });
-  };
-  const handleRenewClick = () => {
-    setLoading(true);
-    setDisableButton(true);
-    uncancelSubscription()
-      .then((response) => {
-        setLoading(false);
-        setDisableButton(false);
-        toast.info('Subscription Renewed');
-        fetchUserSubscription();
-        userSubscriptionStatus();
-      })
-      .catch((error) => {
-        setLoading(false);
-        setDisableButton(false);
-        console.log('error while subscribing ', error);
-        toast.error('Something went wrong while subscribing');
       });
   };
   const handleResumeClick = () => {
@@ -201,18 +170,6 @@ const Subscription = () => {
         toast.error('Something went wrong while subscribing');
       });
   };
-
-  const getDate = (dateObj: any, dateString: string) => {
-    const date = new Date(dateString);
-    const timestampInMs = date.getTime();
-    setEndDate(timestampInMs);
-  };
-
-  const handleOk = () => {
-    handlePauseClick(endDate);
-    setIsModalOpen(false);
-  };
-
   return (
     <Layout
       defaultHeader={true}
@@ -228,88 +185,53 @@ const Subscription = () => {
             {'User is currently not subscribed to any plan'}
           </Tag>
         ) : (
-          userPlanStatus && (
+          userPlan.subscription && (
             <Card>
               <Meta
                 title={<h3 className="Question-title"> Current Plan:</h3>}
                 description={
                   <>
                     <h3 className="Question-title">
-                      {userPlan?.plan?.interval_count}&nbsp;
-                      {userPlan?.plan?.interval}
-                      &nbsp;{userPlan?.plan?.object}
+                      {userPlan?.subscription?.plan?.interval_count}&nbsp;
+                      {userPlan?.subscription?.plan?.interval}
+                      &nbsp;{userPlan?.subscription?.plan?.object}
                     </h3>
                     <div className="Question">
-                      {userPlan.cancel_at ? (
-                        <p>
-                          Your Plan will end at{' '}
-                          {moment(userPlan.cancel_at).format('DD/MM/YYYY')}
-                        </p>
-                      ) : (
-                        ''
-                      )}
                       <Tag color="#3a4a7e">{userPlanStatus}</Tag>
 
                       <p className="Description">
-                        ${userPlan?.plan?.amount / 100}
-                        {userPlan?.currency?.toUpperCase()}/
-                        {userPlan?.plan?.interval}
+                        ${userPlan?.subscription?.plan?.amount / 100}
+                        {userPlan?.subscription?.currency?.toUpperCase()}/
+                        {userPlan?.subscription?.plan?.interval}
                       </p>
                       {userPlanStatus === 'ACTIVE' ? (
                         <>
                           <div className="Btn-group">
-                            <Button
-                              className="Cancel-btn btn Subscribe"
-                              onClick={() => handleCancelClick()}
-                            >
-                              Cancel
-                            </Button>
-                            <Button
-                              className="Subscribe"
-                              onClick={() => showModal()}
-                            >
-                              Pause
-                            </Button>
-                            <Modal
-                              title="Enter date to pause subsciption:"
-                              visible={isModalOpen}
-                              closable={false}
-                              footer={
-                                <div className="Btn-group">
-                                  <Button
-                                    className="Modal-cancel-btn Subscribe"
-                                    onClick={handleCancel}
-                                  >
-                                    Cancel
-                                  </Button>
-                                  <Button
-                                    className="Subscribe"
-                                    onClick={handleOk}
-                                  >
-                                    Ok
-                                  </Button>
-                                </div>
+                            <Popconfirm
+                              title={
+                                'Are you sure you want to cancel subscription?'
                               }
+                              onConfirm={handleCancelClick}
+                              okText="Yes"
+                              cancelText="No"
                             >
-                              <DatePicker
-                                onChange={(date: any, dateString: any) => {
-                                  getDate(date, dateString);
-                                }}
-                                disabledDate={(d) => d.isBefore(moment())}
-                                className="Date-Select"
-                              />
-                            </Modal>
-                          </div>
-                        </>
-                      ) : userPlanStatus === 'CANCELED' ? (
-                        <>
-                          <div className="Btn-group quest">
-                            <Button
-                              className="Subscribe"
-                              onClick={() => handleRenewClick()}
+                              <Button className="Cancel-btn btn Subscribe">
+                                Cancel
+                              </Button>
+                            </Popconfirm>
+
+                            <Popconfirm
+                              title={
+                                'Are you sure you want to pause subscription?'
+                              }
+                              onConfirm={handlePauseClick}
+                              okText="Yes"
+                              cancelText="No"
                             >
-                              Renew
-                            </Button>
+                              {userPlan.canPause && (
+                                <Button className="Subscribe">Pause</Button>
+                              )}
+                            </Popconfirm>
                           </div>
                         </>
                       ) : userPlanStatus === 'PAUSED' ? (
@@ -339,45 +261,47 @@ const Subscription = () => {
             </Card>
           )
         )}
-        <Carousel effect="fade">
-          {plans.map((plan: ISubscriptionPlan) => (
-            <Card key={plan.id} type="inner">
-              <Meta
-                title={<h3 className="Question-title">{plan.name}</h3>}
-                description={
-                  <div className="Question">
-                    <p>{plan.description}</p>
-                    {userPlan?.plan?.id === plan.id && (
-                      <Tag color="#3a4a7e">{userPlanStatus}</Tag>
-                    )}
-                    <p className="Description">
-                      {plan.amount}
-                      {plan.currency}/{plan.interval}
-                    </p>
-                    {plan.trialPeriod?.interval && (
-                      <p>Trial Period: {plan.trialPeriod?.interval}</p>
-                    )}
-                    {userPlan?.plan?.id !== plan.id && (
-                      <div className="Btn-group quest">
-                        <Button
-                          className="Next"
-                          onClick={() => handleSubscribeClick(plan.id)}
-                          disabled={
-                            disableButton ||
-                            loading ||
-                            userPlan?.plan?.id === plan.id
-                          }
-                        >
-                          Subscribe
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                }
-              />
-            </Card>
-          ))}
-        </Carousel>
+        {userPlan.subscription && (
+          <Carousel effect="fade">
+            {plans.map((plan: ISubscriptionPlan) => (
+              <Card key={plan.id} type="inner">
+                <Meta
+                  title={<h3 className="Question-title">{plan.name}</h3>}
+                  description={
+                    <div className="Question">
+                      <p>{plan.description}</p>
+                      {userPlan?.plan?.id === plan.id && (
+                        <Tag color="#3a4a7e">{userPlanStatus}</Tag>
+                      )}
+                      <p className="Description">
+                        {plan.amount}
+                        {plan.currency}/{plan.interval}
+                      </p>
+                      {plan.trialPeriod?.interval && (
+                        <p>Trial Period: {plan.trialPeriod?.interval}</p>
+                      )}
+                      {userPlan?.subscription?.plan?.id !== plan.id && (
+                        <div className="Btn-group quest">
+                          <Button
+                            className="Next"
+                            onClick={() => handleSubscribeClick(plan.id)}
+                            disabled={
+                              disableButton ||
+                              loading ||
+                              userPlan?.plan?.id === plan.id
+                            }
+                          >
+                            Subscribe
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  }
+                />
+              </Card>
+            ))}
+          </Carousel>
+        )}
       </div>
     </Layout>
   );
