@@ -94,6 +94,46 @@ const Preferences = () => {
         <h2 className="Pref-title">Preferences</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="Preferences-form">
           <div className="Question">
+            <h3 className="Question-title">Check-in preferred time of day:</h3>
+            <div
+              className="no-bullets"
+              {...register('timeOfDay', {
+                required: true,
+              })}
+            >
+              {timeOfDay.map((c, i) => (
+                <div key={`${i}`}>
+                  <label className="ant-checkbox-wrapper Pref-checkbox">
+                    <span
+                      className={`ant-checkbox ${
+                        isChecked(c) ? 'ant-checkbox-checked' : ''
+                      }`}
+                    >
+                      <InputField
+                        key={i}
+                        id={`${c}`}
+                        {...register('timeOfDay', {
+                          required: true,
+                        })}
+                        value={c}
+                        type="checkbox"
+                        className="ant-checkbox-input"
+                        onChange={(e: any) => handleOnChange(e, c)}
+                      />
+
+                      <span className="ant-checkbox-inner"></span>
+                    </span>
+                    <span> {c}</span>
+                  </label>
+                  <br />
+                </div>
+              ))}
+            </div>
+            <p className="Preferences-form-error">
+              {errors?.timeOfDay && 'Please select at least one option.'}
+            </p>
+          </div>
+          <div className="Question">
             <Tooltip
               title="The more time you give your health assistant, the better it gets to know your personal health, and the better it will guide you to optimal health."
               placement="topRight"
@@ -111,20 +151,14 @@ const Preferences = () => {
                   setShowTooltip(false);
                 }}
               >
-                How much communication with your AI health assistant would you
-                like?
+                How much communication would you like to have with your health
+                assistant?
               </h3>
             </Tooltip>
             <h5>
-              Tip 1: More engagement early on reduces the time it takes to
-              discover your health pathways. We recommend starting high, and
-              once your health pathways are detected adjust to lower values to
-              suit you.
-            </h5>
-            <h5>
-              Tip 2: By enabling integrations with your smart wearables, your AI
-              health assistant gets to know you faster and requires less
-              communication with you.
+              Tip: by enabling integrations with smart wearables and health apps
+              you may be using, your health assistant can get to know you better
+              with less communication.
             </h5>
 
             <br />
@@ -149,17 +183,16 @@ const Preferences = () => {
 
                   <div className="Slider-range">
                     <div className="flex-container">
-                      <span>Very little</span> <br />
-                      <span> (Low accuracy and minimal navigation)</span>
+                      <span>Very little</span>
+                      <span> (approx. 3 min. / week)</span>
                     </div>
                     <div className="flex-container">
                       <span>Medium</span>
-                      <br />
-                      <span> (Adaptive and able to navigate)</span>
+                      <span> (approx. 10 min. / week)</span>
                     </div>
                     <div className="flex-container">
-                      <span>Locked on</span> <br />
-                      <span> (High accuracy and reactive navigation)</span>
+                      <span>Complete</span>
+                      <span> (approx. 15 min. / week)</span>
                     </div>
                   </div>
                 </>
