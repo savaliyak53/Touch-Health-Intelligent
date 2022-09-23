@@ -262,43 +262,47 @@ const Subscription = () => {
           )
         )}
         <Carousel effect="fade">
-          {plans.map((plan: ISubscriptionPlan) => (
-            <Card key={plan.id} type="inner">
-              <Meta
-                title={<h3 className="Question-title">{plan.name}</h3>}
-                description={
-                  <div className="Question">
-                    <p>{plan.description}</p>
-                    {userPlan?.plan?.id === plan.id && (
-                      <Tag color="#3a4a7e">{userPlanStatus}</Tag>
-                    )}
-                    <p className="Description">
-                      {plan.amount}
-                      {plan.currency}/{plan.interval}
-                    </p>
-                    {plan.trialPeriod?.interval && (
-                      <p>Trial Period: {plan.trialPeriod?.interval}</p>
-                    )}
-                    {userPlan?.subscription?.plan?.id !== plan.id && (
-                      <div className="Btn-group quest">
-                        <Button
-                          className="Next"
-                          onClick={() => handleSubscribeClick(plan.id)}
-                          disabled={
-                            disableButton ||
-                            loading ||
-                            userPlan?.plan?.id === plan.id
-                          }
-                        >
-                          Subscribe
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                }
-              />
-            </Card>
-          ))}
+          <>
+            {' '}
+            {console.log('plans are ', plans)}
+            {plans.map((plan: ISubscriptionPlan) => (
+              <Card key={plan.id} type="inner">
+                <Meta
+                  title={<h3 className="Question-title">{plan.name}</h3>}
+                  description={
+                    <div className="Question">
+                      <p>{plan.description}</p>
+                      {userPlan?.plan?.id === plan.id && (
+                        <Tag color="#3a4a7e">{userPlanStatus}</Tag>
+                      )}
+                      <p className="Description">
+                        {plan.amount}
+                        {plan.currency}/{plan.interval}
+                      </p>
+                      {plan.trialPeriod?.interval && (
+                        <p>Trial Period: {plan.trialPeriod?.interval}</p>
+                      )}
+                      {userPlan?.subscription?.plan?.id !== plan.id && (
+                        <div className="Btn-group quest">
+                          <Button
+                            className="Next"
+                            onClick={() => handleSubscribeClick(plan.id)}
+                            disabled={
+                              disableButton ||
+                              loading ||
+                              userPlan?.plan?.id === plan.id
+                            }
+                          >
+                            Subscribe
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  }
+                />
+              </Card>
+            ))}
+          </>
         </Carousel>
       </div>
     </Layout>
