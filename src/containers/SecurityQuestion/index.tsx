@@ -48,7 +48,7 @@ const SecurityQuestions = () => {
           Security Question <Spin spinning={loading} />
         </h2>
         <p className="Con-Description">
-         Select a security question and input answer.
+         Please help us protect your account. Select a security question and input answer. You can use this to get back access to your account.
         </p>
 
         <div className="Switch-wrap">
