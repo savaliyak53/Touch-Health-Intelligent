@@ -43,3 +43,9 @@ export const resumeSubscription = () => {
 export const updateSubscription = (planId: string) => {
   return APIClient('/payments/subscription/update', 'POST', { planId: planId });
 };
+export const updateUserSubscription = (planId: string) => {
+  return APIClient('/payments/subscription', 'POST', { planId: planId });
+};
+export const calculateSubscriptionProration = (planId: string) => {
+  return APIClient('/payments/subscription/update/estimate', 'POST', { planId: planId });
+};

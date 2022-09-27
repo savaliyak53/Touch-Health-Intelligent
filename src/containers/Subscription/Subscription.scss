@@ -27,6 +27,14 @@
     margin-bottom: 3px;
     font-family: 'Barlow', sans-serif;
   }
+  .subDescription {
+    font-size: 16px;
+    line-height: 20px;
+    color: #272424;
+    font-weight: 500;
+    margin-top: 10px;
+    font-family: 'Barlow', sans-serif;
+  }
 
   .Btn-group {
     //margin-top: 40px;
@@ -66,7 +74,7 @@
   background-color: #cd6052 !important;
   border: 2px solid#CD6052 !important;
   margin: 20px 0 0;
-  max-width: 400px;
+  max-width: 150px;
   display: block;
 
   &:hover,
@@ -132,4 +140,7 @@
     margin-right: 10px;
     margin-left: 10px;
   }
+}
+.card-bordered {
+  border: 2px solid #878383 !important;
 }
