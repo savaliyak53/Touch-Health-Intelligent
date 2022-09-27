@@ -22,6 +22,8 @@
 
   .Text1,
   .Text2 {
+    width: 100px;
+    word-wrap: break-word;
     font-size: 20px;
     line-height: 24px;
     color: rgba(#282f28, 0.7);
