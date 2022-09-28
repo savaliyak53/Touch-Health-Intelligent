@@ -91,20 +91,6 @@ const PostPreferences = () => {
     navigate(`/introvideo`);
   };
 
-  const timeOfDay = ['Morning', 'Afternoon', 'Evening'];
-  const handleOnChange = (e: any, value: string) => {
-    if (e.target.checked) {
-      setChecked([...checked, value]);
-    } else {
-      setChecked(checked.filter((item) => item !== value));
-    }
-  };
-  const isChecked = (value: any) => {
-    if (checked.includes(value)) {
-      return true;
-    }
-    return false;
-  };
   const getUserInfo = (userId: string | null | undefined) => {
     getUser(userId)
       .then((response: any) => {
@@ -112,20 +98,11 @@ const PostPreferences = () => {
           setPreferences(response?.data?.preferences);
           setYob(response.data.yob);
           setSex(response.data.sex);
-
-          setChecked([
-            ...response.data.preferences.preferred_engagement_slots.map(
-              (item: any) => item[0].toUpperCase() + item.slice(1)
-            ),
-          ]);
           setMinutes(response.data.preferences.minutes_per_week);
           reset({
             yob: response.data.yob,
             sex: response.data.sex,
             minutesPerWeek: response.data.preferences.minutes_per_week,
-            timeOfDay: [
-              ...response.data.preferences.preferred_engagement_slots,
-            ],
           });
           setloading(false);
         }
