@@ -7,7 +7,9 @@ export const getPlansService = () => {
 export const getUserSubscription = () => {
   return APIClient('/payments/subscription', 'GET');
 };
-
+export const getUserPlan = () => {
+  return APIClient('/payments/subscription/info', 'GET');
+};
 export const checkoutPlan = (planId: string) => {
   return APIClient('/payments/checkout', 'POST', {
     planId: planId,
@@ -33,4 +35,10 @@ export const resumeSubscription = () => {
 
 export const updateSubscription = (planId: string) => {
   return APIClient('/payments/subscription/update', 'POST', { planId: planId });
+};
+export const updateUserSubscription = (planId: string) => {
+  return APIClient('/payments/subscription', 'POST', { planId: planId });
+};
+export const calculateSubscriptionProration = (planId: string) => {
+  return APIClient('/payments/subscription/update/estimate', 'POST', { planId: planId });
 };

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import moment from 'moment';
 import Layout from '../../layouts/Layout/Layout';
 import { Button, Spin, Popconfirm } from 'antd';
 import './Subscription.scss';
@@ -8,48 +7,46 @@ import {
   getPlansService,
   getSubscriptionStatus,
   getUserSubscription,
-  pauseSubscription,
   cancelSubscription,
-  resumeSubscription,
-  updateSubscription,
+  updateUserSubscription,
+  calculateSubscriptionProration,
 } from '../../services/subscriptionService';
-import { Card, Carousel, Tag } from 'antd';
+import { Card } from 'antd';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
-
+import { dateFormatRenewal } from '../../utils/lib';
+import ConfirmModal from './ConfirmModal';
+import { ISubscriptionPlan, IUserSubscription } from './Interfaces';
 const { Meta } = Card;
-
-export type ITrialPeriod = {
-  interval: string;
-  iterations: number;
-};
-
-export type ISubscriptionPlan = {
-  id: string;
-  currency: string;
-  interval: string;
-  periods: number;
-  iterations: number;
-  trialPeriod: ITrialPeriod | null;
-  amount: string;
-  description: string | null;
-  name: string;
-  priceAveraged: string | undefined;
-};
 
 const Subscription = () => {
   const navigate = useNavigate();
-  const [plans, setPlans] = useState<ISubscriptionPlan[]>([]);
+  const [plans, setPlans] = useState<ISubscriptionPlan[]|undefined>([]);
+  const [freeTrial,setFreeTrial] = useState<boolean|undefined>(false);
   const [loading, setLoading] = useState(false);
-  const [userPlan, setUserPlan] = useState<any>({});
+  const [userPlan, setUserPlan] = useState<IUserSubscription | undefined>();
   const [disableButton, setDisableButton] = useState(false);
   const [userPlanStatus, setUserPlanStatus] = useState('');
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [showSwitchModal, setShowSwitchModal] = useState(false);
+  const [estimateAmount, setEstimateAmount] = useState();
+  const [switchPlanId, setSwitchPlanId] = useState<string>();
+  const [endDate, setEndDate] = useState(0);
+
+  const showModal = () => {
+    setShowCancelModal(true);
+  };
+
+  const handleCancel = () => {
+    setShowCancelModal(false);
+  };
 
   const fetchPlans = () => {
     setLoading(true);
     getPlansService()
       .then(({ data }) => {
         setLoading(false);
+        data.freeTrial && setFreeTrial(data.freeTrial);
         setPlans(data.plans);
       })
       .catch((error) => {
@@ -63,7 +60,16 @@ const Subscription = () => {
     getUserSubscription()
       .then((response: any) => {
         setLoading(false);
-        setUserPlan(response.data);
+        if(response.data.renewalDate){
+          const renewalDate= dateFormatRenewal(new Date(response.data.renewalDate).toUTCString());
+          setUserPlan({
+            ...response.data,
+            renewalDate:renewalDate
+          });
+        }
+        else{
+          setUserPlan(response.data);
+        }
       })
       .catch((error) => {
         setLoading(false);
@@ -88,7 +94,6 @@ const Subscription = () => {
         console.log('Error while getting user plan. ', error);
       });
   };
-
   useEffect(() => {
     userSubscriptionStatus();
     fetchPlans();
@@ -98,9 +103,7 @@ const Subscription = () => {
   const handleSubscribeClick = (id: string) => {
     setLoading(true);
     setDisableButton(true);
-    userPlan?.plan?.id != null
-      ? updateSubscription(id)
-      : checkoutPlan(id)
+    checkoutPlan(id)
           .then((response) => {
             setLoading(false);
             setDisableButton(false);
@@ -132,44 +135,36 @@ const Subscription = () => {
         toast.error('Something went wrong while subscribing');
       });
   };
-
-  const handlePauseClick = () => {
+  const handleSwitch = () => {
     setLoading(true);
     setDisableButton(true);
-    pauseSubscription()
-      .then((response) => {
+    if(switchPlanId){
+      updateUserSubscription(switchPlanId).then((response)=>{
+        setShowSwitchModal(false);
         setLoading(false);
         setDisableButton(false);
-        toast.info('Subscription Paused');
+        fetchPlans();
         fetchUserSubscription();
-        userSubscriptionStatus();
+      })
+    }
+  };
+  const handleOk = () => {
+    handleCancelClick();
+    setShowCancelModal(false);
+  };
+  const handleSwitchModal =(id:string)=>{
+    setSwitchPlanId(id);
+    calculateSubscriptionProration(id)
+      .then((response: any) => {
+        setLoading(false);
+        setEstimateAmount(response.data.amount)
       })
       .catch((error) => {
         setLoading(false);
-        setDisableButton(false);
-        console.log('error while subscribing ', error);
-        toast.error(error.response.data.details);
+        console.log('error while getting user plan');
       });
-  };
-  const handleResumeClick = () => {
-    setLoading(true);
-    setDisableButton(true);
-    userSubscriptionStatus();
-    resumeSubscription()
-      .then((response) => {
-        setLoading(false);
-        setDisableButton(false);
-        toast.info('Subscription Resumed');
-        fetchUserSubscription();
-        userSubscriptionStatus();
-      })
-      .catch((error) => {
-        setLoading(false);
-        setDisableButton(false);
-        console.log('error while subscribing ', error);
-        toast.error('Something went wrong while subscribing');
-      });
-  };
+    setShowSwitchModal(true)
+  }
   return (
     <Layout
       defaultHeader={true}
@@ -180,126 +175,79 @@ const Subscription = () => {
         <h2 className="Sub-title">
           Subscription <Spin spinning={loading} />
         </h2>
-        {userPlanStatus === 'NOT_SUBSCRIBED' ? (
-          <Tag color="#3a4a7e">
-            {'User is currently not subscribed to any plan'}
-          </Tag>
-        ) : (
-          userPlan.subscription && (
-            <Card>
-              <Meta
-                title={<h3 className="Question-title"> Current Plan:</h3>}
-                description={
-                  <>
-                    <h3 className="Question-title">
-                      {userPlan?.subscription?.plan?.interval_count}&nbsp;
-                      {userPlan?.subscription?.plan?.interval}
-                      &nbsp;{userPlan?.subscription?.plan?.object}
-                    </h3>
-                    <div className="Question">
-                      <Tag color="#3a4a7e">{userPlanStatus}</Tag>
 
-                      <p className="Description">
-                        ${userPlan?.subscription?.plan?.amount / 100}
-                        {userPlan?.subscription?.currency?.toUpperCase()}/
-                        {userPlan?.subscription?.plan?.interval}
-                      </p>
-                      {userPlanStatus === 'ACTIVE' ? (
-                        <>
-                          <div className="Btn-group">
-                            <Popconfirm
-                              title={
-                                'Are you sure you want to cancel subscription?'
-                              }
-                              onConfirm={handleCancelClick}
-                              okText="Yes"
-                              cancelText="No"
-                            >
-                              <Button className="Cancel-btn btn Subscribe">
-                                Cancel
-                              </Button>
-                            </Popconfirm>
-
-                            <Popconfirm
-                              title={
-                                'Are you sure you want to pause subscription?'
-                              }
-                              onConfirm={handlePauseClick}
-                              okText="Yes"
-                              cancelText="No"
-                            >
-                              {userPlan.canPause && (
-                                <Button className="Subscribe">Pause</Button>
-                              )}
-                            </Popconfirm>
-                          </div>
-                        </>
-                      ) : userPlanStatus === 'PAUSED' ? (
-                        <>
-                          <div className="Btn-group">
-                            <Button
-                              className="Cancel-btn btn ant-btn Subscribe"
-                              onClick={() => handleCancelClick()}
-                            >
-                              Cancel
-                            </Button>
-                            <Button
-                              className="Subscribe"
-                              onClick={() => handleResumeClick()}
-                            >
-                              Resume
-                            </Button>
-                          </div>
-                        </>
-                      ) : (
-                        ''
-                      )}
-                    </div>
-                  </>
-                }
-              />
-            </Card>
-          )
-        )}
-        <Carousel effect="fade">
-          {plans.map((plan: ISubscriptionPlan) => (
-            <Card key={plan.id} type="inner">
+        <>
+          {plans?.map((plan: ISubscriptionPlan) => (
+            <Card key={plan.id} type="inner" className={userPlan?.plan?.id === plan.id ?'card-bordered':''}>
               <Meta
                 title={<h3 className="Question-title">{plan.name}</h3>}
                 description={
                   <div className="Question">
                     <p>{plan.description}</p>
-                    {userPlan?.plan?.id === plan.id && (
-                      <Tag color="#3a4a7e">{userPlanStatus}</Tag>
-                    )}
                     <p className="Description">
-                      {plan.amount}
-                      {plan.currency}/{plan.interval}
+                      {plan.price?.amountFormatted}
                     </p>
-                    {plan.trialPeriod?.interval && (
-                      <p>Trial Period: {plan.trialPeriod?.interval}</p>
+                    {freeTrial && (
+                      <p className="subDescription">{plan.trialPeriod?.repetitions} {plan.trialPeriod?.interval.toLowerCase()} free trial</p>
                     )}
-                    {userPlan?.subscription?.plan?.id !== plan.id && (
-                      <div className="Btn-group quest">
+                    {/* if Plan is Active and was cancelled by user but the cancellation date is in future */}
+                    {userPlan?.plan?.id === plan.id && userPlanStatus==='ACTIVE' && userPlan.renewalDate===null && <p className="subDescription">Will be Cancelled on  {dateFormatRenewal(userPlan.currentPeriod?.ends)}</p>}
+                    {userPlan?.plan?.id === plan.id && userPlan?.renewalDate && (
+                      <p className="subDescription">Renews on {userPlan.renewalDate}</p>
+                    )}
+                    {plan.interval && (
+                      <p>{plan.interval}</p>
+                    )}
+                    {userPlan?.plan?.id === plan.id && userPlanStatus === 'ACTIVE' ? (
+                      <>
+                        <div className="Btn-group">
+                        {userPlan?.plan?.id === plan.id && userPlanStatus==='ACTIVE' && userPlan.renewalDate===null?<Button
+                            className="Modal-cancel-btn Subscribe"
+                            disabled={true}
+                          >
+                            Cancelled
+                          </Button>:
+                          <Button
+                            className="Modal-cancel-btn Subscribe"
+                            onClick={() => showModal()}
+                          >
+                            Cancel
+                          </Button>}
+                          <ConfirmModal title={"Cancel Subscription"} visible={showCancelModal} handleCancel={handleCancel} handleOk={handleOk} renderData={<div>Are you sure you want to cancel? {userPlan.trialing && 'You will loose your free trial.'}</div>}/>
+                        </div>
+                      </>
+                    ) 
+                    : (
+                      <>
+                      <div className="Btn-group">
+                      {userPlan && userPlan?.plan?.id !== plan.id && userPlanStatus === 'ACTIVE'?
                         <Button
-                          className="Next"
-                          onClick={() => handleSubscribeClick(plan.id)}
-                          disabled={
-                            disableButton ||
-                            loading ||
-                            userPlan?.plan?.id === plan.id
-                          }
+                          className="Subscribe"
+                          onClick={()=>handleSwitchModal(plan.id)}
                         >
-                          Subscribe
-                        </Button>
-                      </div>
+                        Switch Plan
+                        </Button>:
+                         <Button
+                          className="Subscribe"
+                          onClick={() => handleSubscribeClick(plan.id)}
+                            disabled={
+                              disableButton ||
+                              loading ||
+                              userPlan?.plan?.id === plan.id
+                            }
+                        >
+                        Subscribe
+                        </Button>}
+                        <ConfirmModal title={"Switch Plan"} visible={showSwitchModal} handleCancel={()=>setShowSwitchModal(false)} handleOk={handleSwitch} renderData={<div>Are you sure you want to switch plan? {userPlan?.trialing?'You will loose your free trial.':estimateAmount?`You will be charged ${estimateAmount} plus applicable taxes. Do you agree?`:''}</div>}/>
+                      </div>  
+                      </>
                     )}
                   </div>
                 }
               />
             </Card>
           ))}
-        </Carousel>
+        </>
       </div>
     </Layout>
   );
