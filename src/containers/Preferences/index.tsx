@@ -11,24 +11,18 @@ import Layout from '../../layouts/Layout/Layout';
 import { Radio, Space, DatePicker } from 'antd';
 import moment from 'moment';
 import 'moment-timezone';
-import { getUser } from '../../services/authservice';
 type IFormInputs = {
   minutesPerWeek: number;
-  timeOfDay: string[];
   yob: number;
   sex: string;
 };
 const Preferences = () => {
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
-  const [time, setTime] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [checked, setChecked] = useState<string[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
 
   const {
-    register,
     handleSubmit,
     control,
     formState: { errors, isValid },
@@ -45,25 +39,19 @@ const Preferences = () => {
       yob: data.yob,
       preferences: {
         minutes_per_week: data.minutesPerWeek ?? 3,
-        preferred_engagement_slots: checked.map(
-          (item: any) => item[0].toLowerCase() + item.slice(1)
-        ),
         timezone: zoneVal,
       },
     };
 
     setIsLoading(true);
-    setIsDisabled(true);
     preferencesService(preferenceData, userId)
       .then((preferencesResponse) => {
         setIsLoading(false);
-        setIsDisabled(false);
         toast.success('Preferences submitted');
         handleRedirect();
       })
       .catch((error) => {
         setIsLoading(false);
-        setIsDisabled(false);
         toast.error(
           `${error.response?.data?.title} Please check values and try again.`
         );
@@ -71,21 +59,6 @@ const Preferences = () => {
   };
   const handleRedirect = () => {
     navigate(`/conditions`);
-  };
-
-  const timeOfDay = ['Morning', 'Afternoon', 'Evening'];
-  const handleOnChange = (e: any, value: string) => {
-    if (e.target.checked) {
-      setChecked([...checked, value]);
-    } else {
-      setChecked(checked.filter((item) => item !== value));
-    }
-  };
-  const isChecked = (value: any) => {
-    if (checked.includes(value)) {
-      return true;
-    }
-    return false;
   };
 
   return (

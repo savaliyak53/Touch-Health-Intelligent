@@ -21,10 +21,7 @@ type IFormInputs = {
 const PostPreferences = () => {
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
-  const [time, setTime] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [checked, setChecked] = useState<string[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
   const [loading, setloading] = useState(false);
 
@@ -46,7 +43,6 @@ const PostPreferences = () => {
       yob: yob,
       sex: sex,
       minutesPerWeek: minutes,
-      timeOfDay: checked,
     },
   });
 
@@ -59,19 +55,14 @@ const PostPreferences = () => {
       yob: data.yob,
       preferences: {
         minutes_per_week: data.minutesPerWeek ?? 3,
-        preferred_engagement_slots: checked.map(
-          (item: any) => item[0].toLowerCase() + item.slice(1)
-        ),
         timezone: zoneVal,
       },
     };
 
     setIsLoading(true);
-    setIsDisabled(true);
     preferencesService(prefereceData, userId)
       .then((preferencesResponse) => {
         setIsLoading(false);
-        setIsDisabled(false);
         toast.success('Preferences submitted');
         if (preferences) {
           navigate('/dashboard');
@@ -81,7 +72,6 @@ const PostPreferences = () => {
       })
       .catch((error) => {
         setIsLoading(false);
-        setIsDisabled(false);
         toast.error(
           `${error.response?.data?.title} Please check values and try again.`
         );
