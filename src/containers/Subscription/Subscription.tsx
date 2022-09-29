@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../layouts/Layout/Layout';
-import { Button, Spin, Popconfirm, Tag } from 'antd';
+import { Button, Spin, Typography, Tag } from 'antd';
 import './Subscription.scss';
 import {
   checkoutPlan,
@@ -176,7 +176,16 @@ const Subscription = () => {
         <h2 className="Sub-title">
           Subscription <Spin spinning={loading} />
         </h2>
-
+        {!loading && !userPlan && (
+          <Tag color="orange" style={{ margin: '0px' }}>
+            <Typography.Title
+              level={5}
+              style={{ color: 'inherit', textAlign: 'center' }}
+            >
+              You are not subscribed to any plan.
+            </Typography.Title>
+          </Tag>
+        )}
         <>
           {plans?.map((plan: ISubscriptionPlan) => (
             <Card
