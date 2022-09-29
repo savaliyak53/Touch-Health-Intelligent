@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../layouts/Layout/Layout';
-import { Button, Spin, Popconfirm } from 'antd';
+import { Button, Spin, Popconfirm, Tag } from 'antd';
 import './Subscription.scss';
 import {
   checkoutPlan,
@@ -200,12 +200,14 @@ const Subscription = () => {
                         {plan.trialPeriod?.interval.toLowerCase()} free trial
                       </p>
                     )}
-                    {userPlan?.trialing && userPlan?.plan?.id === plan.id && (
-                      <p className="subDescription">
-                        {plan.trialPeriod?.repetitions}{' '}
-                        {plan.trialPeriod?.interval.toLowerCase()} free trial
-                      </p>
-                    )}
+                    {freeTrial === false &&
+                      userPlan?.trialing &&
+                      userPlan?.plan?.id === plan.id && (
+                        <p className="subDescription">
+                          {plan.trialPeriod?.repetitions}{' '}
+                          {plan.trialPeriod?.interval.toLowerCase()} free trial
+                        </p>
+                      )}
                     {/* if Plan is Active and was cancelled by user but the cancellation date is in future */}
                     {userPlan?.plan?.id === plan.id &&
                       userPlanStatus === 'ACTIVE' &&
@@ -229,12 +231,15 @@ const Subscription = () => {
                           {userPlan?.plan?.id === plan.id &&
                           userPlanStatus === 'ACTIVE' &&
                           userPlan.renewalDate === null ? (
-                            <Button
-                              className="Modal-cancel-btn Subscribe"
-                              disabled={true}
-                            >
-                              Cancelled
-                            </Button>
+                            // <Button
+                            //   className="Modal-cancel-btn Subscribe"
+                            //   disabled={true}
+                            // >
+                            //   Cancelled
+                            // </Button>
+                            <Tag color="red">
+                              Plan will be cancelled automatically{' '}
+                            </Tag>
                           ) : (
                             <Button
                               className="Modal-cancel-btn Subscribe"
