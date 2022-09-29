@@ -3,7 +3,7 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Slider, Spin, Tooltip } from 'antd';
 import './index.scss';
-import InputField from '../../components/Input';
+import { CloudDownloadOutlined } from '@ant-design/icons';
 import Button from '../../components/Button';
 import { preferencesService } from '../../services/authservice';
 import { toast } from 'react-toastify';
@@ -18,6 +18,21 @@ type IFormInputs = {
   yob: number;
   sex: string;
 };
+
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: Array<string>;
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed';
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
+declare global {
+  interface WindowEventMap {
+    beforeinstallprompt: BeforeInstallPromptEvent;
+  }
+}
+
 const PostPreferences = () => {
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
@@ -106,11 +121,53 @@ const PostPreferences = () => {
     setloading(true);
     getUserInfo(userId);
   }, []);
+  let deferredPrompt: BeforeInstallPromptEvent | null;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    deferredPrompt = e;
+  });
+  const installApp = document.getElementById('installApp');
+  installApp?.addEventListener('click', async () => {
+    if (deferredPrompt != null) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        deferredPrompt = null;
+      }
+    }
+  });
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <Spin spinning={loading}>
         <div className="Content-wrap Pref">
           <h2 className="Pref-title">Preferences</h2>
+          <div
+            className="Download"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'start',
+              marginBottom: '30px',
+            }}
+          >
+            <button
+              style={{ border: 'none', background: 'none' }}
+              id="installApp"
+              className="Download-btn"
+            >
+              <h5 style={{ float: 'left' }}>You can also install this app</h5>
+              &nbsp;
+              <CloudDownloadOutlined
+                className="Download-icon"
+                style={{
+                  color: '#3a4a7e',
+                  float: 'right',
+                  fontSize: '20px',
+                  marginLeft: '3px',
+                }}
+              />
+            </button>
+          </div>
           <form onSubmit={handleSubmit(onSubmit)} className="Preferences-form">
             <div className="Question">
               <h3 className="Question-title">
