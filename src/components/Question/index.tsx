@@ -86,7 +86,7 @@ const Question = ({
     switch (question?.type) {
       case 'time':
         return (
-          <Timepicker onChange={onTimeChange} militaryTime={true} radius={130}/>
+          <Timepicker onChange={onTimeChange} militaryTime={true} radius={100}/>
         );
       case 'date':
         return (
