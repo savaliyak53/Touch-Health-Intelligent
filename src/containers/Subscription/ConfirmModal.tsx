@@ -19,13 +19,13 @@ const ConfirmModal = ({visible, handleCancel,title, handleOk, renderData}:IProps
           className="Modal-cancel-btn Subscribe"
           onClick={handleCancel}
         >
-          Cancel
+          Yes
         </Button>
         <Button
           className="Subscribe"
           onClick={handleOk}
         >
-          Ok
+          No
         </Button>
       </div>
     }

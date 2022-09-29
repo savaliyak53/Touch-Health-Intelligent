@@ -178,7 +178,7 @@ const Subscription = () => {
 
         <>
           {plans?.map((plan: ISubscriptionPlan) => (
-            <Card key={plan.id} type="inner" className={userPlan?.plan?.id === plan.id ?'card-bordered':''}>
+            <Card key={plan.id} type="inner" className={userPlan?.plan?.id === plan.id && userPlanStatus==='ACTIVE'?'card-bordered':''}>
               <Meta
                 title={<h3 className="Question-title">{plan.name}</h3>}
                 description={
@@ -188,6 +188,9 @@ const Subscription = () => {
                       {plan.price?.amountFormatted}
                     </p>
                     {freeTrial && (
+                      <p className="subDescription">{plan.trialPeriod?.repetitions} {plan.trialPeriod?.interval.toLowerCase()} free trial</p>
+                    )}
+                    {userPlan?.trialing && userPlan?.plan?.id === plan.id && (
                       <p className="subDescription">{plan.trialPeriod?.repetitions} {plan.trialPeriod?.interval.toLowerCase()} free trial</p>
                     )}
                     {/* if Plan is Active and was cancelled by user but the cancellation date is in future */}
