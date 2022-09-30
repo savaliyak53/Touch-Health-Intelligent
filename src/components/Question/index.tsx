@@ -8,7 +8,7 @@ const { Option } = Select;
 import './index.scss';
 import TextArea from 'antd/lib/input/TextArea';
 import type { SelectProps } from 'antd/es/select';
-import {Timepicker} from 'react-timepicker';
+import { Timepicker } from 'react-timepicker';
 import 'react-timepicker/timepicker.css';
 
 interface Props {
@@ -42,8 +42,8 @@ const Question = ({
   const onSearch = (value: string) => {
     setSearch(value);
   };
-  const onTimeChange =  (hours:any, minutes:any) =>{
-    setValue(`${hours}:${minutes?minutes:'00'}:00.648052`);
+  const onTimeChange = (hours: any, minutes: any) => {
+    setValue(`${hours}:${minutes ? minutes : '00'}:00.648052`);
   };
   const children: React.ReactNode[] = [];
   let i = 0;
@@ -61,7 +61,7 @@ const Question = ({
     } else {
       radioOptions = [...radioOptions, index];
     }
-    setValue(radioOptions);
+    setValue(radioOptions.length ? radioOptions : undefined);
   };
   const isChecked = (item: string) => {
     const index = question.options.indexOf(item);
@@ -86,7 +86,11 @@ const Question = ({
     switch (question?.type) {
       case 'time':
         return (
-          <Timepicker onChange={onTimeChange} militaryTime={true} radius={100}/>
+          <Timepicker
+            onChange={onTimeChange}
+            militaryTime={true}
+            radius={100}
+          />
         );
       case 'date':
         return (
