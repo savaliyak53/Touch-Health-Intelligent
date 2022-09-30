@@ -10,17 +10,18 @@ import { toast } from 'react-toastify';
 import Button from '../../../components/Button';
 import { AiOutlineEye } from 'react-icons/ai';
 import Layout from '../../../layouts/Layout/Layout';
-import { Select, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 import './index.scss';
+import '../index.scss';
 import InputField from '../../../components/Input';
 import CountryCode from '../Country/CountryCode';
 import { onlyNumbers } from '../../../utils/lib';
-const { Option } = Select;
 type IRecoverFormInputs = {
   username: string;
   code: string;
   new_password: string;
-  security_question: ISecurityQuestion;
+  confirmPassword: string;
+  security_question?: ISecurityQuestion;
 };
 type ISecurityQuestion = {
   question: string;
@@ -34,13 +35,16 @@ const ResetPassword = () => {
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [question, setQuestion] = useState('');
   const [resetResponse, setResetResponse] = useState<any>();
-
+  const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
   const [answer, setAnswer] = useState('');
   const onChange = (option: any) => {
     setQuestion(option);
   };
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
+  };
+  const toggleConfirmPassword = () => {
+    setConfirmPasswordShown(!confirmPasswordShown);
   };
   const {
     register,
@@ -56,6 +60,12 @@ const ResetPassword = () => {
   const onSubmitRecover = async (data: any) => {
     if (isCodeSent) {
       data.username = onlyNumbers(getValues('username'));
+      if (question && question.length > 0) {
+        data.security_question.question = question;
+        data.security_question.answer;
+      } else {
+        data.security_question = undefined;
+      }
       data.security_question.question = question;
       data.security_question.answer;
       postResetPassword(data)
@@ -79,14 +89,23 @@ const ResetPassword = () => {
     setIsDisabled(true);
     resetPassword(onlyNumbers(getValues('username')))
       .then((response: any) => {
-        setIsCodeSent(true);
-        setResetResponse(response);
-        toast.success('Verification Code sent');
-        setIsLoading(false);
-        setIsDisabled(false);
+        if (response && response.security_questions) {
+          setIsCodeSent(true);
+          setResetResponse(response);
+          setQuestion(response.security_questions[0].question);
+          toast.success('Verification Code sent');
+          setIsLoading(false);
+          setIsDisabled(false);
+        } else if (response.code === 'ERR_BAD_REQUEST') {
+          toast(response.response.data.details);
+          setIsLoading(false);
+          setIsDisabled(false);
+        }
       })
       .catch((error: any) => {
-        toast('Unknown error');
+        toast('unknown error');
+        setIsLoading(false);
+        setIsDisabled(false);
       });
   };
   return (
@@ -113,6 +132,11 @@ const ResetPassword = () => {
                   id="code"
                   {...register('code', {
                     required: 'Code is required',
+                    maxLength: {
+                      value: 6,
+                      message:
+                        'Verification code should not be greater than 6 digits.',
+                    },
                   })}
                   placeholder="Verification Code"
                   type="number"
@@ -128,7 +152,7 @@ const ResetPassword = () => {
                 >
                   <input
                     id="new_password"
-                    placeholder="Enter password here"
+                    placeholder="Enter new password here"
                     type={passwordShown ? 'text' : 'password'}
                     className="app-Input"
                     {...register('new_password', {
@@ -148,54 +172,71 @@ const ResetPassword = () => {
                   <AiOutlineEye />
                 </button>
               </div>
-              {resetResponse && (
-                <>
-                  <div
-                    className="Select-Wrap input-element-wrapper"
-                    style={{ marginBottom: '14px' }}
-                  >
-                    <Select
-                      {...register('security_question.question', {
-                        // required: 'Question is required',
-                      })}
-                      id="security_question.question"
-                      placeholder="Select a question"
-                      optionFilterProp="children"
-                      onChange={onChange}
-                    >
-                      {resetResponse.security_questions.map((item: any) => (
-                        <Option key={item.id} value={item.question}>
-                          {item.question}
-                        </Option>
-                      ))}
-                    </Select>
-                  </div>
-
-                  <div className="input-element-wrapper">
-                    <InputField
-                      id="security_question.answer"
-                      {...register('security_question.answer', {
-                        //required: 'Answer is required',
-                      })}
-                      type="text"
-                      className="app-Input"
-                      placeholder="Answer"
-                      onChange={(event: any) => setAnswer(event.target.value)}
-                    />
-                  </div>
-                </>
-              )}
+              <div className="input-element-wrapper-password">
+                <Tooltip
+                  color="orange"
+                  placement="bottomLeft"
+                  title={errors.confirmPassword?.message}
+                  visible={errors.confirmPassword ? true : false}
+                >
+                  <input
+                    id="confirmPassword"
+                    placeholder="Confirm password here"
+                    type={confirmPasswordShown ? 'text' : 'password'}
+                    className="app-Input"
+                    {...register('confirmPassword', {
+                      required: 'Confirm password is required',
+                      validate: (value: string) => {
+                        return (
+                          value === getValues('new_password') ||
+                          'Passwords do not match.'
+                        );
+                      },
+                    })}
+                  />
+                </Tooltip>
+                <button
+                  className="btn"
+                  onClick={toggleConfirmPassword}
+                  type="button"
+                >
+                  <AiOutlineEye />
+                </button>
+              </div>
+              <div className="input-element-wrapper">
+                <InputField
+                  id="security_question.question"
+                  {...register('security_question.question')}
+                  type="text"
+                  className="app-Input"
+                  placeholder="Question"
+                  value={question}
+                  disabled={true}
+                />
+              </div>
+              <div className="input-element-wrapper">
+                <InputField
+                  id="security_question.answer"
+                  {...register('security_question.answer', {
+                    required: 'Answer is required',
+                  })}
+                  type="text"
+                  className="app-Input"
+                  placeholder="Answer"
+                  onChange={(event: any) => setAnswer(event.target.value)}
+                />
+              </div>
               <Button
                 onClick={handleSubmit(onSubmitRecover)}
                 className="Auth-submit"
                 style={{ color: 'white' }}
               >
-                Recover Password
+                Reset Password
               </Button>
             </>
           )}
           <Button
-            onClick={sendCode}
+            onClick={isCodeSent ? sendCode : handleSubmit(onSubmitRecover)}
             loading={isLoading}
             disabled={isDisabled}
             className="Auth-submit"
@@ -204,10 +245,6 @@ const ResetPassword = () => {
             {isCodeSent ? 'Resend Code' : 'Send Code'}
           </Button>
         </form>
-
-        <div className="Auth-terms-signup">
-          <Link to="/login">Already have an account?</Link>
-        </div>
       </div>
     </Layout>
   );

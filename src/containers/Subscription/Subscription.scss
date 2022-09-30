@@ -1,36 +1,146 @@
-
 .Sub-title {
-    font-size: 26px;
-    line-height: 36px;
-    font-weight: 700;
-    color: #272424;
-    margin-top: clamp(0px, 7.5vh, 96px);
-    margin-bottom: clamp(0px, 7.5vh, 36px);
+  font-size: 26px;
+  line-height: 36px;
+  font-weight: 700;
+  color: #272424;
+  margin-top: clamp(0px, 3.5vh, 20px);
+  margin-bottom: clamp(0px, 1.5vh, 36px);
 }
 
 .Sub {
-    .Question {
-        margin-bottom: clamp(0px, 8vh, 30px);
-    }
+  .Question {
+    margin-bottom: clamp(0px, 8vh, 30px);
+    text-align: center;
+  }
 
-    .Question-title {
-        margin-bottom: 10px;
-    }
+  .Question-title {
+    margin-bottom: 10px;
+    font-size: 14px !important;
+    text-align: center;
+  }
 
-    .Description {
-        font-size: 20px;
-        line-height: 24px;
-        color: #272424;
-        font-weight: 500;
-        margin-bottom: 0;
-        font-family: 'Barlow', sans-serif;
-    }
+  .Description {
+    font-size: 36px;
+    line-height: 24px;
+    color: #272424;
+    font-weight: 500;
+    margin-bottom: 3px;
+    font-family: 'Barlow', sans-serif;
+  }
+  .subDescription {
+    font-size: 16px;
+    line-height: 20px;
+    color: #272424;
+    font-weight: 500;
+    margin-top: 10px;
+    font-family: 'Barlow', sans-serif;
+  }
 
-    .Btn-group {
-        margin-top: 40px;
-        &.quest {
-            margin-top: 0;
-            display: inline-block;
-        }
+  .Btn-group {
+    //margin-top: 40px;
+    gap: 30px;
+    &.quest {
+      margin-top: 0;
+      display: inline-block;
     }
+  }
+  .ant-carousel {
+    margin-top: 20px;
+  }
+  .ant-carousel .slick-dots li button {
+    background: #272424 !important;
+  }
+
+  .ant-card-meta {
+    justify-content: center;
+    height:220px
+  }
+  .ant-card-meta-title {
+    height: 30px;
+  }
+  .ant-card-type-inner .ant-card-body {
+    height:240px
+  }
+}
+
+.Modal-cancel-btn {
+  border-radius: 100px;
+  height: 100%;
+  padding: 18px 54px;
+  color: #fff;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  background-color: #cd6052 !important;
+  border: 2px solid#CD6052 !important;
+  margin: 20px 0 0;
+  max-width: 150px;
+  display: block;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #fff;
+    color: #cd6052;
+    border-color: #cd6052;
+  }
+}
+.Subscribe-btn.btn.ant-btn,
+.btn.ant-btn {
+  border-radius: 80px;
+  height: 30%;
+  padding: 10px 54px;
+  background-color: #3a4a7e;
+  color: #fff;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  border: 2px solid #3a4a7e;
+  margin: 20px auto 0;
+  max-width: 300px;
+  display: block;
+  width: 30%;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #fff;
+    color: #3a4a7e;
+    border-color: #3a4a7e;
+  }
+}
+@media (max-width: 400px) {
+  .Subscribe-btn.btn.ant-btn,
+  .btn.ant-btn {
+    border-radius: 80px;
+    height: 30%;
+    padding: 10px;
+    background-color: #3a4a7e;
+    color: #fff;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    border: 2px solid #3a4a7e;
+    margin: 10px auto 0;
+    max-width: 100px;
+    display: block;
+    width: 30%;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #fff;
+      color: #3a4a7e;
+      border-color: #3a4a7e;
+    }
+  }
+  .button-group {
+    display: flex;
+    flex-direction: row;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+}
+.card-bordered {
+  border: 2px solid #878383 !important;
 }

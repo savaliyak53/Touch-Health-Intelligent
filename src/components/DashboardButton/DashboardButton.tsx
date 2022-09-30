@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button } from 'antd';
 import { ArrowUpOutlined } from '@ant-design/icons';
 import './DashboardButton.scss';
@@ -15,6 +15,8 @@ type Props = {
   outer?: number;
   insight?: any;
   highlight?: number;
+  show?: boolean;
+  onClick?: any;
 };
 function DashboardButton({
   image,
@@ -27,6 +29,8 @@ function DashboardButton({
   highlight,
 }: Props) {
   const context = useContext(InsightContext);
+  const [show, setShow] = useState(false);
+
   const navigate = useNavigate();
   const handleRedirectInsights = async () => {
     await context?.commands?.loadSelectedInsightIndex(`${outer}-${inner}`);
@@ -39,13 +43,26 @@ function DashboardButton({
     await context?.commands?.loadSelectedInsight(insight);
     navigate('/insights/guideline');
   };
+  useEffect(() => {
+    if (context?.showButton === `${outer}-${inner}`) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  }, [context?.showButton]);
+  const handleClick = () => {
+    if (!disabled) {
+      context?.commands.setInsightButton(`${outer}-${inner}`);
+    }
+  };
   return (
     <>
       <Button
+        onClick={handleClick}
         key={insight?.category.name + Math.random().toString()}
         className={`Diamond-Btn ${
           color === '394A7E' ? 'primary' : 'secondary'
-        }    ${disabled ? 'disabled' : ''}`}
+        } ${disabled ? 'disabled' : ''} ${show ? 'show' : ''}`}
         style={{ opacity: highlight }}
       >
         <div className="inner-1" key={Math.random()}>

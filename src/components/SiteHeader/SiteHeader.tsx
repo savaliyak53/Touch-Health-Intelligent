@@ -17,15 +17,13 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
     <>
       {/* Navigation */}
       <header className={defaultHeader ? 'Navigation' : 'Navigation bg'}>
-        <a href="/dashboard">
-          <img
-            src={`${process.env.PUBLIC_URL}/assets/mobileassets/${
-              defaultHeader ? 'logo-black.svg' : 'logo-white.svg'
-            }`}
-            alt="Touch Logo"
-            className="Layout-logo"
-          />
-        </a>
+        <img
+          src={`${process.env.PUBLIC_URL}/assets/mobileassets/${
+            defaultHeader ? 'logo-black.svg' : 'logo-white.svg'
+          }`}
+          alt="Touch Logo"
+          className="Layout-logo"
+        />
         <div className="Toggler-btn" onClick={() => setBurgerMenu(!BurgerMenu)}>
           <Button className={hamburger ? 'd-block' : 'd-none'}>
             <img
@@ -73,19 +71,23 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
             <Link to="/post-preferences">Preferences</Link>
           </li>
           <li>
-            <Link to="/conditions">Conditions</Link>
+            <Link to="/post-conditions">Conditions</Link>
           </li>
-          <li>
-            <Link to="/concerns">Concerns</Link>
-          </li>
+          {/* <li>
+            <Link to="/post-concerns">Concerns</Link>
+          </li> */}
           <li>
             <Link to="/subscription">Subscription</Link>
+          </li>
+          <li>
+            <Link to="/help-and-support">Help and Support</Link>
           </li>
           <li>
             <a
               onClick={() => {
                 localStorage.removeItem('userId');
                 localStorage.removeItem('token');
+                (window as any).Intercom('shutdown');
                 navigate('/login');
               }}
             >

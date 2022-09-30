@@ -22,24 +22,6 @@
   margin-top: clamp(0px, 7.5vh, 96px);
 }
 
-.ant-btn.Auth-submit {
-  width: 100%;
-  border-radius: 100px;
-  padding: 16px 32px;
-  font-size: 24px;
-  line-height: 29px;
-  height: 100%;
-  margin-top: clamp(0px, 5.5vh, 62px);
-  background-color: rgba(#3a4a7f, 0.57);
-  border: none;
-
-  &:hover,
-  &:focus,
-  &:active {
-    background-color: #3a4a7f;
-  }
-}
-
 .Auth-forgot-wrap {
   width: 100%;
 }

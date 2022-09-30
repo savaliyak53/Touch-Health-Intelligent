@@ -1,0 +1,190 @@
+.ant-btn.Auth-submit {
+  width: 100%;
+  border-radius: 100px;
+  padding: 16px 32px;
+  font-size: 24px;
+  line-height: 29px;
+  height: 60%;
+  margin-top: clamp(0px, 5.5vh, 62px);
+  background-color: rgba(#3a4a7f, 0.57);
+  border: none;
+  color: #fff;
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #3a4a7f !important;
+    color: #fff;
+  }
+
+  &:disabled {
+    background-color: rgba(#3a4a7f, 0.57) !important;
+    color: #fff;
+  }
+}
+.app-Input {
+  width: 100%;
+  border-radius: 100px;
+  margin-bottom: 14px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  line-height: 24px;
+  border: 2px solid #272424;
+  background-color: #fff;
+  color: #272424;
+  font-size: 20px;
+  line-height: 24px;
+
+  &:hover,
+  &:focus {
+    border: 2px solid #272424;
+    background-color: #e3e3e3;
+    color: #272424;
+  }
+
+  &::placeholder {
+    color: rgba(#272424, 0.8);
+  }
+}
+
+.input-element-wrapper {
+  width: 100%;
+}
+.flag {
+  padding: 0.2rem;
+  position: absolute;
+  font-size: 20px;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  margin-right: -2.76rem;
+  margin-top: 19px;
+  margin-left: 4px;
+}
+.Input-flag {
+  max-width: 15px;
+  height: 14px;
+}
+.phone {
+  padding-left: 3rem;
+}
+.input-element-wrapper-password {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  &btn {
+    margin-bottom: 4px;
+  }
+}
+.btn {
+  margin-bottom: 16px;
+}
+
+.Auth-terms {
+  text-align: center;
+  font-size: 16px;
+  line-height: 19px;
+  color: #272424;
+  padding: 7px 30px;
+  border-radius: 100px;
+  background-color: #fff;
+  margin-bottom: 52px;
+}
+.Auth-submit-div {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+@media screen and (min-height: 360px) {
+  .Auth-form {
+    width: 100%;
+  }
+
+  .Auth-title {
+    line-height: 36px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    margin-top: clamp(0px, 7.5vh, 96px);
+  }
+  .ant-btn.Auth-submit {
+    width: 100%;
+    border-radius: 100px;
+    padding: 16px 32px;
+    font-size: 24px;
+    line-height: 29px;
+    height: 60%;
+    margin-top: clamp(0px, 5.5vh, 62px);
+    background-color: rgba(#3a4a7f, 0.57);
+    border: none;
+    color: #fff;
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #3a4a7f;
+      color: #fff;
+    }
+    &:disabled {
+      background-color: rgba(#3a4a7f, 0.57);
+      color: #fff;
+    }
+  }
+
+  .Auth-forgot {
+    line-height: 24px;
+    margin-left: 20px;
+  }
+
+  .Auth-terms {
+    line-height: 19px;
+    padding: 7px 30px;
+    margin-bottom: 52px;
+  }
+  .Auth-terms a {
+    font-size: 16px;
+    line-height: 16px;
+  }
+  .Auth-terms-signup {
+    line-height: 19px;
+    padding: 7px 30px;
+    margin-bottom: 52px;
+  }
+  .Auth-terms-signup a {
+    font-size: 16px;
+    line-height: 16px;
+  }
+  .app-Input {
+    width: 100%;
+    border-radius: 100px;
+    margin-bottom: 14px;
+    padding: 18px 20px;
+    line-height: 24px;
+  }
+
+  .input-element-wrapper {
+    width: 100%;
+  }
+  .flag {
+    padding: 0.2rem;
+    margin-top: 19px;
+    margin-left: 4px;
+  }
+  .Input-flag {
+    max-width: 15px;
+    height: 14px;
+  }
+  .phone {
+    padding-left: 3rem;
+  }
+  .input-element-wrapper-password {
+    width: 100%;
+  }
+  .btn {
+    margin-bottom: 16px;
+  }
+}
+
+.highlight {
+  border: 3px solid orange;
+}

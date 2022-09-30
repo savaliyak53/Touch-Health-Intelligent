@@ -29,6 +29,7 @@ const CountryCode = ({
   const whitelist: any = [
     'AU',
     'CA',
+    'DO',
     'JM',
     'IE',
     'NL',
@@ -56,7 +57,7 @@ const CountryCode = ({
               value: true,
               message: 'Phone is required',
             },
-            validate: (value) => {
+            validate: (value: any) => {
               if (fieldName === 'confirmPhone') {
                 return value === phone || 'Phone numbers do not match';
               }
@@ -68,8 +69,8 @@ const CountryCode = ({
               disabled={disabled}
               placeholder={
                 fieldName === 'phone' || fieldName === 'username'
-                  ? 'Phone Number'
-                  : 'Confirm Phone Number'
+                  ? 'Phone'
+                  : 'Confirm Phone'
               }
               countries={whitelist}
               className="app-Input"
@@ -77,6 +78,7 @@ const CountryCode = ({
               onChange={onChange}
               defaultCountry="CA"
               id={fieldName}
+              addInternationalOption={false}
             />
           )}
         />

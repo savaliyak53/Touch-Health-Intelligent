@@ -1,32 +1,34 @@
 import APIClient from '../utils/axios';
 
 export const getConditionsService = async () => {
-  return APIClient(`/api/v1/conditions`, 'get');
+  return APIClient(`/conditions`, 'get');
 };
 export const addConditionsService = async (data: any) => {
-  return APIClient(`/api/v1/conditions`, 'post', data);
+  return APIClient(`/conditions`, 'post', data);
 };
 export const deleteCondition = (id: string) => {
-  return APIClient(`api/v1/conditions/${id}`, 'delete');
+  return APIClient(`/conditions/${id}`, 'delete');
 };
 export const getConditionsSearch = async (search: string) => {
-  return APIClient(`api/v1/conditions/search?q=${search}`, 'get');
+  return APIClient(`/conditions/search?q=${search}`, 'get');
 };
-
+export const getDefaultConditions = async () => {
+  return APIClient(`/conditions/search`, 'get');
+};
 export const getConcernsService = async () => {
-  return APIClient(`/api/v1/concerns/`, 'get');
+  return APIClient(`/concerns/`, 'get');
 };
 
 export const addConcernsService = async (data: any) => {
-  return APIClient(`/api/v1/concerns`, 'post', data);
+  return APIClient(`/concerns`, 'post', data);
 };
 export const deleteConcern = (id: string) => {
-  return APIClient(`api/v1/concerns/${id}`, 'delete');
+  return APIClient(`/concerns/${id}`, 'delete');
 };
 export const getConcernsSearch = async (search: string) => {
-  return APIClient(`api/v1/concerns/search?q=${search}`, 'get');
+  return APIClient(`/concerns/search?q=${search}`, 'get');
 };
 
 export const getInsightsService = async () => {
-  return APIClient(`/api/v1/insights/`, 'get');
+  return APIClient(`/insights/`, 'get');
 };

@@ -12,6 +12,7 @@ interface Props {
   loading?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  onMouseOver?: () => void;
 }
 
 const Button = ({
@@ -22,11 +23,13 @@ const Button = ({
   disabled = false,
   loading = false,
   style,
+  onMouseOver,
   ...rest
 }: Props) => {
   return (
     <AntdButton
       className={className}
+      onMouseOver={onMouseOver}
       htmlType="submit"
       onClick={onClick}
       disabled={disabled}

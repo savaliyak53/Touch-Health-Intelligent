@@ -1,0 +1,31 @@
+.container {
+  margin-top: 15px;
+  text-align: center;
+  overflow-y: auto;
+  .terms-btn {
+    border-radius: 100px;
+    height: 100%;
+    padding: 18px 54px;
+    background-color: #3a4a7e;
+    color: #fff;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    border: 2px solid #3a4a7e;
+    margin: 20px auto 0;
+    max-width: 400px;
+    display: block;
+    width: 100%;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #fff;
+      color: #3a4a7e;
+      border-color: #3a4a7e;
+    }
+  }
+  .error-message {
+    color: red;
+  }
+}

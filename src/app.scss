@@ -1,4 +1,4 @@
-@import "./variables.scss";
+@import './variables.scss';
 .ApplicationLayout {
   width: 100%;
   min-height: 100%;
@@ -36,7 +36,7 @@
   line-height: 27px;
   font-weight: 500;
   color: #272424;
-  font-family: "Barlow", sans-serif;
+  font-family: 'Barlow', sans-serif;
   display: flex;
   align-items: center;
   text-transform: capitalize;
@@ -131,6 +131,18 @@
         color: #cd6052;
         border-color: #cd6052;
       }
+    }
+    &.Subscribe {
+      border: 2px solid #3a4a7e;
+      background-color: #3a4a7e;
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: #fff;
+        color: #3a4a7e;
+        border-color: #3a4a7e;
+      }
+      padding: 10px 24px !important;
     }
   }
 }
@@ -301,5 +313,66 @@
     width: 100%;
     height: 100%;
     top: 50%;
+  }
+}
+
+.Cancel-btn.btn.ant-btn,
+.btn.ant-btn {
+  border-radius: 100px;
+  height: 100%;
+  padding: 18px 54px;
+  color: #fff;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  background-color: #cd6052;
+  border: 2px solid#CD6052;
+  margin: 20px auto 0;
+  max-width: 400px;
+  display: block;
+  width: 100%;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #fff;
+    color: #cd6052;
+    border-color: #cd6052;
+  }
+}
+
+.ant-picker.Date-Select {
+  padding: 18px 20px;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  width: 100%;
+  border-radius: 100px;
+  border: 2px solid #272424;
+  color: rgba(#272424, 0.7);
+  max-width: 300px;
+  display: block;
+  &.ant-picker-focused,
+  &:hover,
+  &:focus,
+  &:active {
+    border: 2px solid #272424;
+    box-shadow: none;
+    background-color: #e3e3e3;
+    outline: none;
+  }
+  input {
+    font-size: 20px;
+    line-height: 24px;
+    color: rgba(#272424, 0.7);
+    font-weight: 400;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .Toastify__toast-container{
+    width: 50vw;
+  }
+  .Toastify__toast-container--top-right {
+    margin-left: 50vw;
   }
 }

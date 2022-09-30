@@ -11,25 +11,30 @@ import {
 } from '../../services/authservice';
 import { Interaction } from '../../interfaces';
 import Layout from '../../layouts/Layout/Layout';
+import { Skeleton } from 'antd';
 
 function UserCondition() {
   const [question, setQuestion] = useState<Interaction | any>();
-  const [value, setValue] = useState<string | undefined>('');
+  const [value, setValue] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
   const [refId, setRefId] = useState<string>('');
+  const [skeletonLoading, setSkeletonLoading] = useState(true);
+  const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
+
   const navigate = useNavigate();
-  const getInteraction = async () => {
+  const getInteraction = () => {
     getInteractionService()
       .then((response) => {
+        setSkeletonLoading(false);
         if (response?.data?.question) {
           setQuestion(response?.data?.question);
           setRefId(response.data.ref_id);
-        } else {
-          navigate('/questionnaire-submit');
         }
       })
-      .catch(() => {
-        toast('unkown error');
+      .catch((error) => {
+        toast(error.details.message ?? 'Cannot get question');
+        navigate('/dashboard');
+        setSkeletonLoading(false);
       });
   };
   useEffect(() => {
@@ -69,7 +74,7 @@ function UserCondition() {
     postInteractionService(payload)
       .then(({ data }) => {
         setLoading(false);
-        setValue('');
+        setValue(undefined);
         setRefId(data.ref_id ?? '');
         if (data.question) {
           setQuestion(data.question);
@@ -81,44 +86,53 @@ function UserCondition() {
         setLoading(false);
         toast.error('Something went wrong');
         setLoading(false);
+        navigate('/dashboard');
       });
   };
+  useEffect(() => {
+    question?.type === 'slider'
+      ? setDisableNextButton(true)
+      : setDisableNextButton(false);
+  }, [question]);
 
   return (
     <Layout defaultHeader={true} hamburger={false}>
+      {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
+
       <div className="Content-wrap Pain">
         {question && (
-          <Question
-            question={question}
-            setValue={setValue}
-            onSubmit={onSubmit}
-          />
-        )}
-
-        {question?.type !== 'yes_no' ? (
-          <div className="Btn-group">
-            <Button
-              className="Skip"
-              onClick={() => {
-                onSubmit('', true);
-              }}
-              disabled={loading}
-            >
-              Skip
-            </Button>
-            <Button
-              className="Next"
-              onClick={() => {
-                onSubmit();
-              }}
-              loading={loading}
-              disabled={loading}
-            >
-              Next
-            </Button>
-          </div>
-        ) : (
-          <></>
+          <>
+            <Question
+              question={question}
+              setValue={setValue}
+              onSubmit={onSubmit}
+              setDisableNextButton={setDisableNextButton}
+            />
+            {console.log('value ', value)}
+            {question?.type !== 'yes_no' && (
+              <div className="Btn-group">
+                <Button
+                  className="Skip"
+                  onClick={() => {
+                    onSubmit('', true);
+                  }}
+                  disabled={loading}
+                >
+                  Skip
+                </Button>
+                <Button
+                  className="Next"
+                  onClick={() => {
+                    onSubmit();
+                  }}
+                  loading={loading}
+                  disabled={typeof value === 'undefined' || loading}
+                >
+                  Next
+                </Button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </Layout>

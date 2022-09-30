@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { DatePicker, Input, Radio, TimePicker } from 'antd';
+import { DatePicker, Input, Radio } from 'antd';
 import { Slider } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
 import { RightOutlined, SearchOutlined } from '@ant-design/icons';
@@ -8,14 +8,22 @@ const { Option } = Select;
 import './index.scss';
 import TextArea from 'antd/lib/input/TextArea';
 import type { SelectProps } from 'antd/es/select';
+import { Timepicker } from 'react-timepicker';
+import 'react-timepicker/timepicker.css';
 
 interface Props {
   question: any;
   onSubmit: any;
   setValue: any;
+  setDisableNextButton: any;
 }
 
-const Question = ({ question, setValue, onSubmit }: Props) => {
+const Question = ({
+  question,
+  setValue,
+  onSubmit,
+  setDisableNextButton,
+}: Props) => {
   let radioOptions: string[] = [];
   const formatter = (value: number | undefined) => `${value}`;
   const [sliderMarks, setSliderMarks] = useState({});
@@ -34,7 +42,9 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
   const onSearch = (value: string) => {
     setSearch(value);
   };
-
+  const onTimeChange = (hours: any, minutes: any) => {
+    setValue(`${hours}:${minutes ? minutes : '00'}:00.648052`);
+  };
   const children: React.ReactNode[] = [];
   let i = 0;
   while (question?.options?.length > i) {
@@ -51,7 +61,7 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
     } else {
       radioOptions = [...radioOptions, index];
     }
-    setValue(radioOptions);
+    setValue(radioOptions.length ? radioOptions : undefined);
   };
   const isChecked = (item: string) => {
     const index = question.options.indexOf(item);
@@ -76,13 +86,10 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
     switch (question?.type) {
       case 'time':
         return (
-          <TimePicker
-            className="Date-Select"
-            format={'h:mm'}
-            use12Hours
-            onChange={(time, timeString) => {
-              setValue(timeString);
-            }}
+          <Timepicker
+            onChange={onTimeChange}
+            militaryTime={true}
+            radius={100}
           />
         );
       case 'date':
@@ -145,6 +152,7 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
           <Radio.Group
             className="Options"
             onChange={(e) => {
+              console.log('here');
               const index = question.options.indexOf(e.target.value);
               setValue(index);
             }}
@@ -204,6 +212,7 @@ const Question = ({ question, setValue, onSubmit }: Props) => {
               tooltipVisible={question.show_values}
               onChange={(value) => {
                 setValue(value);
+                setDisableNextButton(false);
               }}
             />
             <span className="Text2">{question.upper_qualifier}</span>
