@@ -195,7 +195,7 @@ const Dashboard = () => {
     }
     rowNumber++;
     return emptydashboard;
-  };
+  }; 
   return (
     <>
       <Layout defaultHeader={true} hamburger={true} dashboard={true}>
@@ -207,14 +207,14 @@ const Dashboard = () => {
                   key="extraUpperButton1"
                   image=""
                   disabled={true}
-                  color={`${context.insights.insights[0][0]?.category?.color}`}
+                  color={``}
                   outerButton={true}
                 />
                 <DashboardButton
                   key="extraUpperButton2"
                   image=""
                   disabled={true}
-                  color={`${context.insights.insights[0][0]?.category?.color}`}
+                  color={``}
                   outerButton={true}
                 />
               </div>
@@ -225,14 +225,14 @@ const Dashboard = () => {
                     key="extraLowerButton1"
                     image=""
                     disabled={true}
-                    color={`${context.insights.insights[0][0]?.category?.color}`}
+                    color={``}
                     outerButton={true}
                   />
                   <DashboardButton
                     key="extraLowerButton2"
                     image=""
                     disabled={true}
-                    color={`${context.insights.insights[0][0]?.category?.color}`}
+                    color={``}
                     outerButton={true}
                   />
                 </div>
@@ -242,21 +242,21 @@ const Dashboard = () => {
                     key="lowerButton1"
                     image=""
                     disabled={true}
-                    color={`${context.insights.insights[0][0]?.category?.color}`}
+                    color={``}
                     outerButton={true}
                   />
                   <DashboardButton
                     key="lowerButton2"
                     image=""
                     disabled={true}
-                    color={`${context.insights.insights[0][0]?.category?.color}`}
+                    color={``}
                     outerButton={true}
                   />
                   <DashboardButton
                     key="lowerButton3"
                     image=""
                     disabled={true}
-                    color={`${context.insights.insights[0][0]?.category?.color}`}
+                    color={``}
                     outerButton={true}
                   />
                 </div>
