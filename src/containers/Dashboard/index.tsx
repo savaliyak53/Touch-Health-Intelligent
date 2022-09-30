@@ -180,11 +180,15 @@ const Dashboard = () => {
     rowNumber++;
     return dashboard;
   };
-  if (context?.insights?.insights) {
-    setDisable(false);
-  } else {
-    setDisable(true);
-  }
+
+  useEffect(() => {
+    if (context?.insights?.insights) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  }, [context]);
+
   return (
     <>
       <Layout defaultHeader={true} hamburger={true} dashboard={true}>
