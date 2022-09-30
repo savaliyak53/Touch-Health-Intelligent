@@ -46,6 +46,8 @@ function DashboardButton({
   useEffect(() => {
     if (context?.showButton === `${outer}-${inner}`) {
       setShow(true);
+    } else if (context?.showButton === '') {
+      setShow(true);
     } else {
       setShow(false);
     }
@@ -61,7 +63,11 @@ function DashboardButton({
         onClick={handleClick}
         key={insight?.category.name + Math.random().toString()}
         className={`Diamond-Btn ${
-          color === '394A7E' ? 'primary' : 'secondary'
+          color === '394A7E'
+            ? 'primary'
+            : color == 'undefined' || color == undefined
+            ? ''
+            : 'secondary'
         } ${disabled ? 'disabled' : ''} ${show ? 'show' : ''}`}
         style={{ opacity: highlight }}
       >
