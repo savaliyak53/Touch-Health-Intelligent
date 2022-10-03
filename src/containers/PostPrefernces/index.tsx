@@ -155,7 +155,7 @@ const PostPreferences = () => {
               id="installApp"
               className="Download-btn"
             >
-              <h5 style={{ float: 'left' }}>You can also install this app</h5>
+              <h5 style={{ float: 'left', cursor: 'pointer'}}>You can also install this app</h5>
               &nbsp;
               <CloudDownloadOutlined
                 className="Download-icon"
@@ -164,6 +164,7 @@ const PostPreferences = () => {
                   float: 'right',
                   fontSize: '20px',
                   marginLeft: '3px',
+                  cursor: 'pointer'
                 }}
               />
             </button>
@@ -238,8 +239,9 @@ to suit you."
                         className="Pref-slider"
                         id="minutesPerWeek"
                         value={value}
-                        min={3}
-                        max={15}
+                        min={0}
+                        max={1}
+                        step={0.1}
                         onChange={onChange}
                         tooltipVisible={false}
                       />

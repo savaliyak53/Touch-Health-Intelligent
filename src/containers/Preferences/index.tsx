@@ -73,6 +73,7 @@ const Preferences = () => {
   const handleRedirect = () => {
     navigate(`/conditions`);
   };
+  useEffect(() => {
 
   let deferredPrompt: BeforeInstallPromptEvent | null;
 
@@ -90,6 +91,7 @@ const Preferences = () => {
       }
     }
   });
+}, []);
 
   return (
     <Layout defaultHeader={true} hamburger={false}>
@@ -109,7 +111,7 @@ const Preferences = () => {
             id="installApp"
             className="Download-btn"
           >
-            <h5 style={{ float: 'left' }}>You can also install this app</h5>
+              <h5 style={{ float: 'left', cursor: 'pointer'}}>You can also install this app</h5>
             &nbsp;
             <CloudDownloadOutlined
               className="Download-icon"
@@ -117,7 +119,8 @@ const Preferences = () => {
                 color: '#3a4a7e',
                 float: 'right',
                 fontSize: '20px',
-                marginLeft: '3px',
+                marginLeft: '3px',                  
+                cursor: 'pointer'
               }}
             />
           </button>
@@ -171,8 +174,9 @@ const Preferences = () => {
                     className="Pref-slider"
                     id="minutesPerWeek"
                     value={value}
-                    min={3}
-                    max={15}
+                    min={0}
+                    max={1}
+                    step={0.1}
                     onChange={onChange}
                     tooltipVisible={false}
                   />
