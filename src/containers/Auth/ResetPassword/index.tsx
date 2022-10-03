@@ -203,7 +203,7 @@ const ResetPassword = () => {
                   <AiOutlineEye />
                 </button>
               </div>
-              <div className="input-element-wrapper">
+              
                 <InputField
                   id="security_question.question"
                   {...register('security_question.question')}
@@ -213,7 +213,7 @@ const ResetPassword = () => {
                   value={question}
                   disabled={true}
                 />
-              </div>
+              
               <div className="input-element-wrapper">
                 <InputField
                   id="security_question.answer"
