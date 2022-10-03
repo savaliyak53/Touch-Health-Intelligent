@@ -8,8 +8,6 @@ import UserCondition from '../containers/Questionnaire';
 import { RequireAuth, RequireSignup } from '../utils/RequireAuth';
 import ThankyouForSubmiting from '../containers/ThankyouForSubmiting';
 import IntroVideo from '../containers/Introvideo';
-import VerificationMessage from '../containers/VerificationMessage';
-import PhoneVerification from '../containers/PhoneVerification';
 import Dashboard from '../containers/Dashboard';
 import Insights from '../containers/Insights';
 import Timeline from '../containers/Timeline/index';
@@ -23,31 +21,26 @@ import ResetPassword from '../containers/Auth/ResetPassword';
 import TermsAndCondtions from '../containers/TermsAndConditions';
 import Verification from '../containers/Auth/Verification';
 import HelpAndSupport from '../containers/HelpAndSupport';
+import Success from '../containers/Success';
+import Error from '../containers/Error';
+import Home from '../containers/Home';
 
 const AppRoutes = () => {
-  const location=useLocation();
+  const location = useLocation();
   useEffect(() => {
-    if(location.pathname!=="/help-and-support") {
+    if (location.pathname !== '/help-and-support') {
       window.Intercom('update', {
         hide_default_launcher: true,
       });
     }
-   }, [location]);
+  }, [location]);
   return (
     <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
       <Routes>
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.signUp} element={<SignUp />} />
         <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
-        <Route path="*" element={<Login />} />
-        <Route
-          path="/verification-message/:userId"
-          element={<VerificationMessage />}
-        />
-        <Route
-          path="/verify/phone/:userId/:code"
-          element={<PhoneVerification />}
-        />
+        <Route path="*" element={<Home />} />
         <Route element={<RequireSignup />}>
           <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />
           <Route path="/verification-code" element={<Verification />} />
@@ -60,8 +53,9 @@ const AppRoutes = () => {
           <Route path="/diamond" element={<Diamond />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/conditions" element={<ManageConditions />} />
-          <Route path="/concerns" element={<ManageConcerns />} />
+          {/* <Route path="/concerns" element={<ManageConcerns />} /> */}
           <Route path="/questionnaire" element={<UserCondition />} />
+          <Route path="/contact" element={<UserCondition />} />
           <Route
             path="/questionnaire-submit"
             element={<ThankyouForSubmiting />}
@@ -71,9 +65,10 @@ const AppRoutes = () => {
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/post-preferences" element={<PostPreferences />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
-          <Route path="/post-concerns" element={<ManageConcerns />} />
-          <Route path="/post-subscription" element={<Subscription />} />
+          {/* <Route path="/post-concerns" element={<ManageConcerns />} /> */}
           <Route path="/help-and-support" element={<HelpAndSupport />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/error" element={<Error />} />
         </Route>
       </Routes>
     </React.Suspense>

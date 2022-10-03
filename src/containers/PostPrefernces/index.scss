@@ -121,8 +121,8 @@
     line-height: 36px;
     font-weight: 700;
     color: #272424;
-    margin-top: clamp(0px, 7.5vh, 96px);
-    margin-bottom: clamp(0px, 7.5vh, 36px);
+    // margin-top: clamp(0px, 7.5vh, 96px);
+    // margin-bottom: clamp(0px, 7.5vh, 36px);
   }
   
   .Pref {
@@ -131,12 +131,12 @@
     }
   
     .Question-title {
-      margin-bottom: 24px;
+      // margin-bottom: 24px;
     }
   }
-  .Question {
-    margin-bottom: clamp(0px, 8vh, 60px);
-  }
+  // .Question {
+  //   margin-bottom: clamp(0px, 8vh, 60px);
+  // }
   
   .Question-title {
     margin-bottom: 24px;

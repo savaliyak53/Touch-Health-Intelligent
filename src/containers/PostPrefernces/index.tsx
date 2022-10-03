@@ -3,7 +3,7 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Slider, Spin, Tooltip } from 'antd';
 import './index.scss';
-import InputField from '../../components/Input';
+import { CloudDownloadOutlined } from '@ant-design/icons';
 import Button from '../../components/Button';
 import { preferencesService } from '../../services/authservice';
 import { toast } from 'react-toastify';
@@ -18,13 +18,25 @@ type IFormInputs = {
   yob: number;
   sex: string;
 };
+
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: Array<string>;
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed';
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
+declare global {
+  interface WindowEventMap {
+    beforeinstallprompt: BeforeInstallPromptEvent;
+  }
+}
+
 const PostPreferences = () => {
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
-  const [time, setTime] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [checked, setChecked] = useState<string[]>([]);
   const [showTooltip, setShowTooltip] = useState(false);
   const [loading, setloading] = useState(false);
 
@@ -46,7 +58,6 @@ const PostPreferences = () => {
       yob: yob,
       sex: sex,
       minutesPerWeek: minutes,
-      timeOfDay: checked,
     },
   });
 
@@ -59,20 +70,15 @@ const PostPreferences = () => {
       yob: data.yob,
       preferences: {
         minutes_per_week: data.minutesPerWeek ?? 3,
-        preferred_engagement_slots: checked.map(
-          (item: any) => item[0].toLowerCase() + item.slice(1)
-        ),
         timezone: zoneVal,
       },
     };
 
     setIsLoading(true);
-    setIsDisabled(true);
     preferencesService(prefereceData, userId)
       .then((preferencesResponse) => {
         setIsLoading(false);
-        setIsDisabled(false);
-        toast.success('You have submitted Preferences successfully');
+        toast.success('Preferences submitted');
         if (preferences) {
           navigate('/dashboard');
         } else {
@@ -81,7 +87,6 @@ const PostPreferences = () => {
       })
       .catch((error) => {
         setIsLoading(false);
-        setIsDisabled(false);
         toast.error(
           `${error.response?.data?.title} Please check values and try again.`
         );
@@ -91,20 +96,6 @@ const PostPreferences = () => {
     navigate(`/introvideo`);
   };
 
-  const timeOfDay = ['Morning', 'Afternoon', 'Evening'];
-  const handleOnChange = (e: any, value: string) => {
-    if (e.target.checked) {
-      setChecked([...checked, value]);
-    } else {
-      setChecked(checked.filter((item) => item !== value));
-    }
-  };
-  const isChecked = (value: any) => {
-    if (checked.includes(value)) {
-      return true;
-    }
-    return false;
-  };
   const getUserInfo = (userId: string | null | undefined) => {
     getUser(userId)
       .then((response: any) => {
@@ -112,20 +103,11 @@ const PostPreferences = () => {
           setPreferences(response?.data?.preferences);
           setYob(response.data.yob);
           setSex(response.data.sex);
-
-          setChecked([
-            ...response.data.preferences.preferred_engagement_slots.map(
-              (item: any) => item[0].toUpperCase() + item.slice(1)
-            ),
-          ]);
           setMinutes(response.data.preferences.minutes_per_week);
           reset({
             yob: response.data.yob,
             sex: response.data.sex,
             minutesPerWeek: response.data.preferences.minutes_per_week,
-            timeOfDay: [
-              ...response.data.preferences.preferred_engagement_slots,
-            ],
           });
           setloading(false);
         }
@@ -139,60 +121,65 @@ const PostPreferences = () => {
     setloading(true);
     getUserInfo(userId);
   }, []);
+  let deferredPrompt: BeforeInstallPromptEvent | null;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    deferredPrompt = e;
+  });
+  const installApp = document.getElementById('installApp');
+  installApp?.addEventListener('click', async () => {
+    if (deferredPrompt != null) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        deferredPrompt = null;
+      }
+    }
+  });
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <Spin spinning={loading}>
         <div className="Content-wrap Pref">
           <h2 className="Pref-title">Preferences</h2>
+          <div
+            className="Download"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'start',
+              marginBottom: '30px',
+            }}
+          >
+            <button
+              style={{ border: 'none', background: 'none' }}
+              id="installApp"
+              className="Download-btn"
+            >
+              <h5 style={{ float: 'left' }}>You can also install this app</h5>
+              &nbsp;
+              <CloudDownloadOutlined
+                className="Download-icon"
+                style={{
+                  color: '#3a4a7e',
+                  float: 'right',
+                  fontSize: '20px',
+                  marginLeft: '3px',
+                }}
+              />
+            </button>
+          </div>
           <form onSubmit={handleSubmit(onSubmit)} className="Preferences-form">
             <div className="Question">
               <h3 className="Question-title">
-                Check-in preferred time of day:
-              </h3>
-              <div className="no-bullets">
-                {timeOfDay.map((c, i) => (
-                  <div key={`${i}`}>
-                    <label className="ant-checkbox-wrapper Pref-checkbox">
-                      <span
-                        className={`ant-checkbox ${
-                          isChecked(c) ? 'ant-checkbox-checked' : ''
-                        }`}
-                      >
-                        <InputField
-                          key={i}
-                          id={`${c}`}
-                          {...register('timeOfDay', {
-                            required: {
-                              value: checked.length > 0 ? false : true,
-                              message: 'Time of Day is required',
-                            },
-                          })}
-                          value={c}
-                          type="checkbox"
-                          className="ant-checkbox-input"
-                          onChange={(e: any) => handleOnChange(e, c)}
-                        />
-
-                        <span className="ant-checkbox-inner"></span>
-                      </span>
-                      <span> {c}</span>
-                    </label>
-                    <br />
-                  </div>
-                ))}
-              </div>
-              <p className="Preferences-form-error">
-                {errors?.timeOfDay && 'Please select at least one option.'}
-              </p>
-            </div>
-            <div className="Question">
-              <h3 className="Question-title">
-                How much communication would you like to have with your health
-                assistant?
+                How much communication with your AI health assistant would you
+                like?
               </h3>
 
               <Tooltip
-                title="The more time you give your health assistant, the better it gets to know your personal health, and the better it will guide you to optimal health."
+                title="More engagement early on reduces the time it takes to
+discover your health pathways. We recommend starting high, and
+once your health pathways are detected adjust to lower values
+to suit you."
                 placement="topRight"
                 overlayStyle={{ maxWidth: '350px' }}
                 color="blue"
@@ -207,9 +194,33 @@ const PostPreferences = () => {
                     setShowTooltip(false);
                   }}
                 >
-                  Tip: by enabling integrations with smart wearables and health
-                  apps you may be using, your health assistant can get to know
-                  you better with less communication.
+                  Tip 1: More engagement early on reduces the time it takes to
+                  discover your health pathways. We recommend starting high, and
+                  once your health pathways are detected adjust to lower values
+                  to suit you.
+                </h5>
+              </Tooltip>
+              <Tooltip
+                title="By enabling integrations with your smart wearables,
+                your AI health assistant gets to know you faster and requires
+                less communication with you."
+                placement="bottomRight"
+                overlayStyle={{ maxWidth: '350px' }}
+                color="blue"
+                visible={showTooltip}
+                mouseLeaveDelay={0}
+              >
+                <h5
+                  onMouseEnter={() => {
+                    setShowTooltip(true);
+                  }}
+                  onMouseLeave={() => {
+                    setShowTooltip(false);
+                  }}
+                >
+                  Tip 2: By enabling integrations with your smart wearables,
+                  your AI health assistant gets to know you faster and requires
+                  less communication with you.
                 </h5>
               </Tooltip>
               <br />
@@ -235,16 +246,16 @@ const PostPreferences = () => {
 
                       <div className="Slider-range">
                         <div className="flex-container">
-                          <span>Very little</span>
-                          <span> (approx. 3 min. / week)</span>
+                          <span>Very little</span> <br />
+                          <span> (Low accuracy and minimal navigation)</span>
                         </div>
                         <div className="flex-container">
-                          <span>Medium</span>
-                          <span> (approx. 10 min. / week)</span>
+                          <span>Medium</span> <br />
+                          <span> (Adaptive and able to navigate)</span>
                         </div>
                         <div className="flex-container">
-                          <span>Complete</span>
-                          <span> (approx. 15 min. / week)</span>
+                          <span>Complete</span> <br />
+                          <span> (High accuracy and reactive navigation)</span>
                         </div>
                       </div>
                     </>
@@ -273,9 +284,7 @@ const PostPreferences = () => {
                     field: { onChange, onBlur, value, name, ref },
                   }) => (
                     <DatePicker
-                      onChange={(selectedValue, selectedValueString) =>
-                        onChange(selectedValueString)
-                      }
+                      disabled={true}
                       picker="year"
                       format="YYYY"
                       defaultValue={moment(yob, 'YYYY')}
@@ -298,8 +307,8 @@ const PostPreferences = () => {
                   name="sex"
                   defaultValue={sex && sex}
                   rules={{ required: 'Please Select one' }}
-                  render={({ field: { onChange, value } }) => (
-                    <Radio.Group value={value} onChange={onChange}>
+                  render={({ field: { value } }) => (
+                    <Radio.Group value={value} disabled={true}>
                       <Space direction="vertical">
                         <Radio value="male" className="radio-input">
                           Male

@@ -8,6 +8,13 @@
   justify-content: space-between;
   /* height: 100%; */
 }
+.Verification-title {
+  font-size: 26px;
+  line-height: 36px;
+  font-weight: 700;
+  color: #272424;
+  margin-top: clamp(0px, 7.5vh, 24px);
+}
 .Verification-form {
   display: flex;
   flex-direction: column;

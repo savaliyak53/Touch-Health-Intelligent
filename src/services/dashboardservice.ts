@@ -12,7 +12,9 @@ export const deleteCondition = (id: string) => {
 export const getConditionsSearch = async (search: string) => {
   return APIClient(`/conditions/search?q=${search}`, 'get');
 };
-
+export const getDefaultConditions = async () => {
+  return APIClient(`/conditions/search`, 'get');
+};
 export const getConcernsService = async () => {
   return APIClient(`/concerns/`, 'get');
 };

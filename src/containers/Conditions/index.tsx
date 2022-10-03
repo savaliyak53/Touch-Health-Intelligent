@@ -7,6 +7,7 @@ import {
   deleteCondition,
   getConditionsSearch,
   getConditionsService,
+  getDefaultConditions,
 } from '../../services/dashboardservice';
 import { toast } from 'react-toastify';
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
@@ -21,7 +22,7 @@ const ManageConditions = () => {
   const [loading, setLoading] = useState(true);
   const [selectedValue, setSelectedValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const getConditions = async () => {
     setLoading(true);
@@ -36,9 +37,21 @@ const ManageConditions = () => {
         toast('Something went wrong');
       });
   };
+  const getDefaultCondition = async () => {
+    getDefaultConditions()
+      .then((response) => {
+        setResult(response.data.map((item: any) => {
+          return { value: item.title, key: item.condition_id };
+        }));
+      })
+      .catch((error) => {
+        toast('Something went wrong');
+      });
+  };
 
   useEffect(() => {
     getConditions();
+    getDefaultCondition();
   }, []);
 
   const handleClose = (id: string) => {
@@ -66,6 +79,10 @@ const ManageConditions = () => {
           toast('Something went wrong. Please contact support.');
         });
     }
+    else {
+      getDefaultCondition()
+    }
+    
   };
 
   const addUpdateCondition = (conditions: any) => {
@@ -88,6 +105,7 @@ const ManageConditions = () => {
 
   const handleOptionSelect = (value: string, option: any) => {
     const condition = data.find((d: any) => d.condition_id === option.key);
+    setSelectedValue(value)
     if (condition) {
       return toast('Condition already exists');
     }
@@ -113,7 +131,7 @@ const ManageConditions = () => {
   };
   const handleNavigate = () => {
     setIsLoading(true);
-    navigate('/concerns');
+    navigate('/subscription');
   };
   return (
     <Layout
@@ -130,7 +148,7 @@ const ManageConditions = () => {
         </p>
 
         <div className="Select-Wrap">
-          <SearchOutlined className="search" />
+          <SearchOutlined className="search" />   
           <AutoComplete
             onSearch={handleSearch}
             placeholder="Search Condition"

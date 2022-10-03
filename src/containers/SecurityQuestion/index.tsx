@@ -48,8 +48,7 @@ const SecurityQuestions = () => {
           Security Question <Spin spinning={loading} />
         </h2>
         <p className="Con-Description">
-          Please help us protect your account. Select a security and input
-          answer. You can use this to get back access to your account.
+         Please help us protect your account. Select a security question and input answer. You can use this to get back access to your account.
         </p>
 
         <div className="Switch-wrap">
@@ -73,7 +72,7 @@ const SecurityQuestions = () => {
               onChange={(event: {
                 target: { value: React.SetStateAction<string> };
               }) => setAnswer(event.target.value)}
-              className="app-Input"
+              className="app-Input secuirty-answer"
             />
           </div>
         </div>

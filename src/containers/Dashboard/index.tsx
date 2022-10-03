@@ -112,6 +112,73 @@ const Dashboard = () => {
     itemPrinted = 0;
     return section;
   };
+  const EmptySection = (outer: number) => {
+    const emptysection: React.ReactNode[] = [];
+    //const insights = context?.insights?.insights;
+    for (let i = 0; i < 1; i++) {
+      {
+        rowNumber++;
+      }
+      if (rowNumber % 2 === 0) {
+        {
+          i++;
+        }
+        emptysection.push(
+          <div className="btn-group" key="lowerButton">
+          <DashboardButton
+            key="lowerButton1"
+            image=""
+            disabled={true}
+            color={``}
+            outerButton={true}
+          />
+         
+          <DashboardButton
+            key="lowerButton3"
+            image=""
+            disabled={true}
+            color={``}
+            outerButton={true}
+          />
+        </div>
+        );
+        {
+          itemPrinted = itemPrinted + 2;
+        }
+      } else {
+        emptysection.push(
+          <div className="btn-group" key="lowerButton">
+          <DashboardButton
+            key="lowerButton1"
+            image=""
+            disabled={true}
+            color={``}
+            outerButton={true}
+          />
+         <DashboardButton
+            key="lowerButton2"
+            image=""
+            disabled={true}
+            color={``}
+            outerButton={true}
+          />
+          <DashboardButton
+            key="lowerButton3"
+            image=""
+            disabled={true}
+            color={``}
+            outerButton={true}
+          />
+        </div>
+        );
+        {
+          itemPrinted = itemPrinted + 1;
+        }
+      }
+    }
+    itemPrinted = 0;
+    return emptysection;
+  };
   const Dashboard = () => {
     const dashboard: React.ReactNode[] = [];
     const insights = context?.insights?.insights;
@@ -121,6 +188,14 @@ const Dashboard = () => {
     rowNumber++;
     return dashboard;
   };
+  const EmptyDashboard = () => {
+    const emptydashboard: React.ReactNode[] = [];
+    for (let i = 0; i < 6; i++) {
+      emptydashboard.push(EmptySection(i));
+    }
+    rowNumber++;
+    return emptydashboard;
+  }; 
   return (
     <>
       <Layout defaultHeader={true} hamburger={true} dashboard={true}>
@@ -132,33 +207,32 @@ const Dashboard = () => {
                   key="extraUpperButton1"
                   image=""
                   disabled={true}
-                  color={`${context.insights.insights[0][0]?.category?.color}`}
+                  color={``}
                   outerButton={true}
                 />
                 <DashboardButton
                   key="extraUpperButton2"
                   image=""
                   disabled={true}
-                  color={`${context.insights.insights[0][0]?.category?.color}`}
+                  color={``}
                   outerButton={true}
                 />
               </div>
-              {Dashboard()}
-
+              {context && context?.insights?.insights.length !== 0 && context?.insights?.insights.length !== undefined ? Dashboard():EmptyDashboard()}
               {rowNumber % 2 == 0 ? (
                 <div className="btn-group" key="extraLowerButton">
                   <DashboardButton
                     key="extraLowerButton1"
                     image=""
                     disabled={true}
-                    color={`${context.insights.insights[0][0]?.category?.color}`}
+                    color={``}
                     outerButton={true}
                   />
                   <DashboardButton
                     key="extraLowerButton2"
                     image=""
                     disabled={true}
-                    color={`${context.insights.insights[0][0]?.category?.color}`}
+                    color={``}
                     outerButton={true}
                   />
                 </div>
@@ -168,21 +242,21 @@ const Dashboard = () => {
                     key="lowerButton1"
                     image=""
                     disabled={true}
-                    color={`${context.insights.insights[0][0]?.category?.color}`}
+                    color={``}
                     outerButton={true}
                   />
                   <DashboardButton
                     key="lowerButton2"
                     image=""
                     disabled={true}
-                    color={`${context.insights.insights[0][0]?.category?.color}`}
+                    color={``}
                     outerButton={true}
                   />
                   <DashboardButton
                     key="lowerButton3"
                     image=""
                     disabled={true}
-                    color={`${context.insights.insights[0][0]?.category?.color}`}
+                    color={``}
                     outerButton={true}
                   />
                 </div>

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Typography } from 'antd';
 import { getInteractionService, getUser } from '../../services/authservice';
 import { toast } from 'react-toastify';
+import Layout from '../../layouts/Layout/Layout';
 const { Title } = Typography;
 const IntroVideo = () => {
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ const IntroVideo = () => {
     getUserInfo(userId);
   };
   return (
+    <Layout defaultHeader={true} hamburger={false}>
     <div className="intro-video">
       <div className="card-text">
         <Title level={2}>Welcome to Touch Health Assistant</Title>
@@ -58,11 +60,12 @@ const IntroVideo = () => {
             className="Pref-btn btn"
             loading={loading}
           >
-            Done
+            Next
           </Button>
         </div>
       </div>
     </div>
+    </Layout>
   );
 };
 export default IntroVideo;

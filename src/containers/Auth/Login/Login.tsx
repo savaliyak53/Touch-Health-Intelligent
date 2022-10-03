@@ -3,16 +3,11 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-
 import Button from '../../../components/Button';
 import InputField from '../../../components/Input';
 import Layout from '../../../layouts/Layout/Layout';
 
-import {
-  getInteractionService,
-  getUser,
-  loginService,
-} from '../../../services/authservice';
+import { loginService } from '../../../services/authservice';
 import jwt from 'jwt-decode';
 import './index.scss';
 import '../index.scss';
@@ -37,14 +32,6 @@ const Login = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const userId = localStorage.getItem('userId');
-      getUserInfo(userId);
-    }
-  }, []);
   const {
     register,
     handleSubmit,
@@ -77,7 +64,7 @@ const Login = () => {
       localStorage.setItem('token', `${loginResponse.token}`);
       const userId = getId(loginResponse.token);
       localStorage.setItem('userId', userId);
-      getUserInfo(userId);
+      navigate('/');
     } else {
       setIsDisabled(false);
       setIsLoading(false);
@@ -89,32 +76,6 @@ const Login = () => {
     setPasswordShown(!passwordShown);
   };
 
-  const getUserInfo = (userId: string | null | undefined) => {
-    getUser(userId)
-      .then((response: any) => {
-        if (!response?.data?.security_questions?.length) {
-          return navigate('/security');
-        }
-        if (response?.data?.preferences?.timezone) {
-          getInteractionService()
-            .then((response) => {
-              if (response?.data?.question) {
-                navigate('/questionnaire');
-              } else {
-                navigate('/dashboard');
-              }
-            })
-            .catch((error) => {
-              toast(error.response.data.details.message);
-            });
-        } else {
-          navigate('/preferences');
-        }
-      })
-      .catch((error) => {
-        toast('Unknown error');
-      });
-  };
   return (
     <Layout defaultHeader={false} hamburger={false}>
       <div className="Auth-wrap">
@@ -149,7 +110,6 @@ const Login = () => {
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
             disabled={isDisabled}
-            style={{ color: 'white' }}
           >
             Login
           </Button>

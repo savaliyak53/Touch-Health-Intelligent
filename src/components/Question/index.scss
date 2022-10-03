@@ -6,23 +6,24 @@
   cursor: pointer;
 }
 .Pain {
-  .Question {
-    margin-top: clamp(0px, 8vh, 130px);
-    margin-bottom: clamp(0px, 8vh, 60px);
-  }
+  // .Question {
+  //   margin-top: clamp(0px, 8vh, 130px);
+  //   margin-bottom: clamp(0px, 8vh, 60px);
+  // }
 
   .Question-title {
-    margin-bottom: 24px;
+    margin-top: 20px;
   }
 }
 
 .Slider-Vertical {
   display: flex;
   justify-content: center;
-  margin-right: 30px;
 
   .Text1,
   .Text2 {
+    width: 100px;
+    word-wrap: break-word;
     font-size: 20px;
     line-height: 24px;
     color: rgba(#282f28, 0.7);
@@ -131,19 +132,19 @@
   }
 
   .Option1 {
-    min-width: 178px;
+    min-width: 150px;
   }
   .Option2 {
     min-width: 150px;
   }
   .Option3 {
-    min-width: 273px;
+    min-width: 150px;
   }
   .Option4 {
-    min-width: 117px;
+    min-width: 150px;
   }
   .Option5 {
-    min-width: 198px;
+    min-width: 150px;
   }
 
   .ant-radio-button-wrapper-checked {
@@ -313,4 +314,9 @@
 }
 .ant-radio-button-wrapper:first-child:last-child {
   border-radius: 100px !important;
+}
+@media (max-width: 400px) {
+  .timepicker {
+    margin-left: 20px;
+  }
 }
