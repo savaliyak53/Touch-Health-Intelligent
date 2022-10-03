@@ -200,7 +200,7 @@ const Dashboard = () => {
     <>
       <Layout defaultHeader={true} hamburger={true} dashboard={true}>
         <div className="Db-wrap">
-          {context?.insights && (
+          
             <div className="dsgbtn-group">
               <div className="btn-group" key="extraUpperButton">
                 <DashboardButton
@@ -218,7 +218,7 @@ const Dashboard = () => {
                   outerButton={true}
                 />
               </div>
-              {context && context?.insights?.insights.length !== 0 && context?.insights?.insights.length !== undefined ? Dashboard():EmptyDashboard()}
+              {context && context.insights!==undefined && context?.insights?.insights?.length !== 0 && context?.insights?.insights?.length !== undefined ? Dashboard():EmptyDashboard()}
               {rowNumber % 2 == 0 ? (
                 <div className="btn-group" key="extraLowerButton">
                   <DashboardButton
@@ -262,9 +262,7 @@ const Dashboard = () => {
                 </div>
               )}
             </div>
-          )}
-
-          <Spin spinning={!context?.insights} className="Spinner"></Spin>
+          {/* <Spin spinning={!context?.insights} className="Spinner"></Spin> */}
         </div>
       </Layout>
     </>
