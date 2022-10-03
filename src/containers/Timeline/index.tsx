@@ -118,7 +118,7 @@ const Timeline = () => {
   return (
     <>
       <Layout defaultHeader={true} hamburger={true} dashboard={false}>
-        <Spin spinning={loader}>
+        <Spin spinning={context?.isLoading}>
           <div className="Content-wrap Corr">
             <div className="Insite-btn" onClick={handleInsightsChange}>
               <Button>
