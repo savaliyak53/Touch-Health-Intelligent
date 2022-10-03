@@ -123,16 +123,21 @@ const PostPreferences = () => {
   }, []);
   let deferredPrompt: BeforeInstallPromptEvent | null;
 
+  const installApp = document.getElementById('installApp');
+
   window.addEventListener('beforeinstallprompt', (e) => {
+    if(installApp != null){
+      installApp.style.display = 'initial'
+    }
     deferredPrompt = e;
   });
-  const installApp = document.getElementById('installApp');
   installApp?.addEventListener('click', async () => {
     if (deferredPrompt != null) {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
       if (outcome === 'accepted') {
         deferredPrompt = null;
+        location.reload()
       }
     }
   });
@@ -151,7 +156,7 @@ const PostPreferences = () => {
             }}
           >
             <button
-              style={{ border: 'none', background: 'none' }}
+              style={{ border: 'none', background: 'none', display: 'none' }}
               id="installApp"
               className="Download-btn"
             >
