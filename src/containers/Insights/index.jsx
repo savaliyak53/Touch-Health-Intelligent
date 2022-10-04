@@ -131,8 +131,9 @@ const Insights = () => {
   const calculate = (insightArray, response) => {
     const i = insightArray[0];
     const j = insightArray[1];
-    if (response && response.insights[i].length) {
-      const selectedinsight = response.insights[i][j];
+    const selectedinsight= context?.insights.insights[i][j];
+    
+    if (selectedinsight) {
       selectedInsight && setInsight(selectedInsight);
       setYAxis(selectedinsight);
       setCategory(selectedinsight.category.name);
@@ -252,7 +253,7 @@ const Insights = () => {
               </h2>
               <RightOutlined />
             </div>
-            {dataset && context.insights && (
+            {dataset && context?.insights?.insights?.length && (
               <div className="chart-wrap">
                 <div className="chart">
                   <Line
