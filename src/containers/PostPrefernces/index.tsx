@@ -14,7 +14,6 @@ import 'moment-timezone';
 import { getUser } from '../../services/authservice';
 type IFormInputs = {
   minutesPerWeek: number;
-  timeOfDay: string[];
   yob: number;
   sex: string;
 };
@@ -69,7 +68,7 @@ const PostPreferences = () => {
       sex: data.sex,
       yob: data.yob,
       preferences: {
-        minutes_per_week: data.minutesPerWeek ?? 3,
+        minutes_per_week: data.minutesPerWeek ?? 0,
         timezone: zoneVal,
       },
     };
@@ -246,7 +245,7 @@ to suit you."
                         value={value}
                         min={0}
                         max={1}
-                        step={0.1}
+                        step={0.01}
                         onChange={onChange}
                         tooltipVisible={false}
                       />

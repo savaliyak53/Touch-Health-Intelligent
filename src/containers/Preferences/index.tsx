@@ -51,7 +51,7 @@ const Preferences = () => {
       sex: data.sex,
       yob: data.yob,
       preferences: {
-        minutes_per_week: data.minutesPerWeek ?? 3,
+        minutes_per_week: data.minutesPerWeek ?? 0,
         timezone: zoneVal,
       },
     };
@@ -75,27 +75,27 @@ const Preferences = () => {
   };
   useEffect(() => {
 
-  let deferredPrompt: BeforeInstallPromptEvent | null;
-  const installApp = document.getElementById('installApp');
+    let deferredPrompt: BeforeInstallPromptEvent | null;
+    const installApp = document.getElementById('installApp');
 
-  window.addEventListener('beforeinstallprompt', (e) => {
+    window.addEventListener('beforeinstallprompt', (e) => {
     if(installApp != null){
       installApp.style.display = 'initial'
-    }
-    deferredPrompt = e;
-  });
-
-  installApp?.addEventListener('click', async () => {
-    if (deferredPrompt !== null) {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        deferredPrompt = null;
-        location.reload()
       }
-    }
-  });
-}, []);
+      deferredPrompt = e;
+    });
+
+    installApp?.addEventListener('click', async () => {
+      if (deferredPrompt !== null) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          deferredPrompt = null;
+        location.reload()
+        }
+      }
+    });
+  }, []);
 
   return (
     <Layout defaultHeader={true} hamburger={false}>
@@ -123,7 +123,7 @@ const Preferences = () => {
                 color: '#3a4a7e',
                 float: 'right',
                 fontSize: '20px',
-                marginLeft: '3px',                  
+                marginLeft: '3px',
                 cursor: 'pointer'
               }}
             />
@@ -180,7 +180,7 @@ const Preferences = () => {
                     value={value}
                     min={0}
                     max={1}
-                    step={0.1}
+                    step={0.01}
                     onChange={onChange}
                     tooltipVisible={false}
                   />
