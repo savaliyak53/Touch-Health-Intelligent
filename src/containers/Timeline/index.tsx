@@ -145,7 +145,7 @@ const Timeline = () => {
                 patterns.map((pattern: any, index: number) => (
                   <div className="Each-Relation" key={index}>
                     <div className="Text-btn">
-                      <p className="Text">{pattern.p_str}</p>
+                      <p className="Text" dangerouslySetInnerHTML={{__html: pattern.p_str}} />
                       <div className="Arrow-btn">
                         {pattern.direction === 'up' ? (
                           <ArrowUpOutlined className="arrwo up" />
