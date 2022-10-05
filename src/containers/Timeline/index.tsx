@@ -29,13 +29,13 @@ const Timeline = () => {
   const calculate = (insightArray: any, response: any) => {
     const i = insightArray[0];
     const j = insightArray[1];
-    if (response.insights[i].length) {
-      const selectedinsight = response.insights[i][j];
+    const contextResponse= context?.insights.insights[i][j];    
+    if (contextResponse) {
       selectedInsight && setInsight(selectedInsight);
-      setCategory(selectedinsight.category.name);
-      setImage(selectedinsight.category.icon);
+      setCategory(contextResponse.category.name);
+      setImage(contextResponse.category.icon);
       //setPatternData
-      const patterns = selectedinsight.patterns;
+      const patterns = contextResponse.patterns;
       setPatterns(patterns);
       setLoader(false);
     }
