@@ -11,6 +11,8 @@ import Layout from '../../layouts/Layout/Layout';
 import { Radio, Space, DatePicker } from 'antd';
 import moment from 'moment';
 import 'moment-timezone';
+import { getUser } from '../../services/authservice';
+
 type IFormInputs = {
   minutesPerWeek: number;
   yob: number;
@@ -34,13 +36,26 @@ const Preferences = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [loading, setloading] = useState(false);
+
+  const [preferences, setPreferences] = useState<any>({});
+  const [yob, setYob] = useState<any>('');
+  const [sex, setSex] = useState<any>('');
+  const [minutes, setMinutes] = useState<number>();
 
   const {
     handleSubmit,
     control,
     formState: { errors, isValid },
+    reset,
   } = useForm<IFormInputs>({
     mode: 'onChange',
+    reValidateMode: 'onSubmit',
+    defaultValues: {
+      yob: yob,
+      sex: sex,
+      minutesPerWeek: minutes,
+    },
   });
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
@@ -61,7 +76,11 @@ const Preferences = () => {
       .then((preferencesResponse) => {
         setIsLoading(false);
         toast.success('Preferences submitted');
-        handleRedirect();
+        if (isEmpty(preferences)) {
+          handleRedirect();
+        } else {
+          navigate('/dashboard');
+        }
       })
       .catch((error) => {
         setIsLoading(false);
@@ -73,8 +92,38 @@ const Preferences = () => {
   const handleRedirect = () => {
     navigate(`/conditions`);
   };
-  useEffect(() => {
 
+  const getUserInfo = (userId: string | null | undefined) => {
+    getUser(userId)
+      .then((response: any) => {
+        console.log(response);
+        if (response?.data?.preferences?.timezone) {
+          console.log(response);
+          setPreferences(response.data.preferences);
+          setYob(response.data.yob);
+          setSex(response.data.sex);
+          setMinutes(response.data.preferences.minutes_per_week);
+          reset({
+            yob: response.data.yob,
+            sex: response.data.sex,
+            minutesPerWeek: response.data.preferences.minutes_per_week,
+          });
+          setloading(false);
+        }
+      })
+      .catch((error) => {
+        toast('Unknown error');
+      });
+  };
+
+  const isEmpty = (obj: any) => {
+    for (const x in obj) {
+      return false;
+    }
+    return true;
+  };
+
+  useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
     const installApp = document.getElementById('installApp');
 
@@ -95,10 +144,14 @@ const Preferences = () => {
         }
       }
     });
+
+    const userId = localStorage.getItem('userId');
+    setloading(true);
+    getUserInfo(userId);
   }, []);
 
   return (
-    <Layout defaultHeader={true} hamburger={false}>
+    <Layout defaultHeader={true} hamburger={isEmpty(preferences) ? false : true}>
       <div className="Content-wrap Pref">
         <h2 className="Pref-title">Preferences</h2>
         <div
@@ -165,110 +218,230 @@ const Preferences = () => {
             </h5>
 
             <br />
-            <Controller
-              control={control}
-              name="minutesPerWeek"
-              rules={{
-                required: 'Please Select a check-in value',
-              }}
-              defaultValue={3}
-              render={({ field: { onChange, value } }) => (
-                <>
-                  <Slider
-                    className="Pref-slider"
-                    id="minutesPerWeek"
-                    value={value}
-                    min={0}
-                    max={1}
-                    step={0.01}
-                    onChange={onChange}
-                    tooltipVisible={false}
-                  />
 
-                  <div className="Slider-range">
-                    <div className="flex-container">
-                      <span>Very little</span> <br />
-                      <span> (Low accuracy and minimal navigation)</span>
-                    </div>
-                    <div className="flex-container">
-                      <span>Medium</span> <br />
-                      <span> (Adaptive and able to navigate)</span>
-                    </div>
-                    <div className="flex-container">
-                      <span>Locked on</span> <br />
-                      <span> (High accuracy and reactive navigation)</span>
-                    </div>
-                  </div>
-                </>
-              )}
-            />
+            {minutes ? (
+              <Controller
+                control={control}
+                name="minutesPerWeek"
+                rules={{
+                  required: 'Please Select a check-in value',
+                }}
+                defaultValue={minutes && minutes}
+                render={({ field: { onChange, value } }) => (
+                  <>
+                    <Slider
+                      className="Pref-slider"
+                      id="minutesPerWeek"
+                      value={value}
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      onChange={onChange}
+                      tooltipVisible={false}
+                    />
 
+                    <div className="Slider-range">
+                      <div className="flex-container">
+                        <span>Very little</span> <br />
+                        <span> (Low accuracy and minimal navigation)</span>
+                      </div>
+                      <div className="flex-container">
+                        <span>Medium</span> <br />
+                        <span> (Adaptive and able to navigate)</span>
+                      </div>
+                      <div className="flex-container">
+                        <span>Complete</span> <br />
+                        <span> (High accuracy and reactive navigation)</span>
+                      </div>
+                    </div>
+                  </>
+                )}
+              />
+            ) : (
+              <Controller
+                control={control}
+                name="minutesPerWeek"
+                rules={{
+                  required: 'Please Select a check-in value',
+                }}
+                defaultValue={0}
+                render={({ field: { onChange, value } }) => (
+                  <>
+                    <Slider
+                      className="Pref-slider"
+                      id="minutesPerWeek"
+                      value={value}
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      onChange={onChange}
+                      tooltipVisible={false}
+                    />
+                    <div className="Slider-range">
+                      <div className="flex-container">
+                        <span>Very little</span> <br />
+                        <span> (Low accuracy and minimal navigation)</span>
+                      </div>
+                      <div className="flex-container">
+                        <span>Medium</span> <br />
+                        <span> (Adaptive and able to navigate)</span>
+                      </div>
+                      <div className="flex-container">
+                        <span>Complete</span> <br />
+                        <span> (High accuracy and reactive navigation)</span>
+                      </div>
+                    </div>
+                  </>
+                )}
+              />
+            )}
             <p className="Preferences-form-error">
               {errors.minutesPerWeek?.message}
             </p>
           </div>
+          {yob ? (
+            <div className="Question">
+              <h3 className="Question-title">What is your year of birth?</h3>
+              <Controller
+                control={control}
+                name="yob"
+                defaultValue={yob}
+                rules={{
+                  required: 'Please Select an year',
+                  validate: (value) => {
+                    return value > 2006 ? 'You must older than 16' : true;
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value, name, ref } }) => (
+                  <DatePicker
+                    disabled={true}
+                    picker="year"
+                    format="YYYY"
+                    value={moment(yob, 'YYYY')}
+                    className="Date-Select"
+                  />
+                )}
+              />
 
-          <div className="Question">
-            <h3 className="Question-title">What is your year of birth?</h3>
-            <Controller
-              control={control}
-              name="yob"
-              rules={{
-                required: 'Please Select an year',
-                validate: (value) => {
-                  return value > 2006 ? 'You must older than 16' : true;
-                },
-              }}
-              render={({ field: { onChange, onBlur, value, name, ref } }) => (
-                <DatePicker
-                  onChange={(selectedValue, selectedValueString) =>
-                    onChange(selectedValueString)
-                  }
-                  picker="year"
-                  format="YYYY"
-                  className="Date-Select"
-                />
-              )}
-            />
+              <p className="Preferences-form-error">{errors.yob?.message}</p>
+            </div>
+          ) : (
+            <div className="Question">
+              <h3 className="Question-title">What is your year of birth?</h3>
+              <Controller
+                control={control}
+                name="yob"
+                rules={{
+                  required: 'Please Select an year',
+                  validate: (value) => {
+                    return value > 2006 ? 'You must older than 16' : true;
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value, name, ref } }) => (
+                  <DatePicker
+                    onChange={(selectedValue, selectedValueString) =>
+                      onChange(selectedValueString)
+                    }
+                    picker="year"
+                    format="YYYY"
+                    className="Date-Select"
+                  />
+                )}
+              />
 
-            <p className="Preferences-form-error">{errors.yob?.message}</p>
-          </div>
+              <p className="Preferences-form-error">{errors.yob?.message}</p>
+            </div>
+          )}
 
-          <div className="Question">
-            <h3 className="Question-title">
-              Assigned sex at the time of birth
-            </h3>
-            <Controller
-              control={control}
-              name="sex"
-              rules={{ required: 'Please Select one' }}
-              render={({ field: { onChange, value } }) => (
-                <Radio.Group value={value} onChange={onChange}>
-                  <Space direction="vertical">
-                    <Radio value="male" className="radio-input">
-                      Male
-                    </Radio>
-                    <Radio value="female" className="radio-input">
-                      Female
-                    </Radio>
-                    <Radio value="x" className="radio-input">
-                      Prefer not to say
-                    </Radio>
-                  </Space>
-                </Radio.Group>
-              )}
-            />
+          {sex ? (
+            <div className="Question">
+              <h3 className="Question-title">
+                Assigned sex at the time of birth
+              </h3>
+              <Controller
+                control={control}
+                name="sex"
+                defaultValue={sex && sex}
+                rules={{ required: 'Please Select one' }}
+                render={({ field: { value } }) => (
+                  <Radio.Group value={value} disabled={true}>
+                    <Space direction="vertical">
+                      <Radio value="male" className="radio-input">
+                        Male
+                      </Radio>
+                      <Radio value="female" className="radio-input">
+                        Female
+                      </Radio>
+                      <Radio value="x" className="radio-input">
+                        Prefer not to say
+                      </Radio>
+                    </Space>
+                  </Radio.Group>
+                )}
+              />
 
-            <p className="Preferences-form-error">{errors.sex?.message}</p>
-          </div>
-          <Button
-            className="Pref-btn btn"
-            loading={isLoading}
-            disabled={!isValid}
-            onClick={handleSubmit(onSubmit)}
-          >
-            Save and Next
-          </Button>
+              <p className="Preferences-form-error">{errors.sex?.message}</p>
+            </div>
+          ) : (
+            <div className="Question">
+              <h3 className="Question-title">
+                Assigned sex at the time of birth
+              </h3>
+              <Controller
+                control={control}
+                name="sex"
+                rules={{ required: 'Please Select one' }}
+                render={({ field: { onChange, value } }) => (
+                  <Radio.Group value={value} onChange={onChange}>
+                    <Space direction="vertical">
+                      <Radio value="male" className="radio-input">
+                        Male
+                      </Radio>
+                      <Radio value="female" className="radio-input">
+                        Female
+                      </Radio>
+                      <Radio value="x" className="radio-input">
+                        Prefer not to say
+                      </Radio>
+                    </Space>
+                  </Radio.Group>
+                )}
+              />
+
+              <p className="Preferences-form-error">{errors.sex?.message}</p>
+            </div>
+          )}
+
+          {isEmpty(preferences) ? (
+            <Button
+              className="Pref-btn btn"
+              loading={isLoading}
+              disabled={!isValid}
+              onClick={handleSubmit(onSubmit)}
+            >
+              Save and Next
+            </Button>
+          ) : (
+            <div className="button-group">
+              <Button
+                className="Cancel-post-btn btn"
+                onClick={() => {
+                  navigate('/dashboard');
+                }}
+                disabled={loading}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="Pref-post-btn btn"
+                loading={isLoading}
+                // disabled={!isValid}
+                onClick={handleSubmit(onSubmit)}
+              >
+                Save
+              </Button>
+            </div>
+          )}
         </form>
       </div>
     </Layout>
