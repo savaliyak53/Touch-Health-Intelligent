@@ -29,7 +29,7 @@ const Timeline = () => {
   const calculate = (insightArray: any, response: any) => {
     const i = insightArray[0];
     const j = insightArray[1];
-    const contextResponse= context?.insights.insights[i][j];    
+    const contextResponse= context?.insights?.insights[i][j];    
     if (contextResponse) {
       selectedInsight && setInsight(selectedInsight);
       setCategory(contextResponse.category.name);

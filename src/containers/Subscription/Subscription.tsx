@@ -205,16 +205,16 @@ const Subscription = () => {
                     <p className="Description">{plan.price?.amountFormatted}</p>
                     {freeTrial && (
                       <p className="subDescription">
-                        {plan.trialPeriod?.repetitions}{' '}
-                        {plan.trialPeriod?.interval.toLowerCase()} free trial
-                      </p>
+                      {plan.trialPeriod && <> 
+                      {plan.trialPeriod.repetitions} {plan.trialPeriod.interval.toLowerCase()} free trial</>} 
+                     </p>
                     )}
                     {freeTrial === false &&
                       userPlan?.trialing &&
                       userPlan?.plan?.id === plan.id && (
                         <p className="subDescription">
-                          {plan.trialPeriod?.repetitions}{' '}
-                          {plan.trialPeriod?.interval.toLowerCase()} free trial
+                          {plan.trialPeriod && <> 
+                          {plan.trialPeriod.repetitions} {plan.trialPeriod.interval.toLowerCase()} free trial</>} 
                         </p>
                       )}
                     {/* if Plan is Active and was cancelled by user but the cancellation date is in future */}

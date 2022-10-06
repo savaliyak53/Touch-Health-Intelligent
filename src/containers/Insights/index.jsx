@@ -131,7 +131,7 @@ const Insights = () => {
   const calculate = (insightArray, response) => {
     const i = insightArray[0];
     const j = insightArray[1];
-    const selectedinsight= context?.insights.insights[i][j];
+    const selectedinsight= context?.insights?.insights[i][j];
     
     if (selectedinsight) {
       selectedInsight && setInsight(selectedInsight);
