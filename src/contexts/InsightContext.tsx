@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import { toast } from 'react-toastify';
 import { getInsightsService } from '../services/dashboardservice';
-
 export interface InsightContextModel {
   insights?: any;
   isLoading?:boolean;
@@ -42,14 +41,19 @@ const InsightContextProvider = ({ children, brandId }: Props) => {
   const loadInsights = async () => {
     //setIsReady(false)
      setLoading(true);
-     getInsightsService().then(response => {
-      setInsights(response.data);
-      setLoading(false);
-      return response.data;
-      }).catch(e => {
-      setLoading(false);
-      console.log('error',e);
-      });
+     try{
+      const response= await getInsightsService();
+      if(response.data){
+        setInsights(response.data);
+        setLoading(false);
+        return response.data;
+      }
+     }
+     catch(e){
+        setLoading(false);
+        console.log('error',e);
+     }
+     
   };
   const loadSelectedInsight = async (selectedData: any) => {
     setSelectedInsight(selectedData);
