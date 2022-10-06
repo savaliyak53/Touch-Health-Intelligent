@@ -19,7 +19,7 @@ const Timeline = () => {
   const [category, setCategory] = useState<string>();
   const [image, setImage] = useState<string>();
   const [loader, setLoader] = useState<boolean>();
-  const [insightResponse, setInsightResponse] = useState();
+  const [insightResponse, setInsightResponse] = useState<any>();
   const selectedInsight = localStorage.getItem('selectedInsight');
   const getSelectedInsight = async (index:any, insightResp:any) => {   
     const splitIndex = index && index.split('-');
@@ -29,13 +29,13 @@ const Timeline = () => {
   const calculate = (insightArray: any, response: any) => {
     const i = insightArray[0];
     const j = insightArray[1];
-    const contextResponse= context?.insights?.insights[i][j];    
-    if (contextResponse) {
+    if (response.insights && response.insights.length && response.insights[i].length) {
+      const selectedinsight = response.insights[i][j];
       selectedInsight && setInsight(selectedInsight);
-      setCategory(contextResponse.category.name);
-      setImage(contextResponse.category.icon);
+      setCategory(selectedinsight.category.name);
+      setImage(selectedinsight.category.icon);
       //setPatternData
-      const patterns = contextResponse.patterns;
+      const patterns = selectedinsight.patterns;
       setPatterns(patterns);
       setLoader(false);
     }
@@ -118,7 +118,7 @@ const Timeline = () => {
   return (
     <>
       <Layout defaultHeader={true} hamburger={true} dashboard={false}>
-        <Spin spinning={context?.isLoading}>
+        <Spin spinning={loader}>
           <div className="Content-wrap Corr">
             <div className="Insite-btn" onClick={handleInsightsChange}>
               <Button>

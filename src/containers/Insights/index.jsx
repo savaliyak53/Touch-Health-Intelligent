@@ -131,9 +131,8 @@ const Insights = () => {
   const calculate = (insightArray, response) => {
     const i = insightArray[0];
     const j = insightArray[1];
-    const selectedinsight= context?.insights?.insights[i][j];
-    
-    if (selectedinsight) {
+    if (response.insights && response.insights.length && response.insights[i].length) {
+      const selectedinsight = response.insights[i][j];
       selectedInsight && setInsight(selectedInsight);
       setYAxis(selectedinsight);
       setCategory(selectedinsight.category.name);
@@ -239,7 +238,7 @@ const Insights = () => {
   return (
     <>
       <Layout defaultHeader={true} hamburger={true} dashboard={false}>
-      <Spin spinning={context?.isLoading}>
+      <Spin spinning={loader}>
           <div className="Content-wrap Analytic">
             <div className="Insite-btn" onClick={handleTimelineChange}>
               <Button>
@@ -253,7 +252,7 @@ const Insights = () => {
               </h2>
               <RightOutlined />
             </div>
-            {dataset && context?.insights?.insights?.length && (
+            {dataset && context.insights && (
               <div className="chart-wrap">
                 <div className="chart">
                   <Line
