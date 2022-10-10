@@ -114,15 +114,22 @@ const Login = () => {
             Login
           </Button>
         </form>
-        <div className="Auth-terms-reset">
-          <Link to="/reset-password" className="Auth-signup">
-            Forgot Password?
-          </Link>
-        </div>
-        <div className="Auth-terms">
+        <div className='Links-wrap'>
+          <div className="Auth-terms-signup">
+           For customer support, please follow this <a href="https://www.touchmedical.ca/customer-care">link</a>
+          </div>
+
+          <div className="Auth-terms-signup">
+            <Link to="/reset-password" className="Auth-signup">
+              Forgot Password?
+            </Link>
+          </div>
+          
+          <div className="Auth-terms-signup">
           <Link to="/signup" className="Auth-signup">
-            Create an Account?
-          </Link>
+              Create an Account?
+            </Link>
+          </div>
         </div>
       </div>
     </Layout>

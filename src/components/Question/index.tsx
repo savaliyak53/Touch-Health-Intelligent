@@ -246,7 +246,7 @@ const Question = ({
       default:
         return <h2></h2>;
     }
-  }, [question?.q_str, question?.type]);
+  }, [question?.q_str, question?.type, question?.options]);
 
   return (
     <>

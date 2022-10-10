@@ -193,9 +193,15 @@ const SignUp = () => {
             Sign Up
           </Button>
         </form>
-        <div className="Auth-terms-signup">
-          <Link to="/login">Already have an account?</Link>
+        <div className='Links-wrap'>
+          <div className="Auth-terms-signup">
+          For customer support, please follow this <a href="https://www.touchmedical.ca/customer-care">link</a>
+          </div>
+          <div className="Auth-terms-signup">
+            <Link to="/login">Already have an account?</Link>
+          </div>
         </div>
+        
       </div>
     </Layout>
   );

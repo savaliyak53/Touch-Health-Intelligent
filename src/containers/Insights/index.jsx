@@ -131,7 +131,7 @@ const Insights = () => {
   const calculate = (insightArray, response) => {
     const i = insightArray[0];
     const j = insightArray[1];
-    if (response.insights[i].length) {
+    if (response.insights && response.insights.length && response.insights[i].length) {
       const selectedinsight = response.insights[i][j];
       selectedInsight && setInsight(selectedInsight);
       setYAxis(selectedinsight);
