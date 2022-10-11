@@ -19,7 +19,7 @@ const Timeline = () => {
   const [category, setCategory] = useState<string>();
   const [image, setImage] = useState<string>();
   const [loader, setLoader] = useState<boolean>();
-  const [insightResponse, setInsightResponse] = useState();
+  const [insightResponse, setInsightResponse] = useState<any>();
   const selectedInsight = localStorage.getItem('selectedInsight');
   const getSelectedInsight = async (index:any, insightResp:any) => {   
     const splitIndex = index && index.split('-');
@@ -29,7 +29,7 @@ const Timeline = () => {
   const calculate = (insightArray: any, response: any) => {
     const i = insightArray[0];
     const j = insightArray[1];
-    if (response.insights[i].length) {
+    if (response.insights && response.insights.length && response.insights[i].length) {
       const selectedinsight = response.insights[i][j];
       selectedInsight && setInsight(selectedInsight);
       setCategory(selectedinsight.category.name);
@@ -145,7 +145,7 @@ const Timeline = () => {
                 patterns.map((pattern: any, index: number) => (
                   <div className="Each-Relation" key={index}>
                     <div className="Text-btn">
-                      <p className="Text">{pattern.p_str}</p>
+                      <p className="Text" dangerouslySetInnerHTML={{__html: pattern.p_str}} />
                       <div className="Arrow-btn">
                         {pattern.direction === 'up' ? (
                           <ArrowUpOutlined className="arrwo up" />

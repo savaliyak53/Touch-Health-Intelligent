@@ -203,17 +203,17 @@ const ResetPassword = () => {
                   <AiOutlineEye />
                 </button>
               </div>
-              <div className="input-element-wrapper">
-                <InputField
-                  id="security_question.question"
-                  {...register('security_question.question')}
-                  type="text"
-                  className="app-Input"
-                  placeholder="Question"
-                  value={question}
-                  disabled={true}
-                />
-              </div>
+
+              <input
+                id="security_question.question"
+                {...register('security_question.question')}
+                type="text"
+                className="app-Input"
+                placeholder="Question"
+                value={question}
+                disabled={true}
+              />
+              
               <div className="input-element-wrapper">
                 <InputField
                   id="security_question.answer"
@@ -245,6 +245,11 @@ const ResetPassword = () => {
             {isCodeSent ? 'Resend Code' : 'Send Code'}
           </Button>
         </form>
+        <div className='Links-wrap'>
+          <div className="Auth-terms-signup">
+          For customer support, please follow this <a href="https://www.touchmedical.ca/customer-care">link</a>
+          </div>
+        </div>
       </div>
     </Layout>
   );

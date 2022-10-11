@@ -7,9 +7,9 @@ import React, {
 } from 'react';
 import { toast } from 'react-toastify';
 import { getInsightsService } from '../services/dashboardservice';
-
 export interface InsightContextModel {
   insights?: any;
+  isLoading?:boolean;
   selectedInsight?: any;
   selectedInsightIndex?: [];
   showButton?: string | undefined;
@@ -35,18 +35,25 @@ const InsightContextProvider = ({ children, brandId }: Props) => {
   const [insights, setInsights] = useState<any>();
   const [selectedInsight, setSelectedInsight] = useState<any>();
   const [selectedInsightIndex, setSelectedInsightIndex] = useState<any>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [showButton, setShowButton] = useState<string | undefined>();
 
   const loadInsights = async () => {
     //setIsReady(false)
-
-    const response = await getInsightsService();
-    if (response.data) {
-      setInsights(response.data);
-      return response.data;
-    } else {
-      toast.error('Unknown error');
-    }
+     setLoading(true);
+     try{
+      const response= await getInsightsService();
+      if(response.data){
+        setInsights(response.data);
+        setLoading(false);
+        return response.data;
+      }
+     }
+     catch(e){
+        setLoading(false);
+        console.log('error',e);
+     }
+     
   };
   const loadSelectedInsight = async (selectedData: any) => {
     setSelectedInsight(selectedData);
@@ -66,6 +73,7 @@ const InsightContextProvider = ({ children, brandId }: Props) => {
         selectedInsight,
         selectedInsightIndex,
         showButton,
+        isLoading:loading,
         commands: {
           loadInsights,
           loadSelectedInsight,

@@ -14,7 +14,6 @@ import 'moment-timezone';
 import { getUser } from '../../services/authservice';
 type IFormInputs = {
   minutesPerWeek: number;
-  timeOfDay: string[];
   yob: number;
   sex: string;
 };
@@ -69,7 +68,7 @@ const PostPreferences = () => {
       sex: data.sex,
       yob: data.yob,
       preferences: {
-        minutes_per_week: data.minutesPerWeek ?? 3,
+        minutes_per_week: data.minutesPerWeek ?? 0,
         timezone: zoneVal,
       },
     };
@@ -123,16 +122,21 @@ const PostPreferences = () => {
   }, []);
   let deferredPrompt: BeforeInstallPromptEvent | null;
 
+  const installApp = document.getElementById('installApp');
+
   window.addEventListener('beforeinstallprompt', (e) => {
+    if(installApp != null){
+      installApp.style.display = 'initial'
+    }
     deferredPrompt = e;
   });
-  const installApp = document.getElementById('installApp');
   installApp?.addEventListener('click', async () => {
     if (deferredPrompt != null) {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
       if (outcome === 'accepted') {
         deferredPrompt = null;
+        location.reload()
       }
     }
   });
@@ -151,11 +155,11 @@ const PostPreferences = () => {
             }}
           >
             <button
-              style={{ border: 'none', background: 'none' }}
+              style={{ border: 'none', background: 'none', display: 'none' }}
               id="installApp"
               className="Download-btn"
             >
-              <h5 style={{ float: 'left' }}>You can also install this app</h5>
+              <h5 style={{ float: 'left', cursor: 'pointer'}}>You can also install this app</h5>
               &nbsp;
               <CloudDownloadOutlined
                 className="Download-icon"
@@ -164,6 +168,7 @@ const PostPreferences = () => {
                   float: 'right',
                   fontSize: '20px',
                   marginLeft: '3px',
+                  cursor: 'pointer'
                 }}
               />
             </button>
@@ -238,8 +243,9 @@ to suit you."
                         className="Pref-slider"
                         id="minutesPerWeek"
                         value={value}
-                        min={3}
-                        max={15}
+                        min={0}
+                        max={1}
+                        step={0.01}
                         onChange={onChange}
                         tooltipVisible={false}
                       />
