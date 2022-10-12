@@ -29,6 +29,8 @@ function UserCondition() {
         if (response?.data?.question) {
           setQuestion(response?.data?.question);
           setRefId(response.data.ref_id);
+        } else {
+          navigate('/dashboard');
         }
       })
       .catch((error) => {
