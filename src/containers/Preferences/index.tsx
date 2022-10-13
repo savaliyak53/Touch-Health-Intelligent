@@ -14,7 +14,7 @@ import 'moment-timezone';
 import { getUser } from '../../services/authservice';
 
 type IFormInputs = {
-  minutesPerWeek: number;
+  engagementLevel: number;
   yob: number;
   sex: string;
 };
@@ -41,7 +41,7 @@ const Preferences = () => {
   const [preferences, setPreferences] = useState<any>({});
   const [yob, setYob] = useState<any>('');
   const [sex, setSex] = useState<any>('');
-  const [minutes, setMinutes] = useState<number>();
+  const [engagement, setEngagement] = useState<number>();
 
   const {
     handleSubmit,
@@ -54,7 +54,7 @@ const Preferences = () => {
     defaultValues: {
       yob: yob,
       sex: sex,
-      minutesPerWeek: minutes,
+      engagementLevel: engagement,
     },
   });
 
@@ -66,7 +66,7 @@ const Preferences = () => {
       sex: data.sex,
       yob: data.yob,
       preferences: {
-        minutes_per_week: data.minutesPerWeek ?? 0,
+        engagement_level: data.engagementLevel ?? 0,
         timezone: zoneVal,
       },
     };
@@ -100,11 +100,11 @@ const Preferences = () => {
           setPreferences(response.data.preferences);
           setYob(response.data.yob);
           setSex(response.data.sex);
-          setMinutes(response.data.preferences.minutes_per_week);
+          setEngagement(response.data.preferences.engagement_level);
           reset({
             yob: response.data.yob,
             sex: response.data.sex,
-            minutesPerWeek: response.data.preferences.minutes_per_week,
+            engagementLevel: response.data.preferences.engagement_level,
           });
           setloading(false);
         }
@@ -149,7 +149,10 @@ const Preferences = () => {
   }, []);
 
   return (
-    <Layout defaultHeader={true} hamburger={isEmpty(preferences) ? false : true}>
+    <Layout
+      defaultHeader={true}
+      hamburger={isEmpty(preferences) ? false : true}
+    >
       <div className="Content-wrap Pref">
         <h2 className="Pref-title">Preferences</h2>
         <div
@@ -217,19 +220,19 @@ const Preferences = () => {
 
             <br />
 
-            {minutes ? (
+            {engagement ? (
               <Controller
                 control={control}
-                name="minutesPerWeek"
+                name="engagementLevel"
                 rules={{
                   required: 'Please Select a check-in value',
                 }}
-                defaultValue={minutes && minutes}
+                defaultValue={engagement && engagement}
                 render={({ field: { onChange, value } }) => (
                   <>
                     <Slider
                       className="Pref-slider"
-                      id="minutesPerWeek"
+                      id="engagementLevel"
                       value={value}
                       min={0}
                       max={1}
@@ -258,7 +261,7 @@ const Preferences = () => {
             ) : (
               <Controller
                 control={control}
-                name="minutesPerWeek"
+                name="engagementLevel"
                 rules={{
                   required: 'Please Select a check-in value',
                 }}
@@ -267,7 +270,7 @@ const Preferences = () => {
                   <>
                     <Slider
                       className="Pref-slider"
-                      id="minutesPerWeek"
+                      id="engagementLevel"
                       value={value}
                       min={0}
                       max={1}
@@ -294,7 +297,7 @@ const Preferences = () => {
               />
             )}
             <p className="Preferences-form-error">
-              {errors.minutesPerWeek?.message}
+              {errors.engagementLevel?.message}
             </p>
           </div>
           {yob ? (

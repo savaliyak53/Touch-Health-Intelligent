@@ -52,22 +52,6 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
             <Link to="/dashboard">Home</Link>
           </li>
           <li>
-            <Link
-              to="/insights"
-              onClick={() => localStorage.setItem('selectedInsight', '0-0')}
-            >
-              Insights
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/insights/guideline"
-              onClick={() => localStorage.setItem('selectedInsight', '0-0')}
-            >
-              Guideline
-            </Link>
-          </li>
-          <li>
             <Link to="/preferences">Preferences</Link>
           </li>
           <li>
