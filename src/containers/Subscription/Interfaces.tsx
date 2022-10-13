@@ -33,4 +33,5 @@ id:string | undefined;
 renewalDate:string|undefined;
 currentPeriod:ISubscriptionPeriod | undefined;
 trialing?: boolean | undefined;
+nextPhase?:IUserSubscription | undefined;
 };
