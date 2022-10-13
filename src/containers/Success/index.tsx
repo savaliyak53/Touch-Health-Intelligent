@@ -20,8 +20,8 @@ const SubscriptionSuccess = () => {
           <Alert message="Subscription successful" type="success" />
         </div>
         <h3 className="Question-title">Thankyou for Subscribing</h3>
-        <button className="submit">
-          <Link to="/subscription">Check Subscription</Link>
+        <button className="submit"  onClick={() => navigate('/subscription')}>
+          Check Subscription
         </button>
         <button className="submit" onClick={() => navigate('/dashboard')}>
           Home
