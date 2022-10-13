@@ -29,16 +29,11 @@ const Subscription = () => {
   const [userPlanStatus, setUserPlanStatus] = useState('');
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showSwitchModal, setShowSwitchModal] = useState(false);
-  const [estimateAmount, setEstimateAmount] = useState();
   const [switchPlanId, setSwitchPlanId] = useState<string>();
   const [endDate, setEndDate] = useState(0);
 
   const showModal = () => {
     setShowCancelModal(true);
-  };
-
-  const handleCancel = () => {
-    setShowCancelModal(false);
   };
 
   const fetchPlans = () => {
@@ -170,17 +165,12 @@ const Subscription = () => {
     handleCancelClick();
     setShowCancelModal(false);
   };
+  const handleCancelModal = () => {
+    setShowSwitchModal(false);
+    setShowCancelModal(false);
+  };
   const handleSwitchModal = (id: string) => {
     setSwitchPlanId(id);
-    calculateSubscriptionProration(id)
-      .then((response: any) => {
-        setLoading(false);
-        setEstimateAmount(response.data.amount);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log('error while getting user plan');
-      });
     setShowSwitchModal(true);
   };
   return (
@@ -317,7 +307,7 @@ const Subscription = () => {
                           <ConfirmModal
                             title={'Confirmation'}
                             visible={showCancelModal}
-                            handleCancel={handleCancel}
+                            handleCancel={handleCancelModal}
                             handleOk={handleOk}
                             renderData={
                               <div>
@@ -364,22 +354,6 @@ const Subscription = () => {
                               Activate
                             </Button>
                           )}
-                          <ConfirmModal
-                            title={'Confirmation'}
-                            visible={showSwitchModal}
-                            handleCancel={() => setShowSwitchModal(false)}
-                            handleOk={handleSwitch}
-                            renderData={
-                              <div>
-                               Your subscription will be changed on {dateFormatRenewal(userPlan?.currentPeriod?.ends)}
-                                {/* {userPlan?.trialing
-                                  ? 'You will loose your free trial.'
-                                  : estimateAmount
-                                  ? `You will be charged ${estimateAmount} plus applicable taxes. Do you agree?`
-                                  : ''} */}
-                              </div>
-                            }
-                          />
                         </div>
                       </>
                     )}
@@ -389,6 +363,22 @@ const Subscription = () => {
             </Card>
           ))}
         </>
+        <ConfirmModal
+          title={'Confirmation'}
+          visible={showSwitchModal}
+          handleCancel={handleCancelModal}
+          handleOk={handleSwitch}
+          renderData={
+            <div>
+              Your subscription will be changed on {dateFormatRenewal(userPlan?.currentPeriod?.ends)}
+              {/* {userPlan?.trialing
+                ? 'You will loose your free trial.'
+                : estimateAmount
+                ? `You will be charged ${estimateAmount} plus applicable taxes. Do you agree?`
+                : ''} */}
+            </div>
+          }
+        />
       </div>
     </Layout>
   );
