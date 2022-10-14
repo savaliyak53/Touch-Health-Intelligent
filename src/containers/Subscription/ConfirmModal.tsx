@@ -18,16 +18,15 @@ const ConfirmModal = ({
     <Modal
       title={title}
       visible={visible}
-      closable={false}
-      footer={
-        <div className="Btn-group">
-          <Button className="Modal-cancel-btn Subscribe" onClick={handleCancel}>
-            No
-          </Button>
-          <Button className="Subscribe" onClick={handleOk}>
-            Yes
+      onOk={handleOk}
+      onCancel={handleCancel}
+      footer={[
+        <div  key="submit" className="Btn-group">
+          <Button key="submit" className="Subscribe" onClick={handleOk}>
+           Confirm
           </Button>
         </div>
+      ]
       }
     >
       {renderData}

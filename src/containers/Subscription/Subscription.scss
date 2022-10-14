@@ -11,20 +11,30 @@
   .Question {
     margin-bottom: clamp(0px, 8vh, 30px);
     text-align: center;
+    
   }
 
   .Question-title {
     margin-bottom: 10px;
     font-size: 14px !important;
     text-align: center;
+    color: #555151;
   }
 
   .Description {
     font-size: 36px;
     line-height: 24px;
     color: #272424;
-    font-weight: 500;
+    font-weight: 200;
     margin-bottom: 3px;
+    font-family: 'Barlow', sans-serif;
+  }
+  .otherDates {
+    font-size: 20px;
+    line-height: 1px;
+    color: #272424;
+    font-weight: 300;
+    margin-bottom: 2px;
     font-family: 'Barlow', sans-serif;
   }
   .subDescription {
@@ -33,6 +43,14 @@
     color: #272424;
     font-weight: 500;
     margin-top: 10px;
+    font-family: 'Barlow', sans-serif;
+  }
+  .subDates {
+    font-size: 16px;
+    line-height: 20px;
+    color: #555151;
+    font-weight: 500;
+    margin-top: 16px;
     font-family: 'Barlow', sans-serif;
   }
 
@@ -53,13 +71,13 @@
 
   .ant-card-meta {
     justify-content: center;
-    height:220px
+    // height:270px;
   }
   .ant-card-meta-title {
     height: 30px;
   }
   .ant-card-type-inner .ant-card-body {
-    height:240px
+    // height:280px
   }
 }
 
@@ -143,4 +161,29 @@
 }
 .card-bordered {
   border: 2px solid #878383 !important;
+}
+// .detail-section{
+//   height: 130px;
+// }
+.my-custom-class .ant-modal-confirm-btns .ant-btn{
+  border-radius: 100px;
+  height: 100%;
+  padding: 18px 54px;
+  color: #fff;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  background-color: #cd6052 !important;
+  border: 2px solid#CD6052 !important;
+  margin: 20px 0 0;
+  max-width: 150px;
+  display: block;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #fff;
+    color: #cd6052;
+    border-color: #cd6052;
+  }
 }

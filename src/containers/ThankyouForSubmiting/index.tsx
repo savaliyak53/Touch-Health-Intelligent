@@ -11,8 +11,8 @@ const index = () => {
         <div className="Question">
           <h3 className="Question-title">You&apos;re done for the day!</h3>
         </div>
-        <button className="submit">
-          <Link to="/post-conditions">Manage conditions</Link>
+        <button className="submit" onClick={() => navigate('/post-conditions')}>
+          Manage conditions
         </button>
         {/* <button className="submit">
           <Link to="/concerns">Manage concerns</Link>
