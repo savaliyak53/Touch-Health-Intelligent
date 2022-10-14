@@ -24,9 +24,7 @@ import HelpAndSupport from '../containers/HelpAndSupport';
 import Success from '../containers/Success';
 import Error from '../containers/Error';
 import Home from '../containers/Home';
-import ResetSecurityQuestion from '../containers/Auth/ResetSecurityQuestion';
-import ResetVerification from '../containers/Auth/ResetVerification';
-import SendCode from '../containers/Auth/SendCode';
+import PasswordRecovery from '../containers/Auth/PasswordRecovery';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -43,12 +41,7 @@ const AppRoutes = () => {
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.signUp} element={<SignUp />} />
         <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
-        <Route
-          path="/reset-verification-code"
-          element={<ResetVerification />}
-        />
-        <Route path="/security-question" element={<ResetSecurityQuestion />} />
-        <Route path="/sendcode" element={<SendCode />} />
+        <Route path="/password-reset" element={<PasswordRecovery />} />
 
         <Route path="*" element={<Home />} />
         <Route element={<RequireSignup />}>

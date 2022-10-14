@@ -120,7 +120,7 @@ const Login = () => {
           </div>
 
           <div className="Auth-terms-signup">
-            <Link to="/sendcode" className="Auth-signup">
+            <Link to="/password-reset" className="Auth-signup">
               Forgot Password?
             </Link>
           </div>
