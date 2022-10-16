@@ -96,9 +96,7 @@ const Preferences = () => {
   const getUserInfo = (userId: string | null | undefined) => {
     getUser(userId)
       .then((response: any) => {
-        console.log(response);
         if (response?.data?.preferences?.timezone) {
-          console.log(response);
           setPreferences(response.data.preferences);
           setYob(response.data.yob);
           setSex(response.data.sex);
