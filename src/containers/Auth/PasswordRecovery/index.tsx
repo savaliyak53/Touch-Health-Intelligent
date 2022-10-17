@@ -154,7 +154,9 @@ const PasswordRecovery = () => {
       <div className="Auth-wrap">
         {enterNumber && (
           <form onSubmit={handleSubmit(sendCode)} className="Auth-form">
-            <h2 className="Con-title">Reset Password</h2>
+            <h2 className="Auth-title" style={{ color: 'black' }}>
+              Reset Password
+            </h2>
             <CountryCode
               disabled={isCodeSent}
               errors={errors.username}
@@ -179,7 +181,9 @@ const PasswordRecovery = () => {
                 onSubmit={handleSubmit(onSubmitCode)}
                 className="Verification-form"
               >
-                <h2 className="Con-title">Verification Code</h2>
+                <h2 className="Auth-title" style={{ color: 'black' }}>
+                  Verification Code
+                </h2>
                 <Controller
                   control={control}
                   name="code"
@@ -236,7 +240,9 @@ const PasswordRecovery = () => {
               className="Auth-wrap"
               style={{ justifyContent: 'start', width: '100%' }}
             >
-              <h2 className="Con-title">Security Question</h2>
+              <h2 className="Auth-title" style={{ color: 'black' }}>
+                Security Question
+              </h2>
               <input
                 id="security_question.question"
                 {...register('security_question.question')}
@@ -276,7 +282,9 @@ const PasswordRecovery = () => {
               className="Auth-wrap"
               style={{ justifyContent: 'start', width: '100%' }}
             >
-              <h2 className="Con-title">Enter New Password</h2>
+              <h2 className="Auth-title" style={{ color: 'black' }}>
+                Enter New Password
+              </h2>
 
               <Tooltip
                 color="orange"
