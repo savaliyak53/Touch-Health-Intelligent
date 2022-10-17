@@ -31,7 +31,7 @@ const Subscription = () => {
   const [showSwitchModal, setShowSwitchModal] = useState(false);
   const [switchPlanId, setSwitchPlanId] = useState<string>();
   const [endDate, setEndDate] = useState(0);
-
+  const [estimateAmount, setEstimateAmount] = useState();
   const showModal = () => {
     setShowCancelModal(true);
   };
@@ -171,6 +171,15 @@ const Subscription = () => {
   };
   const handleSwitchModal = (id: string) => {
     setSwitchPlanId(id);
+    calculateSubscriptionProration(id)
+      .then((response: any) => {
+        setLoading(false);
+        setEstimateAmount(response.data.amount);
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log('error while getting user plan');
+      });
     setShowSwitchModal(true);
   };
   return (
@@ -371,11 +380,8 @@ const Subscription = () => {
           renderData={
             <div>
               Your subscription will be changed on {dateFormatRenewal(userPlan?.currentPeriod?.ends)}
-              {/* {userPlan?.trialing
-                ? 'You will loose your free trial.'
-                : estimateAmount
-                ? `You will be charged ${estimateAmount} plus applicable taxes. Do you agree?`
-                : ''} */}
+              <br/>
+              {estimateAmount ?` You will be charged ${estimateAmount} plus applicable taxes. Do you agree?`:<Spin spinning={estimateAmount}/>}
             </div>
           }
         />
