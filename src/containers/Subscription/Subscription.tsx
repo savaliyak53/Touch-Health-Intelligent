@@ -212,6 +212,7 @@ const Subscription = () => {
                   ? 'card-bordered'
                   : ''
               }
+              style={{backgroundColor:isActivePlan(plan) && userPlanStatus === 'ACTIVE'?'#ded7d721':''}}
             >
               <Meta
                 title={<h3 className="Question-title">{plan.name}</h3>}

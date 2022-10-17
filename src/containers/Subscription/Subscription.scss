@@ -8,6 +8,7 @@
 }
 
 .Sub {
+  
   .Question {
     margin-bottom: clamp(0px, 8vh, 30px);
     text-align: center;
@@ -61,6 +62,22 @@
       margin-top: 0;
       display: inline-block;
     }
+  }
+  .ant-card {
+    box-sizing: border-box;
+    padding: 0;
+    color: rgba(0,0,0,.85);
+    font-size: 14px;
+    font-variant: tabular-nums;
+    line-height: 1.5715;
+    list-style: none;
+    font-feature-settings: "tnum";
+    position: relative;
+    //background: #fff;
+    border-radius: 20px;
+    width: 300;
+    margin: 10px;
+    overflow: "hidden"
   }
   .ant-carousel {
     margin-top: 20px;
