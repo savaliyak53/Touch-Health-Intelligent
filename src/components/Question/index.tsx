@@ -251,23 +251,23 @@ const Question = ({
 
   return (
     <>
-      <div className="Question">
+      <div className="Question Question-grp">
       <div className='flew-row-question'>
-        <h3 className="Question-title">
+        <h3 className="Question-title Question-heading">
           {question?.q_str}
         </h3>
         {question?.h_str &&
-        <Tooltip
-          title={question?.h_str}
-          placement="bottomRight"
-          overlayStyle={{ maxWidth: '350px' }}
-          color="blue"
-          mouseLeaveDelay={0}
-        >  
+            <Tooltip
+              title={question?.h_str}
+              placement="bottomRight"
+              overlayStyle={{ maxWidth: '350px' }}
+              color="blue"
+              mouseLeaveDelay={0}
+            >
           <AiFillQuestionCircle size={30} className='question-help'/>  
         </Tooltip>}
-      </div>
-        
+        </div>
+
         <br />
         <InputField />
       </div>
