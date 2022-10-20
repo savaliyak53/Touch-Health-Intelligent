@@ -10,7 +10,7 @@ import TextArea from 'antd/lib/input/TextArea';
 import type { SelectProps } from 'antd/es/select';
 import { Timepicker } from 'react-timepicker';
 import 'react-timepicker/timepicker.css';
-import { AiFillQuestionCircle } from 'react-icons/ai';
+import { AiOutlineQuestionCircle } from 'react-icons/ai';
 
 interface Props {
   question: any;
@@ -252,22 +252,20 @@ const Question = ({
   return (
     <>
       <div className="Question Question-grp">
-      <div className='flew-row-question'>
         <h3 className="Question-title Question-heading">
           {question?.q_str}
+          {question?.h_str &&
+              <Tooltip
+                title={question?.h_str}
+                placement="bottomRight"
+                overlayStyle={{marginRight:'10px'}}
+                color="blue"
+                mouseLeaveDelay={0}
+              >
+            <AiFillQuestionCircle size={30} className='question-help'/>  
+          </Tooltip>}
+        </div>}
         </h3>
-        {question?.h_str &&
-            <Tooltip
-              title={question?.h_str}
-              placement="bottomRight"
-              overlayStyle={{ maxWidth: '350px' }}
-              color="blue"
-              mouseLeaveDelay={0}
-            >
-          <AiFillQuestionCircle size={30} className='question-help'/>  
-        </Tooltip>}
-        </div>
-
         <br />
         <InputField />
       </div>
