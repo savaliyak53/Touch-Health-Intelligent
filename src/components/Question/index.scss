@@ -16,8 +16,10 @@
     
   }
   .question-help {
-    margin-top: 22px;
-    margin-left: 4px;
+    position: fixed;
+    margin-left: 8px;
+    margin-bottom: 4px;
+    right: 50px;
   }
   .flew-row-question{
     display: flex;
@@ -328,4 +330,17 @@
   .timepicker {
     margin-left: 20px;
   }
+}
+.ant-tooltip-inner {
+  padding: 20px 15px;
+  background: white;
+  top: 0;
+  display: inline-block;
+  border-radius: 10px;
+  //border: 3px solid red;
+  border-bottom-right-radius: 0px;
+  z-index: 2;
+  max-width: 200px;
+  box-shadow: none;
+  color: black;
 }
