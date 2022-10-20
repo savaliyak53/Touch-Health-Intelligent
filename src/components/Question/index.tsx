@@ -7,7 +7,6 @@ import { Select, Spin } from 'antd';
 const { Option } = Select;
 import './index.scss';
 import TextArea from 'antd/lib/input/TextArea';
-import type { SelectProps } from 'antd/es/select';
 import { Timepicker } from 'react-timepicker';
 import 'react-timepicker/timepicker.css';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
@@ -258,12 +257,13 @@ const Question = ({
         <Tooltip
           title={question?.h_str}
           placement="bottomRight"
-          style={{marginRight:'10px'}}
+          style={{marginRight:'10px', position:'absolute', right:0}}
           color="blue"
           mouseLeaveDelay={0}
         >  
           <AiOutlineQuestionCircle size={30} className='question-help'/>  
-        </Tooltip>}
+        </Tooltip>
+        }
         </h3>
         <br />
         <InputField />

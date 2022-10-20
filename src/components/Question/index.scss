@@ -13,13 +13,13 @@
 
   .Question-title {
     margin-top: 20px;
-    
+    position: relative;
   }
   .question-help {
-    position: fixed;
+    position: absolute;
     margin-left: 8px;
     margin-bottom: 4px;
-    right: 50px;
+    right: 0px;
   }
   .flew-row-question{
     display: flex;
