@@ -13,6 +13,17 @@
 
   .Question-title {
     margin-top: 20px;
+    position:relative;
+  }
+  .question-help {
+    position: absolute;
+    margin-left: 8px;
+    margin-bottom: 4px;
+    right: 0px;
+  }
+  .flew-row-question{
+    display: flex;
+    flex-direction: row;
   }
 }
 
@@ -24,7 +35,7 @@
   .Text2 {
     width: 100px;
     word-wrap: break-word;
-    font-size: 20px;
+    font-size: 17px;
     line-height: 24px;
     color: rgba(#282f28, 0.7);
   }
@@ -319,4 +330,47 @@
   .timepicker {
     margin-left: 20px;
   }
+}
+.Question-heading{
+  margin-bottom: 0 !important;
+}
+.Question-grp{
+  margin-bottom: clamp(0px, 1vh, 50px);
+}
+
+@media screen and (max-height: 750px) {
+  .Question-heading{
+    line-height: 28px !important;
+    font-size: 18px !important;
+  }
+}
+
+@media (max-height: 670px){
+  .Options {
+    .ant-radio-button-wrapper,
+    .ant-radio-button-wrapper:first-child,
+    .ant-radio-button-wrapper:last-child {
+      margin: 0 10px 10px 0;
+      padding: 16px 18px;
+      border-radius: 100px;
+      height: 100%;
+
+    }
+  }
+  .Question-heading {
+    margin-top: 0 !important;
+  }
+.ant-tooltip-inner {
+  padding: 20px 15px;
+  background: white;
+  top: 0;
+  display: inline-block;
+  border-radius: 10px;
+  //border: 3px solid red;
+  border-bottom-right-radius: 0px;
+  z-index: 2;
+  max-width: 200px;
+  box-shadow: none;
+  color: black;
+
 }
