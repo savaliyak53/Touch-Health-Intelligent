@@ -8,7 +8,7 @@ import './app.scss';
 import 'antd/dist/antd.min.css';
 import InsightContext from './contexts/InsightContext';
 
-const version = 'v.0.0.4';
+const version = 'v.0.0.5';
 
 console.log(version);
 const Application = () => {
