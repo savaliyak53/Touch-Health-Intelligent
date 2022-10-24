@@ -171,6 +171,7 @@ const Subscription = () => {
   };
   const handleSwitchModal = (id: string) => {
     setSwitchPlanId(id);
+    setEstimateAmount(undefined);
     calculateSubscriptionProration(id)
       .then((response: any) => {
         setLoading(false);
@@ -243,7 +244,7 @@ const Subscription = () => {
                       )}
                       
                       {/* if Plan is Active and was cancelled by user but the cancellation date is in future */}
-                      {userCancelledPlan(plan) && (
+                      {userCancelledPlan(plan) && userPlan?.currentPeriod?.ends && (
                           <>
                           <p className="subDates">
                             Ends
@@ -254,17 +255,17 @@ const Subscription = () => {
                           </>
                         )}
                       {isActivePlan(plan) &&
-                        userPlan?.renewalDate && !userPlan.nextPhase &&(
+                        userPlan?.renewalDate && !userPlan.nextPhase && (
                           <>
                           <p className="subDates">
                             Renewal Date
                           </p>
                           <p className="otherDates">
-                            {userPlan.renewalDate}
+                            {dateFormatRenewal(userPlan.renewalDate)}
                           </p>
                           </>
                         )}
-                      {freeTrial && !userCancelledPlan(plan) && (
+                      {freeTrial && !userCancelledPlan(plan) && plan.trialPeriod && (
                         <>
                         <p className='subDates'>
                           Trial Period
@@ -382,7 +383,7 @@ const Subscription = () => {
             <div>
               Your subscription will be changed on {dateFormatRenewal(userPlan?.currentPeriod?.ends)}
               <br/>
-              {estimateAmount ?` You will be charged ${estimateAmount} plus applicable taxes. Do you agree?`:<Spin spinning={estimateAmount}/>}
+              {estimateAmount ? estimateAmount!=='$0.00' && `You will be charged ${estimateAmount} plus applicable taxes. Do you agree?`:<Spin spinning={estimateAmount}/>}
             </div>
           }
         />
