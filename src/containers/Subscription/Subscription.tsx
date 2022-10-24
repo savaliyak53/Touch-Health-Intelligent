@@ -171,6 +171,7 @@ const Subscription = () => {
   };
   const handleSwitchModal = (id: string) => {
     setSwitchPlanId(id);
+    setEstimateAmount(undefined);
     calculateSubscriptionProration(id)
       .then((response: any) => {
         setLoading(false);
@@ -243,7 +244,7 @@ const Subscription = () => {
                       )}
                       
                       {/* if Plan is Active and was cancelled by user but the cancellation date is in future */}
-                      {userCancelledPlan(plan) && (
+                      { userCancelledPlan(plan) && (
                           <>
                           <p className="subDates">
                             Ends
@@ -254,37 +255,37 @@ const Subscription = () => {
                           </>
                         )}
                       {isActivePlan(plan) &&
-                        userPlan?.renewalDate && !userPlan.nextPhase &&(
+                        userPlan?.renewalDate && !userPlan.nextPhase && (
                           <>
                           <p className="subDates">
                             Renewal Date
                           </p>
                           <p className="otherDates">
-                            {userPlan.renewalDate}
+                            {dateFormatRenewal(userPlan.renewalDate)}
                           </p>
                           </>
                         )}
-                      {freeTrial && !userCancelledPlan(plan) && (
+                      {freeTrial && !userCancelledPlan(plan) && plan.trialPeriod && (
                         <>
                         <p className='subDates'>
                           Trial Period
                         </p>
                         <p className="otherDates">
                         {plan.trialPeriod && <> 
-                        {plan.trialPeriod.repetitions} {plan.trialPeriod.interval.toLowerCase()} left</>} 
+                        {plan.trialPeriod.repetitions} {plan.trialPeriod.interval.toLowerCase()} {userPlan?.plan?.id === plan.id && 'left'}</>} 
                       </p>
                       </>
                       )}
                       {freeTrial === false && !userCancelledPlan(plan) &&
                         userPlan?.trialing &&
-                        userPlan?.plan?.id === plan.id && (
+                        userPlan?.plan?.id === plan.id && plan.trialPeriod && (
                           <>
                           <p className='subDates'>
                             Trial Period
                           </p>
                           <p className="otherDates">
                             {plan.trialPeriod && <> 
-                            {plan.trialPeriod.repetitions} {plan.trialPeriod.interval.toLowerCase()} left</>} 
+                            {plan.trialPeriod.repetitions} {plan.trialPeriod.interval.toLowerCase()} {userPlan?.plan?.id === plan.id && 'left'}</>} 
                           </p>
                           </>
                         )}
@@ -294,9 +295,7 @@ const Subscription = () => {
                     userPlanStatus === 'ACTIVE' ? (
                       <>
                         <div className="Btn-group">
-                          {userPlan?.plan?.id === plan.id &&
-                          userPlanStatus === 'ACTIVE' &&
-                          (userPlan.renewalDate === null || userPlan?.nextPhase) ? (
+                          {userCancelledPlan(plan) ? (
                             <Button
                               className="Modal-cancel-btn Cancelled Subscribe"
                               disabled={true}
@@ -380,9 +379,9 @@ const Subscription = () => {
           handleOk={handleSwitch}
           renderData={
             <div>
-              Your subscription will be changed on {dateFormatRenewal(userPlan?.currentPeriod?.ends)}
+              Your subscription will be changed on {userPlan?.renewalDate?dateFormatRenewal(userPlan?.renewalDate):dateFormatRenewal(userPlan?.currentPeriod?.ends)}
               <br/>
-              {estimateAmount ?` You will be charged ${estimateAmount} plus applicable taxes. Do you agree?`:<Spin spinning={estimateAmount}/>}
+              {estimateAmount ? estimateAmount!=='$0.00' && `You will be charged ${estimateAmount} plus applicable taxes. Do you agree?`:<Spin spinning={estimateAmount}/>}
             </div>
           }
         />
