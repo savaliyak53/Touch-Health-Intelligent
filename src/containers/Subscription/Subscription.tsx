@@ -277,7 +277,7 @@ const Subscription = () => {
                       )}
                       {freeTrial === false && !userCancelledPlan(plan) &&
                         userPlan?.trialing &&
-                        userPlan?.plan?.id === plan.id && (
+                        userPlan?.plan?.id === plan.id && plan.trialPeriod && (
                           <>
                           <p className='subDates'>
                             Trial Period

@@ -246,9 +246,6 @@ const Insights = () => {
               </Button>
             </div>
             <div className="Title-wrap" onClick={handleCategoryChange}>
-              {/* <h2 className="Analytic-title Number">
-                45<span>/100</span>
-              </h2> */}
               <h2 className="Analytic-title">
                 {category && category}
                 {/* Hypertension <br /> management */}
