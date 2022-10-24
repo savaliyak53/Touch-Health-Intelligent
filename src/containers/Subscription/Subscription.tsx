@@ -244,7 +244,7 @@ const Subscription = () => {
                       )}
                       
                       {/* if Plan is Active and was cancelled by user but the cancellation date is in future */}
-                      {userCancelledPlan(plan) && userPlan?.currentPeriod?.ends && (
+                      { userCancelledPlan(plan) && (
                           <>
                           <p className="subDates">
                             Ends
@@ -272,7 +272,7 @@ const Subscription = () => {
                         </p>
                         <p className="otherDates">
                         {plan.trialPeriod && <> 
-                        {plan.trialPeriod.repetitions} {plan.trialPeriod.interval.toLowerCase()} left</>} 
+                        {plan.trialPeriod.repetitions} {plan.trialPeriod.interval.toLowerCase()} {userPlan?.plan?.id === plan.id && 'left'}</>} 
                       </p>
                       </>
                       )}
@@ -285,7 +285,7 @@ const Subscription = () => {
                           </p>
                           <p className="otherDates">
                             {plan.trialPeriod && <> 
-                            {plan.trialPeriod.repetitions} {plan.trialPeriod.interval.toLowerCase()} left</>} 
+                            {plan.trialPeriod.repetitions} {plan.trialPeriod.interval.toLowerCase()} {userPlan?.plan?.id === plan.id && 'left'}</>} 
                           </p>
                           </>
                         )}
@@ -295,9 +295,7 @@ const Subscription = () => {
                     userPlanStatus === 'ACTIVE' ? (
                       <>
                         <div className="Btn-group">
-                          {userPlan?.plan?.id === plan.id &&
-                          userPlanStatus === 'ACTIVE' &&
-                          (userPlan.renewalDate === null || userPlan?.nextPhase) ? (
+                          {userCancelledPlan(plan) ? (
                             <Button
                               className="Modal-cancel-btn Cancelled Subscribe"
                               disabled={true}
@@ -381,7 +379,7 @@ const Subscription = () => {
           handleOk={handleSwitch}
           renderData={
             <div>
-              Your subscription will be changed on {dateFormatRenewal(userPlan?.currentPeriod?.ends)}
+              Your subscription will be changed on {userPlan?.renewalDate?dateFormatRenewal(userPlan?.renewalDate):dateFormatRenewal(userPlan?.currentPeriod?.ends)}
               <br/>
               {estimateAmount ? estimateAmount!=='$0.00' && `You will be charged ${estimateAmount} plus applicable taxes. Do you agree?`:<Spin spinning={estimateAmount}/>}
             </div>
