@@ -100,3 +100,27 @@ export const postResetPassword = async (data: any) => {
     return err;
   }
 };
+
+export const getSecurityQuestions = async (username: string, code: string) => {
+  try {
+    const res = await APIClient(
+      `/auth/password-recovery/security-questions?username=${username}&code=${code}`
+    );
+    if (res) return res.data;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const checkAnswer = async (data: any) => {
+  try {
+    const res = await APIClient(
+      '/auth/password-recovery/security-questions',
+      'put',
+      data
+    );
+    if (res) return res.data;
+  } catch (err) {
+    return err;
+  }
+};

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { DatePicker, Input, Radio } from 'antd';
+import { DatePicker, Input, Radio, Tooltip } from 'antd';
 import { Slider } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
 import { RightOutlined, SearchOutlined } from '@ant-design/icons';
@@ -7,9 +7,9 @@ import { Select, Spin } from 'antd';
 const { Option } = Select;
 import './index.scss';
 import TextArea from 'antd/lib/input/TextArea';
-import type { SelectProps } from 'antd/es/select';
 import { Timepicker } from 'react-timepicker';
 import 'react-timepicker/timepicker.css';
+import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
 
 interface Props {
   question: any;
@@ -250,9 +250,21 @@ const Question = ({
 
   return (
     <>
-      <div className="Question">
-        <h3 className="Question-title">{question?.q_str}</h3>
-
+      <div className="Question Question-grp">
+        <h3 className="Question-title Question-heading">
+          {question?.q_str}
+          {question?.h_str &&
+              <Tooltip
+                title={question?.h_str}
+                placement="bottomRight"
+                overlayStyle={{marginRight:'10px'}}
+                color="blue"
+                mouseLeaveDelay={0}
+              >
+            <AiOutlineQuestionCircle size={30} className='question-help'/>  
+          </Tooltip>
+          }
+          </h3>
         <br />
         <InputField />
       </div>
