@@ -1,24 +1,35 @@
 .ant-btn.Auth-submit {
   width: 100%;
-  border-radius: 100px;
+  border-radius: 10px;
   padding: 16px 32px;
   font-size: 24px;
   line-height: 29px;
   height: 60%;
   margin-top: clamp(0px, 5.5vh, 62px);
-  background-color: rgba(#3a4a7f, 0.57);
-  border: none;
-  color: #fff;
+  background-color: rgba(#fff,0.7);
+  border: 2px solid #272424;
+  color: #272424;
   &:hover,
   &:focus,
   &:active {
-    background-color: #3a4a7f !important;
-    color: #fff;
+    background-color: rgba(#fff,0.7) !important;
+    color: #272424;
   }
 
   &:disabled {
-    background-color: rgba(#3a4a7f, 0.57) !important;
-    color: #fff;
+    background-color: rgba(#fff,0.7) !important;
+    color: #272424;
+    background-color: rgba(#fff,0.57) !important;
+    color: #272424;
+  }
+}
+input {
+  background-color: transparent !important;
+  &:hover,
+  &:focus,
+  &:active {
+    outline: none;
+    border: none;
   }
 }
 .app-Input {
@@ -31,7 +42,7 @@
   font-size: 20px;
   line-height: 24px;
   border: 2px solid #272424;
-  background-color: #fff;
+  background-color: rgba(#fff, 0.6);
   color: #272424;
   font-size: 20px;
   line-height: 24px;
@@ -110,24 +121,24 @@
   }
   .ant-btn.Auth-submit {
     width: 100%;
-    border-radius: 100px;
+    border-radius: 10px;
     padding: 16px 32px;
     font-size: 24px;
     line-height: 29px;
     height: 60%;
     margin-top: clamp(0px, 5.5vh, 62px);
-    background-color: rgba(#3a4a7f, 0.57);
-    border: none;
-    color: #fff;
+    background-color: rgba(#fff,0.7);
+    border: 2px solid #272424;
+    color: #272424;
     &:hover,
     &:focus,
     &:active {
-      background-color: #3a4a7f;
-      color: #fff;
+      background-color: rgba(#fff,0.7);
+      color: #272424;
     }
     &:disabled {
-      background-color: rgba(#3a4a7f, 0.57);
-      color: #fff;
+      background-color: rgba(#fff,0.57);
+      color: #272424;
     }
   }
 
