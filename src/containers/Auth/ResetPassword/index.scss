@@ -10,11 +10,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
+  width: 100%;
 }
 
 .Auth-title {
-  color: #fff;
+  color: rgba(#272424,0.7);
   font-size: 26px;
   line-height: 30px;
   font-weight: 700;
@@ -84,6 +84,15 @@
     opacity: 0.8;
   }
 }
+input {
+  background-color: transparent;
+  &:hover,
+  &:focus,
+  &:active {
+    outline: none;
+    border: none;
+  }
+}
 .app-Input {
   width: 100%;
   border-radius: 100px;
@@ -95,7 +104,7 @@
   font-size: 15px;
   line-height: 15px;
   border: 2px solid #272424 !important;
-  background-color: #fff !important;
+  background-color: rgba(#fff,0.6) !important;
   color: #272424;
   font-size: 20px;
   line-height: 15px;

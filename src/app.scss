@@ -6,7 +6,9 @@
   // grid-template-rows: $header-height auto;
   grid-template-columns: 1fr;
 }
-
+input {
+  background-color: transparent;
+}
 .ant-input.Input {
   border-radius: 100px;
   padding: 18px 20px;

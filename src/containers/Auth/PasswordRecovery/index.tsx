@@ -18,7 +18,10 @@ import ReactCodeInput from 'react-code-input';
 import {
   checkAnswer,
   getSecurityQuestions,
+  loginService
 } from '../../../services/authservice';
+import { ILogin } from '../../../interfaces';
+import jwt from 'jwt-decode';
 
 type IRecoverFormInputs = {
   username: string;
@@ -30,6 +33,11 @@ type IRecoverFormInputs = {
 type ISecurityQuestion = {
   question: string;
   answer: string;
+};
+type User = {
+  exp: string;
+  iat: string;
+  id: string;
 };
 const PasswordRecovery = () => {
   const navigate = useNavigate();
@@ -99,6 +107,29 @@ const PasswordRecovery = () => {
       }
     });
   };
+  const getId = (token: string) => {
+    const user: User = jwt(token);
+    return user.id;
+  };
+  const loginRequest = async (data:any) => {
+    const loginRequest: ILogin = {
+      username: onlyNumbers(data.username),
+      password: data.confirmPassword,
+    };
+    const loginResponse = await loginService(loginRequest);
+    if (loginResponse?.token) {
+      setIsDisabled(false);
+      setIsLoading(false);
+      localStorage.setItem('token', `${loginResponse.token}`);
+      const userId = getId(loginResponse.token);
+      localStorage.setItem('userId', userId);
+      navigate('/');
+    } else {
+      setIsDisabled(false);
+      setIsLoading(false);
+      toast.error(loginResponse?.response?.data?.details);
+    }
+  };
 
   const onSubmitRecover = async (data: any) => {
     if (changePassword) {
@@ -114,7 +145,9 @@ const PasswordRecovery = () => {
             toast.error(response.response.data.details);
           } else {
             toast.success('Password Recovered Successfuly');
-            navigate('/login');
+            console.log(data);
+            loginRequest(data)
+            // navigate('/login');
           }
         })
         .catch((error: any) => {
