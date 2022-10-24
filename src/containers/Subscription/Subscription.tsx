@@ -193,7 +193,7 @@ const Subscription = () => {
           Subscription <Spin spinning={loading} />
         </h2>
         {!loading && !userPlan && (
-          <Tag color="orange" style={{ margin: '0px' }}>
+          <Tag color="orange" className='Sub-alert' style={{ margin: '0px' }}>
             <Typography.Title
               level={5}
               style={{ color: 'inherit', textAlign: 'center' }}
@@ -207,10 +207,10 @@ const Subscription = () => {
             <Card
               key={plan.id}
               type="inner"
-              className={
+              className={`${'Subspt-Card'}
                 isActivePlan(plan) && userPlanStatus === 'ACTIVE'
                   ? 'card-bordered'
-                  : ''
+                  : ''`
               }
               style={{backgroundColor:isActivePlan(plan) && userPlanStatus === 'ACTIVE'?'#ded7d721':''}}
             >
@@ -298,7 +298,7 @@ const Subscription = () => {
                           userPlanStatus === 'ACTIVE' &&
                           (userPlan.renewalDate === null || userPlan?.nextPhase) ? (
                             <Button
-                              className="Modal-cancel-btn Subscribe"
+                              className="Modal-cancel-btn Cancelled Subscribe"
                               disabled={true}
                             >
                               Cancelled

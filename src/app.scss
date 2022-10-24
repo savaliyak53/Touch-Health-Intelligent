@@ -100,23 +100,23 @@
   .ant-btn {
     border-radius: 100px;
     height: auto;
-    padding: 18px 60px;
-    color: #fff;
-    font-size: 20px;
+    padding: 8px 32px;
+    color: #3A3A3A;
+    font-size: 14px;
     line-height: 24px;
     font-weight: 400;
     margin-top: 20px;
     display: block;
 
     &.Next {
-      border: 2px solid #3a4a7e;
-      background-color: #3a4a7e;
+      border: 2px solid #3A3A3A;
+      background-color: #fff;
       &:hover,
       &:focus,
       &:active {
-        background-color: #fff;
-        color: #3a4a7e;
-        border-color: #3a4a7e;
+        background-color: rgba(#3A3A3A, 0.2);
+        color: #3A3A3A;
+        border-color: #3A3A3A;
       }
     }
 
@@ -133,30 +133,51 @@
       }
     }
     &.Subscribe {
-      border: 2px solid #3a4a7e;
-      background-color: #3a4a7e;
+      border: 2px solid #3A3A3A;
+      background-color: transparent;
       &:hover,
       &:focus,
       &:active {
-        background-color: #fff;
-        color: #3a4a7e;
-        border-color: #3a4a7e;
+        background-color: rgba(#3A3A3A, 0.2);
+        color:  #3A3A3A;
+        border-color: #3A3A3A;
       }
-      padding: 10px 24px !important;
+      &.Modal-cancel-btn {
+        color: #CD6052;
+        border: 2px solid#CD6052;
+        &:hover,
+        &:focus,
+        &:active {
+          background-color: rgba(#282F28, 0.7);
+          color: #cd6052;
+          border-color: #cd6052;
+        }
+      }
+      &.Cancelled {
+        color: #fff;
+        border-color: #cd6052;
+        background-color: #cd6052;
+        &:hover,
+        &:focus,
+        &:active {
+          border-color: #cd6052;
+          background-color: rgba(#cd6052, 0.7);
+        }
+      }
     }
   }
 }
 .Pref-btn.btn.ant-btn,
 .btn.ant-btn {
   border-radius: 100px;
-  height: 100%;
+  height: auto;
   padding: 18px 54px;
-  background-color: #3a4a7e;
-  color: #fff;
+  background-color: white;
+  color: #3A3A3A;
   font-size: 20px;
   line-height: 24px;
   font-weight: 400;
-  border: 2px solid #3a4a7e;
+  border: 2px solid #3A3A3A;
   margin: 20px auto 0;
   max-width: 400px;
   display: block;
@@ -165,9 +186,9 @@
   &:hover,
   &:focus,
   &:active {
-    background-color: #fff;
-    color: #3a4a7e;
-    border-color: #3a4a7e;
+    background-color: rgba(#3A3A3A, 0.2);
+    color: #3A3A3A;
+    border-color: #3A3A3A;
   }
 }
 .Question-title {
