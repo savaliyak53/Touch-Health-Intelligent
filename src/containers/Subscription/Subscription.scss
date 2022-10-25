@@ -131,8 +131,13 @@
   &:focus,
   &:active {
     background-color: rgba(#282F28, 0.7);
-    color: #cd6052;
+    color: #fff;
     border-color: #cd6052;
+  }
+  &.disabled {
+    background-color: rgba(#394a7e, 0.2);
+    border: 2px solid #cd6052;
+    color: #cd6052;
   }
 }
 .Subscribe-btn.btn.ant-btn,
@@ -158,6 +163,11 @@
     color: #3a4a7e;
     border-color: #3a4a7e;
   }
+  &.disabled {
+    background-color: rgba(#394a7e, 0.2);
+    border: 2px solid #394a7e;
+    color: #394a7e;
+  }
 }
 @media (max-width: 400px) {
   .Subscribe-btn.btn.ant-btn,
@@ -182,6 +192,11 @@
       background-color: #fff;
       color: #3a4a7e;
       border-color: #3a4a7e;
+    }
+    &.disabled {
+      background-color: rgba(#394a7e, 0.2);
+      border: 2px solid #394a7e;
+      color: #394a7e;
     }
   }
   .button-group {

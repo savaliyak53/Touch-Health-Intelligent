@@ -6,10 +6,14 @@
   cursor: pointer;
 }
 .Pain {
-  // .Question {
-  //   margin-top: clamp(0px, 8vh, 130px);
-  //   margin-bottom: clamp(0px, 8vh, 60px);
-  // }
+  .Question {
+    .ant-radio-group {
+      &.Options {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+  }
 
   .Question-title {
     margin-top: 20px;
@@ -20,6 +24,7 @@
     margin-left: 8px;
     margin-bottom: 4px;
     right: 0px;
+    //width: 50px;
   }
   .flew-row-question{
     display: flex;
@@ -123,15 +128,15 @@
   .ant-radio-button-wrapper:first-child,
   .ant-radio-button-wrapper:last-child {
     margin: 10px 10px 10px 0;
-    border: 2px solid #272424;
-    padding: 18px 20px;
+    border: 2px solid #3A3A3A;
+    padding: 12px 20px;
     border-radius: 100px;
     height: 100%;
     font-size: 20px;
     line-height: 24px;
     font-weight: 400;
-    background-color: #fff;
-    color: #272424;
+    background-color: transparent;
+    color: #3A3A3A;
 
     &:not(:first-child):before {
       display: none;
@@ -141,40 +146,26 @@
       color: #272424;
     }
   }
-
-  .Option1 {
-    min-width: 150px;
+  .ant-space {
+    flex-wrap: wrap;
   }
-  .Option2 {
-    min-width: 150px;
-  }
-  .Option3 {
-    min-width: 150px;
-  }
-  .Option4 {
-    min-width: 150px;
-  }
-  .Option5 {
-    min-width: 150px;
-  }
-
   .ant-radio-button-wrapper-checked {
     &:not(.ant-radio-button-wrapper-disabled) {
-      background-color: rgba(#3a4a7e, 0.47);
-      border-color: transparent;
-      color: #fff;
+      background-color: rgba(#3A3A3A,0.2);
+      border-color: #3A3A3A;
+      color: #3A3A3A;
 
       &:focus-within {
         box-shadow: none;
       }
 
       &:hover {
-        background-color: rgba(#3a4a7e, 0.47);
-        border-color: transparent;
-        color: #fff;
+        background-color: rgba(#3A3A3A, 0.2);
+        border-color: #3A3A3A;
+        color: #3A3A3A;
       }
       &.ant-radio-button-wrapper:first-child {
-        border-color: transparent;
+        border-color: #3A3A3A;
       }
     }
   }
@@ -261,20 +252,22 @@
   border-radius: 100px;
   height: auto;
   padding: 18px 60px;
-  color: #fff;
+  color: #3A3A3A;
   font-size: 20px;
   line-height: 24px;
   font-weight: 400;
   margin-top: 20px;
   display: block;
-  border: 2px solid #3a4a7e;
-  background-color: #3a4a7e;
+  border: 2px solid #3A3A3A;
+  background-color: #fff;
+  margin-right: 4px;
+  margin-left: 4px;
   &:hover,
   &:focus,
   &:active {
-    background-color: #fff;
-    color: #3a4a7e;
-    border-color: #3a4a7e;
+    background-color: rgba(#3A3A3A,0.2);
+    color: #3A3A3A;
+    border-color: #3A3A3A;
   }
 }
 
@@ -282,19 +275,20 @@
   border-radius: 100px;
   height: auto;
   padding: 18px 60px;
-  color: #fff;
+  color: #CD6052;
   font-size: 20px;
   line-height: 24px;
   font-weight: 400;
   margin-top: 20px;
   display: block;
-  background-color: #cd6052;
+  background-color: transparent;
   border: 2px solid#CD6052;
-  margin-right: 24px;
+  margin-right: 4px;
+  margin-left: 4px;
   &:hover,
   &:focus,
   &:active {
-    background-color: #fff;
+    background-color: rgba(#3A3A3A,0.2);
     color: #cd6052;
     border-color: #cd6052;
   }
