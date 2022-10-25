@@ -66,7 +66,7 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
           <li>
             <Link to="/help-and-support">Help and Support</Link>
           </li>
-          <li className='Signout'>
+          <li>
             <a
               onClick={() => {
                 localStorage.removeItem('userId');
