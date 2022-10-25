@@ -1,8 +1,8 @@
 .Con-title {
     font-size: 26px;
     line-height: 36px;
-    font-weight: 700;
-    color: #272424;
+    font-weight: 400;
+    color: rgba(#272424,0.7);
     margin-top: clamp(0px, 7.5vh, 24px);
 }
 
@@ -10,7 +10,7 @@
     margin-bottom: 0;
     font-size: 20px;
     line-height: 24px;
-    color: #282f28;
+    color: rgba(#272424,0.7);
     margin-bottom: clamp(0px, 7.5vh, 22px);
 }
 
@@ -47,7 +47,7 @@
 
     .Switch-wrap {
         .Title {
-            color: #616c61;
+            color: rgba(#272424,0.7);
             font-size: 20px;
             line-height: 24px;
             font-weight: 400;

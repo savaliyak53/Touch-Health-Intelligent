@@ -175,26 +175,23 @@ const Question = ({
         return (
           <div className="ant-radio-group ant-radio-group-outline Options">
             {question.options.map((item: any, index: number) => (
-              <div key={index}>
-                <label
-                  className={`ant-radio-button-wrapper Option${index} ${
-                    isChecked(item) ? 'ant-radio-button-wrapper-checked' : ''
-                  } `}
-                  key={index}
-                >
-                  <span className={`ant-radio-button`}>
-                    <input
-                      type="radio"
-                      className="ant-radio-button-input"
-                      value={item}
-                      onClick={() => handleClick(item)}
-                    />
-                    <span className="ant-radio-button-inner"></span>
-                  </span>
-                  <span>{item}</span>
-                </label>
-                {index % 2 !== 0 && <br />}
-              </div>
+              <label
+                className={`ant-radio-button-wrapper Option${index} ${
+                  isChecked(item) ? 'ant-radio-button-wrapper-checked' : ''
+                } `}
+                key={index}
+              >
+                <span className={`ant-radio-button`}>
+                  <input
+                    type="radio"
+                    className="ant-radio-button-input"
+                    value={item}
+                    onClick={() => handleClick(item)}
+                  />
+                  <span className="ant-radio-button-inner"></span>
+                </span>
+                <span>{item}</span>
+              </label>
             ))}
           </div>
         );

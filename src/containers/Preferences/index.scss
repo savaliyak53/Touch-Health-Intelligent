@@ -120,14 +120,14 @@ ul.no-bullets li {
     font-size: 26px;
     line-height: 36px;
     font-weight: 700;
-    color: #272424;
+    color: rgba(#272424,0.7);
   // margin-top: clamp(0px, 7.5vh, 96px);
   // margin-bottom: clamp(0px, 7.5vh, 36px);
 }
 
 .Pref {
     .Question {
-        margin-bottom: clamp(0px, 8vh, 60px);
+        margin-bottom: 10px;
     }
 
     .Question-title {
@@ -135,7 +135,7 @@ ul.no-bullets li {
     }
 }
 .Question {
-    margin-bottom: clamp(0px, 8vh, 60px);
+    margin-bottom: 10px;
 }
 
 .Question-title {
@@ -177,4 +177,9 @@ ul.no-bullets li {
     align-items: center;
     justify-content: space-between;
 	gap: 10px;
+}
+.card-text {
+    .ant-typography {
+        color: rgba(#272424,0.7);
+    }
 }

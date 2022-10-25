@@ -63,7 +63,7 @@ function DashboardButton({
         className={`Diamond-Btn ${
           color === '394A7E' ? 'primary' : 'secondary'
         } ${disabled ? 'disabled' : ''} ${show ? 'show' : ''}`}
-        style={{ opacity: highlight }}
+        // style={{ opacity: highlight }}
       >
         <div className="inner-1" key={Math.random()}>
           <a className="btn-inner" onClick={handleRedirectInsights}>

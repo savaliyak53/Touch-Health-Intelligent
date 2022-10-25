@@ -314,17 +314,17 @@ to suit you."
                   defaultValue={sex && sex}
                   rules={{ required: 'Please Select one' }}
                   render={({ field: { value } }) => (
-                    <Radio.Group value={value} disabled={true}>
+                    <Radio.Group className='Options' value={value} disabled={true}>
                       <Space direction="vertical">
-                        <Radio value="male" className="radio-input">
+                        <Radio.Button value="male" className="radio-input">
                           Male
-                        </Radio>
-                        <Radio value="female" className="radio-input">
+                        </Radio.Button>
+                        <Radio.Button value="female" className="radio-input">
                           Female
-                        </Radio>
-                        <Radio value="x" className="radio-input">
+                        </Radio.Button>
+                        <Radio.Button value="x" className="radio-input">
                           Prefer not to say
-                        </Radio>
+                        </Radio.Button>
                       </Space>
                     </Radio.Group>
                   )}

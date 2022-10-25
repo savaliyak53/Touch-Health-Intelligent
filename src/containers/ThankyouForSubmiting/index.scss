@@ -27,19 +27,24 @@
     border-radius: 100px;
     height: auto;
     padding: 18px 60px;
-    color: #fff;
+    color: #394a7e;
     font-size: 20px;
     line-height: 24px;
     font-weight: 400;
     margin-top: 20px;
     display: block;
-    border: 2px solid #3a4a7e;
-    background-color: #3a4a7e;
+    border: 2px solid #394a7e;
+    background-color: transparent;
     &:hover,
     &:focus,
     &:active {
-        background-color: #fff;
-        color: #3a4a7e;
-        border-color: #3a4a7e;
+        background-color: #394a7e;
+        color: #fff;
+        border-color: #394a7e;
     }
+    &.disabled {
+        background-color: rgba(#394a7e, 0.2);
+        border: 2px solid #394a7e;
+        color: #394a7e;
+      }
 }
