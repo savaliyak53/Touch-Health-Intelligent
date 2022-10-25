@@ -22,7 +22,7 @@ const ConfirmModal = ({
       onCancel={handleCancel}
       footer={[
         <div  key="submit" className="Btn-group">
-          <Button key="submit" className="Subscribe disabled" onClick={handleOk}>
+          <Button key="submit" className="Subscribe" onClick={handleOk}>
            Confirm
           </Button>
         </div>
