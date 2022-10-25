@@ -118,6 +118,14 @@ const Subscription = () => {
     }
     return false;
   }
+  const userIsOnTrial= (plan:any)=>{
+    if(freeTrial === false && !userCancelledPlan(plan) &&
+    userPlan?.trialing &&
+    userPlan?.plan?.id === plan.id && plan.trialPeriod){
+      return true;
+    }
+    return false;
+  }
   const isNextPhase = (plan:any)=>{
     if(userPlan?.nextPhase && userPlan?.nextPhase.plan?.id === plan.id){
       return true;
@@ -219,8 +227,8 @@ const Subscription = () => {
                 title={<h3 className="Question-title">{plan.name}</h3>}
                 description={
                   <div className="Question">
-                      <p>{plan.description}</p>
-                      <p className="Description">{plan.price?.amountFormatted}</p>
+                      
+                      <p className="Description">{plan.description}</p>
                       {/* if userPlan has nextPhase means user downgraded the plan */}
                       {isNextPhase(plan) && (
                         <>
@@ -276,9 +284,7 @@ const Subscription = () => {
                       </p>
                       </>
                       )}
-                      {freeTrial === false && !userCancelledPlan(plan) &&
-                        userPlan?.trialing &&
-                        userPlan?.plan?.id === plan.id && plan.trialPeriod && (
+                      {userIsOnTrial(plan) && (
                           <>
                           <p className='subDates'>
                             Trial Period
@@ -320,7 +326,11 @@ const Subscription = () => {
                             handleOk={handleOk}
                             renderData={
                               <div>
-                                Your subscription will be cancelled {userPlan?.renewalDate? `and not renewed on ${userPlan?.renewalDate}`:''}
+                                Your subscription will be cancelled 
+                                {userPlan?.renewalDate?
+                                 `and not renewed on ${userPlan?.renewalDate}`
+                                 :userPlan?.currentPeriod?.ends?`and not renewed on ${dateFormatRenewal(userPlan.currentPeriod.ends)}`
+                                 :''}
                                 {/* {userPlan.trialing &&
                                   ' You will loose your free trial.'} */}
                               </div>
@@ -379,9 +389,17 @@ const Subscription = () => {
           handleOk={handleSwitch}
           renderData={
             <div>
-              Your subscription will be changed on {userPlan?.renewalDate?dateFormatRenewal(userPlan?.renewalDate):dateFormatRenewal(userPlan?.currentPeriod?.ends)}
-              <br/>
-              {estimateAmount ? estimateAmount!=='$0.00' && `You will be charged ${estimateAmount} plus applicable taxes. Do you agree?`:<Spin spinning={estimateAmount}/>}
+              Your subscription will be changed&nbsp; 
+              {estimateAmount ? estimateAmount!=='$0.00' ?
+              <> 
+              <br/> You will be charged {estimateAmount} plus applicable taxes. Do you agree?
+              </>
+              :<>
+               {!userPlan?.trialing && <>on ${userPlan?.renewalDate?dateFormatRenewal(userPlan?.renewalDate):dateFormatRenewal(userPlan?.currentPeriod?.ends)}</>}
+              </>
+              :<>
+              <br/><Spin spinning={estimateAmount}/>
+              </>}
             </div>
           }
         />
