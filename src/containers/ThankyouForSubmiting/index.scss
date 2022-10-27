@@ -2,12 +2,19 @@
 .DayCon {
     .Question {
         margin-top: clamp(0px, 8vh, 130px);
-        margin-bottom: clamp(0px, 25vh, 260px);
+        margin-bottom: 0;
+    }
+    @media (max-height: 670px){
+        .Question{
+            margin-top: 20px;
+        }        
     }
 
     .Question-title {
-        margin-bottom: 20px;
         text-align: center;
+        font-weight: 300;
+        font-size: 30px;
+        line-height: 30px;
     }
 
     .Description {
@@ -24,22 +31,34 @@
 }
 
 .submit {
-    border-radius: 100px;
+    border-radius: 10px;
     height: auto;
-    padding: 18px 60px;
-    color: #fff;
+    padding: 16px 32px;
+    color: #3A3A3A;
     font-size: 20px;
     line-height: 24px;
     font-weight: 400;
     margin-top: 20px;
     display: block;
-    border: 2px solid #3a4a7e;
-    background-color: #3a4a7e;
+    border: 2px solid #3A3A3A;
+    background-color: transparent;
     &:hover,
     &:focus,
     &:active {
-        background-color: #fff;
-        color: #3a4a7e;
-        border-color: #3a4a7e;
+        background-color: rgba(#3A3A3A,0.2);
     }
+    &.disabled {
+        background-color: rgba(#394a7e, 0.2);
+        border: 2px solid #394a7e;
+        color: #394a7e;
+      }
+}
+.Divider-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+.Divider {
+    width: 60px;
+    justify-content: center;
 }

@@ -61,10 +61,9 @@ function DashboardButton({
         onClick={handleClick}
         key={insight?.category.name + Math.random().toString()}
         className={`Diamond-Btn ${
-          color === '394A7E' ? 'primary' : 'secondary'
+          color === '394A7E' ? 'blue' : 'green'
         } ${disabled ? 'disabled' : ''} ${show ? 'show' : ''}`}
-        style={{ opacity: highlight }}
-      >
+        style={{ backgroundColor: `rgb(${color === '394A7E' ? '57, 74, 126' : '89, 170, 142'}, ${highlight})`}}      >
         <div className="inner-1" key={Math.random()}>
           <a className="btn-inner" onClick={handleRedirectInsights}>
             <img
