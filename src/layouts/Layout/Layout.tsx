@@ -6,11 +6,12 @@ type Props = {
   defaultHeader: boolean;
   hamburger: boolean;
   dashboard?: boolean;
+  signupLogin?: string;
   children?: React.ReactChild | React.ReactChild[];
 };
-const Layout = ({ children, defaultHeader, hamburger, dashboard }: Props) => {
+const Layout = ({ children, defaultHeader, hamburger, dashboard, signupLogin }: Props) => {
   return (
-    <div className="Layout">
+    <div className={`Layout ${signupLogin}`}>
       <div
         className={
           dashboard ? 'Layout-Transparent header-transp' : 'Layout-Transparent'

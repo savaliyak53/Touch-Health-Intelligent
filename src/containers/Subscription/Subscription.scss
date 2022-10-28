@@ -134,7 +134,7 @@
     border-color: #cd6052;
   }
   &.disabled {
-    background-color: rgba(#394a7e, 0.2);
+    background-color: rgba(#3A3A3A, 0.2);
     border: 2px solid #cd6052;
     color: #cd6052;
   }
@@ -163,9 +163,9 @@
     border-color: #3a4a7e;
   }
   &.disabled {
-    background-color: rgba(#394a7e, 0.2);
-    border: 2px solid #394a7e;
-    color: #394a7e;
+    background-color: rgba(#3A3A3A, 0.2);
+    border: 2px solid #3A3A3A;
+    color: #3A3A3A;
   }
 }
 @media (max-width: 400px) {
@@ -193,9 +193,9 @@
       border-color: #3a4a7e;
     }
     &.disabled {
-      background-color: rgba(#394a7e, 0.2);
-      border: 2px solid #394a7e;
-      color: #394a7e;
+      background-color: rgba(#3A3A3A, 0.2);
+      border: 2px solid #3A3A3A;
+      color: #3A3A3A;
     }
   }
   .button-group {
