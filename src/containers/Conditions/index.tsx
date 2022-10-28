@@ -140,11 +140,11 @@ const ManageConditions = () => {
     >
       <div className="Content-wrap Con">
         <h2 className="Con-title">
-          Manage conditions <Spin spinning={loading} />
+          Problems <Spin spinning={loading} />
         </h2>
         <p className="Con-Description">
-          These are your current conditions, turn them off to remove, add a new
-          one using the search bar.
+          These are your current concerns, they can be things like stress, pain,
+          memory issues or physical symptoms and diseases
         </p>
 
         <div className="Select-Wrap">

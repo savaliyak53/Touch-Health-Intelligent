@@ -93,7 +93,7 @@ const index = () => {
       <div className="Content-wrap DayCon">
         <div className="Question">
           <h3 className="Question-title">You&apos;re done for the day!</h3>
-          <h4 className="Question-title" style={{fontSize:"19px"}}>Is there anything else you would like to do before you go?</h4>
+          <h4 className="Question-title" style={{fontSize:"22px"}}>Is there anything else you would like to do before you go?</h4>
         </div>
         <div className="Divider-wrap">
           <div className="Divider">

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Slider, Tooltip } from 'antd';
+import { Slider, Tooltip, Input } from 'antd';
 import './index.scss';
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import Button from '../../components/Button';
@@ -148,6 +148,7 @@ const Preferences = () => {
     getUserInfo(userId);
   }, []);
 
+  const text = <span>prompt text</span>;
   return (
     <Layout
       defaultHeader={true}
@@ -161,7 +162,7 @@ const Preferences = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'start',
-            marginBottom: '30px',
+            marginBottom: '10px',
           }}
         >
           <button
@@ -185,7 +186,7 @@ const Preferences = () => {
         </div>{' '}
         <form onSubmit={handleSubmit(onSubmit)} className="Preferences-form">
           <div className="Question">
-            <Tooltip
+            {/* <Tooltip
               title="The more time you give your health assistant, the better it gets to know your personal health, and the better it will guide you to optimal health."
               placement="topRight"
               overlayStyle={{ maxWidth: '350px' }}
@@ -202,11 +203,16 @@ const Preferences = () => {
                   setShowTooltip(false);
                 }}
               >
-                How much communication with your AI health assistant would you
-                like?
+                To modify your birth year and sex at birth, please contact your health assistant by texting the number you receive your checkups
               </h3>
-            </Tooltip>
-            <h5>
+            </Tooltip> */}
+              <h3 className="Question-title">
+                To modify your birth year and sex at birth, please contact your health assistant by texting the number you receive your checkups
+              </h3>
+              <h3 className="Question-title">
+                How much time do you have for check-ins each week?
+              </h3>
+            {/* <h5>
               Tip 1: More engagement early on reduces the time it takes to
               discover your health pathways. We recommend starting high, and
               once your health pathways are detected adjust to lower values to
@@ -216,7 +222,7 @@ const Preferences = () => {
               Tip 2: By enabling integrations with your smart wearables, your AI
               health assistant gets to know you faster and requires less
               communication with you.
-            </h5>
+            </h5> */}
 
             <br />
 
@@ -243,16 +249,19 @@ const Preferences = () => {
 
                     <div className="Slider-range">
                       <div className="flex-container">
-                        <span>Very little</span> <br />
-                        <span> (Low accuracy and minimal navigation)</span>
+                        {/* <span>Very little</span> <br />
+                        <span> (Low accuracy and minimal navigation)</span> */}
+                        <span>3 min</span>
                       </div>
                       <div className="flex-container">
-                        <span>Medium</span> <br />
-                        <span> (Adaptive and able to navigate)</span>
+                        {/* <span>Medium</span> <br />
+                        <span> (Adaptive and able to navigate)</span> */}
+                        <span>10 min</span>
                       </div>
                       <div className="flex-container">
-                        <span>Complete</span> <br />
-                        <span> (High accuracy and reactive navigation)</span>
+                        {/* <span>Complete</span> <br />
+                        <span> (High accuracy and reactive navigation)</span> */}
+                        <span>15 min</span>
                       </div>
                     </div>
                   </>
@@ -280,16 +289,19 @@ const Preferences = () => {
                     />
                     <div className="Slider-range">
                       <div className="flex-container">
-                        <span>Very little</span> <br />
-                        <span> (Low accuracy and minimal navigation)</span>
+                        {/* <span>Very little</span> <br />
+                        <span> (Low accuracy and minimal navigation)</span> */}
+                        <span>3 min</span>
                       </div>
                       <div className="flex-container">
-                        <span>Medium</span> <br />
-                        <span> (Adaptive and able to navigate)</span>
+                        {/* <span>Medium</span> <br />
+                        <span> (Adaptive and able to navigate)</span> */}
+                        <span>10 min</span>
                       </div>
                       <div className="flex-container">
-                        <span>Complete</span> <br />
-                        <span> (High accuracy and reactive navigation)</span>
+                        {/* <span>Complete</span> <br />
+                        <span> (High accuracy and reactive navigation)</span> */}
+                        <span>15 min</span>
                       </div>
                     </div>
                   </>
@@ -300,6 +312,56 @@ const Preferences = () => {
               {errors.engagementLevel?.message}
             </p>
           </div>
+          <h3 className="Question-title">
+            SMS checkup Engagements
+            <Tooltip placement="bottomRight" title={<span>This will pause all message checkups</span>}>
+                <img
+                  src={`${process.env.PUBLIC_URL}/assets/icons/question-mark.svg`}
+                  className="TooltipIcon"
+                  alt="" />
+            </Tooltip>
+          </h3>
+          <div className="button-group">
+              <Button
+                className="Pref-post-btn btn msg-btn"
+                loading={isLoading}
+                // disabled={!isValid}
+                onClick={handleSubmit(onSubmit)}
+              >
+                Start
+              </Button>
+              <Button
+                className="Cancel-post-btn btn msg-btn"
+                onClick={() => {
+                  navigate('/dashboard');
+                }}
+                disabled={loading}
+              >
+                Pause
+              </Button>
+            </div>
+            <div className='Data-Use'>
+              <h3 className="Question-title">
+                Data use
+                <Tooltip placement="bottomRight" title={<span>Lorem text</span>}>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/assets/icons/question-mark.svg`}
+                      className="TooltipIcon"
+                      alt="" />
+                </Tooltip>
+              </h3>
+              <div className="button-group">
+                <Button
+                  className="Cancel-post-btn btn msg-btn"
+                  onClick={() => {
+                    navigate('/dashboard');
+                  }}
+                  disabled={loading}
+                >
+                Delete all my data
+                </Button>
+              </div>
+            </div>
           {yob ? (
             <div className="Question">
               <h3 className="Question-title">What is your year of birth?</h3>
@@ -314,13 +376,19 @@ const Preferences = () => {
                   },
                 }}
                 render={({ field: { onChange, onBlur, value, name, ref } }) => (
-                  <DatePicker
-                    disabled={true}
-                    picker="year"
-                    format="YYYY"
-                    value={moment(yob, 'YYYY')}
-                    className="Date-Select"
-                  />
+                  <>
+                    <Input
+                      type='text'
+                      placeholder="Jon"
+                      className='Input' />
+                    <DatePicker
+                      disabled={true}
+                      picker="year"
+                      format="YYYY"
+                      value={moment(yob, 'YYYY')}
+                      className="Date-Select"
+                    />
+                  </>
                 )}
               />
 
@@ -365,17 +433,17 @@ const Preferences = () => {
                 defaultValue={sex && sex}
                 rules={{ required: 'Please Select one' }}
                 render={({ field: { value } }) => (
-                  <Radio.Group value={value} disabled={true}>
-                    <Space direction="vertical">
-                      <Radio value="male" className="radio-input">
+                  <Radio.Group className='Options' value={value} disabled={true}>
+                    <Space>
+                      <Radio.Button value="male" className="radio-input">
                         Male
-                      </Radio>
-                      <Radio value="female" className="radio-input">
+                      </Radio.Button>
+                      <Radio.Button value="female" className="radio-input">
                         Female
-                      </Radio>
-                      <Radio value="x" className="radio-input">
+                      </Radio.Button>
+                      <Radio.Button value="x" className="radio-input">
                         Prefer not to say
-                      </Radio>
+                      </Radio.Button>
                     </Space>
                   </Radio.Group>
                 )}
@@ -393,17 +461,17 @@ const Preferences = () => {
                 name="sex"
                 rules={{ required: 'Please Select one' }}
                 render={({ field: { onChange, value } }) => (
-                  <Radio.Group value={value} onChange={onChange}>
-                    <Space direction="vertical">
-                      <Radio value="male" className="radio-input">
+                  <Radio.Group className='Options' value={value} onChange={onChange}>
+                    <Space>
+                      <Radio.Button value="male" className="radio-input">
                         Male
-                      </Radio>
-                      <Radio value="female" className="radio-input">
+                      </Radio.Button>
+                      <Radio.Button value="female" className="radio-input">
                         Female
-                      </Radio>
-                      <Radio value="x" className="radio-input">
+                      </Radio.Button>
+                      <Radio.Button value="x" className="radio-input">
                         Prefer not to say
-                      </Radio>
+                      </Radio.Button>
                     </Space>
                   </Radio.Group>
                 )}
@@ -431,7 +499,7 @@ const Preferences = () => {
                 }}
                 disabled={loading}
               >
-                Cancel
+                Skip
               </Button>
               <Button
                 className="Pref-post-btn btn"
@@ -439,7 +507,7 @@ const Preferences = () => {
                 // disabled={!isValid}
                 onClick={handleSubmit(onSubmit)}
               >
-                Save
+                Next
               </Button>
             </div>
           )}

@@ -77,10 +77,10 @@ const Login = () => {
   };
 
   return (
-    <Layout defaultHeader={false} hamburger={false}>
+    <Layout defaultHeader={false} hamburger={false} signupLogin="Login-bg">
       <div className="Auth-wrap">
         <form onSubmit={handleSubmit(onSubmit)} className="Auth-form">
-          <h2 className="Auth-title">Login</h2>
+          <h2 className="Auth-title">Find your path to health</h2>
           <CountryCode
             errors={errors.username}
             control={control}
