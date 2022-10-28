@@ -90,8 +90,6 @@ input {
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding-left: 10px;
-  padding-right: 10px;
   margin-bottom: 25px;
 }
 
@@ -111,21 +109,21 @@ input {
     display: block;
 
     &.Next {
-      border: 2px solid #394a7e;
+      border: 2px solid #3A3A3A;
       background-color: #fff;
       margin-right: 4px;
       margin-left: 4px;
       &:hover,
       &:focus,
       &:active {
-        background-color: #394a7e;
+        background-color: #3A3A3A;
         color: #fff;
-        border-color: #394a7e;
+        border-color: #3A3A3A;
       }
       &.disabled {
-        background-color: rgba(#394a7e, 0.2);
-        border: 2px solid #394a7e;
-        color: #394a7e;
+        background-color: rgba(#3A3A3A, 0.2);
+        border: 2px solid #3A3A3A;
+        color: #3A3A3A;
       }
     }
 
@@ -143,7 +141,7 @@ input {
         border-color: #cd6052;
       }
       &.disabled {
-        background-color: rgba(#394a7e, 0.2);
+        background-color: rgba(#3A3A3A, 0.2);
         border-color: #cd6052;
         color: #cd6052;
       }
@@ -155,9 +153,9 @@ input {
       &:hover,
       &:focus,
       &:active {
-        background-color: #394a7e;
+        background-color: #3A3A3A;
         color:  #fff;
-        border-color: #394a7e;
+        border-color: #3A3A3A;
       }
       &.Modal-cancel-btn {
         color: #CD6052;
@@ -183,9 +181,9 @@ input {
         }
       }
       &.disabled {
-        background-color: rgba(#394a7e, 0.2);
-        border: 2px solid #394a7e;
-        color: #394a7e;
+        background-color: rgba(#3A3A3A, 0.2);
+        border: 2px solid #3A3A3A;
+        color: #3A3A3A;
       }
     }
   }
@@ -196,11 +194,11 @@ input {
   height: auto;
   padding: 18px 54px;
   background-color: transparent;
-  color: #394a7e;
+  color: #3A3A3A;
   font-size: 20px;
   line-height: 24px;
   font-weight: 400;
-  border: 2px solid #394a7e;
+  border: 2px solid #3A3A3A;
   margin: 20px auto 0;
   max-width: 400px;
   display: block;
@@ -209,21 +207,21 @@ input {
   &:hover,
   &:focus,
   &:active {
-    background-color: #394a7e;
+    background-color: #3A3A3A;
     color: #fff;
-    border-color: #394a7e;
+    border-color: #3A3A3A;
   }
   &.disabled {
-    background-color: rgba(#394a7e, 0.2);
-    border: 2px solid #394a7e;
-    color: #394a7e;
+    background-color: rgba(#3A3A3A, 0.2);
+    border: 2px solid #3A3A3A;
+    color: #3A3A3A;
   }
 }
 .Question-title {
-  font-size: 22px;
-  line-height: 38px;
-  font-weight: 700;
-  color: rgba(#272424,0.7);
+  font-size: 25px;
+  line-height: 27px;
+  font-weight: 300;
+  color: #272424;
   margin-top: 10px;
 }
 
@@ -400,7 +398,7 @@ input {
   border-radius: 100px;
   border: 2px solid #272424;
   color: rgba(#272424, 0.7);
-  max-width: 300px;
+  max-width: 100%;
   display: block;
   &.ant-picker-focused,
   &:hover,
@@ -438,7 +436,7 @@ input {
       background-color: #e4e4e4;
       padding: 10px 15px;
       border: 2px solid #3A3A3A;
-    border-radius: 8px;
+    border-radius: 24px;
     }
   }
 

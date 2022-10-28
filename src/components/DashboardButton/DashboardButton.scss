@@ -12,7 +12,6 @@
   color: rgba(#394a7e, 0.5);
   margin: 10px 20px;
   transform: rotate(45deg);
-  opacity: 0.5;
 
   img {
     height: 30px;
@@ -87,8 +86,6 @@
     &:hover {
       border-color: #59AA8E;
     }
-
-
     .btn-inner {
       background-color: #59AA8E;
       border-color: #59AA8E;
@@ -149,6 +146,5 @@
       height: 15px !important;
       width: 15px !important;
     }
-
   }
 }
