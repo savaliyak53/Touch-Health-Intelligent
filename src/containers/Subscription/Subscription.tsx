@@ -326,10 +326,10 @@ const Subscription = () => {
                             handleOk={handleOk}
                             renderData={
                               <div>
-                                Your subscription will be cancelled 
+                                Your subscription will be cancelled
                                 {userPlan?.renewalDate?
-                                 `and not renewed on ${userPlan?.renewalDate}`
-                                 :userPlan?.currentPeriod?.ends?`and not renewed on ${dateFormatRenewal(userPlan.currentPeriod.ends)}`
+                                 ` and not renewed on ${userPlan?.renewalDate}`
+                                 :userPlan?.currentPeriod?.ends?` and not renewed on ${dateFormatRenewal(userPlan.currentPeriod.ends)}`
                                  :''}
                                 {/* {userPlan.trialing &&
                                   ' You will loose your free trial.'} */}
@@ -389,13 +389,11 @@ const Subscription = () => {
           handleOk={handleSwitch}
           renderData={
             <div>
-              Your subscription will be changed&nbsp; 
               {estimateAmount ? estimateAmount!=='$0.00' ?
-              <> 
-              <br/> You will be charged {estimateAmount} plus applicable taxes. Do you agree?
+              <> Your subscription will be changed. <br/> You will be charged {estimateAmount} plus applicable taxes. Do you agree?
               </>
               :<>
-               {!userPlan?.trialing && <>on ${userPlan?.renewalDate?dateFormatRenewal(userPlan?.renewalDate):dateFormatRenewal(userPlan?.currentPeriod?.ends)}</>}
+               {!userPlan?.trialing ? <>Your subscription will be changed on ${userPlan?.renewalDate?dateFormatRenewal(userPlan?.renewalDate):dateFormatRenewal(userPlan?.currentPeriod?.ends)}</>:<>.</>}
               </>
               :<>
               <br/><Spin spinning={estimateAmount}/>
