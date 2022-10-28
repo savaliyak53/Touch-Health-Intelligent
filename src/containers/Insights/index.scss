@@ -76,9 +76,14 @@
 
 .chart-wrap {
   width: 100%;
-  overflow-x: auto;
+  transform: rotate(90deg);
+  margin-top: calc(100vw - 400px);
+  @media screen and (min-width: 500px) {
+    margin-top: 20%;
+    margin-bottom: 20%;
+  }
   .chart {
-    height: 400px;
+    //height: 400px;
     width: 700px;
     @media screen and (min-width: 992px) {
       height: 100%;
