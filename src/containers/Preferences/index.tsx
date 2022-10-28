@@ -433,6 +433,7 @@ const Preferences = () => {
                 defaultValue={sex && sex}
                 rules={{ required: 'Please Select one' }}
                 render={({ field: { value } }) => (
+
                   <Radio.Group className='Options' value={value}>
                     <Space>
                       <Radio.Button value="male" className="radio-input">

@@ -86,7 +86,8 @@ const Insights = () => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        display: false,
+        position: 'left',
         align: 'start',
         labels: {
           usePointStyle: true,
