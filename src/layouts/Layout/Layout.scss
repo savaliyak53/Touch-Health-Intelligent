@@ -4,6 +4,37 @@
     height: auto;
     position: relative;
     min-height: 100vh;
+
+    &.login-bg,
+    &.Login-bg,
+    &.signup-bg,
+    &.Signup-bg {
+        .Navigation {
+            .Layout-logo {
+                background-color: #ccc;
+            }
+        }
+    }
+
+    &.signup-bg,
+    &.Signup-bg {
+
+        .MobileScreen {
+            &.bg {
+                background-size: 100% 35%;
+            }
+        }
+    }
+    &.login-bg,
+    &.Login-bg {
+        .MobileScreen {
+            &.bg {
+                background-size: 100% 55%;
+            }
+        }
+    }
+
+
 }
 
 .Layout-Transparent {

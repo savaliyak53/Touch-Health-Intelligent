@@ -86,10 +86,10 @@ const SignUp = () => {
     setHighlight(false);
   };
   return (
-    <Layout defaultHeader={false} hamburger={false}>
+    <Layout defaultHeader={false} hamburger={false} signupLogin="Signup-bg">
       <div className="Auth-wrap">
         <form onSubmit={handleSubmit(onSubmit)} className="Auth-form">
-          <h2 className="Auth-title">Sign up</h2>
+          <h2 className="Auth-title">Find your path to health</h2>
           <div className="input-element-wrapper">
             <Tooltip
               color="orange"
