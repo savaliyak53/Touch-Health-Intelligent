@@ -113,8 +113,6 @@ const index = () => {
             open={isDropdownOpen}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           ></AutoComplete>
-
-          <DownOutlined onClick={() => setIsDropdownOpen(!isDropdownOpen)} />
         </div>
         <button className="submit" onClick={() => navigate('/dashboard')}>
           Home

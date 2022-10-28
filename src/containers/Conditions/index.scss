@@ -13,6 +13,16 @@
     font-weight: 300;
     color: rgba(#272424,0.7);
     margin-bottom: 50px;
+
+}
+
+@media (max-height: 670px) {
+    .Con-title {
+        margin-top: 20px;
+    }
+    .Con-Description {
+        margin-bottom: 20px;
+    }
 }
 
 .Con {
