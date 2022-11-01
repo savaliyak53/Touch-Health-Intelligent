@@ -57,33 +57,32 @@
     height: 350px;
     margin-left: 24px;
     margin-right: 24px;
-
-    .ant-slider-rail {
-      background-color: rgba(#616c61, 0.45);
-    }
-
-    .ant-slider-track {
-      background-color: transparent;
-    }
-
-    .ant-slider-handle {
-      width: 50px;
-      height: 50px;
-      margin-left: -23px;
-      border: 3px solid #3a4a7e;
-      background-color: #3a4a7e;
-    }
-
     &:hover {
-      .ant-slider-handle {
-        &:not(.ant-tooltip-open) {
-          border-color: #3a4a7e;
-        }
-      }
+      .ant-slider-rail,
       .ant-slider-track {
-        background-color: transparent;
+          background-color: #d9d9d9;
       }
-    }
+      .ant-slider-handle {
+          &:not(.ant-tooltip-open) {
+              border: 2px solid #616c61;
+          }
+      }
+  }
+
+  .ant-slider-rail,
+  .ant-slider-track {
+      background-color: #616c61;
+  }
+  .ant-slider-handle {
+      width: 40px;
+      height: 40px;
+      border: 2px solid #616c61;
+      margin-top: -13px;
+      margin-left: -18px;
+      &:focus {
+          box-shadow: none;
+      }
+  }
   }
 }
 //date type
