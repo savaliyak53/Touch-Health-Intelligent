@@ -116,31 +116,24 @@ ul.no-bullets li {
 
 //Preferences.scss
 
-.Pref-title {
-  font-size: 35px;
-  line-height: 36px;
-  font-weight: 300;
-  color: #272424;
-  // margin-top: clamp(0px, 7.5vh, 96px);
-  // margin-bottom: clamp(0px, 7.5vh, 36px);
-}
-
-.Pref {
-  .Question {
-    margin-bottom: 10px;
-  }
-
-  .Question-title {
-    // margin-bottom: 24px;
-  }
-}
-// .Question {
-//   margin-bottom: clamp(0px, 8vh, 60px);
+// .Pref-title {
+//   font-size: 35px;
+//   line-height: 36px;
+//   font-weight: 300;
+//   color: #272424;
+//   // margin-top: clamp(0px, 7.5vh, 96px);
+//   // margin-bottom: clamp(0px, 7.5vh, 36px);
 // }
 
-.Question-title {
-  margin-bottom: 24px;
-}
+// .Pref {
+//   .Question {
+//     margin-bottom: 10px;
+//   }
+// }
+
+// .Question-title {
+//   margin-bottom: 24px;
+// }
 .Pref-slider.ant-slider {
   margin: 4px 0 14px;
 

@@ -6,11 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../../../components/Button';
 import InputField from '../../../components/Input';
 import Layout from '../../../layouts/Layout/Layout';
-
 import { loginService } from '../../../services/authservice';
 import jwt from 'jwt-decode';
-import './index.scss';
+// import './index.scss';
 import '../index.scss';
+import styles from "./Login.module.scss"
+import Authstyles from "../Auth.module.scss"
 import { Tooltip } from 'antd';
 import CountryCode from '../Country/CountryCode';
 import { ILogin } from '../../../interfaces';
@@ -78,9 +79,10 @@ const Login = () => {
 
   return (
     <Layout defaultHeader={false} hamburger={false} signupLogin="Login-bg">
-      <div className="Auth-wrap">
-        <form onSubmit={handleSubmit(onSubmit)} className="Auth-form">
-          <h2 className="Auth-title">Find your path to health</h2>
+      <div className={styles["Auth-wrap"]}>
+        <form onSubmit={handleSubmit(onSubmit)} className={` ${styles["Auth-form"]} ${Authstyles["Auth-form"]} `}>
+        <h2 className={`${styles["Auth-title"]} ${Authstyles["Auth-title"]}`}>Find your path to health</h2>
+
           <CountryCode
             errors={errors.username}
             control={control}
@@ -99,7 +101,7 @@ const Login = () => {
               })}
               placeholder="Password"
               type={passwordShown ? 'text' : 'password'}
-              className="app-Input"
+              className={Authstyles["app-Input"]}
               isEye={true}
               togglePassword={togglePassword}
             />
@@ -114,19 +116,20 @@ const Login = () => {
             Login
           </Button>
         </form>
-        <div className='Links-wrap'>
-          <div className="Auth-terms-signup">
+        <div className={Authstyles['Links-wrap']}>
+          <div className={Authstyles["Auth-terms-signup"]}>
            For customer support, please follow this <a href="https://www.touchmedical.ca/customer-care">link</a>
           </div>
 
-          <div className="Auth-terms-signup">
-            <Link to="/password-reset" className="Auth-signup">
+          <div className={Authstyles["Auth-terms-signup"]}>
+            <Link to="/password-reset" className={Authstyles["Auth-signup"]}>
               Forgot Password?
             </Link>
           </div>
 
-          <div className="Auth-terms-signup">
-            <Link to="/signup" className="Auth-signup">
+          <div className={Authstyles["Auth-terms-signup"]}>
+            {/* <Link to="/signup" className="Auth-signup"> */}
+            <Link to="/signup" className={Authstyles["Auth-signup"]}>
               Create an Account?
             </Link>
           </div>

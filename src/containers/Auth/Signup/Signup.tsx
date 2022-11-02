@@ -9,8 +9,10 @@ import { signUpService } from '../../../services/authservice';
 import { AiOutlineEye } from 'react-icons/ai';
 import Layout from '../../../layouts/Layout/Layout';
 import { Checkbox, Tooltip } from 'antd';
-import './index.scss';
+// import './index.scss';
 import '../index.scss';
+import styles from "./Signup.module.scss"
+import Authstyles from "../Auth.module.scss"
 import CountryCode from '../Country/CountryCode';
 import { onlyNumbers } from '../../../utils/lib';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
@@ -87,10 +89,10 @@ const SignUp = () => {
   };
   return (
     <Layout defaultHeader={false} hamburger={false} signupLogin="Signup-bg">
-      <div className="Auth-wrap">
-        <form onSubmit={handleSubmit(onSubmit)} className="Auth-form">
-          <h2 className="Auth-title">Find your path to health</h2>
-          <div className="input-element-wrapper">
+      <div className={styles["Auth-wrap"]}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles["Auth-form"]}>
+          <h2 className={`${styles["Auth-title"]} ${Authstyles["Auth-title"]}`}>Find your path to health</h2>
+          <div className={Authstyles["input-element-wrapper"]}>
             <Tooltip
               color="orange"
               placement="bottomLeft"
@@ -108,7 +110,7 @@ const SignUp = () => {
                 })}
                 placeholder="Username"
                 type="text"
-                className="app-Input"
+                className={Authstyles["app-Input"]}
               />
             </Tooltip>
           </div>
@@ -124,7 +126,7 @@ const SignUp = () => {
             isConfirmPhone={isConfirmPhone}
             phone={getValues('phone')}
           />
-          <div className="input-element-wrapper-password">
+          <div className={Authstyles["input-element-wrapper-password"]}>
             <Tooltip
               color="orange"
               placement="bottomLeft"
@@ -135,7 +137,7 @@ const SignUp = () => {
                 id="password"
                 placeholder="Enter password here"
                 type={passwordShown ? 'text' : 'password'}
-                className="app-Input"
+                className={Authstyles["app-Input"]}
                 {...register('password', {
                   required: 'Password is required',
                   minLength: {
@@ -149,11 +151,11 @@ const SignUp = () => {
                 })}
               />
             </Tooltip>
-            <button className="btn" onClick={togglePassword} type="button">
+            <button className={Authstyles["btn"]} onClick={togglePassword} type="button">
               <AiOutlineEye />
             </button>
           </div>
-          <div className="input-element-wrapper-password">
+          <div className={Authstyles["input-element-wrapper-password"]}>
             <Tooltip
               color="orange"
               placement="bottomLeft"
@@ -164,7 +166,7 @@ const SignUp = () => {
                 id="confirmPassword"
                 placeholder="Confirm password here"
                 type={confirmPasswordShown ? 'text' : 'password'}
-                className="app-Input"
+                className={Authstyles["app-Input"]}
                 {...register('confirmPassword', {
                   required: 'Confirm password is required',
                   validate: (value: string) => {
@@ -177,7 +179,7 @@ const SignUp = () => {
               />
             </Tooltip>
             <button
-              className="btn"
+              className={Authstyles["btn"]}
               onClick={toggleConfirmPassword}
               type="button"
             >
@@ -193,11 +195,11 @@ const SignUp = () => {
             Sign Up
           </Button>
         </form>
-        <div className='Links-wrap'>
-          <div className="Auth-terms-signup">
+        <div className={Authstyles['Links-wrap']}>
+          <div className={Authstyles["Auth-terms-signup"]}>
           For customer support, please follow this <a href="https://www.touchmedical.ca/customer-care">link</a>
           </div>
-          <div className="Auth-terms-signup">
+          <div className={Authstyles["Auth-terms-signup"]}>
             <Link to="/login">Already have an account?</Link>
           </div>
         </div>
