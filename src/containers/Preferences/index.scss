@@ -120,20 +120,16 @@ ul.no-bullets li {
     font-size: 35px;
     line-height: 36px;
     font-weight: 300;
-    color: rgba(#272424,0.7);
-    margin-top: 24px;
-  // margin-bottom: clamp(0px, 7.5vh, 36px);
-}
+    color: #272424;
+    // margin-top: clamp(0px, 7.5vh, 96px);
+    // margin-bottom: clamp(0px, 7.5vh, 36px);
+  }
 
-.Pref {
+  .Pref {
     .Question {
-        margin-bottom: clamp(0px, 8vh, 60px);
+      margin-bottom: 10px;
     }
-
-    .Question-title {
-        margin-bottom: 24px;
-    }
-}
+  }
 .Question {
     margin-bottom: clamp(0px, 8vh, 60px);
 }
