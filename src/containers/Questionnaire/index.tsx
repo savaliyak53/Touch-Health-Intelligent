@@ -19,6 +19,8 @@ function UserCondition() {
   const [loading, setLoading] = useState<boolean>(false);
   const [refId, setRefId] = useState<string>('');
   const [skeletonLoading, setSkeletonLoading] = useState(true);
+  const [isClicked, setClicked] = useState(false);
+
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -40,6 +42,7 @@ function UserCondition() {
       });
   };
   useEffect(() => {
+    setClicked(false);
     getInteraction();
   }, []);
   const onSubmit = async (state?: string, skip?: boolean) => {
@@ -123,8 +126,9 @@ function UserCondition() {
                   Skip
                 </Button>
                 <Button
-                  className="Next"
+                  className={"Next" + isClicked && `active`}
                   onClick={() => {
+                    setClicked(true);
                     onSubmit();
                   }}
                   loading={loading}

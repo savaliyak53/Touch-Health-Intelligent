@@ -113,7 +113,14 @@ const Question = ({
             >
               Yes
             </button>
-            <button
+            <button className="submit" 
+              onClick={async () => {
+                await setValue('false');
+                onSubmit('false');
+              }}>
+              No
+            </button>
+            {/* <button
               type="button"
               className={styles["skip"]}
               onClick={async () => {
@@ -122,7 +129,7 @@ const Question = ({
               }}
             >
               No
-            </button>
+            </button> */}
           </div>
         );
 
