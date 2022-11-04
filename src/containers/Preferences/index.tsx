@@ -312,7 +312,7 @@ const Preferences = () => {
               {errors.engagementLevel?.message}
             </p>
           </div>
-          <h3 className="Question-title">
+          {/* <h3 className="Question-title">
             SMS checkup Engagements
             <Tooltip placement="bottomRight" title={<span>This will pause all message checkups</span>}>
                 <img
@@ -339,8 +339,8 @@ const Preferences = () => {
               >
                 Pause
               </Button>
-            </div>
-            <div className='Data-Use'>
+            </div> */}
+            {/* <div className='Data-Use'>
               <h3 className="Question-title">
                 Data use
                 <Tooltip placement="bottomRight" title={<span>Lorem text</span>}>
@@ -361,7 +361,7 @@ const Preferences = () => {
                 Delete all my data
                 </Button>
               </div>
-            </div>
+            </div> */}
           {yob ? (
             <div className="Question">
               <h3 className="Question-title">What is your year of birth?</h3>
@@ -377,10 +377,6 @@ const Preferences = () => {
                 }}
                 render={({ field: { onChange, onBlur, value, name, ref } }) => (
                   <>
-                    <Input
-                      type='text'
-                      placeholder="Jon"
-                      className='Input' />
                     <DatePicker
                       disabled={true}
                       picker="year"
