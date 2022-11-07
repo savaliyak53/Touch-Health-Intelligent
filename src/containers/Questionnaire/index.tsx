@@ -20,7 +20,7 @@ function UserCondition() {
   const [refId, setRefId] = useState<string>('');
   const [skeletonLoading, setSkeletonLoading] = useState(true);
   const [isClicked, setClicked] = useState(false);
-
+  console.log('isClicked', isClicked );
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -42,7 +42,6 @@ function UserCondition() {
       });
   };
   useEffect(() => {
-    setClicked(false);
     getInteraction();
   }, []);
   const onSubmit = async (state?: string, skip?: boolean) => {
@@ -98,6 +97,7 @@ function UserCondition() {
     question?.type === 'slider'
       ? setDisableNextButton(true)
       : setDisableNextButton(false);
+    setClicked(false);
   }, [question]);
 
   return (
@@ -126,7 +126,7 @@ function UserCondition() {
                   Skip
                 </Button>
                 <Button
-                  className={"Next" + isClicked && `active`}
+                  className={isClicked ?`Next active`:`Next`}
                   onClick={() => {
                     setClicked(true);
                     onSubmit();
