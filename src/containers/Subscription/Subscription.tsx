@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import { Button, Spin, Typography, Tag } from 'antd';
-import './Subscription.scss';
+// import './Subscription.scss';
 import styles from './Subscription.module.scss';
 import {
   checkoutPlan,
@@ -226,6 +226,7 @@ const Subscription = () => {
             >
               <Meta
                 title={<h3 className={styles["Question-title"]}>{plan.name}</h3>}
+                className={styles['ant-card-meta']}
                 description={
                   <div className={styles["Question"]}>
                       

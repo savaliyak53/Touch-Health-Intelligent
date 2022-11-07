@@ -14,11 +14,10 @@
       max-width: 50%;
     }
   
-    &.bg {
-      background-color: transparent;
-    }
   }
-  
+  .bg {
+    background-color: transparent;
+  }
   .Toggler-btn {
     button {
       padding: 0;
@@ -44,30 +43,8 @@
     transition: 0.2s all ease-in-out;
     max-width: 428px;
     min-height: 100%;
-    &.display {
-      transform: translateX(0%);
-    }
-    .Cross-btn {
-      width: 100%;
-      display: flex;
-      justify-content: flex-end;
-      .ant-btn {
-        margin-top: 30px;
-        margin-right: 20px;
-        padding: 0;
-        background-color: transparent;
-        border: none;
-        &:hover {
-          opacity: 0.7;
-        }
-        svg {
-          font-size: 26px;
-          font-weight: 700;
-          color: #3A3A3A;
-          line-height: 30px;
-        }
-      }
-    }
+
+
     ul {
       padding: 0 60px 0;
       list-style-type: none;
@@ -97,53 +74,58 @@
           display: none;
         }
       }
-  
-      &.Signout {
-        border: 2px solid #3A3A3A;
-        border-radius: 8px;
-        text-align: center;
-        margin-top: 40px;
-  
-        &:hover,
-        &:active,
-        &:focus {
-          background-color: #3A3A3A;
-          color: #fff;
-          border-color: #3A3A3A;
-        }
-        &.disabled {
-          background-color: rgba(#3A3A3A, 0.2);
-          border: 2px solid #3A3A3A;
-          color: #3A3A3A;
-        }
-      }
+
     }
   }
+  .menu-display {
+    transform: translateX(0%);
+  }
+.Cross-btn {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  .ant-btn {
+    margin-top: 30px;
+    margin-right: 20px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    &:hover {
+      opacity: 0.7;
+    }
+    svg {
+      font-size: 26px;
+      font-weight: 700;
+      color: #3A3A3A;
+      line-height: 30px;
+    }
+  }
+}
+    
+.Signout {
+  border: 2px solid #3A3A3A;
+  border-radius: 8px;
+  text-align: center;
+  margin-top: 40px;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: #3A3A3A;
+    color: #fff;
+    border-color: #3A3A3A;
+  }
+  &.disabled {
+    background-color: rgba(#3A3A3A, 0.2);
+    border: 2px solid #3A3A3A;
+    color: #3A3A3A;
+  }
+}
   @media (max-width: 520px) {
     .Burger-menu {
       width: 100%;
       max-width: 80%;
-      .Cross-btn {
-        width: 100%;
-        display: flex;
-        justify-content: flex-end;
-        .ant-btn {
-          margin-top: 30px;
-          margin-right: 20px;
-          padding: 0;
-          background-color: transparent;
-          border: none;
-          &:hover {
-            opacity: 0.7;
-          }
-          svg {
-            font-size: 20px;
-            font-weight: 700;
-            color: #3A3A3A;
-            line-height: 21px;
-          }
-        }
-      }
+
       ul {
         padding-left: 0;
         list-style-type: none;
@@ -176,6 +158,28 @@
         }
       }
     }
+    .Cross-btn {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+
+    }
+    .cross-ant-btn {
+      margin-top: 30px !important;
+      margin-right: 20px !important;
+      padding: 0 !important;
+      background-color: transparent !important;
+      border: none !important;
+      &:hover {
+        opacity: 0.7;
+      }
+      svg {
+        font-size: 20px;
+        font-weight: 700;
+        color: #3A3A3A;
+        line-height: 21px;
+      }
+    }
   }
   .Burger-menu-wrapper {
     width: 100%;
@@ -186,7 +190,7 @@
     top: 0;
     left: 0;
   }
-  .display {
+  .display-none {
     display: none;
   }
 .Layout-logo {
