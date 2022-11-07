@@ -20,7 +20,6 @@ function UserCondition() {
   const [refId, setRefId] = useState<string>('');
   const [skeletonLoading, setSkeletonLoading] = useState(true);
   const [isClicked, setClicked] = useState(false);
-  console.log('isClicked', isClicked );
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
 
   const navigate = useNavigate();
