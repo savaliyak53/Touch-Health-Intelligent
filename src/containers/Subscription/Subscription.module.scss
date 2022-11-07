@@ -1,0 +1,286 @@
+.Sub-title {
+    font-size: 26px;
+    line-height: 36px;
+    font-weight: 400;
+    color: rgba(#282F28, 0.7);
+    margin-top: clamp(0px, 3.5vh, 20px);
+    margin-bottom: clamp(0px, 1.5vh, 36px);
+  }
+  
+    
+.Question {
+    margin-bottom: 8px;
+    text-align: center;
+    
+}
+  
+.Question-title {
+    margin-bottom: 24px;
+    margin-top: 10px;
+    line-height: 17px;
+    font-size: 20px !important;
+    text-align: center;
+    font-weight: 400;
+    color: rgba(#282F28, 0.7);
+}
+
+.Description {
+    font-size: 32px;
+    line-height: 33px;
+    color: rgba(#282F28, 0.7);
+    font-weight: 200;
+    margin-bottom: 0;
+    font-family: 'Barlow', sans-serif;
+}
+.otherDates {
+    font-size: 32px;
+    line-height: 33px;
+    color: rgba(#282F28, 0.7);
+    font-weight: 200;
+    margin-bottom: 2px;
+    font-family: 'Barlow', sans-serif;
+}
+.subDescription {
+    font-size: 16px;
+    line-height: 20px;
+    color: rgba(#282F28, 0.7);
+    font-weight: 400;
+    margin-top: 10px;
+    font-family: 'Barlow', sans-serif;
+}
+.subDates {
+    font-size: 20px;
+    line-height: 20px;
+    color: rgba(#282F28, 0.7);
+    font-weight: 400;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: 'Barlow', sans-serif;
+}
+  
+.Btn-group {
+    gap: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Subscribe {
+    border: 2px solid #3A3A3A !important;
+    color: #3A3A3A !important;
+    background-color: transparent !important;
+}
+.Cancelled {
+    color:#fff;
+    border-color: #cd6052;
+    background-color: #cd6052;
+    &:hover,
+    &:focus,
+    &:active {
+      border-color: #cd6052 !important;
+      color: #fff !important;
+      background-color: #cd6052 !important;
+    }
+}
+.ant-card {
+    box-sizing: border-box;
+    padding: 0;
+    color: rgba(0,0,0,.85);
+    font-size: 14px;
+    font-variant: tabular-nums;
+    line-height: 1.5715;
+    list-style: none;
+    font-feature-settings: "tnum";
+    position: relative;
+    //background: #fff;
+    border-radius: 20px;
+    width: 300;
+    margin: 10px;
+    overflow: "hidden";
+
+    &.Subspt-Card {
+    border: 2px solid #000000;
+    }
+}
+
+.Subspt-Card {
+    border: 2px solid #000000 !important;
+}
+.ant-carousel {
+    margin-top: 20px;
+}
+.ant-carousel .slick-dots li button {
+    background: #272424 !important;
+}
+
+.ant-card-meta {
+    justify-content: center;
+    // height:270px;
+}
+.ant-card-meta-detail> {
+    .ant-card-meta-title {
+    margin-bottom: 0;
+    }
+}
+
+  
+.Modal-cancel-btn {
+    border-radius: 100px !important;
+    height: auto !important;
+    padding: 18px 40px !important;
+    color: #CD6052 !important;
+    font-size: 20px !important;
+    line-height: 24px !important;
+    font-weight: 400 !important;
+    background-color: transparent !important;
+    border: 2px solid#CD6052 !important;
+    margin: 20px 0 0 !important;
+    display: block !important;
+  
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: rgba(#282F28, 0.7) !important;
+      color: #fff !important;
+      border-color: #cd6052 !important;
+    }
+    &.disabled {
+      background-color: rgba(#3A3A3A, 0.2) !important;
+      border: 2px solid #cd6052 !important;
+      color: #cd6052 !important;
+    }
+}
+  .Subscribe-btn.btn.ant-btn,
+  .btn.ant-btn {
+    border-radius: 80px;
+    height: 30%;
+    padding: 10px 54px;
+    background-color: transparent;
+    color: #fff;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    border: 2px solid #3a4a7e;
+    margin: 20px auto 0;
+    max-width: 300px;
+    display: block;
+    width: 30%;
+  
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #fff;
+      color: #3a4a7e;
+      border-color: #3a4a7e;
+    }
+    &.disabled {
+      background-color: rgba(#3A3A3A, 0.2);
+      border: 2px solid #3A3A3A;
+      color: #3A3A3A;
+    }
+  }
+  @media (max-width: 400px) {
+    .Subscribe-btn.btn.ant-btn,
+    .btn.ant-btn {
+      border-radius: 80px;
+      height: 30%;
+      padding: 10px;
+      background-color: transparent;
+      color: #fff;
+      font-size: 20px;
+      line-height: 24px;
+      font-weight: 400;
+      border: 2px solid #3a4a7e;
+      margin: 10px auto 0;
+      max-width: 100px;
+      display: block;
+      width: 30%;
+  
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: #fff;
+        color: #3a4a7e;
+        border-color: #3a4a7e;
+      }
+      &.disabled {
+        background-color: rgba(#3A3A3A, 0.2);
+        border: 2px solid #3A3A3A;
+        color: #3A3A3A;
+      }
+    }
+    .button-group {
+      display: flex;
+      flex-direction: row;
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+  }
+  .card-bordered {
+    border: 2px solid #878383 !important;
+  }
+  // .detail-section{
+  //   height: 130px;
+  // }
+  .my-custom-class .ant-modal-confirm-btns .ant-btn{
+    border-radius: 100px;
+    height: 100%;
+    padding: 18px 54px;
+    color: #fff;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    background-color: #cd6052 !important;
+    border: 2px solid#CD6052 !important;
+    margin: 20px 0 0;
+    max-width: 150px;
+    display: block;
+  
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #fff;
+      color: #cd6052;
+      border-color: #cd6052;
+    }
+  }
+  .Sub-alert,.Sub-alert.ant-tag {
+    border: none;
+    padding: 2px;
+    white-space: normal;
+  
+    h5 {
+      margin: 0;
+    }
+  }
+  
+  .ant-modal-root{
+    .ant-modal-content {
+      border-radius: 36px;
+      border: 2px solid #000000;
+      background-color: #F2F2F2;
+      .ant-modal-close{ 
+        display: none;
+      }
+  
+      .ant-modal-header {
+        border-radius: 38px;
+        border: none;
+        background-color: transparent;
+        padding-top: 30px;
+        .ant-modal-title{ 
+          text-align: center;
+          font-size: 20px;
+        }
+      }
+      .ant-modal-body {
+        font-size: 28px;
+        color: #282F28;
+        text-align: center;
+      }
+      .ant-modal-footer {
+        border: none;
+        padding-bottom: 30px;
+      }
+    }
+  }
+  

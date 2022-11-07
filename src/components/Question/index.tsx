@@ -5,7 +5,8 @@ import type { SliderMarks } from 'antd/lib/slider';
 import { RightOutlined, SearchOutlined } from '@ant-design/icons';
 import { Select, Spin } from 'antd';
 const { Option } = Select;
-import './index.scss';
+// import './index.scss';
+import styles from './Question.module.scss';
 import TextArea from 'antd/lib/input/TextArea';
 import { Timepicker } from 'react-timepicker';
 import 'react-timepicker/timepicker.css';
@@ -101,9 +102,9 @@ const Question = ({
         );
       case 'yes_no':
         return (
-          <div className="align-center">
+          <div className={styles["align-center"]}>
             <button
-              className="next"
+              className={styles["next"]}
               type="button"
               onClick={async () => {
                 await setValue('true');
@@ -114,7 +115,7 @@ const Question = ({
             </button>
             <button
               type="button"
-              className="skip"
+              className={styles["skip"]}
               onClick={async () => {
                 await setValue('false');
                 onSubmit('false');
@@ -128,7 +129,7 @@ const Question = ({
       case 'multi_select':
         return (
           <div className="Select-Wrap">
-            <SearchOutlined className="search" />
+            <SearchOutlined />
             <Select
               mode="multiple"
               showSearch
@@ -150,7 +151,7 @@ const Question = ({
       case 'select_one':
         return (
           <Radio.Group
-            className="Options"
+            className="Question-Options"
             onChange={(e) => {
               console.log('here');
               const index = question.options.indexOf(e.target.value);
@@ -160,7 +161,7 @@ const Question = ({
             {question.options.map((item: any, index: number) => (
               <>
                 <Radio.Button
-                  className={`Option${index}`}
+                  className={`Question-Option${index}`}
                   value={item}
                   key={item}
                 >
@@ -173,7 +174,7 @@ const Question = ({
         );
       case 'select_many':
         return (
-          <div className="ant-radio-group ant-radio-group-outline Options">
+          <div className="ant-radio-group ant-radio-group-outline Question-Options">
             {question.options.map((item: any, index: number) => (
               <label
                 className={`ant-radio-button-wrapper Option${index} ${
@@ -197,8 +198,9 @@ const Question = ({
         );
       case 'slider':
         return (
-          <div className="Slider-Vertical">
-            <span className="Text1">{question.lower_qualifier}</span>
+        <div className="Question-Slider-Vertical">
+          {/* <div className={styles["Slider-Vertical"]}> */}
+            <span className={styles["Text1"]}>{question.lower_qualifier}</span>
             <Slider
               className="Slider"
               vertical
@@ -212,7 +214,7 @@ const Question = ({
                 setDisableNextButton(false);
               }}
             />
-            <span className="Text2">{question.upper_qualifier}</span>
+            <span className={styles["Text2"]}>{question.upper_qualifier}</span>
           </div>
         );
       case 'free_text':
@@ -247,8 +249,10 @@ const Question = ({
 
   return (
     <>
-      <div className="Question Question-grp">
-        <h3 className="Question-title Question-heading">
+      <div className={` ${styles["Question"]} ${styles["Question-grp"]} `}>
+      {/* <div className="Question Question-grp"> */}
+        <h3 className={ ` ${styles["Question-title"]} ${styles["Question-heading"]} `}>
+        {/* <h3 className="Question-title Question-heading"> */}
           {question?.q_str}
           {question?.h_str &&
               <Tooltip
@@ -258,7 +262,7 @@ const Question = ({
                 color="blue"
                 mouseLeaveDelay={0}
               >
-            <AiOutlineQuestionCircle size={30} className='question-help'/>  
+            <AiOutlineQuestionCircle size={30} className={styles['question-help']} />  
           </Tooltip>
           }
           </h3>
