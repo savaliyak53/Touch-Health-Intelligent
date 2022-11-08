@@ -312,7 +312,7 @@ const Preferences = () => {
               {errors.engagementLevel?.message}
             </p>
           </div>
-          <h3 className="Question-title">
+          {/* <h3 className="Question-title">
             SMS checkup Engagements
             <Tooltip placement="bottomRight" title={<span>This will pause all message checkups</span>}>
                 <img
@@ -361,7 +361,7 @@ const Preferences = () => {
                 Delete all my data
                 </Button>
               </div>
-            </div>
+            </div> */}
           {yob ? (
             <div className="Question">
               <h3 className="Question-title">What is your year of birth?</h3>
@@ -500,7 +500,7 @@ const Preferences = () => {
                 }}
                 disabled={loading}
               >
-                Skip
+                Cancel
               </Button>
               <Button
                 className="Pref-post-btn btn"
@@ -508,7 +508,7 @@ const Preferences = () => {
                 // disabled={!isValid}
                 onClick={handleSubmit(onSubmit)}
               >
-                Next
+                Save
               </Button>
             </div>
           )}

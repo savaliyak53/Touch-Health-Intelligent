@@ -7,6 +7,8 @@
 
     &.login-bg,
     &.Login-bg,
+    &.reset-bg,
+    &.Reset-bg,
     &.signup-bg,
     &.Signup-bg {
         .Navigation {
@@ -43,6 +45,21 @@
                 }
                 @media screen and (min-height:821px) {
                     background-size: 100% 60%;
+                }
+            }
+        }
+    }
+    &.reset-bg,
+    &.Reset-bg {
+        .MobileScreen {
+            &.bg {
+                background-size: 100% 45%;
+
+                @media (min-height:710px) and (max-height:820px) {
+                    background-size: 100% 50%;
+                }
+                @media screen and (min-height:821px) {
+                    background-size: 100% 55%;
                 }
             }
         }

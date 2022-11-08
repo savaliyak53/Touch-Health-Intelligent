@@ -183,7 +183,7 @@ const PasswordRecovery = () => {
       });
   };
   return (
-    <Layout defaultHeader={true} hamburger={false}>
+    <Layout defaultHeader={false} hamburger={false} signupLogin="Reset-bg">
       <div className="Auth-wrap">
         {enterNumber && (
           <form onSubmit={handleSubmit(sendCode)} className="Auth-form">
