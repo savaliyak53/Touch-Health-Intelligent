@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import { Button, Spin, Typography, Tag } from 'antd';
-import './Subscription.scss';
+// import './Subscription.scss';
+import styles from './Subscription.module.scss';
 import {
   checkoutPlan,
   getPlansService,
@@ -198,7 +199,7 @@ const Subscription = () => {
       dashboard={false}
     >
       <div className="Content-wrap Sub">
-        <h2 className="Sub-title">
+        <h2 className={styles["Sub-title"]}>
           Subscription <Spin spinning={loading} />
         </h2>
         {!loading && !userPlan && (
@@ -216,34 +217,35 @@ const Subscription = () => {
             <Card
               key={plan.id}
               type="inner"
-              className={`${'Subspt-Card'}
-                isActivePlan(plan) && userPlanStatus === 'ACTIVE'
-                  ? 'card-bordered'
-                  : ''`
+              className={`${styles['Subspt-Card']}
+                ${isActivePlan(plan) && userPlanStatus === 'ACTIVE'
+                  ? styles['card-bordered']
+                  : ''}`
               }
               style={{backgroundColor:isActivePlan(plan) && userPlanStatus === 'ACTIVE'?'#ded7d721':''}}
             >
               <Meta
-                title={<h3 className="Question-title">{plan.name}</h3>}
+                title={<h3 className={styles["Question-title"]}>{plan.name}</h3>}
+                className={styles['ant-card-meta']}
                 description={
-                  <div className="Question">
+                  <div className={styles["Question"]}>
                       
-                      <p className="Description">{plan.description}</p>
+                      <p className={styles["Description"]}>{plan.description}</p>
                       {/* if userPlan has nextPhase means user downgraded the plan */}
                       {isNextPhase(plan) && (
                         <>
-                        <p className="subDates">
+                        <p className={styles["subDates"]}>
                           Starts
                         </p>
-                        <p className="otherDates">
+                        <p className={styles["otherDates"]}>
                         {dateFormatRenewal(userPlan?.nextPhase?.currentPeriod?.starts)}
                         </p>
                         {userPlan?.nextPhase?.renewalDate && (
                           <>
-                          <p className="subDates">
+                          <p className={styles["subDates"]}>
                             Renewal Date
                           </p>
-                          <p className="otherDates">
+                          <p className={styles["otherDates"]}>
                             {dateFormatRenewal(userPlan?.nextPhase?.renewalDate)}
                           </p>
                           </>
@@ -254,10 +256,10 @@ const Subscription = () => {
                       {/* if Plan is Active and was cancelled by user but the cancellation date is in future */}
                       { userCancelledPlan(plan) && (
                           <>
-                          <p className="subDates">
+                          <p className={styles["subDates"]}>
                             Ends
                           </p>
-                          <p className="otherDates">
+                          <p className={styles["otherDates"]}>
                           {dateFormatRenewal(userPlan?.currentPeriod?.ends)}
                           </p>
                           </>
@@ -265,20 +267,20 @@ const Subscription = () => {
                       {isActivePlan(plan) &&
                         userPlan?.renewalDate && !userPlan.nextPhase && (
                           <>
-                          <p className="subDates">
+                          <p className={styles["subDates"]}>
                             Renewal Date
                           </p>
-                          <p className="otherDates">
+                          <p className={styles["otherDates"]}>
                             {dateFormatRenewal(userPlan.renewalDate)}
                           </p>
                           </>
                         )}
                       {freeTrial && !userCancelledPlan(plan) && plan.trialPeriod && (
                         <>
-                        <p className='subDates'>
+                        <p className={styles["subDates"]}>
                           Trial Period
                         </p>
-                        <p className="otherDates">
+                        <p className={styles["otherDates"]}>
                         {plan.trialPeriod && <> 
                         {plan.trialPeriod.repetitions} {plan.trialPeriod.interval.toLowerCase()} {userPlan?.plan?.id === plan.id && 'left'}</>} 
                       </p>
@@ -286,10 +288,10 @@ const Subscription = () => {
                       )}
                       {userIsOnTrial(plan) && (
                           <>
-                          <p className='subDates'>
+                          <p className={styles["subDates"]}>
                             Trial Period
                           </p>
-                          <p className="otherDates">
+                          <p className={styles["otherDates"]}>
                             {plan.trialPeriod && <> 
                             {plan.trialPeriod.repetitions} {plan.trialPeriod.interval.toLowerCase()} {userPlan?.plan?.id === plan.id && 'left'}</>} 
                           </p>
@@ -300,10 +302,11 @@ const Subscription = () => {
                     {isActivePlan(plan) &&
                     userPlanStatus === 'ACTIVE' ? (
                       <>
-                        <div className="Btn-group">
+                        <div className={styles["Btn-group"]}>
+                        {/* <div className="Btn-group"> */}
                           {userCancelledPlan(plan) ? (
                             <Button
-                              className="Modal-cancel-btn Cancelled Subscribe"
+                              className={` ${styles["Modal-cancel-btn"]} ${styles["Cancelled"]} ${styles["Subscribe"]} `}
                               disabled={true}
                             >
                               Cancelled
@@ -313,8 +316,8 @@ const Subscription = () => {
                             // </Tag>
                           ) : (
                             <Button
-                              className="Modal-cancel-btn Subscribe"
-                              onClick={() => showModal()}
+                            className={` ${styles["Modal-cancel-btn"]} ${styles["Subscribe"]} `}
+                            onClick={() => showModal()}
                             >
                               Cancel
                             </Button>
@@ -340,20 +343,21 @@ const Subscription = () => {
                       </>
                     ) : (
                       <>
-                        <div className="Btn-group">
+                        <div className={styles["Btn-group"]}>
+                        {/* <div className="Btn-group"> */}
                           {userPlan &&
                           userPlan?.plan?.id !== plan.id &&
                           userPlanStatus === 'ACTIVE' ? (
                             <>
                             {isNextPhase(plan)?
                             <Button
-                            className="Modal-cancel-btn Subscribe"
+                            className={` ${styles["Modal-cancel-btn"]} ${styles["Subscribe"]} `}
                             onClick={() => showModal()}
                           >
                             Cancel
                             </Button>
                             :<Button
-                              className="Subscribe"
+                              className={styles["Subscribe"]}
                               onClick={() => handleSwitchModal(plan.id)}
                             >
                               Switch
@@ -362,8 +366,8 @@ const Subscription = () => {
                             </>  
                           ) : (
                             <Button
-                              className="Subscribe"
-                              onClick={() => handleSubscribeClick(plan.id)}
+                            className={styles["Subscribe"]}
+                            onClick={() => handleSubscribeClick(plan.id)}
                               disabled={
                                 disableButton ||
                                 loading ||

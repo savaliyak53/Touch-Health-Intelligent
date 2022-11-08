@@ -10,7 +10,8 @@ import Button from '../../../components/Button';
 import { AiOutlineEye } from 'react-icons/ai';
 import Layout from '../../../layouts/Layout/Layout';
 import { Tooltip } from 'antd';
-import '../index.scss';
+// import '../index.scss';
+import styles from './PasswordRecovery.module.scss';
 import InputField from '../../../components/Input';
 import CountryCode from '../Country/CountryCode';
 import { onlyNumbers } from '../../../utils/lib';
@@ -185,9 +186,11 @@ const PasswordRecovery = () => {
   return (
     <Layout defaultHeader={false} hamburger={false} signupLogin="Reset-bg">
       <div className="Auth-wrap">
+
         {enterNumber && (
-          <form onSubmit={handleSubmit(sendCode)} className="Auth-form">
-            <h2 className="Auth-title" style={{ color: 'black' }}>
+        // {codeSubmitted && question && (
+          <form onSubmit={handleSubmit(sendCode)} className={styles["Auth-form"]}>
+            <h2 className={styles["Auth-title"]}>
               Reset Password
             </h2>
             <CountryCode
@@ -209,12 +212,12 @@ const PasswordRecovery = () => {
 
         {isCodeSent && (
           <>
-            <div className="Verification-wrap">
+            <div className={styles["Verification-wrap"]}>
               <form
                 onSubmit={handleSubmit(onSubmitCode)}
-                className="Verification-form"
+                className={styles["Verification-form"]}
               >
-                <h2 className="Auth-title" style={{ color: 'black' }}>
+                <h2 className={styles["Auth-title"]}>
                   Verification Code
                 </h2>
                 <Controller
@@ -267,44 +270,48 @@ const PasswordRecovery = () => {
             </div>
           </>
         )}
+               {/* {(    */}
+
         {codeSubmitted && question && (
           <>
             <div
-              className="Auth-wrap"
-              style={{ justifyContent: 'start', width: '100%' }}
+              className={styles["Question-Auth-wrap"]}
+              // className="Auth-wrap"
             >
-              <h2 className="Auth-title" style={{ color: 'black' }}>
+              {/* <h2 className={styles["Auth-title"]}> */}
+              <h2 className="Auth-title">
                 Security Question
               </h2>
               <input
                 id="security_question.question"
                 {...register('security_question.question')}
                 type="text"
-                className="app-Input"
+                className={styles["app-Input"]}
+                // className="app-Input"
                 placeholder="Question"
                 value={question}
                 disabled={true}
               />
-              <div className="input-element-wrapper">
+              <div className={styles["input-element-wrapper"]}>
                 <InputField
                   id="security_question.answer"
                   {...register('security_question.answer', {
                     required: 'Answer is required',
                   })}
                   type="text"
-                  className="app-Input"
+                  className={styles["app-Input"]}
                   placeholder="Answer"
                   onChange={(event: any) => setAnswer(event.target.value)}
                 />
               </div>
-              <div className="action">
+              {/* <div className="action"> */}
                 <Button
                   onClick={handleSubmit(confirmAnswer)}
                   className="Pref-btn btn"
                 >
                   Submit
                 </Button>
-              </div>
+              {/* </div> */}
             </div>
           </>
         )}
@@ -312,10 +319,10 @@ const PasswordRecovery = () => {
         {changePassword && (
           <>
             <div
-              className="Auth-wrap"
+              className={styles["Auth-wrap"]}
               style={{ justifyContent: 'start', width: '100%' }}
             >
-              <h2 className="Auth-title" style={{ color: 'black' }}>
+              <h2 className={styles["Auth-title"]}>
                 Enter New Password
               </h2>
 
@@ -325,7 +332,8 @@ const PasswordRecovery = () => {
                 title={errors.code?.message}
                 visible={errors.code ? true : false}
               ></Tooltip>
-              <div className="input-element-wrapper-password">
+              <div className={styles["input-element-wrapper-password"]}>
+              {/* <div className="input-element-wrapper-password"> */}
                 <Tooltip
                   color="orange"
                   placement="bottomLeft"
@@ -336,7 +344,8 @@ const PasswordRecovery = () => {
                     id="new_password"
                     placeholder="Enter new password here"
                     type={passwordShown ? 'text' : 'password'}
-                    className="app-Input"
+                    className={styles["app-Input"]}
+                    // className="app-Input"
                     {...register('new_password', {
                       required: 'Password is required',
                       minLength: {
@@ -350,11 +359,13 @@ const PasswordRecovery = () => {
                     })}
                   />
                 </Tooltip>
-                <button className="btn" onClick={togglePassword} type="button">
+                {/* <button className="btn" onClick={togglePassword} type="button"> */}
+                <button className={styles["btn"]} onClick={togglePassword} type="button">
+
                   <AiOutlineEye />
                 </button>
               </div>
-              <div className="input-element-wrapper-password">
+              <div className={styles["input-element-wrapper-password"]}>
                 <Tooltip
                   color="orange"
                   placement="bottomLeft"
@@ -365,7 +376,7 @@ const PasswordRecovery = () => {
                     id="confirmPassword"
                     placeholder="Confirm password here"
                     type={confirmPasswordShown ? 'text' : 'password'}
-                    className="app-Input"
+                    className={styles["app-Input"]}
                     {...register('confirmPassword', {
                       required: 'Confirm password is required',
                       validate: (value: string) => {
@@ -378,7 +389,7 @@ const PasswordRecovery = () => {
                   />
                 </Tooltip>
                 <button
-                  className="btn"
+                  className={styles["btn"]}
                   onClick={toggleConfirmPassword}
                   type="button"
                 >

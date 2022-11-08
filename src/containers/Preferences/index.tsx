@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Slider, Tooltip, Input } from 'antd';
-import './index.scss';
+// import './index.scss';
+import styles from './Preferences.module.scss'
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import Button from '../../components/Button';
 import { preferencesService } from '../../services/authservice';
@@ -41,6 +42,7 @@ const Preferences = () => {
   const [preferences, setPreferences] = useState<any>({});
   const [yob, setYob] = useState<any>('');
   const [sex, setSex] = useState<any>('');
+  const [username, setName] = useState<any>('');
   const [engagement, setEngagement] = useState<number>();
 
   const {
@@ -100,6 +102,7 @@ const Preferences = () => {
           setPreferences(response.data.preferences);
           setYob(response.data.yob);
           setSex(response.data.sex);
+          setName(response.data.name);
           setEngagement(response.data.preferences.engagement_level);
           reset({
             yob: response.data.yob,
@@ -149,15 +152,15 @@ const Preferences = () => {
   }, []);
 
   const text = <span>prompt text</span>;
+
   return (
     <Layout
       defaultHeader={true}
       hamburger={isEmpty(preferences) ? false : true}
     >
-      <div className="Content-wrap Pref">
-        <h2 className="Pref-title">Preferences</h2>
+      <div className={`Content-wrap ${styles['Pref']}`}>
+        <h2 className={styles["Pref-title"]}>Preferences</h2>
         <div
-          className="Download"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -168,7 +171,6 @@ const Preferences = () => {
           <button
             style={{ border: 'none', background: 'none', display: 'none' }}
             id="installApp"
-            className="Download-btn"
           >
               <h5 style={{ float: 'left', cursor: 'pointer'}}>You can also install this app</h5>
             &nbsp;
@@ -184,8 +186,8 @@ const Preferences = () => {
             />
           </button>
         </div>{' '}
-        <form onSubmit={handleSubmit(onSubmit)} className="Preferences-form">
-          <div className="Question">
+        <form onSubmit={handleSubmit(onSubmit)} className={styles["Preferences-form"]}>
+          <div className={styles["Question"]}>
             {/* <Tooltip
               title="The more time you give your health assistant, the better it gets to know your personal health, and the better it will guide you to optimal health."
               placement="topRight"
@@ -206,10 +208,10 @@ const Preferences = () => {
                 To modify your birth year and sex at birth, please contact your health assistant by texting the number you receive your checkups
               </h3>
             </Tooltip> */}
-              <h3 className="Question-title">
+              <h3 className={styles["Question-title"]}>
                 To modify your birth year and sex at birth, please contact your health assistant by texting the number you receive your checkups
               </h3>
-              <h3 className="Question-title">
+              <h3 className={styles["Question-title"]}>
                 How much time do you have for check-ins each week?
               </h3>
             {/* <h5>
@@ -237,17 +239,19 @@ const Preferences = () => {
                 render={({ field: { onChange, value } }) => (
                   <>
                     <Slider
-                      className="Pref-slider"
-                      id="engagementLevel"
-                      value={value}
-                      min={0}
-                      max={1}
-                      step={0.01}
-                      onChange={onChange}
-                      tooltipVisible={false}
-                    />
+                        className="Pref-slider"
+                        id="engagementLevel"
+                        value={value}
+                        min={0}
+                        max={1}
+                        step={0.01}
+                        onChange={onChange}
+                        tooltipVisible={false}
+                      />
 
-                    <div className="Slider-range">
+
+                    <div className={styles["Slider-range"]}>
+                    {/* <div className="Slider-range"> */}
                       <div className="flex-container">
                         {/* <span>Very little</span> <br />
                         <span> (Low accuracy and minimal navigation)</span> */}
@@ -279,6 +283,7 @@ const Preferences = () => {
                   <>
                     <Slider
                       className="Pref-slider"
+                      // className={` ${styles["Pref-slider"]} ${styles['ant-slider']} `}
                       id="engagementLevel"
                       value={value}
                       min={0}
@@ -287,7 +292,7 @@ const Preferences = () => {
                       onChange={onChange}
                       tooltipVisible={false}
                     />
-                    <div className="Slider-range">
+                    <div className={styles["Slider-range"]}>
                       <div className="flex-container">
                         {/* <span>Very little</span> <br />
                         <span> (Low accuracy and minimal navigation)</span> */}
@@ -308,22 +313,24 @@ const Preferences = () => {
                 )}
               />
             )}
-            <p className="Preferences-form-error">
+            <p className={styles["Preferences-form-error"]}>
               {errors.engagementLevel?.message}
             </p>
           </div>
           {/* <h3 className="Question-title">
+          <h3 className={styles["Question-title"]}>
             SMS checkup Engagements
             <Tooltip placement="bottomRight" title={<span>This will pause all message checkups</span>}>
                 <img
                   src={`${process.env.PUBLIC_URL}/assets/icons/question-mark.svg`}
-                  className="TooltipIcon"
+                  className={styles["TooltipIcon"]}
                   alt="" />
             </Tooltip>
           </h3>
-          <div className="button-group">
+          <div className={styles["button-group"]}>
               <Button
-                className="Pref-post-btn btn msg-btn"
+                className={ ` ${styles["Pref-post-btn"]} ${styles["btn"]} ${styles["msg-btn"]} `}
+                // className="Pref-post-btn btn msg-btn"
                 loading={isLoading}
                 // disabled={!isValid}
                 onClick={handleSubmit(onSubmit)}
@@ -331,8 +338,10 @@ const Preferences = () => {
                 Start
               </Button>
               <Button
-                className="Cancel-post-btn btn msg-btn"
+                className={ ` ${styles["Cancel-post-btn"]} ${styles["btn"]} ${styles["msg-btn"]} `}
+                // className="Cancel-post-btn btn msg-btn"
                 onClick={() => {
+                  // setTimeout(() => {navigate('/dashboard');},1000)
                   navigate('/dashboard');
                 }}
                 disabled={loading}
@@ -340,19 +349,25 @@ const Preferences = () => {
                 Pause
               </Button>
             </div>
-            <div className='Data-Use'>
-              <h3 className="Question-title">
+            <div className={` ${styles['Data-Use']} `}>
+            {/* <div className='Data-Use'> */}
+              <h3 className={styles["Question-title"]}>
+              {/* <h3 className="Question-title"> */}
                 Data use
                 <Tooltip placement="bottomRight" title={<span>Lorem text</span>}>
                     <img
                       src={`${process.env.PUBLIC_URL}/assets/icons/question-mark.svg`}
-                      className="TooltipIcon"
+                      className={styles["TooltipIcon"]}
+                      // className="TooltipIcon"
                       alt="" />
                 </Tooltip>
               </h3>
-              <div className="button-group">
+              <div className={styles["button-group"]}>
+              {/* <div className="button-group"> */}
                 <Button
-                  className="Cancel-post-btn btn msg-btn"
+                className={ `${styles["Data-use-cancel-btn"]} ${styles["Cancel-post-btn"]}`}
+                // className={styles['Cancel-post-btn']}
+                // className='Cancel-post-btn btn msg-btn'
                   onClick={() => {
                     navigate('/dashboard');
                   }}
@@ -363,8 +378,8 @@ const Preferences = () => {
               </div>
             </div> */}
           {yob ? (
-            <div className="Question">
-              <h3 className="Question-title">What is your year of birth?</h3>
+            <div className={styles["Question"]}>
+              <h3 className={styles["Question-title"]}>What is your year of birth?</h3>
               <Controller
                 control={control}
                 name="yob"
@@ -379,8 +394,11 @@ const Preferences = () => {
                   <>
                     <Input
                       type='text'
-                      placeholder="Jon"
-                      className='Input' />
+                      defaultValue={username}
+                      value={username}
+                      placeholder="Username"
+                      className='Input'
+                      disabled={true} />
                     <DatePicker
                       disabled={true}
                       picker="year"
@@ -392,11 +410,11 @@ const Preferences = () => {
                 )}
               />
 
-              <p className="Preferences-form-error">{errors.yob?.message}</p>
+              <p className={styles["Preferences-form-error"]}>{errors.yob?.message}</p>
             </div>
           ) : (
-            <div className="Question">
-              <h3 className="Question-title">What is your year of birth?</h3>
+            <div className={styles["Question"]}>
+              <h3 className={styles["Question-title"]}>What is your year of birth?</h3>
               <Controller
                 control={control}
                 name="yob"
@@ -418,13 +436,13 @@ const Preferences = () => {
                 )}
               />
 
-              <p className="Preferences-form-error">{errors.yob?.message}</p>
+              <p className={styles["Preferences-form-error"]}>{errors.yob?.message}</p>
             </div>
           )}
 
           {sex ? (
-            <div className="Question">
-              <h3 className="Question-title">
+            <div className={styles["Question"]}>
+              <h3 className={styles["Question-title"]}>
                 Assigned sex at the time of birth
               </h3>
               <Controller
@@ -436,13 +454,13 @@ const Preferences = () => {
 
                   <Radio.Group className='Options' value={value}>
                     <Space>
-                      <Radio.Button value="male" className="radio-input">
+                      <Radio.Button value="male" className={styles["radio-input"]}>
                         Male
                       </Radio.Button>
-                      <Radio.Button value="female" className="radio-input">
+                      <Radio.Button value="female" className={styles["radio-input"]}>
                         Female
                       </Radio.Button>
-                      <Radio.Button value="x" className="radio-input">
+                      <Radio.Button value="x" className={styles["radio-input"]}>
                         Prefer not to say
                       </Radio.Button>
                     </Space>
@@ -450,11 +468,11 @@ const Preferences = () => {
                 )}
               />
 
-              <p className="Preferences-form-error">{errors.sex?.message}</p>
+              <p className={styles["Preferences-form-error"]}>{errors.sex?.message}</p>
             </div>
           ) : (
-            <div className="Question">
-              <h3 className="Question-title">
+            <div className={styles["Question"]}>
+              <h3 className={styles["Question-title"]}>
                 Assigned sex at the time of birth
               </h3>
               <Controller
@@ -462,15 +480,16 @@ const Preferences = () => {
                 name="sex"
                 rules={{ required: 'Please Select one' }}
                 render={({ field: { onChange, value } }) => (
+                  // <Radio.Group className={styles['Options']} value={value} onChange={onChange}>
                   <Radio.Group className='Options' value={value} onChange={onChange}>
                     <Space>
-                      <Radio.Button value="male" className="radio-input">
+                      <Radio.Button value="male" className={styles["radio-input"]}>
                         Male
                       </Radio.Button>
-                      <Radio.Button value="female" className="radio-input">
+                      <Radio.Button value="female" className={styles["radio-input"]}>
                         Female
                       </Radio.Button>
-                      <Radio.Button value="x" className="radio-input">
+                      <Radio.Button value="x" className={styles["radio-input"]}>
                         Prefer not to say
                       </Radio.Button>
                     </Space>
@@ -478,7 +497,7 @@ const Preferences = () => {
                 )}
               />
 
-              <p className="Preferences-form-error">{errors.sex?.message}</p>
+              <p className={styles["Preferences-form-error"]}>{errors.sex?.message}</p>
             </div>
           )}
 
@@ -492,9 +511,10 @@ const Preferences = () => {
               Save and Next
             </Button>
           ) : (
-            <div className="button-group">
+            <div className={styles["button-group"]}>
               <Button
-                className="Cancel-post-btn btn"
+                className={` ${styles["Cancel-post-btn"]} `}
+                // className="Cancel-post-btn btn"
                 onClick={() => {
                   navigate('/dashboard');
                 }}
@@ -503,7 +523,8 @@ const Preferences = () => {
                 Cancel
               </Button>
               <Button
-                className="Pref-post-btn btn"
+                className={` ${styles["Pref-post-btn"]} `}
+                // className="Pref-post-btn btn"
                 loading={isLoading}
                 // disabled={!isValid}
                 onClick={handleSubmit(onSubmit)}
