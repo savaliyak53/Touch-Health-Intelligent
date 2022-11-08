@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import { Input, Select, Spin } from 'antd';
-import './index.scss';
+// import './index.scss';
+import styles from './SecurityQuestion.module.scss';
 import Button from '../../components/Button';
 import InputField from '../../components/Input';
 import { securityQuestions } from '../../constants';
@@ -44,14 +45,14 @@ const SecurityQuestions = () => {
   return (
     <Layout defaultHeader={true} hamburger={false}>
       <div className="Content-wrap Con">
-        <h2 className="Con-title">
+        <h2 className={styles["Con-title"]}>
           Security Question <Spin spinning={loading} />
         </h2>
-        <p className="Con-Description">
+        <p className={styles["Con-Description"]}>
          Please help us protect your account. Select a security question and input answer. You can use this to get back access to your account.
         </p>
 
-        <div className="Switch-wrap">
+        <div className={styles["Switch-wrap"]}>
           <div className="Select-Wrap">
             <Select
               placeholder="Select a question"
@@ -66,13 +67,13 @@ const SecurityQuestions = () => {
             </Select>
             <DownOutlined />
           </div>
-          <div className="input-element-wrapper" style={{ marginTop: '10px' }}>
+          <div className={styles["input-element-wrapper"]} style={{ marginTop: '10px' }}>
             <InputField
               placeholder="Answer"
               onChange={(event: {
                 target: { value: React.SetStateAction<string> };
               }) => setAnswer(event.target.value)}
-              className="app-Input secuirty-answer"
+              className={` ${styles["app-Input"]} ${styles["security-answer"]} `}
             />
           </div>
         </div>

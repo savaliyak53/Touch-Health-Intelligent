@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Slider, Spin, Tooltip } from 'antd';
-import './index.scss';
+// import './index.scss';
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import Button from '../../components/Button';
 import { preferencesService } from '../../services/authservice';

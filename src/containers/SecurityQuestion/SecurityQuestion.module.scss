@@ -1,0 +1,119 @@
+.Input-Wrap {
+    border: 2px solid #272424;
+    display: inline-block;
+    border-radius: 100px;
+    position: relative;
+    display: block;
+    margin-top: 15px;
+  
+    .ant-input{
+      height: 64px !important;
+      padding: 17px 30px !important;
+      border: none;
+      outline: none;
+      background: transparent;
+      &:placeholder-shown{
+        color: #272424 !important;
+      font-size: 20px !important;
+      line-height: 24px !important;
+      white-space: nowrap;
+      }
+      
+    }
+  }
+  .security-answer{
+    padding: 18px 40px !important;
+  }
+
+  .Con-title {
+    font-size: 35px;
+    line-height: 36px;
+    font-weight: 300;
+    color: rgba(#272424,0.7);
+    margin-top: 45px;
+}
+
+.Con-Description {
+    margin-bottom: 0;
+    font-size: 25px;
+    line-height: 27px;
+    font-weight: 300;
+    color: rgba(#272424,0.7);
+    margin-bottom: 50px;
+
+}
+
+@media (max-height: 670px) {
+    .Con-title {
+        margin-top: 20px;
+    }
+    .Con-Description {
+        margin-bottom: 20px;
+    }
+}
+
+.Switch-wrap {
+    margin-top: 30px;
+}
+
+.Title {
+    color: rgba(#272424,0.7);
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    margin-bottom: 24px;
+    margin-top: 24px;
+    opacity: 0.5;
+}
+
+.input-element-wrapper {
+    width: 100%;
+}
+
+.app-Input {
+  width: 100%;
+  border-radius: 100px;
+  margin-bottom: 14px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  line-height: 24px;
+  border: 2px solid #272424;
+  background-color: rgba(#fff, 0.6);
+  color: #272424;
+  font-size: 20px;
+  line-height: 24px;
+
+  &:hover,
+  &:focus {
+    border: 2px solid #272424;
+    background-color: #e3e3e3;
+    color: #272424;
+  }
+
+  &::placeholder {
+    color: rgba(#272424, 0.8);
+  }
+}
+
+@media screen and (min-height: 360px) {
+
+    .app-Input {
+      width: 100%;
+      border-radius: 100px;
+      margin-bottom: 14px;
+      padding: 18px 20px;
+      line-height: 24px;
+    }
+  
+    .input-element-wrapper {
+      width: 100%;
+    }
+    .input-element-wrapper-password {
+      width: 100%;
+    }
+    .btn {
+      margin-bottom: 16px;
+    }
+}
