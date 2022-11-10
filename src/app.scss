@@ -589,3 +589,51 @@ input {
     margin-left: 20px;
   }
 }
+
+.Options {
+  .ant-radio-button-wrapper,
+  .ant-radio-button-wrapper:first-child,
+  .ant-radio-button-wrapper:last-child {
+    margin: 10px 10px 10px 0;
+    border: 2px solid #3A3A3A;
+    padding: 12px 20px;
+    border-radius: 100px !important;
+    height: 100%;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 300;
+    background-color: transparent;
+    color: #3A3A3A;
+
+    &:not(:first-child):before {
+      display: none;
+    }
+
+    &:hover {
+      color: #272424;
+    }
+  }
+  .ant-space {
+    flex-wrap: wrap;
+  }
+  .ant-radio-button-wrapper-checked {
+    &:not(.ant-radio-button-wrapper-disabled) {
+      background-color: rgba(#3A3A3A,0.2);
+      border-color: #3A3A3A;
+      color: #3A3A3A;
+
+      &:focus-within {
+        box-shadow: none;
+      }
+
+      &:hover {
+        background-color: rgba(#3A3A3A, 0.2);
+        border-color: #3A3A3A;
+        color: #3A3A3A;
+      }
+      &.ant-radio-button-wrapper:first-child {
+        border-color: #3A3A3A;
+      }
+    }
+  }
+}
