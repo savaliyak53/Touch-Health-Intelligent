@@ -72,6 +72,7 @@ const Question = ({
       const newArr = radioOptions.filter((item) => item !== index);
       radioOptions = [...newArr];
       removeclass(item);
+      removeclass(item);
     } else {
       radioOptions = [...radioOptions, index];
     }
@@ -137,19 +138,9 @@ const Question = ({
               }}>
               No
             </button>
-            {/* <button
-              type="button"
-              className={styles["skip"]}
-              onClick={async () => {
-                await setValue('false');
-                onSubmit('false');
-              }}
-            >
-              No
-            </button> */}
           </div>
         );
-        case 'select_one':
+      case 'select_one':
         return (
           <Radio.Group
             className="Question-Options"

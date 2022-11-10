@@ -317,6 +317,56 @@ const Preferences = () => {
               {errors.engagementLevel?.message}
             </p>
           </div>
+          {/* <h3 className="Question-title">
+            SMS checkup Engagements
+            <Tooltip placement="bottomRight" title={<span>This will pause all message checkups</span>}>
+                <img
+                  src={`${process.env.PUBLIC_URL}/assets/icons/question-mark.svg`}
+                  className="TooltipIcon"
+                  alt="" />
+            </Tooltip>
+          </h3>
+          <div className="button-group">
+              <Button
+                className="Pref-post-btn btn msg-btn"
+                loading={isLoading}
+                // disabled={!isValid}
+                onClick={handleSubmit(onSubmit)}
+              >
+                Start
+              </Button>
+              <Button
+                className="Cancel-post-btn btn msg-btn"
+                onClick={() => {
+                  navigate('/dashboard');
+                }}
+                disabled={loading}
+              >
+                Pause
+              </Button>
+            </div> */}
+            {/* <div className='Data-Use'>
+              <h3 className="Question-title">
+                Data use
+                <Tooltip placement="bottomRight" title={<span>Lorem text</span>}>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/assets/icons/question-mark.svg`}
+                      className="TooltipIcon"
+                      alt="" />
+                </Tooltip>
+              </h3>
+              <div className="button-group">
+                <Button
+                  className="Cancel-post-btn btn msg-btn"
+                  onClick={() => {
+                    navigate('/dashboard');
+                  }}
+                  disabled={loading}
+                >
+                Delete all my data
+                </Button>
+              </div>
+            </div> */}
           {yob ? (
             <div className={styles["Question"]}>
               <h3 className={styles["Question-title"]}>What is your year of birth?</h3>
@@ -332,13 +382,6 @@ const Preferences = () => {
                 }}
                 render={({ field: { onChange, onBlur, value, name, ref } }) => (
                   <>
-                    <Input
-                      type='text'
-                      defaultValue={username}
-                      value={username}
-                      placeholder="Username"
-                      className='Input'
-                      disabled={true} />
                     <DatePicker
                       disabled={true}
                       picker="year"
