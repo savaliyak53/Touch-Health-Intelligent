@@ -101,7 +101,6 @@ const Question = ({
   }, [question]);
 
   const InputField = useCallback(() => {
-    let selectedLength:any=[];
     switch (question?.type) {
       case 'time':
         return (
