@@ -16,6 +16,7 @@ import { Skeleton } from 'antd';
 function UserCondition() {
   const [question, setQuestion] = useState<Interaction | any>();
   const [value, setValue] = useState<string | undefined>();
+  const [items, setItems] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
   const [refId, setRefId] = useState<string>('');
   const [skeletonLoading, setSkeletonLoading] = useState(true);
@@ -43,13 +44,15 @@ function UserCondition() {
   useEffect(() => {
     getInteraction();
   }, []);
-  const onSubmit = async (state?: string, skip?: boolean) => {
+  const onSubmit= async (state?: string, skip?: boolean) => {
+    setClicked(true);
     if (
+      question.type !== 'select_many' && 
+      question.type !== 'mutli_select' &&
       question.type !== 'yes_no' &&
       question.type !== 'slider' &&
       question.type !== 'select_one' &&
-      !value &&
-      !skip
+      !value
     ) {
       toast.error('Please select a value');
       return;
@@ -61,16 +64,16 @@ function UserCondition() {
       question_response: {
         ref_id: question.ref_id,
         type: question.type,
-        value: skip ? null : value,
+        value: value,
       },
       reward_nugget_response: {
         shared: true,
       },
     };
-    if (question.type === 'slider' && !value && !skip) {
+    if (question.type === 'slider' && !value) {
       payload.question_response.value = '0';
     }
-    if (question.type == 'yes_no' && !skip) {
+    if (question.type == 'yes_no') {
       payload.question_response.value = state;
     }
     setLoading(true);
@@ -97,17 +100,19 @@ function UserCondition() {
       ? setDisableNextButton(true)
       : setDisableNextButton(false);
     setClicked(false);
-  }, [question]);
-
+  }, [question, question?.q_str]);
+  
   return (
     <Layout defaultHeader={true} hamburger={false}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
-
       <div className="Content-wrap Pain">
         {question && (
           <>
             <Question
+              selectedValue={value}
               question={question}
+              items={items}
+              setItems={setItems}
               setValue={setValue}
               onSubmit={onSubmit}
               setDisableNextButton={setDisableNextButton}
@@ -116,22 +121,13 @@ function UserCondition() {
             {question?.type !== 'yes_no' && (
               <div className="Btn-group">
                 <Button
-                  className="Skip"
-                  onClick={() => {
-                    onSubmit('', true);
-                  }}
-                  disabled={loading}
-                >
-                  Skip
-                </Button>
-                <Button
-                  className={isClicked ?`Next active`:`Next`}
-                  onClick={() => {
-                    setClicked(true);
-                    onSubmit();
-                  }}
+                  className={`Next ${isClicked && 'active'}`}
+                   onClick={() => {
+                     setClicked(true);
+                     onSubmit()
+                   }}
                   loading={loading}
-                  disabled={typeof value === 'undefined' || loading}
+                  disabled={question?.type !== 'select_many' && question?.type !=='multi_select' && typeof value === 'undefined' || loading}
                 >
                   Next
                 </Button>

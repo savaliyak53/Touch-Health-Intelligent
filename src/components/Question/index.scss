@@ -367,3 +367,7 @@
   color: black;
 }
 }
+.option-disable {
+  pointer-events: none;
+  cursor: not-allowed;
+}

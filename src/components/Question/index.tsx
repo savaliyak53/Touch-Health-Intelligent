@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { HtmlHTMLAttributes, useCallback, useEffect, useState } from 'react';
 import { DatePicker, Input, Radio, Tooltip } from 'antd';
 import { Slider } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
@@ -10,8 +10,13 @@ import TextArea from 'antd/lib/input/TextArea';
 import { Timepicker } from 'react-timepicker';
 import 'react-timepicker/timepicker.css';
 import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
+import { validateSignUp } from '../../services/authservice';
+import { setDefaultResultOrder } from 'dns';
 
 interface Props {
+  items:any;
+  setItems:any;
+  selectedValue:any;
   question: any;
   onSubmit: any;
   setValue: any;
@@ -19,45 +24,53 @@ interface Props {
 }
 
 const Question = ({
+  selectedValue,
   question,
   setValue,
   onSubmit,
   setDisableNextButton,
+  items,
+  setItems,
 }: Props) => {
+  const labelRef = React.useRef<HTMLLabelElement>(null);
   let radioOptions: string[] = [];
+  if(question && question.type==='select_many'){
+    radioOptions=[...question.defaults]
+  }
   const formatter = (value: number | undefined) => `${value}`;
-  const [sliderMarks, setSliderMarks] = useState({});
-  const [search, setSearch] = useState<string>();
-
+  let defaults:any=[]
+  const removeclass=(item:any)=>{
+    const el = document.querySelector<HTMLLabelElement>(`#label-${item}`);
+    if(el){
+      el.classList.remove('ant-radio-button-wrapper-checked')
+    }
+  }
+  if (question && question.type === 'multi_select') {
+    if(question.defaults){
+      defaults= question.defaults.map(function(key:any) {return question.options[key];});
+    }
+  } 
   const onChange = (value: Array<string>) => {
     let i = 0;
     const indexArray = [];
-    while (value.length > i) {
-      const index = question.options.indexOf(value[i]);
-      indexArray.push(index);
-      i++;
-    }
-    setValue(indexArray);
-  };
-  const onSearch = (value: string) => {
-    setSearch(value);
+      while (value.length > i) {
+        const index = question.options.indexOf(value[i]);
+        indexArray.push(index);
+        i++;
+      }
+      setValue(indexArray);
+      setItems(value);
   };
   const onTimeChange = (hours: any, minutes: any) => {
     setValue(`${hours}:${minutes ? minutes : '00'}:00.648052`);
   };
-  const children: React.ReactNode[] = [];
-  let i = 0;
-  while (question?.options?.length > i) {
-    children.push(
-      <Option key={question?.options[i]}>{question?.options[i]}</Option>
-    );
-    i++;
-  }
+
   const handleClick = (item: string) => {
     const index = question.options.indexOf(item);
     if (radioOptions.includes(index)) {
       const newArr = radioOptions.filter((item) => item !== index);
       radioOptions = [...newArr];
+      removeclass(item);
     } else {
       radioOptions = [...radioOptions, index];
     }
@@ -68,6 +81,7 @@ const Question = ({
     if (radioOptions.includes(index)) {
       return true;
     }
+    // else
     return false;
   };
 
@@ -78,11 +92,15 @@ const Question = ({
       marks[parseInt(question?.lower_value)] = `${question?.lower_qualifier}`;
       marks[parseInt(question?.upper_value)] = `${question?.upper_qualifier}`;
 
-      setSliderMarks(marks);
     }
-  }, []);
+    if (question && question.type === 'multi_select' || question.type === 'select_many'){
+      setValue([...question.defaults]);
+      setItems([...defaults]);
+    }
+  }, [question]);
 
   const InputField = useCallback(() => {
+    let selectedLength:any=[];
     switch (question?.type) {
       case 'time':
         return (
@@ -119,39 +137,6 @@ const Question = ({
               }}>
               No
             </button>
-            {/* <button
-              type="button"
-              className="skip"
-              onClick={async () => {
-                await setValue('false');
-                onSubmit('false');
-              }}
-            >
-              No
-            </button> */}
-          </div>
-        );
-
-      case 'multi_select':
-        return (
-          <div className="Select-Wrap">
-            <SearchOutlined className="search" />
-            <Select
-              mode="multiple"
-              showSearch
-              placeholder="Add a condition"
-              optionFilterProp="children"
-              onChange={onChange}
-              onSearch={onSearch}
-              filterOption={(input, option) =>
-                (option!.children as unknown as string)
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
-            >
-              {children}
-            </Select>
-            <RightOutlined />
           </div>
         );
       case 'select_one':
@@ -159,7 +144,6 @@ const Question = ({
           <Radio.Group
             className="Options"
             onChange={(e) => {
-              console.log('here');
               const index = question.options.indexOf(e.target.value);
               setValue(index);
             }}
@@ -183,6 +167,8 @@ const Question = ({
           <div className="ant-radio-group ant-radio-group-outline Options">
             {question.options.map((item: any, index: number) => (
               <label
+                ref={labelRef}
+                id={`label-${item}`}
                 className={`ant-radio-button-wrapper Option${index} ${
                   isChecked(item) ? 'ant-radio-button-wrapper-checked' : ''
                 } `}
@@ -199,7 +185,7 @@ const Question = ({
                 </span>
                 <span>{item}</span>
               </label>
-            ))}
+          ))}
           </div>
         );
       case 'slider':
@@ -250,27 +236,63 @@ const Question = ({
       default:
         return <h2></h2>;
     }
-  }, [question?.q_str, question?.type, question?.options]);
-
+  }, [question?.q_str, question?.type, question?.options, question?.defaults]);
   return (
     <>
       <div className="Question Question-grp">
+        {question && 
+        <>
         <h3 className="Question-title Question-heading">
-          {question?.q_str}
-          {question?.h_str &&
-              <Tooltip
-                title={question?.h_str}
-                placement="bottomRight"
-                overlayStyle={{marginRight:'10px'}}
-                color="blue"
-                mouseLeaveDelay={0}
+        {question.q_str}
+        {question.h_str &&
+            <Tooltip
+              title={question?.h_str}
+              placement="bottomRight"
+              overlayStyle={{marginRight:'10px'}}
+              color="blue"
+              mouseLeaveDelay={0}
+            >
+          <AiOutlineQuestionCircle size={30} className='question-help'/>  
+        </Tooltip>
+        }
+        </h3>
+      <br />
+        {question.type === 'multi_select'?
+          <div className="Select-Wrap">
+              <SearchOutlined className="search" />
+              <Select
+                value={items}
+                mode="multiple"
+                showSearch
+                placeholder="Add a condition"
+                optionFilterProp="children"
+                onChange={onChange}
+                filterOption={(input, option) =>
+                  (option!.children as unknown as string)
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
               >
-            <AiOutlineQuestionCircle size={30} className='question-help'/>  
-          </Tooltip>
-          }
-          </h3>
-        <br />
-        <InputField />
+                {question?.options.map((item:any, index:any)=>{
+                  return <Option key={question?.options[index]}
+                    value={question?.options[index]}
+                    disabled={selectedValue && 
+                      question?.defaults && question?.defaults?.length>  question.max_num_selections?
+                      true
+                      :
+                      selectedValue && selectedValue.length === question.max_num_selections
+                      ? selectedValue.includes(index)?false:true:false}
+                    >
+                    {item}
+                  </Option>
+                })}       
+              </Select>
+              <RightOutlined />
+          </div>
+          :<InputField />
+        }
+      </>
+      }
       </div>
     </>
   );
