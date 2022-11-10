@@ -188,7 +188,7 @@ const Preferences = () => {
         </div>{' '}
         <form onSubmit={handleSubmit(onSubmit)} className={styles["Preferences-form"]}>
           <div className={styles["Question"]}>
-            {/* <Tooltip
+             {/* <Tooltip
               title="The more time you give your health assistant, the better it gets to know your personal health, and the better it will guide you to optimal health."
               placement="topRight"
               overlayStyle={{ maxWidth: '350px' }}
@@ -207,7 +207,7 @@ const Preferences = () => {
               >
                 To modify your birth year and sex at birth, please contact your health assistant by texting the number you receive your checkups
               </h3>
-            </Tooltip> */}
+            </Tooltip>  */}
               <h3 className={styles["Question-title"]}>
                 To modify your birth year and sex at birth, please contact your health assistant by texting the number you receive your checkups
               </h3>
@@ -317,66 +317,6 @@ const Preferences = () => {
               {errors.engagementLevel?.message}
             </p>
           </div>
-          {/* <h3 className="Question-title">
-          <h3 className={styles["Question-title"]}>
-            SMS checkup Engagements
-            <Tooltip placement="bottomRight" title={<span>This will pause all message checkups</span>}>
-                <img
-                  src={`${process.env.PUBLIC_URL}/assets/icons/question-mark.svg`}
-                  className={styles["TooltipIcon"]}
-                  alt="" />
-            </Tooltip>
-          </h3>
-          <div className={styles["button-group"]}>
-              <Button
-                className={ ` ${styles["Pref-post-btn"]} ${styles["btn"]} ${styles["msg-btn"]} `}
-                // className="Pref-post-btn btn msg-btn"
-                loading={isLoading}
-                // disabled={!isValid}
-                onClick={handleSubmit(onSubmit)}
-              >
-                Start
-              </Button>
-              <Button
-                className={ ` ${styles["Cancel-post-btn"]} ${styles["btn"]} ${styles["msg-btn"]} `}
-                // className="Cancel-post-btn btn msg-btn"
-                onClick={() => {
-                  // setTimeout(() => {navigate('/dashboard');},1000)
-                  navigate('/dashboard');
-                }}
-                disabled={loading}
-              >
-                Pause
-              </Button>
-            </div>
-            <div className={` ${styles['Data-Use']} `}>
-            {/* <div className='Data-Use'> */}
-              <h3 className={styles["Question-title"]}>
-              {/* <h3 className="Question-title"> */}
-                Data use
-                <Tooltip placement="bottomRight" title={<span>Lorem text</span>}>
-                    <img
-                      src={`${process.env.PUBLIC_URL}/assets/icons/question-mark.svg`}
-                      className={styles["TooltipIcon"]}
-                      // className="TooltipIcon"
-                      alt="" />
-                </Tooltip>
-              </h3>
-              <div className={styles["button-group"]}>
-              {/* <div className="button-group"> */}
-                <Button
-                className={ `${styles["Data-use-cancel-btn"]} ${styles["Cancel-post-btn"]}`}
-                // className={styles['Cancel-post-btn']}
-                // className='Cancel-post-btn btn msg-btn'
-                  onClick={() => {
-                    navigate('/dashboard');
-                  }}
-                  disabled={loading}
-                >
-                Delete all my data
-                </Button>
-              </div>
-            </div> */}
           {yob ? (
             <div className={styles["Question"]}>
               <h3 className={styles["Question-title"]}>What is your year of birth?</h3>
