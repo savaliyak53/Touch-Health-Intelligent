@@ -33,6 +33,9 @@ const Question = ({
   items,
   setItems,
 }: Props) => {
+  const [maxNum,setMaxNum]= useState(0);
+  const [defaultLength,setDefaultLength]= useState(0);
+
   const labelRef = React.useRef<HTMLLabelElement>(null);
   let radioOptions: string[] = [];
   if(question && question.type==='select_many'){
@@ -100,7 +103,17 @@ const Question = ({
       setItems([...defaults]);
     }
   }, [question]);
-
+  useEffect(() => {
+    setMaxNum(question.max_num_selections);
+    if(question?.type === 'multi_select'){
+      if(question.defaults && question.defaults.length > question.max_num_selections){
+        setDefaultLength(question.max_num_selections)
+      }
+      else{
+        setDefaultLength(question.defaults.length)
+      }
+    }
+  }, [selectedValue]);
   const InputField = useCallback(() => {
     switch (question?.type) {
       case 'time':
@@ -121,8 +134,15 @@ const Question = ({
       case 'yes_no':
         return (
           <div className={styles["align-center"]}>
+            <button className={styles["no-btn"]} 
+              onClick={async () => {
+                await setValue('false');
+                onSubmit('false');
+              }}>
+              No
+            </button>
             <button
-              className={styles["next"]}
+              className={styles["yes-btn"]}
               type="button"
               onClick={async () => {
                 await setValue('true');
@@ -130,13 +150,6 @@ const Question = ({
               }}
             >
               Yes
-            </button>
-            <button className="submit" 
-              onClick={async () => {
-                await setValue('false');
-                onSubmit('false');
-              }}>
-              No
             </button>
           </div>
         );
@@ -279,8 +292,8 @@ const Question = ({
                   return <Option key={question?.options[index]}
                     value={question?.options[index]}
                     disabled={selectedValue && 
-                      question?.defaults && question?.defaults?.length>  question.max_num_selections?
-                      true
+                      question?.defaults && defaultLength > maxNum?
+                      question.defaults.includes(index)?false:true
                       :
                       selectedValue && selectedValue.length === question.max_num_selections
                       ? selectedValue.includes(index)?false:true:false}
