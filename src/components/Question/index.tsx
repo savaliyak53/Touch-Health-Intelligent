@@ -121,7 +121,7 @@ const Question = ({
       case 'yes_no':
         return (
           <div className={styles["align-center"]}>
-            <button className="submit" 
+            <button className={styles["no-btn"]} 
               onClick={async () => {
                 await setValue('false');
                 onSubmit('false');
@@ -129,7 +129,7 @@ const Question = ({
               No
             </button>
             <button
-              className={styles["next"]}
+              className={styles["yes-btn"]}
               type="button"
               onClick={async () => {
                 await setValue('true');
