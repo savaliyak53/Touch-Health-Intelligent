@@ -108,6 +108,16 @@
   text-align: center;
   margin-top: 40px;
 
+  li {
+    a{
+      background-color: #3A3A3A;
+      color: #fff;
+      border-color: #3A3A3A;
+      opacity: 1;
+      display: block;
+    }
+  }
+
   &:hover,
   &:active,
   &:focus {
@@ -135,6 +145,21 @@
         margin-left: 36px;
         margin-top: 50px;
       }
+      .Signout {
+        &:hover,
+        &:active,
+        &:focus {
+            a{
+              background-color: #3A3A3A;
+              color: #fff;
+              border-color: #3A3A3A;  
+              opacity: 1;            
+              display: block;
+            }
+        }
+      }
+
+      
       li {
         a,
         .ant-btn {
