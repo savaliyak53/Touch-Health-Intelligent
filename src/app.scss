@@ -114,9 +114,14 @@ input {
       margin-right: 4px;
       margin-left: 4px;
 
-      &:hover,
+      &:hover, 
       &:focus,
       &:active {
+        background-color: #3A3A3A;
+        color:  #fff;
+        border-color: #3A3A3A;
+      }
+      &.active {
         background-color: #3A3A3A;
         color:  #fff;
         border-color: #3A3A3A;
