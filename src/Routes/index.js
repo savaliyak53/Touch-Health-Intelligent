@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import LoadingLayout from '../layouts/loading-layout/LoadingLayout';
+import LoadingLayout from '../layouts/Loading-Layout/LoadingLayout';
 import { SignUp, Login } from './Lazycontainers';
 import Preferences from '../containers/Preferences';
 import ROUTES from './Constants';
@@ -13,8 +13,6 @@ import Insights from '../containers/Insights';
 import Timeline from '../containers/Timeline/index';
 import ManageConditions from '../containers/Conditions';
 import Diamond from '../components/diamond';
-import PostPreferences from '../containers/PostPrefernces';
-import ManageConcerns from '../containers/Concerns';
 import Subscription from '../containers/Subscription/Subscription';
 import SecurityQuestion from '../containers/SecurityQuestion';
 import ResetPassword from '../containers/Auth/ResetPassword';
@@ -66,7 +64,6 @@ const AppRoutes = () => {
           <Route path="/preferences" element={<Preferences />} />
           <Route path="/introvideo" element={<IntroVideo />} />
           <Route path="/subscription" element={<Subscription />} />
-          <Route path="/post-preferences" element={<PostPreferences />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
           {/* <Route path="/post-concerns" element={<ManageConcerns />} /> */}
           <Route path="/help-and-support" element={<HelpAndSupport />} />
