@@ -25,7 +25,7 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
           width={35}
         />
         <div className={styles["Toggler-btn"]} onClick={() => setBurgerMenu(!BurgerMenu)}>
-          <Button className={hamburger ? 'd-block' : 'd-none'}>
+        <Button className={`${hamburger ? styles['d-block'] : styles['d-none']}`}>
             <img
               src={`${process.env.PUBLIC_URL}/assets/mobileassets/nav.svg`}
               alt="Touch Logo"
