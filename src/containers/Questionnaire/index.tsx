@@ -118,7 +118,7 @@ function UserCondition() {
               setDisableNextButton={setDisableNextButton}
             />
             {question?.type !== 'yes_no' && (
-              <div className="Btn-group Subscribe">
+              <div className="Btn-group">
                 <Button
                   className={`Next ${isClicked && 'active'}`}
                    onClick={() => {
