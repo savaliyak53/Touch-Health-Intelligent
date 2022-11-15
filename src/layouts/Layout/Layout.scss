@@ -55,11 +55,8 @@
             &.bg {
                 background-size: 100% 45%;
 
-                @media (min-height:710px) and (max-height:820px) {
-                    background-size: 100% 50%;
-                }
                 @media screen and (min-height:821px) {
-                    background-size: 100% 55%;
+                    background-size: 100% 50%;
                 }
             }
         }
