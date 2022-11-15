@@ -28,7 +28,7 @@ type User = {
   id: string;
 };
 
-const Login = () => {
+const Login = ( saveData:any ) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
@@ -51,6 +51,7 @@ const Login = () => {
     return user.id;
   };
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+    saveData(data)
     setIsLoading(true);
     setIsDisabled(true);
     const loginRequest: ILogin = {
@@ -79,8 +80,9 @@ const Login = () => {
 
   return (
     <Layout defaultHeader={false} hamburger={false} signupLogin="Login-bg">
+  
       <div className={styles["Auth-wrap"]}>
-        <form onSubmit={handleSubmit(onSubmit)} className={` ${styles["Auth-form"]} ${Authstyles["Auth-form"]} `}>
+        <form role="login-form" onSubmit={handleSubmit(onSubmit)} className={` ${styles["Auth-form"]} ${Authstyles["Auth-form"]} `}>
         <h2 className={`${styles["Auth-title"]} ${Authstyles["Auth-title"]}`}>Find your path to health</h2>
 
           <CountryCode
@@ -112,6 +114,7 @@ const Login = () => {
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
             disabled={isDisabled}
+            data-testid="button"
           >
             Login
           </Button>
@@ -135,7 +138,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </Layout>
+      </Layout>
   );
 };
 
