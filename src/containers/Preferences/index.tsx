@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Slider, Tooltip, Input } from 'antd';
+import { Slider, Tooltip, Input, Spin } from 'antd';
 // import './index.scss';
 import styles from './Preferences.module.scss'
 import { CloudDownloadOutlined } from '@ant-design/icons';
@@ -44,6 +44,8 @@ const Preferences = () => {
   const [sex, setSex] = useState<any>('');
   const [username, setName] = useState<any>('');
   const [engagement, setEngagement] = useState<number>();
+  const [spinning, setSpinning] = useState<boolean>(true);
+
 
   const {
     handleSubmit,
@@ -111,9 +113,11 @@ const Preferences = () => {
           });
           setloading(false);
         }
+        setSpinning(false)
       })
       .catch((error) => {
         toast('Unknown error');
+        setSpinning(false)
       });
   };
 
@@ -147,6 +151,7 @@ const Preferences = () => {
     });
 
     const userId = localStorage.getItem('userId');
+    setSpinning(true);
     setloading(true);
     getUserInfo(userId);
   }, []);
@@ -158,132 +163,89 @@ const Preferences = () => {
       defaultHeader={true}
       hamburger={isEmpty(preferences) ? false : true}
     >
-      <div className={`Content-wrap ${styles['Pref']}`}>
-        <h2 className={styles["Pref-title"]}>Preferences</h2>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'start',
-            marginBottom: '10px',
-          }}
+    <Spin spinning={spinning}>
+    <div className={`Content-wrap ${styles['Pref']}`}>
+      <h2 className={styles["Pref-title"]}>Preferences</h2>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'start',
+          marginBottom: '10px',
+        }}
+      >
+        <button
+          style={{ border: 'none', background: 'none', display: 'none' }}
+          id="installApp"
         >
-          <button
-            style={{ border: 'none', background: 'none', display: 'none' }}
-            id="installApp"
+            <h5 style={{ float: 'left', cursor: 'pointer'}}>You can also install this app</h5>
+          &nbsp;
+          <CloudDownloadOutlined
+            className="Download-icon"
+            style={{
+              color: '#3a4a7e',
+              float: 'right',
+              fontSize: '20px',
+              marginLeft: '3px',
+              cursor: 'pointer'
+            }}
+          />
+        </button>
+      </div>{' '}
+      <form onSubmit={handleSubmit(onSubmit)} className={styles["Preferences-form"]}>
+        <div className={styles["Question"]}>
+            {/* <Tooltip
+            title="The more time you give your health assistant, the better it gets to know your personal health, and the better it will guide you to optimal health."
+            placement="topRight"
+            overlayStyle={{ maxWidth: '350px' }}
+            color="blue"
+            visible={showTooltip}
+            mouseLeaveDelay={0}
           >
-              <h5 style={{ float: 'left', cursor: 'pointer'}}>You can also install this app</h5>
-            &nbsp;
-            <CloudDownloadOutlined
-              className="Download-icon"
-              style={{
-                color: '#3a4a7e',
-                float: 'right',
-                fontSize: '20px',
-                marginLeft: '3px',
-                cursor: 'pointer'
+            <h3
+              className="Question-title"
+              onMouseEnter={() => {
+                setShowTooltip(true);
               }}
-            />
-          </button>
-        </div>{' '}
-        <form onSubmit={handleSubmit(onSubmit)} className={styles["Preferences-form"]}>
-          <div className={styles["Question"]}>
-             {/* <Tooltip
-              title="The more time you give your health assistant, the better it gets to know your personal health, and the better it will guide you to optimal health."
-              placement="topRight"
-              overlayStyle={{ maxWidth: '350px' }}
-              color="blue"
-              visible={showTooltip}
-              mouseLeaveDelay={0}
+              onMouseLeave={() => {
+                setShowTooltip(false);
+              }}
             >
-              <h3
-                className="Question-title"
-                onMouseEnter={() => {
-                  setShowTooltip(true);
-                }}
-                onMouseLeave={() => {
-                  setShowTooltip(false);
-                }}
-              >
-                To modify your birth year and sex at birth, please contact your health assistant by texting the number you receive your checkups
-              </h3>
-            </Tooltip>  */}
-              <h3 className={styles["Question-title"]}>
-                To modify your birth year and sex at birth, please contact your health assistant by texting the number you receive your checkups
-              </h3>
-              <h3 className={styles["Question-title"]}>
-                How much time do you have for check-ins each week?
-              </h3>
-            {/* <h5>
-              Tip 1: More engagement early on reduces the time it takes to
-              discover your health pathways. We recommend starting high, and
-              once your health pathways are detected adjust to lower values to
-              suit you.
-            </h5>
-            <h5>
-              Tip 2: By enabling integrations with your smart wearables, your AI
-              health assistant gets to know you faster and requires less
-              communication with you.
-            </h5> */}
+              To modify your birth year and sex at birth, please contact your health assistant by texting the number you receive your checkups
+            </h3>
+          </Tooltip>  */}
+            <h3 className={styles["Question-title"]}>
+              To modify your birth year and sex at birth, please contact your health assistant by texting the number you receive your checkups
+            </h3>
+            <h3 className={styles["Question-title"]}>
+              How much time do you have for check-ins each week?
+            </h3>
+          {/* <h5>
+            Tip 1: More engagement early on reduces the time it takes to
+            discover your health pathways. We recommend starting high, and
+            once your health pathways are detected adjust to lower values to
+            suit you.
+          </h5>
+          <h5>
+            Tip 2: By enabling integrations with your smart wearables, your AI
+            health assistant gets to know you faster and requires less
+            communication with you.
+          </h5> */}
 
-            <br />
+          <br />
 
-            {engagement ? (
-              <Controller
-                control={control}
-                name="engagementLevel"
-                rules={{
-                  required: 'Please Select a check-in value',
-                }}
-                defaultValue={engagement && engagement}
-                render={({ field: { onChange, value } }) => (
-                  <>
-                    <Slider
-                        className="Pref-slider"
-                        id="engagementLevel"
-                        value={value}
-                        min={0}
-                        max={1}
-                        step={0.01}
-                        onChange={onChange}
-                        tooltipVisible={false}
-                      />
-
-
-                    <div className={styles["Slider-range"]}>
-                    {/* <div className="Slider-range"> */}
-                      <div className="flex-container">
-                        {/* <span>Very little</span> <br />
-                        <span> (Low accuracy and minimal navigation)</span> */}
-                        <span>3 min</span>
-                      </div>
-                      <div className="flex-container">
-                        {/* <span>Medium</span> <br />
-                        <span> (Adaptive and able to navigate)</span> */}
-                        <span>10 min</span>
-                      </div>
-                      <div className="flex-container">
-                        {/* <span>Complete</span> <br />
-                        <span> (High accuracy and reactive navigation)</span> */}
-                        <span>15 min</span>
-                      </div>
-                    </div>
-                  </>
-                )}
-              />
-            ) : (
-              <Controller
-                control={control}
-                name="engagementLevel"
-                rules={{
-                  required: 'Please Select a check-in value',
-                }}
-                defaultValue={0}
-                render={({ field: { onChange, value } }) => (
-                  <>
-                    <Slider
+          {engagement ? (
+            <Controller
+              control={control}
+              name="engagementLevel"
+              rules={{
+                required: 'Please Select a check-in value',
+              }}
+              defaultValue={engagement && engagement}
+              render={({ field: { onChange, value } }) => (
+                <>
+                  <Slider
                       className="Pref-slider"
-                      // className={` ${styles["Pref-slider"]} ${styles['ant-slider']} `}
                       id="engagementLevel"
                       value={value}
                       min={0}
@@ -292,49 +254,114 @@ const Preferences = () => {
                       onChange={onChange}
                       tooltipVisible={false}
                     />
-                    <div className={styles["Slider-range"]}>
-                      <div className="flex-container">
-                        {/* <span>Very little</span> <br />
-                        <span> (Low accuracy and minimal navigation)</span> */}
-                        <span>3 min</span>
-                      </div>
-                      <div className="flex-container">
-                        {/* <span>Medium</span> <br />
-                        <span> (Adaptive and able to navigate)</span> */}
-                        <span>10 min</span>
-                      </div>
-                      <div className="flex-container">
-                        {/* <span>Complete</span> <br />
-                        <span> (High accuracy and reactive navigation)</span> */}
-                        <span>15 min</span>
-                      </div>
+
+
+                  <div className={styles["Slider-range"]}>
+                  {/* <div className="Slider-range"> */}
+                    <div className="flex-container">
+                      {/* <span>Very little</span> <br />
+                      <span> (Low accuracy and minimal navigation)</span> */}
+                      <span>3 min</span>
                     </div>
-                  </>
-                )}
-              />
-            )}
-            <p className={styles["Preferences-form-error"]}>
-              {errors.engagementLevel?.message}
-            </p>
-          </div>
-          {/* <h3 className="Question-title">
-            SMS checkup Engagements
-            <Tooltip placement="bottomRight" title={<span>This will pause all message checkups</span>}>
-                <img
-                  src={`${process.env.PUBLIC_URL}/assets/icons/question-mark.svg`}
-                  className="TooltipIcon"
-                  alt="" />
-            </Tooltip>
-          </h3>
-          <div className="button-group">
-              <Button
-                className="Pref-post-btn btn msg-btn"
-                loading={isLoading}
-                // disabled={!isValid}
-                onClick={handleSubmit(onSubmit)}
-              >
-                Start
-              </Button>
+                    <div className="flex-container">
+                      {/* <span>Medium</span> <br />
+                      <span> (Adaptive and able to navigate)</span> */}
+                      <span>10 min</span>
+                    </div>
+                    <div className="flex-container">
+                      {/* <span>Complete</span> <br />
+                      <span> (High accuracy and reactive navigation)</span> */}
+                      <span>15 min</span>
+                    </div>
+                  </div>
+                </>
+              )}
+            />
+          ) : (
+            <Controller
+              control={control}
+              name="engagementLevel"
+              rules={{
+                required: 'Please Select a check-in value',
+              }}
+              defaultValue={0}
+              render={({ field: { onChange, value } }) => (
+                <>
+                  <Slider
+                    className="Pref-slider"
+                    // className={` ${styles["Pref-slider"]} ${styles['ant-slider']} `}
+                    id="engagementLevel"
+                    value={value}
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    onChange={onChange}
+                    tooltipVisible={false}
+                  />
+                  <div className={styles["Slider-range"]}>
+                    <div className="flex-container">
+                      {/* <span>Very little</span> <br />
+                      <span> (Low accuracy and minimal navigation)</span> */}
+                      <span>3 min</span>
+                    </div>
+                    <div className="flex-container">
+                      {/* <span>Medium</span> <br />
+                      <span> (Adaptive and able to navigate)</span> */}
+                      <span>10 min</span>
+                    </div>
+                    <div className="flex-container">
+                      {/* <span>Complete</span> <br />
+                      <span> (High accuracy and reactive navigation)</span> */}
+                      <span>15 min</span>
+                    </div>
+                  </div>
+                </>
+              )}
+            />
+          )}
+          <p className={styles["Preferences-form-error"]}>
+            {errors.engagementLevel?.message}
+          </p>
+        </div>
+        {/* <h3 className="Question-title">
+          SMS checkup Engagements
+          <Tooltip placement="bottomRight" title={<span>This will pause all message checkups</span>}>
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/icons/question-mark.svg`}
+                className="TooltipIcon"
+                alt="" />
+          </Tooltip>
+        </h3>
+        <div className="button-group">
+            <Button
+              className="Pref-post-btn btn msg-btn"
+              loading={isLoading}
+              // disabled={!isValid}
+              onClick={handleSubmit(onSubmit)}
+            >
+              Start
+            </Button>
+            <Button
+              className="Cancel-post-btn btn msg-btn"
+              onClick={() => {
+                navigate('/dashboard');
+              }}
+              disabled={loading}
+            >
+              Pause
+            </Button>
+          </div> */}
+          {/* <div className='Data-Use'>
+            <h3 className="Question-title">
+              Data use
+              <Tooltip placement="bottomRight" title={<span>Lorem text</span>}>
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/icons/question-mark.svg`}
+                    className="TooltipIcon"
+                    alt="" />
+              </Tooltip>
+            </h3>
+            <div className="button-group">
               <Button
                 className="Cancel-post-btn btn msg-btn"
                 onClick={() => {
@@ -342,182 +369,162 @@ const Preferences = () => {
                 }}
                 disabled={loading}
               >
-                Pause
+              Delete all my data
               </Button>
-            </div> */}
-            {/* <div className='Data-Use'>
-              <h3 className="Question-title">
-                Data use
-                <Tooltip placement="bottomRight" title={<span>Lorem text</span>}>
-                    <img
-                      src={`${process.env.PUBLIC_URL}/assets/icons/question-mark.svg`}
-                      className="TooltipIcon"
-                      alt="" />
-                </Tooltip>
-              </h3>
-              <div className="button-group">
-                <Button
-                  className="Cancel-post-btn btn msg-btn"
-                  onClick={() => {
-                    navigate('/dashboard');
-                  }}
-                  disabled={loading}
-                >
-                Delete all my data
-                </Button>
-              </div>
-            </div> */}
-          {yob ? (
-            <div className={styles["Question"]}>
-              <h3 className={styles["Question-title"]}>What is your year of birth?</h3>
-              <Controller
-                control={control}
-                name="yob"
-                defaultValue={yob}
-                rules={{
-                  required: 'Please Select an year',
-                  validate: (value) => {
-                    return value > 2006 ? 'You must older than 16' : true;
-                  },
-                }}
-                render={({ field: { onChange, onBlur, value, name, ref } }) => (
-                  <>
-                    <DatePicker
-                      disabled={true}
-                      picker="year"
-                      format="YYYY"
-                      value={moment(yob, 'YYYY')}
-                      className="Date-Select"
-                    />
-                  </>
-                )}
-              />
-
-              <p className={styles["Preferences-form-error"]}>{errors.yob?.message}</p>
             </div>
-          ) : (
-            <div className={styles["Question"]}>
-              <h3 className={styles["Question-title"]}>What is your year of birth?</h3>
-              <Controller
-                control={control}
-                name="yob"
-                rules={{
-                  required: 'Please Select an year',
-                  validate: (value) => {
-                    return value > 2006 ? 'You must older than 16' : true;
-                  },
-                }}
-                render={({ field: { onChange, onBlur, value, name, ref } }) => (
+          </div> */}
+        {yob ? (
+          <div className={styles["Question"]}>
+            <h3 className={styles["Question-title"]}>What is your year of birth?</h3>
+            <Controller
+              control={control}
+              name="yob"
+              defaultValue={yob}
+              rules={{
+                required: 'Please Select an year',
+                validate: (value) => {
+                  return value > 2006 ? 'You must older than 16' : true;
+                },
+              }}
+              render={({ field: { onChange, onBlur, value, name, ref } }) => (
+                <>
                   <DatePicker
-                    onChange={(selectedValue, selectedValueString) =>
-                      onChange(selectedValueString)
-                    }
+                    disabled={true}
                     picker="year"
                     format="YYYY"
+                    value={moment(yob, 'YYYY')}
                     className="Date-Select"
                   />
-                )}
-              />
+                </>
+              )}
+            />
 
-              <p className={styles["Preferences-form-error"]}>{errors.yob?.message}</p>
-            </div>
-          )}
+            <p className={styles["Preferences-form-error"]}>{errors.yob?.message}</p>
+          </div>
+        ) : (
+          <div className={styles["Question"]}>
+            <h3 className={styles["Question-title"]}>What is your year of birth?</h3>
+            <Controller
+              control={control}
+              name="yob"
+              rules={{
+                required: 'Please Select an year',
+                validate: (value) => {
+                  return value > 2006 ? 'You must older than 16' : true;
+                },
+              }}
+              render={({ field: { onChange, onBlur, value, name, ref } }) => (
+                <DatePicker
+                  onChange={(selectedValue, selectedValueString) =>
+                    onChange(selectedValueString)
+                  }
+                  picker="year"
+                  format="YYYY"
+                  className="Date-Select"
+                />
+              )}
+            />
 
-          {sex ? (
-            <div className={styles["Question"]}>
-              <h3 className={styles["Question-title"]}>
-                Assigned sex at the time of birth
-              </h3>
-              <Controller
-                control={control}
-                name="sex"
-                defaultValue={sex && sex}
-                rules={{ required: 'Please Select one' }}
-                render={({ field: { value } }) => (
+            <p className={styles["Preferences-form-error"]}>{errors.yob?.message}</p>
+          </div>
+        )}
 
-                  <Radio.Group className='Options' value={value}>
-                    <Space>
-                      <Radio.Button value="male" className={styles["radio-input"]}>
-                        Male
-                      </Radio.Button>
-                      <Radio.Button value="female" className={styles["radio-input"]}>
-                        Female
-                      </Radio.Button>
-                      <Radio.Button value="x" className={styles["radio-input"]}>
-                        Prefer not to say
-                      </Radio.Button>
-                    </Space>
-                  </Radio.Group>
-                )}
-              />
+        {sex ? (
+          <div className={styles["Question"]}>
+            <h3 className={styles["Question-title"]}>
+              Assigned sex at the time of birth
+            </h3>
+            <Controller
+              control={control}
+              name="sex"
+              defaultValue={sex && sex}
+              rules={{ required: 'Please Select one' }}
+              render={({ field: { value } }) => (
 
-              <p className={styles["Preferences-form-error"]}>{errors.sex?.message}</p>
-            </div>
-          ) : (
-            <div className={styles["Question"]}>
-              <h3 className={styles["Question-title"]}>
-                Assigned sex at the time of birth
-              </h3>
-              <Controller
-                control={control}
-                name="sex"
-                rules={{ required: 'Please Select one' }}
-                render={({ field: { onChange, value } }) => (
-                  // <Radio.Group className={styles['Options']} value={value} onChange={onChange}>
-                  <Radio.Group className='Options' value={value} onChange={onChange}>
-                    <Space>
-                      <Radio.Button value="male" className={styles["radio-input"]}>
-                        Male
-                      </Radio.Button>
-                      <Radio.Button value="female" className={styles["radio-input"]}>
-                        Female
-                      </Radio.Button>
-                      <Radio.Button value="x" className={styles["radio-input"]}>
-                        Prefer not to say
-                      </Radio.Button>
-                    </Space>
-                  </Radio.Group>
-                )}
-              />
+                <Radio.Group className='Options' value={value}>
+                  <Space>
+                    <Radio.Button value="male" className={styles["radio-input"]}>
+                      Male
+                    </Radio.Button>
+                    <Radio.Button value="female" className={styles["radio-input"]}>
+                      Female
+                    </Radio.Button>
+                    <Radio.Button value="x" className={styles["radio-input"]}>
+                      Prefer not to say
+                    </Radio.Button>
+                  </Space>
+                </Radio.Group>
+              )}
+            />
 
-              <p className={styles["Preferences-form-error"]}>{errors.sex?.message}</p>
-            </div>
-          )}
+            <p className={styles["Preferences-form-error"]}>{errors.sex?.message}</p>
+          </div>
+        ) : (
+          <div className={styles["Question"]}>
+            <h3 className={styles["Question-title"]}>
+              Assigned sex at the time of birth
+            </h3>
+            <Controller
+              control={control}
+              name="sex"
+              rules={{ required: 'Please Select one' }}
+              render={({ field: { onChange, value } }) => (
+                // <Radio.Group className={styles['Options']} value={value} onChange={onChange}>
+                <Radio.Group className='Options' value={value} onChange={onChange}>
+                  <Space>
+                    <Radio.Button value="male" className={styles["radio-input"]}>
+                      Male
+                    </Radio.Button>
+                    <Radio.Button value="female" className={styles["radio-input"]}>
+                      Female
+                    </Radio.Button>
+                    <Radio.Button value="x" className={styles["radio-input"]}>
+                      Prefer not to say
+                    </Radio.Button>
+                  </Space>
+                </Radio.Group>
+              )}
+            />
 
-          {isEmpty(preferences) ? (
+            <p className={styles["Preferences-form-error"]}>{errors.sex?.message}</p>
+          </div>
+        )}
+
+        {isEmpty(preferences) ? (
+          <Button
+            className="Pref-btn btn"
+            loading={isLoading}
+            disabled={!isValid}
+            onClick={handleSubmit(onSubmit)}
+          >
+            Save and Next
+          </Button>
+        ) : (
+          <div className={styles["button-group"]}>
             <Button
-              className="Pref-btn btn"
+              className={` ${styles["Cancel-post-btn"]} `}
+              // className="Cancel-post-btn btn"
+              onClick={() => {
+                navigate('/dashboard');
+              }}
+              disabled={loading}
+            >
+              Cancel
+            </Button>
+            <Button
+              className={` ${styles["Pref-post-btn"]} `}
+              // className="Pref-post-btn btn"
               loading={isLoading}
-              disabled={!isValid}
+              // disabled={!isValid}
               onClick={handleSubmit(onSubmit)}
             >
-              Save and Next
+              Save
             </Button>
-          ) : (
-            <div className={styles["button-group"]}>
-              <Button
-                className={` ${styles["Cancel-post-btn"]} `}
-                // className="Cancel-post-btn btn"
-                onClick={() => {
-                  navigate('/dashboard');
-                }}
-                disabled={loading}
-              >
-                Cancel
-              </Button>
-              <Button
-                className={` ${styles["Pref-post-btn"]} `}
-                // className="Pref-post-btn btn"
-                loading={isLoading}
-                // disabled={!isValid}
-                onClick={handleSubmit(onSubmit)}
-              >
-                Save
-              </Button>
-            </div>
-          )}
-        </form>
-      </div>
+          </div>
+        )}
+      </form>
+    </div>
+    </Spin>
     </Layout>
   );
 };
