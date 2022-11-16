@@ -28,7 +28,7 @@ type User = {
   id: string;
 };
 
-const Login = ( saveData:any ) => {
+const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
@@ -51,7 +51,6 @@ const Login = ( saveData:any ) => {
     return user.id;
   };
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-    saveData(data)
     setIsLoading(true);
     setIsDisabled(true);
     const loginRequest: ILogin = {
