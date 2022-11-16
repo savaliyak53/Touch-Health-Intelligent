@@ -116,7 +116,6 @@ function UserCondition() {
               onSubmit={onSubmit}
               setDisableNextButton={setDisableNextButton}
             />
-            {console.log('value ', value)}
             {question?.type !== 'yes_no' && (
               <div className="Btn-group">
                 <Button

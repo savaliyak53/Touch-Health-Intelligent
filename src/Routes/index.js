@@ -13,6 +13,7 @@ import Insights from '../containers/Insights';
 import Timeline from '../containers/Timeline/index';
 import ManageConditions from '../containers/Conditions';
 import Diamond from '../components/diamond';
+import ManageConcerns from '../containers/Concerns';
 import Subscription from '../containers/Subscription/Subscription';
 import SecurityQuestion from '../containers/SecurityQuestion';
 import ResetPassword from '../containers/Auth/ResetPassword';
