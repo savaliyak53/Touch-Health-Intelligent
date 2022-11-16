@@ -302,7 +302,7 @@ const Question = ({
                   </Option>
                 })}       
               </Select>
-              <RightOutlined />
+              {/* <RightOutlined /> */}
           </div>
           :<InputField />
         }

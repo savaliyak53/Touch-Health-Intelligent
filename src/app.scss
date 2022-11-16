@@ -116,7 +116,7 @@ input {
 
       &.active {
         background-color: #3A3A3A;
-        color: #fff;
+        color:  #fff;
         border-color: #3A3A3A;
       }
       &.disabled {
@@ -282,7 +282,7 @@ input {
         }
       }
       .ant-select-selection-search-input {
-        height: 64px !important;
+        // height: 64px !important;
         padding: 17px 30px 17px 40px !important;
       }
     }
@@ -324,6 +324,7 @@ input {
     }
     .ant-select-selection-item {
       display: block;
+      margin-left: 10px;
     }
   }
 
