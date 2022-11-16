@@ -167,7 +167,7 @@ const Question = ({
                 <Radio.Button
                   className={`Question-Option${index}`}
                   value={item}
-                  key={item}
+                  key={index}
                 >
                   {item}
                 </Radio.Button>
@@ -292,11 +292,15 @@ const Question = ({
                   return <Option key={question?.options[index]}
                     value={question?.options[index]}
                     disabled={selectedValue && 
-                      question?.defaults && defaultLength > maxNum?
+                      question?.defaults && defaultLength > maxNum
+                      ?
                       question.defaults.includes(index)?false:true
                       :
-                      selectedValue && selectedValue.length === question.max_num_selections
-                      ? selectedValue.includes(index)?false:true:false}
+                      selectedValue && selectedValue.length >= question.max_num_selections
+                      ? 
+                      selectedValue.includes(index)?false
+                      :
+                      true:false}
                     >
                     {item}
                   </Option>

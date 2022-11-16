@@ -397,7 +397,7 @@ const Subscription = () => {
               <> Your subscription will be changed. <br/> You will be charged {estimateAmount} plus applicable taxes. Do you agree?
               </>
               :<>
-               {!userPlan?.trialing ? <>Your subscription will be changed on ${userPlan?.renewalDate?dateFormatRenewal(userPlan?.renewalDate):dateFormatRenewal(userPlan?.currentPeriod?.ends)}</>:<>.</>}
+               {!userPlan?.trialing ? <>Your subscription will be changed on ${userPlan?.renewalDate?dateFormatRenewal(userPlan?.renewalDate):dateFormatRenewal(userPlan?.currentPeriod?.ends)}</>:<>{estimateAmount==='$0.00'?'Your subscription will be changed.':'.'}</>}
               </>
               :<>
               <br/><Spin spinning={estimateAmount}/>
