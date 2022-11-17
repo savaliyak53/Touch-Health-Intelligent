@@ -449,7 +449,7 @@ const Preferences = () => {
                     <Radio.Button value="female" className={styles["radio-input"]}>
                       Female
                     </Radio.Button>
-                    <Radio.Button value="x" className={styles["radio-input"]}>
+                    <Radio.Button value="intersex" className={styles["radio-input"]}>
                       Prefer not to say
                     </Radio.Button>
                   </Space>
@@ -478,7 +478,7 @@ const Preferences = () => {
                     <Radio.Button value="female" className={styles["radio-input"]}>
                       Female
                     </Radio.Button>
-                    <Radio.Button value="x" className={styles["radio-input"]}>
+                    <Radio.Button value="intersex" className={styles["radio-input"]}>
                       Prefer not to say
                     </Radio.Button>
                   </Space>
