@@ -37,12 +37,12 @@
         "react-hook-form": "^7.31.3",
         "react-icons": "^4.4.0",
         "react-input-mask": "^3.0.0-alpha.2",
-        
         "react-otp-input": "^2.4.0",
         "react-phone-number-input": "^3.2.7",
         "react-router": "^6.3.0",
         "react-router-dom": "^6.3.0",
         "react-scripts": "^5.0.1",
+        "react-test-renderer": "^18.2.0",
         "react-text-mask": "^5.4.3",
         "react-timepicker": "^2.0.2",
         "react-toastify": "^8.2.0",
