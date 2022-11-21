@@ -26,6 +26,7 @@ const Home = () => {
         }
       })
       .catch((error) => {
+        navigate('/dashboard');
         toast(error.response.data.details.message);
       });
   };
