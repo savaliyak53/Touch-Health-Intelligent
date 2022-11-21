@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import LoadingLayout from '../layouts/Loading-Layout/LoadingLayout';
+import LoadingLayout from '../layouts/Loading-layout/LoadingLayout';
 import { SignUp, Login } from './Lazycontainers';
 import Preferences from '../containers/Preferences';
 import ROUTES from './Constants';
