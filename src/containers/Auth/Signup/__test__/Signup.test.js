@@ -4,9 +4,6 @@ import { BrowserRouter } from 'react-router-dom'
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import Signup from '../Signup'
-import Layout from '../../../../layouts/Layout/Layout'
-import SiteHeader from '../../../../components/SiteHeader/SiteHeader';
-import { act } from 'react-dom/test-utils';
 
 afterEach(cleanup)
 
