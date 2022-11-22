@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -16,6 +16,8 @@ import Authstyles from "../Auth.module.scss"
 import CountryCode from '../Country/CountryCode';
 import { onlyNumbers } from '../../../utils/lib';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
+import Recaptcha from 'react-google-invisible-recaptcha';
+
 type IFormInputs = {
   name: string;
   phone: string;
@@ -32,7 +34,7 @@ const SignUp = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [termsAndConditions, setTermAndConditions] = useState(false);
   const [highlight, setHighlight] = useState(false);
-
+  const refCaptcha = useRef<any>(null)
   const {
     register,
     handleSubmit,
@@ -49,6 +51,11 @@ const SignUp = () => {
   const onSubmit = async (data: any) => {
     setIsLoading(true);
     setIsDisabled(true);
+    if(data){
+      refCaptcha.current.callbacks.execute()
+    } else {
+      refCaptcha.current.callbacks.reset()
+    }
     signUpService({
       phone: onlyNumbers(data.phone),
       name: data.name,
@@ -68,6 +75,11 @@ const SignUp = () => {
         toast('Unknown error');
       });
   };
+
+  const onVerify = () => {
+    console.log(refCaptcha.current.callbacks.getResponse());
+    const token = refCaptcha.current.callbacks.getResponse()
+  }
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
@@ -194,6 +206,10 @@ const SignUp = () => {
           >
             Sign Up
           </Button>
+          <Recaptcha
+            ref={refCaptcha}
+            sitekey="6LfsSycjAAAAACb51JemEI_r8vSka1WLI0iZQ19X"
+            onResolved={onVerify} />
         </form>
         <div className={Authstyles['Links-wrap']}>
           <div className={Authstyles["Auth-terms-signup"]}>
