@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './index.scss';
-import AuthenticationLayout from '../../layouts/authentication-layout/AuthenticationLayout';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import { toast } from 'react-toastify';
