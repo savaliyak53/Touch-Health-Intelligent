@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -16,6 +16,7 @@ import { Tooltip } from 'antd';
 import CountryCode from '../Country/CountryCode';
 import { ILogin } from '../../../interfaces';
 import { onlyNumbers } from '../../../utils/lib';
+import Recaptcha from 'react-google-invisible-recaptcha';
 
 type IFormInputs = {
   username: string;
@@ -32,11 +33,13 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
+  const refCaptcha = useRef<any>(null)
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     reset,
+    getValues,
     control,
     formState: { errors },
   } = useForm<IFormInputs>({
@@ -50,14 +53,20 @@ const Login = () => {
     const user: User = jwt(token);
     return user.id;
   };
-  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     setIsLoading(true);
     setIsDisabled(true);
+    refCaptcha.current.callbacks.execute();
+  };
+
+  const onVerify = async () => {
+    const submitData = getValues()
+    const token = refCaptcha.current.callbacks.getResponse()
     const loginRequest: ILogin = {
-      username: onlyNumbers(data.username),
-      password: data.password,
+      username: onlyNumbers(submitData.username),
+      password: submitData.password,
     };
-    const loginResponse = await loginService(loginRequest);
+    const loginResponse = await loginService(loginRequest, token);
     if (loginResponse?.token) {
       reset();
       setIsDisabled(false);
@@ -71,7 +80,7 @@ const Login = () => {
       setIsLoading(false);
       toast.error(loginResponse?.response?.data?.details);
     }
-  };
+  }
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
@@ -118,6 +127,10 @@ const Login = () => {
             Login
           </Button>
         </form>
+        <Recaptcha
+            ref={refCaptcha}
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY ?? "6LdKGisjAAAAABJNmkJdR40OrfbpIIlIOAvzMiRe"}           
+            onResolved={onVerify} />
         <div className={Authstyles['Links-wrap']}>
           <div className={Authstyles["Auth-terms-signup"]}>
            For customer support, please follow this <a href="https://www.touchmedical.ca/customer-care">link</a>

@@ -24,6 +24,7 @@ type IFormInputs = {
   confirmPhone: string;
   password: string;
   confirmPassword: string;
+  
 };
 
 const SignUp = () => {
@@ -48,19 +49,20 @@ const SignUp = () => {
     shouldFocusError: true,
     shouldUnregister: false,
   });
-  const onSubmit = async (data: any) => {
+  const onSubmit = (data: any) => {
     setIsLoading(true);
     setIsDisabled(true);
-    if(data){
-      refCaptcha.current.callbacks.execute()
-    } else {
-      refCaptcha.current.callbacks.reset()
-    }
+    refCaptcha.current.callbacks.execute();
+  };
+
+  const onVerify = async () => {
+    const submitData = getValues()
+    const token = refCaptcha.current.callbacks.getResponse()
     signUpService({
-      phone: onlyNumbers(data.phone),
-      name: data.name,
-      password: data.password,
-    })
+      phone: onlyNumbers(submitData.phone),
+      name: submitData.name,
+      password: submitData.password,
+    },token)
       .then((response) => {
         if (response?.id) {
           localStorage.setItem('userId', response.id);
@@ -74,11 +76,6 @@ const SignUp = () => {
       .catch((error: any) => {
         toast('Unknown error');
       });
-  };
-
-  const onVerify = () => {
-    console.log(refCaptcha.current.callbacks.getResponse());
-    const token = refCaptcha.current.callbacks.getResponse()
   }
 
   const togglePassword = () => {
@@ -206,11 +203,11 @@ const SignUp = () => {
           >
             Sign Up
           </Button>
-          <Recaptcha
-            ref={refCaptcha}
-            sitekey="6LfsSycjAAAAACb51JemEI_r8vSka1WLI0iZQ19X"
-            onResolved={onVerify} />
         </form>
+        <Recaptcha
+            ref={refCaptcha}
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY ?? "6LdKGisjAAAAABJNmkJdR40OrfbpIIlIOAvzMiRe"}           
+            onResolved={onVerify} />
         <div className={Authstyles['Links-wrap']}>
           <div className={Authstyles["Auth-terms-signup"]}>
           For customer support, please follow this <a href="https://www.touchmedical.ca/customer-care">link</a>

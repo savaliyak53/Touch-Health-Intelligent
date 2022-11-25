@@ -117,7 +117,7 @@ const PasswordRecovery = () => {
       username: onlyNumbers(data.username),
       password: data.confirmPassword,
     };
-    const loginResponse = await loginService(loginRequest);
+    const loginResponse = await loginService(loginRequest,'');
     if (loginResponse?.token) {
       setIsDisabled(false);
       setIsLoading(false);
