@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -16,12 +16,15 @@ import Authstyles from "../Auth.module.scss"
 import CountryCode from '../Country/CountryCode';
 import { onlyNumbers } from '../../../utils/lib';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
+import Recaptcha from 'react-google-invisible-recaptcha';
+
 type IFormInputs = {
   name: string;
   phone: string;
   confirmPhone: string;
   password: string;
   confirmPassword: string;
+  
 };
 
 const SignUp = () => {
@@ -32,7 +35,7 @@ const SignUp = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [termsAndConditions, setTermAndConditions] = useState(false);
   const [highlight, setHighlight] = useState(false);
-
+  const refCaptcha = useRef<any>(null)
   const {
     register,
     handleSubmit,
@@ -46,14 +49,20 @@ const SignUp = () => {
     shouldFocusError: true,
     shouldUnregister: false,
   });
-  const onSubmit = async (data: any) => {
+  const onSubmit = (data: any) => {
     setIsLoading(true);
     setIsDisabled(true);
+    refCaptcha.current.callbacks.execute();
+  };
+
+  const onVerify = async () => {
+    const submitData = getValues()
+    const token = refCaptcha.current.callbacks.getResponse()
     signUpService({
-      phone: onlyNumbers(data.phone),
-      name: data.name,
-      password: data.password,
-    })
+      phone: onlyNumbers(submitData.phone),
+      name: submitData.name,
+      password: submitData.password,
+    },token)
       .then((response) => {
         if (response?.id) {
           localStorage.setItem('userId', response.id);
@@ -67,7 +76,7 @@ const SignUp = () => {
       .catch((error: any) => {
         toast('Unknown error');
       });
-  };
+  }
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
@@ -195,6 +204,10 @@ const SignUp = () => {
             Sign Up
           </Button>
         </form>
+        <Recaptcha
+            ref={refCaptcha}
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+            onResolved={onVerify} />
         <div className={Authstyles['Links-wrap']}>
           <div className={Authstyles["Auth-terms-signup"]}>
           For customer support, please follow this <a href="https://www.touchmedical.ca/customer-care">link</a>
