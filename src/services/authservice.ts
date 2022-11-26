@@ -6,18 +6,18 @@ import {
 } from '../interfaces';
 import APIClient from '../utils/axios';
 
-export const signUpService = async (data: ISignUp) => {
+export const signUpService = async (data: ISignUp, header: string) => {
   try {
-    const res = await APIClient('/users/signup', 'post', data);
+    const res = await APIClient('/users/signup', 'post', data, header);
     if (res) return res.data;
   } catch (err) {
     return err;
   }
 };
 
-export const loginService = async (data: ILogin) => {
+export const loginService = async (data: ILogin, header: string) => {
   try {
-    const res = await APIClient('/auth/login', 'post', data);
+    const res = await APIClient('/auth/login', 'post', data, header);
     if (res) return res.data;
   } catch (err) {
     return err;
