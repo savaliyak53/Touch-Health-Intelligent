@@ -129,7 +129,7 @@ const Login = () => {
         </form>
         <Recaptcha
             ref={refCaptcha}
-            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}           
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
             onResolved={onVerify} />
         <div className={Authstyles['Links-wrap']}>
           <div className={Authstyles["Auth-terms-signup"]}>
