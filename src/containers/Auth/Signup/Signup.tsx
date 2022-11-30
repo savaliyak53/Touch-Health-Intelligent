@@ -31,6 +31,7 @@ const SignUp = () => {
   const navigate = useNavigate();
   const [passwordShown, setPasswordShown] = useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
+  const [checked, setChecked] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [termsAndConditions, setTermAndConditions] = useState(false);
@@ -58,6 +59,7 @@ const SignUp = () => {
   const onVerify = async () => {
     const submitData = getValues()
     const token = refCaptcha.current.callbacks.getResponse()
+    localStorage.setItem('captchaToken', token);
     signUpService({
       phone: onlyNumbers(submitData.phone),
       name: submitData.name,
@@ -66,11 +68,12 @@ const SignUp = () => {
       .then((response) => {
         if (response?.id) {
           localStorage.setItem('userId', response.id);
-          navigate(`/terms-and-conditions`);
+          localStorage.setItem('token', response.token);
+          navigate(`/security`);
         } else {
           setIsDisabled(false);
           setIsLoading(false);
-          toast.error(response?.response?.data?.details?.message);
+          toast.error(response?.response?.data?.details);
         }
       })
       .catch((error: any) => {
@@ -195,11 +198,18 @@ const SignUp = () => {
               <AiOutlineEye />
             </button>
           </div>
+          <Checkbox checked={checked} onChange={()=>setChecked(!checked)}>I agree to the  <Link to="/login">terms and conditions</Link></Checkbox>
+          <Tooltip
+              color="orange"
+              placement="bottom"
+              title={"Please check the terms and conditions checkbox to proceed"}
+              visible={!checked}
+            ></Tooltip>
           <Button
             className="Auth-submit"
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
-            disabled={isDisabled}
+            disabled={isDisabled || !checked}
           >
             Sign Up
           </Button>

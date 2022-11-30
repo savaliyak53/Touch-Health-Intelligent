@@ -14,6 +14,14 @@ export const signUpService = async (data: ISignUp, header: string) => {
     return err;
   }
 };
+export const putSignUp = async (data: any,userId:string) => {
+  try {
+    const res = await APIClient(`/users/signup/${userId}`, 'put', data);
+    if (res) return res.data;
+  } catch (err) {
+    return err;
+  }
+};
 
 export const loginService = async (data: ILogin, header: string) => {
   try {
