@@ -440,51 +440,50 @@ const Preferences = () => {
               defaultValue={sex && sex}
               rules={{ required: 'Please Select one' }}
               render={({ field: { value } }) => (
+                  <Radio.Group className='Options' value={value}>
+                    <Space>
+                      <Radio.Button value="male" className={styles["radio-input"]}>
+                        Male
+                      </Radio.Button>
+                      <Radio.Button value="female" className={styles["radio-input"]}>
+                        Female
+                      </Radio.Button>
+                      <Radio.Button value="intersex" className={styles["radio-input"]}>
+                        Prefer not to say
+                      </Radio.Button>
+                    </Space>
+                  </Radio.Group>
+                )}
+              />
 
-                <Radio.Group className='Options' value={value}>
-                  <Space>
-                    <Radio.Button value="male" className={styles["radio-input"]}>
-                      Male
-                    </Radio.Button>
-                    <Radio.Button value="female" className={styles["radio-input"]}>
-                      Female
-                    </Radio.Button>
-                    <Radio.Button value="intersex" className={styles["radio-input"]}>
-                      Prefer not to say
-                    </Radio.Button>
-                  </Space>
-                </Radio.Group>
-              )}
-            />
-
-            <p className={styles["Preferences-form-error"]}>{errors.sex?.message}</p>
-          </div>
-        ) : (
-          <div className={styles["Question"]}>
-            <h3 className={styles["Question-title"]}>
-              Assigned sex at the time of birth
-            </h3>
-            <Controller
-              control={control}
-              name="sex"
-              rules={{ required: 'Please Select one' }}
-              render={({ field: { onChange, value } }) => (
-                // <Radio.Group className={styles['Options']} value={value} onChange={onChange}>
-                <Radio.Group className='Options' value={value} onChange={onChange}>
-                  <Space>
-                    <Radio.Button value="male" className={styles["radio-input"]}>
-                      Male
-                    </Radio.Button>
-                    <Radio.Button value="female" className={styles["radio-input"]}>
-                      Female
-                    </Radio.Button>
-                    <Radio.Button value="intersex" className={styles["radio-input"]}>
-                      Prefer not to say
-                    </Radio.Button>
-                  </Space>
-                </Radio.Group>
-              )}
-            />
+              <p className={styles["Preferences-form-error"]}>{errors.sex?.message}</p>
+            </div>
+          ) : (
+            <div className={styles["Question"]}>
+              <h3 className={styles["Question-title"]}>
+                Assigned sex at the time of birth
+              </h3>
+              <Controller
+                control={control}
+                name="sex"
+                rules={{ required: 'Please Select one' }}
+                render={({ field: { onChange, value } }) => (
+                  // <Radio.Group className={styles['Options']} value={value} onChange={onChange}>
+                  <Radio.Group className='Options' value={value} onChange={onChange}>
+                    <Space>
+                      <Radio.Button value="male" className={styles["radio-input"]}>
+                        Male
+                      </Radio.Button>
+                      <Radio.Button value="female" className={styles["radio-input"]}>
+                        Female
+                      </Radio.Button>
+                      <Radio.Button value="intersex" className={styles["radio-input"]}>
+                        Prefer not to say
+                      </Radio.Button>
+                    </Space>
+                  </Radio.Group>
+                )}
+              />
 
             <p className={styles["Preferences-form-error"]}>{errors.sex?.message}</p>
           </div>

@@ -39,17 +39,16 @@ const AppRoutes = () => {
       <Routes>
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.signUp} element={<SignUp />} />
+        <Route path="/security" element={<SecurityQuestion />} />
         <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
         <Route path="/password-reset" element={<PasswordRecovery />} />
-
         <Route path="*" element={<Home />} />
         <Route element={<RequireSignup />}>
-          <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />
+          <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />    
           <Route path="/verification-code" element={<Verification />} />
         </Route>
         {/* Protected Routes */}
         <Route element={<RequireAuth />}>
-          <Route path="/security" element={<SecurityQuestion />} />
           <Route path="insights" element={<Insights />} />
           <Route path="/insights/guideline" element={<Timeline />} />
           <Route path="/diamond" element={<Diamond />} />

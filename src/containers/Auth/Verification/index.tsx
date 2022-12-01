@@ -43,8 +43,8 @@ const Verification = () => {
       if (phoneVerificationResponse?.token) {
         setIsVerifying(false);
         toast.success('Verified');
-        localStorage.setItem('token', phoneVerificationResponse.token)
-        navigate('/security');
+        //localStorage.setItem('token', phoneVerificationResponse.token)
+        navigate('/subscription');
       } else if (phoneVerificationResponse?.response?.data) {
         toast.info(phoneVerificationResponse?.response?.data?.details);
         setIsVerifying(false);

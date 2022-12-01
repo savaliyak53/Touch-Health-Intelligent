@@ -17,8 +17,8 @@ const apiClient = (url, method = 'get', data = {}, header='') => {
         config['data'] = data
   }
 
-    const token = localStorage.getItem('token')
-
+  const token = localStorage.getItem('token')
+  
   axios.interceptors.request.use((config) => {
     if (token) {
             config.headers.Authorization = `Bearer ${localStorage.token}`
