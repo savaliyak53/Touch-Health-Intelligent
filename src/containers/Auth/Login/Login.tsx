@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import React, { useRef } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 import Layout from '../../../layouts/Layout/Layout';
-import { loginService } from '../../../services/authservice';
-import jwt from 'jwt-decode';
 // import './index.scss';
-// import '../index.scss';
+import '../index.scss';
+import styles from "./Login.module.scss"
+import Authstyles from "../Auth.module.scss"
+import { Tooltip } from 'antd';
+import CountryCode from '../Country/CountryCode';
 import { ILogin } from '../../../interfaces';
 import { onlyNumbers } from '../../../utils/lib';
 import LoginForm from './LoginForm'
@@ -17,16 +16,11 @@ type IFormInputs = {
   password: string;
 };
 
-type User = {
-  exp: string;
-  iat: string;
-  id: string;
-};
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  const [resetForm, setResetForm] = useState(false)
+  const [passwordShown, setPasswordShown] = useState(false);
   const navigate = useNavigate();
 
 
@@ -43,7 +37,7 @@ const Login = () => {
     };
     const loginResponse = await loginService(loginRequest);
     if (loginResponse?.token) {
-      setResetForm(true);
+      reset();
       setIsDisabled(false);
       setIsLoading(false);
       localStorage.setItem('token', `${loginResponse.token}`);
@@ -57,14 +51,16 @@ const Login = () => {
     }
   };
 
+
   return (
     <Layout defaultHeader={false} hamburger={false} signupLogin="Login-bg">
+      <>
       <LoginForm 
-        resetForm={resetForm}
         onSubmit={onSubmit}
-        isLoading={isLoading}
-        isDisabled={isDisabled}
+        refCaptcha={refCaptcha}
         />
+      </>
+
     </Layout>
   );
 };

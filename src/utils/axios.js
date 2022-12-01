@@ -1,11 +1,14 @@
 import axios from 'axios'
 
-const apiClient = (url, method = 'get', data = {}) => {
+const apiClient = (url, method = 'get', data = {}, header='') => {
     const baseURL = process.env.REACT_APP_API_HOST
   const config = {
     url: url,
     method: method,
     baseURL: baseURL,
+    headers: {
+      'X-Recaptcha-Token': header
+    }
     }
 
   if (method.toLocaleLowerCase === 'get') {
@@ -14,8 +17,8 @@ const apiClient = (url, method = 'get', data = {}) => {
         config['data'] = data
   }
 
-    const token = localStorage.getItem('token')
-
+  const token = localStorage.getItem('token')
+  
   axios.interceptors.request.use((config) => {
     if (token) {
             config.headers.Authorization = `Bearer ${localStorage.token}`

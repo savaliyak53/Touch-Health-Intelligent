@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import { Input, Select, Spin } from 'antd';
 // import './index.scss';
@@ -10,6 +10,8 @@ import {
   getInteractionService,
   getUser,
   preferencesService,
+  putSignUp,
+  requestPhoneOTP,
 } from '../../services/authservice';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -22,24 +24,50 @@ const SecurityQuestions = () => {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const navigate = useNavigate();
+  
   const onChange = (option: any) => {
     setQuestion(option);
   };
+  useEffect(() => {
+    const userId= localStorage.getItem('userId');
+    if (!userId) {
+      navigate('/signup');
+    }
+  }, []);
+  const sendPhoneOTP = async (userId: any) => {
+    //api call to send phone otp
 
-  const handleSave = () => {
+    const phoneRequestResponse = await requestPhoneOTP(userId);
+    if (phoneRequestResponse?.response?.data) {
+      toast.error(phoneRequestResponse?.response?.data.details);   
+      return false;
+    } else {
+      toast.success('Phone verification code sent');
+      return true;
+    }
+  };
+  const handleSave = async () => {
     const userId = localStorage.getItem('userId');
     const securityQuestion = [{ question: question, answer: answer }];
     setLoading(true);
-    preferencesService({ security_questions: securityQuestion }, userId)
-      .then((response) => {
-        toast.success('Security Question saved successfully');
-        // getUserInfo(userId);
-        navigate('/introvideo');
+    if(userId){
+      putSignUp({security_questions: securityQuestion},userId).then(async (response) => {
+        if(response?.id){
+          toast.success('Security Question saved successfully');
+          const userId = localStorage.getItem('userId');
+          if (userId) {
+            const isOtpSent = await sendPhoneOTP(userId);
+            if (isOtpSent) {
+              navigate(`/verification-code`);
+            }
+          }
+        }
       })
       .catch((error) => {
         setLoading(false);
         toast.error('Something went wrong while saving the Question');
       });
+    }
   };
 
   return (
