@@ -198,7 +198,7 @@ const SignUp = () => {
               <AiOutlineEye />
             </button>
           </div>
-          <Checkbox checked={checked} onChange={()=>setChecked(!checked)}>I agree to the  <Link to="/login">terms and conditions</Link></Checkbox>
+          <Checkbox checked={checked} onChange={()=>setChecked(!checked)}>I agree to the  <Link to="/terms-and-conditions">terms and conditions</Link></Checkbox>
           <Tooltip
               color="orange"
               placement="bottom"
