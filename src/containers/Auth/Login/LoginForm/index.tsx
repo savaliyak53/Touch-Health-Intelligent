@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../../../components/Button';
 import InputField from '../../../../components/Input';
 // import './index.scss';
-import '../index.scss';
+// import '../index.scss';
 import styles from "../Login.module.scss"
 import Authstyles from "../../Auth.module.scss"
 import { Tooltip } from 'antd';
 import CountryCode from '../../Country/CountryCode';
+import { loginService } from '../../../../services/authservice';
+import { ILogin } from '../../../../interfaces';
+import jwt from 'jwt-decode';
+import { toast } from 'react-toastify';
+import { onlyNumbers } from '../../../../utils/lib';
+import Recaptcha from 'react-google-invisible-recaptcha';
 
 type LoginFormProps = {
-    resetForm: boolean
     onSubmit: SubmitHandler<IFormInputs>,
-    isLoading: boolean,
-    isDisabled: boolean
+    refCaptcha: any
 }
 
 type IFormInputs = {
@@ -22,12 +27,22 @@ type IFormInputs = {
   password: string;
 };
 
-const LoginForm = ({onSubmit, resetForm, isDisabled, isLoading}: LoginFormProps) => {
+type User = {
+  exp: string;
+  iat: string;
+  id: string;
+};
+
+const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
   const [passwordShown, setPasswordShown] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     reset,
+    getValues,
     control,
     formState: { errors },
   } = useForm<IFormInputs>({
@@ -36,13 +51,40 @@ const LoginForm = ({onSubmit, resetForm, isDisabled, isLoading}: LoginFormProps)
     shouldFocusError: true,
     shouldUnregister: false,
   });
+
+  const getId = (token: string) => {
+    const user: User = jwt(token);
+    return user.id;
+  };
+
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
 
-  useEffect(() => {
-    if(resetForm) {reset()}
-  },[resetForm])
+  const onVerify = async () => {
+    setIsLoading(true);
+    setIsDisabled(true);
+    const submitData = getValues()
+    const token = refCaptcha.current.callbacks.getResponse()
+    const loginRequest: ILogin = {
+      username: onlyNumbers(submitData.username),
+      password: submitData.password,
+    };
+    const loginResponse = await loginService(loginRequest, token);
+    if (loginResponse?.token) {
+      reset()
+      setIsDisabled(false);
+      setIsLoading(false);
+      localStorage.setItem('token', `${loginResponse.token}`);
+      const userId = getId(loginResponse.token);
+      localStorage.setItem('userId', userId);
+      navigate('/');
+    } else {
+      setIsDisabled(false);
+      setIsLoading(false);
+      toast.error(loginResponse?.response?.data?.details);
+    }
+  }
     return (
         <div className={styles["Auth-wrap"]}>
         <form role="login-form" onSubmit={handleSubmit(onSubmit)} className={` ${styles["Auth-form"]} ${Authstyles["Auth-form"]} `}>
@@ -83,6 +125,10 @@ const LoginForm = ({onSubmit, resetForm, isDisabled, isLoading}: LoginFormProps)
             Login
           </Button>
         </form>
+        <Recaptcha
+        ref={refCaptcha}
+        sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+        onResolved={onVerify} />
         <div className={Authstyles['Links-wrap']}>
           <div className={Authstyles["Auth-terms-signup"]}>
            For customer support, please follow this <a href="https://www.touchmedical.ca/customer-care">link</a>

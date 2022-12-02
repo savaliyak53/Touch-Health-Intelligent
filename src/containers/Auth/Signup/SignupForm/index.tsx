@@ -5,13 +5,16 @@ import CountryCode from '../../Country/CountryCode';
 import { Checkbox, Tooltip } from 'antd';
 import { AiOutlineEye } from 'react-icons/ai';
 import Button from '../../../../components/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { signUpService } from '../../../../services/authservice';
+import { onlyNumbers } from '../../../../utils/lib';
+import Recaptcha from 'react-google-invisible-recaptcha';
 
 type SignupFormProps = {
   onSubmit: SubmitHandler<IFormInputs>,
-  isLoading: boolean,
-  isDisabled: boolean
+  refCaptcha: any
 }
 
 type IFormInputs = {
@@ -22,9 +25,13 @@ type IFormInputs = {
   confirmPassword: string;
 };
 
-const SignupForm = ({onSubmit, isDisabled, isLoading}: SignupFormProps) => {
+const SignupForm = ({onSubmit, refCaptcha}: SignupFormProps) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
+  const [checked, setChecked] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -51,6 +58,33 @@ const SignupForm = ({onSubmit, isDisabled, isLoading}: SignupFormProps) => {
       ? true
       : false;
   };
+  const onVerify = async () => {
+    setIsLoading(true);
+    setIsDisabled(true);
+    const submitData = getValues()
+    const token = refCaptcha.current.callbacks.getResponse()
+    localStorage.setItem('captchaToken', token);
+    signUpService({
+      phone: onlyNumbers(submitData.phone),
+      name: submitData.name,
+      password: submitData.password,
+    },token)
+      .then((response) => {
+        console.log(response);
+        if (response?.id) {
+          localStorage.setItem('userId', response.id);
+          localStorage.setItem('token', response.token);
+          navigate(`/security`);
+        } else {
+          setIsDisabled(false);
+          setIsLoading(false);
+          toast.error(response?.response?.data?.details);
+        }
+      })
+      .catch((error: any) => {
+        toast.error('Unknown error');
+      });
+  }
     return (
         <div className={styles["Auth-wrap"]}>
         <form role="signup-form" onSubmit={handleSubmit(onSubmit)} className={styles["Auth-form"]}>
@@ -150,15 +184,26 @@ const SignupForm = ({onSubmit, isDisabled, isLoading}: SignupFormProps) => {
               <AiOutlineEye />
             </button>
           </div>
+          <Checkbox checked={checked} onChange={()=>setChecked(!checked)}>I agree to the  <Link to="/terms-and-conditions">terms and conditions</Link></Checkbox>
+          <Tooltip
+              color="orange"
+              placement="bottom"
+              title={"Please check the terms and conditions checkbox to proceed"}
+              visible={!checked}
+            ></Tooltip>
           <Button
             className={Authstyles["Auth-submit"]}
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
-            disabled={isDisabled}
+            disabled={isDisabled || !checked}
           >
             Sign Up
           </Button>
         </form>
+        <Recaptcha
+            ref={refCaptcha}
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+            onResolved={onVerify} />
         <div className={Authstyles['Links-wrap']}>
           <div className={Authstyles["Auth-terms-signup"]}>
           For customer support, please follow this <a href="https://www.touchmedical.ca/customer-care">link</a>
