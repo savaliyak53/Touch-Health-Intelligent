@@ -41,18 +41,18 @@ function TermsAndCondtions() {
     }
   };
   const onSubmit = async () => {
-    setIsLoading(true);
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      const isOtpSent = await sendPhoneOTP(userId);
-      if (isOtpSent) {
-        navigate(`/verification-code`);
-      }
-    } else {
-      setIsLoading(false);
-      toast.error('Error fetching user data');
+    // setIsLoading(true);
+    // const userId = localStorage.getItem('userId');
+    // if (userId) {
+    //   const isOtpSent = await sendPhoneOTP(userId);
+    //   if (isOtpSent) {
+    //     navigate(`/verification-code`);
+    //   }
+    // } else {
+    //   setIsLoading(false);
+    //   toast.error('Error fetching user data');
       navigate('/signup');
-    }
+    // }
   };
   const onChange = (e: CheckboxChangeEvent) => {
     setTermAndConditions(e.target.checked);
