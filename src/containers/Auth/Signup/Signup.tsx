@@ -29,6 +29,7 @@ const SignUp = () => {
         onSubmit={onSubmit}
         refCaptcha={refCaptcha}
       />
+
     </Layout>
   );
 };

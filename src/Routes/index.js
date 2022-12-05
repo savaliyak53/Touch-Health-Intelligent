@@ -43,8 +43,8 @@ const AppRoutes = () => {
         <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
         <Route path="/password-reset" element={<PasswordRecovery />} />
         <Route path="*" element={<Home />} />
+        <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />    
         <Route element={<RequireSignup />}>
-          <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />    
           <Route path="/verification-code" element={<Verification />} />
         </Route>
         {/* Protected Routes */}
