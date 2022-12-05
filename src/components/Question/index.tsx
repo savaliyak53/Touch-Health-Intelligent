@@ -160,6 +160,7 @@ const Question = ({
             onChange={(e) => {
               const index = question.options.indexOf(e.target.value);
               setValue(index);
+              onSubmit(index);
             }}
           >
             {question.options.map((item: any, index: number) => (

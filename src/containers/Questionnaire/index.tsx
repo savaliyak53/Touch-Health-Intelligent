@@ -116,7 +116,7 @@ function UserCondition() {
               onSubmit={onSubmit}
               setDisableNextButton={setDisableNextButton}
             />
-            {question?.type !== 'yes_no' && (
+            {question?.type !== 'yes_no' && question?.type !== 'select_one' && (
               <div className="Btn-group">
                 <Button
                   className={`Next ${isClicked && 'active'}`}
