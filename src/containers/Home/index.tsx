@@ -36,12 +36,11 @@ const Home = () => {
     if (userId) {
       getUser(userId)
         .then((response) => {
-          if (response.data.security_questions == null) {
-            navigate('/security');
-          } else if (response.data.preferences == null) {
+          getUserSubscription();
+          if (response.data.preferences == null) {
             navigate('/preferences');
           } else {
-            getUserSubscription();
+            getInteraction();
           }
         })
         .catch((error) => {
@@ -54,8 +53,6 @@ const Home = () => {
       .then((response) => {
         if (response.data.status == 'NOT_SUBSCRIBED') {
           navigate('/subscription');
-        } else {
-          getInteraction();
         }
       })
       .catch((error) => {

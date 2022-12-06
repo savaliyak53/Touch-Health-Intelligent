@@ -94,7 +94,7 @@ const Preferences = () => {
       });
   };
   const handleRedirect = () => {
-    navigate(`/conditions`);
+    navigate(`/`);
   };
 
   const getUserInfo = (userId: string | null | undefined) => {
