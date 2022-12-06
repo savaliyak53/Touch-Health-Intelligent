@@ -36,11 +36,7 @@ const Home = () => {
     if (userId) {
       getUser(userId)
         .then((response) => {
-          if (response.data.security_questions == null) {
-            navigate('/security');
-          } else {
-            getUserSubscription();
-          } 
+          getUserSubscription();
           if (response.data.preferences == null) {
             navigate('/preferences');
           } else {
