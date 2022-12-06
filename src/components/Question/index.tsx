@@ -160,6 +160,30 @@ const Question = ({
             onChange={(e) => {
               const index = question.options.indexOf(e.target.value);
               setValue(index);
+            }}
+          >
+            {question.options.map((item: any, index: number) => (
+              <>
+                <Radio.Button
+                  className={`Question-Option${index}`}
+                  value={item}
+                  key={index}
+                >
+                  {item}
+                </Radio.Button>
+                {index % 2 !== 0 && <br />}
+              </>
+            ))}
+          </Radio.Group>
+        );
+      case 'dialog_select_one':
+        return (
+          <Radio.Group
+            className="Question-Options"
+            onChange={(e) => {
+              const index = question.options.indexOf(e.target.value);
+              console.log(index, 'index');
+              setValue(index);
               onSubmit(index);
             }}
           >

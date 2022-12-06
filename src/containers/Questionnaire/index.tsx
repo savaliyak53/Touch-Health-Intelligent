@@ -51,6 +51,7 @@ function UserCondition() {
       question.type !== 'yes_no' &&
       question.type !== 'slider' &&
       question.type !== 'select_one' &&
+      question.type !== 'dialog_select_one' &&
       !value
     ) {
       toast.error('Please select a value');
@@ -73,6 +74,9 @@ function UserCondition() {
       payload.question_response.value = '0';
     }
     if (question.type == 'yes_no') {
+      payload.question_response.value = state;
+    }
+    if (question.type == 'dialog_select_one') {
       payload.question_response.value = state;
     }
     setLoading(true);
@@ -116,7 +120,7 @@ function UserCondition() {
               onSubmit={onSubmit}
               setDisableNextButton={setDisableNextButton}
             />
-            {question?.type !== 'yes_no' && question?.type !== 'select_one' && (
+            {question?.type !== 'yes_no' && question?.type !== 'dialog_select_one' && (
               <div className="Btn-group">
                 <Button
                   className={`Next ${isClicked && 'active'}`}
