@@ -64,6 +64,7 @@ const SignupForm = ({onSubmit, refCaptcha}: SignupFormProps) => {
     const submitData = getValues()
     const token = refCaptcha.current.callbacks.getResponse()
     localStorage.setItem('captchaToken', token);
+    localStorage.setItem('phone', onlyNumbers(submitData.phone))
     signUpService({
       phone: onlyNumbers(submitData.phone),
       name: submitData.name,

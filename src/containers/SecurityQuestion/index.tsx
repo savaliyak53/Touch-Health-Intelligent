@@ -34,19 +34,22 @@ const SecurityQuestions = () => {
       navigate('/signup');
     }
   }, []);
-  const sendPhoneOTP = async (userId: any) => {
+  const sendPhoneOTP = async (phone: any) => {
     //api call to send phone otp
-
-    const phoneRequestResponse = await requestPhoneOTP(userId);
-    if (phoneRequestResponse?.response?.data) {
-      toast.error(phoneRequestResponse?.response?.data.details);   
-      return false;
-    } else {
-      toast.success('Phone verification code sent');
-      return true;
+    const captchaToken= localStorage.getItem('captchaToken');
+    if(captchaToken){
+      const phoneRequestResponse = await requestPhoneOTP(phone, captchaToken);
+      if (phoneRequestResponse?.response?.data) {
+        toast.error(phoneRequestResponse?.response?.data.details);   
+        return false;
+      } else {
+        toast.success('Phone verification code sent');
+        return true;
+      }
     }
   };
   const handleSave = async () => {
+    //const userId = localStorage.getItem('userId');
     const userId = localStorage.getItem('userId');
     const securityQuestion = [{ question: question, answer: answer }];
     setLoading(true);
@@ -54,9 +57,11 @@ const SecurityQuestions = () => {
       putSignUp({security_questions: securityQuestion},userId).then(async (response) => {
         if(response?.id){
           toast.success('Security Question saved successfully');
-          const userId = localStorage.getItem('userId');
-          if (userId) {
-            const isOtpSent = await sendPhoneOTP(userId);
+          //const userId = localStorage.getItem('userId');
+          const phone = localStorage.getItem('phone');
+
+          if (phone) {
+            const isOtpSent = await sendPhoneOTP(phone);
             if (isOtpSent) {
               navigate(`/verification-code`);
             }
