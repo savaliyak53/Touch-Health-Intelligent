@@ -98,7 +98,7 @@ const AddGoals = () => {
                     Next
                 </Button>
             </div>
-            <Modal footer={null} centered open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal footer={null} centered visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <h3 className={styles["Goals-title"]}>
                     Optimal Movment
                 </h3>
