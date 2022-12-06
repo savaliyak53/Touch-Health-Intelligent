@@ -23,6 +23,8 @@ import HelpAndSupport from '../containers/HelpAndSupport';
 import Success from '../containers/Success';
 import Error from '../containers/Error';
 import Home from '../containers/Home';
+import AddGoals from '../containers/Goals/AddGoals';
+import IntroGoals from '../containers/Goals/IntroGoals';
 import PasswordRecovery from '../containers/Auth/PasswordRecovery';
 
 const AppRoutes = () => {
@@ -47,6 +49,8 @@ const AppRoutes = () => {
         <Route element={<RequireSignup />}>
           <Route path="/verification-code" element={<Verification />} />
         </Route>
+          <Route path="/add-goals" element={<AddGoals />} />
+          <Route path="/intro-goals" element={<IntroGoals />} />
         {/* Protected Routes */}
         <Route element={<RequireAuth />}>
           <Route path="insights" element={<Insights />} />
