@@ -41,11 +41,11 @@ export const validateSignUp = async (id: string | undefined) => {
   }
 };
 
-export const requestPhoneOTP = async (id: string | null | undefined) => {
+export const requestPhoneOTP = async (phone: string , token:string) => {
   try {
-    const response = await APIClient(`/auth/verify-phone`, 'post', {
-      user_id:id,
-    });
+    const response = await APIClient(`/auth/phone-verification`, 'post', {
+      phone:phone,
+    },token);
     if (response) return response.data;
   } catch (error) {
     return error;
@@ -90,16 +90,16 @@ export const getUser = (id: string | null | undefined) => {
   return APIClient(`/users/${id}`, 'GET');
 };
 
-export const resetPassword = async (username: string) => {
-  try {
-    const res = await APIClient('/auth/password-recovery', 'post', {
-      username: username,
-    });
-    if (res) return res.data;
-  } catch (err) {
-    return err;
-  }
-};
+// export const resetPassword = async (username: string) => {
+//   try {
+//     const res = await APIClient('/auth/password-recovery', 'post', {
+//       username: username,
+//     });
+//     if (res) return res.data;
+//   } catch (err) {
+//     return err;
+//   }
+// };
 export const postResetPassword = async (data: any) => {
   try {
     const res = await APIClient('/auth/password-recovery', 'put', data);

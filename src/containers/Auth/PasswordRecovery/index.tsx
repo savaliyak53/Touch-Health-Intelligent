@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
   postResetPassword,
-  resetPassword,
+  requestPhoneOTP,
+  // resetPassword,
 } from '../../../services/authservice';
 import { toast } from 'react-toastify';
 import Button from '../../../components/Button';
@@ -23,6 +24,7 @@ import {
 } from '../../../services/authservice';
 import { ILogin } from '../../../interfaces';
 import jwt from 'jwt-decode';
+import Recaptcha from 'react-google-invisible-recaptcha';
 
 type IRecoverFormInputs = {
   username: string;
@@ -53,6 +55,7 @@ const PasswordRecovery = () => {
   const [codeSubmitted, setCodeSubmitted] = useState(false);
   const [enterNumber, setEnterNumber] = useState(true);
   const [changePassword, setChangePassword] = useState(false);
+  const refCaptcha = useRef<any>(null)
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
@@ -161,9 +164,17 @@ const PasswordRecovery = () => {
     }
   };
   const sendCode = () => {
+
+    //usman send recaptcha token here 
+    refCaptcha.current.callbacks.execute();
+
+  };
+  const onVerify = () => {
     setIsLoading(true);
     setIsDisabled(true);
-    resetPassword(onlyNumbers(getValues('username')))
+    const token = refCaptcha.current.callbacks.getResponse()
+    console.log(token);
+    requestPhoneOTP(onlyNumbers(getValues('username')),token)
       .then((response: any) => {
         if (response.code === 'ERR_BAD_REQUEST') {
           toast(response.response.data.details);
@@ -182,13 +193,14 @@ const PasswordRecovery = () => {
         setIsLoading(false);
         setIsDisabled(false);
       });
-  };
+  }
   return (
     <Layout defaultHeader={false} hamburger={false} signupLogin="Reset-bg">
       <div className="Auth-wrap">
-
         {enterNumber && (
         // {codeSubmitted && question && (
+          <>
+         
           <form onSubmit={handleSubmit(sendCode)} className={styles["Auth-form"]}>
             <h2 className={styles["Auth-title"]}>
               Reset Password
@@ -208,6 +220,11 @@ const PasswordRecovery = () => {
               {isCodeSent ? 'Resend Code' : 'Send Code'}
             </Button>
           </form>
+          <Recaptcha
+          ref={refCaptcha}
+          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+          onResolved={onVerify} />
+          </>
         )}
 
         {isCodeSent && (
