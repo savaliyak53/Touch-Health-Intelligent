@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import {
   postResetPassword,
   requestPhoneOTP,
-  resetPassword,
 } from '../../../services/authservice';
 import { toast } from 'react-toastify';
 import Button from '../../../components/Button';
