@@ -3,6 +3,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
   postResetPassword,
+  requestPhoneOTP,
   resetPassword,
 } from '../../../services/authservice';
 import { toast } from 'react-toastify';
@@ -163,7 +164,8 @@ const PasswordRecovery = () => {
   const sendCode = () => {
     setIsLoading(true);
     setIsDisabled(true);
-    resetPassword(onlyNumbers(getValues('username')))
+    //usman send recaptcha token here 
+    requestPhoneOTP(onlyNumbers(getValues('username')))
       .then((response: any) => {
         if (response.code === 'ERR_BAD_REQUEST') {
           toast(response.response.data.details);
