@@ -170,29 +170,29 @@ const PasswordRecovery = () => {
 
   };
   const onVerify = () => {
-    // setIsLoading(true);
-    // setIsDisabled(true);
+    setIsLoading(true);
+    setIsDisabled(true);
     const token = refCaptcha.current.callbacks.getResponse()
     console.log(token);
-    // requestPhoneOTP(onlyNumbers(getValues('username')),token)
-    //   .then((response: any) => {
-    //     if (response.code === 'ERR_BAD_REQUEST') {
-    //       toast(response.response.data.details);
-    //       setIsLoading(false);
-    //       setIsDisabled(false);
-    //     } else {
-    //       setEnterNumber(false);
-    //       setIsCodeSent(true);
-    //       toast.success('Verification Code sent');
-    //       setIsLoading(false);
-    //       setIsDisabled(true);
-    //     }
-    //   })
-    //   .catch((error: any) => {
-    //     toast(error.response);
-    //     setIsLoading(false);
-    //     setIsDisabled(false);
-    //   });
+    requestPhoneOTP(onlyNumbers(getValues('username')),token)
+      .then((response: any) => {
+        if (response.code === 'ERR_BAD_REQUEST') {
+          toast(response.response.data.details);
+          setIsLoading(false);
+          setIsDisabled(false);
+        } else {
+          setEnterNumber(false);
+          setIsCodeSent(true);
+          toast.success('Verification Code sent');
+          setIsLoading(false);
+          setIsDisabled(true);
+        }
+      })
+      .catch((error: any) => {
+        toast(error.response);
+        setIsLoading(false);
+        setIsDisabled(false);
+      });
   }
   return (
     <Layout defaultHeader={false} hamburger={false} signupLogin="Reset-bg">
