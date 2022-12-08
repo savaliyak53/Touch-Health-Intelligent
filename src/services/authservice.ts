@@ -78,7 +78,11 @@ export const getInteractionService = async () => {
   //only return the service like this and resolve the promise where you are calling this actual API
   //TODO(<HamzaIjaz>): Refactor all the API calls like this
   //TODO(<HamzaIjaz>): Create a new service file for interaction services and move this APi there
-  return APIClient(`/interaction/`, 'get');
+  return APIClient(`/ai/interaction`, 'get');
+};
+export const getInteractionServiceByType = async (flow_id:string) => {
+  //interacion service by flow_id
+  return APIClient(`/ai/interaction-flow`, 'POST', {flow_id:flow_id});
 };
 
 export const postInteractionService = async (data: InteractionService) => {

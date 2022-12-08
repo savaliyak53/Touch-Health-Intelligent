@@ -1,9 +1,10 @@
 import React, { HtmlHTMLAttributes, useCallback, useEffect, useState } from 'react';
-import { DatePicker, Input, Radio, Tooltip } from 'antd';
+import { Button, DatePicker, Input, Radio, Tooltip } from 'antd';
 import { Slider } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
 import { RightOutlined, SearchOutlined } from '@ant-design/icons';
 import { Select, Spin } from 'antd';
+import goal_styles from'./IntroGoals.module.scss';
 const { Option } = Select;
 // import './index.scss';
 import styles from './Question.module.scss';
@@ -201,6 +202,19 @@ const Question = ({
             ))}
           </Radio.Group>
         );
+      case 'image_and_text':
+        return (
+          <div className={goal_styles["IntroGoals"]}>
+                <h2 className={goal_styles["Title"]}>
+                    {question.title}
+                </h2>
+                <p className={goal_styles["Description"]}>
+                    {question.sub_title}
+                </p>
+                <img src={question.image} className={goal_styles["Image"]} alt="Image" />
+            </div>
+        );
+      
       case 'select_many':
         return (
           <div className="ant-radio-group ant-radio-group-outline Question-Options">
