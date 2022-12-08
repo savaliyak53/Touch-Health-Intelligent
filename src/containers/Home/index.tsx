@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getInteractionService, getUser } from '../../services/authservice';
+import { getInteractionService, getInteractionServiceByType, getUser } from '../../services/authservice';
 import { getSubscriptionStatus } from '../../services/subscriptionService';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
@@ -16,14 +16,17 @@ const Home = () => {
       navigate('/login');
     }
   }, []);
+  const handleRedirect = (response:any) =>{
+    if (response?.data?.question) {
+      navigate('/questionnaire');
+    } else {
+      navigate('/dashboard');
+    }
+  }
   const getInteraction = () => {
     getInteractionService()
       .then((response) => {
-        if (response?.data?.question) {
-          navigate('/questionnaire');
-        } else {
-          navigate('/dashboard');
-        }
+        handleRedirect(response);
       })
       .catch((error) => {
         navigate('/dashboard');
@@ -39,8 +42,32 @@ const Home = () => {
           getUserSubscription();
           if (response.data.preferences == null) {
             navigate('/preferences');
-          } else {
-            getInteraction();
+          } 
+          else {
+            if(response.data.signup_status==='onboarding'){
+              getInteractionServiceByType('onboarding').then((response:any) => {
+                handleRedirect(response);
+              })
+              .catch((error) => {
+                toast.error(
+                  `Something went wrong. `
+                );
+              });
+            }
+            else if (response.data.signup_status==='goal_characterization'){
+              getInteractionServiceByType('goal_characterization').then((response:any) => {
+                handleRedirect(response);
+              })
+              .catch((error) => {
+                toast.error(
+                  `Something went wrong. `
+                );
+              });
+            }
+            else {
+              getInteraction();
+            }
+           
           }
         })
         .catch((error) => {
