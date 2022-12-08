@@ -87,7 +87,7 @@ export const getInteractionServiceByType = async (flow_id:string) => {
 
 export const postInteractionService = async (data: InteractionService) => {
   //TODO(<HamzaIjaz>): Create a new service file for interaction services and move this APi there
-  return APIClient(`/interaction/`, 'post', data);
+  return APIClient(`/ai/interaction`, 'post', data);
 };
 
 export const getUser = (id: string | null | undefined) => {
