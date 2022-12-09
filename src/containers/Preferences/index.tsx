@@ -6,7 +6,7 @@ import { Slider, Tooltip, Input, Spin } from 'antd';
 import styles from './Preferences.module.scss'
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import Button from '../../components/Button';
-import { preferencesService } from '../../services/authservice';
+import { getInteractionServiceByType, preferencesService } from '../../services/authservice';
 import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
 import { Radio, Space, DatePicker } from 'antd';
@@ -73,6 +73,7 @@ const Preferences = () => {
         engagement_level: data.engagementLevel ?? 0,
         timezone: zoneVal,
       },
+      signup_status:"onboarding",
     };
 
     setIsLoading(true);
@@ -81,7 +82,7 @@ const Preferences = () => {
         setIsLoading(false);
         toast.success('Preferences submitted');
         if (isEmpty(preferences)) {
-          handleRedirect();
+          handleInitialIntake();
         } else {
           navigate('/dashboard');
         }
@@ -93,8 +94,19 @@ const Preferences = () => {
         );
       });
   };
-  const handleRedirect = () => {
-    navigate(`/`);
+  const handleInitialIntake = () => {
+    getInteractionServiceByType('onboarding').then((response:any) => {
+        if (response) {
+          navigate('/questionnaire')
+        } else {
+          navigate('/');
+        }
+      })
+      .catch((error) => {
+        toast.error(
+          `Something went wrong. `
+        );
+      });
   };
 
   const getUserInfo = (userId: string | null | undefined) => {

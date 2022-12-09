@@ -7,9 +7,6 @@ import Button from '../../components/Button';
 import InputField from '../../components/Input';
 import { securityQuestions } from '../../constants';
 import {
-  getInteractionService,
-  getUser,
-  preferencesService,
   putSignUp,
   requestPhoneOTP,
 } from '../../services/authservice';

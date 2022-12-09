@@ -6,7 +6,9 @@ import { toast } from 'react-toastify';
 import Question from '../../components/Question';
 import {
   getInteractionService,
+  getUser,
   postInteractionService,
+  preferencesService,
 } from '../../services/authservice';
 import { Interaction } from '../../interfaces';
 import Layout from '../../layouts/Layout/Layout';
@@ -31,7 +33,52 @@ function UserCondition() {
           setQuestion(response?.data?.question);
           setRefId(response.data.ref_id);
         } else {
-          navigate('/dashboard');
+          const preferenceData={
+            signup_status:"goal-selection"
+          }
+          const userId=localStorage.getItem('userId');
+          getUser(userId)
+          .then((response:any) => {
+            if (response?.data.signup_status==='onboarding') {
+              preferencesService(preferenceData, userId)
+              .then((preferencesResponse) => {
+                if (preferencesResponse) {
+                  navigate('/add-goals')
+                } else {
+                  console.log('navigate to dashboard')
+                }
+              })
+              .catch((error) => {
+                toast.error(
+                  `${error.response?.data?.title} Please check values and try again.`
+                );
+              });
+            }
+            else if (response?.data.signup_status==='goal-selection') {
+              preferencesService(preferenceData, userId)
+              .then((preferencesResponse) => {
+                if (preferencesResponse) {
+                  navigate('/add-goals')
+                } else {
+                  console.log('navigate to dashboard')
+                  //navigate('/dashboard');
+                }
+              })
+              .catch((error) => {
+                toast.error(
+                  `${error.response?.data?.title} Please check values and try again.`
+                );
+              });
+            }
+            else if (response?.data.signup_status==='done') {
+              navigate("/")
+            }
+          })
+          .catch((error) => {
+            toast.error(
+              `${error.response?.data?.title} Please check values and try again.`
+            );
+          });
         }
       })
       .catch((error) => {
@@ -52,6 +99,7 @@ function UserCondition() {
       question.type !== 'slider' &&
       question.type !== 'select_one' &&
       question.type !== 'dialog_select_one' &&
+      question.type !== 'image_and_text' &&
       !value
     ) {
       toast.error('Please select a value');
@@ -79,6 +127,9 @@ function UserCondition() {
     if (question.type == 'dialog_select_one') {
       payload.question_response.value = state;
     }
+    if (question.type == 'image_and_text') {
+      payload.question_response.value = '1';
+    }
     setLoading(true);
     postInteractionService(payload)
       .then(({ data }) => {
@@ -88,7 +139,7 @@ function UserCondition() {
         if (data.question) {
           setQuestion(data.question);
         } else {
-          navigate('/questionnaire-submit');
+          //navigate('/questionnaire-submit');
         }
       })
       .catch(() => {
@@ -129,7 +180,7 @@ function UserCondition() {
                      onSubmit()
                    }}
                   loading={loading}
-                  disabled={question?.type !== 'select_many' && question?.type !=='multi_select' && typeof value === 'undefined' || loading}
+                 disabled={question?.type !== 'select_many' && question?.type !=='multi_select' && question?.type !=='image_and_text' && typeof value === 'undefined' || loading}
                 >
                   Next
                 </Button>

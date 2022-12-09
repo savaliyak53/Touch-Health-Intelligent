@@ -14,7 +14,7 @@ export const checkoutPlan = (planId: string) => {
   return APIClient('/payments/checkout', 'POST', {
     planId: planId,
     cancelURL: '/error',
-    successURL: '/success',
+    successURL: '/preferences',
   });
 };
 
