@@ -54,6 +54,9 @@ const Home = () => {
                 );
               });
             }
+            else if (response.data.signup_status==='goal_selection'){
+              navigate('/add-goals')
+            }
             else if (response.data.signup_status==='goal_characterization'){
               getInteractionServiceByType('goal_characterization').then((response:any) => {
                 handleRedirect(response);

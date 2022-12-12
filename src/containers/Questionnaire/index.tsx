@@ -23,6 +23,8 @@ function UserCondition() {
   const [skeletonLoading, setSkeletonLoading] = useState(true);
   const [isClicked, setClicked] = useState(false);
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
+  const [signupStatus, setSignupStatus] = useState<string | null >();
+
 
   const navigate = useNavigate();
   const getInteraction = () => {
@@ -33,52 +35,7 @@ function UserCondition() {
           setQuestion(response?.data?.question);
           setRefId(response.data.ref_id);
         } else {
-          const preferenceData={
-            signup_status:"goal-selection"
-          }
-          const userId=localStorage.getItem('userId');
-          getUser(userId)
-          .then((response:any) => {
-            if (response?.data.signup_status==='onboarding') {
-              preferencesService(preferenceData, userId)
-              .then((preferencesResponse) => {
-                if (preferencesResponse) {
-                  navigate('/add-goals')
-                } else {
-                  console.log('navigate to dashboard')
-                }
-              })
-              .catch((error) => {
-                toast.error(
-                  `${error.response?.data?.title} Please check values and try again.`
-                );
-              });
-            }
-            else if (response?.data.signup_status==='goal-selection') {
-              preferencesService(preferenceData, userId)
-              .then((preferencesResponse) => {
-                if (preferencesResponse) {
-                  navigate('/add-goals')
-                } else {
-                  console.log('navigate to dashboard')
-                  //navigate('/dashboard');
-                }
-              })
-              .catch((error) => {
-                toast.error(
-                  `${error.response?.data?.title} Please check values and try again.`
-                );
-              });
-            }
-            else if (response?.data.signup_status==='done') {
-              navigate("/")
-            }
-          })
-          .catch((error) => {
-            toast.error(
-              `${error.response?.data?.title} Please check values and try again.`
-            );
-          });
+          handleInteractionRedirect()
         }
       })
       .catch((error) => {
@@ -87,6 +44,60 @@ function UserCondition() {
         setSkeletonLoading(false);
       });
   };
+  const handleInteractionRedirect = () =>{
+    const userId=localStorage.getItem('userId');
+    getUser(userId)
+    .then((response:any) => {
+      if (response?.data.signup_status==='onboarding') {
+        preferencesService({
+          signup_status:"goal-selection"
+        }, userId)
+        .then((preferencesResponse) => {
+          if (preferencesResponse) {
+            navigate('/add-goals')
+          } else {
+            console.log('navigate to dashboard')
+          }
+        })
+        .catch((error) => {
+          toast.error(
+            `${error.response?.data?.title} Please check values and try again.`
+          );
+        });
+      }
+      else if (response?.data.signup_status==='goal-characterization') {
+        preferencesService({
+          signup_status:"done"
+        }, userId)
+        .then((preferencesResponse) => {
+          if (preferencesResponse) {
+            navigate('/')
+          } else {
+            console.log('navigate to dashboard')
+            //navigate('/dashboard');
+          }
+        })
+        .catch((error) => {
+          toast.error(
+            `${error.response?.data?.title} Please check values and try again.`
+          );
+        });
+      } 
+      else if (response?.data.signup_status==='done') {
+        navigate("/")
+      }
+      else{
+        navigate("/")
+      }
+    })
+    .catch((error) => {
+      toast.error(
+        `${error.response?.data?.title} Please check values and try again.`
+      );
+    });
+    console.log('im in else case', signupStatus);
+          
+  }
   useEffect(() => {
     getInteraction();
   }, []);
@@ -139,6 +150,7 @@ function UserCondition() {
         if (data.question) {
           setQuestion(data.question);
         } else {
+          handleInteractionRedirect();
           //navigate('/questionnaire-submit');
         }
       })

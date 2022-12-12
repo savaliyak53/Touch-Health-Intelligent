@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router';
 import { Button, Modal } from 'antd';
 import { getGoals, getGoalsSuggestion, getGoalsSearch, addGoal, deleteGoal } from '../../../services/goalsService'
 import { toast } from 'react-toastify';
+import { getInteractionServiceByType, preferencesService } from '../../../services/authservice';
 
 type ITerms = {
     termsAndConditions: boolean;
@@ -121,7 +122,47 @@ const AddGoals = () => {
             toast.error(error);
         });
     }
-
+    const handleNext = () => {
+    setIsLoading(true)
+    if(goals.length>0){
+        const preferenceData = {
+            signup_status:"goal-characterization",
+        };
+        const userId=localStorage.getItem('userId')
+        if(userId){
+            preferencesService(preferenceData, userId)
+            .then((preferencesResponse:any) => {
+            setIsLoading(false);
+            toast.success('Preferences submitted');
+            if (preferencesResponse) {
+                getInteractionServiceByType('goal_characterization').then((response:any) => {
+                    if (response) {
+                    navigate('/questionnaire')
+                    } else {
+                    navigate('/');
+                    }
+                })
+                .catch((error) => {
+                    toast.error(
+                    `Something went wrong. `
+                    );
+                });
+            } else {
+                toast.error(
+                    `Preference status doesn't exist`
+                );
+                navigate('/dashboard');
+            }
+            })
+            .catch((error) => {
+            setIsLoading(false);
+            toast.error(
+                `${error.response?.data?.title} Please check values and try again.`
+            );
+            });
+        }  
+    }   
+    }
     useEffect(() => {
         getGoalsData();
     }, []);  
@@ -178,7 +219,7 @@ const AddGoals = () => {
                 <Button
                     className={`Pref-btn btn ${'disabled'}`}
                     loading={isLoading}
-                    onClick={() => {navigate('/dashboard')}}
+                    onClick={handleNext}
                 >
                     Next
                 </Button>
