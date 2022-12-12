@@ -53,13 +53,17 @@ const AddGoals = () => {
 
     const getGoalsData = () => {
         getGoals()
-            .then((res) => {
+            .then((res:any) => {
                 setGoals(res.data)
-                // setGoals([])
+                getSuggestedGoals(res.data)
+                if(res.data[0].id){
+                    setIsDisabled(false)
+                }
+
         })
     }
 
-    const getSuggestedGoals = () => {
+    const getSuggestedGoals = (goals:any) => {
         getGoalsSuggestion()
         .then((res:any) => {
             if (res?.data) {
@@ -78,7 +82,7 @@ const AddGoals = () => {
                 if (response?.data) {
                     const result = response.data.filter((item:any) => !goals.some((goal:any) => goal.id === item.id));
                     setOptions(result.map((item: any) => {
-                        return { value: item.name, key: item.id };
+                        return { value: item.name, key: item.id, item };
                     }));
                 }
             })
@@ -94,8 +98,8 @@ const AddGoals = () => {
 
     const handleOptionSelect = (value: string, option: any) => {
         setSearchValue(value)
-        addGoals(option.key);
-        getGoalsData()
+        setSelectedGoal(option.item)
+        setIsModalOpen(true)
     };
 
     const addGoals = (goal: string) => {
@@ -167,15 +171,8 @@ const AddGoals = () => {
     }
     useEffect(() => {
         getGoalsData();
-        getSuggestedGoals();
-    }, [goals]);  
-    useEffect(() => {
-        goals.forEach((element:any) => {
-            if(element.id){
-                setIsDisabled(false)
-            }
-        });
-    }, []); 
+    }, []);  
+
     return (
         <Layout defaultHeader={true} hamburger={true}>
             <div className={styles["AddGoals"]}>
