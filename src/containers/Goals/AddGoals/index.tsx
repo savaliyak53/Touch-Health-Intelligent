@@ -24,6 +24,7 @@ const AddGoals = () => {
     const [selectedGoal, setSelectedGoal] = useState<any>()
     const [searchValue, setSearchValue] = useState('')
     const [options, setOptions] = useState<any>([])
+    const [isDisable, setIsDisabled] = useState(true)
 
     const showModal = (data:any) => {
         setSelectedGoal(data)
@@ -52,12 +53,17 @@ const AddGoals = () => {
 
     const getGoalsData = () => {
         getGoals()
-            .then((res) => {
+            .then((res:any) => {
                 setGoals(res.data)
+                getSuggestedGoals(res.data)
+                if(res.data[0].id){
+                    setIsDisabled(false)
+                }
+
         })
     }
 
-    const getSuggestedGoals = () => {
+    const getSuggestedGoals = (goals:any) => {
         getGoalsSuggestion()
         .then((res:any) => {
             if (res?.data) {
@@ -76,7 +82,7 @@ const AddGoals = () => {
                 if (response?.data) {
                     const result = response.data.filter((item:any) => !goals.some((goal:any) => goal.id === item.id));
                     setOptions(result.map((item: any) => {
-                        return { value: item.name, key: item.id };
+                        return { value: item.name, key: item.id, item };
                     }));
                 }
             })
@@ -92,8 +98,8 @@ const AddGoals = () => {
 
     const handleOptionSelect = (value: string, option: any) => {
         setSearchValue(value)
-        addGoals(option.key);
-        getGoalsData()
+        setSelectedGoal(option.item)
+        setIsModalOpen(true)
     };
 
     const addGoals = (goal: string) => {
@@ -166,9 +172,7 @@ const AddGoals = () => {
     useEffect(() => {
         getGoalsData();
     }, []);  
-    useEffect(() => {
-        getSuggestedGoals();
-    }, [goals]); 
+
     return (
         <Layout defaultHeader={true} hamburger={true}>
             <div className={styles["AddGoals"]}>
@@ -217,9 +221,10 @@ const AddGoals = () => {
                 </div>
 
                 <Button
-                    className={`Pref-btn btn ${'disabled'}`}
+                    className={`Pref-btn btn ${isDisable ? 'disabled' : ''}`}
                     loading={isLoading}
                     onClick={handleNext}
+                    disabled={isDisable}
                 >
                     Next
                 </Button>
@@ -241,7 +246,7 @@ const AddGoals = () => {
                     <Button
                         className="Back-btn btn"
                         loading={isLoading}
-                        onClick={handleSubmit(onSubmit)}
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                     >
                         Take me back
                     </Button>
