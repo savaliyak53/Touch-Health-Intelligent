@@ -183,7 +183,6 @@ const Question = ({
             className="Question-Options"
             onChange={(e) => {
               const index = question.options.indexOf(e.target.value);
-              console.log(index, 'index');
               setValue(index);
               onSubmit(index);
             }}

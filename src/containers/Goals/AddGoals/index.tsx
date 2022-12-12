@@ -47,7 +47,7 @@ const AddGoals = () => {
       });
 
     const onSubmit = async (data:any) => {
-        console.log(data);
+        // console.log(data);
             // navigate('/add-goals');
         };
 
@@ -56,9 +56,8 @@ const AddGoals = () => {
             .then((res:any) => {
                 setGoals(res.data)
                 getSuggestedGoals(res.data)
-                if(res.data[0].id){
-                    setIsDisabled(false)
-                }
+                if(res.data.length > 0) setIsDisabled(false)
+                else setIsDisabled(true)
 
         })
     }
@@ -179,7 +178,7 @@ const AddGoals = () => {
                 <h2 className={styles["Title"]}>
                     Adding Health Goals
                 </h2>
-                <div className={`Select-Wrap Goals-Select`}>
+                <div className={`Goal-Select-Wrap Goals-Select`}>
                     <SearchOutlined className="search" />
                     <AutoComplete
                     onSearch={handleSearch}

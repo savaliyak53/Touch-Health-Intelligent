@@ -94,9 +94,7 @@ function UserCondition() {
       toast.error(
         `${error.response?.data?.title} Please check values and try again.`
       );
-    });
-    console.log('im in else case', signupStatus);
-          
+    });          
   }
   useEffect(() => {
     getInteraction();
