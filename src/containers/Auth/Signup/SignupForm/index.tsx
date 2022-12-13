@@ -36,6 +36,7 @@ const SignupForm = ({onSubmit, refCaptcha}: SignupFormProps) => {
     register,
     handleSubmit,
     getValues,
+    watch,
     control,
     formState: { errors },
   } = useForm<IFormInputs>({
@@ -116,7 +117,7 @@ const SignupForm = ({onSubmit, refCaptcha}: SignupFormProps) => {
             errors={errors.phone}
             control={control}
             fieldName="phone"
-            phone={getValues('phone')}
+            phone={watch('phone')}
           />
           <CountryCode
             errors={errors.confirmPhone}
