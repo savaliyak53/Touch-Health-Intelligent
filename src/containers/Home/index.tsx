@@ -68,7 +68,16 @@ const Home = () => {
               });
             }
             else {
-              getInteraction();
+              console.log('checkup')
+              getInteractionServiceByType('checkup').then((response:any) => {
+                handleRedirect(response);
+              })
+              .catch((error) => {
+                toast.error(
+                  `Something went wrong. `
+                );
+              });
+              //getInteraction();
             }
            
           }
