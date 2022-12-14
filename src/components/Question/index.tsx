@@ -214,6 +214,40 @@ const Question = ({
             </div>
         );
       
+      case 'image_and_text_select_one':
+        return (
+          <div className={goal_styles["IntroGoals"]}>
+                <h2 className={goal_styles["Title"]}>
+                    {question.title}
+                </h2>
+                <p className={goal_styles["Description"]}>
+                    {question.sub_title}
+                </p>
+                <img src={question.image} className={goal_styles["Image"]} alt="Image" />
+                <Radio.Group
+            className="Question-Options"
+            onChange={(e) => {
+              const index = question.options.indexOf(e.target.value);
+              setValue(index);
+              onSubmit(index);
+            }}
+          >
+            {question.options.map((item: any, index: number) => (
+              <>
+                <Radio.Button
+                  className={`Question-Option${index}`}
+                  value={item}
+                  key={index}
+                >
+                  {item}
+                </Radio.Button>
+                {index % 2 !== 0 && <br />}
+              </>
+            ))}
+          </Radio.Group>
+            </div>
+        );
+        
       case 'select_many':
         return (
           <div className="ant-radio-group ant-radio-group-outline Question-Options">

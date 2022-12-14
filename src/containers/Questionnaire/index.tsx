@@ -109,6 +109,7 @@ function UserCondition() {
       question.type !== 'select_one' &&
       question.type !== 'dialog_select_one' &&
       question.type !== 'image_and_text' &&
+      question.type !== 'image_and_text_select_one' &&
       !value
     ) {
       toast.error('Please select a value');
@@ -134,6 +135,9 @@ function UserCondition() {
       payload.question_response.value = state;
     }
     if (question.type == 'dialog_select_one') {
+      payload.question_response.value = state;
+    }
+    if (question.type == 'image_and_text_select_one') {
       payload.question_response.value = state;
     }
     if (question.type == 'image_and_text') {
@@ -181,7 +185,7 @@ function UserCondition() {
               onSubmit={onSubmit}
               setDisableNextButton={setDisableNextButton}
             />
-            {question?.type !== 'yes_no' && question?.type !== 'dialog_select_one' && (
+            {question?.type !== 'yes_no' && question?.type !== 'dialog_select_one' && question?.type !== 'image_and_text_select_one' && (
               <div className="Btn-group">
                 <Button
                   className={`Next ${isClicked && 'active'}`}
