@@ -6,13 +6,12 @@
   justify-content: center;
   width: 95px;
   height: 95px;
-  border: 2px solid transparent;
+  border: 3px solid transparent;
   cursor: pointer;
   position: relative;
   color: rgba(#394a7e, 0.5);
   margin: 10px 20px;
   transform: rotate(45deg);
-  opacity: 0.5;
 
   img {
     height: 30px;
@@ -57,16 +56,12 @@
     }
   }
 
-  &.primary {
-    background-color: #394a7e;
+  &.blue {
+    background-color: transparent;
     border-color: #394a7e;
+    &.show,
     &:hover {
-      background-color: #394a7e;
       border-color: #394a7e;
-    }
-    &.show {
-      background-color: rgba(#394a7e, 0.5);
-      border-color: transparent;
     }
     .btn-inner {
       background-color: #394a7e;
@@ -74,34 +69,35 @@
       &:hover {
         background-color: #394a7e;
         border-color: #394a7e;
+        opacity: 0.8;
       }
       &.show {
         background-color: #394a7e;
         border-color: #394a7e;
-        opacity: 0.5;
+        opacity: 0.8;
       }
     }
   }
 
-  &.secondary {
-    background-color: #cd6052;
-    border-color: #cd6052;
+  &.green {
+    background-color: transparent;
+    border-color: #59AA8E;
+    &.show,
     &:hover {
-      background-color: #cd6052;
-      border-color: #cd6052;
+      border-color: #59AA8E;
     }
-    &.show {
-      background-color: rgba(#cd6052, 0.5);
-      border-color: transparent;
-    }
-
     .btn-inner {
-      background-color: #cd6052;
-      border-color: #cd6052;
+      background-color: #59AA8E;
+      border-color: #59AA8E;
+      &:hover {
+        background-color: #59AA8E;
+        border-color: #59AA8E;
+        opacity: 0.8;
+      }
       &.show {
-        background-color: #cd6052;
-        border-color: #cd6052;
-        opacity: 0.5;
+        background-color: #59AA8E;
+        border-color: #59AA8E;
+        opacity: 0.8;
       }
     }
   }
@@ -110,7 +106,7 @@
   &.disabled:hover,
   &.disabled:active,
   &.disabled:focus {
-    background-color: #e5ebe1;
+    background-color: #e5ebe1 !important;
     border-color: #e5ebe1;
     color: #e5ebe1;
     opacity: 0.3;
@@ -149,14 +145,6 @@
     img {
       height: 15px !important;
       width: 15px !important;
-    }
-
-    &:hover,
-    &:focus,
-    &:active {
-      background-color: #394a7e;
-      border-color: #394a7e;
-      opacity: 0.5;
     }
   }
 }

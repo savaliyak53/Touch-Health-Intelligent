@@ -40,11 +40,11 @@ const Verification = () => {
     if (userId) {
       setIsVerifying(true);
       const phoneVerificationResponse = await verifyPhoneOTP(data.code, userId);
-      if (phoneVerificationResponse?.token) {
+      if (phoneVerificationResponse?.id) {
         setIsVerifying(false);
         toast.success('Verified');
-        localStorage.setItem('token', phoneVerificationResponse.token)
-        navigate('/security');
+        //localStorage.setItem('token', phoneVerificationResponse.token)
+        navigate('/subscription');
       } else if (phoneVerificationResponse?.response?.data) {
         toast.info(phoneVerificationResponse?.response?.data?.details);
         setIsVerifying(false);
@@ -53,17 +53,21 @@ const Verification = () => {
   };
   const sendPhoneOTP = async () => {
     //api call to send phone otp
+    const phone = localStorage.getItem('phone');
+    const captchaToken= localStorage.getItem('captchaToken')
     setIsLoading(true);
-    const phoneRequestResponse = await requestPhoneOTP(userId);
-    if (phoneRequestResponse?.response?.data) {
-      toast.error(phoneRequestResponse?.response?.data.details);
-      setIsLoading(false);
-      return false;
-    } else {
-      setIsLoading(false);
-      toast.success('Phone verification code sent');
-      return true;
-    }
+    if(phone && captchaToken){
+      const phoneRequestResponse = await requestPhoneOTP(phone,captchaToken);
+      if (phoneRequestResponse?.response?.data) {
+        toast.error(phoneRequestResponse?.response?.data.details);
+        setIsLoading(false);
+        return false;
+      } else {
+        setIsLoading(false);
+        toast.success('Phone verification code sent');
+        return true;
+      }
+    } 
   };
   return (
     <Layout defaultHeader={true} hamburger={false}>

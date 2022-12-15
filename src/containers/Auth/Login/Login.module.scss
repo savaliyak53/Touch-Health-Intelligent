@@ -1,0 +1,114 @@
+.Auth-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+  
+  .Auth-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .Auth-title {
+    color: rgba(#272424,0.7);
+    font-size: 30px;
+    line-height: 36px;
+    font-weight: 300;
+    margin-bottom: 32px !important;
+    margin-top: clamp(0px, 7.5vh, 96px);
+  }
+  
+  .Auth-forgot-wrap {
+    width: 100%;
+  }
+  
+  .Auth-forgot {
+    font-size: 20px;
+    line-height: 24px;
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: bold;
+    &:hover {
+      color: #fff;
+      opacity: 0.8;
+    }
+  }
+  
+  input {
+    background-color: transparent !important;
+    &:hover,
+    &:focus,
+    &:active {
+      outline: none;
+      border: none;
+    }
+    &::placeholder {
+      background-color: transparent !important;
+    }
+  }
+  .app-Input {
+    width: 100%;
+    border-radius: 100px;
+    margin-bottom: 14px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    line-height: 24px;
+    border: 2px solid #272424;
+    background-color: rgba(#fff,0.6);
+    color: #272424;
+    font-size: 20px;
+    line-height: 24px;
+  
+    &:hover,
+    &:focus {
+      border: 2px solid #272424;
+      background-color: #e3e3e3;
+      color: #272424;
+    }
+  
+    &::placeholder {
+      color: rgba(#272424, 0.8);
+    }
+  }
+  
+  .input-element-wrapper {
+    width: 100%;
+  }
+  .flag {
+    padding: 0.2rem;
+    position: absolute;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    margin-right: -2.76rem;
+    margin-top: 19px;
+    margin-left: 4px;
+  }
+  .Input-flag {
+    max-width: 15px;
+    height: 14px;
+  }
+  .phone {
+    padding-left: 3rem;
+  }
+  .input-element-wrapper-password {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    &btn {
+      margin-bottom: 4px;
+    }
+  }
+  .btn {
+    margin-bottom: 16px;
+  }
+  

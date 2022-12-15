@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import './index.scss';
+import styles from './Dashboard.module.scss';
 import DashboardButton from '../../components/DashboardButton/DashboardButton';
 import { InsightContext } from '../../contexts/InsightContext';
 import { Spin } from 'antd';
@@ -45,7 +46,7 @@ const Dashboard = () => {
           i++;
         }
         section.push(
-          <div className="btn-group" key={Math.random().toString()}>
+          <div className={styles["btn-group"]} key={Math.random().toString()}>
             <DashboardButton
               image={`${insights[outer][i - 1]?.category?.icon}`}
               disabled={false}
@@ -77,7 +78,7 @@ const Dashboard = () => {
         }
       } else {
         section.push(
-          <div className="btn-group" key={Math.random().toString()}>
+          <div className={styles["btn-group"]} key={Math.random().toString()}>
             <DashboardButton
               image={`${insights[outer][i]?.category?.icon}`}
               disabled={true}
@@ -124,7 +125,7 @@ const Dashboard = () => {
           i++;
         }
         emptysection.push(
-          <div className="btn-group" key="lowerButton">
+          <div className={styles["btn-group"]} key="lowerButton">
           <DashboardButton
             key="lowerButton1"
             image=""
@@ -147,7 +148,7 @@ const Dashboard = () => {
         }
       } else {
         emptysection.push(
-          <div className="btn-group" key="lowerButton">
+          <div className={styles["btn-group"]} key="lowerButton">
           <DashboardButton
             key="lowerButton1"
             image=""
@@ -199,10 +200,9 @@ const Dashboard = () => {
   return (
     <>
       <Layout defaultHeader={true} hamburger={true} dashboard={true}>
-        <div className="Db-wrap">
-          
+        <div className={styles["Db-wrap"]}>
             <div className="dsgbtn-group">
-              <div className="btn-group" key="extraUpperButton">
+              <div className={styles["btn-group"]} key="extraUpperButton">
                 <DashboardButton
                   key="extraUpperButton1"
                   image=""
@@ -220,7 +220,7 @@ const Dashboard = () => {
               </div>
               {context && context.insights!==undefined && context?.insights?.insights?.length !== 0 && context?.insights?.insights?.length !== undefined ? Dashboard():EmptyDashboard()}
               {rowNumber % 2 == 0 ? (
-                <div className="btn-group" key="extraLowerButton">
+                <div className={styles["btn-group"]} key="extraLowerButton">
                   <DashboardButton
                     key="extraLowerButton1"
                     image=""
@@ -237,7 +237,7 @@ const Dashboard = () => {
                   />
                 </div>
               ) : (
-                <div className="btn-group" key="lowerButton">
+                <div className={styles["btn-group"]} key="lowerButton">
                   <DashboardButton
                     key="lowerButton1"
                     image=""

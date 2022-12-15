@@ -1,0 +1,17 @@
+.intro-video {
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .video-iframe {
+      width: 100%;
+    }
+    .video {
+      max-width: '100%';
+      min-width: '450px';
+      min-height: '300px';
+      padding: '16px';
+    }
+  }
+  

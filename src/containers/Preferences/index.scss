@@ -71,7 +71,7 @@
 .radio-input {
     font-size: 22px !important;
     line-height: 27px !important;
-    font-weight: 500 !important;
+    font-weight: 300 !important;
     color: #272424 !important;
     font-family: "Barlow", sans-serif !important;
     border-radius: 0;
@@ -117,29 +117,29 @@ ul.no-bullets li {
 //Preferences.scss
 
 .Pref-title {
-    font-size: 26px;
+    font-size: 35px;
     line-height: 36px;
-    font-weight: 700;
+    font-weight: 300;
     color: #272424;
-  // margin-top: clamp(0px, 7.5vh, 96px);
-  // margin-bottom: clamp(0px, 7.5vh, 36px);
-}
+    // margin-top: clamp(0px, 7.5vh, 96px);
+    // margin-bottom: clamp(0px, 7.5vh, 36px);
+  }
 
-.Pref {
+  .Pref {
     .Question {
-        margin-bottom: clamp(0px, 8vh, 60px);
+      margin-bottom: 10px;
     }
-
-    .Question-title {
-        margin-bottom: 24px;
-    }
-}
+  }
 .Question {
     margin-bottom: clamp(0px, 8vh, 60px);
 }
 
 .Question-title {
     margin-bottom: 24px;
+    .TooltipIcon {
+        max-width: 24px;
+        margin-left: 10px;
+    }
 }
 .Pref-slider.ant-slider {
     margin: 4px 0 14px;

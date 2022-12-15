@@ -86,7 +86,8 @@ const Insights = () => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        display: false,
+        position: 'left',
         align: 'start',
         labels: {
           usePointStyle: true,
@@ -168,8 +169,8 @@ const Insights = () => {
             label: 'Historical',
             data: historicalArray,
             fill: false,
-            borderColor: '#3A4A7E',
-            backgroundColor: '#3A4A7E',
+            borderColor: '#000000',
+            backgroundColor: '#000000',
             lineTension: 0.4,
             min: 0,
             max: 1,
@@ -181,9 +182,9 @@ const Insights = () => {
             lineTension: 0.4,
             min: 0,
             max: 1,
-            backgroundColor: '#FF0000',
+            backgroundColor: '#CD6052',
             segment: {
-              borderColor: '#FF0000',
+              borderColor: '#CD6052',
             },
           },
         ],

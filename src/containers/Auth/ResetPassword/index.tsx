@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import {
   postResetPassword,
-  resetPassword,
+  requestPhoneOTP,
 } from '../../../services/authservice';
 import { toast } from 'react-toastify';
 import Button from '../../../components/Button';
@@ -83,7 +83,9 @@ const ResetPassword = () => {
   const sendCode = () => {
     setIsLoading(true);
     setIsDisabled(true);
-    resetPassword(onlyNumbers(getValues('username')))
+    const captchaToken= localStorage.getItem('captchaToken');
+    if(captchaToken){
+      requestPhoneOTP(onlyNumbers(getValues('username')),captchaToken)
       .then((response: any) => {
         if (response && response.security_questions) {
           setIsCodeSent(true);
@@ -104,6 +106,8 @@ const ResetPassword = () => {
         setIsLoading(false);
         setIsDisabled(false);
       });
+    }
+    
   };
   return (
     <Layout defaultHeader={false} hamburger={false}>
