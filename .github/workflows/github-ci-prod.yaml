@@ -60,6 +60,10 @@ jobs:
         run: yarn build
         env:
           CI: false
+      - name: Clone Touch Configs Repo to get env for prod
+        run: git clone https://github.com/Touch-Physio/Touch-Configs.git
+      - name: Copy envs from Configs to Prod
+        run: cp ~/Touch-Configs/aws-env/tha-prod-min/volumes-dedicated/prod-front-tha/.env ./build/.env
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
