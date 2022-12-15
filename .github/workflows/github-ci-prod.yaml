@@ -37,7 +37,7 @@ jobs:
             host: github.com
             private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Clone Touch Configs Repo to get env for prod
-        run: git clone git@github.com:Touch-Physio/touch-health-assistant.git
+        run: git clone git@github.com:Touch-Physio/Touch-Configs.git
       ### TESTING SSH ends
       - uses: haya14busa/action-cond@v1
         id: base_branch_tagging
