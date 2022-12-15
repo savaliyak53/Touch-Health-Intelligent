@@ -27,6 +27,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16.14.2'
+      ###Copy env from Touch Configs Repo
+      - name: Setup SSH
+        uses: MrSquaare/ssh-setup-action@v1
+        with:
+            host: github.com
+            private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Clone Touch Configs Repo to get env for prod
+        run: git clone git@github.com:Touch-Physio/Touch-Configs.git && ls -la && pwd
       - name: Use branch name
         uses: nelonoel/branch-name@v1.0.1
         # Prepare
