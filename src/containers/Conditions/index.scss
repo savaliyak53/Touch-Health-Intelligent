@@ -1,17 +1,28 @@
 .Con-title {
-    font-size: 26px;
+    font-size: 35px;
     line-height: 36px;
-    font-weight: 700;
-    color: #272424;
-    margin-top: clamp(0px, 7.5vh, 24px);
+    font-weight: 300;
+    color: rgba(#272424,0.7);
+    margin-top: 45px;
 }
 
 .Con-Description {
     margin-bottom: 0;
-    font-size: 20px;
-    line-height: 24px;
-    color: #282f28;
-    margin-bottom: clamp(0px, 7.5vh, 22px);
+    font-size: 25px;
+    line-height: 27px;
+    font-weight: 300;
+    color: rgba(#272424,0.7);
+    margin-bottom: 50px;
+
+}
+
+@media (max-height: 670px) {
+    .Con-title {
+        margin-top: 20px;
+    }
+    .Con-Description {
+        margin-bottom: 20px;
+    }
 }
 
 .Con {
@@ -46,8 +57,10 @@
     }
 
     .Switch-wrap {
+        margin-top: 30px;
+
         .Title {
-            color: #616c61;
+            color: rgba(#272424,0.7);
             font-size: 20px;
             line-height: 24px;
             font-weight: 400;

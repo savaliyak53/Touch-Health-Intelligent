@@ -4,6 +4,65 @@
     height: auto;
     position: relative;
     min-height: 100vh;
+
+    &.login-bg,
+    &.Login-bg,
+    &.reset-bg,
+    &.Reset-bg,
+    &.signup-bg,
+    &.Signup-bg {
+        .Navigation {
+            .Layout-logo {
+                background-color: #ccc;
+            }
+        }
+    }
+
+    &.signup-bg,
+    &.Signup-bg {
+
+        .MobileScreen {
+            &.bg {
+                background-size: 100% 30%;
+
+                @media (min-height:830px) and (max-height:900px) {
+                    background-size: 100% 35%;
+                }
+                @media screen and (min-height:901px) {
+                    background-size: 100% 40%;
+                }
+            }
+        }
+    }
+    &.login-bg,
+    &.Login-bg {
+        .MobileScreen {
+            &.bg {
+                background-size: 100% 50%;
+
+                @media (min-height:710px) and (max-height:820px) {
+                    background-size: 100% 55%;
+                }
+                @media screen and (min-height:821px) {
+                    background-size: 100% 60%;
+                }
+            }
+        }
+    }
+    &.reset-bg,
+    &.Reset-bg {
+        .MobileScreen {
+            &.bg {
+                background-size: 100% 45%;
+
+                @media screen and (min-height:821px) {
+                    background-size: 100% 50%;
+                }
+            }
+        }
+    }
+
+
 }
 
 .Layout-Transparent {
@@ -50,9 +109,9 @@
     padding-top: 52px;
 
     &.bg {
-        background-image: url('../../../public/assets/mobileassets/app-bg.jpg');
+        background-image: url('../../../public/assets/mobileassets/background-mobile.png');
         background-size: cover;
-        background-position: 90% 100%;
+        background-position: 60% 100%;
         background-repeat: no-repeat;
     }
 }

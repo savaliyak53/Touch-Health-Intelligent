@@ -28,31 +28,34 @@ function TermsAndCondtions() {
   });
   const sendPhoneOTP = async (userId: any) => {
     //api call to send email otp
-
-    const phoneRequestResponse = await requestPhoneOTP(userId);
-    if (phoneRequestResponse?.response?.data) {
-      toast.error(phoneRequestResponse?.response?.data.details);
-      setIsLoading(false);
-      return false;
-    } else {
-      setIsLoading(false);
-      toast.success('Phone verification code sent');
-      return true;
+    const phone = localStorage.getItem('phone');
+    const captchaToken= localStorage.getItem('captchaToken')
+    if(phone && captchaToken){
+      const phoneRequestResponse = await requestPhoneOTP(phone,captchaToken);
+      if (phoneRequestResponse?.response?.data) {
+        toast.error(phoneRequestResponse?.response?.data.details);
+        setIsLoading(false);
+        return false;
+      } else {
+        setIsLoading(false);
+        toast.success('Phone verification code sent');
+        return true;
+      }
     }
   };
   const onSubmit = async () => {
-    setIsLoading(true);
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      const isOtpSent = await sendPhoneOTP(userId);
-      if (isOtpSent) {
-        navigate(`/verification-code`);
-      }
-    } else {
-      setIsLoading(false);
-      toast.error('Error fetching user data');
+    // setIsLoading(true);
+    // const userId = localStorage.getItem('userId');
+    // if (userId) {
+    //   const isOtpSent = await sendPhoneOTP(userId);
+    //   if (isOtpSent) {
+    //     navigate(`/verification-code`);
+    //   }
+    // } else {
+    //   setIsLoading(false);
+    //   toast.error('Error fetching user data');
       navigate('/signup');
-    }
+    // }
   };
   const onChange = (e: CheckboxChangeEvent) => {
     setTermAndConditions(e.target.checked);

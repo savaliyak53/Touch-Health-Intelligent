@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../layouts/Layout/Layout';
+import styles from './HelpAndSupport.module.scss'
 import { Space, Typography } from 'antd';
 const { Paragraph }=Typography;
 //Set your APP_ID
@@ -16,7 +17,7 @@ const HelpAndSupport = () => {
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <div className="Content-wrPArCon">
-        <h2 className="Con-title">
+        <h2 className={styles["Title"]}>
           Get in Touch! 
         </h2>
         <Paragraph>We are here to help.</Paragraph>

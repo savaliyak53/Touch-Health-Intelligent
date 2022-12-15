@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './intro-video.scss';
+// import './intro-video.scss';
+import styles from './Introvideo.module.scss';
 import Button from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
 import { Typography } from 'antd';
@@ -43,18 +44,18 @@ const IntroVideo = () => {
   };
   return (
     <Layout defaultHeader={true} hamburger={false}>
-    <div className="intro-video">
-      <div className="card-text">
+    <div className={styles["intro-video"]}>
+      <div>
         <Title level={2}>Welcome to Touch Health Assistant</Title>
         <iframe
-          className="video-iframe"
+          className=""
           src={`https://www.youtube.com/embed/B6AaGFXa10A`}
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
           title="Embedded youtube"
         />
-        <div className="action">
+        <div>
           <Button
             onClick={handleRedirect}
             className="Pref-btn btn"

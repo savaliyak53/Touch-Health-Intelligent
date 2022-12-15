@@ -111,4 +111,4 @@ jobs:
           url: "https://jenkins.touch.clinic"
           user: "autochief"
           token: ${{ secrets.JENKINS_TOKEN }}
-          job: "aws-tha-deploy-front"
+          job: "aws-tha-deploy-front-dev"

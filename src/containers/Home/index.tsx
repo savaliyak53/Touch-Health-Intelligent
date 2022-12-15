@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getInteractionService, getUser } from '../../services/authservice';
+import { getInteractionService, getInteractionServiceByType, getUser } from '../../services/authservice';
 import { getSubscriptionStatus } from '../../services/subscriptionService';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
@@ -16,16 +16,20 @@ const Home = () => {
       navigate('/login');
     }
   }, []);
+  const handleRedirect = (response:any) =>{
+    if (response?.data?.question) {
+      navigate('/questionnaire');
+    } else {
+      navigate('/dashboard');
+    }
+  }
   const getInteraction = () => {
     getInteractionService()
       .then((response) => {
-        if (response?.data?.question) {
-          navigate('/questionnaire');
-        } else {
-          navigate('/dashboard');
-        }
+        handleRedirect(response);
       })
       .catch((error) => {
+        navigate('/dashboard');
         toast(error.response.data.details.message);
       });
   };
@@ -35,12 +39,47 @@ const Home = () => {
     if (userId) {
       getUser(userId)
         .then((response) => {
-          if (response.data.security_questions == null) {
-            navigate('/security');
-          } else if (response.data.preferences == null) {
+          getUserSubscription();
+          if (response.data.preferences == null) {
             navigate('/preferences');
-          } else {
-            getUserSubscription();
+          } 
+          else {
+            if(response.data.signup_status==='onboarding'){
+              getInteractionServiceByType('onboarding').then((response:any) => {
+                handleRedirect(response);
+              })
+              .catch((error) => {
+                toast.error(
+                  `Something went wrong. `
+                );
+              });
+            }
+            else if (response.data.signup_status==='goal_selection'){
+              navigate('/add-goals')
+            }
+            else if (response.data.signup_status==='goal_characterization'){
+              getInteractionServiceByType('goal_characterization').then((response:any) => {
+                handleRedirect(response);
+              })
+              .catch((error) => {
+                toast.error(
+                  `Something went wrong. `
+                );
+              });
+            }
+            else {
+              console.log('checkup')
+              getInteractionServiceByType('checkup').then((response:any) => {
+                handleRedirect(response);
+              })
+              .catch((error) => {
+                toast.error(
+                  `Something went wrong. `
+                );
+              });
+              //getInteraction();
+            }
+           
           }
         })
         .catch((error) => {
@@ -53,8 +92,6 @@ const Home = () => {
       .then((response) => {
         if (response.data.status == 'NOT_SUBSCRIBED') {
           navigate('/subscription');
-        } else {
-          getInteraction();
         }
       })
       .catch((error) => {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../layouts/Layout/Layout';
-import './index.scss';
+// import './index.scss';
+import styles from './Conditions.module.scss';
 import SwitchQuestion from '../../components/SwitchQuestion/SwitchQuestion';
 import {
   addConditionsService,
@@ -138,17 +139,19 @@ const ManageConditions = () => {
       defaultHeader={true}
       hamburger={location.pathname === '/conditions' ? false : true}
     >
+      {/* <div className={` "Content-wrap" ${styles["Con"]} `}> */}
       <div className="Content-wrap Con">
-        <h2 className="Con-title">
-          Manage conditions <Spin spinning={loading} />
+        <h2 className={styles["Con-title"]}>
+          Problems <Spin spinning={loading} />
         </h2>
-        <p className="Con-Description">
-          These are your current conditions, turn them off to remove, add a new
-          one using the search bar.
+        <p className={styles["Con-Description"]}>
+          These are your current concerns, they can be things like stress, pain,
+          memory issues or physical symptoms and diseases
         </p>
 
+        {/* <div className={styles["Select-Wrap"]}> */}
         <div className="Select-Wrap">
-          <SearchOutlined className="search" />   
+          <SearchOutlined/>   
           <AutoComplete
             onSearch={handleSearch}
             placeholder="Search Condition"
@@ -162,8 +165,9 @@ const ManageConditions = () => {
           <DownOutlined onClick={() => setIsDropdownOpen(!isDropdownOpen)} />
         </div>
 
-        <div className="Switch-wrap">
-          <h3 className="Title">My Conditions</h3>
+        <div className={styles["Switch-wrap"]}>
+        {/* <div className="Switch-wrap"> */}
+          <h3 className={styles["Title"]}>My Conditions</h3>
           {data?.map((data: any, i: any) => (
             <SwitchQuestion
               key={i}

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 
 import { Button } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
-import './SiteHeader.scss';
+// import './SiteHeader.scss';
+import styles from './SiteHeader.module.scss';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -16,34 +17,34 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
   return (
     <>
       {/* Navigation */}
-      <header className={defaultHeader ? 'Navigation' : 'Navigation bg'}>
+      <header className={`${defaultHeader ? styles['Navigation'] : (`${styles['Navigation']} ${styles['bg']}`)}`}>
+      {/* <header className={defaultHeader ? 'Navigation' : 'Navigation bg'}> */}
         <img
-          src={`${process.env.PUBLIC_URL}/assets/mobileassets/${
-            defaultHeader ? 'logo-black.svg' : 'logo-white.svg'
-          }`}
+          src={`${process.env.PUBLIC_URL}/assets/mobileassets/logo.svg`}
           alt="Touch Logo"
-          className="Layout-logo"
+          width={35}
         />
-        <div className="Toggler-btn" onClick={() => setBurgerMenu(!BurgerMenu)}>
-          <Button className={hamburger ? 'd-block' : 'd-none'}>
+        <div className={styles["Toggler-btn"]} onClick={() => setBurgerMenu(!BurgerMenu)}>
+        <Button className={`${hamburger ? styles['d-block'] : styles['d-none']}`}>
             <img
-              src={`${process.env.PUBLIC_URL}/assets/mobileassets/hamburger.svg`}
+              src={`${process.env.PUBLIC_URL}/assets/mobileassets/nav.svg`}
               alt="Touch Logo"
-              className="Hamburger-icon"
             />
           </Button>
         </div>
       </header>
       <div
         className={
-          BurgerMenu ? 'Burger-menu-wrapper ' : 'Burger-menu-wrapper display'
+        `  ${BurgerMenu ? styles['Burger-menu-wrapper'] : styles['display-none']} `
+        // BurgerMenu ? 'Burger-menu-wrapper ' : 'display'
         }
         onClick={() => setBurgerMenu(!BurgerMenu)}
       ></div>
       {/* Burger/Toggle Menu */}
-      <div className={BurgerMenu ? 'Burger-menu display' : 'Burger-menu'}>
-        <div className="Cross-btn">
-          <Button onClick={() => setBurgerMenu(!BurgerMenu)}>
+      <div className={ ` ${BurgerMenu ? `${styles['Burger-menu']} ${styles['menu-display']}` : styles['Burger-menu']} `}>
+      {/* <div className={BurgerMenu ? 'Burger-menu display' : 'Burger-menu'}> */}
+        <div className={styles["Cross-btn"]}>
+          <Button onClick={() => setBurgerMenu(!BurgerMenu)} className={styles["cross-ant-btn"]}>
             <CloseOutlined />
           </Button>
         </div>
@@ -66,7 +67,7 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
           <li>
             <Link to="/help-and-support">Help and Support</Link>
           </li>
-          <li>
+          <li className={styles['Signout']}>
             <a
               onClick={() => {
                 localStorage.removeItem('userId');

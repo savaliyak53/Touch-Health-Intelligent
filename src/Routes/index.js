@@ -13,7 +13,6 @@ import Insights from '../containers/Insights';
 import Timeline from '../containers/Timeline/index';
 import ManageConditions from '../containers/Conditions';
 import Diamond from '../components/diamond';
-import PostPreferences from '../containers/PostPrefernces';
 import ManageConcerns from '../containers/Concerns';
 import Subscription from '../containers/Subscription/Subscription';
 import SecurityQuestion from '../containers/SecurityQuestion';
@@ -24,6 +23,8 @@ import HelpAndSupport from '../containers/HelpAndSupport';
 import Success from '../containers/Success';
 import Error from '../containers/Error';
 import Home from '../containers/Home';
+import AddGoals from '../containers/Goals/AddGoals';
+import IntroGoals from '../containers/Goals/IntroGoals';
 import PasswordRecovery from '../containers/Auth/PasswordRecovery';
 
 const AppRoutes = () => {
@@ -40,17 +41,18 @@ const AppRoutes = () => {
       <Routes>
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.signUp} element={<SignUp />} />
+        <Route path="/security" element={<SecurityQuestion />} />
         <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
         <Route path="/password-reset" element={<PasswordRecovery />} />
-
         <Route path="*" element={<Home />} />
+        <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />    
         <Route element={<RequireSignup />}>
-          <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />
           <Route path="/verification-code" element={<Verification />} />
         </Route>
+          <Route path="/add-goals" element={<AddGoals />} />
+          <Route path="/intro-goals" element={<IntroGoals />} />
         {/* Protected Routes */}
         <Route element={<RequireAuth />}>
-          <Route path="/security" element={<SecurityQuestion />} />
           <Route path="insights" element={<Insights />} />
           <Route path="/insights/guideline" element={<Timeline />} />
           <Route path="/diamond" element={<Diamond />} />
@@ -66,7 +68,6 @@ const AppRoutes = () => {
           <Route path="/preferences" element={<Preferences />} />
           <Route path="/introvideo" element={<IntroVideo />} />
           <Route path="/subscription" element={<Subscription />} />
-          <Route path="/post-preferences" element={<PostPreferences />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
           {/* <Route path="/post-concerns" element={<ManageConcerns />} /> */}
           <Route path="/help-and-support" element={<HelpAndSupport />} />
