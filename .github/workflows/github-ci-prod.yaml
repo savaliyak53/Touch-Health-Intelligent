@@ -6,7 +6,7 @@ on:
       #- deploy-ci
   pull_request:
     branches:
-      - production
+      - main
     types:
       - closed
 
