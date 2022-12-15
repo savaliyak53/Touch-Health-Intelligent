@@ -67,9 +67,11 @@ jobs:
             host: github.com
             private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Clone Touch Configs Repo to get env for prod
-        run: git clone git@github.com:Touch-Physio/Touch-Configs.git && ls -la ~
+        run: git clone git@github.com:Touch-Physio/Touch-Configs.git
       - name: Copy envs from Configs to Prod
         run: cp ./Touch-Configs/aws-env/tha-prod-min/volumes-dedicated/prod-front-tha/.env ./build/.env
+      - name: List contents of the build folder to ensure env is the most recent
+        run: ls -la ./build
       - name: Delete Touch Configs directory
         run: rm -rf ./Touch-Configs
       ### End of Touch Configs Repo
