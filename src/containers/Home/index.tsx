@@ -46,7 +46,7 @@ const Home = () => {
           else {
             if(response.data.signup_status==='onboarding'){
               getInteractionServiceByType('onboarding').then((response:any) => {
-                handleRedirect(response);
+                getInteraction()
               })
               .catch((error) => {
                 toast.error(
@@ -59,7 +59,7 @@ const Home = () => {
             }
             else if (response.data.signup_status==='goal_characterization'){
               getInteractionServiceByType('goal_characterization').then((response:any) => {
-                handleRedirect(response);
+                getInteraction()
               })
               .catch((error) => {
                 toast.error(
@@ -70,14 +70,13 @@ const Home = () => {
             else {
               console.log('checkup')
               getInteractionServiceByType('checkup').then((response:any) => {
-                handleRedirect(response);
+                getInteraction()
               })
               .catch((error) => {
                 toast.error(
                   `Something went wrong. `
                 );
               });
-              //getInteraction();
             }
            
           }
