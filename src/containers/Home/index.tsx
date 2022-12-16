@@ -17,7 +17,7 @@ const Home = () => {
     }
   }, []);
   const handleRedirect = (response:any) =>{
-    if (response?.data?.question) {
+    if (response) {
       navigate('/questionnaire');
     } else {
       navigate('/dashboard');
@@ -77,7 +77,6 @@ const Home = () => {
                   `Something went wrong. `
                 );
               });
-              //getInteraction();
             }
            
           }
