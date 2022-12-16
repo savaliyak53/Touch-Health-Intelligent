@@ -17,7 +17,7 @@ const Home = () => {
     }
   }, []);
   const handleRedirect = (response:any) =>{
-    if (response?.data?.question) {
+    if (response) {
       navigate('/questionnaire');
     } else {
       navigate('/dashboard');
@@ -46,7 +46,7 @@ const Home = () => {
           else {
             if(response.data.signup_status==='onboarding'){
               getInteractionServiceByType('onboarding').then((response:any) => {
-                getInteraction()
+                handleRedirect(response);
               })
               .catch((error) => {
                 toast.error(
@@ -59,7 +59,7 @@ const Home = () => {
             }
             else if (response.data.signup_status==='goal_characterization'){
               getInteractionServiceByType('goal_characterization').then((response:any) => {
-                getInteraction()
+                handleRedirect(response);
               })
               .catch((error) => {
                 toast.error(
@@ -70,7 +70,7 @@ const Home = () => {
             else {
               console.log('checkup')
               getInteractionServiceByType('checkup').then((response:any) => {
-                getInteraction()
+                handleRedirect(response);
               })
               .catch((error) => {
                 toast.error(
