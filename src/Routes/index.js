@@ -25,6 +25,7 @@ import Error from '../containers/Error';
 import Home from '../containers/Home';
 import AddGoals from '../containers/Goals/AddGoals';
 import IntroGoals from '../containers/Goals/IntroGoals';
+import Guidance from '../containers/Guidance';
 import PasswordRecovery from '../containers/Auth/PasswordRecovery';
 
 const AppRoutes = () => {
@@ -51,6 +52,7 @@ const AppRoutes = () => {
         </Route>
           <Route path="/add-goals" element={<AddGoals />} />
           <Route path="/intro-goals" element={<IntroGoals />} />
+          <Route path="/guidance" element={<Guidance />} />
         {/* Protected Routes */}
         <Route element={<RequireAuth />}>
           <Route path="insights" element={<Insights />} />
