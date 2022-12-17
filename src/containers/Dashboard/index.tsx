@@ -211,6 +211,15 @@ const Dashboard = () => {
             <div className="dsgbtn-group">
               <div className={styles["btn-group"]} key="extraUpperButton">
                 <DashboardButton
+                  key="extraUpperButton0"
+                  image={`${process.env.PUBLIC_URL}/assets/mobileassets/+.svg`}
+                  disabled={true}
+                  color={``}
+                  outerButton={false}
+                />
+              </div>
+              <div className={styles["btn-group"]} key="extraUpperButton">
+                <DashboardButton
                   key="extraUpperButton1"
                   image=""
                   disabled={true}

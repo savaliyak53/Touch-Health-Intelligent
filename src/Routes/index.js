@@ -54,11 +54,11 @@ const AppRoutes = () => {
           <Route path="/intro-goals" element={<IntroGoals />} />
           <Route path="/guidance" element={<Guidance />} />
         {/* Protected Routes */}
+          <Route path="/dashboard" element={<Dashboard />} />
         <Route element={<RequireAuth />}>
           <Route path="insights" element={<Insights />} />
           <Route path="/insights/guideline" element={<Timeline />} />
           <Route path="/diamond" element={<Diamond />} />
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/conditions" element={<ManageConditions />} />
           {/* <Route path="/concerns" element={<ManageConcerns />} /> */}
           <Route path="/questionnaire" element={<UserCondition />} />
