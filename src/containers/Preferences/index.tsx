@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Slider, Tooltip, Input, Spin, Switch } from 'antd';
+import { Slider, Tooltip, Input, Spin, Switch } from 'antd';
 import styles from './Preferences.module.scss'
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import Button from '../../components/Button';
-import { getInteractionServiceByType, preferencesService, getGoogleCode, revokeGoogleFit, getIntegrationStatus } from '../../services/authservice';
+import { getInteractionServiceByType, preferencesService, getGoogleCode, revokeGoogleFit } from '../../services/authservice';
 import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
 import { Radio, Space, DatePicker } from 'antd';
@@ -176,6 +177,35 @@ const Preferences = () => {
     }
     return true;
   };
+
+  useEffect(() => {
+    let deferredPrompt: BeforeInstallPromptEvent | null;
+    const installApp = document.getElementById('installApp');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+    if(installApp != null){
+      installApp.style.display = 'initial'
+      }
+      deferredPrompt = e;
+    });
+
+    installApp?.addEventListener('click', async () => {
+      if (deferredPrompt !== null) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          deferredPrompt = null;
+        location.reload()
+        }
+      }
+    });
+
+    const userId = localStorage.getItem('userId');
+    setSpinning(true);
+    setloading(true);
+    getUserInfo(userId);
+  }, []);
+
   const handleClick = (checked:any) => {
     if(checked){
       getGoogleCode()
@@ -187,7 +217,7 @@ const Preferences = () => {
       revokeCredentials();
     }
   }
-  const revokeCredentials = () => {
+  function revokeCredentials() {
     revokeGoogleFit()
     .then(res => {
       if(res.data.message){
@@ -200,6 +230,8 @@ const Preferences = () => {
   const createAuthLink= (response:any) =>{
     setChecked(true);
     const params = new URLSearchParams({
+      client_id: `${process.env.REACT_APP_GOOGLE_CLIENT_ID}`,
+      redirect_uri: `${process.env.REACT_APP_GOOGLE_FIT_AUTH_CALLBACK}`,
       client_id: `${process.env.REACT_APP_GOOGLE_CLIENT_ID}`,
       redirect_uri: `${process.env.REACT_APP_GOOGLE_FIT_AUTH_CALLBACK}`,
       response_type: 'code',
@@ -216,6 +248,7 @@ const Preferences = () => {
       include_granted_scopes: 'true',
       prompt: 'consent select_account'
     });
+    const url = `${process.env.REACT_APP_GOOGLE_FIT_OAUTH_ENDPOINT}?${params.toString()}`;
     const url = `${process.env.REACT_APP_GOOGLE_FIT_OAUTH_ENDPOINT}?${params.toString()}`;
 
     visitLink(url);
@@ -262,6 +295,9 @@ const Preferences = () => {
       <br/>
       <div style={{ border: 'none', background: 'none' }}>
           Connect with Google Fit
+          <Switch checked={checked} style={{ marginLeft: '40px'}} onChange={handleClick} />
+      </div >
+      
           {checked===undefined?<Spin spinning={checked===undefined?true:false}/>:<Switch checked={checked} style={{ marginLeft: '40px'}} onChange={handleClick} />}
       </div >
       
