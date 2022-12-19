@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Slider, Tooltip, Input, Spin } from 'antd';
+import { Slider, Tooltip, Input, Spin, Switch } from 'antd';
 import styles from './Preferences.module.scss'
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import Button from '../../components/Button';
-import { getInteractionServiceByType, preferencesService, getGoogleCode } from '../../services/authservice';
+import { getInteractionServiceByType, preferencesService, getGoogleCode, revokeGoogleFit } from '../../services/authservice';
 import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
 import { Radio, Space, DatePicker } from 'antd';
@@ -39,17 +39,14 @@ const Preferences = () => {
   const [loading, setloading] = useState(false);
 
   const [preferences, setPreferences] = useState<any>({});
+  const [checked, setChecked] = useState<boolean>(false);
+
   const [yob, setYob] = useState<any>('');
   const [sex, setSex] = useState<any>('');
   const [username, setName] = useState<any>('');
   const [engagement, setEngagement] = useState<number>();
   const [spinning, setSpinning] = useState<boolean>(true);
 
-  const GOOGLE_CLIENT_ID = `108466237161-bhv5sgetk827n6mlrhjrnj0d55vavf5e.apps.googleusercontent.com`;
-  const OAUTH_ENDPOINT = 'https://accounts.google.com/o/oauth2/v2/auth';
-  const AUTH_CALLBACK = `${process.env.REACT_APP_API_HOST}/auth/google/code`;
-  
-  const sessionEndpoint = `${process.env.REACT_APP_API_HOST}/auth/google`;
   const {
     handleSubmit,
     control,
@@ -171,18 +168,33 @@ const Preferences = () => {
     getUserInfo(userId);
   }, []);
 
-  const handleClick = () => {
-    getGoogleCode()
+  const handleClick = (checked:any) => {
+    if(checked){
+      getGoogleCode()
+      .then(res => {
+        createAuthLink(res);
+      })
+    }
+    else{
+      revokeCredentials();
+    }
+  }
+  function revokeCredentials() {
+    revokeGoogleFit()
     .then(res => {
-      console.log(res);
-      createAuthLink(res);
+      if(res.data.message){
+        setChecked(false);
+        toast.success('Google fit disabled')
+      }
+
     })
   }
   const createAuthLink= (response:any) =>{
-    console.log(AUTH_CALLBACK)
+    console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID)
+    setChecked(true);
     const params = new URLSearchParams({
-      client_id: GOOGLE_CLIENT_ID,
-      redirect_uri: AUTH_CALLBACK,
+      client_id: `${process.env.REACT_APP_GOOGLE_CLIENT_ID}`,
+      redirect_uri: `${process.env.REACT_APP_GOOGLE_FIT_AUTH_CALLBACK}`,
       response_type: 'code',
       scope: [
         'https://www.googleapis.com/auth/fitness.activity.read',
@@ -192,13 +204,12 @@ const Preferences = () => {
       access_type: 'offline',
       state: JSON.stringify({
         sessionId: response.data.sessionId,
-        redirectUri: AUTH_CALLBACK
+        redirectUri: `${process.env.REACT_APP_GOOGLE_FIT_AUTH_CALLBACK}`
       }),
       include_granted_scopes: 'true',
       prompt: 'consent select_account'
     });
-    console.log('params: ', params.toString());
-    const url = `${OAUTH_ENDPOINT}?${params.toString()}`;
+    const url = `${process.env.REACT_APP_GOOGLE_FIT_OAUTH_ENDPOINT}?${params.toString()}`;
 
     visitLink(url);
   }
@@ -242,9 +253,11 @@ const Preferences = () => {
         </button>
       </div>
       <br/>
-      <a style={{ border: 'none', background: 'none' }} onClick={handleClick}>
+      <div style={{ border: 'none', background: 'none' }}>
           Connect with Google Fit
-      </a>
+          <Switch checked={checked} style={{ marginLeft: '40px'}} onChange={handleClick} />
+      </div >
+      
       <form onSubmit={handleSubmit(onSubmit)} className={styles["Preferences-form"]}>
         <div className={styles["Question"]}>
             <h3 className={styles["Question-title"]}>

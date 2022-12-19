@@ -140,3 +140,9 @@ export const checkAnswer = async (data: any) => {
 export const getGoogleCode = async () => {
   return APIClient('/auth/google')
 }
+export const postGoogleToken = async (body:any) => {
+  return APIClient('/auth/google/token','post', body)
+}
+export const revokeGoogleFit = async () => {
+  return APIClient('/auth/google/revoke','post')
+}
