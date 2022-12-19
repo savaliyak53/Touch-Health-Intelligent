@@ -7,11 +7,22 @@ import { InsightContext } from '../../contexts/InsightContext';
 import { Spin } from 'antd';
 import { toast } from 'react-toastify';
 import { hardCodedresponse } from '../../utils/lib';
+import { getDashboard } from '../../services/dashboardservice';
 
 const Dashboard = () => {
   const context = useContext(InsightContext);
   useEffect(() => {
     getInsights();
+    getDashboard().then((response) => {
+      console.log('dashboard', response)
+      //setLoading(false);
+      //setData([...response.data.concerns]);
+    })
+    .catch((error) => {
+      console.log('error is ', error);
+      //setLoading(false);
+      toast('Something went wrong');
+    });
     context?.commands.setInsightButton('');
   }, []);
 
