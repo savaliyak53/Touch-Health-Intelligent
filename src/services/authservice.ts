@@ -149,3 +149,16 @@ export const revokeGoogleFit = async () => {
 export const getIntegrationStatus = async () => {
   return APIClient('/user/integration/status','get')
 }
+
+export const getGoogleCode = async () => {
+  return APIClient('/auth/google')
+}
+export const postGoogleToken = async (body:any) => {
+  return APIClient('/auth/google/token','post', body)
+}
+export const revokeGoogleFit = async () => {
+  return APIClient('/auth/google/revoke','post')
+}
+export const getIntegrationStatus = async () => {
+  return APIClient('/user/integration/status','get')
+}
