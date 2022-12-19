@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Slider, Tooltip, Input, Spin } from 'antd';
-// import './index.scss';
 import styles from './Preferences.module.scss'
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import Button from '../../components/Button';
-import { getInteractionServiceByType, preferencesService } from '../../services/authservice';
+import { getInteractionServiceByType, preferencesService, getGoogleCode } from '../../services/authservice';
 import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
 import { Radio, Space, DatePicker } from 'antd';
@@ -168,6 +167,13 @@ const Preferences = () => {
     getUserInfo(userId);
   }, []);
 
+  const handleClick = () => {
+    getGoogleCode()
+    .then(res => {
+      console.log(res);
+    })
+  }
+
   const text = <span>prompt text</span>;
 
   return (
@@ -206,44 +212,12 @@ const Preferences = () => {
       </div>{' '}
       <form onSubmit={handleSubmit(onSubmit)} className={styles["Preferences-form"]}>
         <div className={styles["Question"]}>
-            {/* <Tooltip
-            title="The more time you give your health assistant, the better it gets to know your personal health, and the better it will guide you to optimal health."
-            placement="topRight"
-            overlayStyle={{ maxWidth: '350px' }}
-            color="blue"
-            visible={showTooltip}
-            mouseLeaveDelay={0}
-          >
-            <h3
-              className="Question-title"
-              onMouseEnter={() => {
-                setShowTooltip(true);
-              }}
-              onMouseLeave={() => {
-                setShowTooltip(false);
-              }}
-            >
-              To modify your birth year and sex at birth, please contact your health assistant by texting the number you receive your checkups
-            </h3>
-          </Tooltip>  */}
             <h3 className={styles["Question-title"]}>
               To modify your birth year and sex at birth, please contact your health assistant by texting the number you receive your checkups
             </h3>
             <h3 className={styles["Question-title"]}>
               How much time do you have for check-ins each week?
             </h3>
-          {/* <h5>
-            Tip 1: More engagement early on reduces the time it takes to
-            discover your health pathways. We recommend starting high, and
-            once your health pathways are detected adjust to lower values to
-            suit you.
-          </h5>
-          <h5>
-            Tip 2: By enabling integrations with your smart wearables, your AI
-            health assistant gets to know you faster and requires less
-            communication with you.
-          </h5> */}
-
           <br />
 
           {engagement ? (
@@ -269,20 +243,13 @@ const Preferences = () => {
 
 
                   <div className={styles["Slider-range"]}>
-                  {/* <div className="Slider-range"> */}
                     <div className="flex-container">
-                      {/* <span>Very little</span> <br />
-                      <span> (Low accuracy and minimal navigation)</span> */}
                       <span>3 min</span>
                     </div>
                     <div className="flex-container">
-                      {/* <span>Medium</span> <br />
-                      <span> (Adaptive and able to navigate)</span> */}
                       <span>10 min</span>
                     </div>
                     <div className="flex-container">
-                      {/* <span>Complete</span> <br />
-                      <span> (High accuracy and reactive navigation)</span> */}
                       <span>15 min</span>
                     </div>
                   </div>
@@ -301,7 +268,6 @@ const Preferences = () => {
                 <>
                   <Slider
                     className="Pref-slider"
-                    // className={` ${styles["Pref-slider"]} ${styles['ant-slider']} `}
                     id="engagementLevel"
                     value={value}
                     min={0}
@@ -312,18 +278,12 @@ const Preferences = () => {
                   />
                   <div className={styles["Slider-range"]}>
                     <div className="flex-container">
-                      {/* <span>Very little</span> <br />
-                      <span> (Low accuracy and minimal navigation)</span> */}
                       <span>3 min</span>
                     </div>
                     <div className="flex-container">
-                      {/* <span>Medium</span> <br />
-                      <span> (Adaptive and able to navigate)</span> */}
                       <span>10 min</span>
                     </div>
                     <div className="flex-container">
-                      {/* <span>Complete</span> <br />
-                      <span> (High accuracy and reactive navigation)</span> */}
                       <span>15 min</span>
                     </div>
                   </div>
@@ -335,56 +295,6 @@ const Preferences = () => {
             {errors.engagementLevel?.message}
           </p>
         </div>
-        {/* <h3 className="Question-title">
-          SMS checkup Engagements
-          <Tooltip placement="bottomRight" title={<span>This will pause all message checkups</span>}>
-              <img
-                src={`${process.env.PUBLIC_URL}/assets/icons/question-mark.svg`}
-                className="TooltipIcon"
-                alt="" />
-          </Tooltip>
-        </h3>
-        <div className="button-group">
-            <Button
-              className="Pref-post-btn btn msg-btn"
-              loading={isLoading}
-              // disabled={!isValid}
-              onClick={handleSubmit(onSubmit)}
-            >
-              Start
-            </Button>
-            <Button
-              className="Cancel-post-btn btn msg-btn"
-              onClick={() => {
-                navigate('/dashboard');
-              }}
-              disabled={loading}
-            >
-              Pause
-            </Button>
-          </div> */}
-          {/* <div className='Data-Use'>
-            <h3 className="Question-title">
-              Data use
-              <Tooltip placement="bottomRight" title={<span>Lorem text</span>}>
-                  <img
-                    src={`${process.env.PUBLIC_URL}/assets/icons/question-mark.svg`}
-                    className="TooltipIcon"
-                    alt="" />
-              </Tooltip>
-            </h3>
-            <div className="button-group">
-              <Button
-                className="Cancel-post-btn btn msg-btn"
-                onClick={() => {
-                  navigate('/dashboard');
-                }}
-                disabled={loading}
-              >
-              Delete all my data
-              </Button>
-            </div>
-          </div> */}
         {yob ? (
           <div className={styles["Question"]}>
             <h3 className={styles["Question-title"]}>What is your year of birth?</h3>
@@ -480,7 +390,6 @@ const Preferences = () => {
                 name="sex"
                 rules={{ required: 'Please Select one' }}
                 render={({ field: { onChange, value } }) => (
-                  // <Radio.Group className={styles['Options']} value={value} onChange={onChange}>
                   <Radio.Group className='Options' value={value} onChange={onChange}>
                     <Space>
                       <Radio.Button value="male" className={styles["radio-input"]}>
@@ -514,7 +423,6 @@ const Preferences = () => {
           <div className={styles["button-group"]}>
             <Button
               className={` ${styles["Cancel-post-btn"]} `}
-              // className="Cancel-post-btn btn"
               onClick={() => {
                 navigate('/dashboard');
               }}
@@ -524,9 +432,7 @@ const Preferences = () => {
             </Button>
             <Button
               className={` ${styles["Pref-post-btn"]} `}
-              // className="Pref-post-btn btn"
               loading={isLoading}
-              // disabled={!isValid}
               onClick={handleSubmit(onSubmit)}
             >
               Save
@@ -534,6 +440,10 @@ const Preferences = () => {
           </div>
         )}
       </form>
+      <br /> <br />
+      <button style={{ border: 'none', background: 'none' }} onClick={handleClick}>
+            <h5 style={{ float: 'left', cursor: 'pointer'}}>Connect with Google Fit</h5>
+        </button>
     </div>
     </Spin>
     </Layout>
