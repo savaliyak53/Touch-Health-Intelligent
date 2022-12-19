@@ -45,7 +45,11 @@ const Preferences = () => {
   const [engagement, setEngagement] = useState<number>();
   const [spinning, setSpinning] = useState<boolean>(true);
 
-
+  const GOOGLE_CLIENT_ID = `108466237161-bhv5sgetk827n6mlrhjrnj0d55vavf5e.apps.googleusercontent.com`;
+  const OAUTH_ENDPOINT = 'https://accounts.google.com/o/oauth2/v2/auth';
+  const AUTH_CALLBACK = `${process.env.REACT_APP_API_HOST}/auth/google/code`;
+  
+  const sessionEndpoint = `${process.env.REACT_APP_API_HOST}/auth/google`;
   const {
     handleSubmit,
     control,
@@ -171,9 +175,36 @@ const Preferences = () => {
     getGoogleCode()
     .then(res => {
       console.log(res);
+      createAuthLink(res);
     })
   }
+  const createAuthLink= (response:any) =>{
+    console.log(AUTH_CALLBACK)
+    const params = new URLSearchParams({
+      client_id: GOOGLE_CLIENT_ID,
+      redirect_uri: AUTH_CALLBACK,
+      response_type: 'code',
+      scope: [
+        'https://www.googleapis.com/auth/fitness.activity.read',
+        'https://www.googleapis.com/auth/fitness.location.read',
+        'https://www.googleapis.com/auth/fitness.nutrition.read'
+      ].join(' ').trim(),
+      access_type: 'offline',
+      state: JSON.stringify({
+        sessionId: response.data.sessionId,
+        redirectUri: AUTH_CALLBACK
+      }),
+      include_granted_scopes: 'true',
+      prompt: 'consent select_account'
+    });
+    console.log('params: ', params.toString());
+    const url = `${OAUTH_ENDPOINT}?${params.toString()}`;
 
+    visitLink(url);
+  }
+  const visitLink=(url:any)=> {
+    window.location.href = url;
+  }
   const text = <span>prompt text</span>;
 
   return (
@@ -209,7 +240,11 @@ const Preferences = () => {
             }}
           />
         </button>
-      </div>{' '}
+      </div>
+      <br/>
+      <a style={{ border: 'none', background: 'none' }} onClick={handleClick}>
+          Connect with Google Fit
+      </a>
       <form onSubmit={handleSubmit(onSubmit)} className={styles["Preferences-form"]}>
         <div className={styles["Question"]}>
             <h3 className={styles["Question-title"]}>
@@ -440,10 +475,7 @@ const Preferences = () => {
           </div>
         )}
       </form>
-      <br /> <br />
-      <button style={{ border: 'none', background: 'none' }} onClick={handleClick}>
-            <h5 style={{ float: 'left', cursor: 'pointer'}}>Connect with Google Fit</h5>
-        </button>
+      
     </div>
     </Spin>
     </Layout>
