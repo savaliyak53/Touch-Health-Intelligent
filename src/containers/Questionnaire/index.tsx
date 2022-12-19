@@ -71,7 +71,8 @@ function UserCondition() {
         }, userId)
         .then((preferencesResponse) => {
           if (preferencesResponse) {
-            navigate('/')
+            //nayab revisit this
+            navigate('/dashboard')
           } else {
             console.log('navigate to dashboard')
             //navigate('/dashboard');
