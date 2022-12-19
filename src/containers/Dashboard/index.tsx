@@ -38,8 +38,8 @@ const Dashboard = () => {
   const Section = (outer: number) => {
     const section: React.ReactNode[] = [];
     //nayab added hardcodedresponse
-    //const insights = context?.insights?.insights;
-    const insights = hardCodedresponse.insights;
+    const insights = context?.insights?.insights;
+    //const insights = hardCodedresponse.insights;
 
     for (let i = 0; i < insights[outer]?.length; i++) {
       {
@@ -187,8 +187,8 @@ const Dashboard = () => {
   const Dashboard = () => {
     const dashboard: React.ReactNode[] = [];
     //nayab added hardcodedresponse
-    //const insights = context?.insights?.insights;
-    const insights = hardCodedresponse.insights;
+    const insights = context?.insights?.insights;
+    //const insights = hardCodedresponse.insights;
 
     for (let i = 0; i < insights.length; i++) {
       dashboard.push(Section(i));
@@ -234,8 +234,8 @@ const Dashboard = () => {
                   outerButton={true}
                 />
               </div>
-              {/* {context && context.insights!==undefined && context?.insights?.insights?.length !== 0 && context?.insights?.insights?.length !== undefined ? Dashboard():EmptyDashboard()} */}
-              {Dashboard()}
+              {context && context.insights!==undefined && context?.insights?.insights?.length !== 0 && context?.insights?.insights?.length !== undefined ? Dashboard():EmptyDashboard()}
+              {/* {Dashboard()} */}
               {rowNumber % 2 == 0 ? (
                 <div className={styles["btn-group"]} key="extraLowerButton">
                   <DashboardButton
