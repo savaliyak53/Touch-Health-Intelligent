@@ -136,3 +136,7 @@ export const checkAnswer = async (data: any) => {
     return err;
   }
 };
+
+export const getGoogleCode = async () => {
+  return APIClient('/auth/google')
+}
