@@ -65,28 +65,28 @@ function DashboardButton({
         } ${outerButton? `${disabled ? 'disabled' : ''}`:``} ${show ? 'show' : ''}`}
         style={{ backgroundColor: `${color? `rgb(${color === '394A7E' ? '57, 74, 126' : '89, 170, 142'}, ${highlight})`:'rgb(229, 235, 225, 0.3)'} `}}
       >
-        <div className="inner-1" key={Math.random()}>
+        {/* <div className="inner-1" key={Math.random()}>
           <a className="btn-inner" onClick={handleRedirectInsights}>
             <img
               src={`${process.env.PUBLIC_URL}/assets/mobileassets/Block-Chart-2.png`}
               alt=""
             />
           </a>
-        </div>
+        </div> */}
         {outerButton ? (
           '.'
         ) : (
           <span className="Btn-text">{insight?.category.name}</span>
         )}
         {outerButton ? '.' : <img src={image} className="Btn-img" />}
-        <div className="inner-2" key={Math.random()}>
+        {/* <div className="inner-2" key={Math.random()}>
           <a className="btn-inner" onClick={handleRedirectTimeline}>
             <img
               src={`${process.env.PUBLIC_URL}/assets/mobileassets/Diagram-2.png`}
               alt=""
             />
           </a>
-        </div>
+        </div> */}
       </Button>
     </>
   );
