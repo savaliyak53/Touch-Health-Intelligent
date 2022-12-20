@@ -6,7 +6,7 @@ import { AutoComplete} from 'antd';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { Button, Modal } from 'antd';
-import { getGoals, getGoalsSuggestion, getGoalsSearch, addGoal, deleteGoal } from '../../../services/goalsService'
+import { getGoals, getGoalsSuggestion, getGoalsSearch, addGoal, deleteGoal, goalDetails } from '../../../services/goalsService'
 import { toast } from 'react-toastify';
 import { getInteractionServiceByType, preferencesService } from '../../../services/authservice';
 
@@ -27,7 +27,7 @@ const AddGoals = () => {
     const [isDisable, setIsDisabled] = useState(true)
 
     const showModal = (data:any) => {
-        setSelectedGoal(data)
+        getGoalDetails(data.id)
         setIsModalOpen(true);
     };
 
@@ -97,7 +97,7 @@ const AddGoals = () => {
 
     const handleOptionSelect = (value: string, option: any) => {
         setSearchValue(value)
-        setSelectedGoal(option.item)
+        getGoalDetails(option.key)
         setIsModalOpen(true)
     };
 
@@ -122,6 +122,15 @@ const AddGoals = () => {
             toast.success('Goal removed');
             setSearchValue('')
             getGoalsData()
+        })
+        .catch((error: any) => {
+            toast.error(error);
+        });
+    }
+    const getGoalDetails = (goalId:string) => {
+        goalDetails(goalId)
+        .then((res)=>{
+            setSelectedGoal(res.data)
         })
         .catch((error: any) => {
             toast.error(error);
@@ -230,10 +239,10 @@ const AddGoals = () => {
             </div>
             <Modal footer={null} centered visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <h3 className={styles["Goals-title"]}>
-                    {selectedGoal?.name}                
+                    {selectedGoal?.info.name}                
                 </h3>
-                <p className={styles["Des-Short"]}>{selectedGoal?.goal_class}</p>
-                <p className={styles["Des-Goal"]}>{selectedGoal?.description}</p>
+                <p className={styles["Des-Short"]}>{selectedGoal?.info.goal_class}</p>
+                <p className={styles["Des-Goal"]}>{selectedGoal?.info.description}</p>
                 <div className={styles["Modal-Btn-Group"]}>
                     <Button
                         className="Pref-btn btn"
