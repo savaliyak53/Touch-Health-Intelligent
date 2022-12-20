@@ -70,7 +70,11 @@ const Home = () => {
             else {
               console.log('checkup')
               getInteractionServiceByType('checkup').then((response:any) => {
-                handleRedirect(response);
+                if (response.data) {
+                  navigate('/questionnaire');
+                } else {
+                  navigate('/dashboard');
+                }
               })
               .catch((error) => {
                 toast.error(
