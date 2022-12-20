@@ -27,6 +27,7 @@ import AddGoals from '../containers/Goals/AddGoals';
 import IntroGoals from '../containers/Goals/IntroGoals';
 import Guidance from '../containers/Guidance';
 import PasswordRecovery from '../containers/Auth/PasswordRecovery';
+import GoogleFitSuccess from '../containers/GoogleFitSuccess/GoogleFitSuccess';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -57,6 +58,7 @@ const AppRoutes = () => {
           <Route path="/dashboard" element={<Dashboard />} />
         <Route element={<RequireAuth />}>
           <Route path="insights" element={<Insights />} />
+          <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
           <Route path="/insights/guideline" element={<Timeline />} />
           <Route path="/diamond" element={<Diamond />} />
           <Route path="/conditions" element={<ManageConditions />} />
