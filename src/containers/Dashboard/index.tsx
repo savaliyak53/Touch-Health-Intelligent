@@ -216,6 +216,7 @@ const Dashboard = () => {
                   disabled={true}
                   color={``}
                   outerButton={false}
+                  isPlus={true}
                 />
               </div>
               <div className={styles["btn-group"]} key="extraUpperButton">
