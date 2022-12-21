@@ -1,19 +1,13 @@
-.Prevn-wrap,
-.Stat-wrap {
+.Prevn-wrap {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin-top: 20px;
-}
-.Stat-wrap {
-    justify-content: center;
-    flex-direction: column;
-    margin-top: 0;
+    margin-top: 30px;
 }
 .Prevn-text {
 color: #657FD1;
 font-weight: 700;
-font-size: 24px;
+font-size: 28px;
 line-height: 28px;
 margin-bottom: 0;
 margin-right: 15px;
@@ -31,20 +25,27 @@ padding: 0 !important;
 .Vel-Eta-wrap {
 margin-top: 20px;
 display: flex;
+flex-direction: column;
 align-items: center;
 justify-content: center;
 }
 .Vel-wrap {
-margin-right: 30px;
+display: flex;
+width: 100%;
+white-space: nowrap;
+margin-bottom: 25px;
+
 }
 .Vel-name {
-color: #D2D1D1;
+color: #657FD1;
 font-weight: 400;
-font-size: 16px;
+font-size: 20px;
 line-height: 21px;
 margin-bottom: 0;
 display: flex;
 align-items: center;
+text-align: start;
+width: 60%;
 }
 .Vel-number {
 color: #657FD1;
@@ -52,44 +53,23 @@ font-weight: 700;
 font-size: 30px;
 line-height: 33px;
 margin-bottom: 0;
+text-align: start;
 display: flex;
 align-items: flex-end;
+width: 40%;
 }
-.Vel-subs,
-.Stat-subs {
+.Vel-subs {
 color: #D2D1D1;
 font-weight: 400;
 font-size: 14px;
 line-height: 21px;
 margin-bottom: 0;
 margin-left: 8px;
-}
-.Stat-subs {
-font-size: 16px;
-}
-.Stat-Single{
 display: flex;
-align-items: flex-end;
-justify-self: center;
-margin-top: 20px;
+align-items: center;
+justify-content: space-between;
+width: 100%;
 }
-.Stat-bar {
-width: 150px;
-height: 16px;
-background-color: #d2d1d196;
-border-radius: 10px;
-margin-right: 20px;
-position: relative;
-margin-bottom: 6px;
-}
-.Stat-bar-progress {
-position: absolute;
-left: 0;
-top: 0;
-height: 16px;
-border-radius: 10px;
-}
-
 .Guidance-title,
 .Chart-title {
     text-align: start;
@@ -104,7 +84,7 @@ border-radius: 10px;
     justify-content: space-between;
 }
 .Chart-title {
-    margin-top: 60px;
+    margin-top: 30px;
 }
 
 .Rec-wrap {
@@ -142,4 +122,31 @@ border-radius: 10px;
             background-color: transparent !important;
         }
     }
+}
+.Modal-subtitle {
+color: #647ED1;
+font-size: 18px;
+font-weight: 400;
+font-style: italic;
+}
+.Modal-Title {
+    color: #647ED1;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+.Modal-DescTitle {
+    color: #647ED1;
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 30px;
+
+}
+.Modal-Text {
+    color: #647ED1;
+    font-size: 18px;
+    font-weight: 400;
+    margin-top: 30px;
+    margin-bottom: 10px;
+
 }
