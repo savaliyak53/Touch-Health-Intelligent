@@ -46,6 +46,7 @@ function DashboardButton({
   const handleClick = () => {
     if (!disabled) {
       navigate(`/goals/${insight?.id}`)
+      navigate(`/goals/${insight?.id}`)
     }
   };
   return (
@@ -60,6 +61,7 @@ function DashboardButton({
         {outerButton ? (
           '.'
         ) : (
+          <span className="Btn-text">{insight?.name}</span>
           <span className="Btn-text">{insight?.name}</span>
         )}
         {outerButton ? '.' : isPlus? <img src={image} className="Btn-img" /> : highlight && <span className="Btn-img Btn-letter" style={{color: `${highlight < 0.5? `#${color}` : `#fff`}`}}>S</span>}
