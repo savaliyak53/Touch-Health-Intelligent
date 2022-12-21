@@ -71,8 +71,9 @@ const Preferences = () => {
     const userId = localStorage.getItem('userId');
     setSpinning(true);
     setloading(true);
-    getUserInfo(userId);
     getIntegrationStatusService();
+    getUserInfo(userId);
+    
   }, []);
   const {
     handleSubmit,
@@ -161,7 +162,6 @@ const Preferences = () => {
     getIntegrationStatus()
       .then((response: any) => {
         if (response?.data) {
-          console.log('status: ', response.data)
           setChecked(response.data.enabled)
         }
       })
@@ -198,7 +198,6 @@ const Preferences = () => {
     })
   }
   const createAuthLink= (response:any) =>{
-    console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID)
     setChecked(true);
     const params = new URLSearchParams({
       client_id: `${process.env.REACT_APP_GOOGLE_CLIENT_ID}`,
@@ -212,7 +211,7 @@ const Preferences = () => {
       access_type: 'offline',
       state: JSON.stringify({
         sessionId: response.data.sessionId,
-        redirectUri: `${process.env.REACT_APP_GOOGLE_FIT_AUTH_CALLBACK}`
+        redirect_uri: `${process.env.REACT_APP_GOOGLE_FIT_AUTH_CALLBACK}`
       }),
       include_granted_scopes: 'true',
       prompt: 'consent select_account'
