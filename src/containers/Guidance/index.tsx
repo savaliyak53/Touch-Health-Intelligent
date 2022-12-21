@@ -10,28 +10,152 @@ import { goalDetails } from '../../services/goalsService'
 import {
     Chart as ChartJS,
   } from 'chart.js';
-  import 'chartjs-adapter-date-fns';
+import 'chartjs-adapter-date-fns';
 import { Line } from 'react-chartjs-2';
 
 
 
 const Guidance = () => {
     const [goal, setGoal] = useState<any>()
-    const data = {
-      labels: goal?.data.forecast.times,
-      datasets: [
-        {
-          label: 'Historical',
-          data: goal?.data.forecast.expectation,
-          fill: false,
-          borderColor: '#C47061',
-          backgroundColor: '#C47061',
-          lineTension: 0.4,
-          min: 0,
-          max: 1,
+    const [dataset, setDataset] = useState<any>();
+    const [startDate, setForecastStartDate] = useState<any>();
+    const [lastDate, setForecastLastDate] = useState<any>();
+    const [category, setCategory] = useState();
+    let data = {};
+
+    const options:any = {
+        responsive: true,
+        plugins: {
+            legend: {
+              display: false,
+              position: 'left',
+              align: 'start',
+              labels: {
+                usePointStyle: true,
+                pointStyle: 'circle',
+              },
+            },
+          },
+        scales: {
+            x: {
+                type: 'time',
+                unit: 'day',
+                time: {
+                  displayFormats: {
+                    quarter: 'MMM YYYY',
+                  },
+                },
+            },
+            y: {
+                min: 0,
+                max: 10,
+            },
         },
-      ]
     };
+    const calculate = (response:any) => {
+        if (response.data.forecast) {
+          const forecastTime = response?.data.forecast.times.map((item:any) => {
+            return item;
+        });
+          setForecastStartDate(forecastTime[0]);
+          setForecastLastDate(forecastTime[forecastTime.length - 1]);
+          const historicalTime = response?.data.historical.times.map((item:any) => {
+            return item;
+          });
+          //setHistoricalData
+          const expectation = response?.data.historical.expectation;
+          const historicalArray = [];
+          for (let i = 0; i < expectation.length; i++) {
+            const dataArray = [];
+            dataArray.push(historicalTime[i]);
+            dataArray.push(expectation[i]);
+            historicalArray.push(dataArray);
+          }
+          //setForecastData
+          const forecast = response?.data.forecast.expectation;
+          const forecastArray = [];
+          for (let i = 0; i < forecast.length; i++) {
+            const dataArray = [];
+            dataArray.push(forecastTime[i]);
+            dataArray.push(forecast[i]);
+            forecastArray.push(dataArray);
+          }
+          data = {
+            datasets: [
+              {
+                label: 'Historical',
+                data: historicalArray,
+                fill: false,
+                borderColor: '#000000',
+                backgroundColor: '#000000',
+                lineTension: 0.4,
+                min: 0,
+                max: 1,
+              },
+              {
+                label: 'Forecast',
+                data: forecastArray,
+                fill: false,
+                lineTension: 0.4,
+                min: 0,
+                max: 1,
+                backgroundColor: '#CD6052',
+                segment: {
+                  borderColor: '#CD6052',
+                },
+              },
+            ],
+          };
+          setDataset(data);          
+        } else {
+          setDataset({ datasets: [] });
+        }
+      };
+    const dateHighlighter = {
+        id: 'dateHighlighter',
+        beforeDatasetsDraw(chart:any) {
+          const {
+            ctx,
+            chartArea: { top, bottom, left, right, width, height },
+            scales: { x, y },
+          } = chart;
+          ctx.fillStyle = 'rgba(0,0,0,0.2)';
+          const forecastStartDate = new Date(startDate);
+          const forecastLastDate = new Date(lastDate);
+          ctx.fillRect(
+            x.getPixelForValue(forecastStartDate),
+            top,
+            x.getPixelForValue(forecastLastDate) -
+              x.getPixelForValue(forecastStartDate),
+            height
+          );
+        },
+    };
+    const legendMargin = {
+        id: 'legendMargin',
+        beforeInit(chart:any, legend:any, options:any) {
+            const fitValue = chart.legend.fit;
+            chart.legend.fit = function fit() {
+            fitValue.bind(chart.legend)();
+            return (this.height += 20);
+            };
+        },
+    };
+
+    const getGoalDetails = (goalId:string) => {
+        goalDetails(goalId)
+        .then((res:any)=>{
+            setGoal(res.data)
+            calculate(res.data)
+        })
+        .catch((error: any) => {
+            toast.error(error);
+        });
+    }
+
+    useEffect(() => {
+        getGoalDetails("0e5c8b92-a1f9-527e-6d04-6843ee3887ee")
+    },[])
     return (
         <Layout defaultHeader={true} hamburger={true}>
             {/* Top title with Delete button */}
@@ -117,24 +241,31 @@ const Guidance = () => {
             </div>
 
             {/* Chart */}
-            <h3 className={styles["Chart-title"]}>
-                {goal?.data.chart_title}
-                <Tooltip
-                    title={goal?.data.chart_tooltip}
-                    placement="bottomRight"
-                    overlayStyle={{marginRight:'10px'}}
-                    className={styles["Vel-name"]}
-                    mouseLeaveDelay={0}
-                >
-                <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
-                </Tooltip>
-            </h3>
+            {dataset && (
+                <>
+                    <h3 className={styles["Chart-title"]}>
+                        {goal?.data.chart_title}
+                        <Tooltip
+                            title="This shows how close you have been to achieving this goal in the past, and also your forecasted expectation if you continue doing all the things you currently do."
+                            placement="bottomRight"
+                            overlayStyle={{marginRight:'10px'}}
+                            className={styles["Vel-name"]}
+                            mouseLeaveDelay={0}
+                        >
+                        <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
+                        </Tooltip>
+                    </h3>
             <div>
                 <Line
                     options={options}
-                    data={data}
+                    data={dataset}
+                    plugins={[dateHighlighter, legendMargin]}
+
                 />
             </div>
+                </>
+            )}
+          
 
             {/* New Guidance */}
             {goal?.guidances.map((o:any) => (
