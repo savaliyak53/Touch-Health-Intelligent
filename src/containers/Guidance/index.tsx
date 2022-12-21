@@ -1,0 +1,362 @@
+import React, { useEffect, useState } from 'react';
+import styles from'./Guidance.module.scss';
+import Layout from '../../layouts/Layout/Layout';
+import { Button, Tooltip } from 'antd';
+import { DeleteOutlined, RightOutlined } from '@ant-design/icons';
+import { AiOutlineQuestionCircle } from 'react-icons/ai';
+import { toast } from 'react-toastify';
+import ReactMarkdown from 'react-markdown'
+import { goalDetails,deleteGoal } from '../../services/goalsService'
+import {
+    Chart as ChartJS,
+  } from 'chart.js';
+import 'chartjs-adapter-date-fns';
+import { Line } from 'react-chartjs-2';
+import { Navigate, useNavigate } from 'react-router';
+
+
+
+const Guidance = () => {
+    const [goal, setGoal] = useState<any>()
+    const [dataset, setDataset] = useState<any>();
+    const [startDate, setForecastStartDate] = useState<any>();
+    const [lastDate, setForecastLastDate] = useState<any>();
+    const navigate = useNavigate()
+    let data = {};
+    const id = 'e50265d1-34d2-3861-a76b-b6eda3515d16'
+
+    const options:any = {
+        responsive: true,
+        plugins: {
+            legend: {
+              display: false,
+              position: 'left',
+              align: 'start',
+              labels: {
+                usePointStyle: true,
+                pointStyle: 'circle',
+              },
+            },
+          },
+        scales: {
+            x: {
+                type: 'time',
+                unit: 'day',
+                time: {
+                  displayFormats: {
+                    quarter: 'MMM YYYY',
+                  },
+                },
+            },
+            y: {
+                min: 0,
+                max: 10,
+            },
+        },
+    };
+    const calculate = (response:any) => {
+        if (response.data.forecast) {
+          const forecastTime = response?.data.forecast.times.map((item:any) => {
+            return item;
+        });
+          setForecastStartDate(forecastTime[0]);
+          setForecastLastDate(forecastTime[forecastTime.length - 1]);
+          const historicalTime = response?.data.historical.times.map((item:any) => {
+            return item;
+          });
+          //setHistoricalData
+          const expectation = response?.data.historical.expectation;
+          const historicalArray = [];
+          for (let i = 0; i < expectation.length; i++) {
+            const dataArray = [];
+            dataArray.push(historicalTime[i]);
+            dataArray.push(expectation[i]);
+            historicalArray.push(dataArray);
+          }
+          //setForecastData
+          const forecast = response?.data.forecast.expectation;
+          const forecastArray = [];
+          for (let i = 0; i < forecast.length; i++) {
+            const dataArray = [];
+            dataArray.push(forecastTime[i]);
+            dataArray.push(forecast[i]);
+            forecastArray.push(dataArray);
+          }
+          data = {
+            datasets: [
+              {
+                label: 'Historical',
+                data: historicalArray,
+                fill: false,
+                borderColor: '#000000',
+                backgroundColor: '#000000',
+                lineTension: 0.4,
+                min: 0,
+                max: 1,
+              },
+              {
+                label: 'Forecast',
+                data: forecastArray,
+                fill: false,
+                lineTension: 0.4,
+                min: 0,
+                max: 1,
+                backgroundColor: '#CD6052',
+                segment: {
+                  borderColor: '#CD6052',
+                },
+              },
+            ],
+          };
+          setDataset(data);          
+        } else {
+          setDataset({ datasets: [] });
+        }
+      };
+    const dateHighlighter = {
+        id: 'dateHighlighter',
+        beforeDatasetsDraw(chart:any) {
+          const {
+            ctx,
+            chartArea: { top, bottom, left, right, width, height },
+            scales: { x, y },
+          } = chart;
+          ctx.fillStyle = 'rgba(0,0,0,0.2)';
+          const forecastStartDate = new Date(startDate);
+          const forecastLastDate = new Date(lastDate);
+          ctx.fillRect(
+            x.getPixelForValue(forecastStartDate),
+            top,
+            x.getPixelForValue(forecastLastDate) -
+              x.getPixelForValue(forecastStartDate),
+            height
+          );
+        },
+    };
+    const legendMargin = {
+        id: 'legendMargin',
+        beforeInit(chart:any, legend:any, options:any) {
+            const fitValue = chart.legend.fit;
+            chart.legend.fit = function fit() {
+            fitValue.bind(chart.legend)();
+            return (this.height += 20);
+            };
+        },
+    };
+
+    const getGoalDetails = (goalId:string) => {
+        goalDetails(goalId)
+        .then((res:any)=>{
+            setGoal(res.data)
+            calculate(res.data)
+        })
+        .catch((error: any) => {
+            toast.error(error);
+        });
+    }
+    const handleDelete = (id:string) => {
+        deleteGoal(id)
+        .then((res)=>{
+            toast.success('Goal removed');
+            navigate('/dashboard')
+        })
+        .catch((error: any) => {
+            toast.error(error);
+        });
+    }
+
+    useEffect(() => {
+        getGoalDetails("0e5c8b92-a1f9-527e-6d04-6843ee3887ee")
+    },[])
+    return (
+        <Layout defaultHeader={true} hamburger={true}>
+            {/* Top title with Delete button */}
+            <div className={styles["Prevn-wrap"]}>
+                <h2 className={styles["Prevn-text"]}>{goal?.info.name}</h2>
+                <Button className={styles["Prevn-btn"]} onClick={() => handleDelete(id)}><DeleteOutlined style={{ fontSize: '28px', color: '#D2D1D1', cursor: 'pointer' }} /></Button>
+            </div>
+
+            <div className={styles["Vel-Eta-wrap"]}>
+                <div className={styles["Vel-wrap"]}>
+                    {/* Single Velocity Wrap */}
+                    <span className={styles["Vel-name"]}>
+                        Velocity
+                        <Tooltip
+                            title={'Some Text To be Display'}
+                            placement="bottomRight"
+                            overlayStyle={{marginRight:'10px'}}
+                            mouseLeaveDelay={0}
+                        >
+                        <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
+                        </Tooltip>
+                        </span>
+                    <h2 className={styles["Vel-number"]}>{goal?.data.velocity}<span className={styles["Vel-subs"]}>Points/ day</span></h2>
+                </div>
+                {/* Single ETA wrap */}
+                <div className={styles["Vel-wrap"]}>
+                    <span className={styles["Vel-name"]}>
+                        ETA
+                        <Tooltip
+                            title={'Some Text To be Display'}
+                            placement="bottomRight"
+                            overlayStyle={{marginRight:'10px'}}
+                            mouseLeaveDelay={0}
+                        >
+                        <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
+                        </Tooltip>
+                    </span>
+                    <h2 className={styles["Vel-number"]}>{goal?.data.eta}<span className={styles["Vel-subs"]}>day</span></h2>
+                </div>
+            </div>
+
+            <div className={styles["Stat-wrap"]}>
+                {/* Single Stat bar section */}
+                <div className={styles["Stat-Single"]}>
+                    <div className={styles["Stat-bar"]}><span className={styles["Stat-bar-progress"]} style={{ width: `${goal?.data.success_score+'%'}`, backgroundColor: '#DFC877'}}></span></div>
+                    <div className={styles["Vel-wrap"]}>
+                        <span className={styles["Vel-name"]}>Success</span>
+                        <h2 className={styles["Vel-number"]}>
+                            {goal?.data.success_score}
+                            <span className={styles["Stat-subs"]}> / 100</span>
+                            <Tooltip
+                                title={'Some Text To be Display'}
+                                placement="bottomRight"
+                                overlayStyle={{marginRight:'10px'}}
+                                className={styles["Vel-name"]}
+                                mouseLeaveDelay={0}
+                            >
+                            <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
+                            </Tooltip>
+                        </h2>
+                    </div>
+                </div>
+                {/* Single Stat bar section */}
+                <div className={styles["Stat-Single"]}>
+                    <div className={styles["Stat-bar"]}><span className={styles["Stat-bar-progress"]} style={{ width: `${goal?.data.data_score+'%'}`, backgroundColor: '#5BD056'}}></span></div>
+                    <div className={styles["Vel-wrap"]}>
+                        <span className={styles["Vel-name"]}>Data requirement</span>
+                        <h2 className={styles["Vel-number"]}>
+                            {goal?.data.data_score}
+                            <span className={styles["Stat-subs"]}> / 100</span>
+                            <Tooltip
+                                title={'Some Text To be Display'}
+                                placement="bottomRight"
+                                overlayStyle={{marginRight:'10px'}}
+                                className={styles["Vel-name"]}
+                                mouseLeaveDelay={0}
+                            >
+                            <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
+                            </Tooltip>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            {/* Chart */}
+            {dataset && (
+                <>
+                    <h3 className={styles["Chart-title"]}>
+                        {goal?.data.chart_title}
+                        <Tooltip
+                            title="This shows how close you have been to achieving this goal in the past, and also your forecasted expectation if you continue doing all the things you currently do."
+                            placement="bottomRight"
+                            overlayStyle={{marginRight:'10px'}}
+                            className={styles["Vel-name"]}
+                            mouseLeaveDelay={0}
+                        >
+                        <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
+                        </Tooltip>
+                    </h3>
+            <div>
+                <Line
+                    options={options}
+                    data={dataset}
+                    plugins={[dateHighlighter, legendMargin]}
+
+                />
+            </div>
+                </>
+            )}
+          
+
+            {/* New Guidance */}
+            {goal?.guidances.map((o:any) => (
+                <div key={o.data.id}>
+                { o.data.status == 'new' && (
+                <>
+                    <h3 className={styles["Guidance-title"]}>
+                        New Guidance
+                    </h3>
+                    <div className={styles["Rec-wrap"]}>
+                        <Button className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(214 214 214 / 0.16)` }}>
+                            {/* <span className={styles["Rec-Text"]}><ReactMarkdown>{o.info.description_md}</ReactMarkdown></span> */}
+                            <span className={styles["Rec-Text"]}>{o.info.name}</span>
+                            <RightOutlined className={styles["Arrow"]}/>
+                        </Button>
+                    </div>
+                </>
+                )}
+                </div>
+            ))}
+            {/* Active Guidance */}
+            {goal?.guidances.map((o:any) => (
+                <div key={o.data.id}>
+                { o.data.status == 'active' && (
+                <>
+                    <h3 className={styles["Guidance-title"]}>
+                        Active Guidance
+                    </h3>
+                    <div className={styles["Rec-wrap"]}>
+                        <Button className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(101 127 209 / 0.16)` }}>
+                            <span className={styles["Rec-Text"]}>{o.info.name}</span>
+                            <RightOutlined className={styles["Arrow"]}/>
+                        </Button>
+                    </div>
+                </>
+                )}
+                </div>
+            ))}
+            {/* Inactive Guidance */}
+            {goal?.guidances.map((o:any) => (
+                <div key={o.data.id}>
+                { o.data.status == 'inactive' && (
+                <>
+                    <h3 className={styles["Guidance-title"]}>
+                        Inactive Guidance
+                    </h3>
+                    <div className={styles["Rec-wrap"]}>
+                        <Button className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(25 150 44 / 0.16)` }}>
+                            <span className={styles["Rec-Text"]}>{o.info.name}</span>
+                            <RightOutlined className={styles["Arrow"]}/>
+                        </Button>
+                    </div>
+                </>
+                )}
+                </div>
+            ))}
+            {/* <h3 className={styles["Guidance-title"]}>
+                New Guidance
+            </h3>
+            <div className={styles["Rec-wrap"]}>
+                <Button className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(101 127 209 / 0.16)` }}>
+                    <span className={styles["Rec-Text"]}>Get to sleep by 11:00pm everyday</span>
+                    <RightOutlined className={styles["Arrow"]}/>
+                </Button>
+            </div>
+
+            <h3 className={styles["Guidance-title"]}>
+                New Guidance
+            </h3>
+            <div className={styles["Rec-wrap"]}>
+                <Button className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(25 150 44 / 0.16)` }}>
+                    <span className={styles["Rec-Text"]}>Get to sleep by 11:00pm everyday</span>
+                    <RightOutlined className={styles["Arrow"]}/>
+                </Button>
+            </div> */}
+
+
+        </Layout>
+    )
+
+}
+export default Guidance
