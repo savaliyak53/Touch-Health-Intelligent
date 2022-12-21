@@ -6,12 +6,13 @@ import { DeleteOutlined, RightOutlined } from '@ant-design/icons';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import ReactMarkdown from 'react-markdown'
-import { goalDetails } from '../../services/goalsService'
+import { goalDetails,deleteGoal } from '../../services/goalsService'
 import {
     Chart as ChartJS,
   } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { Line } from 'react-chartjs-2';
+import { Navigate, useNavigate } from 'react-router';
 
 
 
@@ -20,8 +21,9 @@ const Guidance = () => {
     const [dataset, setDataset] = useState<any>();
     const [startDate, setForecastStartDate] = useState<any>();
     const [lastDate, setForecastLastDate] = useState<any>();
-    const [category, setCategory] = useState();
+    const navigate = useNavigate()
     let data = {};
+    const id = 'e50265d1-34d2-3861-a76b-b6eda3515d16'
 
     const options:any = {
         responsive: true,
@@ -152,6 +154,16 @@ const Guidance = () => {
             toast.error(error);
         });
     }
+    const handleDelete = (id:string) => {
+        deleteGoal(id)
+        .then((res)=>{
+            toast.success('Goal removed');
+            navigate('/dashboard')
+        })
+        .catch((error: any) => {
+            toast.error(error);
+        });
+    }
 
     useEffect(() => {
         getGoalDetails("0e5c8b92-a1f9-527e-6d04-6843ee3887ee")
@@ -161,7 +173,7 @@ const Guidance = () => {
             {/* Top title with Delete button */}
             <div className={styles["Prevn-wrap"]}>
                 <h2 className={styles["Prevn-text"]}>{goal?.info.name}</h2>
-                <Button className={styles["Prevn-btn"]}><DeleteOutlined style={{ fontSize: '28px', color: '#D2D1D1' }} /></Button>
+                <Button className={styles["Prevn-btn"]} onClick={() => handleDelete(id)}><DeleteOutlined style={{ fontSize: '28px', color: '#D2D1D1', cursor: 'pointer' }} /></Button>
             </div>
 
             <div className={styles["Vel-Eta-wrap"]}>
