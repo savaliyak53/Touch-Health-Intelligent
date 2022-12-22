@@ -13,12 +13,9 @@ const Dashboard = () => {
   const [sections,setSections] = useState<any>();
   useEffect(() => {
     getDashboard().then((response) => {
-      
       if(response.data){
         setSections(response.data.sections);
       }
-      //setLoading(false);
-      //setData([...response.data.concerns]);
     })
     .catch((error) => {
       console.log('error is ', error);
@@ -31,8 +28,6 @@ const Dashboard = () => {
   let itemPrinted = 0;
   const Section = (outer: number) => {
     const section: React.ReactNode[] = [];
-    const insights = sections;
-
     for (let i = 0; i < sections[outer]?.length; i++) {
       {
         rowNumber++;
@@ -76,28 +71,28 @@ const Dashboard = () => {
         section.push(
           <div className={styles["btn-group"]} key={Math.random().toString()}>
             <DashboardButton
-              image={`${insights[outer][i]?.category?.icon}`}
+              image={`${sections[outer][i]?.category?.icon}`}
               disabled={true}
-              color={`${insights[outer][i]?.color}`}
+              color={`${sections[outer][i]?.color}`}
               outerButton={true}
-              highlight={insights[outer][i].opacity}
+              highlight={sections[outer][i].opacity}
             />
             <DashboardButton
-              image={`${insights[outer][i]?.category?.icon}`}
+              image={`${sections[outer][i]?.category?.icon}`}
               disabled={false}
-              color={`${insights[outer][i]?.color}`}
+              color={`${sections[outer][i]?.color}`}
               outerButton={false}
-              insight={insights[outer][i]}
+              insight={sections[outer][i]}
               outer={outer}
               inner={i}
-              highlight={insights[outer][i].opacity}
+              highlight={sections[outer][i].opacity}
             />
             <DashboardButton
-              image={`${insights[outer][i]?.category?.icon}`}
+              image={`${sections[outer][i]?.category?.icon}`}
               disabled={true}
-              color={`${insights[outer][i]?.color}`}
+              color={`${sections[outer][i]?.color}`}
               outerButton={true}
-              highlight={insights[outer][i].opacity}
+              highlight={sections[outer][i].opacity}
             />
           </div>
         );
@@ -177,10 +172,8 @@ const Dashboard = () => {
   };
   const Dashboard = () => {
     const dashboard: React.ReactNode[] = [];
-    const insights = sections;
-
-    //const insights = hardCodedresponse.insights;
-    for (let i = 0; i < insights.length; i++) {
+  //const insights = hardCodedresponse.insights;
+    for (let i = 0; i < sections.length; i++) {
       dashboard.push(Section(i));
     }
     rowNumber++;
