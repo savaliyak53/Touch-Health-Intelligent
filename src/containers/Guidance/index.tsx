@@ -16,6 +16,7 @@ import { Navigate, useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 import rehypeRaw from "rehype-raw";
 import { guidanceStatus } from '../../services/authservice';
+import { dateFormatRenewal } from '../../utils/lib';
 
 const Guidance = () => {
     const [goal, setGoal] = useState<any>()
@@ -55,7 +56,7 @@ const Guidance = () => {
             },
             y: {
                 min: 0,
-                max: 10,
+                max: 100,
             },
         },
     };
@@ -222,7 +223,7 @@ const Guidance = () => {
                         <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
                         </Tooltip>
                         </span>
-                    <h2 className={styles["Vel-number"]}>{goal?.data.velocity}<span className={styles["Vel-subs"]}>Points/ day</span></h2>
+                    <h2 className={styles["Vel-number"]}>{goal?.data.velocity.toFixed(1)}<span className={styles["Vel-subs"]}>Points/ day</span></h2>
                 </div>
                 {/* Single ETA wrap */}
                 <div className={styles["Vel-wrap"]}>
@@ -237,7 +238,7 @@ const Guidance = () => {
                         <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
                         </Tooltip>
                     </span>
-                    <h2 className={styles["Vel-number"]}>{goal?.data.eta}<span className={styles["Vel-subs"]}>day</span></h2>
+                    <h2 className={styles["Vel-number"]}>{dateFormatRenewal(goal?.data.eta)}</h2>
                 </div>
             </div>
 
