@@ -44,6 +44,9 @@ function DashboardButton({
     }
   }, [context?.showButton]);
   const handleClick = () => {
+    if(isPlus){
+      navigate(`/add-goals`)
+    }
     if (!disabled) {
       navigate(`/goals/${insight?.id}`)
       navigate(`/goals/${insight?.id}`)
