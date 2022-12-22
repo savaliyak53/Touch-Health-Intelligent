@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from'./Guidance.module.scss';
 import Layout from '../../layouts/Layout/Layout';
 import { Button, Tooltip } from 'antd';
-import { DeleteOutlined, RightOutlined, LeftOutlined } from '@ant-design/icons';
+import { DeleteOutlined, RightOutlined } from '@ant-design/icons';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import ReactMarkdown from 'react-markdown'
@@ -177,30 +177,33 @@ const Guidance = () => {
             </div>
 
             <div className={styles["Vel-Eta-wrap"]}>
-                {/* Single Velocity Wrap */}
                 <div className={styles["Vel-wrap"]}>
+                    {/* Single Velocity Wrap */}
                     <span className={styles["Vel-name"]}>
                         Velocity
-                    </span>
-                    <h2 className={styles["Vel-number"]}>
-                        2
-                        <span className={styles["Vel-subs"]}>
-                            Points/ day
-                            <Tooltip
-                                title={'Some Text To be Display'}
-                                placement="bottomRight"
-                                overlayStyle={{marginRight:'10px'}}
-                                mouseLeaveDelay={0}
-                            >
-                            <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
-                            </Tooltip>
+                        <Tooltip
+                            title={'Some Text To be Display'}
+                            placement="bottomRight"
+                            overlayStyle={{marginRight:'10px'}}
+                            mouseLeaveDelay={0}
+                        >
+                        <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
+                        </Tooltip>
                         </span>
                     <h2 className={styles["Vel-number"]}>{goal?.data.velocity}<span className={styles["Vel-subs"]}>Points/ day</span></h2>
                 </div>
-                {/* Single Velocity Wrap */}
+                {/* Single ETA wrap */}
                 <div className={styles["Vel-wrap"]}>
                     <span className={styles["Vel-name"]}>
-                    Expected completion
+                        ETA
+                        <Tooltip
+                            title={'Some Text To be Display'}
+                            placement="bottomRight"
+                            overlayStyle={{marginRight:'10px'}}
+                            mouseLeaveDelay={0}
+                        >
+                        <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
+                        </Tooltip>
                     </span>
                     <h2 className={styles["Vel-number"]}>{goal?.data.eta}<span className={styles["Vel-subs"]}>day</span></h2>
                 </div>
@@ -219,6 +222,7 @@ const Guidance = () => {
                                 title={'Some Text To be Display'}
                                 placement="bottomRight"
                                 overlayStyle={{marginRight:'10px'}}
+                                className={styles["Vel-name"]}
                                 mouseLeaveDelay={0}
                             >
                             <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
@@ -238,12 +242,13 @@ const Guidance = () => {
                                 title={'Some Text To be Display'}
                                 placement="bottomRight"
                                 overlayStyle={{marginRight:'10px'}}
+                                className={styles["Vel-name"]}
                                 mouseLeaveDelay={0}
                             >
                             <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
                             </Tooltip>
-                        </span>
-                    </h2>
+                        </h2>
+                    </div>
                 </div>
             </div>
 
@@ -329,6 +334,25 @@ const Guidance = () => {
                 )}
                 </div>
             ))}
+            {/* <h3 className={styles["Guidance-title"]}>
+                New Guidance
+            </h3>
+            <div className={styles["Rec-wrap"]}>
+                <Button className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(101 127 209 / 0.16)` }}>
+                    <span className={styles["Rec-Text"]}>Get to sleep by 11:00pm everyday</span>
+                    <RightOutlined className={styles["Arrow"]}/>
+                </Button>
+            </div>
+            <h3 className={styles["Guidance-title"]}>
+                New Guidance
+            </h3>
+            <div className={styles["Rec-wrap"]}>
+                <Button className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(25 150 44 / 0.16)` }}>
+                    <span className={styles["Rec-Text"]}>Get to sleep by 11:00pm everyday</span>
+                    <RightOutlined className={styles["Arrow"]}/>
+                </Button>
+            </div> */}
+
 
         </Layout>
     )
