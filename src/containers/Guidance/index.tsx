@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from'./Guidance.module.scss';
 import Layout from '../../layouts/Layout/Layout';
 import { Button, Tooltip } from 'antd';
-import { DeleteOutlined, RightOutlined } from '@ant-design/icons';
+import { DeleteOutlined, RightOutlined, LeftOutlined } from '@ant-design/icons';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import ReactMarkdown from 'react-markdown'
@@ -177,33 +177,30 @@ const Guidance = () => {
             </div>
 
             <div className={styles["Vel-Eta-wrap"]}>
+                {/* Single Velocity Wrap */}
                 <div className={styles["Vel-wrap"]}>
-                    {/* Single Velocity Wrap */}
                     <span className={styles["Vel-name"]}>
                         Velocity
-                        <Tooltip
-                            title={'Some Text To be Display'}
-                            placement="bottomRight"
-                            overlayStyle={{marginRight:'10px'}}
-                            mouseLeaveDelay={0}
-                        >
-                        <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
-                        </Tooltip>
+                    </span>
+                    <h2 className={styles["Vel-number"]}>
+                        2
+                        <span className={styles["Vel-subs"]}>
+                            Points/ day
+                            <Tooltip
+                                title={'Some Text To be Display'}
+                                placement="bottomRight"
+                                overlayStyle={{marginRight:'10px'}}
+                                mouseLeaveDelay={0}
+                            >
+                            <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
+                            </Tooltip>
                         </span>
                     <h2 className={styles["Vel-number"]}>{goal?.data.velocity}<span className={styles["Vel-subs"]}>Points/ day</span></h2>
                 </div>
-                {/* Single ETA wrap */}
+                {/* Single Velocity Wrap */}
                 <div className={styles["Vel-wrap"]}>
                     <span className={styles["Vel-name"]}>
-                        ETA
-                        <Tooltip
-                            title={'Some Text To be Display'}
-                            placement="bottomRight"
-                            overlayStyle={{marginRight:'10px'}}
-                            mouseLeaveDelay={0}
-                        >
-                        <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
-                        </Tooltip>
+                    Expected completion
                     </span>
                     <h2 className={styles["Vel-number"]}>{goal?.data.eta}<span className={styles["Vel-subs"]}>day</span></h2>
                 </div>
@@ -222,7 +219,6 @@ const Guidance = () => {
                                 title={'Some Text To be Display'}
                                 placement="bottomRight"
                                 overlayStyle={{marginRight:'10px'}}
-                                className={styles["Vel-name"]}
                                 mouseLeaveDelay={0}
                             >
                             <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
@@ -242,13 +238,12 @@ const Guidance = () => {
                                 title={'Some Text To be Display'}
                                 placement="bottomRight"
                                 overlayStyle={{marginRight:'10px'}}
-                                className={styles["Vel-name"]}
                                 mouseLeaveDelay={0}
                             >
                             <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
                             </Tooltip>
-                        </h2>
-                    </div>
+                        </span>
+                    </h2>
                 </div>
             </div>
 
