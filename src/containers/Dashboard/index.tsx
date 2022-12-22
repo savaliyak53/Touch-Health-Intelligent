@@ -60,7 +60,7 @@ const Dashboard = () => {
               insight={sections[outer][i]}
               outer={outer}
               inner={i}
-              highlight={sections[outer][i].opacity}
+              highlight={sections[outer][i-1].opacity}
             />
           </div>
         );
@@ -171,13 +171,12 @@ const Dashboard = () => {
     return emptysection;
   };
   const Dashboard = () => {
-    const dashboard: React.ReactNode[] = [];
-  //const insights = hardCodedresponse.insights;
-    for (let i = 0; i < sections.length; i++) {
-      dashboard.push(Section(i));
-    }
-    rowNumber++;
-    return dashboard;
+      const dashboard: React.ReactNode[] = [];
+      for (let i = 0; i < sections.length; i++) {
+        dashboard.push(Section(i));
+      }
+      rowNumber++;
+      return dashboard;
   };
   const EmptyDashboard = () => {
     const emptydashboard: React.ReactNode[] = [];
