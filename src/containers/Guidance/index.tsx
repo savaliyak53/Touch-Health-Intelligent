@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styles from'./Guidance.module.scss';
 import Layout from '../../layouts/Layout/Layout';
-import { Button, Tooltip } from 'antd';
-import { DeleteOutlined, RightOutlined } from '@ant-design/icons';
+import { Button, Modal, Tooltip } from 'antd';
+import { DeleteOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import ReactMarkdown from 'react-markdown'
@@ -14,17 +14,21 @@ import 'chartjs-adapter-date-fns';
 import { Line } from 'react-chartjs-2';
 import { Navigate, useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
-
-
+import rehypeRaw from "rehype-raw";
+import { guidanceStatus } from '../../services/authservice';
 
 const Guidance = () => {
     const [goal, setGoal] = useState<any>()
+    const [open, setOpen] = useState<boolean>(false)
+    const [type, setType] = useState<string>()
+    const [guidanceData, setGuidanceDate] = useState<any>()
+
     const [dataset, setDataset] = useState<any>();
     const [startDate, setForecastStartDate] = useState<any>();
     const [lastDate, setForecastLastDate] = useState<any>();
     const navigate = useNavigate()
     let data = {};
-    const { id } = useParams<string>()
+    const { id:goalId } = useParams<string>()
 
     const options:any = {
         responsive: true,
@@ -165,16 +169,42 @@ const Guidance = () => {
             toast.error(error);
         });
     }
-
+    const handleClick =(type:string, info:any)=>{
+     setOpen(true)
+     setType(type)
+     setGuidanceDate(info)
+    }
+    const handleClose = ( )=>{
+        setType(undefined)
+        setGuidanceDate(undefined)
+        setOpen(false)
+    }
+    const handleGuidanceStatus = (status:string)=>{
+        //activate-inactivate guidance
+        guidanceStatus(guidanceData.id,{"status": status}).then((response:any) => {
+            if(response.data){
+                if(goalId){
+                 getGoalDetails(goalId)
+                }
+              setOpen(false)
+            }
+          })
+          .catch((error) => {
+            console.log('error is ', error);
+            toast('Something went wrong');
+          });    
+    }
     useEffect(() => {
-        getGoalDetails("0e5c8b92-a1f9-527e-6d04-6843ee3887ee")
+        if(goalId){
+            getGoalDetails(goalId)
+        }
     },[])
     return (
         <Layout defaultHeader={true} hamburger={true}>
             {/* Top title with Delete button */}
             <div className={styles["Prevn-wrap"]}>
                 <h2 className={styles["Prevn-text"]}>{goal?.info.name}</h2>
-                <Button className={styles["Prevn-btn"]} onClick={() => handleDelete(id)}><DeleteOutlined style={{ fontSize: '28px', color: '#D2D1D1', cursor: 'pointer' }} /></Button>
+                <Button className={styles["Prevn-btn"]} onClick={() => handleDelete(goalId)}><DeleteOutlined style={{ fontSize: '28px', color: '#D2D1D1', cursor: 'pointer' }} /></Button>
             </div>
             { goal?.data && (
                 <>
@@ -218,7 +248,7 @@ const Guidance = () => {
                     <div className={styles["Vel-wrap"]}>
                         <span className={styles["Vel-name"]}>Success</span>
                         <h2 className={styles["Vel-number"]}>
-                            {goal?.data.success_score}
+                            {goal?.data.success_score.toFixed(2)}
                             <span className={styles["Stat-subs"]}> / 100</span>
                             <Tooltip
                                 title={'Some Text To be Display'}
@@ -238,7 +268,7 @@ const Guidance = () => {
                     <div className={styles["Vel-wrap"]}>
                         <span className={styles["Vel-name"]}>Data requirement</span>
                         <h2 className={styles["Vel-number"]}>
-                            {goal?.data.data_score}
+                            {goal?.data.data_score.toFixed(2)}
                             <span className={styles["Stat-subs"]}> / 100</span>
                             <Tooltip
                                 title={'Some Text To be Display'}
@@ -293,7 +323,7 @@ const Guidance = () => {
                         New Guidance
                     </h3>
                     <div className={styles["Rec-wrap"]}>
-                        <Button className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(214 214 214 / 0.16)` }}>
+                        <Button onClick={()=>handleClick('new', o.info)} className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(214 214 214 / 0.16)` }}>
                             {/* <span className={styles["Rec-Text"]}><ReactMarkdown>{o.info.description_md}</ReactMarkdown></span> */}
                             <span className={styles["Rec-Text"]}>{o.info.name}</span>
                             <RightOutlined className={styles["Arrow"]}/>
@@ -308,13 +338,13 @@ const Guidance = () => {
             {goal?.guidances.map((o:any) => (
                 <>
                 {o.data && <div key={o.data.id}>
-                {o.data.status == 'active' && (
+                {o.data.status === 'active' && (
                 <>
                     <h3 className={styles["Guidance-title"]}>
                         Active Guidance
                     </h3>
                     <div className={styles["Rec-wrap"]}>
-                        <Button className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(101 127 209 / 0.16)` }}>
+                        <Button onClick={()=>handleClick('active',o.info)}  className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(101 127 209 / 0.16)` }}>
                             <span className={styles["Rec-Text"]}>{o.info.name}</span>
                             <RightOutlined className={styles["Arrow"]}/>
                         </Button>
@@ -330,13 +360,13 @@ const Guidance = () => {
             {goal?.guidances.map((o:any) => (
                 <>
                 {o.data && <div key={o.data.id}>
-                { o.data && o.data.status == 'inactive' && (
+                { o.data && o.data.status === 'inactive' && (
                 <>
                     <h3 className={styles["Guidance-title"]}>
                         Inactive Guidance
                     </h3>
                     <div className={styles["Rec-wrap"]}>
-                        <Button className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(25 150 44 / 0.16)` }}>
+                        <Button onClick={()=>handleClick('inactive',o.info)}  className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(25 150 44 / 0.16)` }}>
                             <span className={styles["Rec-Text"]}>{o.info.name}</span>
                             <RightOutlined className={styles["Arrow"]}/>
                         </Button>
@@ -347,6 +377,41 @@ const Guidance = () => {
                 }
                 </>
             ))}
+            <Modal
+                className='Guidance-Modal'
+                visible={open}
+                zIndex={99999}
+                closeIcon={<><LeftOutlined />Back</>}
+                footer={false}
+                onCancel={handleClose}
+            >
+                {type && type ==='inactive' && <p className={styles["Modal-subtitle"]}>Inactive</p>}
+                {type && type ==='active' && <p className={styles["Modal-subtitle"]}>Active</p>}
+                {type && type === 'new' && <h2 className={styles["Modal-Title"]}>New Guidance</h2> } 
+                {guidanceData && <ReactMarkdown rehypePlugins={[rehypeRaw]}>{guidanceData.description_md}</ReactMarkdown>}
+                
+                {type === 'active' && <Button
+                    className="Pref-btn btn Guidance-Inactive-btn"
+                    onClick={()=>handleGuidanceStatus('inactive')}
+                >
+                    Inactivate guidance
+                </Button>}
+                {type === 'inactive' && <div className='Btn-group'>
+                    <Button
+                        className="Pref-btn btn Guidance-Inactive-btn"
+                        onClick={handleClose}
+                    >
+                        Not for me
+                    </Button>
+                    <Button
+                        className="Pref-btn btn  Guidance-active-btn"
+                        onClick={()=>handleGuidanceStatus('active')}
+                    >
+                        Activate guidance
+                    </Button>
+                </div>}
+                
+            </Modal>
 
         </Layout>
     )
