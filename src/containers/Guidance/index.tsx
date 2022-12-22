@@ -285,7 +285,8 @@ const Guidance = () => {
 
             {/* New Guidance */}
             {goal?.guidances.map((o:any) => (
-                <div key={o.data.id}>
+                <>
+                {o.data && <div key={o.data.id}>
                 { o.data.status == 'new' && (
                 <>
                     <h3 className={styles["Guidance-title"]}>
@@ -300,12 +301,14 @@ const Guidance = () => {
                     </div>
                 </>
                 )}
-                </div>
+                </div>}
+                </>
             ))}
             {/* Active Guidance */}
             {goal?.guidances.map((o:any) => (
-                <div key={o.data.id}>
-                { o.data.status == 'active' && (
+                <>
+                {o.data && <div key={o.data.id}>
+                {o.data.status == 'active' && (
                 <>
                     <h3 className={styles["Guidance-title"]}>
                         Active Guidance
@@ -319,11 +322,15 @@ const Guidance = () => {
                 </>
                 )}
                 </div>
+                }
+                </>
+                
             ))}
             {/* Inactive Guidance */}
             {goal?.guidances.map((o:any) => (
-                <div key={o.data.id}>
-                { o.data.status == 'inactive' && (
+                <>
+                {o.data && <div key={o.data.id}>
+                { o.data && o.data.status == 'inactive' && (
                 <>
                     <h3 className={styles["Guidance-title"]}>
                         Inactive Guidance
@@ -337,26 +344,9 @@ const Guidance = () => {
                 </>
                 )}
                 </div>
+                }
+                </>
             ))}
-            {/* <h3 className={styles["Guidance-title"]}>
-                New Guidance
-            </h3>
-            <div className={styles["Rec-wrap"]}>
-                <Button className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(101 127 209 / 0.16)` }}>
-                    <span className={styles["Rec-Text"]}>Get to sleep by 11:00pm everyday</span>
-                    <RightOutlined className={styles["Arrow"]}/>
-                </Button>
-            </div>
-            <h3 className={styles["Guidance-title"]}>
-                New Guidance
-            </h3>
-            <div className={styles["Rec-wrap"]}>
-                <Button className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(25 150 44 / 0.16)` }}>
-                    <span className={styles["Rec-Text"]}>Get to sleep by 11:00pm everyday</span>
-                    <RightOutlined className={styles["Arrow"]}/>
-                </Button>
-            </div> */}
-
 
         </Layout>
     )
