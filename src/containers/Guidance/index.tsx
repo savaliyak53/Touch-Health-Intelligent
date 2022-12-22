@@ -334,26 +334,6 @@ const Guidance = () => {
                 )}
                 </div>
             ))}
-            {/* <h3 className={styles["Guidance-title"]}>
-                New Guidance
-            </h3>
-            <div className={styles["Rec-wrap"]}>
-                <Button className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(101 127 209 / 0.16)` }}>
-                    <span className={styles["Rec-Text"]}>Get to sleep by 11:00pm everyday</span>
-                    <RightOutlined className={styles["Arrow"]}/>
-                </Button>
-            </div>
-
-            <h3 className={styles["Guidance-title"]}>
-                New Guidance
-            </h3>
-            <div className={styles["Rec-wrap"]}>
-                <Button className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(25 150 44 / 0.16)` }}>
-                    <span className={styles["Rec-Text"]}>Get to sleep by 11:00pm everyday</span>
-                    <RightOutlined className={styles["Arrow"]}/>
-                </Button>
-            </div> */}
-
 
         </Layout>
     )

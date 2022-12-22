@@ -65,7 +65,6 @@ function DashboardButton({
           '.'
         ) : (
           <span className="Btn-text">{insight?.name}</span>
-          <span className="Btn-text">{insight?.name}</span>
         )}
         {outerButton ? '.' : isPlus? <img src={image} className="Btn-img" /> : highlight && <span className="Btn-img Btn-letter" style={{color: `${highlight < 0.5? `#${color}` : `#fff`}`}}>S</span>}
       </Button>

@@ -53,7 +53,7 @@ const AppRoutes = () => {
         </Route>
           <Route path="/add-goals" element={<AddGoals />} />
           <Route path="/intro-goals" element={<IntroGoals />} />
-          <Route path="/guidance" element={<Guidance />} />
+          <Route path="/goals/:id" element={<Guidance />} />
         {/* Protected Routes */}
           <Route path="/dashboard" element={<Dashboard />} />
         <Route element={<RequireAuth />}>
