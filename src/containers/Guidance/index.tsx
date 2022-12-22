@@ -132,7 +132,7 @@ const Guidance = () => {
                 {/* Active Guidance Modal ( onClick={() => setOpen(true)} ) */}
                 <Modal
                     className='Guidance-Modal'
-                    open={open}
+                    visible={open}
                     zIndex={99999}
                     closeIcon={<><LeftOutlined />Back</>}
                     footer={false}
