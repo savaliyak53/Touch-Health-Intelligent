@@ -6,16 +6,17 @@ import DashboardButton from '../../components/DashboardButton/DashboardButton';
 import { InsightContext } from '../../contexts/InsightContext';
 import { Spin } from 'antd';
 import { toast } from 'react-toastify';
+import { hardCodedresponse } from '../../utils/lib';
 import { getDashboard } from '../../services/dashboardservice';
 
 const Dashboard = () => {
   const context = useContext(InsightContext);
-  const [sections,setSections] = useState<any>();
   useEffect(() => {
+    getInsights();
     getDashboard().then((response) => {
-      if(response.data){
-        setSections(response.data.sections);
-      }
+      console.log('dashboard', response)
+      //setLoading(false);
+      //setData([...response.data.concerns]);
     })
     .catch((error) => {
       console.log('error is ', error);
@@ -24,11 +25,34 @@ const Dashboard = () => {
     });
     context?.commands.setInsightButton('');
   }, []);
+
   let rowNumber = 0;
   let itemPrinted = 0;
+  const getInsights = async () => {
+    try {
+      await context?.commands?.loadInsights();
+    } catch (error) {
+      //toast('unknown error');
+    }
+  };
+  const getOpacity = (insight: any) => {
+    const alpha_max = 1;
+    const alpha_min = 0.25;
+    const alpha =
+      alpha_min +
+      ((insight.present_value.expectation - insight.forecast.vmin) *
+        (alpha_max - alpha_min)) /
+        (insight.forecast.vmax - insight.forecast.vmin);
+    return alpha;
+  };
+
   const Section = (outer: number) => {
     const section: React.ReactNode[] = [];
-    for (let i = 0; i < sections[outer]?.length; i++) {
+    //nayab added hardcodedresponse
+    const insights = context?.insights?.insights;
+    //const insights = hardCodedresponse.insights;
+
+    for (let i = 0; i < insights[outer]?.length; i++) {
       {
         rowNumber++;
       }
@@ -39,28 +63,28 @@ const Dashboard = () => {
         section.push(
           <div className={styles["btn-group"]} key={Math.random().toString()}>
             <DashboardButton
-              image={`${sections[outer][i - 1]?.category?.icon}`}
+              image={`${insights[outer][i - 1]?.category?.icon}`}
               disabled={false}
-              color={`${sections[outer][i - 1]?.color}`}
+              color={`${insights[outer][i - 1]?.category?.color}`}
               outerButton={false}
-              insight={sections[outer][i - 1]}
+              insight={insights[outer][i - 1]}
               outer={outer}
               inner={i - 1}
-              highlight={sections[outer][i - 1].opacity}
+              highlight={getOpacity(insights[outer][i - 1])}
             />
             <DashboardButton
-              image={`${sections[outer][i]?.category?.icon}`}
+              image={`${insights[outer][i]?.category?.icon}`}
               disabled={
-                sections[outer]?.length - itemPrinted === 1 ? true : false
+                insights[outer]?.length - itemPrinted === 1 ? true : false
               }
-              color={`${sections[outer][i]?.color}`}
+              color={`${insights[outer][i]?.category?.color}`}
               outerButton={
-                sections[outer]?.length - itemPrinted === 1 ? true : false
+                insights[outer]?.length - itemPrinted === 1 ? true : false
               }
-              insight={sections[outer][i]}
+              insight={insights[outer][i]}
               outer={outer}
               inner={i}
-              highlight={sections[outer][i].opacity}
+              highlight={insights[outer][i] && getOpacity(insights[outer][i])}
             />
           </div>
         );
@@ -71,28 +95,28 @@ const Dashboard = () => {
         section.push(
           <div className={styles["btn-group"]} key={Math.random().toString()}>
             <DashboardButton
-              image={`${sections[outer][i]?.category?.icon}`}
+              image={`${insights[outer][i]?.category?.icon}`}
               disabled={true}
-              color={`${sections[outer][i]?.color}`}
+              color={`${insights[outer][i]?.category?.color}`}
               outerButton={true}
-              highlight={sections[outer][i].opacity}
+              highlight={getOpacity(insights[outer][i])}
             />
             <DashboardButton
-              image={`${sections[outer][i]?.category?.icon}`}
+              image={`${insights[outer][i]?.category?.icon}`}
               disabled={false}
-              color={`${sections[outer][i]?.color}`}
+              color={`${insights[outer][i]?.category?.color}`}
               outerButton={false}
-              insight={sections[outer][i]}
+              insight={insights[outer][i]}
               outer={outer}
               inner={i}
-              highlight={sections[outer][i].opacity}
+              highlight={getOpacity(insights[outer][i])}
             />
             <DashboardButton
-              image={`${sections[outer][i]?.category?.icon}`}
+              image={`${insights[outer][i]?.category?.icon}`}
               disabled={true}
-              color={`${sections[outer][i]?.color}`}
+              color={`${insights[outer][i]?.category?.color}`}
               outerButton={true}
-              highlight={sections[outer][i].opacity}
+              highlight={getOpacity(insights[outer][i])}
             />
           </div>
         );
@@ -106,6 +130,7 @@ const Dashboard = () => {
   };
   const EmptySection = (outer: number) => {
     const emptysection: React.ReactNode[] = [];
+    //const insights = context?.insights?.insights;
     for (let i = 0; i < 1; i++) {
       {
         rowNumber++;
@@ -172,8 +197,11 @@ const Dashboard = () => {
   };
   const Dashboard = () => {
     const dashboard: React.ReactNode[] = [];
-  //const insights = hardCodedresponse.insights;
-    for (let i = 0; i < sections.length; i++) {
+    //nayab added hardcodedresponse
+    const insights = context?.insights?.insights;
+    //const insights = hardCodedresponse.insights;
+
+    for (let i = 0; i < insights.length; i++) {
       dashboard.push(Section(i));
     }
     rowNumber++;
@@ -199,7 +227,6 @@ const Dashboard = () => {
                   disabled={true}
                   color={``}
                   outerButton={false}
-                  isPlus={true}
                 />
               </div>
               <div className={styles["btn-group"]} key="extraUpperButton">
@@ -218,7 +245,8 @@ const Dashboard = () => {
                   outerButton={true}
                 />
               </div>
-              {sections &&  sections.length !== 0 ? Dashboard():EmptyDashboard()}
+              {context && context.insights!==undefined && context?.insights?.insights?.length !== 0 && context?.insights?.insights?.length !== undefined ? Dashboard():EmptyDashboard()}
+              {/* {Dashboard()} */}
               {rowNumber % 2 == 0 ? (
                 <div className={styles["btn-group"]} key="extraLowerButton">
                   <DashboardButton
@@ -262,7 +290,7 @@ const Dashboard = () => {
                 </div>
               )}
             </div>
-          <Spin spinning={!sections} className="Spinner"></Spin>
+          <Spin spinning={context?.isLoading} className="Spinner"></Spin>
         </div>
       </Layout>
     </>

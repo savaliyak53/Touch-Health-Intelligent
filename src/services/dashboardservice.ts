@@ -32,3 +32,6 @@ export const getConcernsSearch = async (search: string) => {
 export const getInsightsService = async () => {
   return APIClient(`/insights/`, 'get');
 };
+export const getDashboard = async () => {
+  return APIClient(`/ai/dashboard`, 'get');
+};

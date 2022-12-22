@@ -5,6 +5,7 @@ import './DashboardButton.scss';
 import { useNavigate } from 'react-router-dom';
 import { InsightContext } from '../../contexts/InsightContext';
 import { Buffer } from 'buffer';
+import hexToRgba from 'hex-to-rgba';
 
 type Props = {
   image?: string;
@@ -17,6 +18,7 @@ type Props = {
   highlight?: number;
   show?: boolean;
   onClick?: any;
+  isPlus?: boolean;
 };
 function DashboardButton({
   image,
@@ -27,22 +29,13 @@ function DashboardButton({
   outer,
   inner,
   highlight,
+  isPlus,
 }: Props) {
   const context = useContext(InsightContext);
   const [show, setShow] = useState(false);
 
   const navigate = useNavigate();
-  const handleRedirectInsights = async () => {
-    await context?.commands?.loadSelectedInsightIndex(`${outer}-${inner}`);
-    await context?.commands?.loadSelectedInsight(insight);
-    navigate('/insights');
-  };
 
-  const handleRedirectTimeline = async () => {
-    await context?.commands?.loadSelectedInsightIndex(`${outer}-${inner}`);
-    await context?.commands?.loadSelectedInsight(insight);
-    navigate('/insights/guideline');
-  };
   useEffect(() => {
     if (context?.showButton === `${outer}-${inner}`) {
       setShow(true);
@@ -51,42 +44,28 @@ function DashboardButton({
     }
   }, [context?.showButton]);
   const handleClick = () => {
+    if(isPlus){
+      navigate(`/add-goals`)
+    }
     if (!disabled) {
-      context?.commands.setInsightButton(`${outer}-${inner}`);
+      navigate(`/goals/${insight?.id}`)
     }
   };
   return (
     <>
       <Button
         onClick={handleClick}
-        key={insight?.category.name + Math.random().toString()}
-        className={`Diamond-Btn ${
-          color === '394A7E' ? 'blue' : 'green'
-        } ${disabled ? 'disabled' : ''} ${show ? 'show' : ''}`}
-        style={{ backgroundColor: `rgb(${color === '394A7E' ? '57, 74, 126' : '89, 170, 142'}, ${highlight})`}}
+        key={insight?.name + Math.random().toString()}
+        className={`Diamond-Btn
+        ${outerButton? `${disabled ? 'disabled' : ''}`:``} ${show ? 'show' : ''}`}
+        style={{ backgroundColor: `${color? `${hexToRgba(color, highlight)}`:'rgb(229, 235, 225, 0.3)'} `}}
       >
-        <div className="inner-1" key={Math.random()}>
-          <a className="btn-inner" onClick={handleRedirectInsights}>
-            <img
-              src={`${process.env.PUBLIC_URL}/assets/mobileassets/Block-Chart-2.png`}
-              alt=""
-            />
-          </a>
-        </div>
         {outerButton ? (
           '.'
         ) : (
-          <span className="Btn-text">{insight?.category.name}</span>
+          <span className="Btn-text">{insight?.name}</span>
         )}
-        {outerButton ? '.' : <img src={image} className="Btn-img" />}
-        <div className="inner-2" key={Math.random()}>
-          <a className="btn-inner" onClick={handleRedirectTimeline}>
-            <img
-              src={`${process.env.PUBLIC_URL}/assets/mobileassets/Diagram-2.png`}
-              alt=""
-            />
-          </a>
-        </div>
+        {outerButton ? '.' : isPlus? <img src={image} className="Btn-img" /> : highlight && <span className="Btn-img Btn-letter" style={{color: `${highlight < 0.5? `#${color}` : `#fff`}`}}>{insight?.acronym}</span>}
       </Button>
     </>
   );

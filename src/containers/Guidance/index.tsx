@@ -13,6 +13,7 @@ import {
 import 'chartjs-adapter-date-fns';
 import { Line } from 'react-chartjs-2';
 import { Navigate, useNavigate } from 'react-router';
+import { useParams } from 'react-router-dom';
 
 
 
@@ -23,7 +24,7 @@ const Guidance = () => {
     const [lastDate, setForecastLastDate] = useState<any>();
     const navigate = useNavigate()
     let data = {};
-    const id = 'e50265d1-34d2-3861-a76b-b6eda3515d16'
+    const { id } = useParams<string>()
 
     const options:any = {
         responsive: true,
@@ -154,7 +155,7 @@ const Guidance = () => {
             toast.error(error);
         });
     }
-    const handleDelete = (id:string) => {
+    const handleDelete = (id:any) => {
         deleteGoal(id)
         .then((res)=>{
             toast.success('Goal removed');
@@ -175,7 +176,8 @@ const Guidance = () => {
                 <h2 className={styles["Prevn-text"]}>{goal?.info.name}</h2>
                 <Button className={styles["Prevn-btn"]} onClick={() => handleDelete(id)}><DeleteOutlined style={{ fontSize: '28px', color: '#D2D1D1', cursor: 'pointer' }} /></Button>
             </div>
-
+            { goal?.data && (
+                <>
             <div className={styles["Vel-Eta-wrap"]}>
                 <div className={styles["Vel-wrap"]}>
                     {/* Single Velocity Wrap */}
@@ -251,6 +253,8 @@ const Guidance = () => {
                     </div>
                 </div>
             </div>
+            </>
+            )}
 
             {/* Chart */}
             {dataset && (
@@ -343,7 +347,6 @@ const Guidance = () => {
                     <RightOutlined className={styles["Arrow"]}/>
                 </Button>
             </div>
-
             <h3 className={styles["Guidance-title"]}>
                 New Guidance
             </h3>
