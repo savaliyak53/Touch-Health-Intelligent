@@ -149,3 +149,6 @@ export const revokeGoogleFit = async () => {
 export const getIntegrationStatus = async () => {
   return APIClient('/user/integration/status','get')
 }
+export const guidanceStatus= async (id:string, body:any) => {
+  return APIClient(`/ai/guidances/${id}`,'put', body)
+}
