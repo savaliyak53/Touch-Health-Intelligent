@@ -190,7 +190,7 @@ const Question = ({
             {question.options.map((item: any, index: number) => (
               <>
                 <Radio.Button
-                  className={`Question-Option${index}`}
+                  className={styles["dialog-btn"]}
                   value={item}
                   key={index}
                 >

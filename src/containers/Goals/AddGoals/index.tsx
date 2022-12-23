@@ -46,10 +46,24 @@ const AddGoals = () => {
         mode: 'onSubmit'
       });
 
-    const onSubmit = async (data:any) => {
-        // console.log(data);
-            // navigate('/add-goals');
-        };
+    const useDebounce = (val:any, offset:any) => {
+    const [debouncedVal, setDebouncedVal] = useState(val)
+
+    useEffect(() => {
+        const timeoutRef = setTimeout(() => {
+            setDebouncedVal(val);
+        }, offset);
+        
+        return () => {
+            clearTimeout(timeoutRef)
+        }
+    }, [val])
+
+        return debouncedVal;
+    }
+    const debouncedSearchValue = useDebounce(searchValue, 500)  
+
+
 
     const getGoalsData = () => {
         getGoals()
@@ -72,33 +86,10 @@ const AddGoals = () => {
         })
     }
 
-    const handleSearch = (value: string) => {
-        setSearchValue(value);
-        if (value) {
-            getGoalsSearch(value)
-            .then((response: any) => {
-                setIsDropdownOpen(true)
-                if (response?.data) {
-                    const result = response.data.filter((item:any) => !goals.some((goal:any) => goal.id === item.id));
-                    setOptions(result.map((item: any) => {
-                        return { value: item.name, key: item.id, item };
-                    }));
-                }
-            })
-            .catch((error) => {
-                console.log('error while searching ', error);
-                toast('Something went wrong. Please contact support.');
-            });
-        }
-        else if (value === '')
-            setIsDropdownOpen(false)
-            setOptions(null)
-    };
-
     const handleOptionSelect = (value: string, option: any) => {
-        setSearchValue(value)
         setSelectedGoal(option.item)
         setIsModalOpen(true)
+        setSearchValue('')
     };
 
     const addGoals = (goal: string) => {
@@ -171,6 +162,27 @@ const AddGoals = () => {
     useEffect(() => {
         getGoalsData();
     }, []);  
+    useEffect(() => {
+        if (debouncedSearchValue) {
+            getGoalsSearch(debouncedSearchValue)
+            .then((response: any) => {
+                setIsDropdownOpen(true)
+                if (response?.data) {
+                    const result = response.data.filter((item:any) => !goals.some((goal:any) => goal.id === item.id));
+                    setOptions(result.map((item: any) => {
+                        return { value: item.name, key: item.id, item };
+                    }));
+                }
+            })
+            .catch((error) => {
+                console.log('error while searching ', error);
+                toast('Something went wrong. Please contact support.');
+            });
+        } else {
+            setIsDropdownOpen(false)
+            setOptions(null)
+        }
+    }, [debouncedSearchValue]);  
 
     return (
         <Layout defaultHeader={true} hamburger={true}>
@@ -181,7 +193,7 @@ const AddGoals = () => {
                 <div className={`Goal-Select-Wrap Goals-Select`}>
                     <SearchOutlined className="search" />
                     <AutoComplete
-                    onSearch={handleSearch}
+                    onChange={v => setSearchValue(v)}
                     placeholder="Add a goal"
                     options={options}
                     onSelect={handleOptionSelect}
