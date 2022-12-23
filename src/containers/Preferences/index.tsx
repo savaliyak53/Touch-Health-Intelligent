@@ -199,9 +199,10 @@ const Preferences = () => {
   }
   const createAuthLink= (response:any) =>{
     setChecked(true);
+    const redirect_uri=`${process.env.REACT_APP_API_HOST}/auth/google/code`;
     const params = new URLSearchParams({
       client_id: `${process.env.REACT_APP_GOOGLE_CLIENT_ID}`,
-      redirect_uri: `${process.env.REACT_APP_GOOGLE_FIT_AUTH_CALLBACK}`,
+      redirect_uri: redirect_uri,
       response_type: 'code',
       scope: [
         'https://www.googleapis.com/auth/fitness.activity.read',
@@ -211,7 +212,7 @@ const Preferences = () => {
       access_type: 'offline',
       state: JSON.stringify({
         sessionId: response.data.sessionId,
-        redirect_uri: `${process.env.REACT_APP_GOOGLE_FIT_AUTH_CALLBACK}`
+        redirect_uri: redirect_uri
       }),
       include_granted_scopes: 'true',
       prompt: 'consent select_account'
