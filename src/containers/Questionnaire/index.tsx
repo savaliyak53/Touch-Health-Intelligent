@@ -85,10 +85,10 @@ function UserCondition() {
         });
       } 
       else if (response?.data.signup_status==='done') {
-        navigate("/")
+        navigate("/dashboard")
       }
       else{
-        navigate("/")
+        navigate("/dashboard")
       }
     })
     .catch((error) => {

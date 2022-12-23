@@ -28,19 +28,19 @@ const GoogleFitSuccess = () => {
     authCode: paramCode,
     sessionId: state?.sessionId,
     scopes: paramScope,
-    redirectUri: state?.redirectUri
+    redirectUri: state?.redirect_uri
   };
    postGoogleToken(body).then((response:any)=>{
       if(response.data){
         setLoading(false);
+        toast.success('Google Fit Integrated')
+        navigate("/preferences")
       }
    }).catch((error: any) => {
-    toast('Something went wrong');
+    toast.error('Something went wrong');
     setLoading(false)
     navigate('/dashboard')
   })
-   
-    console.log('WTH:', paramScope)
   }
   useEffect(() => {
     setLoading(true);
@@ -54,15 +54,6 @@ const GoogleFitSuccess = () => {
           <Alert message="Google Fit Integration successful" type="success" />
         </div>
         <h3 className="Question-title">Google Fit Integration Success</h3>
-        <button className="submit"  onClick={() => navigate('/preferences')}>
-          Check Preferences
-        </button>
-        <button className="submit" onClick={() => navigate('/dashboard')}>
-          Home
-        </button>
-        <button className="submit" onClick={logoutClick}>
-          Logout
-        </button>
       </div>
       </Spin>
       

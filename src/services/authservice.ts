@@ -146,3 +146,9 @@ export const postGoogleToken = async (body:any) => {
 export const revokeGoogleFit = async () => {
   return APIClient('/auth/google/revoke','post')
 }
+export const getIntegrationStatus = async () => {
+  return APIClient('/user/integration/status','get')
+}
+export const guidanceStatus= async (id:string, body:any) => {
+  return APIClient(`/ai/guidances/${id}`,'put', body)
+}
