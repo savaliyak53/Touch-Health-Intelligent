@@ -157,8 +157,8 @@ const Guidance = () => {
         setIsLoading(true)
         goalDetails(goalId)
         .then((res:any)=>{
-            setGoal(res)
-            calculate(res)
+            setGoal(res.data)
+            calculate(res.data)
             setIsLoading(false)
         })
         .catch((error: any) => {
@@ -208,7 +208,6 @@ const Guidance = () => {
             getGoalDetails(goalId)
         }
     },[])
-    console.log(isLoading);
     return (
         <Layout defaultHeader={true} hamburger={true}>
             {/* Top title with Delete button */}
