@@ -199,7 +199,7 @@ const Preferences = () => {
   }
   const createAuthLink= (response:any) =>{
     setChecked(true);
-    const redirect_uri=`${process.env.REACT_APP_API_HOST}/auth/google/code`;
+    const redirect_uri=`${process.env.REACT_APP_FRONTEND}/auth/google/code`;
     const params = new URLSearchParams({
       client_id: `${process.env.REACT_APP_GOOGLE_CLIENT_ID}`,
       redirect_uri: redirect_uri,
