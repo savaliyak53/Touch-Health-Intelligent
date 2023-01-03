@@ -17,6 +17,8 @@ import { useParams } from 'react-router-dom';
 import rehypeRaw from "rehype-raw";
 import { guidanceStatus } from '../../services/authservice';
 import { dateFormatRenewal } from '../../utils/lib';
+import { getInteractionServiceByType, preferencesService } from '../../services/authservice';
+
 
 const Guidance = () => {
     const [goal, setGoal] = useState<any>()
@@ -171,7 +173,18 @@ const Guidance = () => {
         deleteGoal(id)
         .then((res)=>{
             toast.success('Goal removed');
-            navigate('/dashboard')
+            getInteractionServiceByType('goal_characterization').then((response:any) => {
+                if (response) {
+                navigate('/questionnaire')
+                } else {
+                navigate('/dashboard');
+                }
+            })
+            .catch((error) => {
+                toast.error(
+                `Something went wrong. `
+                );
+            });
         })
         .catch((error: any) => {
             toast.error(error);

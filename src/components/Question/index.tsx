@@ -14,6 +14,7 @@ import 'react-timepicker/timepicker.css';
 import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
 import { validateSignUp } from '../../services/authservice';
 import { setDefaultResultOrder } from 'dns';
+import moment from 'moment';
 
 interface Props {
   items:any;
@@ -130,7 +131,7 @@ const Question = ({
           <DatePicker
             onChange={(date: any, dateString: any) => setValue(dateString)}
             className="Date-Select"
-          />
+            disabledDate={(current) => current.isBefore(moment())}/>
         );
       case 'yes_no':
         return (

@@ -185,7 +185,7 @@ const AddGoals = () => {
     }, [debouncedSearchValue]);  
 
     return (
-        <Layout defaultHeader={true} hamburger={true}>
+        <Layout defaultHeader={true} hamburger={false}>
             <div className={styles["AddGoals"]}>
                 <h2 className={styles["Title"]}>
                     Adding Health Goals
