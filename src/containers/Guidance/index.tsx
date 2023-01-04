@@ -172,19 +172,10 @@ const Guidance = () => {
         setIsLoading(true)
         deleteGoal(id)
         .then((res)=>{
-            toast.success('Goal removed');
-            getInteractionServiceByType('goal_characterization').then((response:any) => {
-                if (response) {
-                navigate('/questionnaire')
-                } else {
+            if(res){
+                toast.success('Goal removed');
                 navigate('/dashboard');
-                }
-            })
-            .catch((error) => {
-                toast.error(
-                `Something went wrong. `
-                );
-            });
+            }
         })
         .catch((error: any) => {
             toast.error(error);
