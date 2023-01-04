@@ -257,7 +257,7 @@ const AddGoals = () => {
                     <Button
                         className="Back-btn btn"
                         loading={isLoading}
-                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                        onClick={handleCancel}
                     >
                         Take me back
                     </Button>
