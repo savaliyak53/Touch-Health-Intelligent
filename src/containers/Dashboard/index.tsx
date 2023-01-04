@@ -14,7 +14,11 @@ const Dashboard = () => {
   useEffect(() => {
     getDashboard().then((response) => {
       if(response.data){
-        setSections(response.data.sections);
+        let section_arr:any = []
+        response.data.sections.forEach((section:any) => {
+          section_arr = [...section_arr, ...section]
+        });
+        setSections([section_arr]);
       }
     })
     .catch((error) => {

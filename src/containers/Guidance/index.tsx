@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from'./Guidance.module.scss';
 import Layout from '../../layouts/Layout/Layout';
-import { Button, Modal, Tooltip } from 'antd';
+import { Button, Modal, Tooltip, Spin } from 'antd';
 import { DeleteOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { toast } from 'react-toastify';
@@ -12,11 +12,13 @@ import {
   } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { Line } from 'react-chartjs-2';
-import { Navigate, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 import rehypeRaw from "rehype-raw";
 import { guidanceStatus } from '../../services/authservice';
 import { dateFormatRenewal } from '../../utils/lib';
+import { getInteractionServiceByType, preferencesService } from '../../services/authservice';
+
 
 const Guidance = () => {
     const [goal, setGoal] = useState<any>()
@@ -27,21 +29,17 @@ const Guidance = () => {
     const [dataset, setDataset] = useState<any>();
     const [startDate, setForecastStartDate] = useState<any>();
     const [lastDate, setForecastLastDate] = useState<any>();
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate()
     let data = {};
     const { id:goalId } = useParams<string>()
 
     const options:any = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: {
               display: false,
-              position: 'left',
-              align: 'start',
-              labels: {
-                usePointStyle: true,
-                pointStyle: 'circle',
-              },
             },
           },
         scales: {
@@ -53,10 +51,18 @@ const Guidance = () => {
                     quarter: 'MMM YYYY',
                   },
                 },
+                grid: {
+                    display: false,
+                    drawBorder: false
+                }
             },
             y: {
                 min: 0,
                 max: 100,
+                grid: {
+                    display: false,
+                    drawBorder: false
+                }
             },
         },
     };
@@ -94,23 +100,23 @@ const Guidance = () => {
                 label: 'Historical',
                 data: historicalArray,
                 fill: false,
-                borderColor: '#000000',
-                backgroundColor: '#000000',
-                lineTension: 0.4,
-                min: 0,
-                max: 1,
+                borderColor: '#657FD1',
+                backgroundColor: '#657FD1',
+                lineTension: 1,
+                borderCapStyle: 'round',
+                borderWidth: '6',
+                pointBorderWidth: '0'	
               },
               {
                 label: 'Forecast',
                 data: forecastArray,
                 fill: false,
-                lineTension: 0.4,
-                min: 0,
-                max: 1,
+                lineTension: 1,
+                borderCapStyle: 'round',
+                borderWidth: '6',               
                 backgroundColor: '#CD6052',
-                segment: {
-                  borderColor: '#CD6052',
-                },
+                borderColor: '#CD6052',
+                pointBorderWidth: '0',	
               },
             ],
           };
@@ -127,7 +133,7 @@ const Guidance = () => {
             chartArea: { top, bottom, left, right, width, height },
             scales: { x, y },
           } = chart;
-          ctx.fillStyle = 'rgba(0,0,0,0.2)';
+          ctx.fillStyle = 'rgba(0,0,0,0)';
           const forecastStartDate = new Date(startDate);
           const forecastLastDate = new Date(lastDate);
           ctx.fillRect(
@@ -149,25 +155,40 @@ const Guidance = () => {
             };
         },
     };
-
     const getGoalDetails = (goalId:string) => {
+        setIsLoading(true)
         goalDetails(goalId)
         .then((res:any)=>{
             setGoal(res.data)
             calculate(res.data)
+            setIsLoading(false)
         })
         .catch((error: any) => {
             toast.error(error);
+            setIsLoading(false)
         });
     }
     const handleDelete = (id:any) => {
+        setIsLoading(true)
         deleteGoal(id)
         .then((res)=>{
             toast.success('Goal removed');
-            navigate('/dashboard')
+            getInteractionServiceByType('goal_characterization').then((response:any) => {
+                if (response) {
+                navigate('/questionnaire')
+                } else {
+                navigate('/dashboard');
+                }
+            })
+            .catch((error) => {
+                toast.error(
+                `Something went wrong. `
+                );
+            });
         })
         .catch((error: any) => {
             toast.error(error);
+            setIsLoading(false)
         });
     }
     const handleClick =(type:string, info:any)=>{
@@ -207,6 +228,7 @@ const Guidance = () => {
                 <h2 className={styles["Prevn-text"]}>{goal?.info.name}</h2>
                 <Button className={styles["Prevn-btn"]} onClick={() => handleDelete(goalId)}><DeleteOutlined style={{ fontSize: '28px', color: '#D2D1D1', cursor: 'pointer' }} /></Button>
             </div>
+            <Spin spinning={isLoading} className="Spinner"></Spin>
             { goal?.data && (
                 <>
             <div className={styles["Vel-Eta-wrap"]}>
@@ -302,7 +324,7 @@ const Guidance = () => {
                         <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
                         </Tooltip>
                     </h3>
-            <div>
+            <div className={styles["chart-container"]}>
                 <Line
                     options={options}
                     data={dataset}
