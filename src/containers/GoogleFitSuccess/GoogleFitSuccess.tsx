@@ -34,7 +34,7 @@ const GoogleFitSuccess = () => {
       if(response.data){
         setLoading(false);
         toast.success('Google Fit Integrated')
-        navigate("/preferences")
+        //navigate("/preferences")
       }
    }).catch((error: any) => {
     toast.error('Something went wrong');
