@@ -141,6 +141,9 @@ function UserCondition() {
     if (question.type == 'image_and_text_select_one') {
       payload.question_response.value = state;
     }
+    if (question.type == 'markdown_select_one') {
+      payload.question_response.value = '1';
+    }
     if (question.type == 'image_and_text') {
       payload.question_response.value = '1';
     }
@@ -186,7 +189,7 @@ function UserCondition() {
               onSubmit={onSubmit}
               setDisableNextButton={setDisableNextButton}
             />
-            {question?.type !== 'yes_no' && question?.type !== 'dialog_select_one' && question?.type !== 'image_and_text_select_one' && (
+            {question?.type !== 'yes_no' && question?.type !== 'dialog_select_one' && question?.type !== 'image_and_text_select_one' && question?.type !== 'markdown_select_one' && (
               <div className="Btn-group">
                 <Button
                   className={`Next ${isClicked && 'active'}`}
