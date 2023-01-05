@@ -25,7 +25,7 @@ import Error from '../containers/Error';
 import Home from '../containers/Home';
 import AddGoals from '../containers/Goals/AddGoals';
 import IntroGoals from '../containers/Goals/IntroGoals';
-import Guidance from '../containers/Guidance';
+import GoalDetails from '../containers/Goals/Details/index';
 import PasswordRecovery from '../containers/Auth/PasswordRecovery';
 import GoogleFitSuccess from '../containers/GoogleFitSuccess/GoogleFitSuccess';
 
@@ -53,7 +53,7 @@ const AppRoutes = () => {
         </Route>
           <Route path="/add-goals" element={<AddGoals />} />
           <Route path="/intro-goals" element={<IntroGoals />} />
-          <Route path="/goals/:id" element={<Guidance />} />
+          <Route path="/goals/:id" element={<GoalDetails />} />
         {/* Protected Routes */}
           <Route path="/dashboard" element={<Dashboard />} />
         <Route element={<RequireAuth />}>
