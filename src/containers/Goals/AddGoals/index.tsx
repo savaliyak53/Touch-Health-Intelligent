@@ -13,7 +13,15 @@ import { getInteractionServiceByType, preferencesService } from '../../../servic
 type ITerms = {
     termsAndConditions: boolean;
 };
-
+type IGoalInfo = {
+    acronym: string;
+    color:string;
+    description_md: string;
+    goal_class: string;
+    id: string;
+    info_image:string;
+    name: string;
+};
 const AddGoals = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +29,7 @@ const AddGoals = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [goals, setGoals] = useState<any>([])
     const [suggestion, setSuggestion] = useState([])
-    const [selectedGoal, setSelectedGoal] = useState<any>()
+    const [selectedGoal, setSelectedGoal] = useState<IGoalInfo>()
     const [searchValue, setSearchValue] = useState('')
     const [options, setOptions] = useState<any>([])
     const [isDisable, setIsDisabled] = useState(true)
@@ -92,8 +100,8 @@ const AddGoals = () => {
         setSearchValue('')
     };
 
-    const addGoals = (goal: string) => {
-        addGoal({"goal_ids":[goal]})
+    const addGoals = (goalId?: string) => {
+        addGoal({"goal_ids":[goalId]})
         .then((res) => {
             setSearchValue('')
             toast.success('Goal added successfully');
@@ -245,12 +253,12 @@ const AddGoals = () => {
                     {selectedGoal?.name}                
                 </h3>
                 <p className={styles["Des-Short"]}>{selectedGoal?.goal_class}</p>
-                <p className={styles["Des-Goal"]}>{selectedGoal?.description}</p>
+                <p className={styles["Des-Goal"]}>{selectedGoal?.description_md}</p>
                 <div className={styles["Modal-Btn-Group"]}>
                     <Button
                         className="Pref-btn btn"
                         loading={isLoading}
-                        onClick={() => addGoals(selectedGoal.id)}
+                        onClick={() => addGoals(selectedGoal?.id)}
                     >
                         Pick goal
                     </Button>
