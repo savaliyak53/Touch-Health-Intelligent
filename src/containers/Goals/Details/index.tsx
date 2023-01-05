@@ -304,9 +304,9 @@ const GoalDetails = () => {
             {dataset && (
                 <>
                     <h3 className={styles["Chart-title"]}>
-                        {goal?.data.chart_title}
+                        Success Score
                         <Tooltip
-                            title="This shows how close you have been to achieving this goal in the past, and also your forecasted expectation if you continue doing all the things you currently do."
+                            title="Success Score"
                             placement="bottomRight"
                             overlayStyle={{marginRight:'10px'}}
                             className={styles["Vel-name"]}
