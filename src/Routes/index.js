@@ -72,6 +72,7 @@ const AppRoutes = () => {
           <Route path="/preferences" element={<Preferences />} />
           <Route path="/introvideo" element={<IntroVideo />} />
           <Route path="/subscription" element={<Subscription />} />
+          <Route path="/subscription/:id" element={<Subscription />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
           {/* <Route path="/post-concerns" element={<ManageConcerns />} /> */}
           <Route path="/help-and-support" element={<HelpAndSupport />} />

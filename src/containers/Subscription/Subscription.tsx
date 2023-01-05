@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout/Layout';
 import { Button, Spin, Typography, Tag } from 'antd';
 // import './Subscription.scss';
 import styles from './Subscription.module.scss';
+import {useParams} from 'react-router-dom';
 import {
   checkoutPlan,
   getPlansService,
@@ -18,10 +19,12 @@ import { useNavigate } from 'react-router';
 import { dateFormatRenewal } from '../../utils/lib';
 import ConfirmModal from './ConfirmModal';
 import { ISubscriptionPlan, IUserSubscription } from './Interfaces';
+import { getInteractionServiceByType, preferencesService } from '../../services/authservice';
 const { Meta } = Card;
 
 const Subscription = () => {
   const navigate = useNavigate();
+  const { id }= useParams();
   const [plans, setPlans] = useState<ISubscriptionPlan[] | undefined>([]);
   const [freeTrial, setFreeTrial] = useState<boolean | undefined>(false);
   const [loading, setLoading] = useState(false);
@@ -96,7 +99,45 @@ const Subscription = () => {
     fetchPlans();
     fetchUserSubscription();
   }, []);
-
+  useEffect(() => {
+    if(id==='success'){
+      handleInitialIntake();
+    }
+  }, [id]);
+  
+  const handleInitialIntake = () => {
+    const userId=localStorage.getItem('userId');
+    //after successful subscription set signup_status to onboarding
+    preferencesService({
+      signup_status:"onboarding"
+    }, userId)
+    .then((preferencesResponse) => {
+      if (preferencesResponse) {
+        //after successful subscription initiate onboarding interaction
+        getInteractionServiceByType('onboarding').then((response:any) => {
+          if (response) {
+            navigate('/questionnaire')
+          } else {
+            navigate('/');
+          }
+        })
+        .catch((error) => {
+          toast.error(
+            `Something went wrong. `
+          );
+        });
+      } else {
+        console.log('navigate to dashboard')
+        //navigate('/dashboard');
+      }
+    })
+    .catch((error) => {
+      toast.error(
+        `${error.response?.data?.title} Please check values and try again.`
+      );
+    });
+   
+  };
   const handleSubscribeClick = (id: string) => {
     setLoading(true);
     setDisableButton(true);

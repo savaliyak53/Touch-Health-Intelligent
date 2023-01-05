@@ -64,7 +64,6 @@ const Home = () => {
             });
           }
           else {
-            console.log('checkup')
             getInteractionServiceByType('checkup').then((response:any) => {
               if (response.data) {
                 navigate('/questionnaire');
