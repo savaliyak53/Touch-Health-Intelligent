@@ -15,7 +15,7 @@ import {
 } from '../../services/subscriptionService';
 import { Card } from 'antd';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { dateFormatRenewal } from '../../utils/lib';
 import ConfirmModal from './ConfirmModal';
 import { ISubscriptionPlan, IUserSubscription } from './Interfaces';
@@ -24,6 +24,7 @@ const { Meta } = Card;
 
 const Subscription = () => {
   const navigate = useNavigate();
+  const location= useLocation();
   const { id }= useParams();
   const [plans, setPlans] = useState<ISubscriptionPlan[] | undefined>([]);
   const [freeTrial, setFreeTrial] = useState<boolean | undefined>(false);
@@ -100,10 +101,10 @@ const Subscription = () => {
     fetchUserSubscription();
   }, []);
   useEffect(() => {
-    if(id==='success'){
+    if(location.search==='?success'){
       handleInitialIntake();
     }
-  }, [id]);
+  }, [location]);
   
   const handleInitialIntake = () => {
     const userId=localStorage.getItem('userId');
