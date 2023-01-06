@@ -33,7 +33,20 @@ const Home = () => {
         toast(error.response.data.details.message);
       });
   };
-
+  const getInteractionByType=(type:string)=>{
+    getInteractionServiceByType(type).then((response:any) => {
+      if (response.data) {
+        navigate('/questionnaire');
+      } else {
+        navigate('/dashboard');
+      }
+    })
+    .catch((error) => {
+      toast.error(
+        `Something went wrong. `
+      );
+    });
+  }
   const checkUserData = () => {
     const userId = localStorage.getItem('userId');
     if (userId) {
@@ -64,19 +77,7 @@ const Home = () => {
             });
           }
           else {
-            console.log('checkup')
-            getInteractionServiceByType('checkup').then((response:any) => {
-              if (response.data) {
-                navigate('/questionnaire');
-              } else {
-                navigate('/dashboard');
-              }
-            })
-            .catch((error) => {
-              toast.error(
-                `Something went wrong. `
-              );
-            });
+            getInteractionByType('checkup')
           }
         })
         .catch((error) => {
