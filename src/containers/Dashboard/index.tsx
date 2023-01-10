@@ -10,22 +10,27 @@ import { getDashboard } from '../../services/dashboardservice';
 
 const Dashboard = () => {
   const context = useContext(InsightContext);
-  const [sections,setSections] = useState<any>();
+  const [sections, setSections] = useState<any>();
+  const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
-    getDashboard().then((response) => {
-      if(response.data){
-        let section_arr:any = []
-        response.data.sections.forEach((section:any) => {
-          section_arr = [...section_arr, ...section]
-        });
-        setSections([section_arr]);
-      }
-    })
-    .catch((error) => {
-      console.log('error is ', error);
-      //setLoading(false);
-      toast('Something went wrong');
-    });
+    setLoading(true);
+    getDashboard()
+      .then((response) => {
+        setLoading(false);
+        if (response.data) {
+          let section_arr: any = [];
+          response.data.sections.forEach((section: any) => {
+            section_arr = [...section_arr, ...section];
+          });
+          setSections([section_arr]);
+        }
+      })
+      .catch((error) => {
+        console.log('error is ', error);
+        setLoading(false);
+        toast('Something went wrong');
+      });
     context?.commands.setInsightButton('');
   }, []);
   let rowNumber = 0;
@@ -41,7 +46,7 @@ const Dashboard = () => {
           i++;
         }
         section.push(
-          <div className={styles["btn-group"]} key={Math.random().toString()}>
+          <div className={styles['btn-group']} key={Math.random().toString()}>
             <DashboardButton
               image={`${sections[outer][i - 1]?.category?.icon}`}
               disabled={false}
@@ -64,7 +69,7 @@ const Dashboard = () => {
               insight={sections[outer][i]}
               outer={outer}
               inner={i}
-              highlight={sections[outer][i-1].opacity}
+              highlight={sections[outer][i - 1].opacity}
             />
           </div>
         );
@@ -73,7 +78,7 @@ const Dashboard = () => {
         }
       } else {
         section.push(
-          <div className={styles["btn-group"]} key={Math.random().toString()}>
+          <div className={styles['btn-group']} key={Math.random().toString()}>
             <DashboardButton
               image={`${sections[outer][i]?.category?.icon}`}
               disabled={true}
@@ -119,52 +124,52 @@ const Dashboard = () => {
           i++;
         }
         emptysection.push(
-          <div className={styles["btn-group"]} key="lowerButton">
-          <DashboardButton
-            key="lowerButton1"
-            image=""
-            disabled={true}
-            color={``}
-            outerButton={true}
-          />
-         
-          <DashboardButton
-            key="lowerButton3"
-            image=""
-            disabled={true}
-            color={``}
-            outerButton={true}
-          />
-        </div>
+          <div className={styles['btn-group']} key="lowerButton">
+            <DashboardButton
+              key="lowerButton1"
+              image=""
+              disabled={true}
+              color={``}
+              outerButton={true}
+            />
+
+            <DashboardButton
+              key="lowerButton3"
+              image=""
+              disabled={true}
+              color={``}
+              outerButton={true}
+            />
+          </div>
         );
         {
           itemPrinted = itemPrinted + 2;
         }
       } else {
         emptysection.push(
-          <div className={styles["btn-group"]} key="lowerButton">
-          <DashboardButton
-            key="lowerButton1"
-            image=""
-            disabled={true}
-            color={``}
-            outerButton={true}
-          />
-         <DashboardButton
-            key="lowerButton2"
-            image=""
-            disabled={true}
-            color={``}
-            outerButton={true}
-          />
-          <DashboardButton
-            key="lowerButton3"
-            image=""
-            disabled={true}
-            color={``}
-            outerButton={true}
-          />
-        </div>
+          <div className={styles['btn-group']} key="lowerButton">
+            <DashboardButton
+              key="lowerButton1"
+              image=""
+              disabled={true}
+              color={``}
+              outerButton={true}
+            />
+            <DashboardButton
+              key="lowerButton2"
+              image=""
+              disabled={true}
+              color={``}
+              outerButton={true}
+            />
+            <DashboardButton
+              key="lowerButton3"
+              image=""
+              disabled={true}
+              color={``}
+              outerButton={true}
+            />
+          </div>
         );
         {
           itemPrinted = itemPrinted + 1;
@@ -175,12 +180,12 @@ const Dashboard = () => {
     return emptysection;
   };
   const Dashboard = () => {
-      const dashboard: React.ReactNode[] = [];
-      for (let i = 0; i < sections.length; i++) {
-        dashboard.push(Section(i));
-      }
-      rowNumber++;
-      return dashboard;
+    const dashboard: React.ReactNode[] = [];
+    for (let i = 0; i < sections.length; i++) {
+      dashboard.push(Section(i));
+    }
+    rowNumber++;
+    return dashboard;
   };
   const EmptyDashboard = () => {
     const emptydashboard: React.ReactNode[] = [];
@@ -189,83 +194,83 @@ const Dashboard = () => {
     }
     rowNumber++;
     return emptydashboard;
-  }; 
+  };
   return (
     <>
       <Layout defaultHeader={true} hamburger={true} dashboard={true}>
-        <div className={styles["Db-wrap"]}>
-            <div className="dsgbtn-group">
-              <div className={styles["btn-group"]} key="extraUpperButton">
-                <DashboardButton
-                  key="extraUpperButton0"
-                  image={`${process.env.PUBLIC_URL}/assets/mobileassets/+.svg`}
-                  disabled={true}
-                  color={``}
-                  outerButton={false}
-                  isPlus={true}
-                />
-              </div>
-              <div className={styles["btn-group"]} key="extraUpperButton">
-                <DashboardButton
-                  key="extraUpperButton1"
-                  image=""
-                  disabled={true}
-                  color={``}
-                  outerButton={true}
-                />
-                <DashboardButton
-                  key="extraUpperButton2"
-                  image=""
-                  disabled={true}
-                  color={``}
-                  outerButton={true}
-                />
-              </div>
-              {sections &&  sections.length !== 0 ? Dashboard():EmptyDashboard()}
-              {rowNumber % 2 == 0 ? (
-                <div className={styles["btn-group"]} key="extraLowerButton">
-                  <DashboardButton
-                    key="extraLowerButton1"
-                    image=""
-                    disabled={true}
-                    color={``}
-                    outerButton={true}
-                  />
-                  <DashboardButton
-                    key="extraLowerButton2"
-                    image=""
-                    disabled={true}
-                    color={``}
-                    outerButton={true}
-                  />
-                </div>
-              ) : (
-                <div className={styles["btn-group"]} key="lowerButton">
-                  <DashboardButton
-                    key="lowerButton1"
-                    image=""
-                    disabled={true}
-                    color={``}
-                    outerButton={true}
-                  />
-                  <DashboardButton
-                    key="lowerButton2"
-                    image=""
-                    disabled={true}
-                    color={``}
-                    outerButton={true}
-                  />
-                  <DashboardButton
-                    key="lowerButton3"
-                    image=""
-                    disabled={true}
-                    color={``}
-                    outerButton={true}
-                  />
-                </div>
-              )}
+        <div className={styles['Db-wrap']}>
+          <div className="dsgbtn-group">
+            <div className={styles['btn-group']} key="extraUpperButton">
+              <DashboardButton
+                key="extraUpperButton0"
+                image={`${process.env.PUBLIC_URL}/assets/mobileassets/+.svg`}
+                disabled={true}
+                color={``}
+                outerButton={false}
+                isPlus={true}
+              />
             </div>
-          <Spin spinning={!sections} className="Spinner"></Spin>
+            <div className={styles['btn-group']} key="extraUpperButton">
+              <DashboardButton
+                key="extraUpperButton1"
+                image=""
+                disabled={true}
+                color={``}
+                outerButton={true}
+              />
+              <DashboardButton
+                key="extraUpperButton2"
+                image=""
+                disabled={true}
+                color={``}
+                outerButton={true}
+              />
+            </div>
+            {sections && sections.length !== 0 ? Dashboard() : EmptyDashboard()}
+            {rowNumber % 2 == 0 ? (
+              <div className={styles['btn-group']} key="extraLowerButton">
+                <DashboardButton
+                  key="extraLowerButton1"
+                  image=""
+                  disabled={true}
+                  color={``}
+                  outerButton={true}
+                />
+                <DashboardButton
+                  key="extraLowerButton2"
+                  image=""
+                  disabled={true}
+                  color={``}
+                  outerButton={true}
+                />
+              </div>
+            ) : (
+              <div className={styles['btn-group']} key="lowerButton">
+                <DashboardButton
+                  key="lowerButton1"
+                  image=""
+                  disabled={true}
+                  color={``}
+                  outerButton={true}
+                />
+                <DashboardButton
+                  key="lowerButton2"
+                  image=""
+                  disabled={true}
+                  color={``}
+                  outerButton={true}
+                />
+                <DashboardButton
+                  key="lowerButton3"
+                  image=""
+                  disabled={true}
+                  color={``}
+                  outerButton={true}
+                />
+              </div>
+            )}
+          </div>
+          <Spin spinning={loading} className="Spinner"></Spin>
         </div>
       </Layout>
     </>
