@@ -118,7 +118,7 @@ const Subscription = () => {
   }, []);
   useEffect(() => {
     if (location.search === '?success') {
-      getStatus();
+      //getStatus();
       handleInitialIntake();
     }
   }, [location]);
