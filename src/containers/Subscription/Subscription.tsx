@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout/Layout';
 import { Button, Spin, Typography, Tag } from 'antd';
 // import './Subscription.scss';
 import styles from './Subscription.module.scss';
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   checkoutPlan,
   getPlansService,
@@ -19,13 +19,16 @@ import { useLocation, useNavigate } from 'react-router';
 import { dateFormatRenewal } from '../../utils/lib';
 import ConfirmModal from './ConfirmModal';
 import { ISubscriptionPlan, IUserSubscription } from './Interfaces';
-import { getInteractionServiceByType, preferencesService } from '../../services/authservice';
+import {
+  getInteractionServiceByType,
+  preferencesService,
+} from '../../services/authservice';
 const { Meta } = Card;
 
 const Subscription = () => {
   const navigate = useNavigate();
-  const location= useLocation();
-  const { id }= useParams();
+  const location = useLocation();
+  const { id } = useParams();
   const [plans, setPlans] = useState<ISubscriptionPlan[] | undefined>([]);
   const [freeTrial, setFreeTrial] = useState<boolean | undefined>(false);
   const [loading, setLoading] = useState(false);
@@ -95,49 +98,64 @@ const Subscription = () => {
         console.log('Error while getting user plan. ', error);
       });
   };
+  const getStatus = () => {
+    getSubscriptionStatus()
+      .then((response) => {
+        setUserPlanStatus(response.data.status);
+        if (response.data.status === 'ACTIVE') {
+          console.log('idk:', response.data.status);
+          fetchUserSubscription();
+        }
+      })
+      .catch((error) => {
+        console.log('Error while getting user plan. ', error);
+      });
+  };
   useEffect(() => {
     userSubscriptionStatus();
     fetchPlans();
     fetchUserSubscription();
   }, []);
   useEffect(() => {
-    if(location.search==='?success'){
+    if (location.search === '?success') {
+      //getStatus();
       handleInitialIntake();
     }
   }, [location]);
-  
+
   const handleInitialIntake = () => {
-    const userId=localStorage.getItem('userId');
+    const userId = localStorage.getItem('userId');
     //after successful subscription set signup_status to onboarding
-    preferencesService({
-      signup_status:"onboarding"
-    }, userId)
-    .then((preferencesResponse) => {
-      if (preferencesResponse) {
-        //after successful subscription initiate onboarding interaction
-        getInteractionServiceByType('onboarding').then((response:any) => {
-          if (response) {
-            navigate('/questionnaire')
-          } else {
-            navigate('/');
-          }
-        })
-        .catch((error) => {
-          toast.error(
-            `Something went wrong. `
-          );
-        });
-      } else {
-        console.log('navigate to dashboard')
-        //navigate('/dashboard');
-      }
-    })
-    .catch((error) => {
-      toast.error(
-        `${error.response?.data?.title} Please check values and try again.`
-      );
-    });
-   
+    preferencesService(
+      {
+        signup_status: 'onboarding',
+      },
+      userId
+    )
+      .then((preferencesResponse) => {
+        if (preferencesResponse) {
+          //after successful subscription initiate onboarding interaction
+          getInteractionServiceByType('onboarding')
+            .then((response: any) => {
+              if (response) {
+                navigate('/questionnaire');
+              } else {
+                navigate('/');
+              }
+            })
+            .catch((error) => {
+              toast.error(`Something went wrong. `);
+            });
+        } else {
+          console.log('navigate to dashboard');
+          //navigate('/dashboard');
+        }
+      })
+      .catch((error) => {
+        toast.error(
+          `${error.response?.data?.title} Please check values and try again.`
+        );
+      });
   };
   const handleSubscribeClick = (id: string) => {
     setLoading(true);
@@ -155,32 +173,40 @@ const Subscription = () => {
         toast.error('Something went wrong while subscribing');
       });
   };
-  const userCancelledPlan = (plan:any)=>{
-    if(userPlan?.plan?.id === plan.id && userPlanStatus === 'ACTIVE' && (userPlan?.renewalDate === null || userPlan?.nextPhase)){
+  const userCancelledPlan = (plan: any) => {
+    if (
+      userPlan?.plan?.id === plan.id &&
+      userPlanStatus === 'ACTIVE' &&
+      (userPlan?.renewalDate === null || userPlan?.nextPhase)
+    ) {
       return true;
     }
     return false;
-  }
-  const userIsOnTrial= (plan:any)=>{
-    if(freeTrial === false && !userCancelledPlan(plan) &&
-    userPlan?.trialing &&
-    userPlan?.plan?.id === plan.id && plan.trialPeriod){
+  };
+  const userIsOnTrial = (plan: any) => {
+    if (
+      freeTrial === false &&
+      !userCancelledPlan(plan) &&
+      userPlan?.trialing &&
+      userPlan?.plan?.id === plan.id &&
+      plan.trialPeriod
+    ) {
       return true;
     }
     return false;
-  }
-  const isNextPhase = (plan:any)=>{
-    if(userPlan?.nextPhase && userPlan?.nextPhase.plan?.id === plan.id){
+  };
+  const isNextPhase = (plan: any) => {
+    if (userPlan?.nextPhase && userPlan?.nextPhase.plan?.id === plan.id) {
       return true;
     }
     return false;
-  }
-  const isActivePlan = (plan:any)=>{
-    if(userPlan?.plan?.id === plan.id ){
+  };
+  const isActivePlan = (plan: any) => {
+    if (userPlan?.plan?.id === plan.id) {
       return true;
     }
     return false;
-  }
+  };
   const handleCancelClick = () => {
     setLoading(true);
     setDisableButton(true);
@@ -241,11 +267,11 @@ const Subscription = () => {
       dashboard={false}
     >
       <div className="Content-wrap Sub">
-        <h2 className={styles["Sub-title"]}>
+        <h2 className={styles['Sub-title']}>
           Subscription <Spin spinning={loading} />
         </h2>
         {!loading && !userPlan && (
-          <Tag color="orange" className='Sub-alert' style={{ margin: '0px' }}>
+          <Tag color="orange" className="Sub-alert" style={{ margin: '0px' }}>
             <Typography.Title
               level={5}
               style={{ color: 'inherit', textAlign: 'center' }}
@@ -260,106 +286,115 @@ const Subscription = () => {
               key={plan.id}
               type="inner"
               className={`${styles['Subspt-Card']}
-                ${isActivePlan(plan) && userPlanStatus === 'ACTIVE'
-                  ? styles['card-bordered']
-                  : ''}`
-              }
-              style={{backgroundColor:isActivePlan(plan) && userPlanStatus === 'ACTIVE'?'#ded7d721':''}}
+                ${
+                  isActivePlan(plan) && userPlanStatus === 'ACTIVE'
+                    ? styles['card-bordered']
+                    : ''
+                }`}
+              style={{
+                backgroundColor:
+                  isActivePlan(plan) && userPlanStatus === 'ACTIVE'
+                    ? '#ded7d721'
+                    : '',
+              }}
             >
               <Meta
-                title={<h3 className={styles["Question-title"]}>{plan.name}</h3>}
+                title={
+                  <h3 className={styles['Question-title']}>{plan.name}</h3>
+                }
                 className={styles['ant-card-meta']}
                 description={
-                  <div className={styles["Question"]}>
-                      
-                      <p className={styles["Description"]}>{plan.description}</p>
-                      {/* if userPlan has nextPhase means user downgraded the plan */}
-                      {isNextPhase(plan) && (
-                        <>
-                        <p className={styles["subDates"]}>
-                          Starts
-                        </p>
-                        <p className={styles["otherDates"]}>
-                        {dateFormatRenewal(userPlan?.nextPhase?.currentPeriod?.starts)}
+                  <div className={styles['Question']}>
+                    <p className={styles['Description']}>{plan.description}</p>
+                    {/* if userPlan has nextPhase means user downgraded the plan */}
+                    {isNextPhase(plan) && (
+                      <>
+                        <p className={styles['subDates']}>Starts</p>
+                        <p className={styles['otherDates']}>
+                          {dateFormatRenewal(
+                            userPlan?.nextPhase?.currentPeriod?.starts
+                          )}
                         </p>
                         {userPlan?.nextPhase?.renewalDate && (
                           <>
-                          <p className={styles["subDates"]}>
-                            Renewal Date
-                          </p>
-                          <p className={styles["otherDates"]}>
-                            {dateFormatRenewal(userPlan?.nextPhase?.renewalDate)}
-                          </p>
+                            <p className={styles['subDates']}>Renewal Date</p>
+                            <p className={styles['otherDates']}>
+                              {dateFormatRenewal(
+                                userPlan?.nextPhase?.renewalDate
+                              )}
+                            </p>
                           </>
                         )}
-                        </>
-                      )}
-                      
-                      {/* if Plan is Active and was cancelled by user but the cancellation date is in future */}
-                      { userCancelledPlan(plan) && (
-                          <>
-                          <p className={styles["subDates"]}>
-                            Ends
-                          </p>
-                          <p className={styles["otherDates"]}>
+                      </>
+                    )}
+
+                    {/* if Plan is Active and was cancelled by user but the cancellation date is in future */}
+                    {userCancelledPlan(plan) && (
+                      <>
+                        <p className={styles['subDates']}>Ends</p>
+                        <p className={styles['otherDates']}>
                           {dateFormatRenewal(userPlan?.currentPeriod?.ends)}
-                          </p>
-                          </>
-                        )}
-                      {isActivePlan(plan) &&
-                        userPlan?.renewalDate && !userPlan.nextPhase && (
-                          <>
-                          <p className={styles["subDates"]}>
-                            Renewal Date
-                          </p>
-                          <p className={styles["otherDates"]}>
+                        </p>
+                      </>
+                    )}
+                    {isActivePlan(plan) &&
+                      userPlan?.renewalDate &&
+                      !userPlan.nextPhase && (
+                        <>
+                          <p className={styles['subDates']}>Renewal Date</p>
+                          <p className={styles['otherDates']}>
                             {dateFormatRenewal(userPlan.renewalDate)}
                           </p>
-                          </>
-                        )}
-                      {freeTrial && !userCancelledPlan(plan) && plan.trialPeriod && (
-                        <>
-                        <p className={styles["subDates"]}>
-                          Trial Period
-                        </p>
-                        <p className={styles["otherDates"]}>
-                        {plan.trialPeriod && <> 
-                        {plan.trialPeriod.repetitions} {plan.trialPeriod.interval.toLowerCase()} {userPlan?.plan?.id === plan.id && 'left'}</>} 
-                      </p>
-                      </>
+                        </>
                       )}
-                      {userIsOnTrial(plan) && (
-                          <>
-                          <p className={styles["subDates"]}>
-                            Trial Period
-                          </p>
-                          <p className={styles["otherDates"]}>
-                            {plan.trialPeriod && <> 
-                            {plan.trialPeriod.repetitions} {plan.trialPeriod.interval.toLowerCase()} {userPlan?.plan?.id === plan.id && 'left'}</>} 
-                          </p>
-                          </>
-                        )}
-                      {plan.interval && <p>{plan.interval}</p>}
-
-                    {isActivePlan(plan) &&
-                    userPlanStatus === 'ACTIVE' ? (
+                    {freeTrial && !userCancelledPlan(plan) && plan.trialPeriod && (
                       <>
-                        <div className={styles["Btn-group"]}>
-                        {/* <div className="Btn-group"> */}
+                        <p className={styles['subDates']}>Trial Period</p>
+                        <p className={styles['otherDates']}>
+                          {plan.trialPeriod && (
+                            <>
+                              {plan.trialPeriod.repetitions}{' '}
+                              {plan.trialPeriod.interval.toLowerCase()}{' '}
+                              {userPlan?.plan?.id === plan.id && 'left'}
+                            </>
+                          )}
+                        </p>
+                      </>
+                    )}
+                    {userIsOnTrial(plan) && (
+                      <>
+                        <p className={styles['subDates']}>Trial Period</p>
+                        <p className={styles['otherDates']}>
+                          {plan.trialPeriod && (
+                            <>
+                              {plan.trialPeriod.repetitions}{' '}
+                              {plan.trialPeriod.interval.toLowerCase()}{' '}
+                              {userPlan?.plan?.id === plan.id && 'left'}
+                            </>
+                          )}
+                        </p>
+                      </>
+                    )}
+                    {plan.interval && <p>{plan.interval}</p>}
+
+                    {isActivePlan(plan) && userPlanStatus === 'ACTIVE' ? (
+                      <>
+                        <div className={styles['Btn-group']}>
+                          {/* <div className="Btn-group"> */}
                           {userCancelledPlan(plan) ? (
                             <Button
-                              className={` ${styles["Modal-cancel-btn"]} ${styles["Cancelled"]} ${styles["Subscribe"]} `}
+                              className={` ${styles['Modal-cancel-btn']} ${styles['Cancelled']} ${styles['Subscribe']} `}
                               disabled={true}
                             >
                               Cancelled
                             </Button>
+                          ) : (
                             // <Tag color="red">
                             //   Plan will be cancelled automatically{' '}
                             // </Tag>
-                          ) : (
                             <Button
-                            className={` ${styles["Modal-cancel-btn"]} ${styles["Subscribe"]} `}
-                            onClick={() => showModal()}
+                              className={` ${styles['Modal-cancel-btn']} ${styles['Subscribe']} `}
+                              onClick={() => showModal()}
                             >
                               Cancel
                             </Button>
@@ -372,10 +407,13 @@ const Subscription = () => {
                             renderData={
                               <div>
                                 Your subscription will be cancelled
-                                {userPlan?.renewalDate?
-                                 ` and not renewed on ${userPlan?.renewalDate}`
-                                 :userPlan?.currentPeriod?.ends?` and not renewed on ${dateFormatRenewal(userPlan.currentPeriod.ends)}`
-                                 :''}
+                                {userPlan?.renewalDate
+                                  ? ` and not renewed on ${userPlan?.renewalDate}`
+                                  : userPlan?.currentPeriod?.ends
+                                  ? ` and not renewed on ${dateFormatRenewal(
+                                      userPlan.currentPeriod.ends
+                                    )}`
+                                  : ''}
                                 {/* {userPlan.trialing &&
                                   ' You will loose your free trial.'} */}
                               </div>
@@ -385,35 +423,34 @@ const Subscription = () => {
                       </>
                     ) : (
                       <>
-                        <div className={styles["Btn-group"]}>
-                        {/* <div className="Btn-group"> */}
+                        <div className={styles['Btn-group']}>
+                          {/* <div className="Btn-group"> */}
                           {userPlan &&
                           userPlan?.plan?.id !== plan.id &&
                           userPlanStatus === 'ACTIVE' ? (
                             <>
-                            {isNextPhase(plan)?
-                            <Button
-                            className={` ${styles["Modal-cancel-btn"]} ${styles["Subscribe"]} `}
-                            onClick={() => showModal()}
-                          >
-                            Cancel
-                            </Button>
-                            :<Button
-                              className={styles["Subscribe"]}
-                              onClick={() => handleSwitchModal(plan.id)}
-                            >
-                              Switch
-                            </Button>
-                            }
-                            </>  
+                              {isNextPhase(plan) ? (
+                                <Button
+                                  className={` ${styles['Modal-cancel-btn']} ${styles['Subscribe']} `}
+                                  onClick={() => showModal()}
+                                >
+                                  Cancel
+                                </Button>
+                              ) : (
+                                <Button
+                                  className={styles['Subscribe']}
+                                  onClick={() => handleSwitchModal(plan.id)}
+                                >
+                                  Switch
+                                </Button>
+                              )}
+                            </>
                           ) : (
                             <Button
-                            className={styles["Subscribe"]}
-                            onClick={() => handleSubscribeClick(plan.id)}
+                              className={styles['Subscribe']}
+                              onClick={() => handleSubscribeClick(plan.id)}
                               disabled={
-                                disableButton ||
-                                loading ||
-                                isActivePlan(plan)
+                                disableButton || loading || isActivePlan(plan)
                               }
                             >
                               Activate
@@ -435,15 +472,38 @@ const Subscription = () => {
           handleOk={handleSwitch}
           renderData={
             <div>
-              {estimateAmount ? estimateAmount!=='$0.00' ?
-              <> Your subscription will be changed. <br/> You will be charged {estimateAmount} plus applicable taxes. Do you agree?
-              </>
-              :<>
-               {!userPlan?.trialing ? <>Your subscription will be changed on ${userPlan?.renewalDate?dateFormatRenewal(userPlan?.renewalDate):dateFormatRenewal(userPlan?.currentPeriod?.ends)}</>:<>{estimateAmount==='$0.00'?'Your subscription will be changed.':'.'}</>}
-              </>
-              :<>
-              <br/><Spin spinning={estimateAmount}/>
-              </>}
+              {estimateAmount ? (
+                estimateAmount !== '$0.00' ? (
+                  <>
+                    {' '}
+                    Your subscription will be changed. <br /> You will be
+                    charged {estimateAmount} plus applicable taxes. Do you
+                    agree?
+                  </>
+                ) : (
+                  <>
+                    {!userPlan?.trialing ? (
+                      <>
+                        Your subscription will be changed on $
+                        {userPlan?.renewalDate
+                          ? dateFormatRenewal(userPlan?.renewalDate)
+                          : dateFormatRenewal(userPlan?.currentPeriod?.ends)}
+                      </>
+                    ) : (
+                      <>
+                        {estimateAmount === '$0.00'
+                          ? 'Your subscription will be changed.'
+                          : '.'}
+                      </>
+                    )}
+                  </>
+                )
+              ) : (
+                <>
+                  <br />
+                  <Spin spinning={estimateAmount} />
+                </>
+              )}
             </div>
           }
         />
