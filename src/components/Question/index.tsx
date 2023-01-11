@@ -310,6 +310,38 @@ const Question = ({
             />
           </div>
         );
+        case 'markdown_select_one':
+          return (
+            <div className={goal_styles["IntroGoals"]}>
+                <h2 className={goal_styles["Title"]}>
+                    {question.title}
+                </h2>
+                <p className={goal_styles["Description"]}>
+                    {question.body_md}
+                </p>
+                <Radio.Group
+                  className="Question-Options"
+                  onChange={(e) => {
+                    const index = question.options.indexOf(e.target.value);
+                    setValue(index);
+                    onSubmit(index);
+                  }}
+                >
+                  {question.options.map((item: any, index: number) => (
+                    <>
+                      <Radio.Button
+                        className={`Question-Option${index}`}
+                        value={item}
+                        key={index}
+                      >
+                        {item}
+                      </Radio.Button>
+                      {index % 2 !== 0 && <br />}
+                    </>
+                  ))}
+                </Radio.Group>
+            </div>
+          );
       case 'numeric':
         return (
           <Input

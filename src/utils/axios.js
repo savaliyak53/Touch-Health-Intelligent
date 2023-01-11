@@ -3,6 +3,7 @@ import axios from 'axios'
 const apiClient = (url, method = 'get', data = {}, header='') => {
   const baseURL = process.env.REACT_APP_API_HOST
   const config = {
+    timeout: 6000,
     url: url,
     method: method,
     baseURL: baseURL

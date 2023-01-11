@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import styles from'./Guidance.module.scss';
-import Layout from '../../layouts/Layout/Layout';
+import styles from'./GoalDetails.module.scss';
+import Layout from '../../../layouts/Layout/Layout';
 import { Button, Modal, Tooltip, Spin } from 'antd';
 import { DeleteOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import ReactMarkdown from 'react-markdown'
-import { goalDetails,deleteGoal } from '../../services/goalsService'
+import { goalDetails,deleteGoal } from '../../../services/goalsService'
 import {
     Chart as ChartJS,
   } from 'chart.js';
@@ -15,12 +15,12 @@ import { Line } from 'react-chartjs-2';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 import rehypeRaw from "rehype-raw";
-import { guidanceStatus } from '../../services/authservice';
-import { dateFormatRenewal } from '../../utils/lib';
-import { getInteractionServiceByType, preferencesService } from '../../services/authservice';
+import { guidanceStatus } from '../../../services/authservice';
+import { dateFormatRenewal } from '../../../utils/lib';
+import { getInteractionServiceByType, preferencesService } from '../../../services/authservice';
 
 
-const Guidance = () => {
+const GoalDetails = () => {
     const [goal, setGoal] = useState<any>()
     const [open, setOpen] = useState<boolean>(false)
     const [type, setType] = useState<string>()
@@ -172,19 +172,10 @@ const Guidance = () => {
         setIsLoading(true)
         deleteGoal(id)
         .then((res)=>{
-            toast.success('Goal removed');
-            getInteractionServiceByType('goal_characterization').then((response:any) => {
-                if (response) {
-                navigate('/questionnaire')
-                } else {
+            if(res){
+                toast.success('Goal removed');
                 navigate('/dashboard');
-                }
-            })
-            .catch((error) => {
-                toast.error(
-                `Something went wrong. `
-                );
-            });
+            }
         })
         .catch((error: any) => {
             toast.error(error);
@@ -313,9 +304,9 @@ const Guidance = () => {
             {dataset && (
                 <>
                     <h3 className={styles["Chart-title"]}>
-                        {goal?.data.chart_title}
+                        Success Score
                         <Tooltip
-                            title="This shows how close you have been to achieving this goal in the past, and also your forecasted expectation if you continue doing all the things you currently do."
+                            title="Success Score"
                             placement="bottomRight"
                             overlayStyle={{marginRight:'10px'}}
                             className={styles["Vel-name"]}
@@ -440,4 +431,4 @@ const Guidance = () => {
     )
 
 }
-export default Guidance
+export default GoalDetails

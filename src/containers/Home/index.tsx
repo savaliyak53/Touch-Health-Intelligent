@@ -33,56 +33,51 @@ const Home = () => {
         toast(error.response.data.details.message);
       });
   };
-
+  const getInteractionByType=(type:string)=>{
+    getInteractionServiceByType(type).then((response:any) => {
+      if (response.data) {
+        navigate('/questionnaire');
+      } else {
+        navigate('/dashboard');
+      }
+    })
+    .catch((error) => {
+      toast.error(
+        `Something went wrong. `
+      );
+    });
+  }
   const checkUserData = () => {
     const userId = localStorage.getItem('userId');
     if (userId) {
       getUser(userId)
         .then((response) => {
           getUserSubscription();
-          if (response.data.preferences == null) {
-            navigate('/preferences');
-          } 
+          if(response.data.signup_status==='onboarding'){
+            getInteractionServiceByType('onboarding').then((response:any) => {
+              handleRedirect(response);
+            })
+            .catch((error) => {
+              toast.error(
+                `Something went wrong. `
+              );
+            });
+          }
+          else if (response.data.signup_status==='goal-selection'){
+            navigate('/add-goals')
+          }
+          else if (response.data.signup_status==='goal_characterization'){
+            getInteractionServiceByType('goal_characterization').then((response:any) => {
+              handleRedirect(response);
+            })
+            .catch((error) => {
+              toast.error(
+                `Something went wrong. `
+              );
+            });
+          }
           else {
-            if(response.data.signup_status==='onboarding'){
-              getInteractionServiceByType('onboarding').then((response:any) => {
-                handleRedirect(response);
-              })
-              .catch((error) => {
-                toast.error(
-                  `Something went wrong. `
-                );
-              });
-            }
-            else if (response.data.signup_status==='goal-selection'){
-              navigate('/add-goals')
-            }
-            else if (response.data.signup_status==='goal_characterization'){
-              getInteractionServiceByType('goal_characterization').then((response:any) => {
-                handleRedirect(response);
-              })
-              .catch((error) => {
-                toast.error(
-                  `Something went wrong. `
-                );
-              });
-            }
-            else {
-              console.log('checkup')
-              getInteractionServiceByType('checkup').then((response:any) => {
-                if (response.data) {
-                  navigate('/questionnaire');
-                } else {
-                  navigate('/dashboard');
-                }
-              })
-              .catch((error) => {
-                toast.error(
-                  `Something went wrong. `
-                );
-              });
-            }
-           
+            getInteractionByType('checkup')
           }
         })
         .catch((error) => {

@@ -25,7 +25,7 @@ import Error from '../containers/Error';
 import Home from '../containers/Home';
 import AddGoals from '../containers/Goals/AddGoals';
 import IntroGoals from '../containers/Goals/IntroGoals';
-import Guidance from '../containers/Guidance';
+import GoalDetails from '../containers/Goals/Details/index';
 import PasswordRecovery from '../containers/Auth/PasswordRecovery';
 import GoogleFitSuccess from '../containers/GoogleFitSuccess/GoogleFitSuccess';
 
@@ -53,7 +53,7 @@ const AppRoutes = () => {
         </Route>
           <Route path="/add-goals" element={<AddGoals />} />
           <Route path="/intro-goals" element={<IntroGoals />} />
-          <Route path="/goals/:id" element={<Guidance />} />
+          <Route path="/goals/:id" element={<GoalDetails />} />
         {/* Protected Routes */}
           <Route path="/dashboard" element={<Dashboard />} />
         <Route element={<RequireAuth />}>
@@ -72,6 +72,7 @@ const AppRoutes = () => {
           <Route path="/preferences" element={<Preferences />} />
           <Route path="/introvideo" element={<IntroVideo />} />
           <Route path="/subscription" element={<Subscription />} />
+          <Route path="/subscription/:id" element={<Subscription />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
           {/* <Route path="/post-concerns" element={<ManageConcerns />} /> */}
           <Route path="/help-and-support" element={<HelpAndSupport />} />
