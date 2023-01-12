@@ -47,6 +47,7 @@ const Home = () => {
         }
       })
       .catch((error) => {
+        navigate('/dashboard');
         toast.error(`Something went wrong. `);
       });
   };
@@ -62,6 +63,7 @@ const Home = () => {
                 handleRedirect(response);
               })
               .catch((error) => {
+                navigate('/dashboard');
                 toast.error(`Something went wrong. `);
               });
           } else if (response.data.signup_status === 'goal-selection') {
@@ -72,6 +74,7 @@ const Home = () => {
                 handleRedirect(response);
               })
               .catch((error) => {
+                navigate('/dashboard');
                 toast.error(`Something went wrong. `);
               });
           } else if (

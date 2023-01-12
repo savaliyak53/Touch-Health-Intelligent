@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './AddGoals.module.scss';
 import Layout from '../../../layouts/Layout/Layout';
+import { LeftOutlined } from '@ant-design/icons';
 import {
   DownOutlined,
   SearchOutlined,
@@ -204,9 +205,14 @@ const AddGoals = () => {
       setOptions(null);
     }
   }, [debouncedSearchValue]);
-
+  const handleBack = () => {
+    navigate('/dashboard');
+  };
   return (
     <Layout defaultHeader={true} hamburger={false}>
+      <div className={styles['Backflex']} onClick={handleBack}>
+        <LeftOutlined className={styles['LeftIcon']} /> Back
+      </div>
       <div className={styles['AddGoals']}>
         <h2 className={styles['Title']}>Adding Health Goals</h2>
         <div className={`Goal-Select-Wrap Goals-Select`}>

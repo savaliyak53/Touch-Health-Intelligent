@@ -170,7 +170,9 @@ const Subscription = () => {
               }
             })
             .catch((error) => {
-              toast.error(`Something went wrong. `);
+              toast.error(
+                `Something went wrong. Cannot initiate interaction at the moment `
+              );
             });
         } else {
           console.log('navigate to dashboard');
