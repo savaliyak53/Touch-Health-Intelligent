@@ -1,10 +1,15 @@
-import React, { HtmlHTMLAttributes, useCallback, useEffect, useState } from 'react';
+import React, {
+  HtmlHTMLAttributes,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { Button, DatePicker, Input, Radio, Tooltip } from 'antd';
 import { Slider } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
 import { RightOutlined, SearchOutlined } from '@ant-design/icons';
 import { Select, Spin } from 'antd';
-import goal_styles from'./IntroGoals.module.scss';
+import goal_styles from './IntroGoals.module.scss';
 const { Option } = Select;
 // import './index.scss';
 import styles from './Question.module.scss';
@@ -17,9 +22,9 @@ import { setDefaultResultOrder } from 'dns';
 import moment from 'moment';
 
 interface Props {
-  items:any;
-  setItems:any;
-  selectedValue:any;
+  items: any;
+  setItems: any;
+  selectedValue: any;
   question: any;
   onSubmit: any;
   setValue: any;
@@ -35,37 +40,39 @@ const Question = ({
   items,
   setItems,
 }: Props) => {
-  const [maxNum,setMaxNum]= useState(0);
-  const [defaultLength,setDefaultLength]= useState(0);
+  const [maxNum, setMaxNum] = useState(0);
+  const [defaultLength, setDefaultLength] = useState(0);
 
   const labelRef = React.useRef<HTMLLabelElement>(null);
   let radioOptions: string[] = [];
-  if(question && question.type==='select_many'){
-    radioOptions=[...question.defaults]
+  if (question && question.type === 'select_many') {
+    radioOptions = [...question.defaults];
   }
   const formatter = (value: number | undefined) => `${value}`;
-  let defaults:any=[]
-  const removeclass=(item:any)=>{
+  let defaults: any = [];
+  const removeclass = (item: any) => {
     const el = document.querySelector<HTMLLabelElement>(`#label-${item}`);
-    if(el){
-      el.classList.remove('ant-radio-button-wrapper-checked')
+    if (el) {
+      el.classList.remove('ant-radio-button-wrapper-checked');
+    }
+  };
+  if (question && question.type === 'multi_select') {
+    if (question.defaults) {
+      defaults = question.defaults.map(function (key: any) {
+        return question.options[key];
+      });
     }
   }
-  if (question && question.type === 'multi_select') {
-    if(question.defaults){
-      defaults= question.defaults.map(function(key:any) {return question.options[key];});
-    }
-  } 
   const onChange = (value: Array<string>) => {
     let i = 0;
     const indexArray = [];
-      while (value.length > i) {
-        const index = question.options.indexOf(value[i]);
-        indexArray.push(index);
-        i++;
-      }
-      setValue(indexArray);
-      setItems(value);
+    while (value.length > i) {
+      const index = question.options.indexOf(value[i]);
+      indexArray.push(index);
+      i++;
+    }
+    setValue(indexArray);
+    setItems(value);
   };
   const onTimeChange = (hours: any, minutes: any) => {
     setValue(`${hours}:${minutes ? minutes : '00'}:00.648052`);
@@ -98,21 +105,25 @@ const Question = ({
 
       marks[parseInt(question?.lower_value)] = `${question?.lower_qualifier}`;
       marks[parseInt(question?.upper_value)] = `${question?.upper_qualifier}`;
-
     }
-    if (question && question.type === 'multi_select' || question.type === 'select_many'){
+    if (
+      (question && question.type === 'multi_select') ||
+      question.type === 'select_many'
+    ) {
       setValue([...question.defaults]);
       setItems([...defaults]);
     }
   }, [question]);
   useEffect(() => {
     setMaxNum(question.max_num_selections);
-    if(question?.type === 'multi_select'){
-      if(question.defaults && question.defaults.length > question.max_num_selections){
-        setDefaultLength(question.max_num_selections)
-      }
-      else{
-        setDefaultLength(question.defaults.length)
+    if (question?.type === 'multi_select') {
+      if (
+        question.defaults &&
+        question.defaults.length > question.max_num_selections
+      ) {
+        setDefaultLength(question.max_num_selections);
+      } else {
+        setDefaultLength(question.defaults.length);
       }
     }
   }, [selectedValue]);
@@ -131,20 +142,23 @@ const Question = ({
           <DatePicker
             onChange={(date: any, dateString: any) => setValue(dateString)}
             className="Date-Select"
-            disabledDate={(current) => current.isBefore(moment())}/>
+            disabledDate={(current) => current.isBefore(moment())}
+          />
         );
       case 'yes_no':
         return (
-          <div className={styles["align-center"]}>
-            <button className={styles["no-btn"]} 
+          <div className={styles['align-center']}>
+            <button
+              className={styles['no-btn']}
               onClick={async () => {
                 await setValue('false');
                 onSubmit('false');
-              }}>
+              }}
+            >
               No
             </button>
             <button
-              className={styles["yes-btn"]}
+              className={styles['yes-btn']}
               type="button"
               onClick={async () => {
                 await setValue('true');
@@ -191,7 +205,7 @@ const Question = ({
             {question.options.map((item: any, index: number) => (
               <>
                 <Radio.Button
-                  className={styles["dialog-btn"]}
+                  className={styles['dialog-btn']}
                   value={item}
                   key={index}
                 >
@@ -204,51 +218,51 @@ const Question = ({
         );
       case 'image_and_text':
         return (
-          <div className={goal_styles["IntroGoals"]}>
-                <h2 className={goal_styles["Title"]}>
-                    {question.title}
-                </h2>
-                <p className={goal_styles["Description"]}>
-                    {question.sub_title}
-                </p>
-                <img src={question.image} className={goal_styles["Image"]} alt="Image" />
-            </div>
+          <div className={goal_styles['IntroGoals']}>
+            <h2 className={goal_styles['Title']}>{question.title}</h2>
+            <p className={goal_styles['Description']}>{question.sub_title}</p>
+            <img
+              src={question.image}
+              className={goal_styles['Image']}
+              alt="Image"
+            />
+          </div>
         );
-      
+
       case 'image_and_text_select_one':
         return (
-          <div className={goal_styles["IntroGoals"]}>
-                <h2 className={goal_styles["Title"]}>
-                    {question.title}
-                </h2>
-                <p className={goal_styles["Description"]}>
-                    {question.sub_title}
-                </p>
-                <img src={question.image} className={goal_styles["Image"]} alt="Image" />
-                <Radio.Group
-            className="Question-Options"
-            onChange={(e) => {
-              const index = question.options.indexOf(e.target.value);
-              setValue(index);
-              onSubmit(index);
-            }}
-          >
-            {question.options.map((item: any, index: number) => (
-              <>
-                <Radio.Button
-                  className={`Question-Option${index}`}
-                  value={item}
-                  key={index}
-                >
-                  {item}
-                </Radio.Button>
-                {index % 2 !== 0 && <br />}
-              </>
-            ))}
-          </Radio.Group>
-            </div>
+          <div className={goal_styles['IntroGoals']}>
+            <h2 className={goal_styles['Title']}>{question.title}</h2>
+            <p className={goal_styles['Description']}>{question.sub_title}</p>
+            <img
+              src={question.image}
+              className={goal_styles['Image']}
+              alt="Image"
+            />
+            <Radio.Group
+              className="Question-Options"
+              onChange={(e) => {
+                const index = question.options.indexOf(e.target.value);
+                setValue(index);
+                onSubmit(index);
+              }}
+            >
+              {question.options.map((item: any, index: number) => (
+                <>
+                  <Radio.Button
+                    className={`Question-Option${index}`}
+                    value={item}
+                    key={index}
+                  >
+                    {item}
+                  </Radio.Button>
+                  {index % 2 !== 0 && <br />}
+                </>
+              ))}
+            </Radio.Group>
+          </div>
         );
-        
+
       case 'select_many':
         return (
           <div className="ant-radio-group ant-radio-group-outline Question-Options">
@@ -272,14 +286,14 @@ const Question = ({
                 </span>
                 <span>{item}</span>
               </label>
-          ))}
+            ))}
           </div>
         );
       case 'slider':
         return (
-        <div className="Question-Slider-Vertical">
-          {/* <div className={styles["Slider-Vertical"]}> */}
-            <span className={styles["Text1"]}>{question.lower_qualifier}</span>
+          <div className="Question-Slider-Vertical">
+            {/* <div className={styles["Slider-Vertical"]}> */}
+            <span className={styles['Text1']}>{question.lower_qualifier}</span>
             <Slider
               className="Slider"
               vertical
@@ -293,7 +307,7 @@ const Question = ({
                 setDisableNextButton(false);
               }}
             />
-            <span className={styles["Text2"]}>{question.upper_qualifier}</span>
+            <span className={styles['Text2']}>{question.upper_qualifier}</span>
           </div>
         );
       case 'free_text':
@@ -310,38 +324,34 @@ const Question = ({
             />
           </div>
         );
-        case 'markdown_select_one':
-          return (
-            <div className={goal_styles["IntroGoals"]}>
-                <h2 className={goal_styles["Title"]}>
-                    {question.title}
-                </h2>
-                <p className={goal_styles["Description"]}>
-                    {question.body_md}
-                </p>
-                <Radio.Group
-                  className="Question-Options"
-                  onChange={(e) => {
-                    const index = question.options.indexOf(e.target.value);
-                    setValue(index);
-                    onSubmit(index);
-                  }}
-                >
-                  {question.options.map((item: any, index: number) => (
-                    <>
-                      <Radio.Button
-                        className={`Question-Option${index}`}
-                        value={item}
-                        key={index}
-                      >
-                        {item}
-                      </Radio.Button>
-                      {index % 2 !== 0 && <br />}
-                    </>
-                  ))}
-                </Radio.Group>
-            </div>
-          );
+      case 'markdown_select_one':
+        return (
+          <div className={goal_styles['IntroGoals']}>
+            <h2 className={goal_styles['Title']}>{question.title}</h2>
+            <p className={goal_styles['Description']}>{question.body_md}</p>
+            <Radio.Group
+              className="Question-Options"
+              onChange={(e) => {
+                const index = question.options.indexOf(e.target.value);
+                setValue(index);
+                onSubmit(index);
+              }}
+            >
+              {question.options.map((item: any, index: number) => (
+                <>
+                  <Radio.Button
+                    className={`Question-Option${index}`}
+                    value={item}
+                    key={index}
+                  >
+                    {item}
+                  </Radio.Button>
+                  {index % 2 !== 0 && <br />}
+                </>
+              ))}
+            </Radio.Group>
+          </div>
+        );
       case 'numeric':
         return (
           <Input
@@ -359,64 +369,78 @@ const Question = ({
   }, [question?.q_str, question?.type, question?.options, question?.defaults]);
   return (
     <>
-      <div className={` ${styles["Question"]} ${styles["Question-grp"]} `}>
-        {question &&
-        <>
-        <h3 className={ ` ${styles["Question-title"]} ${styles["Question-heading"]} `}>
-          {question.q_str}
-          {question.h_str &&
-              <Tooltip
-                title={question?.h_str}
-                placement="bottomRight"
-                overlayStyle={{marginRight:'10px'}}
-                color="blue"
-                mouseLeaveDelay={0}
-              >
-            <AiOutlineQuestionCircle size={30} className='question-help'/>  
-          </Tooltip>
-          }
-          </h3>
-          <br />
-          {question.type === 'multi_select'?
-          <div className="Select-Wrap">
-              <SearchOutlined className="search" />
-              <Select
-                value={items}
-                mode="multiple"
-                showSearch
-                placeholder="Add a condition"
-                optionFilterProp="children"
-                onChange={onChange}
-                filterOption={(input, option) =>
-                  (option!.children as unknown as string)
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-              >
-                {question?.options.map((item:any, index:any)=>{
-                  return <Option key={question?.options[index]}
-                    value={question?.options[index]}
-                    disabled={selectedValue && 
-                      question?.defaults && defaultLength > maxNum
-                      ?
-                      question.defaults.includes(index)?false:true
-                      :
-                      selectedValue && selectedValue.length >= question.max_num_selections
-                      ? 
-                      selectedValue.includes(index)?false
-                      :
-                      true:false}
-                    >
-                    {item}
-                  </Option>
-                })}       
-              </Select>
-              {/* <RightOutlined /> */}
-          </div>
-          :<InputField />
-        }
-      </>
-      }
+      <div className={` ${styles['Question']} ${styles['Question-grp']} `}>
+        {question && (
+          <>
+            <h3
+              className={` ${styles['Question-title']} ${styles['Question-heading']} `}
+            >
+              {question.q_str}
+              {question.h_str && (
+                <Tooltip
+                  title={question?.h_str}
+                  placement="bottomRight"
+                  overlayStyle={{ marginRight: '10px' }}
+                  color="blue"
+                  mouseLeaveDelay={0}
+                >
+                  <AiOutlineQuestionCircle
+                    size={30}
+                    className="question-help"
+                  />
+                </Tooltip>
+              )}
+            </h3>
+            <br />
+            {question.type === 'multi_select' ? (
+              <div className="Select-Wrap">
+                <SearchOutlined className="search" />
+                <Select
+                  value={items}
+                  mode="multiple"
+                  showSearch
+                  placeholder=""
+                  optionFilterProp="children"
+                  onChange={onChange}
+                  filterOption={(input, option) =>
+                    (option!.children as unknown as string)
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                >
+                  {question?.options.map((item: any, index: any) => {
+                    return (
+                      <Option
+                        key={question?.options[index]}
+                        value={question?.options[index]}
+                        disabled={
+                          selectedValue &&
+                          question?.defaults &&
+                          defaultLength > maxNum
+                            ? question.defaults.includes(index)
+                              ? false
+                              : true
+                            : selectedValue &&
+                              selectedValue.length >=
+                                question.max_num_selections
+                            ? selectedValue.includes(index)
+                              ? false
+                              : true
+                            : false
+                        }
+                      >
+                        {item}
+                      </Option>
+                    );
+                  })}
+                </Select>
+                {/* <RightOutlined /> */}
+              </div>
+            ) : (
+              <InputField />
+            )}
+          </>
+        )}
       </div>
     </>
   );
