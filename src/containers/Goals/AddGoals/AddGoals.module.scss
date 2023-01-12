@@ -1,96 +1,103 @@
 .AddGoals {
-    text-align: center;
+  text-align: center;
 }
 .Title {
-    text-align: center;
-    margin-top: 50px;
-    font-size: 28px;
-    line-height: 1.2;
-    font-weight: 600;
-    margin-bottom: 40px;
-    color: #657FD1;
+  text-align: center;
+  margin-top: 50px;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 600;
+  margin-bottom: 40px;
+  color: #657fd1;
 }
 Select {
-    max-width: 320px;
-    margin: 0 auto;
+  max-width: 320px;
+  margin: 0 auto;
 }
 .Goals-title,
 .Des-Short,
 .Des-Goal {
-    text-align: start;
-    margin-top: 50px;
-    font-size: 22px;
-    line-height: 1.2;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: #657FD1;
-    margin-left: 10px;
+  text-align: start;
+  margin-top: 50px;
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #657fd1;
+  margin-left: 10px;
 }
 .Health-Goals,
 .Rec-wrap {
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+
+  .Rec-Goal,
+  .Selected-Goal {
     display: flex;
-    justify-content: start;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 48%;
+    padding: 16px;
+    border-radius: 16px;
+    border: none;
+    margin: 8px 3px;
+    cursor: pointer;
+    text-align: start;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: 600;
+    white-space: normal !important;
+    height: auto !important;
+  }
 
-    .Rec-Goal,
-    .Selected-Goal {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        max-width: 48%;
-        padding: 16px;
-        border-radius: 16px;
-        border: none;
-        margin: 8px 3px;
-        cursor: pointer;
-        text-align: start;
-        font-size: 18px;
-        line-height: 1.2;
-        font-weight: 600;
-        white-space: normal !important;
-        height: auto!important;
+  .Cross-btn {
+    height: auto !important;
+    padding: 0 !important;
+    margin-top: -28px;
+    margin-right: -8px;
+    background-color: transparent !important;
+    &:hover,
+    &:active {
+      background-color: transparent !important;
     }
-
-    .Cross-btn {
-        height: auto !important;
-        padding: 0 !important;
-        margin-top: -28px;
-        margin-right: -8px;
-        background-color: transparent !important;
-        &:hover,
-        &:active {
-            background-color: transparent !important;
-        }
-    }
+  }
 }
 .Health-Goals {
-    justify-content: start;
+  justify-content: start;
 }
 
 .Selected-Goal {
-    align-items: flex-start;
+  align-items: flex-start;
 }
 .Cross,
 .Arrow {
-    color: rgba(#272424, 0.5)!important;
-    font-size: 20px;
+  color: rgba(#272424, 0.5) !important;
+  font-size: 20px;
 }
 
 .Cross {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 .Des-Short {
-    font-weight: 400;
-    margin-top: 20px;
-    font-size: 16px;
+  font-weight: 400;
+  margin-top: 20px;
+  font-size: 16px;
 }
 .Des-Goal {
-    font-weight: 400;
-    margin-top: 20px;
-    margin-bottom: 50px;
+  font-weight: 400;
+  margin-top: 20px;
+  margin-bottom: 50px;
 }
 .Modal-Btn-Group {
-    padding-bottom: 50px!important;
+  padding-bottom: 50px !important;
+}
+.LeftIcon {
+  text-align: left !important;
+  margin-top: 22px;
+}
+.Backflex {
+  flex-direction: row;
 }

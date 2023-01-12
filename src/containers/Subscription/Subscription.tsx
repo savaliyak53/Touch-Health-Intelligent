@@ -21,8 +21,11 @@ import ConfirmModal from './ConfirmModal';
 import { ISubscriptionPlan, IUserSubscription } from './Interfaces';
 import {
   getInteractionServiceByType,
+  getUser,
   preferencesService,
+  updatePreference,
 } from '../../services/authservice';
+import moment from 'moment';
 const { Meta } = Card;
 
 const Subscription = () => {
@@ -119,7 +122,30 @@ const Subscription = () => {
   useEffect(() => {
     if (location.search === '?success') {
       //getStatus();
-      handleInitialIntake();
+      const userId = localStorage.getItem('userId');
+      getUser(userId)
+        .then((response) => {
+          if (response.data.signup_status === 'new') {
+            const zoneVal = moment()
+              .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+              .format('Z');
+            const preferenceData = {
+              timezone: zoneVal,
+            };
+            updatePreference(preferenceData)
+              .then((preferencesResponse) => {
+                handleInitialIntake();
+              })
+              .catch((error) => {
+                toast.error(
+                  `${error.response?.data?.title} Something went wrong while updating preference`
+                );
+              });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, [location]);
 
@@ -144,7 +170,9 @@ const Subscription = () => {
               }
             })
             .catch((error) => {
-              toast.error(`Something went wrong. `);
+              toast.error(
+                `Something went wrong. Cannot initiate interaction at the moment `
+              );
             });
         } else {
           console.log('navigate to dashboard');
