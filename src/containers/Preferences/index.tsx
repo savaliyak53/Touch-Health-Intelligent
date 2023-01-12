@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Slider, Tooltip, Input, Spin, Switch } from 'antd';
-import styles from './Preferences.module.scss'
+import styles from './Preferences.module.scss';
 import { CloudDownloadOutlined } from '@ant-design/icons';
-import Button from '../../components/Button';
-import { getInteractionServiceByType, preferencesService, getGoogleCode, revokeGoogleFit, getIntegrationStatus } from '../../services/authservice';
+import {
+  getGoogleCode,
+  revokeGoogleFit,
+  getIntegrationStatus,
+  getPreference,
+} from '../../services/authservice';
 import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
 import { Radio, Space, DatePicker } from 'antd';
@@ -51,8 +55,8 @@ const Preferences = () => {
     const installApp = document.getElementById('installApp');
 
     window.addEventListener('beforeinstallprompt', (e) => {
-    if(installApp != null){
-      installApp.style.display = 'initial'
+      if (installApp != null) {
+        installApp.style.display = 'initial';
       }
       deferredPrompt = e;
     });
@@ -63,7 +67,7 @@ const Preferences = () => {
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
           deferredPrompt = null;
-        location.reload()
+          location.reload();
         }
       }
     });
@@ -73,7 +77,6 @@ const Preferences = () => {
     setloading(true);
     getIntegrationStatusService();
     getUserInfo(userId);
-    
   }, []);
   const {
     handleSubmit,
@@ -100,74 +103,43 @@ const Preferences = () => {
         engagement_level: data.engagementLevel ?? 0,
         timezone: zoneVal,
       },
-      signup_status:"onboarding",
+      signup_status: 'onboarding',
     };
 
     setIsLoading(true);
-    preferencesService(preferenceData, userId)
-      .then((preferencesResponse) => {
-        setIsLoading(false);
-        toast.success('Preferences submitted');
-        if (isEmpty(preferences)) {
-          handleInitialIntake();
-        } else {
-          navigate('/dashboard');
-        }
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        toast.error(
-          `${error.response?.data?.title} Please check values and try again.`
-        );
-      });
+    // handle preference submit
   };
-  const handleInitialIntake = () => {
-    getInteractionServiceByType('onboarding').then((response:any) => {
-        if (response) {
-          navigate('/questionnaire')
-        } else {
-          navigate('/');
-        }
-      })
-      .catch((error) => {
-        toast.error(
-          `Something went wrong. `
-        );
-      });
-  };
+
   const getUserInfo = (userId: string | null | undefined) => {
-    getUser(userId)
+    getPreference()
       .then((response: any) => {
-        if (response?.data?.preferences?.timezone) {
-          setPreferences(response.data.preferences);
+        if (response?.data) {
           setYob(response.data.yob);
           setSex(response.data.sex);
-          setName(response.data.name);
-          setEngagement(response.data.preferences.engagement_level);
           reset({
             yob: response.data.yob,
             sex: response.data.sex,
-            engagementLevel: response.data.preferences.engagement_level,
+            //engagementLevel: response.data.preferences.engagement_level,
           });
           setloading(false);
         }
-        setSpinning(false)
+        setSpinning(false);
       })
       .catch((error) => {
         toast('Unknown error');
-        setSpinning(false)
+        setSpinning(false);
       });
   };
   const getIntegrationStatusService = () => {
     getIntegrationStatus()
       .then((response: any) => {
         if (response?.data) {
-          setChecked(response.data.enabled)
+          setChecked(response.data.enabled);
         }
       })
       .catch((error) => {
         toast('Unknown error');
-        setSpinning(false)
+        setSpinning(false);
       });
   };
   const isEmpty = (obj: any) => {
@@ -176,30 +148,26 @@ const Preferences = () => {
     }
     return true;
   };
-  const handleClick = (checked:any) => {
-    if(checked){
-      getGoogleCode()
-      .then(res => {
+  const handleClick = (checked: any) => {
+    if (checked) {
+      getGoogleCode().then((res) => {
         createAuthLink(res);
-      })
-    }
-    else{
+      });
+    } else {
       revokeCredentials();
     }
-  }
+  };
   const revokeCredentials = () => {
-    revokeGoogleFit()
-    .then(res => {
-      if(res.data.message){
+    revokeGoogleFit().then((res) => {
+      if (res.data.message) {
         setChecked(false);
-        toast.success('Google fit disabled')
+        toast.success('Google fit disabled');
       }
-
-    })
-  }
-  const createAuthLink= (response:any) =>{
+    });
+  };
+  const createAuthLink = (response: any) => {
     setChecked(true);
-    const redirect_uri=`${process.env.REACT_APP_FRONTEND}auth/google/code`;
+    const redirect_uri = `${process.env.REACT_APP_FRONTEND}auth/google/code`;
     const params = new URLSearchParams({
       client_id: `${process.env.REACT_APP_GOOGLE_CLIENT_ID}`,
       redirect_uri: redirect_uri,
@@ -207,23 +175,27 @@ const Preferences = () => {
       scope: [
         'https://www.googleapis.com/auth/fitness.activity.read',
         'https://www.googleapis.com/auth/fitness.location.read',
-        'https://www.googleapis.com/auth/fitness.nutrition.read'
-      ].join(' ').trim(),
+        'https://www.googleapis.com/auth/fitness.nutrition.read',
+      ]
+        .join(' ')
+        .trim(),
       access_type: 'offline',
       state: JSON.stringify({
         sessionId: response.data.sessionId,
-        redirect_uri: redirect_uri
+        redirect_uri: redirect_uri,
       }),
       include_granted_scopes: 'true',
-      prompt: 'consent select_account'
+      prompt: 'consent select_account',
     });
-    const url = `${process.env.REACT_APP_GOOGLE_FIT_OAUTH_ENDPOINT}?${params.toString()}`;
+    const url = `${
+      process.env.REACT_APP_GOOGLE_FIT_OAUTH_ENDPOINT
+    }?${params.toString()}`;
 
     visitLink(url);
-  }
-  const visitLink=(url:any)=> {
+  };
+  const visitLink = (url: any) => {
     window.location.href = url;
-  }
+  };
   const text = <span>prompt text</span>;
 
   return (
@@ -231,274 +203,216 @@ const Preferences = () => {
       defaultHeader={true}
       hamburger={isEmpty(preferences) ? false : true}
     >
-    <Spin spinning={spinning}>
-    <div className={`Content-wrap ${styles['Pref']}`}>
-      <h2 className={styles["Pref-title"]}>Preferences</h2>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'start',
-          marginBottom: '10px',
-        }}
-      >
-        <button
-          style={{ border: 'none', background: 'none', display: 'none' }}
-          id="installApp"
-        >
-            <h5 style={{ float: 'left', cursor: 'pointer'}}>You can also install this app</h5>
-          &nbsp;
-          <CloudDownloadOutlined
-            className="Download-icon"
+      <Spin spinning={spinning}>
+        <div className={`Content-wrap ${styles['Pref']}`}>
+          <h2 className={styles['Pref-title']}>Preferences</h2>
+          <div
             style={{
-              color: '#3a4a7e',
-              float: 'right',
-              fontSize: '20px',
-              marginLeft: '3px',
-              cursor: 'pointer'
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'start',
+              marginBottom: '10px',
             }}
-          />
-        </button>
-      </div>
-      <br/>
-      <div style={{ border: 'none', background: 'none' }}>
-          Connect with Google Fit
-          {checked===undefined?<Spin spinning={checked===undefined?true:false}/>:<Switch checked={checked} style={{ marginLeft: '40px'}} onChange={handleClick} />}
-      </div >
-      
-      <form onSubmit={handleSubmit(onSubmit)} className={styles["Preferences-form"]}>
-        <div className={styles["Question"]}>
-            <h3 className={styles["Question-title"]}>
-              To modify your birth year and sex at birth, please contact your health assistant by texting the number you receive your checkups
-            </h3>
-            <h3 className={styles["Question-title"]}>
-              How much time do you have for check-ins each week?
-            </h3>
-          <br />
-
-          {engagement ? (
-            <Controller
-              control={control}
-              name="engagementLevel"
-              rules={{
-                required: 'Please Select a check-in value',
-              }}
-              defaultValue={engagement && engagement}
-              render={({ field: { onChange, value } }) => (
-                <>
-                  <Slider
-                      className="Pref-slider"
-                      id="engagementLevel"
-                      value={value}
-                      min={0}
-                      max={1}
-                      step={0.01}
-                      onChange={onChange}
-                      tooltipVisible={false}
-                    />
-
-
-                  <div className={styles["Slider-range"]}>
-                    <div className="flex-container">
-                      <span>3 min</span>
-                    </div>
-                    <div className="flex-container">
-                      <span>10 min</span>
-                    </div>
-                    <div className="flex-container">
-                      <span>15 min</span>
-                    </div>
-                  </div>
-                </>
-              )}
-            />
-          ) : (
-            <Controller
-              control={control}
-              name="engagementLevel"
-              rules={{
-                required: 'Please Select a check-in value',
-              }}
-              defaultValue={0}
-              render={({ field: { onChange, value } }) => (
-                <>
-                  <Slider
-                    className="Pref-slider"
-                    id="engagementLevel"
-                    value={value}
-                    min={0}
-                    max={1}
-                    step={0.01}
-                    onChange={onChange}
-                    tooltipVisible={false}
-                  />
-                  <div className={styles["Slider-range"]}>
-                    <div className="flex-container">
-                      <span>3 min</span>
-                    </div>
-                    <div className="flex-container">
-                      <span>10 min</span>
-                    </div>
-                    <div className="flex-container">
-                      <span>15 min</span>
-                    </div>
-                  </div>
-                </>
-              )}
-            />
-          )}
-          <p className={styles["Preferences-form-error"]}>
-            {errors.engagementLevel?.message}
-          </p>
-        </div>
-        {yob ? (
-          <div className={styles["Question"]}>
-            <h3 className={styles["Question-title"]}>What is your year of birth?</h3>
-            <Controller
-              control={control}
-              name="yob"
-              defaultValue={yob}
-              rules={{
-                required: 'Please Select an year',
-                validate: (value) => {
-                  return value > 2006 ? 'You must older than 16' : true;
-                },
-              }}
-              render={({ field: { onChange, onBlur, value, name, ref } }) => (
-                <>
-                  <DatePicker
-                    disabled={true}
-                    picker="year"
-                    format="YYYY"
-                    value={moment(yob, 'YYYY')}
-                    className="Date-Select"
-                  />
-                </>
-              )}
-            />
-
-            <p className={styles["Preferences-form-error"]}>{errors.yob?.message}</p>
-          </div>
-        ) : (
-          <div className={styles["Question"]}>
-            <h3 className={styles["Question-title"]}>What is your year of birth?</h3>
-            <Controller
-              control={control}
-              name="yob"
-              rules={{
-                required: 'Please Select an year',
-                validate: (value) => {
-                  return value > 2006 ? 'You must older than 16' : true;
-                },
-              }}
-              render={({ field: { onChange, onBlur, value, name, ref } }) => (
-                <DatePicker
-                  onChange={(selectedValue, selectedValueString) =>
-                    onChange(selectedValueString)
-                  }
-                  picker="year"
-                  format="YYYY"
-                  className="Date-Select"
-                />
-              )}
-            />
-
-            <p className={styles["Preferences-form-error"]}>{errors.yob?.message}</p>
-          </div>
-        )}
-
-        {sex ? (
-          <div className={styles["Question"]}>
-            <h3 className={styles["Question-title"]}>
-              Assigned sex at the time of birth
-            </h3>
-            <Controller
-              control={control}
-              name="sex"
-              defaultValue={sex && sex}
-              rules={{ required: 'Please Select one' }}
-              render={({ field: { value } }) => (
-                  <Radio.Group className='Options' value={value}>
-                    <Space>
-                      <Radio.Button value="male" className={styles["radio-input"]}>
-                        Male
-                      </Radio.Button>
-                      <Radio.Button value="female" className={styles["radio-input"]}>
-                        Female
-                      </Radio.Button>
-                      <Radio.Button value="intersex" className={styles["radio-input"]}>
-                        Prefer not to say
-                      </Radio.Button>
-                    </Space>
-                  </Radio.Group>
-                )}
-              />
-
-              <p className={styles["Preferences-form-error"]}>{errors.sex?.message}</p>
-            </div>
-          ) : (
-            <div className={styles["Question"]}>
-              <h3 className={styles["Question-title"]}>
-                Assigned sex at the time of birth
-              </h3>
-              <Controller
-                control={control}
-                name="sex"
-                rules={{ required: 'Please Select one' }}
-                render={({ field: { onChange, value } }) => (
-                  <Radio.Group className='Options' value={value} onChange={onChange}>
-                    <Space>
-                      <Radio.Button value="male" className={styles["radio-input"]}>
-                        Male
-                      </Radio.Button>
-                      <Radio.Button value="female" className={styles["radio-input"]}>
-                        Female
-                      </Radio.Button>
-                      <Radio.Button value="intersex" className={styles["radio-input"]}>
-                        Prefer not to say
-                      </Radio.Button>
-                    </Space>
-                  </Radio.Group>
-                )}
-              />
-
-            <p className={styles["Preferences-form-error"]}>{errors.sex?.message}</p>
-          </div>
-        )}
-
-        {isEmpty(preferences) ? (
-          <Button
-            className="Pref-btn btn"
-            loading={isLoading}
-            disabled={!isValid}
-            onClick={handleSubmit(onSubmit)}
           >
-            Save and Next
-          </Button>
-        ) : (
-          <div className={styles["button-group"]}>
-            <Button
-              className={` ${styles["Cancel-post-btn"]} `}
-              onClick={() => {
-                navigate('/dashboard');
-              }}
-              disabled={loading}
+            <button
+              style={{ border: 'none', background: 'none', display: 'none' }}
+              id="installApp"
             >
-              Cancel
-            </Button>
-            <Button
-              className={` ${styles["Pref-post-btn"]} `}
-              loading={isLoading}
-              onClick={handleSubmit(onSubmit)}
-            >
-              Save
-            </Button>
+              <h5 style={{ float: 'left', cursor: 'pointer' }}>
+                You can also install this app
+              </h5>
+              &nbsp;
+              <CloudDownloadOutlined
+                className="Download-icon"
+                style={{
+                  color: '#3a4a7e',
+                  float: 'right',
+                  fontSize: '20px',
+                  marginLeft: '3px',
+                  cursor: 'pointer',
+                }}
+              />
+            </button>
           </div>
-        )}
-      </form>
-      
-    </div>
-    </Spin>
+          <br />
+          <div style={{ border: 'none', background: 'none' }}>
+            Connect with Google Fit
+            {checked === undefined ? (
+              <Spin spinning={checked === undefined ? true : false} />
+            ) : (
+              <Switch
+                checked={checked}
+                style={{ marginLeft: '40px' }}
+                onChange={handleClick}
+              />
+            )}
+          </div>
+
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className={styles['Preferences-form']}
+          >
+            <div className={styles['Question']}>
+              <h3 className={styles['Question-title']}>
+                To modify your birth year and sex at birth, please contact your
+                health assistant by texting the number you receive your checkups
+              </h3>
+            </div>
+            {yob ? (
+              <div className={styles['Question']}>
+                <h3 className={styles['Question-title']}>
+                  What is your year of birth?
+                </h3>
+                <Controller
+                  control={control}
+                  name="yob"
+                  defaultValue={yob}
+                  rules={{
+                    required: 'Please Select an year',
+                    validate: (value) => {
+                      return value > 2006 ? 'You must older than 16' : true;
+                    },
+                  }}
+                  render={({
+                    field: { onChange, onBlur, value, name, ref },
+                  }) => (
+                    <>
+                      <DatePicker
+                        disabled={true}
+                        picker="year"
+                        format="YYYY"
+                        value={moment(yob, 'YYYY')}
+                        className="Date-Select"
+                      />
+                    </>
+                  )}
+                />
+
+                <p className={styles['Preferences-form-error']}>
+                  {errors.yob?.message}
+                </p>
+              </div>
+            ) : (
+              <div className={styles['Question']}>
+                <h3 className={styles['Question-title']}>
+                  What is your year of birth?
+                </h3>
+                <Controller
+                  control={control}
+                  name="yob"
+                  rules={{
+                    required: 'Please Select an year',
+                    validate: (value) => {
+                      return value > 2006 ? 'You must older than 16' : true;
+                    },
+                  }}
+                  render={({
+                    field: { onChange, onBlur, value, name, ref },
+                  }) => (
+                    <DatePicker
+                      onChange={(selectedValue, selectedValueString) =>
+                        onChange(selectedValueString)
+                      }
+                      picker="year"
+                      format="YYYY"
+                      className="Date-Select"
+                    />
+                  )}
+                />
+
+                <p className={styles['Preferences-form-error']}>
+                  {errors.yob?.message}
+                </p>
+              </div>
+            )}
+
+            {sex ? (
+              <div className={styles['Question']}>
+                <h3 className={styles['Question-title']}>
+                  Assigned sex at the time of birth
+                </h3>
+                <Controller
+                  control={control}
+                  name="sex"
+                  defaultValue={sex && sex}
+                  rules={{ required: 'Please Select one' }}
+                  render={({ field: { value } }) => (
+                    <Radio.Group className="Options" value={value}>
+                      <Space>
+                        <Radio.Button
+                          value="male"
+                          className={styles['radio-input']}
+                        >
+                          Male
+                        </Radio.Button>
+                        <Radio.Button
+                          value="female"
+                          className={styles['radio-input']}
+                        >
+                          Female
+                        </Radio.Button>
+                        <Radio.Button
+                          value="intersex"
+                          className={styles['radio-input']}
+                        >
+                          Prefer not to say
+                        </Radio.Button>
+                      </Space>
+                    </Radio.Group>
+                  )}
+                />
+
+                <p className={styles['Preferences-form-error']}>
+                  {errors.sex?.message}
+                </p>
+              </div>
+            ) : (
+              <div className={styles['Question']}>
+                <h3 className={styles['Question-title']}>
+                  Assigned sex at the time of birth
+                </h3>
+                <Controller
+                  control={control}
+                  name="sex"
+                  rules={{ required: 'Please Select one' }}
+                  render={({ field: { onChange, value } }) => (
+                    <Radio.Group
+                      className="Options"
+                      value={value}
+                      onChange={onChange}
+                    >
+                      <Space>
+                        <Radio.Button
+                          value="male"
+                          className={styles['radio-input']}
+                        >
+                          Male
+                        </Radio.Button>
+                        <Radio.Button
+                          value="female"
+                          className={styles['radio-input']}
+                        >
+                          Female
+                        </Radio.Button>
+                        <Radio.Button
+                          value="intersex"
+                          className={styles['radio-input']}
+                        >
+                          Prefer not to say
+                        </Radio.Button>
+                      </Space>
+                    </Radio.Group>
+                  )}
+                />
+
+                <p className={styles['Preferences-form-error']}>
+                  {errors.sex?.message}
+                </p>
+              </div>
+            )}
+          </form>
+        </div>
+      </Spin>
     </Layout>
   );
 };

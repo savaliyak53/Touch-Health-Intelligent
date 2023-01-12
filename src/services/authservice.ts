@@ -81,6 +81,9 @@ export const preferencesService = async (
 export const updatePreference = async (data: any) => {
   return APIClient(`/ai/preferences`, 'put', data);
 };
+export const getPreference = async () => {
+  return APIClient(`/ai/preferences`, 'get');
+};
 export const getInteractionService = async () => {
   //only return the service like this and resolve the promise where you are calling this actual API
   //TODO(<HamzaIjaz>): Refactor all the API calls like this
