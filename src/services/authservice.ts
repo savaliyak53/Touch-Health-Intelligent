@@ -14,7 +14,7 @@ export const signUpService = async (data: ISignUp, header: string) => {
     return err;
   }
 };
-export const putSignUp = async (data: any,userId:string) => {
+export const putSignUp = async (data: any, userId: string) => {
   try {
     const res = await APIClient(`/users/signup/${userId}`, 'put', data);
     if (res) return res.data;
@@ -41,11 +41,16 @@ export const validateSignUp = async (id: string | undefined) => {
   }
 };
 
-export const requestPhoneOTP = async (phone: string , token:string) => {
+export const requestPhoneOTP = async (phone: string, token: string) => {
   try {
-    const response = await APIClient(`/auth/phone-verification`, 'post', {
-      phone:phone,
-    },token);
+    const response = await APIClient(
+      `/auth/phone-verification`,
+      'post',
+      {
+        phone: phone,
+      },
+      token
+    );
     if (response) return response.data;
   } catch (error) {
     return error;
@@ -58,7 +63,7 @@ export const verifyPhoneOTP = async (
 ) => {
   try {
     const response = await APIClient(`/auth/verify-phone`, 'put', {
-      user_id:id,
+      user_id: id,
       code: otp,
     });
     if (response) return response.data;
@@ -73,16 +78,18 @@ export const preferencesService = async (
 ) => {
   return APIClient(`/users/${id}`, 'put', data);
 };
-
+export const updatePreference = async (data: any) => {
+  return APIClient(`/ai/preferences`, 'put', data);
+};
 export const getInteractionService = async () => {
   //only return the service like this and resolve the promise where you are calling this actual API
   //TODO(<HamzaIjaz>): Refactor all the API calls like this
   //TODO(<HamzaIjaz>): Create a new service file for interaction services and move this APi there
   return APIClient(`/ai/interaction`, 'get');
 };
-export const getInteractionServiceByType = async (flow_id:string) => {
+export const getInteractionServiceByType = async (flow_id: string) => {
   //interacion service by flow_id
-  return APIClient(`/ai/interaction-flow`, 'POST', {flow_id:flow_id});
+  return APIClient(`/ai/interaction-flow`, 'POST', { flow_id: flow_id });
 };
 
 export const postInteractionService = async (data: InteractionService) => {
@@ -138,17 +145,17 @@ export const checkAnswer = async (data: any) => {
 };
 
 export const getGoogleCode = async () => {
-  return APIClient('/auth/google')
-}
-export const postGoogleToken = async (body:any) => {
-  return APIClient('/auth/google/token','post', body)
-}
+  return APIClient('/auth/google');
+};
+export const postGoogleToken = async (body: any) => {
+  return APIClient('/auth/google/token', 'post', body);
+};
 export const revokeGoogleFit = async () => {
-  return APIClient('/auth/google/revoke','post')
-}
+  return APIClient('/auth/google/revoke', 'post');
+};
 export const getIntegrationStatus = async () => {
-  return APIClient('/user/integration/status','get')
-}
-export const guidanceStatus= async (id:string, body:any) => {
-  return APIClient(`/ai/guidances/${id}`,'put', body)
-}
+  return APIClient('/user/integration/status', 'get');
+};
+export const guidanceStatus = async (id: string, body: any) => {
+  return APIClient(`/ai/guidances/${id}`, 'put', body);
+};
