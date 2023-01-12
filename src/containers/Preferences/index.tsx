@@ -199,10 +199,7 @@ const Preferences = () => {
   const text = <span>prompt text</span>;
 
   return (
-    <Layout
-      defaultHeader={true}
-      hamburger={isEmpty(preferences) ? false : true}
-    >
+    <Layout defaultHeader={true} hamburger={true}>
       <Spin spinning={spinning}>
         <div className={`Content-wrap ${styles['Pref']}`}>
           <h2 className={styles['Pref-title']}>Preferences</h2>

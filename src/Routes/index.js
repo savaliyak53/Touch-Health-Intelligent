@@ -47,24 +47,22 @@ const AppRoutes = () => {
         <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
         <Route path="/password-reset" element={<PasswordRecovery />} />
         <Route path="*" element={<Home />} />
-        <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />    
+        <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />
         <Route element={<RequireSignup />}>
           <Route path="/verification-code" element={<Verification />} />
         </Route>
-          <Route path="/add-goals" element={<AddGoals />} />
-          <Route path="/intro-goals" element={<IntroGoals />} />
-          <Route path="/goals/:id" element={<GoalDetails />} />
+        <Route path="/add-goals" element={<AddGoals />} />
+        <Route path="/intro-goals" element={<IntroGoals />} />
+        <Route path="/goals/:id" element={<GoalDetails />} />
         {/* Protected Routes */}
-          <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route element={<RequireAuth />}>
           <Route path="insights" element={<Insights />} />
           <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
           <Route path="/insights/guideline" element={<Timeline />} />
           <Route path="/diamond" element={<Diamond />} />
-          <Route path="/conditions" element={<ManageConditions />} />
-          {/* <Route path="/concerns" element={<ManageConcerns />} /> */}
           <Route path="/questionnaire" element={<UserCondition />} />
-          <Route path="/contact" element={<UserCondition />} />
+          <Route path="/c/:reason" element={<UserCondition />} />
           <Route
             path="/questionnaire-submit"
             element={<ThankyouForSubmiting />}

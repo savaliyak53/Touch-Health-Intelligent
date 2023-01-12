@@ -17,15 +17,26 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
   return (
     <>
       {/* Navigation */}
-      <header className={`${defaultHeader ? styles['Navigation'] : (`${styles['Navigation']} ${styles['bg']}`)}`}>
-      {/* <header className={defaultHeader ? 'Navigation' : 'Navigation bg'}> */}
+      <header
+        className={`${
+          defaultHeader
+            ? styles['Navigation']
+            : `${styles['Navigation']} ${styles['bg']}`
+        }`}
+      >
+        {/* <header className={defaultHeader ? 'Navigation' : 'Navigation bg'}> */}
         <img
           src={`${process.env.PUBLIC_URL}/assets/mobileassets/logo.svg`}
           alt="Touch Logo"
           width={35}
         />
-        <div className={styles["Toggler-btn"]} onClick={() => setBurgerMenu(!BurgerMenu)}>
-        <Button className={`${hamburger ? styles['d-block'] : styles['d-none']}`}>
+        <div
+          className={styles['Toggler-btn']}
+          onClick={() => setBurgerMenu(!BurgerMenu)}
+        >
+          <Button
+            className={`${hamburger ? styles['d-block'] : styles['d-none']}`}
+          >
             <img
               src={`${process.env.PUBLIC_URL}/assets/mobileassets/nav.svg`}
               alt="Touch Logo"
@@ -35,16 +46,27 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
       </header>
       <div
         className={
-        `  ${BurgerMenu ? styles['Burger-menu-wrapper'] : styles['display-none']} `
-        // BurgerMenu ? 'Burger-menu-wrapper ' : 'display'
+          `  ${
+            BurgerMenu ? styles['Burger-menu-wrapper'] : styles['display-none']
+          } `
+          // BurgerMenu ? 'Burger-menu-wrapper ' : 'display'
         }
         onClick={() => setBurgerMenu(!BurgerMenu)}
       ></div>
       {/* Burger/Toggle Menu */}
-      <div className={ ` ${BurgerMenu ? `${styles['Burger-menu']} ${styles['menu-display']}` : styles['Burger-menu']} `}>
-      {/* <div className={BurgerMenu ? 'Burger-menu display' : 'Burger-menu'}> */}
-        <div className={styles["Cross-btn"]}>
-          <Button onClick={() => setBurgerMenu(!BurgerMenu)} className={styles["cross-ant-btn"]}>
+      <div
+        className={` ${
+          BurgerMenu
+            ? `${styles['Burger-menu']} ${styles['menu-display']}`
+            : styles['Burger-menu']
+        } `}
+      >
+        {/* <div className={BurgerMenu ? 'Burger-menu display' : 'Burger-menu'}> */}
+        <div className={styles['Cross-btn']}>
+          <Button
+            onClick={() => setBurgerMenu(!BurgerMenu)}
+            className={styles['cross-ant-btn']}
+          >
             <CloseOutlined />
           </Button>
         </div>
@@ -55,12 +77,6 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
           <li>
             <Link to="/preferences">Preferences</Link>
           </li>
-          <li>
-            <Link to="/post-conditions">Conditions</Link>
-          </li>
-          {/* <li>
-            <Link to="/post-concerns">Concerns</Link>
-          </li> */}
           <li>
             <Link to="/subscription">Subscription</Link>
           </li>
