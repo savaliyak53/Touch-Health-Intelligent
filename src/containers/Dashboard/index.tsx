@@ -200,7 +200,7 @@ const Dashboard = () => {
       <Layout defaultHeader={true} hamburger={true} dashboard={true}>
         <div className={styles['Db-wrap']}>
           <div className="dsgbtn-group">
-            <div className={styles['btn-group']} key="extraUpperButton">
+            <div className={styles['btn-group']}>
               <DashboardButton
                 key="extraUpperButton0"
                 image={`${process.env.PUBLIC_URL}/assets/mobileassets/+.svg`}
@@ -210,7 +210,7 @@ const Dashboard = () => {
                 isPlus={true}
               />
             </div>
-            <div className={styles['btn-group']} key="extraUpperButton">
+            <div className={styles['btn-group']}>
               <DashboardButton
                 key="extraUpperButton1"
                 image=""
