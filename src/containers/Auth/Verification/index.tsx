@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -19,6 +19,9 @@ const Verification = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true)
+  const toastId = useRef<any>(null);
+
 
   const {
     register,
@@ -35,13 +38,28 @@ const Verification = () => {
     if (!userId) {
       navigate('/');
     }
+    timerCount()
   }, []);
+  const timerCount = () => {
+    let timer = 60;
+    toastId.current = toast(<div> Resend code in {timer} second(s)  </div>, {autoClose: 60000}); 
+    const interval = setInterval(() => {
+      if(timer == 1){
+        toast.dismiss()
+        clearInterval(interval)
+        setIsDisabled(false)
+      }
+      timer = timer - 1; 
+      toast.update(toastId.current,{render:<div> Resend code in {timer} second(s) </div>, autoClose: 60000}); 
+    },1000)
+  }
   const onSubmit = async (data: any) => {
     if (userId) {
       setIsVerifying(true);
       const phoneVerificationResponse = await verifyPhoneOTP(data.code, userId);
       if (phoneVerificationResponse?.id) {
         setIsVerifying(false);
+        toast.dismiss()
         toast.success('Verified');
         //localStorage.setItem('token', phoneVerificationResponse.token)
         navigate('/subscription');
@@ -52,7 +70,7 @@ const Verification = () => {
     }
   };
   const sendPhoneOTP = async () => {
-    //api call to send phone otp
+    // api call to send phone otp
     const phone = localStorage.getItem('phone');
     const captchaToken= localStorage.getItem('captchaToken')
     setIsLoading(true);
@@ -65,7 +83,7 @@ const Verification = () => {
       } else {
         setIsLoading(false);
         toast.success('Phone verification code sent');
-        return true;
+        timerCount()
       }
     } 
   };
@@ -116,6 +134,7 @@ const Verification = () => {
           onClick={sendPhoneOTP}
           className="Pref-btn btn"
           loading={isLoading}
+          disabled={isDisabled}
         >
           Resend OTP
         </Button>
