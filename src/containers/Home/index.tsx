@@ -4,10 +4,13 @@ import {
   getInteractionService,
   getInteractionServiceByType,
   getUser,
+  preferencesService,
+  updatePreference,
 } from '../../services/authservice';
 import { getSubscriptionStatus } from '../../services/subscriptionService';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
+import moment from 'moment';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -51,20 +54,69 @@ const Home = () => {
         toast.error(`Something went wrong. `);
       });
   };
+  const handleInitialIntake = () => {
+    const userId = localStorage.getItem('userId');
+    //after successful subscription set signup_status to onboarding
+    preferencesService(
+      {
+        signup_status: 'onboarding',
+      },
+      userId
+    )
+      .then((preferencesResponse) => {
+        if (preferencesResponse) {
+          //after successful subscription initiate onboarding interaction
+          getInteractionServiceByType('onboarding')
+            .then((response: any) => {
+              if (response) {
+                navigate('/questionnaire');
+              } else {
+                navigate('/');
+              }
+            })
+            .catch((error) => {
+              toast.error(
+                `Something went wrong. Cannot initiate interaction at the moment `
+              );
+              navigate('/dashboard');
+            });
+        } else {
+          // console.log('navigate to dashboard');
+          navigate('/dashboard');
+        }
+      })
+      .catch((error) => {
+        toast.error(
+          `${error.response?.data?.title} Please check values and try again.`
+        );
+      });
+  };
   const checkUserData = () => {
     const userId = localStorage.getItem('userId');
     if (userId) {
       getUser(userId)
         .then((response) => {
-          getUserSubscription();
+          getUserSubscription(response)
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+  const getUserSubscription = (response:any) => {
+    getSubscriptionStatus()
+      .then((res) => {
+        if (!res.data.isSubscribed) {
+          navigate('/subscription');
+        } else {
           if (response.data.signup_status === 'onboarding') {
             getInteractionServiceByType('onboarding')
               .then((response: any) => {
                 handleRedirect(response);
               })
               .catch((error) => {
+                toast.error(`Something went wrong. Cannot initiate interaction at the moment`);
                 navigate('/dashboard');
-                toast.error(`Something went wrong. `);
               });
           } else if (response.data.signup_status === 'goal-selection') {
             navigate('/add-goals');
@@ -74,26 +126,30 @@ const Home = () => {
                 handleRedirect(response);
               })
               .catch((error) => {
+                toast.error(`Something went wrong. Cannot initiate interaction at the moment`);
                 navigate('/dashboard');
-                toast.error(`Something went wrong. `);
               });
           } else if (
-            response.data.signup_status !== 'new' &&
             response.data.signup_status === 'done'
           ) {
             getInteractionByType('checkup');
+          } else if (response.data.signup_status === 'new') {
+            const zoneVal = moment()
+              .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+              .format('Z');
+            const preferenceData = {
+              timezone: zoneVal,
+            };
+            updatePreference(preferenceData)
+              .then((preferencesResponse) => {
+                handleInitialIntake();
+              })
+              .catch((error) => {
+                toast.error(
+                  `${error.response?.data?.title} Something went wrong while updating preference`
+                );
+              });
           }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  };
-  const getUserSubscription = () => {
-    getSubscriptionStatus()
-      .then((response) => {
-        if (response.data.status == 'NOT_SUBSCRIBED') {
-          navigate('/subscription');
         }
       })
       .catch((error) => {
