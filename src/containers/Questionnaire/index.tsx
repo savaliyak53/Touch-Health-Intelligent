@@ -30,16 +30,18 @@ function UserCondition() {
   const getInteraction = () => {
     getInteractionService()
       .then((response) => {
+        console.log('then')
         setSkeletonLoading(false);
         if (response?.data?.question) {
           setQuestion(response?.data?.question);
           setRefId(response.data.ref_id);
         } else {
+          console.log('catch')
           handleInteractionRedirect()
         }
       })
       .catch((error) => {
-        toast(error.details.message ?? 'Cannot get question');
+        toast(error?.details?.message?error?.details?.message:'Cannot get question');
         navigate('/dashboard');
         setSkeletonLoading(false);
       });
