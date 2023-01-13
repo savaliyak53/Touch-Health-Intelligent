@@ -19,6 +19,8 @@ import 'react-timepicker/timepicker.css';
 import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
 import { validateSignUp } from '../../services/authservice';
 import { setDefaultResultOrder } from 'dns';
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 import moment from 'moment';
 
 interface Props {
@@ -328,7 +330,10 @@ const Question = ({
         return (
           <div className={goal_styles['IntroGoals']}>
             <h2 className={goal_styles['Title']}>{question.title}</h2>
-            <p className={goal_styles['Description']}>{question.body_md}</p>
+            <p className={goal_styles['Description']}>
+            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+              {question.body_md}
+            </ReactMarkdown></p> 
             <Radio.Group
               className="Question-Options"
               onChange={(e) => {
