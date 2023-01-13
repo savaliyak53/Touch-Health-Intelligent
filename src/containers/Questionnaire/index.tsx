@@ -39,7 +39,7 @@ function UserCondition() {
         }
       })
       .catch((error) => {
-        toast(error.details.message ?? 'Cannot get question');
+        toast(error?.details?.message?error?.details?.message:'Cannot get question');
         navigate('/dashboard');
         setSkeletonLoading(false);
       });
