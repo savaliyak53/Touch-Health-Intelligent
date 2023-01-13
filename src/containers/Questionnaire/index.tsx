@@ -142,7 +142,7 @@ function UserCondition() {
       payload.question_response.value = state;
     }
     if (question.type == 'markdown_select_one') {
-      payload.question_response.value = '1';
+      payload.question_response.value = state;
     }
     if (question.type == 'image_and_text') {
       payload.question_response.value = '1';
