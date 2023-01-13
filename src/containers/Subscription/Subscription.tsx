@@ -37,7 +37,7 @@ const Subscription = () => {
   const [loading, setLoading] = useState(false);
   const [userPlan, setUserPlan] = useState<IUserSubscription | undefined>();
   const [disableButton, setDisableButton] = useState(false);
-  const [userPlanStatus, setUserPlanStatus] = useState('');
+  const [userPlanStatus, setUserPlanStatus] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showSwitchModal, setShowSwitchModal] = useState(false);
   const [switchPlanId, setSwitchPlanId] = useState<string>();
@@ -87,7 +87,7 @@ const Subscription = () => {
   const userSubscriptionStatus = () => {
     getSubscriptionStatus()
       .then((response) => {
-        setUserPlanStatus(response.data.status);
+        setUserPlanStatus(response.data.isSubscribed);
         if (
           location.pathname === '/subscription' &&
           response.data.status === 'active'
@@ -104,7 +104,7 @@ const Subscription = () => {
   const getStatus = () => {
     getSubscriptionStatus()
       .then((response) => {
-        setUserPlanStatus(response.data.status);
+        setUserPlanStatus(response.data.isSubscribed);
         if (response.data.status === 'ACTIVE') {
           console.log('idk:', response.data.status);
           fetchUserSubscription();
@@ -204,7 +204,7 @@ const Subscription = () => {
   const userCancelledPlan = (plan: any) => {
     if (
       userPlan?.plan?.id === plan.id &&
-      userPlanStatus === 'ACTIVE' &&
+      userPlanStatus &&
       (userPlan?.renewalDate === null || userPlan?.nextPhase)
     ) {
       return true;
@@ -291,7 +291,7 @@ const Subscription = () => {
   return (
     <Layout
       defaultHeader={true}
-      hamburger={userPlanStatus === 'NOT_SUBSCRIBED' ? false : true}
+      hamburger={!userPlanStatus ? false : true}
       dashboard={false}
     >
       <div className="Content-wrap Sub">
@@ -315,13 +315,13 @@ const Subscription = () => {
               type="inner"
               className={`${styles['Subspt-Card']}
                 ${
-                  isActivePlan(plan) && userPlanStatus === 'ACTIVE'
+                  isActivePlan(plan) && userPlanStatus
                     ? styles['card-bordered']
                     : ''
                 }`}
               style={{
                 backgroundColor:
-                  isActivePlan(plan) && userPlanStatus === 'ACTIVE'
+                  isActivePlan(plan) && userPlanStatus
                     ? '#ded7d721'
                     : '',
               }}
@@ -405,7 +405,7 @@ const Subscription = () => {
                     )}
                     {plan.interval && <p>{plan.interval}</p>}
 
-                    {isActivePlan(plan) && userPlanStatus === 'ACTIVE' ? (
+                    {isActivePlan(plan) && userPlanStatus ? (
                       <>
                         <div className={styles['Btn-group']}>
                           {/* <div className="Btn-group"> */}
@@ -455,7 +455,7 @@ const Subscription = () => {
                           {/* <div className="Btn-group"> */}
                           {userPlan &&
                           userPlan?.plan?.id !== plan.id &&
-                          userPlanStatus === 'ACTIVE' ? (
+                          userPlanStatus ? (
                             <>
                               {isNextPhase(plan) ? (
                                 <Button
