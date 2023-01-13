@@ -173,7 +173,6 @@ const PasswordRecovery = () => {
     setIsLoading(true);
     setIsDisabled(true);
     const token = refCaptcha.current.callbacks.getResponse()
-    console.log(token);
     requestPhoneOTP(onlyNumbers(getValues('username')),token)
       .then((response: any) => {
         if (response.code === 'ERR_BAD_REQUEST') {

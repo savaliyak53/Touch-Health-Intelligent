@@ -39,7 +39,7 @@ function UserCondition() {
         }
       })
       .catch((error) => {
-        toast(error.details.message ?? 'Cannot get question');
+        toast(error?.details?.message?error?.details?.message:'Cannot get question');
         navigate('/dashboard');
         setSkeletonLoading(false);
       });
@@ -111,6 +111,7 @@ function UserCondition() {
       question.type !== 'dialog_select_one' &&
       question.type !== 'image_and_text' &&
       question.type !== 'image_and_text_select_one' &&
+      question.type !== 'markdown_select_one' &&
       !value
     ) {
       toast.error('Please select a value');
@@ -142,7 +143,7 @@ function UserCondition() {
       payload.question_response.value = state;
     }
     if (question.type == 'markdown_select_one') {
-      payload.question_response.value = '1';
+      payload.question_response.value = state;
     }
     if (question.type == 'image_and_text') {
       payload.question_response.value = '1';
