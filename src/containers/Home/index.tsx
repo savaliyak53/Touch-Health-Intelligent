@@ -92,7 +92,7 @@ const Home = () => {
   const getUserSubscription = () => {
     getSubscriptionStatus()
       .then((response) => {
-        if (response.data.status == 'NOT_SUBSCRIBED') {
+        if (response.data.status == 'NOT_SUBSCRIBED' ) {
           navigate('/subscription');
         }
       })
