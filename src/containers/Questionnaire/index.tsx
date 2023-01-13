@@ -111,6 +111,7 @@ function UserCondition() {
       question.type !== 'dialog_select_one' &&
       question.type !== 'image_and_text' &&
       question.type !== 'image_and_text_select_one' &&
+      question.type !== 'markdown_select_one' &&
       !value
     ) {
       toast.error('Please select a value');
