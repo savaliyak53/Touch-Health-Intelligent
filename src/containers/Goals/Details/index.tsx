@@ -212,8 +212,14 @@ const GoalDetails = () => {
             getGoalDetails(goalId)
         }
     },[])
+    const handleBack = () => {
+        navigate('/dashboard');
+    };
     return (
         <Layout defaultHeader={true} hamburger={true}>
+             <div className={styles['Backflex']} onClick={handleBack}>
+                <LeftOutlined className={styles['LeftIcon']} /> Back
+            </div>
             {/* Top title with Delete button */}
             <div className={styles["Prevn-wrap"]}>
                 <h2 className={styles["Prevn-text"]}>{goal?.info.name}</h2>
