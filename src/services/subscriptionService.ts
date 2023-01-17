@@ -7,6 +7,9 @@ export const getPlansService = () => {
 export const getUserSubscription = () => {
   return APIClient('/payments/subscription', 'GET');
 };
+export const getStatus = () => {
+  return APIClient('/payments/checkout/status', 'GET');
+};
 export const getUserPlan = () => {
   return APIClient('/payments/subscription/info', 'GET');
 };

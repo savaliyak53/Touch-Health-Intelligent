@@ -12,6 +12,7 @@ import {
   cancelSubscription,
   updateUserSubscription,
   calculateSubscriptionProration,
+  getStatus,
 } from '../../services/subscriptionService';
 import { Card } from 'antd';
 import { toast } from 'react-toastify';
@@ -35,6 +36,7 @@ const Subscription = () => {
   const [plans, setPlans] = useState<ISubscriptionPlan[] | undefined>([]);
   const [freeTrial, setFreeTrial] = useState<boolean | undefined>(false);
   const [loading, setLoading] = useState(false);
+  const [spin, setSpin] = useState(false);
   const [userPlan, setUserPlan] = useState<IUserSubscription | undefined>();
   const [disableButton, setDisableButton] = useState(false);
   const [userPlanStatus, setUserPlanStatus] = useState(false);
@@ -101,13 +103,48 @@ const Subscription = () => {
         console.log('Error while getting user plan. ', error);
       });
   };
-  const getStatus = () => {
-    getSubscriptionStatus()
-      .then((response) => {
-        setUserPlanStatus(response.data.isSubscribed);
-        if (response.data.status === 'ACTIVE') {
-          console.log('idk:', response.data.status);
+  const userCheckoutStatus = () => {
+    setSpin(true)
+    getStatus()
+      .then((response:any) => {
+        if(response.data.status === "complete"){
+          userSubscriptionStatus();
+          fetchPlans();
           fetchUserSubscription();
+          setSpin(false)
+          const userId = localStorage.getItem('userId');
+          getUser(userId)
+            .then((response) => {
+              if (response.data.signup_status === 'new') {
+                const zoneVal = moment()
+                  .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+                  .format('Z');
+                const preferenceData = {
+                  timezone: zoneVal,
+                };
+                updatePreference(preferenceData)
+                  .then((preferencesResponse) => {
+                    handleInitialIntake();
+                  })
+                  .catch((error) => {
+                    toast.error(
+                      `${error.response?.data?.title} Something went wrong while updating preference`
+                    );
+                  });
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+        else if(response.data.status === null){
+          setSpin(false)
+          userSubscriptionStatus();
+          fetchPlans();
+          fetchUserSubscription();
+        }
+        else if(response.data.status === "open"){
+          userCheckoutStatus();
         }
       })
       .catch((error) => {
@@ -115,37 +152,11 @@ const Subscription = () => {
       });
   };
   useEffect(() => {
-    userSubscriptionStatus();
-    fetchPlans();
-    fetchUserSubscription();
+    userCheckoutStatus();
   }, []);
   useEffect(() => {
-    if (location.search === '?success') {
-      //getStatus();
-      const userId = localStorage.getItem('userId');
-      getUser(userId)
-        .then((response) => {
-          if (response.data.signup_status === 'new') {
-            const zoneVal = moment()
-              .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
-              .format('Z');
-            const preferenceData = {
-              timezone: zoneVal,
-            };
-            updatePreference(preferenceData)
-              .then((preferencesResponse) => {
-                handleInitialIntake();
-              })
-              .catch((error) => {
-                toast.error(
-                  `${error.response?.data?.title} Something went wrong while updating preference`
-                );
-              });
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+     if (location.search === '?success') {
+      userCheckoutStatus();
     }
   }, [location]);
 
@@ -294,6 +305,7 @@ const Subscription = () => {
       hamburger={!userPlanStatus ? false : true}
       dashboard={false}
     >
+    <Spin spinning={spin} tip={"Please wait, we are trying to verify your subscription"}>
       <div className="Content-wrap Sub">
         <h2 className={styles['Sub-title']}>
           Subscription <Spin spinning={loading} />
@@ -536,6 +548,7 @@ const Subscription = () => {
           }
         />
       </div>
+    </Spin>
     </Layout>
   );
 };
