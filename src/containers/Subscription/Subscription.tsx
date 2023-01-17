@@ -40,6 +40,7 @@ const Subscription = () => {
   const [userPlan, setUserPlan] = useState<IUserSubscription | undefined>();
   const [disableButton, setDisableButton] = useState(false);
   const [userPlanStatus, setUserPlanStatus] = useState(false);
+  const [userSignupStatus, setUserSignupStatus] = useState(false)
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showSwitchModal, setShowSwitchModal] = useState(false);
   const [switchPlanId, setSwitchPlanId] = useState<string>();
@@ -131,6 +132,8 @@ const Subscription = () => {
                       `${error.response?.data?.title} Something went wrong while updating preference`
                     );
                   });
+              } else if (response.data.signup_status == 'done') {
+                setUserSignupStatus(true)
               }
             })
             .catch((error) => {
@@ -302,7 +305,7 @@ const Subscription = () => {
   return (
     <Layout
       defaultHeader={true}
-      hamburger={!userPlanStatus ? false : true}
+      hamburger={!userSignupStatus ? false : true}
       dashboard={false}
     >
     <Spin spinning={spin} tip={"Please wait, we are trying to verify your subscription"}>
