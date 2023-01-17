@@ -104,16 +104,6 @@ export const getUser = (id: string | null | undefined) => {
   return APIClient(`/users/${id}`, 'GET');
 };
 
-// export const resetPassword = async (username: string) => {
-//   try {
-//     const res = await APIClient('/auth/password-recovery', 'post', {
-//       username: username,
-//     });
-//     if (res) return res.data;
-//   } catch (err) {
-//     return err;
-//   }
-// };
 export const postResetPassword = async (data: any) => {
   try {
     const res = await APIClient('/auth/password-recovery', 'put', data);
