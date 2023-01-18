@@ -120,7 +120,7 @@ const Home = () => {
               });
           } else if (response.data.signup_status === 'goal-selection') {
             navigate('/add-goals');
-          } else if (response.data.signup_status === 'goal_characterization') {
+          } else if (response.data.signup_status === 'goal-characterization') {
             getInteractionServiceByType('goal_characterization')
               .then((response: any) => {
                 handleRedirect(response);
