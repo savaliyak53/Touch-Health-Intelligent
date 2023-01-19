@@ -245,7 +245,7 @@ const GoalDetails = () => {
                      <h2 className={styles["Vel-number"]}>{goal.data.velocity.toFixed(1)}<span className={styles["Vel-subs"]}>Points/ day</span></h2>
                 </div>}
                 {/* Single ETA wrap */}
-                <div className={styles["Vel-wrap"]}>
+                {goal?.data?.eta && <div className={styles["Vel-wrap"]}>
                     <span className={styles["Vel-name"]}>
                         ETA
                         <Tooltip
@@ -258,7 +258,7 @@ const GoalDetails = () => {
                         </Tooltip>
                     </span>
                     <h2 className={styles["Vel-number"]}>{dateFormatRenewal(goal?.data.eta)}</h2>
-                </div>
+                </div>}
             </div>
 
             <div className={styles["Stat-wrap"]}>
@@ -331,17 +331,18 @@ const GoalDetails = () => {
             </div>
                 </>
             )}
-          
-
             {/* New Guidance */}
+            <>
+            {goal?.guidances?.find((element:any) => (element.data?.status === 'new')) && <>
+            <h3 className={styles["Guidance-title"]}>
+                New Guidance
+            </h3>
+            </>}
             {goal?.guidances.map((o:any) => (
                 <>
                 {o.data && <div key={o.data.id}>
                 { o.data.status == 'new' && (
-                <>
-                    <h3 className={styles["Guidance-title"]}>
-                        New Guidance
-                    </h3>
+                
                     <div className={styles["Rec-wrap"]}>
                         <Button onClick={()=>handleClick('new', o.info)} className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(214 214 214 / 0.16)` }}>
                             {/* <span className={styles["Rec-Text"]}><ReactMarkdown>{o.info.description_md}</ReactMarkdown></span> */}
@@ -349,54 +350,60 @@ const GoalDetails = () => {
                             <RightOutlined className={styles["Arrow"]}/>
                         </Button>
                     </div>
-                </>
+                
                 )}
                 </div>}
                 </>
             ))}
+            </>
             {/* Active Guidance */}
+            <>
+            {goal?.guidances?.find((element:any) => (element.data?.status === 'active')) && <>
+            <h3 className={styles["Guidance-title"]}>
+                Active Guidance
+            </h3>
+            </>}
             {goal?.guidances.map((o:any) => (
                 <>
                 {o.data && <div key={o.data.id}>
                 {o.data.status === 'active' && (
-                <>
-                    <h3 className={styles["Guidance-title"]}>
-                        Active Guidance
-                    </h3>
                     <div className={styles["Rec-wrap"]}>
                         <Button onClick={()=>handleClick('active',o.info)}  className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(101 127 209 / 0.16)` }}>
                             <span className={styles["Rec-Text"]}>{o.info.name}</span>
                             <RightOutlined className={styles["Arrow"]}/>
                         </Button>
                     </div>
-                </>
                 )}
                 </div>
                 }
                 </>
-                
             ))}
+            </>
             {/* Inactive Guidance */}
+            <>
+            {goal?.guidances?.find((element:any) => (element.data?.status === 'inactive')) && <>
+            <h3 className={styles["Guidance-title"]}>
+                Inactive Guidance
+            </h3>
+            </>}
             {goal?.guidances.map((o:any) => (
                 <>
                 {o.data && <div key={o.data.id}>
                 { o.data && o.data.status === 'inactive' && (
-                <>
-                    <h3 className={styles["Guidance-title"]}>
-                        Inactive Guidance
-                    </h3>
+               
                     <div className={styles["Rec-wrap"]}>
                         <Button onClick={()=>handleClick('inactive',o.info)}  className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(25 150 44 / 0.16)` }}>
                             <span className={styles["Rec-Text"]}>{o.info.name}</span>
                             <RightOutlined className={styles["Arrow"]}/>
                         </Button>
                     </div>
-                </>
+                
                 )}
                 </div>
                 }
                 </>
             ))}
+            </>
             <Modal
                 className='Guidance-Modal'
                 visible={open}
