@@ -423,7 +423,7 @@ const GoalDetails = () => {
                 >
                     Inactivate guidance
                 </Button>}
-                {type === 'inactive' || type === 'new' && <div className='Btn-group'>
+                {(type === 'inactive' || type === 'new') && <div className='Btn-group'>
                     <Button
                         className="Pref-btn btn Guidance-Inactive-btn"
                         onClick={handleClose}
