@@ -44,6 +44,7 @@ const Subscription = () => {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showSwitchModal, setShowSwitchModal] = useState(false);
   const [switchPlanId, setSwitchPlanId] = useState<string>();
+  const [stripeStatus, setStripeStatus] = useState<any>(null);
   const [endDate, setEndDate] = useState(0);
   const [estimateAmount, setEstimateAmount] = useState();
   const showModal = () => {
@@ -108,55 +109,97 @@ const Subscription = () => {
     setSpin(true)
     getStatus()
       .then((response:any) => {
-        if(response.data.status === "complete"){
-          userSubscriptionStatus();
-          fetchPlans();
-          fetchUserSubscription();
-          setSpin(false)
-          const userId = localStorage.getItem('userId');
-          getUser(userId)
-            .then((response) => {
-              if (response.data.signup_status === 'new') {
-                const zoneVal = moment()
-                  .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
-                  .format('Z');
-                const preferenceData = {
-                  timezone: zoneVal,
-                };
-                updatePreference(preferenceData)
-                  .then((preferencesResponse) => {
-                    handleInitialIntake();
-                  })
-                  .catch((error) => {
-                    toast.error(
-                      `${error.response?.data?.title} Something went wrong while updating preference`
-                    );
-                  });
-              } else if (response.data.signup_status == 'done') {
-                setUserSignupStatus(true)
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }
-        else if(response.data.status === null){
-          setSpin(false)
-          userSubscriptionStatus();
-          fetchPlans();
-          fetchUserSubscription();
-        }
-        else if(response.data.status === "open"){
-          userCheckoutStatus();
-        }
+       setStripeStatus(response.data.status);
+       setSpin(false);
+       return response.data.status;
       })
       .catch((error) => {
         console.log('Error while getting user plan. ', error);
       });
+    return null;
   };
   useEffect(() => {
-    userCheckoutStatus();
+    const checkout_status:string | null = userCheckoutStatus()
+    if(checkout_status===null){
+      userSubscriptionStatus();
+      fetchPlans();
+      fetchUserSubscription();
+      setSpin(false)
+    }
+    else if(checkout_status === 'complete'){
+      console.log('calling complete')
+      userSubscriptionStatus();
+      fetchPlans();
+      fetchUserSubscription();
+      setSpin(false)
+      const userId = localStorage.getItem('userId');
+      getUser(userId)
+        .then((response) => {
+          if (response.data.signup_status === 'new') {
+            const zoneVal = moment()
+              .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+              .format('Z');
+            const preferenceData = {
+              timezone: zoneVal,
+            };
+            updatePreference(preferenceData)
+              .then((preferencesResponse) => {
+                handleInitialIntake();
+              })
+              .catch((error) => {
+                toast.error(
+                  `${error.response?.data?.title} Something went wrong while updating preference`
+                );
+              });
+          } else if (response.data.signup_status == 'done') {
+            setUserSignupStatus(true)
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    else if(stripeStatus === "open"){
+      userCheckoutStatus();
+    }
   }, []);
+  useEffect(() => {
+    if(stripeStatus === "complete"){
+      userSubscriptionStatus();
+      fetchPlans();
+      fetchUserSubscription();
+      setSpin(false)
+      const userId = localStorage.getItem('userId');
+      getUser(userId)
+        .then((response) => {
+          if (response.data.signup_status === 'new') {
+            const zoneVal = moment()
+              .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+              .format('Z');
+            const preferenceData = {
+              timezone: zoneVal,
+            };
+            updatePreference(preferenceData)
+              .then((preferencesResponse) => {
+                handleInitialIntake();
+              })
+              .catch((error) => {
+                toast.error(
+                  `${error.response?.data?.title} Something went wrong while updating preference`
+                );
+              });
+          } else if (response.data.signup_status == 'done') {
+            setUserSignupStatus(true)
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }  
+    if(stripeStatus === "open"){
+      userCheckoutStatus();
+    }   
+  }, [stripeStatus]);
   useEffect(() => {
      if (location.search === '?success') {
       userCheckoutStatus();
