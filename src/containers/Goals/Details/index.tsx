@@ -229,8 +229,8 @@ const GoalDetails = () => {
             { goal?.data && (
                 <>
             <div className={styles["Vel-Eta-wrap"]}>
-                {goal?.data?.velocity &&<div className={styles["Vel-wrap"]}>
-                    {/* Single Velocity Wrap */}
+                {goal?.data?.velocity!==null && goal?.data?.velocity!==undefined && <div className={styles["Vel-wrap"]}>
+                    {/* Single Velocity Wrap */ }
                     <span className={styles["Vel-name"]}>
                         Velocity
                         <Tooltip
