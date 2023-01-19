@@ -24,6 +24,7 @@ import ReactMarkdown from 'react-markdown';
 import {
   getInteractionServiceByType,
   preferencesService,
+  getUser
 } from '../../../services/authservice';
 import rehypeRaw from 'rehype-raw';
 type ITerms = {
@@ -49,6 +50,18 @@ const AddGoals = () => {
   const [searchValue, setSearchValue] = useState('');
   const [options, setOptions] = useState<any>([]);
   const [isDisable, setIsDisabled] = useState(true);
+  const [userStatus, setUserSatus] = useState(false)
+
+  const getUserStatus = () => {
+    const userId = localStorage.getItem('userId');
+    getUser(userId)
+    .then(res => {
+      res.data.signup_status == 'done' ? setUserSatus(true) : setUserSatus(false)
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
 
   const showModal = (data: any) => {
     setSelectedGoal(data);
@@ -179,6 +192,7 @@ const AddGoals = () => {
   };
   useEffect(() => {
     getGoalsData();
+    getUserStatus()
   }, []);
   useEffect(() => {
     if (debouncedSearchValue) {
@@ -210,9 +224,13 @@ const AddGoals = () => {
   };
   return (
     <Layout defaultHeader={true} hamburger={false}>
-      <div className={styles['Backflex']} onClick={handleBack}>
-        <LeftOutlined className={styles['LeftIcon']} /> Back
-      </div>
+      <>
+        {userStatus && (
+          <div className={styles['Backflex']} onClick={handleBack}>
+            <LeftOutlined className={styles['LeftIcon']} /> Back
+          </div>
+        )}
+      </>
       <div className={styles['AddGoals']}>
         <h2 className={styles['Title']}>Adding Health Goals</h2>
         <div className={`Goal-Select-Wrap Goals-Select`}>
