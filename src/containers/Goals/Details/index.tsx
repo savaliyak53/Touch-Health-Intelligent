@@ -229,7 +229,7 @@ const GoalDetails = () => {
             { goal?.data && (
                 <>
             <div className={styles["Vel-Eta-wrap"]}>
-                <div className={styles["Vel-wrap"]}>
+                {goal?.data?.velocity &&<div className={styles["Vel-wrap"]}>
                     {/* Single Velocity Wrap */}
                     <span className={styles["Vel-name"]}>
                         Velocity
@@ -242,8 +242,8 @@ const GoalDetails = () => {
                         <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
                         </Tooltip>
                         </span>
-                    <h2 className={styles["Vel-number"]}>{goal?.data.velocity.toFixed(1)}<span className={styles["Vel-subs"]}>Points/ day</span></h2>
-                </div>
+                     <h2 className={styles["Vel-number"]}>{goal.data.velocity.toFixed(1)}<span className={styles["Vel-subs"]}>Points/ day</span></h2>
+                </div>}
                 {/* Single ETA wrap */}
                 <div className={styles["Vel-wrap"]}>
                     <span className={styles["Vel-name"]}>
@@ -416,7 +416,7 @@ const GoalDetails = () => {
                 >
                     Inactivate guidance
                 </Button>}
-                {type === 'inactive' && <div className='Btn-group'>
+                {type === 'inactive' || type === 'new' && <div className='Btn-group'>
                     <Button
                         className="Pref-btn btn Guidance-Inactive-btn"
                         onClick={handleClose}
