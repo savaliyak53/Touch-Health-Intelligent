@@ -100,6 +100,16 @@ const Question = ({
     // else
     return false;
   };
+  const setDisableDate = (current: moment.Moment) => {
+    if(question.range == 'future_only') {
+      console.log('return date',current.isBefore(moment()));
+      return current.isBefore(moment().subtract(1,"day"))
+    } else if (question.range == 'past_only'){
+      return current.isAfter(moment())
+    } else {
+      return true
+    }
+  }
 
   useEffect(() => {
     if (question.type === 'slider') {
@@ -144,8 +154,7 @@ const Question = ({
           <DatePicker
             onChange={(date: any, dateString: any) => setValue(dateString)}
             className="Date-Select"
-            disabledDate={(current) => current.isBefore(moment())}
-          />
+            disabledDate={(current) => setDisableDate(current)} />
         );
       case 'yes_no':
         return (
