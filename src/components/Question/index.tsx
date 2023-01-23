@@ -107,7 +107,7 @@ const Question = ({
     } else if (question.range == 'past_only'){
       return current.isAfter(moment())
     } else {
-      return true
+      return false
     }
   }
 
