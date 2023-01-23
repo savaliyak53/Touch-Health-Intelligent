@@ -224,6 +224,7 @@ input {
     color: #3A3A3A;
   }
   &.Guidance-active-btn,
+  &.Inactive-Guidance-active-btn,
   &.Guidance-Inactive-btn {
     padding: 12px 26px;
     font-size: 16px;
@@ -242,6 +243,17 @@ input {
   }
   &.Guidance-active-btn {
    margin-left: 8px;
+    color: #000000;
+    border-color: #000000;
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #000000;
+      color: #fff;
+      border-color: #000000;
+    }
+  }
+  &.Inactive-Guidance-active-btn {
     color: #000000;
     border-color: #000000;
     &:hover,
