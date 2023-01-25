@@ -1,4 +1,4 @@
-@import './variables.scss';
+@import './variables.module.scss';
 .ApplicationLayout {
   width: 100%;
   min-height: 100%;
@@ -12,32 +12,32 @@ input {
 .ant-input.Input {
   border-radius: 100px;
   padding: 18px 20px;
-  border: 2px solid #272424;
+  border: 2px solid $primary-color2;
   background-color: #fff;
   margin-bottom: 14px;
   display: block;
   font-size: 20px;
   line-height: 24px;
-  color: #272424;
+  color: $primary-color2;
   font-weight: 400;
 
   &:hover,
   &:focus,
   &.Selected {
-    border: 2px solid #272424;
+    border: 2px solid $primary-color2;
     background-color: #e3e3e3;
-    color: #272424;
+    color: $primary-color2;
   }
 
   &::placeholder {
-    color: rgba(#272424, 0.8);
+    color: rgba($primary-color2, 0.8);
   }
 }
 .Pref-checkbox.ant-checkbox-wrapper {
   font-size: 22px;
   line-height: 27px;
   font-weight: 500;
-  color: #272424;
+  color: $primary-color2;
   font-family: 'Barlow', sans-serif;
   display: flex;
   align-items: center;
@@ -101,7 +101,7 @@ input {
     border-radius: 100px;
     height: auto;
     padding: 18px 40px;
-    color: #272424;
+    color: $primary-color2;
     font-size: 20px;
     line-height: 24px;
     font-weight: 400;
@@ -109,7 +109,7 @@ input {
     display: block;
 
     &.Next {
-      border: 2px solid #3A3A3A;
+      border: 2px solid $primary-color1;
       background-color: #fff;
       margin-right: 4px;
       margin-left: 4px;
@@ -117,80 +117,80 @@ input {
       &:hover,
       &:focus,
       &:active {
-        background-color: #3A3A3A;
+        background-color: $primary-color1;
         color: #fff;
-        border-color: #3A3A3A;
+        border-color: $primary-color1;
       }
 
       &.active {
-        background-color: #3A3A3A;
+        background-color: $primary-color1;
         color:  #fff;
-        border-color: #3A3A3A;
+        border-color: $primary-color1;
       }
       &.disabled {
-        background-color: rgba(#3A3A3A, 0.2);
-        border: 2px solid #3A3A3A;
-        color: #3A3A3A;
+        background-color: rgba($primary-color1, 0.2);
+        border: 2px solid $primary-color1;
+        color: $primary-color1;
       }
     }
 
     &.Skip {
       background-color: transparent;
-      border: 2px solid#CD6052;
-      color: #CD6052;
+      border: 2px solid $secondary-color2;
+      color: $secondary-color2;
       margin-right: 4px;
       margin-left: 4px;
       &:hover,
       &:focus,
       &:active {
-        background-color: #cd6052;
+        background-color: $secondary-color2;
         color: #fff;
-        border-color: #cd6052;
+        border-color: $secondary-color2;
       }
       &.disabled {
-        background-color: rgba(#3A3A3A, 0.2);
-        border-color: #cd6052;
-        color: #cd6052;
+        background-color: rgba($primary-color1, 0.2);
+        border-color: $secondary-color2;
+        color: $secondary-color2;
       }
     }
     &.Subscribe {
-      border: 2px solid #3A3A3A;
+      border: 2px solid $primary-color1;
       background-color: transparent;
-      color: #3A3A3A;
+      color: $primary-color1;
       &:hover,
       &:focus,
       &:active {
-        background-color: #3A3A3A;
+        background-color: $primary-color1;
         color:  #fff;
-        border-color: #3A3A3A;
+        border-color: $primary-color1;
       }
       &.Modal-cancel-btn {
-        color: #CD6052;
-        border: 2px solid#CD6052;
+        color: $secondary-color2;
+        border: 2px solid $secondary-color2;
         &:hover,
         &:focus,
         &:active {
-          background-color:#CD6052;
+          background-color:$secondary-color2;
           color: #fff;
-          border-color: #cd6052;
+          border-color: $secondary-color2;
         }
       }
       &.Cancelled {
         color:#fff;
-        border-color: #cd6052;
-        background-color: #cd6052;
+        border-color: $secondary-color2;
+        background-color: $secondary-color2;
         &:hover,
         &:focus,
         &:active {
-          border-color: #cd6052;
+          border-color: $secondary-color2;
           color: #fff;
-          background-color: #cd6052;
+          background-color: $secondary-color2;
         }
       }
       &.disabled {
-        background-color: rgba(#3A3A3A, 0.2);
-        border: 2px solid #3A3A3A;
-        color: #3A3A3A;
+        background-color: rgba($primary-color1, 0.2);
+        border: 2px solid $primary-color1;
+        color: $primary-color1;
       }
     }
   }
@@ -201,11 +201,11 @@ input {
   height: auto;
   padding: 18px 54px;
   background-color: transparent;
-  color: #3A3A3A;
+  color: $primary-color1;
   font-size: 20px;
   line-height: 24px;
   font-weight: 400;
-  border: 2px solid #3A3A3A;
+  border: 2px solid $primary-color1;
   margin: 20px auto 0;
   max-width: 400px;
   display: block;
@@ -214,14 +214,14 @@ input {
   &:hover,
   &:focus,
   &:active {
-    background-color: #3A3A3A;
+    background-color: $primary-color1;
     color: #fff;
-    border-color: #3A3A3A;
+    border-color: $primary-color1;
   }
   &.disabled {
-    background-color: rgba(#3A3A3A, 0.2);
-    border: 2px solid #3A3A3A;
-    color: #3A3A3A;
+    background-color: rgba($primary-color1, 0.2);
+    border: 2px solid $primary-color1;
+    color: $primary-color1;
   }
   &.Guidance-active-btn,
   &.Guidance-Inactive-btn {
@@ -255,22 +255,22 @@ input {
 }
 .Back-btn.btn.ant-btn {
   background-color: transparent;
-  color: #cd6052;
-  border: 2px solid #cd6052;
+  color: $secondary-color2;
+  border: 2px solid $secondary-color2;
 
   &:hover,
   &:focus,
   &:active {
-    background-color: #cd6052;
+    background-color: $secondary-color2;
     color: #fff;
-    border-color: #cd6052;
+    border-color: $secondary-color2;
   }
 }
 .Question-title {
   font-size: 25px;
   line-height: 27px;
   font-weight: 300;
-  color: #272424;
+  color: $primary-color2;
   margin-top: 10px;
 }
 
@@ -282,7 +282,7 @@ input {
   }
 }
 .Select-Wrap {
-  border: 2px solid #272424;
+  border: 2px solid $primary-color2;
   display: inline-block;
   border-radius: 100px;
   position: relative;
@@ -290,7 +290,7 @@ input {
   .ant-select {
     padding: 0;
     width: 100%;
-    color: #272424 !important;
+    color: $primary-color2 !important;
     font-size: 20px !important;
     line-height: 24px !important;
     white-space: nowrap;
@@ -340,7 +340,7 @@ input {
       display: none;
     }
     .ant-select-selection-placeholder {
-      color: #272424;
+      color: $primary-color2;
       font-size: 20px;
       line-height: 24px;
       margin-left: 10px;
@@ -365,7 +365,7 @@ input {
             .ant-select-selection-search-input {
               padding: 16px 32px;
               height: 64px;
-              color: #272424;
+              color: $primary-color2;
               font-size: 20px;
               line-height: 24px;
             }
@@ -464,10 +464,10 @@ input {
   }
 }
 .ant-select-dropdown.ant-select-dropdown-placement-bottomLeft {
-  border: 2px solid #3A3A3A;
+  border: 2px solid $primary-color1;
   border-radius: 30px;
   padding: 20px;
-  color: #272424;
+  color: $primary-color2;
   font-size: 20px;
   line-height: 24px;
 }
@@ -493,8 +493,8 @@ input {
   font-size: 20px;
   line-height: 24px;
   font-weight: 400;
-  background-color: #cd6052;
-  border: 2px solid#CD6052;
+  background-color: $secondary-color2;
+  border: 2px solid $secondary-color2;
   margin: 20px auto 0;
   max-width: 400px;
   display: block;
@@ -504,8 +504,8 @@ input {
   &:focus,
   &:active {
     background-color: #fff;
-    color: #cd6052;
-    border-color: #cd6052;
+    color: $secondary-color2;
+    border-color: $secondary-color2;
   }
 }
 
@@ -516,15 +516,15 @@ input {
   font-weight: 400;
   width: 100%;
   border-radius: 100px;
-  border: 2px solid #272424;
-  color: rgba(#272424, 0.7);
+  border: 2px solid $primary-color2;
+  color: rgba($primary-color2, 0.7);
   max-width: 100%;
   display: block;
   &.ant-picker-focused,
   &:hover,
   &:focus,
   &:active {
-    border: 2px solid #272424;
+    border: 2px solid $primary-color2;
     box-shadow: none;
     background-color: #e3e3e3;
     outline: none;
@@ -532,7 +532,7 @@ input {
   input {
     font-size: 20px;
     line-height: 24px;
-    color: rgba(#272424, 0.7);
+    color: rgba($primary-color2, 0.7);
     font-weight: 400;
   }
 }
@@ -552,10 +552,10 @@ input {
     }
     .ant-tooltip-inner {
       font-size: 20px;
-      color: #272424;
+      color: $primary-color2;
       background-color: #e4e4e4;
       padding: 10px 15px;
-      border: 2px solid #3A3A3A;
+      border: 2px solid $primary-color1;
     border-radius: 24px;
     }
   }
@@ -641,8 +641,8 @@ input {
   font-weight: 300;
   width: 100%;
   border-radius: 100px;
-  border: 2px solid #272424;
-  color: rgba(#272424, 0.7);
+  border: 2px solid $primary-color2;
+  color: rgba($primary-color2, 0.7);
   max-width: 300px;
   display: block;
   margin: 0 auto;
@@ -650,7 +650,7 @@ input {
   &:hover,
   &:focus,
   &:active {
-    border: 2px solid #272424;
+    border: 2px solid $primary-color2;
     box-shadow: none;
     background-color: #e3e3e3;
     outline: none;
@@ -662,7 +662,7 @@ input {
   .ant-radio-button-wrapper:first-child,
   .ant-radio-button-wrapper:last-child {
     margin: 10px 10px 10px 0;
-    border: 2px solid #3A3A3A;
+    border: 2px solid $primary-color1;
     padding: 12px 20px;
     border-radius: 100px;
     height: 100%;
@@ -670,14 +670,14 @@ input {
     line-height: 24px;
     font-weight: 300;
     background-color: transparent;
-    color: #3A3A3A;
+    color: $primary-color1;
 
     &:not(:first-child):before {
       display: none;
     }
 
     &:hover {
-      color: #272424;
+      color: $primary-color2;
     }
   }
   .ant-space {
@@ -685,21 +685,21 @@ input {
   }
   .ant-radio-button-wrapper-checked {
     &:not(.ant-radio-button-wrapper-disabled) {
-      background-color: rgba(#3A3A3A,0.2);
-      border-color: #3A3A3A;
-      color: #3A3A3A;
+      background-color: rgba($primary-color1,0.2);
+      border-color: $primary-color1;
+      color: $primary-color1;
 
       &:focus-within {
         box-shadow: none;
       }
 
       &:hover {
-        background-color: rgba(#3A3A3A, 0.2);
-        border-color: #3A3A3A;
-        color: #3A3A3A;
+        background-color: rgba($primary-color1, 0.2);
+        border-color: $primary-color1;
+        color: $primary-color1;
       }
       &.ant-radio-button-wrapper:first-child {
-        border-color: #3A3A3A;
+        border-color: $primary-color1;
       }
     }
   }
@@ -715,7 +715,7 @@ input {
   .ant-radio-button-wrapper:first-child,
   .ant-radio-button-wrapper:last-child {
     margin: 10px 10px 10px 0;
-    border: 2px solid #3A3A3A;
+    border: 2px solid $primary-color1;
     padding: 12px 20px;
     border-radius: 100px !important;
     height: 100%;
@@ -723,14 +723,14 @@ input {
     line-height: 24px;
     font-weight: 300;
     background-color: transparent;
-    color: #3A3A3A;
+    color: $primary-color1;
 
     &:not(:first-child):before {
       display: none;
     }
 
     &:hover {
-      color: #272424;
+      color: $primary-color2;
     }
   }
   .ant-space {
@@ -738,21 +738,21 @@ input {
   }
   .ant-radio-button-wrapper-checked {
     &:not(.ant-radio-button-wrapper-disabled) {
-      background-color: rgba(#3A3A3A,0.2);
-      border-color: #3A3A3A;
-      color: #3A3A3A;
+      background-color: rgba($primary-color1,0.2);
+      border-color: $primary-color1;
+      color: $primary-color1;
 
       &:focus-within {
         box-shadow: none;
       }
 
       &:hover {
-        background-color: rgba(#3A3A3A, 0.2);
-        border-color: #3A3A3A;
-        color: #3A3A3A;
+        background-color: rgba($primary-color1, 0.2);
+        border-color: $primary-color1;
+        color: $primary-color1;
       }
       &.ant-radio-button-wrapper:first-child {
-        border-color: #3A3A3A;
+        border-color: $primary-color1;
       }
     }
   }

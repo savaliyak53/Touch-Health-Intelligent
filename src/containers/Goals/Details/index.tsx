@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from'./GoalDetails.module.scss';
+import v from '../../../variables.module.scss'
 import Layout from '../../../layouts/Layout/Layout';
 import { Button, Modal, Tooltip, Spin } from 'antd';
 import { DeleteOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
@@ -100,8 +101,8 @@ const GoalDetails = () => {
                 label: 'Historical',
                 data: historicalArray,
                 fill: false,
-                borderColor: '#657FD1',
-                backgroundColor: '#657FD1',
+                borderColor: v['secondary-color1'],
+                backgroundColor: v['secondary-color1'],
                 lineTension: 1,
                 borderCapStyle: 'round',
                 borderWidth: '6',
@@ -114,8 +115,8 @@ const GoalDetails = () => {
                 lineTension: 1,
                 borderCapStyle: 'round',
                 borderWidth: '6',               
-                backgroundColor: '#CD6052',
-                borderColor: '#CD6052',
+                backgroundColor: v['secondary-color2'],
+                borderColor: v['secondary-color2'],
                 pointBorderWidth: '0',	
               },
             ],
@@ -343,8 +344,8 @@ const GoalDetails = () => {
                 {o.data && <div key={o.data.id}>
                 { o.data.status == 'new' && (
                 
-                    <div className={styles["Rec-wrap"]}>
-                        <Button onClick={()=>handleClick('new', o.info)} className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(214 214 214 / 0.16)` }}>
+                    <div className={styles["Rec-wrap"]} key={key}>
+                        <Button onClick={()=>handleClick('new', o.info)} className={styles["Rec-Guidance"]} type="primary"  style={{ color: v['secondary-color1'] , backgroundColor: `rgba(214 214 214 / 0.16)` }}>
                             {/* <span className={styles["Rec-Text"]}><ReactMarkdown>{o.info.description_md}</ReactMarkdown></span> */}
                             <span className={styles["Rec-Text"]}>{o.info.name}</span>
                             <RightOutlined className={styles["Arrow"]}/>
@@ -368,7 +369,7 @@ const GoalDetails = () => {
                 {o.data && <div key={o.data.id}>
                 {o.data.status === 'active' && (
                     <div className={styles["Rec-wrap"]}>
-                        <Button onClick={()=>handleClick('active',o.info)}  className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(101 127 209 / 0.16)` }}>
+                        <Button onClick={()=>handleClick('active',o.info)}  className={styles["Rec-Guidance"]} type="primary"  style={{ color: v['secondary-color1'] , backgroundColor: `rgba(101 127 209 / 0.16)` }}>
                             <span className={styles["Rec-Text"]}>{o.info.name}</span>
                             <RightOutlined className={styles["Arrow"]}/>
                         </Button>
@@ -392,7 +393,7 @@ const GoalDetails = () => {
                 { o.data && o.data.status === 'inactive' && (
                
                     <div className={styles["Rec-wrap"]}>
-                        <Button onClick={()=>handleClick('inactive',o.info)}  className={styles["Rec-Guidance"]} type="primary"  style={{ color: `#657FD1` , backgroundColor: `rgba(25 150 44 / 0.16)` }}>
+                        <Button onClick={()=>handleClick('inactive',o.info)}  className={styles["Rec-Guidance"]} type="primary"  style={{ color: v['secondary-color1'] , backgroundColor: `rgba(25 150 44 / 0.16)` }}>
                             <span className={styles["Rec-Text"]}>{o.info.name}</span>
                             <RightOutlined className={styles["Arrow"]}/>
                         </Button>
