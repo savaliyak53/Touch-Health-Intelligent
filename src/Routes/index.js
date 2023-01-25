@@ -9,6 +9,7 @@ import { RequireAuth, RequireSignup } from '../utils/RequireAuth';
 import ThankyouForSubmiting from '../containers/ThankyouForSubmiting';
 import IntroVideo from '../containers/Introvideo';
 import Dashboard from '../containers/Dashboard';
+import DashboardNew from '../containers/DashboardNew';
 import Insights from '../containers/Insights';
 import Timeline from '../containers/Timeline/index';
 import ManageConditions from '../containers/Conditions';
@@ -56,6 +57,7 @@ const AppRoutes = () => {
         <Route path="/goals/:id" element={<GoalDetails />} />
         {/* Protected Routes */}
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard-new" element={<DashboardNew />} />
         <Route element={<RequireAuth />}>
           <Route path="insights" element={<Insights />} />
           <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
