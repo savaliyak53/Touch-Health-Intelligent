@@ -339,13 +339,14 @@ const GoalDetails = () => {
                 New Guidance
             </h3>
             </>}
-            {goal?.guidances.map((o:any) => (
+            {goal?.guidances.map((o:any, key:any) => (
                 <>
                 {o.data && <div key={o.data.id}>
                 { o.data.status == 'new' && (
                 
                     <div className={styles["Rec-wrap"]} key={key}>
                         <Button onClick={()=>handleClick('new', o.info)} className={styles["Rec-Guidance"]} type="primary"  style={{ color: v['secondary-color1'] , backgroundColor: `rgba(214 214 214 / 0.16)` }}>
+
                             {/* <span className={styles["Rec-Text"]}><ReactMarkdown>{o.info.description_md}</ReactMarkdown></span> */}
                             <span className={styles["Rec-Text"]}>{o.info.name}</span>
                             <RightOutlined className={styles["Arrow"]}/>
@@ -424,15 +425,23 @@ const GoalDetails = () => {
                 >
                     Inactivate guidance
                 </Button>}
-                {(type === 'inactive' || type === 'new') && <div className='Btn-group'>
+                {(type === 'new') && <div className='Btn-group'>
                     <Button
                         className="Pref-btn btn Guidance-Inactive-btn"
-                        onClick={handleClose}
+                        onClick={()=>handleGuidanceStatus('inactive')}
                     >
                         Not for me
                     </Button>
                     <Button
                         className="Pref-btn btn  Guidance-active-btn"
+                        onClick={()=>handleGuidanceStatus('active')}
+                    >
+                        Activate guidance
+                    </Button>
+                </div>}
+                {(type === 'inactive') && <div className='Btn-group'>
+                    <Button
+                        className="Pref-btn btn  Inactive-Guidance-active-btn"
                         onClick={()=>handleGuidanceStatus('active')}
                     >
                         Activate guidance
