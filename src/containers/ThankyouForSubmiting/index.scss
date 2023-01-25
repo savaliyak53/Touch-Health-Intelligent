@@ -1,3 +1,5 @@
+@import '../../variables.module.scss';
+
 //Day Condition or thankyou page
 .DayCon {
     .Question {
@@ -20,7 +22,7 @@
     .Description {
         font-size: 22px;
         line-height: 24px;
-        color: #272424;
+        color: $primary-color2;
         font-weight: 300;
         text-align: center;
         margin-bottom: 50px;
@@ -49,13 +51,13 @@
     border-radius: 10px;
     height: auto;
     padding: 18px 60px;
-    color: #3A3A3A;
+    color: $primary-color1;
     font-size: 20px;
     line-height: 24px;
     font-weight: 400;
     margin-top: 20px;
     display: block;
-    border: 2px solid #3A3A3A;
+    border: 2px solid $primary-color1;
     background-color: transparent;
     max-width: 300px;
     margin-right: auto;
@@ -64,14 +66,14 @@
     &:hover,
     &:focus,
     &:active {
-        background-color: #3A3A3A;
+        background-color: $primary-color1;
         color: #fff;
-        border-color: #3A3A3A;
+        border-color: $primary-color1;
     }
     &.disabled {
-        background-color: rgba(#3A3A3A, 0.2);
-        border: 2px solid #3A3A3A;
-        color: #3A3A3A;
+        background-color: rgba($primary-color1, 0.2);
+        border: 2px solid $primary-color1;
+        color: $primary-color1;
       }
 }
 .Divider-wrap {
