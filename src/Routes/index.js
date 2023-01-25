@@ -56,7 +56,7 @@ const AppRoutes = () => {
         <Route path="/intro-goals" element={<IntroGoals />} />
         <Route path="/goals/:id" element={<GoalDetails />} />
         {/* Protected Routes */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<DashboardNew />} />
         <Route path="/dashboard-new" element={<DashboardNew />} />
         <Route element={<RequireAuth />}>
           <Route path="insights" element={<Insights />} />

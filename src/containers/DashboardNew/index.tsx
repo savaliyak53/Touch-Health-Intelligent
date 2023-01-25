@@ -1,81 +1,85 @@
-import Layout from '../../layouts/Layout/Layout'
-import React from 'react'
 import styles from './DashboardNew.module.scss'
 import {Row, Col, Typography, Tooltip, Button, Progress } from 'antd'
 import { AiOutlineQuestionCircle, AiOutlinePlus } from 'react-icons/ai';
+import React, { useEffect, useState, useContext } from 'react';
+import Layout from '../../layouts/Layout/Layout';
+//import './index.scss';
+import { Spin } from 'antd';
+import { toast } from 'react-toastify';
+import { getDashboard } from '../../services/dashboardservice';
+import { useNavigate } from 'react-router-dom';
+import {format} from 'date-fns';
 
 const DashboardNew = () => {
+  const [elements, setElements] = useState<any>();
+  const [elementStreak, setElementStreak] = useState<any>();
 
+  const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const date = new Date();
+
+  useEffect(() => {
+    setLoading(true);
+
+    getDashboard()
+      .then((response) => {
+        setLoading(false);
+        if (response.data) {
+         // let section_arr: any = [];
+         setElements(response.data.elements);
+         setElementStreak(response.data.elements[0].checkup_pattern.sort((a:any, b:any) => a[0].localeCompare(b[0])))
+        
+          // response.data.elements.forEach((section: any) => {
+          //   setElements([section]);
+          // });
+        }
+      })
+      .catch((error) => {
+        console.log('error is ', error);
+        setLoading(false);
+        toast('Something went wrong');
+      });
+  }, []);
   return (
     <Layout defaultHeader={true} hamburger={true} dashboard={false}>
+      <Spin spinning={loading}>
       <div>
-        <Typography style={{color:'#6A2C70'}} className={styles.Title}>No current streak</Typography>
+        <Typography style={{color:'#6A2C70'}} className={styles.Title}>{elements && elements[0]?.checkup_streak >0 ? `${elements[0].checkup_streak} day streak` :'No current streak'}</Typography>
         <Row>
           <Col span={21}>
             <Row>
               <Col span={24}>
                 <div className={styles.TagWrap}>
-                  <div className={styles.Tag}>
-                    <div className={styles.Streak} style={{backgroundColor:'#E8E8E8'}}></div>
-                    <div className={styles.StreakDay}>M</div>
-                  </div>
-                  <div className={styles.Tag}>
-                    <div className={styles.Streak} style={{backgroundColor:'#E8E8E8'}}></div>
-                    <div className={styles.StreakDay}>T</div>
-                  </div>
-                  <div className={styles.Tag}>
-                    <div className={styles.Streak} style={{backgroundColor:'#E8E8E8'}}></div>
-                    <div className={styles.StreakDay}>W</div>
-                  </div>
-                  <div className={styles.Tag}>
-                    <div className={styles.Streak} style={{backgroundColor:'#E8E8E8'}}></div>
-                    <div className={styles.StreakDay}>T</div>
-                  </div>
-                  <div className={styles.Tag}>
-                    <div className={styles.Streak} style={{backgroundColor:'#F08A5D'}}></div>
-                    <div className={styles.StreakDay}>F</div>
-                  </div>
-                  <div className={styles.Tag}>
-                    <div className={styles.Streak} style={{backgroundColor:'#E8E8E8'}}></div>
-                    <div className={styles.StreakDay}>S</div>
-                  </div>
-                  <div className={styles.Tag}>
-                    <div className={styles.Streak} style={{backgroundColor:'#F08A5D'}}></div>
-                    <div className={styles.StreakDay}>S</div>
-                  </div>
-                  <div className={styles.Tag}>
-                    <div className={styles.Streak} style={{backgroundColor:'#F08A5D'}}></div>
-                    <div className={styles.StreakDay}>M</div>
-                  </div>
-                  <div className={styles.Tag}>
-                    <div className={styles.Streak} style={{backgroundColor:'#E8E8E8'}}></div>
-                    <div className={styles.StreakDay}>T</div>
-                  </div>
-                  <div className={styles.Tag}>
-                    <div className={styles.Streak} style={{backgroundColor:'#E8E8E8'}}></div>
-                    <div className={styles.StreakDay}>W</div>
-                  </div>
-                  <div className={styles.Tag}>
-                    <div className={styles.Streak} style={{backgroundColor:'#E8E8E8'}}></div>
-                    <div className={styles.StreakDay}>T</div>
-                  </div>
-                  <div className={styles.Tag}>
-                    <div className={styles.Streak} style={{backgroundColor:'#E8E8E8'}}></div>
-                    <div className={styles.StreakDay}>F</div>
-                  </div>
-                  <div className={styles.Tag}>
-                    <div className={styles.Streak} style={{backgroundColor:'#6A2C70'}}></div>
-                    <div className={styles.StreakDay}>S</div>
-                  </div>
-                  <div className={styles.Tag}>
-                    <div className={styles.Streak} style={{backgroundColor:'#E8E8E8'}}></div>
-                    <div className={styles.StreakDay}>S</div>
-                  </div>
-                  <div className={styles.Tag}>
-                    <div className={styles.Streak} style={{backgroundColor:'#6A2C70'}}></div>
-                    <div className={styles.StreakDay}>M</div>
-                  </div>
-                  
+                  {elementStreak && elementStreak.map((item:any,index:number)=> {
+                    const date = new Date(item[0]);
+                    const day= format(date, 'EEEEE');
+                    const today = new Date();
+                    const localDateFormat= format(today, 'yyyy-MM-dd');
+                    const systemDateFormat= format(date, 'yyyy-MM-dd');
+
+                    if(item[1]===false){
+                      if(format(today, 'yyyy-MM-dd')===format(date, 'yyyy-MM-dd')){
+                        return <div className={styles.Tag} key={index}>
+                        <div className={styles.Streak} style={{backgroundColor:'#6A2C70'}}></div>
+                        <div className={styles.StreakDay}>{day}</div>
+                      </div>
+                      }
+                      else{
+                        return <div className={styles.Tag} key={index}>
+                        <div className={styles.Streak} style={{backgroundColor:'#E8E8E8'}}></div>
+                        <div className={styles.StreakDay}>{day}</div>
+                      </div>
+                      }
+                    }
+                    
+                    else{
+                      return <div className={styles.Tag}>
+                        <div className={styles.Streak} style={{backgroundColor:'#F08A5D'}}></div>
+                        <div className={styles.StreakDay}>{day}</div>
+                      </div>
+                    }
+                  }
+                  )}  
                 </div>
               </Col>
             </Row>
@@ -102,68 +106,35 @@ const DashboardNew = () => {
           <Col span={24}>
             <div className={styles.GoalsHead}>
               <Typography className={styles.GoalsHeadTitle} style={{color:'#B83B5E'}}>Health Goals</Typography>
-              <Button className={styles.GoalsHeadButton}>+</Button>
+              <Button className={styles.GoalsHeadButton} onClick={()=>navigate("/add-goals")}>+</Button>
             </div>
           </Col>
         </Row>
-        {/* Goals In Detail */}
-        <Row>
-          <Col span={24}>
-            <div className={styles.Goal}>
-              <div className={styles.GoalHeadWrap}>
-                <Typography className={styles.GoalTitle} style={{color:'#6A2C70'}}>Optimal Movement</Typography>
-                <Typography className={styles.GoalCount} style={{color:'#6A2C70'}}>40</Typography>
-              </div>
-              <div className={styles.GoalBarWrap}>
-                <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>G</Typography>
-                <Progress percent={50} strokeColor="#6A2C70" strokeWidth={15} showInfo={false}/>
-              </div>
-              <div className={styles.GoalBarWrap}>
-                <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>D</Typography>
-                <Progress percent={75} strokeColor="#F08A5D" strokeWidth={15} showInfo={false}/>
-              </div>
-            </div>
-          </Col>
-        </Row>
-        {/* Goals In Detail */}
-        <Row>
-          <Col span={24}>
-            <div className={styles.Goal}>
-              <div className={styles.GoalHeadWrap}>
-                <Typography className={styles.GoalTitle} style={{color:'#6A2C70'}}>Optimal Nutrition</Typography>
-                <Typography className={styles.GoalCount} style={{color:'#6A2C70'}}>79</Typography>
-              </div>
-              <div className={styles.GoalBarWrap}>
-                <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>G</Typography>
-                <Progress percent={75} strokeColor="#6A2C70" strokeWidth={15} showInfo={false}/>
-              </div>
-              <div className={styles.GoalBarWrap}>
-                <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>D</Typography>
-                <Progress percent={35} strokeColor="#F08A5D" strokeWidth={15} showInfo={false}/>
-              </div>
-            </div>
-          </Col>
-        </Row>
-        {/* Goals In Detail */}
-        <Row>
-          <Col span={24}>
-            <div className={styles.Goal}>
-              <div className={styles.GoalHeadWrap}>
-                <Typography className={styles.GoalTitle} style={{color:'#6A2C70'}}>Optimal Nutrition</Typography>
-                <Typography className={styles.GoalCount} style={{color:'#6A2C70'}}>56</Typography>
-              </div>
-              <div className={styles.GoalBarWrap}>
-                <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>G</Typography>
-                <Progress percent={25} strokeColor="#6A2C70" strokeWidth={15} showInfo={false}/>
-              </div>
-              <div className={styles.GoalBarWrap}>
-                <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>D</Typography>
-                <Progress percent={65} strokeColor="#F08A5D" strokeWidth={15} showInfo={false}/>
-              </div>
-            </div>
-          </Col>
-        </Row>
+        {elements && elements.map((item:any)=> 
+         
+         <Row key={item.id}>
+         <Col span={24}>
+           <div className={styles.Goal} onClick={()=>navigate(`/goals/${item.id}`)}>
+             <div className={styles.GoalHeadWrap}>
+               <Typography className={styles.GoalTitle} style={{color:'#6A2C70'}}>{item.name}</Typography>
+               <Typography className={styles.GoalCount} style={{color:'#6A2C70'}}>{item.success_score}</Typography>
+             </div>
+             <div className={styles.GoalBarWrap}>
+               <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>G</Typography>
+               <Progress percent={item.success_score} strokeColor="#6A2C70" strokeWidth={15} showInfo={false}/>
+             </div>
+             <div className={styles.GoalBarWrap}>
+               <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>D</Typography>
+               <Progress percent={item.data_score} strokeColor="#F08A5D" strokeWidth={15} showInfo={false}/>
+             </div>
+           </div>
+         </Col>
+       </Row>
+        
+        )}
+       
       </div>
+      </Spin>
     </Layout>
   )
 }
