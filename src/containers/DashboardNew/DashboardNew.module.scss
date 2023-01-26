@@ -1,0 +1,110 @@
+.Title {
+    font-size: 36px;
+    line-height: 1;
+    font-family: 'DM Serif Display', serif;
+    margin-bottom: 32px;
+    margin-top: 48px;
+    font-weight: 400;
+}
+.TagWrap {
+    display: flex;
+}
+.Tag {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 2px;
+    margin-left: 2px;
+    max-width: 20px;
+    width: 100%;
+}
+.Streak {
+    background-color: #E8E8E8;
+    border-radius: 10px;
+    width: 100%;
+    height: 40px;
+}
+.StreakDay {
+    color: #E2E2E2;
+    font-size: 12px;
+    font-family: 'lato', sans-serif;
+    margin-top: 4px;
+    font-weight: 600;
+}
+.Tooltip {
+    color: #D2D1D1;
+}
+.GoalsHead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 32px;
+    .GoalsHeadButton {
+        font-size: 28px;
+        line-height: 1;
+        font-weight: 700;
+        color:#B83B5E;
+        border: none;
+        outline: none;
+        background-color: #F8F8F8;
+        border-radius: 100px;
+        padding: 20px 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:focus {
+            border: none;
+            outline: none;
+            background-color: #F8F8F8;
+        }
+        &:hover {
+            border: none;
+            outline: none;
+            background-color: #F8F8F8;
+            color:#B83B5E;
+        }
+    }
+}
+.GoalsHeadTitle {
+    font-size: 22px;
+    line-height: 1;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+}
+
+.Goal {
+    background-color: #f8f8f880;
+    padding: 16px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+.GoalHeadWrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.GoalTitle {
+    font-size: 20px;
+    line-height: 1;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+}
+.GoalCount {
+    font-size: 36px;
+    line-height: 1;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+}
+.GoalBarWrap {
+    display: flex;
+    align-items: center;
+    margin-top: 4px;
+}
+.GoalLetter {
+    font-size: 18px;
+    line-height: 1;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    margin-right: 12px;
+}

@@ -106,7 +106,7 @@ const Home = () => {
   const getUserSubscription = (response:any) => {
     getSubscriptionStatus()
       .then((res) => {
-        if (!res.data.isSubscribed) {
+        if (response.data.signup_status === 'new') {
           navigate('/subscription');
         } else {
           if (response.data.signup_status === 'onboarding') {
