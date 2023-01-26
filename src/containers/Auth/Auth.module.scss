@@ -46,21 +46,21 @@
     flex-direction: row;
     font-size: 20px;
     line-height: 24px;
-    border: 2px solid $primary-color2;
+    border: 2px solid rgba(#6A2C70,0.42);
     background-color: rgba(#fff, 0.6);
-    color: $primary-color2;
+    color: #6A2C70;
     font-size: 20px;
     line-height: 24px;
   
     &:hover,
     &:focus {
-      border: 2px solid $primary-color2;
+      border: 2px solid #6A2C70;
       background-color: #e3e3e3;
-      color: $primary-color2;
+      color: #6A2C70;
     }
   
     &::placeholder {
-      color: rgba($primary-color2, 0.8);
+      color: rgba(#6A2C70, 0.8);
     }
   }
   
@@ -109,7 +109,7 @@
     text-align: center;
     font-size: 16px;
     line-height: 19px;
-    color: $primary-color2;
+    color: #6A2C70;
     padding: 7px 30px;
     border-radius: 100px;
     background-color: #fff;
@@ -215,7 +215,7 @@
     text-align: center;
     font-size: 16px;
     line-height: 15px;
-    color: $primary-color2;
+    color: #6A2C70;
     padding: 7px 20px;
     border-radius: 100px;
     background-color: #fff;
@@ -226,11 +226,11 @@
   .Auth-terms a {
     font-size: 16px;
     line-height: 19px;
-    color: $primary-color2;
+    color: #6A2C70;
     text-decoration: underline;
   
     &:hover {
-      color: $primary-color2;
+      color: #6A2C70;
       text-decoration: underline;
       opacity: 0.8;
     }
@@ -238,11 +238,11 @@
   .Auth-terms-signup a {
     font-size: 16px;
     line-height: 19px;
-    color: $primary-color2;
+    color: #6A2C70;
     text-decoration: underline;
   
     &:hover {
-      color: $primary-color2;
+      color: #6A2C70;
       text-decoration: underline;
       opacity: 0.8;
     }

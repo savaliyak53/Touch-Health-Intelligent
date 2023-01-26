@@ -68,7 +68,7 @@ const DashboardNew = () => {
                     }
                     
                     else{
-                      return <div className={styles.Tag}>
+                      return <div className={styles.Tag} key={index}>
                         <div className={styles.Streak} style={{backgroundColor:'#F08A5D'}}></div>
                         <div className={styles.StreakDay}>{day}</div>
                       </div>
