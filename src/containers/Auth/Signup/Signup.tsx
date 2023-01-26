@@ -4,7 +4,7 @@ import Layout from '../../../layouts/Layout/Layout';
 // import './index.scss';
 // import '../index.scss';
 import SignupForm from './SignupForm'
-
+import styles from "./Signup.module.scss"
 type IFormInputs = {
   name: string;
   phone: string;
@@ -25,10 +25,15 @@ const SignUp = () => {
 
   return (
     <Layout defaultHeader={false} hamburger={false} signupLogin="Signup-bg">
-     <SignupForm 
-        onSubmit={onSubmit}
-        refCaptcha={refCaptcha}
-      />
+      <div className={styles.SignupBGWrap}>
+        <SignupForm
+          onSubmit={onSubmit}
+          refCaptcha={refCaptcha}
+        />
+        <div className={styles.SignupBGShape1}></div>
+        <div className={styles.SignupBGShape2}></div>
+        <div className={styles.SignupBGShape3}></div>
+      </div>
 
     </Layout>
   );

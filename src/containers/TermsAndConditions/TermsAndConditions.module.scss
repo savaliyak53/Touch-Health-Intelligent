@@ -1,0 +1,52 @@
+.Container {
+  padding-bottom: 70px;
+  overflow-y: auto;
+  position: relative;
+  // .error-message {
+  //   color: red;
+  // }
+}
+.TermsBtnWrap {
+  position: fixed;
+  bottom: 0;
+  background-color: #fff;
+  width: calc(100% - 40px);
+  padding-bottom: 10px;
+}
+.TermsBtn {
+  border-radius: 100px;
+  height: 100%;
+  padding: 18px 54px;
+  background-color: transparent;
+  color: #6A2C70;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  border: 2px solid #6A2C70;
+  margin: 0 auto;
+  max-width: 400px;
+  display: block;
+  width: 100%;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #fff;
+    color: #6A2C70;
+    border-color: #6A2C70;
+  }
+}
+.TermsTitle {
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #6A2C70;
+  margin-top: 50px;
+}
+.TermsText {
+  font-size: 20px;
+  line-height: 1.1;
+  font-weight: 400;
+  color: #6A2C70;
+  margin-top: 30px;
+}

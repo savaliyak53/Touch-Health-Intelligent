@@ -103,21 +103,21 @@ input {
   flex-direction: row;
   font-size: 15px;
   line-height: 15px;
-  border: 2px solid #272424 !important;
+  border: 2px solid rgba(#6A2C70,0.42) !important;
   background-color: rgba(#fff,0.6) !important;
-  color: #272424;
+  color: #6A2C70;
   font-size: 20px;
   line-height: 15px;
 
   &:hover,
   &:focus {
-    border: 2px solid #272424 !important;
+    border: 2px solid #6A2C70 !important;
     background-color: #e3e3e3 !important;
-    color: #272424 !important;
+    color: #6A2C70!important;
   }
 
   &::placeholder {
-    color: rgba(#272424, 0.8);
+    color: rgba(#6A2C70, 0.8);
   }
 }
 

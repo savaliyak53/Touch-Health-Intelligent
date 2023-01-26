@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './index.scss';
+import styles from './TermsAndConditions.module.scss';
 import { Typography } from 'antd';
 import { useForm } from 'react-hook-form';
 import { requestPhoneOTP } from '../../services/authservice';
@@ -62,59 +62,58 @@ function TermsAndCondtions() {
   };
   return (
     <Layout defaultHeader={true} hamburger={false}>
-      <div className="container">
+      <div className={styles.Container}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <Title level={4}>Welcome to Touch Health Assistant</Title>
-            <Paragraph>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.Lorem Ipsum has been the industrys standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged.It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and
-              typesetting industry.Lorem Ipsum has been the industrys standard
-              dummy text ever since the 1500s, when an unknown printer took a
-              galley of type and scrambled it to make a type specimen book. It
-              has survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged.It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </Paragraph>
-            <div className={`Auth-terms`}>
-              <Checkbox
-                id="termsAndConditions"
-                checked={termsAndConditions}
-                {...register('termsAndConditions', {
-                  required: {
-                    value: termsAndConditions ? false : true,
-                    message:
-                      'Please accept the terms and Conditions to proceed!',
-                  },
-                })}
-                onChange={onChange}
-              >
-                I agree to the Terms & Conditions
-              </Checkbox>
-            </div>
-            <span className="error-message">
-              {errors?.termsAndConditions?.message}
-            </span>
+          <Title level={2} className={styles.TermsTitle} style={{color:'#6A2C70'}}>Welcome to Touch Health Assistant</Title>
+          <Paragraph className={styles.TermsText}>
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry.Lorem Ipsum has been the industrys standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of
+            type and scrambled it to make a type specimen book. It has
+            survived not only five centuries, but also the leap into
+            electronic typesetting, remaining essentially unchanged.It was
+            popularised in the 1960s with the release of Letraset sheets
+            containing Lorem Ipsum passages, and more recently with desktop
+            publishing software like Aldus PageMaker including versions of
+            Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and
+            typesetting industry.Lorem Ipsum has been the industrys standard
+            dummy text ever since the 1500s, when an unknown printer took a
+            galley of type and scrambled it to make a type specimen book. It
+            has survived not only five centuries, but also the leap into
+            electronic typesetting, remaining essentially unchanged.It was
+            popularised in the 1960s with the release of Letraset sheets
+            containing Lorem Ipsum passages, and more recently with desktop
+            publishing software like Aldus PageMaker including versions of
+            Lorem Ipsum.
+          </Paragraph>
+          {/* <div className={`Auth-terms`}>
+            <Checkbox
+              id="termsAndConditions"
+              checked={termsAndConditions}
+              {...register('termsAndConditions', {
+                required: {
+                  value: termsAndConditions ? false : true,
+                  message:
+                    'Please accept the terms and Conditions to proceed!',
+                },
+              })}
+              onChange={onChange}
+            >
+              I agree to the Terms & Conditions
+            </Checkbox>
+          </div> */}
+          {/* <span className="error-message">
+            {errors?.termsAndConditions?.message}
+          </span> */}
+          <div className={styles.TermsBtnWrap}>
+            <Button
+              className={styles.TermsBtn}
+              loading={isLoading}
+              onClick={handleSubmit(onSubmit)}
+            >
+             Confirm and sign-up
+            </Button>
           </div>
-
-          <Button
-            className="terms-btn"
-            loading={isLoading}
-            onClick={handleSubmit(onSubmit)}
-          >
-            Continue
-          </Button>
         </form>
       </div>
     </Layout>
