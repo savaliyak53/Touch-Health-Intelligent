@@ -41,7 +41,7 @@ const DashboardNew = () => {
     <Layout defaultHeader={true} hamburger={true} dashboard={false}>
       <Spin spinning={loading}>
       <div>
-        <Typography style={{color:'#6A2C70'}} className={styles.Title}>{streakCount && streakCount >0 ? `${streakCount} day streak` :'No current streak'}</Typography>
+        <Typography style={{color:'#6A2C70'}} className={styles.Title}>{streakCount && streakCount >0 ? `${streakCount} day streak!` :'No current streak'}</Typography>
         <Row>
           <Col span={21}>
             <Row>
@@ -51,8 +51,6 @@ const DashboardNew = () => {
                     const date = new Date(item[0]);
                     const day= format(date, 'EEEEE');
                     const today = new Date();
-                    const localDateFormat= format(today, 'yyyy-MM-dd');
-                    const systemDateFormat= format(date, 'yyyy-MM-dd');
 
                     if(item[1]===false){
                       if(format(today, 'yyyy-MM-dd')===format(date, 'yyyy-MM-dd')){
