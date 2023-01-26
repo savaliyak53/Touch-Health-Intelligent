@@ -13,6 +13,7 @@ import {format} from 'date-fns';
 const DashboardNew = () => {
   const [elements, setElements] = useState<any>();
   const [elementStreak, setElementStreak] = useState<any>();
+  const [streakCount, setStreakCount] = useState<any>();
 
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -25,13 +26,9 @@ const DashboardNew = () => {
       .then((response) => {
         setLoading(false);
         if (response.data) {
-         // let section_arr: any = [];
          setElements(response.data.elements);
-         setElementStreak(response.data.elements[0].checkup_pattern.sort((a:any, b:any) => a[0].localeCompare(b[0])))
-        
-          // response.data.elements.forEach((section: any) => {
-          //   setElements([section]);
-          // });
+         setElementStreak(response.data.checkup_pattern.sort((a:any, b:any) => a[0].localeCompare(b[0])))
+         setStreakCount(response.data.checkup_streak)
         }
       })
       .catch((error) => {
@@ -44,7 +41,7 @@ const DashboardNew = () => {
     <Layout defaultHeader={true} hamburger={true} dashboard={false}>
       <Spin spinning={loading}>
       <div>
-        <Typography style={{color:'#6A2C70'}} className={styles.Title}>{elements && elements[0]?.checkup_streak >0 ? `${elements[0].checkup_streak} day streak` :'No current streak'}</Typography>
+        <Typography style={{color:'#6A2C70'}} className={styles.Title}>{streakCount && streakCount >0 ? `${streakCount} day streak` :'No current streak'}</Typography>
         <Row>
           <Col span={21}>
             <Row>
@@ -110,7 +107,7 @@ const DashboardNew = () => {
             </div>
           </Col>
         </Row>
-        {elements && elements.map((item:any)=> 
+        {elements ? elements.map((item:any)=> 
          
          <Row key={item.id}>
          <Col span={24}>
@@ -129,9 +126,18 @@ const DashboardNew = () => {
              </div>
            </div>
          </Col>
-       </Row>
-        
-        )}
+        </Row>)
+        : 
+        <Row > 
+          <Col span={24}>
+            <div className={styles.Goal} >
+              <div className={styles.GoalHeadWrap}>
+                <Typography className={styles.GoalTitle} style={{color:'#6A2C70', alignItems:'center'}}>No Data to Show</Typography>
+              </div>
+            </div>
+          </Col>
+        </Row>
+        }
        
       </div>
       </Spin>
