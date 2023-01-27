@@ -265,6 +265,48 @@ input {
     }
   }
 }
+
+.Pref-post-btn
+     {
+      border-radius: 80px !important;
+      height: 60px !important;
+      padding: 10px !important;
+      border: 2px solid $primary-color1 !important;
+      color: $primary-color1 !important;
+      font-size: 20px !important;
+      line-height: 24px !important;
+      font-weight: 500 !important;
+      margin: 0 4px 0 !important;
+      max-width: 150px !important;
+      max-height: 60px !important;
+      display: block !important;
+      width: 100% !important;
+      margin-bottom: 30px !important;
+  
+      @media  screen and (min-width: 768px) {
+        max-width: 300px;
+        max-height: unset;
+        padding: 18px 30px;
+      }
+  
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: $primary-color1;
+        color: #fff;
+        border-color: $primary-color1;
+      }
+  
+      &.disabled {
+        background-color: red;
+        border: 2px solid $primary-color1;
+        color: $primary-color1;
+      }
+  
+      &.msg-btn {
+        margin-top: 0;
+      }
+    }
 .Back-btn.btn.ant-btn {
   background-color: transparent;
   color: $secondary-color2;
@@ -792,5 +834,37 @@ input {
   }
   .ant-modal-body {
     padding-top: 70px;
+  }
+}
+
+
+.Switch-btn-wrap {
+  .ant-switch {
+      background: white;
+      height: 60px;
+      min-width: 150px;
+      border: 2px solid $primary-color2;
+      &.ant-switch-checked {
+          background-color: white;
+          .ant-switch-handle{
+              left: calc(100% - 60px);
+          }
+      }
+      .ant-switch-handle {
+          width: 65px;
+          height: 60px;
+          top: calc(100% - 58px);
+          left: calc(100% - 150px);
+          &:before {
+              background-color: white;
+              border-radius: 30px;
+              border: 2px solid $primary-color2;
+          }
+      }
+      .ant-btn {
+        padding: 0;
+        // margin-left: 10px;
+        border: none;
+    }
   }
 }
