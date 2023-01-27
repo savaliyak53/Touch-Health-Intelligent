@@ -86,9 +86,10 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
     }
   }
     return (
-        <div className={styles["Auth-wrap"]}>
-        <form role="login-form" onSubmit={handleSubmit(onSubmit)} className={` ${styles["Auth-form"]} ${Authstyles["Auth-form"]} `}>
-        <h2 className={`${styles["Auth-title"]} ${Authstyles["Auth-title"]}`}>Find your path to health</h2>
+      <div className={styles["Auth-wrap"]}>
+        <form role="login-form" onSubmit={handleSubmit(onSubmit)}  className={styles["Auth-form"]}>
+        {/* <h2 className={`${styles["Auth-title"]} ${Authstyles["Auth-title"]}`}>Find your path to health</h2> */}
+        <h2 className={`${styles["Auth-title"]} `}>Find your path to health</h2>
 
           <CountryCode
             errors={errors.username}

@@ -76,7 +76,7 @@ const SignupForm = ({onSubmit, refCaptcha}: SignupFormProps) => {
         if (response?.id) {
           localStorage.setItem('userId', response.id);
           localStorage.setItem('token', response.token);
-          navigate(`/security`);
+          navigate(`/terms-and-conditions`);
         } else {
           setIsDisabled(false);
           setIsLoading(false);
@@ -191,26 +191,21 @@ const SignupForm = ({onSubmit, refCaptcha}: SignupFormProps) => {
               <AiOutlineEye />
             </button>
           </div>
-          <Checkbox checked={checked} onChange={handleCheck}>I agree to the  <Link to="/terms-and-conditions">terms and conditions</Link></Checkbox>
           <Tooltip
               color="orange"
               placement="bottom"
               title={"Please check the terms and conditions checkbox to proceed"}
               visible={checkedError}
             ></Tooltip>
-            <div className={`${Authstyles["Auth-submit-wrapper"]}`}  
-              onClick={() => checked ? setCheckedError(false) : setCheckedError(true)}
-              onMouseEnter={() => checked ? setCheckedError(false) : setCheckedError(true)}
-              onMouseLeave={() => checked ? setCheckedError(false) : setCheckedError(true)}>
+
           <Button
-            className={`${Authstyles["Auth-submit"]} ${isDisabled || !checked ? Authstyles['disabled'] : ''}`}
+            className={`${Authstyles["Auth-submit"]} ${isDisabled ? Authstyles['disabled'] : ''}`}
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
-            disabled={isDisabled || !checked}
+            disabled={isDisabled }
           >
-            Sign Up
+           Register
           </Button>
-          </div>
         </form>
         <Recaptcha
             ref={refCaptcha}

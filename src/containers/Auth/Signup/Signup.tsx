@@ -3,6 +3,8 @@ import { SubmitHandler } from 'react-hook-form';
 import Layout from '../../../layouts/Layout/Layout';
 // import './index.scss';
 // import '../index.scss';
+import { useNavigate } from 'react-router';
+
 import SignupForm from './SignupForm'
 import styles from "./Signup.module.scss"
 type IFormInputs = {
@@ -16,7 +18,7 @@ type IFormInputs = {
 
 const SignUp = () => {
   const refCaptcha = useRef<any>(null)
-
+  const navigate= useNavigate()
 
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
 
@@ -32,7 +34,8 @@ const SignUp = () => {
         />
         <div className={styles.SignupBGShape1}></div>
         <div className={styles.SignupBGShape2}></div>
-        <div className={styles.SignupBGShape3}></div>
+        {/* nayab reconsider Link */}
+        <div className={styles.SignupBGShape3} onClick={()=> navigate("/login")}></div>
       </div>
 
     </Layout>
