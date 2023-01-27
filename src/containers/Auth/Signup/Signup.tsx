@@ -34,8 +34,7 @@ const SignUp = () => {
         />
         <div className={styles.SignupBGShape1}></div>
         <div className={styles.SignupBGShape2}></div>
-        {/* nayab reconsider Link */}
-        <div className={styles.SignupBGShape3} onClick={()=> navigate("/login")}></div>
+        <div className={styles.SignupBGShape3}></div>
       </div>
 
     </Layout>
