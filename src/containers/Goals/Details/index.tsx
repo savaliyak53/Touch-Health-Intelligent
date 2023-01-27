@@ -160,6 +160,7 @@ const GoalDetails = () => {
         setIsLoading(true)
         goalDetails(goalId)
         .then((res:any)=>{
+            console.log(res);
             setGoal(res.data)
             calculate(res.data)
             setIsLoading(false)

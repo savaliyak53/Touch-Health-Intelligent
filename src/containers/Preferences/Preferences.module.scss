@@ -4,126 +4,14 @@
     padding: 0;
     box-sizing: border-box;
 }
-.Preferences-form {
-    //width: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    justify-content: left;
-}
-
-.Preferences-form-error {
-    margin-top: 1rem;
-    color: red;
-}
-.intro {
-    display: flex;
-    align-items: right;
-    justify-content: right;
-    padding-left: 40px;
-}
-
-.mt-1 {
-    margin-top: 1rem;
-}
-.mt-3 {
-    margin-top: 3rem;
-}
-// .question {
-//     width: 480px;
-//     font-style: bold;
-//     margin-bottom: 2px;
-//     line-height: 2;
-//     font-size: 20px;
-//     min-height: 25px;
-//     margin-top: 3rem;
-//     padding: 10px;
-//     padding-right: 15px;
-// }
-.checkbox {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    color: rgba(0, 0, 0, 0.85);
-    font-size: 14px;
-    font-variant: tabular-nums;
-    line-height: 1.5715;
-    list-style: none;
-    font-feature-settings: "tnum";
-    position: relative;
-    top: 0.2em;
-    line-height: 1;
-    white-space: nowrap;
-    outline: none;
-    cursor: pointer;
-}
-.checkbox-input {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    opacity: 0;
-}
-.radio-input {
-    font-size: 22px !important;
-    line-height: 27px !important;
-    font-weight: 300 !important;
-    color: $primary-color2 !important;
-    font-family: "Barlow", sans-serif !important;
-    border-radius: 0;
-
-    .ant-radio-checked .ant-radio-inner {
-        border-color: #3a4a7e !important ;
-    }
-
-    .ant-radio-checked .ant-radio-inner:after {
-        background-color: #3a4a7e;
-        transform: scale(1)!important;
-        border-radius: 0 !important;
-    }
-
-    .ant-radio:hover .ant-radio-inner {
-        border-color: #3a4a7e;
-    }
-    .ant-radio-inner {
-        border-radius: 0;
-    }
-}
-
-.label {
-    margin-left: 2px;
-    margin-right: 2rem;
-}
-[type="checkbox"] {
-    vertical-align: middle;
-}
-[type="radio"] {
-    vertical-align: middle;
-}
-ul.no-bullets {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-ul.no-bullets li {
-    float: left;
-    padding-right: 15px;
-}
-
-//Preferences.scss
 
 .Pref-title {
+    font-family: 'DM Serif Display', serif;
     font-size: 35px;
     line-height: 36px;
     font-weight: 300;
     color: $primary-color2;
     margin-top: 24px;
-  // margin-bottom: clamp(0px, 7.5vh, 36px);
 }
 
 .Pref {
@@ -132,9 +20,12 @@ ul.no-bullets li {
     }
 
     .Question-title {
+        display: flex;
+        flex-direction: row;
+        position: relative;
         font-size: 25px;
         line-height: 27px;
-        font-weight: 300;
+        font-weight: 500;
         color: $primary-color2;
         margin-top: 10px;
         margin-bottom: 24px;
@@ -158,13 +49,6 @@ ul.no-bullets li {
     }
 }
 
-.Slider-range {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-	gap: 10px;
-}
-
 .button-group {
     display: flex;
     flex-direction: row;
@@ -174,8 +58,7 @@ ul.no-bullets li {
 
 @media (max-width: 450px) {
 
-    .Pref-post-btn,.Pref-post-btn.btn.ant-btn,
-    .btn.ant-btn
+    .Pref-post-btn
      {
       border-radius: 80px !important;
       height: 60px !important;
@@ -207,7 +90,6 @@ ul.no-bullets li {
       }
   
       &.disabled {
-        background-color: rgba($primary-color1, 0.2);
         border: 2px solid $primary-color1;
         color: $primary-color1;
       }
@@ -216,108 +98,8 @@ ul.no-bullets li {
         margin-top: 0;
       }
     }
-    .Data-Use {
-      margin-bottom: 24px;
-      margin-top: 24px;
-  
-      .Cancel-post-btn.btn.ant-btn {
-        max-width: 210px !important;
-      }
-    }
-    .Data-use-cancel-btn {
-        max-width: 210px !important;
-    }
-    .Cancel-post-btn,.Cancel-post-btn.btn.ant-btn,
-    .btn.ant-btn {
-      border-radius: 80px !important;
-      height: 60px !important;
-      padding: 10px !important;
-      color: $secondary-color2 !important;
-      font-size: 20px !important;
-      line-height: 24px !important;
-      font-weight: 300 !important;
-      background-color: transparent !important;
-      border: 2px solid $secondary-color2 !important;
-      margin: 0 4px 0 !important;
-      max-width: 150px;
-      display: block !important;
-      width: 100% !important;
-  
-      @media  screen and (min-width: 768px) {
-        max-width: 150px;
-        max-height: unset;
-        padding: 18px 30px;
-      }
-    
-      &:hover,
-      &:focus,
-      &:active {
-        background-color: $secondary-color2;
-        color: #fff;
-        border-color: $secondary-color2;
-      }
-        &.disabled {
-            background-color: rgba($primary-color1, 0.2);
-            border-color: $secondary-color2;
-            color: $secondary-color2;
-            border-color: $secondary-color2;
-        }
-        &.msg-btn {
-        margin-top: 0;
-        }
-    }
-    .button-group {
-      display: flex;
-      flex-direction: row;
-      margin-right: 10px;
-      margin-left: 10px;
-    }
-}
 
-.Options,.Options.ant-space {
-.ant-radio-button-wrapper,
-.ant-radio-button-wrapper:first-child,
-.ant-radio-button-wrapper:last-child {
-    margin: 10px 10px 10px 0;
-    border: 2px solid $primary-color1;
-    padding: 12px 20px;
-    border-radius: 100px;
-    height: 100%;
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: 300;
-    background-color: transparent;
-    color: $primary-color1;
-
-    &:not(:first-child):before {
-    display: none;
+    .Data-dlt-btn {
+        min-width: 210px !important;
     }
-
-    &:hover {
-    color: $primary-color2;
-    }
-}
-.ant-space {
-    flex-wrap: wrap;
-}
-.ant-radio-button-wrapper-checked {
-    &:not(.ant-radio-button-wrapper-disabled) {
-    background-color: rgba($primary-color1,0.2);
-    border-color: $primary-color1;
-    color: $primary-color1;
-
-    &:focus-within {
-        box-shadow: none;
-    }
-
-    &:hover {
-        background-color: rgba($primary-color1, 0.2);
-        border-color: $primary-color1;
-        color: $primary-color1;
-    }
-    &.ant-radio-button-wrapper:first-child {
-        border-color: $primary-color1;
-    }
-    }
-}
 }
