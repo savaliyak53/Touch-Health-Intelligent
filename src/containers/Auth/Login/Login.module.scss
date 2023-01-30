@@ -1,28 +1,28 @@
 @import '../../../variables.module.scss';
 
 .Auth-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
-  }
-  
-  .Auth-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .Auth-title {
-    color: rgba($primary-color2,0.7);
-    font-size: 30px;
-    line-height: 36px;
-    font-weight: 300;
-    margin-bottom: 32px !important;
-    margin-top: clamp(0px, 7.5vh, 96px);
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.Auth-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.Auth-title {
+  color: #6A2C70;
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: 700;
+  margin-bottom: 15px;
+  margin-top: clamp(0px, 7.5vh, 96px);
+}
   
   .Auth-forgot-wrap {
     width: 100%;
@@ -113,4 +113,36 @@
   .btn {
     margin-bottom: 16px;
   }
+  .SignupBGWrap {
+    position: relative;
   
+    .SignupBGShape1 {
+      position: absolute;
+      background-color: rgba(#F08A5D, 0.15);
+      top: -170px;
+      right: -150px;
+      width: 250px;
+      height: 250px;
+      border-radius: 100%;
+    }
+    .SignupBGShape2 {
+      position: absolute;
+      background-color: rgba(#B83B5E, 0.15);
+      top: 0;
+      left: -200px;
+      width: 300px;
+      height: 300px;
+      border-radius: 100%;
+    }
+    .SignupBGShape3 {
+      position: absolute;
+      background-color: rgba(#6A2C70, 0.32);
+      top: 90%;
+      right: 50%;
+      transform: translateX(50%);
+      width: 250px;
+      height: 250px;
+      border-radius: 100%;
+      z-index: -1
+    }
+  }
