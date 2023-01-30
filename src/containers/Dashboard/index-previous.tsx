@@ -6,7 +6,6 @@ import DashboardButton from '../../components/DashboardButton/DashboardButton';
 import { InsightContext } from '../../contexts/InsightContext';
 import { Spin } from 'antd';
 import { toast } from 'react-toastify';
-import { hardCodedresponse } from '../../utils/lib';
 import { getDashboard } from '../../services/dashboardservice';
 
 const Dashboard = () => {
