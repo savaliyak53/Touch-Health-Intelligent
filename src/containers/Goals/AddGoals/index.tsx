@@ -164,7 +164,6 @@ const AddGoals = () => {
         preferencesService(preferenceData, userId)
           .then((preferencesResponse: any) => {
             setIsLoading(false);
-            toast.success('Preferences submitted');
             if (preferencesResponse) {
               getInteractionServiceByType('goal_characterization')
                 .then((response: any) => {
