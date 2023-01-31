@@ -339,10 +339,10 @@ const Question = ({
         return (
           <div className={goal_styles['IntroGoals']}>
             <h2 className={goal_styles['Title']}>{question.title}</h2>
-            <p className={goal_styles['Description']}>
+            <div className={goal_styles['Description']}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
               {question.body_md}
-            </ReactMarkdown></p> 
+            </ReactMarkdown></div> 
             <Radio.Group
               className="Question-Options"
               onChange={(e) => {

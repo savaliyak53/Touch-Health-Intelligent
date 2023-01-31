@@ -43,7 +43,7 @@ const Preferences = () => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [loading, setloading] = useState(false);
 
-  const [preferences, setPreferences] = useState<any>({});
+  const [username, setUsername] = useState<any>('');
   const [checked, setChecked] = useState<boolean>();
 
   const [yob, setYob] = useState<any>('');
@@ -93,6 +93,16 @@ const Preferences = () => {
         toast('Unknown error');
         setSpinning(false);
       });
+      getUser(userId)
+        .then((res: any) => {
+          if(res.data) {
+            console.log(res.data.name);
+            setUsername(res.data.name)
+          }
+        })
+        .catch((error) => {
+          toast('Unknown error');
+        });
   };
   const getIntegrationStatusService = () => {
     getIntegrationStatus()
@@ -250,6 +260,14 @@ const Preferences = () => {
                   Age
                 </h3>
                 <Button className='Pref-post-btn' disabled={true}>{parseInt(moment().format('YYYY')) - yob}</Button>
+              </div>
+            )}
+            {username !== '' && (
+              <div>
+                <h3 className={styles['Question-title']} style={{fontSize: '22px'}}>
+                  Username
+                </h3>
+                <Button className='Pref-username-btn'>{username}</Button>
               </div>
             )}
           </div>
