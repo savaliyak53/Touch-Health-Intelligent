@@ -307,6 +307,22 @@ input {
         margin-top: 0;
       }
     }
+    .Pref-username-btn{
+      border-radius: 80px !important;
+      height: 60px !important;
+      padding: 10px !important;
+      border: 2px solid $primary-color2 !important;
+      color: $primary-color2 !important;
+      font-size: 20px !important;
+      line-height: 24px !important;
+      font-weight: 500 !important;
+      margin: 0 4px 0 !important;
+      max-width: 150px !important;
+      max-height: 60px !important;
+      display: block !important;
+      width: 100% !important;
+      margin-bottom: 30px !important;
+    }
 .Back-btn.btn.ant-btn {
   background-color: transparent;
   color: $secondary-color2;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from'./GoalDetails.module.scss';
 import v from '../../../variables.module.scss'
 import Layout from '../../../layouts/Layout/Layout';
-import { Button, Modal, Tooltip, Spin } from 'antd';
+import { Button, Modal, Tooltip, Spin, Progress } from 'antd';
 import { DeleteOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { toast } from 'react-toastify';
@@ -19,6 +19,7 @@ import rehypeRaw from "rehype-raw";
 import { guidanceStatus } from '../../../services/authservice';
 import { dateFormatRenewal } from '../../../utils/lib';
 import { getInteractionServiceByType, preferencesService } from '../../../services/authservice';
+import moment from 'moment'
 
 
 const GoalDetails = () => {
@@ -60,6 +61,9 @@ const GoalDetails = () => {
             y: {
                 min: 0,
                 max: 100,
+                ticks: {
+                    stepSize: 25,
+                },
                 grid: {
                     display: false,
                     drawBorder: false
@@ -68,33 +72,45 @@ const GoalDetails = () => {
         },
     };
     const calculate = (response:any) => {
+        let forecastTime, historicalTime, forecastArray, historicalArray
         if (response.data.forecast) {
-          const forecastTime = response?.data.forecast.times.map((item:any) => {
-            return item;
-        });
-          setForecastStartDate(forecastTime[0]);
-          setForecastLastDate(forecastTime[forecastTime.length - 1]);
-          const historicalTime = response?.data.historical.times.map((item:any) => {
-            return item;
-          });
-          //setHistoricalData
-          const expectation = response?.data.historical.expectation;
-          const historicalArray = [];
-          for (let i = 0; i < expectation.length; i++) {
-            const dataArray = [];
-            dataArray.push(historicalTime[i]);
-            dataArray.push(expectation[i]);
-            historicalArray.push(dataArray);
-          }
-          //setForecastData
-          const forecast = response?.data.forecast.expectation;
-          const forecastArray = [];
-          for (let i = 0; i < forecast.length; i++) {
-            const dataArray = [];
-            dataArray.push(forecastTime[i]);
-            dataArray.push(forecast[i]);
-            forecastArray.push(dataArray);
-          }
+            forecastTime = response?.data.forecast.times.map((item:any) => {
+                return item;
+            });
+
+            //setForecastData
+            const forecast = response?.data.forecast.expectation;
+            for (let i = 0; i < forecast.length; i++) {
+                const dataArray = [];
+                forecastArray = []
+                dataArray.push(forecastTime[i]);
+                dataArray.push(forecast[i]);
+                forecastArray.push(dataArray);
+            }
+        }
+        if (response.data.historical) {
+            historicalTime = response?.data.historical.times.map((item:any) => {
+                return item;
+            });
+            //setHistoricalData
+            const expectation = response?.data.historical.expectation;
+            for (let i = 0; i < expectation.length; i++) {
+                const dataArray = [];
+                historicalArray = []
+                dataArray.push(historicalTime[i]);
+                dataArray.push(expectation[i]);
+                historicalArray.push(dataArray);
+            }
+        }
+        if(forecastTime){
+            setForecastStartDate(forecastTime[0]);
+            setForecastLastDate(forecastTime[forecastTime.length - 1]);
+        } else {
+            setForecastStartDate(historicalTime[0]);
+            setForecastLastDate(moment().add(2, 'weeks').format('YYYY-MM-DDTHH:mm:ssZ').toString());
+        }
+        forecastArray == undefined ? forecastArray = [[moment().add(2, 'weeks').format('YYYY-MM-DDTHH:mm:ssZ').toString(), null]] : null
+
           data = {
             datasets: [
               {
@@ -121,10 +137,7 @@ const GoalDetails = () => {
               },
             ],
           };
-          setDataset(data);          
-        } else {
-          setDataset({ datasets: [] });
-        }
+          setDataset(data);
       };
     const dateHighlighter = {
         id: 'dateHighlighter',
@@ -160,7 +173,6 @@ const GoalDetails = () => {
         setIsLoading(true)
         goalDetails(goalId)
         .then((res:any)=>{
-            console.log(res);
             setGoal(res.data)
             calculate(res.data)
             setIsLoading(false)
@@ -224,86 +236,55 @@ const GoalDetails = () => {
             </div>
             {/* Top title with Delete button */}
             <div className={styles["Prevn-wrap"]}>
+                <Button className={styles["Prevn-btn"]} onClick={() => handleDelete(goalId)}><DeleteOutlined style={{ fontSize: '18px', color: '#D2D1D1', cursor: 'pointer' }} /></Button>
                 <h2 className={styles["Prevn-text"]}>{goal?.info.name}</h2>
-                <Button className={styles["Prevn-btn"]} onClick={() => handleDelete(goalId)}><DeleteOutlined style={{ fontSize: '28px', color: '#D2D1D1', cursor: 'pointer' }} /></Button>
             </div>
             <Spin spinning={isLoading} className="Spinner"></Spin>
             { goal?.data && (
                 <>
             <div className={styles["Vel-Eta-wrap"]}>
-                {goal?.data?.velocity!==null && goal?.data?.velocity!==undefined && <div className={styles["Vel-wrap"]}>
+                {goal?.data?.success_score !== null && goal?.data?.velocity !== undefined && <div className={styles["Vel-wrap"]}>
                     {/* Single Velocity Wrap */ }
                     <span className={styles["Vel-name"]}>
-                        Velocity
+                        G
+                        <Progress 
+                            style={{opacity: 0.5, margin: '0 25px'}}
+                            percent={70} 
+                            showInfo={false}
+                            strokeColor={v['secondary-color1']}
+                            strokeWidth={20}
+                        />
                         <Tooltip
                             title={'Some Text To be Display'}
                             placement="bottomRight"
                             overlayStyle={{marginRight:'10px'}}
                             mouseLeaveDelay={0}
                         >
-                        <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
-                        </Tooltip>
-                        </span>
-                     <h2 className={styles["Vel-number"]}>{goal.data.velocity.toFixed(1)}<span className={styles["Vel-subs"]}>Points/ day</span></h2>
-                </div>}
-                {/* Single ETA wrap */}
-                {goal?.data?.eta && <div className={styles["Vel-wrap"]}>
-                    <span className={styles["Vel-name"]}>
-                        ETA
-                        <Tooltip
-                            title={'Some Text To be Display'}
-                            placement="bottomRight"
-                            overlayStyle={{marginRight:'10px'}}
-                            mouseLeaveDelay={0}
-                        >
-                        <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
+                        <AiOutlineQuestionCircle size={30} style={{ color: '#D2D1D1', marginLeft: '6px'}}/>
                         </Tooltip>
                     </span>
-                    <h2 className={styles["Vel-number"]}>{dateFormatRenewal(goal?.data.eta)}</h2>
                 </div>}
-            </div>
-
-            <div className={styles["Stat-wrap"]}>
-                {/* Single Stat bar section */}
-                <div className={styles["Stat-Single"]}>
-                    <div className={styles["Stat-bar"]}><span className={styles["Stat-bar-progress"]} style={{ width: `${goal?.data.success_score+'%'}`, backgroundColor: '#DFC877'}}></span></div>
-                    <div className={styles["Vel-wrap"]}>
-                        <span className={styles["Vel-name"]}>Success</span>
-                        <h2 className={styles["Vel-number"]}>
-                            {goal?.data.success_score.toFixed(2)}
-                            <span className={styles["Stat-subs"]}> / 100</span>
-                            <Tooltip
-                                title={'Some Text To be Display'}
-                                placement="bottomRight"
-                                overlayStyle={{marginRight:'10px'}}
-                                className={styles["Vel-name"]}
-                                mouseLeaveDelay={0}
-                            >
-                            <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
-                            </Tooltip>
-                        </h2>
-                    </div>
-                </div>
-                {/* Single Stat bar section */}
-                <div className={styles["Stat-Single"]}>
-                    <div className={styles["Stat-bar"]}><span className={styles["Stat-bar-progress"]} style={{ width: `${goal?.data.data_score+'%'}`, backgroundColor: '#5BD056'}}></span></div>
-                    <div className={styles["Vel-wrap"]}>
-                        <span className={styles["Vel-name"]}>Data requirement</span>
-                        <h2 className={styles["Vel-number"]}>
-                            {goal?.data.data_score.toFixed(2)}
-                            <span className={styles["Stat-subs"]}> / 100</span>
-                            <Tooltip
-                                title={'Some Text To be Display'}
-                                placement="bottomRight"
-                                overlayStyle={{marginRight:'10px'}}
-                                className={styles["Vel-name"]}
-                                mouseLeaveDelay={0}
-                            >
-                            <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
-                            </Tooltip>
-                        </h2>
-                    </div>
-                </div>
+                {/* Single ETA wrap */}
+                {goal?.data?.data_score && <div className={styles["Vel-wrap"]}>
+                    <span className={styles["Vel-name"]}>
+                        D
+                        <Progress 
+                            style={{opacity: 0.5, margin: '0 25px'}}
+                            percent={70} 
+                            showInfo={false}
+                            strokeColor={v['secondary-color2']}
+                            strokeWidth={20}
+                        />
+                        <Tooltip
+                            title={'Some Text To be Display'}
+                            placement="bottomRight"
+                            overlayStyle={{marginRight:'10px'}}
+                            mouseLeaveDelay={0}
+                        >
+                        <AiOutlineQuestionCircle size={30} style={{ color: '#D2D1D1', marginLeft: '6px'}}/>
+                        </Tooltip>
+                    </span>
+                </div>}
             </div>
             </>
             )}
@@ -311,18 +292,18 @@ const GoalDetails = () => {
             {/* Chart */}
             {dataset && (
                 <>
-                    <h3 className={styles["Chart-title"]}>
-                        Success Score
+                    <div className={styles["Chart-title"]}>
+                        <div style={{fontSize: '25px'}}>Goal Success</div>
+                        <div className={styles['Succes-score']}>{goal?.data.success_score}</div>
                         <Tooltip
                             title="Success Score"
                             placement="bottomRight"
                             overlayStyle={{marginRight:'10px'}}
-                            className={styles["Vel-name"]}
                             mouseLeaveDelay={0}
                         >
-                        <AiOutlineQuestionCircle size={30} style={{ marginLeft: '6px'}}/>
+                        <AiOutlineQuestionCircle size={30} style={{ color: '#D2D1D1', marginLeft: '6px'}}/>
                         </Tooltip>
-                    </h3>
+                    </div>
             <div className={styles["chart-container"]}>
                 <Line
                     options={options}
@@ -346,12 +327,12 @@ const GoalDetails = () => {
                 { o.data.status == 'new' && (
                 
                     <div className={styles["Rec-wrap"]} key={key}>
-                        <Button onClick={()=>handleClick('new', o.info)} className={styles["Rec-Guidance"]} type="primary"  style={{ color: v['secondary-color1'] , backgroundColor: `rgba(214 214 214 / 0.16)` }}>
+                        {o.info && (<Button onClick={()=>handleClick('new', o.info)} className={styles["Rec-Guidance"]} type="primary"  style={{ color: v['secondary-color1'] , backgroundColor: `rgba(246, 187, 161, 0.11)` }}>
 
                             {/* <span className={styles["Rec-Text"]}><ReactMarkdown>{o.info.description_md}</ReactMarkdown></span> */}
-                            <span className={styles["Rec-Text"]}>{o.info.name}</span>
+                          {o.info.name && (<span className={styles["Rec-Text"]}>{o.info.name}</span>)}
                             <RightOutlined className={styles["Arrow"]}/>
-                        </Button>
+                        </Button>)}
                     </div>
                 
                 )}
@@ -371,7 +352,7 @@ const GoalDetails = () => {
                 {o.data && <div key={o.data.id}>
                 {o.data.status === 'active' && (
                     <div className={styles["Rec-wrap"]}>
-                        <Button onClick={()=>handleClick('active',o.info)}  className={styles["Rec-Guidance"]} type="primary"  style={{ color: v['secondary-color1'] , backgroundColor: `rgba(101 127 209 / 0.16)` }}>
+                        <Button onClick={()=>handleClick('active',o.info)}  className={styles["Rec-Guidance"]} type="primary"  style={{ color: v['secondary-color1'] , backgroundColor: `rgba(246, 187, 161, 0.16)` }}>
                             <span className={styles["Rec-Text"]}>{o.info.name}</span>
                             <RightOutlined className={styles["Arrow"]}/>
                         </Button>
@@ -395,7 +376,7 @@ const GoalDetails = () => {
                 { o.data && o.data.status === 'inactive' && (
                
                     <div className={styles["Rec-wrap"]}>
-                        <Button onClick={()=>handleClick('inactive',o.info)}  className={styles["Rec-Guidance"]} type="primary"  style={{ color: v['secondary-color1'] , backgroundColor: `rgba(25 150 44 / 0.16)` }}>
+                        <Button onClick={()=>handleClick('inactive',o.info)}  className={styles["Rec-Guidance"]} type="primary"  style={{ color: v['secondary-color1'] , backgroundColor: 'rgba(214, 214, 214, 0.24)' }}>
                             <span className={styles["Rec-Text"]}>{o.info.name}</span>
                             <RightOutlined className={styles["Arrow"]}/>
                         </Button>

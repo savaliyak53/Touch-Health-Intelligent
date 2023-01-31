@@ -7,12 +7,13 @@
     margin-top: 30px;
 }
 .Prevn-text {
+font-family: 'DM Serif Display', serif;
 color: $secondary-color1;
-font-weight: 700;
-font-size: 28px;
+font-weight: 400;
+font-size: 32px;
 line-height: 28px;
 margin-bottom: 0;
-margin-right: 15px;
+margin-left: 12px;
 }
 .Prevn-btn {
 background: transparent !important;
@@ -46,8 +47,9 @@ line-height: 21px;
 margin-bottom: 0;
 display: flex;
 align-items: center;
+justify-content: space-between;
 text-align: start;
-width: 60%;
+width: 100%;
 }
 .Vel-number {
 color: $secondary-color1;
@@ -74,21 +76,28 @@ width: 100%;
 }
 .Guidance-title,
 .Chart-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
     text-align: start;
     margin-top: 30px;
-    font-size: 22px;
+    font-size: 25px;
     line-height: 1.2;
     font-weight: 600;
     margin-bottom: 10px;
-    color: $secondary-color1;
+    color: $primary-color1;
     margin-left: 10px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 .Chart-title {
     margin-top: 30px;
 }
 
+.Succes-score {
+    color: $primary-color2;
+    font-size: 40px;
+}
 .Rec-wrap {
     display: flex;
     justify-content: start;
@@ -99,7 +108,8 @@ width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        max-width: 48%;
+        min-height: 130px;
+        width: 100%;
         padding: 16px;
         border-radius: 16px;
         border: none;
@@ -124,6 +134,11 @@ width: 100%;
             background-color: transparent !important;
         }
     }
+}
+.Rec-Text {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
 }
 .Modal-subtitle {
 color: #647ED1;
@@ -154,7 +169,6 @@ font-style: italic;
 }
 .chart-container {
     position: relative;
-    margin: auto;
     height: 30vh;
     width: 100%;
   }

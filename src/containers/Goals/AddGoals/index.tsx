@@ -147,6 +147,7 @@ const AddGoals = () => {
         toast.success('Goal removed');
         setSearchValue('');
         getGoalsData();
+        setIsModalOpen(false);
         isDisable ? setIsDisabled(false) : null
       })
       .catch((error: any) => {
@@ -317,14 +318,14 @@ const AddGoals = () => {
       >
         <h3 className={styles['Goals-title']}>{selectedGoal?.name}</h3>
         {selectedGoal && (
-          <p className={styles['Des-Goal']}>
+          <div className={styles['Des-Goal']}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
               {selectedGoal.description_md}
             </ReactMarkdown>
-          </p>
+          </div>
         )}
         <div className={styles['Modal-Btn-Group']}>
-          {active ? (
+          {goals.filter((goal: any) => {return goal.name == selectedGoal?.name})[0]?.name ? (
               <Button
                 className="Pref-btn btn"
                 loading={isLoading}
