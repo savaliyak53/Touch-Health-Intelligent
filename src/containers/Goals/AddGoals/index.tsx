@@ -281,7 +281,7 @@ const AddGoals = () => {
               className={styles['Selected-Goal']}
               style={{
                 color: `${v['primary-color2']}`,
-                backgroundColor: `${'rgba(232, 232, 232, 0.31)'}`,
+                backgroundColor: `${'rgba(246, 187, 161, 0.22)'}`,
               }}
               onClick={(e) => {e.stopPropagation(); showModal(data); setActive(true)}}
             >
