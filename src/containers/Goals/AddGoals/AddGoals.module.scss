@@ -4,11 +4,12 @@
   text-align: center;
 }
 .Title {
+  font-family: 'DM Serif Display', serif;
   text-align: center;
   margin-top: 50px;
-  font-size: 28px;
+  font-size: 35px;
   line-height: 1.2;
-  font-weight: 600;
+  font-weight: 400;
   margin-bottom: 40px;
   color: $secondary-color1;
 }
@@ -19,28 +20,28 @@ Select {
 .Goals-title,
 .Des-Short,
 .Des-Goal {
+  font-family: 'Raleway', sans-serif;
   text-align: start;
   margin-top: 50px;
   font-size: 22px;
   line-height: 1.2;
   font-weight: 600;
   margin-bottom: 10px;
-  color: $secondary-color1;
+  color: $primary-color1;
   margin-left: 10px;
 }
 .Health-Goals,
 .Rec-wrap {
-  display: flex;
-  justify-content: start;
-  flex-wrap: wrap;
   margin-bottom: 40px;
 
   .Rec-Goal,
   .Selected-Goal {
+    font-family: 'Raleway', sans-serif;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 48%;
+    width: 100%;
+    min-height: 140px;
     padding: 16px;
     border-radius: 16px;
     border: none;
@@ -68,6 +69,7 @@ Select {
 }
 .Health-Goals {
   justify-content: start;
+  margin-bottom: 100px;
 }
 
 .Selected-Goal {

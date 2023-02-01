@@ -296,11 +296,12 @@ const GoalDetails = () => {
                         <div style={{fontSize: '25px'}}>Goal Success</div>
                         <div className={styles['Succes-score']}>
                             {goal?.data.success_score} 
-                            <div className={styles['Velocity']} style={{color: `${goal.data.velocity && goal.data.velocity < 0 ? v['primary-color1'] : 'green'}`}}>
-                                {goal?.data.velocity} 
-                                {goal.data.velocity && (goal.data.velocity < 0 ? <CaretDownOutlined style={{color: v['primary-color1']}}/> : <CaretUpOutlined style={{color: 'green'}}/>)}
-                            </div>
-                           
+                            { goal.data.velocity !== null && (
+                                <div className={styles['Velocity']} style={{color: `${goal.data.velocity == 0 ? 'grey' : goal.data.velocity < 0 ? v['primary-color1'] : 'green'}`}}>
+                                    {goal?.data.velocity} 
+                                    {goal.data.velocity == 0 ? null : goal.data.velocity < 0 ? <CaretDownOutlined style={{color: v['primary-color1']}}/> : <CaretUpOutlined style={{color: 'green'}}/>}
+                                </div>
+                            )}
                         </div>
 
                         <Tooltip

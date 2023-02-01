@@ -201,11 +201,11 @@ input {
   height: auto;
   padding: 18px 54px;
   background-color: transparent;
-  color: $primary-color1;
+  color: $primary-color2;
   font-size: 20px;
   line-height: 24px;
   font-weight: 400;
-  border: 2px solid $primary-color1;
+  border: 2px solid $primary-color2;
   margin: 20px auto 0;
   max-width: 400px;
   display: block;
@@ -214,14 +214,14 @@ input {
   &:hover,
   &:focus,
   &:active {
-    background-color: $primary-color1;
+    background-color: $primary-color2;
     color: #fff;
-    border-color: $primary-color1;
+    border-color: $primary-color2;
   }
   &.disabled {
-    background-color: rgba($primary-color1, 0.2);
-    border: 2px solid $primary-color1;
-    color: $primary-color1;
+    background-color: rgba(#3A3A3A, 0.2);
+    border: 2px solid $primary-color2;
+    color: $primary-color2;
   }
   &.Guidance-active-btn,
   &.Inactive-Guidance-active-btn,
@@ -465,12 +465,12 @@ input {
   }
 }
 .Goal-Select-Wrap {
-  border: 2px solid #6680D1;
+  border: 2px solid $primary-color2;
   border-radius: 100px;
   position: relative;
   display: block;
   .ant-select {
-    color: #6680D1 !important;
+    color: $primary-color2 !important;
     padding: 0;
     width: 100%;
     font-size: 20px !important;
@@ -481,7 +481,7 @@ input {
     height: 64px;
 
     .ant-select-selection-placeholder {
-      color: #6680D1;
+      color: $primary-color2;
     }
 
     &:not(.ant-select-customize-input) {
@@ -507,7 +507,7 @@ input {
         &:not(.ant-select-customize-input) {
           .ant-select-selector {
             .ant-select-selection-search-input {
-              color: #6680D1;
+              color: $primary-color2;
             }
           }
         }
@@ -520,7 +520,7 @@ input {
     top: 50%;
     transform: translateY(-50%);
     z-index: 1;
-    color: #6680D1;
+    color: $primary-color2;
 
     &.anticon-search {
       left: 20px;
@@ -534,7 +534,7 @@ input {
   }
 }
 .ant-select-dropdown.ant-select-dropdown-placement-bottomLeft {
-  border: 2px solid $primary-color1;
+  border: 2px solid $primary-color2;
   border-radius: 30px;
   padding: 20px;
   color: $primary-color2;
