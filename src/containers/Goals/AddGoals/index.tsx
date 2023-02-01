@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './AddGoals.module.scss';
+import v from '../../../variables.module.scss'
 import Layout from '../../../layouts/Layout/Layout';
 import { LeftOutlined } from '@ant-design/icons';
 import {
@@ -259,8 +260,8 @@ const AddGoals = () => {
               type="primary"
               onClick={() => showModal(data)}
               style={{
-                color: `${'#' + data.color}`,
-                backgroundColor: `${'#' + data.color + '29'}`,
+                color: `${v['primary-color2']}`,
+                backgroundColor: `${'rgba(232, 232, 232, 0.31)'}`,
               }}
             >
               {data.name === '' ? (
@@ -279,8 +280,8 @@ const AddGoals = () => {
               key={key}
               className={styles['Selected-Goal']}
               style={{
-                color: `${'#' + data.color}`,
-                backgroundColor: `${'#' + data.color + '29'}`,
+                color: `${v['primary-color2']}`,
+                backgroundColor: `${'rgba(232, 232, 232, 0.31)'}`,
               }}
               onClick={(e) => {e.stopPropagation(); showModal(data); setActive(true)}}
             >
