@@ -52,3 +52,11 @@ export const onlyNumbers = (str: string) => {
 export const getDayInitial = (index:number) =>{
   return day[index];
 }
+export const timeFrom = (X:any) => {
+  const dates = [];
+  for (let I = 0; I < Math.abs(X); I++) {
+    const thisDate= new Date(new Date().getTime() - ((X >= 0 ? I : (I - I - I)) * 24 * 60 * 60 * 1000))
+      dates.push([dateFormatted(thisDate),getDayInitial(thisDate.getDay())]);
+  }
+  return dates;
+}

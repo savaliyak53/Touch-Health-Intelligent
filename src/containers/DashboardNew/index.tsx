@@ -8,7 +8,7 @@ import { Spin } from 'antd';
 import { toast } from 'react-toastify';
 import { getDashboard } from '../../services/dashboardservice';
 import { useNavigate } from 'react-router-dom';
-import { dateFormatted, getDayInitial } from '../../utils/lib';
+import { timeFrom } from '../../utils/lib';
 const DashboardNew = () => {
   const [elements, setElements] = useState<any>();
   const [elementStreak, setElementStreak] = useState<any>();
@@ -54,14 +54,7 @@ const DashboardNew = () => {
       });
   }, []);
   
-  const timeFrom = (X:any) => {
-    const dates = [];
-    for (let I = 0; I < Math.abs(X); I++) {
-      const thisDate= new Date(new Date().getTime() - ((X >= 0 ? I : (I - I - I)) * 24 * 60 * 60 * 1000))
-        dates.push([dateFormatted(thisDate),getDayInitial(thisDate.getDay())]);
-    }
-    return dates;
-}
+  
   return (
     <Layout defaultHeader={true} hamburger={true} dashboard={false}>
       <Spin spinning={loading}>

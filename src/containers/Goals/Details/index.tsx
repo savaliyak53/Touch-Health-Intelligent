@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styles from'./GoalDetails.module.scss';
+import streakStyles from'../../DashboardNew/DashboardNew.module.scss';
 import v from '../../../variables.module.scss'
 import Layout from '../../../layouts/Layout/Layout';
-import { Button, Modal, Tooltip, Spin, Progress } from 'antd';
+import { Modal,  Spin } from 'antd';
+import {Row, Col, Typography, Tooltip, Button, Progress } from 'antd'
 import { DeleteOutlined, LeftOutlined, RightOutlined, CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { toast } from 'react-toastify';
@@ -17,13 +19,14 @@ import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 import rehypeRaw from "rehype-raw";
 import { guidanceStatus } from '../../../services/authservice';
-import Authstyles from "../../Auth/Auth.module.scss"
 import moment from 'moment'
+import { timeFrom } from '../../../utils/lib';
 const GoalDetails = () => {
     const [goal, setGoal] = useState<any>()
     const [open, setOpen] = useState<boolean>(false)
     const [type, setType] = useState<string>()
     const [guidanceData, setGuidanceDate] = useState<any>()
+    const [followUpPattern, setFollowUpPattern] = useState<any>()
 
     const [dataset, setDataset] = useState<any>();
     const [startDate, setForecastStartDate] = useState<any>();
@@ -197,6 +200,26 @@ const GoalDetails = () => {
      setOpen(true)
      setType(type)
      setGuidanceDate(info)
+
+     //calculate followUpPattern
+     const dates= timeFrom(14).sort((a:any, b:any) => a[0].localeCompare(b[0]));
+     const new_streaks=dates.map((item,index)=> {
+      const this_date=info.followup_pattern && info.followup_pattern.find((checkup:any)=>checkup[0]===item[0])
+      if(!this_date && index===13){
+        return dates[index]= [...dates[index], "purple"]
+      }
+      else if(this_date && this_date[1]===false && index===13){
+        return dates[index]= [...dates[index], "purple"]
+      }
+      else if(this_date && this_date[1]===true){
+        return dates[index]= [...dates[index], "orange"]
+      }
+      else{
+        return dates[index]= [...dates[index], "grey"]
+      }
+     })
+     console.log('dates: ', dates)
+     setFollowUpPattern(new_streaks)
     }
     const handleClose = ( )=>{
         setType(undefined)
@@ -402,7 +425,54 @@ const GoalDetails = () => {
                 footer={false}
                 onCancel={handleClose}
             >
-                {/* <h2 className={`${styles["popup-title"]} `}>Find your path to health</h2> */}
+
+                {/* show streak */}
+
+                <Row>
+                <Col span={21}>
+                    <Row>
+                    <Col span={24}>
+                        <div className={streakStyles.TagWrap}>
+                        {followUpPattern && followUpPattern.map((item:any,index:number)=> {
+                            if(item[2]==="purple"){
+                                return <div className={streakStyles.Tag} key={index}>
+                                <div className={streakStyles.Streak} style={{backgroundColor:'#6A2C70'}}></div>
+                                <div className={streakStyles.StreakDay}>{item[1]}</div>
+                            </div>
+                            }
+                            else if(item[2]==="grey"){
+                                return <div className={streakStyles.Tag} key={index}>
+                                <div className={streakStyles.Streak} style={{backgroundColor:'#E8E8E8'}}></div>
+                                <div className={streakStyles.StreakDay}>{item[1]}</div>
+                            </div>
+                            }
+                            else if(item[2]==="orange"){
+                            return <div className={streakStyles.Tag} key={index}>
+                                <div className={streakStyles.Streak} style={{backgroundColor:'#F08A5D'}}></div>
+                                <div className={streakStyles.StreakDay}>{item[1]}</div>
+                            </div>
+                            }
+                        }
+                        )}  
+                        </div>
+                    </Col>
+                    
+                    </Row>
+                </Col>
+                <Col span={1}>
+                </Col>
+                <Col span={2}>
+                <Tooltip
+                    title="Success Score"
+                    placement="bottomRight"
+                    overlayStyle={{marginRight:'10px'}}
+                    mouseLeaveDelay={0}
+                    style={{marginRight: '10px'}}
+                >
+                <AiOutlineQuestionCircle size={30} style={{ color: '#D2D1D1', marginLeft: '6px'}}/>
+                </Tooltip>
+                </Col>
+                </Row>
                 {type && type ==='inactive' && <p className={styles["Modal-subtitle"]}>Inactive</p>}
                 {type && type ==='active' && <p className={styles["Modal-subtitle"]}>Active</p>}
                 {type && <h2 className={`${styles["popup-title"]} `}>{guidanceData?.name}</h2> } 
