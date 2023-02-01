@@ -40,7 +40,7 @@ export const dateFormat = (d: any) => {
   return t.getDate() + '-' + monthNames[t.getMonth()] + '-' + t.getFullYear();
 };
 export const dateFormatted = (d: Date) => {
-  return d.getFullYear() +'-'+ monthNum[d.getMonth()] + '-' +d.getDate() ;
+  return d.getFullYear() +'-'+ monthNum[d.getMonth()] + '-' +d.getDate().toString().padStart(2, "0") ;
 };
 export const dateFormatRenewal = (d: any) => {
   const t = new Date(d);
