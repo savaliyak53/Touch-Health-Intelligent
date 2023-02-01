@@ -3,7 +3,7 @@ import styles from'./GoalDetails.module.scss';
 import v from '../../../variables.module.scss'
 import Layout from '../../../layouts/Layout/Layout';
 import { Button, Modal, Tooltip, Spin, Progress } from 'antd';
-import { DeleteOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { DeleteOutlined, LeftOutlined, RightOutlined, CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import ReactMarkdown from 'react-markdown'
@@ -77,9 +77,9 @@ const GoalDetails = () => {
 
             //setForecastData
             const forecast = response?.data.forecast.expectation;
+            forecastArray = []
             for (let i = 0; i < forecast.length; i++) {
                 const dataArray = [];
-                forecastArray = []
                 dataArray.push(forecastTime[i]);
                 dataArray.push(forecast[i]);
                 forecastArray.push(dataArray);
@@ -91,9 +91,9 @@ const GoalDetails = () => {
             });
             //setHistoricalData
             const expectation = response?.data.historical.expectation;
+            historicalArray = []
             for (let i = 0; i < expectation.length; i++) {
                 const dataArray = [];
-                historicalArray = []
                 dataArray.push(historicalTime[i]);
                 dataArray.push(expectation[i]);
                 historicalArray.push(dataArray);
@@ -245,8 +245,8 @@ const GoalDetails = () => {
                     <span className={styles["Vel-name"]}>
                         G
                         <Progress 
-                            style={{opacity: 0.5, margin: '0 25px'}}
-                            percent={70} 
+                            style={{margin: '0 25px'}}
+                            percent={goal.data.success_score} 
                             showInfo={false}
                             strokeColor={v['secondary-color1']}
                             strokeWidth={20}
@@ -266,8 +266,8 @@ const GoalDetails = () => {
                     <span className={styles["Vel-name"]}>
                         D
                         <Progress 
-                            style={{opacity: 0.5, margin: '0 25px'}}
-                            percent={70} 
+                            style={{margin: '0 25px'}}
+                            percent={goal.data.data_score} 
                             showInfo={false}
                             strokeColor={v['secondary-color2']}
                             strokeWidth={20}
@@ -291,12 +291,21 @@ const GoalDetails = () => {
                 <>
                     <div className={styles["Chart-title"]}>
                         <div style={{fontSize: '25px'}}>Goal Success</div>
-                        <div className={styles['Succes-score']}>{goal?.data.success_score}</div>
+                        <div className={styles['Succes-score']}>
+                            {goal?.data.success_score} 
+                            <div className={styles['Velocity']} style={{color: `${goal.data.velocity && goal.data.velocity < 0 ? v['primary-color1'] : 'green'}`}}>
+                                {goal?.data.velocity} 
+                                {goal.data.velocity && (goal.data.velocity < 0 ? <CaretDownOutlined style={{color: v['primary-color1']}}/> : <CaretUpOutlined style={{color: 'green'}}/>)}
+                            </div>
+                           
+                        </div>
+
                         <Tooltip
                             title="Success Score"
                             placement="bottomRight"
                             overlayStyle={{marginRight:'10px'}}
                             mouseLeaveDelay={0}
+                            style={{marginRight: '10px'}}
                         >
                         <AiOutlineQuestionCircle size={30} style={{ color: '#D2D1D1', marginLeft: '6px'}}/>
                         </Tooltip>
@@ -324,7 +333,7 @@ const GoalDetails = () => {
                 { o.data.status == 'new' && (
                 
                     <div className={styles["Rec-wrap"]} key={key}>
-                        {o.info && (<Button onClick={()=>handleClick('new', o.info)} className={styles["Rec-Guidance"]} type="primary"  style={{ color: v['secondary-color1'] , backgroundColor: `rgba(246, 187, 161, 0.11)` }}>
+                        {o.info && (<Button onClick={()=>handleClick('new', o.info)} className={styles["Rec-Guidance"]} type="primary"  style={{ color: v['secondary-color1'] , backgroundColor: `rgba(106, 44, 112, 0.11)` }}>
 
                             {/* <span className={styles["Rec-Text"]}><ReactMarkdown>{o.info.description_md}</ReactMarkdown></span> */}
                           {o.info.name && (<span className={styles["Rec-Text"]}>{o.info.name}</span>)}
