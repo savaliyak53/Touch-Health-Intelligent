@@ -17,11 +17,8 @@ import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 import rehypeRaw from "rehype-raw";
 import { guidanceStatus } from '../../../services/authservice';
-import { dateFormatRenewal } from '../../../utils/lib';
-import { getInteractionServiceByType, preferencesService } from '../../../services/authservice';
+import Authstyles from "../../Auth/Auth.module.scss"
 import moment from 'moment'
-
-
 const GoalDetails = () => {
     const [goal, setGoal] = useState<any>()
     const [open, setOpen] = useState<boolean>(false)
@@ -396,39 +393,50 @@ const GoalDetails = () => {
                 footer={false}
                 onCancel={handleClose}
             >
+                {/* <h2 className={`${styles["popup-title"]} `}>Find your path to health</h2> */}
                 {type && type ==='inactive' && <p className={styles["Modal-subtitle"]}>Inactive</p>}
                 {type && type ==='active' && <p className={styles["Modal-subtitle"]}>Active</p>}
-                {type && type === 'new' && <h2 className={styles["Modal-Title"]}>New Guidance</h2> } 
-                {guidanceData && <ReactMarkdown rehypePlugins={[rehypeRaw]}>{guidanceData.description_md}</ReactMarkdown>}
+                {type && <h2 className={`${styles["popup-title"]} `}>{guidanceData?.name}</h2> } 
+                {guidanceData && <p className={styles["markdown-desc"]}><ReactMarkdown rehypePlugins={[rehypeRaw]}>{guidanceData?.description_md}</ReactMarkdown></p>}
                 
-                {type === 'active' && <Button
-                    className="Pref-btn btn Guidance-Inactive-btn"
+                {type === 'active' && 
+                <div className={styles.GuidanceBtnWrap}>
+                <Button
+                   // className="Pref-btn btn Guidance-Inactive-btn GuidanceBtn"
+                    className={styles.GuidanceBtn}
                     onClick={()=>handleGuidanceStatus('inactive')}
                 >
                     Inactivate guidance
-                </Button>}
-                {(type === 'new') && <div className='Btn-group'>
-                    <Button
-                        className="Pref-btn btn Guidance-Inactive-btn"
-                        onClick={()=>handleGuidanceStatus('inactive')}
-                    >
-                        Not for me
-                    </Button>
-                    <Button
-                        className="Pref-btn btn  Guidance-active-btn"
-                        onClick={()=>handleGuidanceStatus('active')}
-                    >
-                        Activate guidance
-                    </Button>
+                </Button>
                 </div>}
-                {(type === 'inactive') && <div className='Btn-group'>
-                    <Button
-                        className="Pref-btn btn  Inactive-Guidance-active-btn"
-                        onClick={()=>handleGuidanceStatus('active')}
-                    >
-                        Activate guidance
-                    </Button>
-                </div>}
+                {(type === 'new') && 
+
+                    <div className={styles.GuidanceBtnActiveWrap}>
+                         <Button
+                        // className="Pref-btn btn Guidance-Inactive-btn GuidanceBtn"
+                            className={styles.GuidanceNotBtn}
+                            onClick={()=>handleGuidanceStatus('inactive')}
+                        >
+                            Not For me
+                        </Button>
+                        <Button
+                        // className="Pref-btn btn Guidance-Inactive-btn GuidanceBtn"
+                            className={styles.GuidanceActiveBtn}
+                            onClick={()=>handleGuidanceStatus('active')}
+                        >
+                            Activate guidance
+                        </Button>
+                    </div>
+                }
+                {(type === 'inactive') && <div className={styles.GuidanceBtnActiveWrap}>
+                        <Button
+                        // className="Pref-btn btn Guidance-Inactive-btn GuidanceBtn"
+                            className={styles.GuidanceActiveBtn}
+                            onClick={()=>handleGuidanceStatus('active')}
+                        >
+                            Activate guidance
+                        </Button>
+                    </div>}
                 
             </Modal>
 

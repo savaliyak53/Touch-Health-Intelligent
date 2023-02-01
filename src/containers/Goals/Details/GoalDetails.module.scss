@@ -157,7 +157,7 @@ font-style: italic;
     font-size: 28px;
     font-weight: 500;
     margin-bottom: 30px;
-
+    padding: 4px;
 }
 .Modal-Text {
     color: #647ED1;
@@ -165,14 +165,111 @@ font-style: italic;
     font-weight: 400;
     margin-top: 30px;
     margin-bottom: 10px;
-
 }
 .chart-container {
     position: relative;
     height: 30vh;
     width: 100%;
   }
-  .Backflex {
-    margin-top: 20px;
-    flex-direction: row;
+.Backflex {
+margin-top: 20px;
+flex-direction: row;
+}
+
+.popup-title {
+    align-items: center;
+    color: #6A2C70;
+    font-family: Serif;
+    font-size: 36px;
+    line-height: 1.1;
+    font-weight: 700;
+    margin-bottom: 15px;
+    margin-top: clamp(0px, 7.5vh, 16px);
+}
+.markdown-desc {
+    padding: 10px;
+}
+.GuidanceBtnWrap {
+    position: fixed;
+    bottom: 0;
+    background-color: #fff;
+    width: calc(100% - 40px);
+    padding-bottom: 10px;
+    .GuidanceBtn {
+      border-radius: 100px;
+      height: 100%;
+      padding: 12px 26px;
+      background-color: transparent;
+      color: #E02424;
+      font-size: 20px;
+      line-height: 24px;
+      font-weight: 400;
+      border: 2px solid #E02424;
+      margin: 0 auto;
+      max-width: 400px;
+      display: block;
+      width: 60%;
+    
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: #fff;
+        color: #E02424;
+        border-color: #E02424;
+      }
+    }
   }
+.GuidanceBtnActiveWrap {
+display: flex;
+position: fixed;
+bottom: 0;
+background-color: #fff;
+width: calc(100% - 40px);
+padding-bottom: 10px;
+.GuidanceNotBtn {
+    border-radius: 100px;
+    height: 100%;
+    padding: 12px 26px;
+    background-color: transparent;
+    color: #E02424;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    border: 2px solid #E02424;
+    margin: 0 auto;
+    max-width: 400px;
+    display: block;
+    width: 60%;
+  
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #fff;
+      color: #E02424;
+      border-color: #E02424;
+    }
+  }
+.GuidanceActiveBtn {
+    border-radius: 100px;
+    height: 100%;
+    padding: 12px 26px;
+    background-color: transparent;
+    color: #6A2C70;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    border: 2px solid #6A2C70;
+    margin: 0 auto;
+    max-width: 400px;
+    display: block;
+    width: 60%;
+
+    &:hover,
+    &:focus,
+    &:active {
+    background-color: #fff;
+    color: #6A2C70;
+    border-color: #6A2C70;
+    }
+}
+}
