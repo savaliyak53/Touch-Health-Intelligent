@@ -71,18 +71,20 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
           </Button>
         </div>
         <ul>
-          <li>
-            <Link to="/dashboard">Home</Link>
-          </li>
-          <li>
-            <Link to="/preferences">Preferences</Link>
-          </li>
-          <li>
-            <Link to="/subscription">Subscription</Link>
-          </li>
-          <li>
-            <Link to="/help-and-support">Help and Support</Link>
-          </li>
+          <div className={styles['menu-routes']}>
+            <li>
+              <Link to="/dashboard">Home</Link>
+            </li>
+            <li>
+              <Link to="/preferences">Preferences</Link>
+            </li>
+            <li>
+              <Link to="/subscription">Subscription</Link>
+            </li>
+            <li>
+              <Link to="/help-and-support">Help and Support</Link>
+            </li>
+          </div>
           <li className={styles['Signout']}>
             <a
               onClick={() => {

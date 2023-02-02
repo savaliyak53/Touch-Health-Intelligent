@@ -27,7 +27,8 @@ const GoalDetails = () => {
     const [type, setType] = useState<string>()
     const [guidanceData, setGuidanceDate] = useState<any>()
     const [followUpPattern, setFollowUpPattern] = useState<any>()
-
+    const [loading, setLoading] = useState(false);
+    const [loading2, setLoading2] = useState(false);
     const [dataset, setDataset] = useState<any>();
     const [startDate, setForecastStartDate] = useState<any>();
     const [lastDate, setForecastLastDate] = useState<any>();
@@ -233,6 +234,8 @@ const GoalDetails = () => {
                 if(goalId){
                  getGoalDetails(goalId)
                 }
+                setLoading(false)
+                setLoading2(false)
               setOpen(false)
             }
           })
@@ -464,7 +467,7 @@ const GoalDetails = () => {
                 </Col>
                 <Col span={2}>
                 <Tooltip
-                    title="Success Score"
+                    title="Try maintaining a streak by completing your checkups regularly!"
                     placement="bottomRight"
                     overlayStyle={{marginRight:'10px'}}
                     mouseLeaveDelay={0}
@@ -484,7 +487,8 @@ const GoalDetails = () => {
                 <Button
                    // className="Pref-btn btn Guidance-Inactive-btn GuidanceBtn"
                     className={styles.GuidanceBtn}
-                    onClick={()=>handleGuidanceStatus('inactive')}
+                    onClick={() => {handleGuidanceStatus('inactive'); setLoading(true)}}
+                    loading={loading}
                 >
                     Inactivate guidance
                 </Button>
@@ -493,16 +497,16 @@ const GoalDetails = () => {
 
                     <div className={styles.GuidanceBtnActiveWrap}>
                          <Button
-                        // className="Pref-btn btn Guidance-Inactive-btn GuidanceBtn"
                             className={styles.GuidanceNotBtn}
-                            onClick={()=>handleGuidanceStatus('inactive')}
+                            onClick={() => {handleGuidanceStatus('inactive'); setLoading2(true)}}
+                            loading={loading2}
                         >
                             Not For me
                         </Button>
                         <Button
-                        // className="Pref-btn btn Guidance-Inactive-btn GuidanceBtn"
                             className={styles.GuidanceActiveBtn}
-                            onClick={()=>handleGuidanceStatus('active')}
+                            onClick={() => {handleGuidanceStatus('active'); setLoading(true)}}
+                            loading={loading}
                         >
                             Activate guidance
                         </Button>
@@ -510,9 +514,9 @@ const GoalDetails = () => {
                 }
                 {(type === 'inactive') && <div className={styles.GuidanceBtnActiveWrap}>
                         <Button
-                        // className="Pref-btn btn Guidance-Inactive-btn GuidanceBtn"
                             className={styles.GuidanceActiveBtn}
-                            onClick={()=>handleGuidanceStatus('active')}
+                            onClick={() => {handleGuidanceStatus('active'); setLoading(true)}}
+                            loading={loading}
                         >
                             Activate guidance
                         </Button>
