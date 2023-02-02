@@ -230,12 +230,19 @@ const Preferences = () => {
             </div>
             <div>
               <h3 className={styles['Question-title']} style={{fontSize: '22px'}}>
-                Data Use               
+                Data Use      
+                <Tooltip
+                    title={'You can control data sharing here!'}
+                    placement="bottomRight"
+                    overlayStyle={{marginRight:'10px'}}
+                    mouseLeaveDelay={0}
+                >         
                 <AiOutlineQuestionCircle
                     size={30}
                     className="question-help"
                     style={{marginLeft: '10px'}}
                   />
+                  </Tooltip>
               </h3>
 
               <Button className={`Pref-post-btn ${styles['Data-dlt-btn']}`}>  Delete all my data</Button>
@@ -245,11 +252,18 @@ const Preferences = () => {
               <div >
                 <h3 className={styles['Question-title']} style={{fontSize: '22px'}}>
                   Biological Sex
-                  <AiOutlineQuestionCircle
-                      size={30}
-                      className="question-help"
-                      style={{marginLeft: '10px'}}
+                  <Tooltip
+                    title={'Please choose the sex assigned to you at the time of birth.'}
+                    placement="bottomRight"
+                    overlayStyle={{marginRight:'10px'}}
+                    mouseLeaveDelay={0}
+                  >   
+                    <AiOutlineQuestionCircle
+                        size={30}
+                        className="question-help"
+                        style={{marginLeft: '10px'}}
                     />
+                  </Tooltip>
                 </h3>
                 <Button className='Pref-post-btn' disabled={true}>{sex.charAt(0).toUpperCase() + sex.slice(1)}</Button>
               </div>

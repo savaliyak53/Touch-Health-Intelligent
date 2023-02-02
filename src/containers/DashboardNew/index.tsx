@@ -101,7 +101,7 @@ const DashboardNew = () => {
           </Col>
           <Col span={2}>
             <Tooltip
-              title='Any text here'
+              title='Try maintaining a streak by completing your checkups regularly!'
               placement="bottomRight"
               overlayStyle={{ marginRight: '10px' }}
               color="blue"

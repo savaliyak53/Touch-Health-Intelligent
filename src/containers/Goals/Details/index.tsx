@@ -255,7 +255,7 @@ const GoalDetails = () => {
                             strokeWidth={20}
                         />
                         <Tooltip
-                            title={'Some Text To be Display'}
+                            title={'Track your goal score now! The more coloured the bar the better you are doing.'}
                             placement="bottomRight"
                             overlayStyle={{marginRight:'10px'}}
                             mouseLeaveDelay={0}
@@ -276,7 +276,7 @@ const GoalDetails = () => {
                             strokeWidth={20}
                         />
                         <Tooltip
-                            title={'Some Text To be Display'}
+                            title={'This shows how much data Pie needs from you for this goal.'}
                             placement="bottomRight"
                             overlayStyle={{marginRight:'10px'}}
                             mouseLeaveDelay={0}
@@ -305,7 +305,7 @@ const GoalDetails = () => {
                         </div>
 
                         <Tooltip
-                            title="Success Score"
+                            title="The score and plot represent your progress for this goal."
                             placement="bottomRight"
                             overlayStyle={{marginRight:'10px'}}
                             mouseLeaveDelay={0}
