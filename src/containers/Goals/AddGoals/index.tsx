@@ -281,20 +281,34 @@ const AddGoals = () => {
               className={styles['Selected-Goal']}
               style={{
                 color: `${v['primary-color2']}`,
-                backgroundColor: `${'rgba(232, 232, 232, 0.31)'}`,
+                backgroundColor: `${'rgba(246, 187, 161, 0.22)'}`,
               }}
               onClick={(e) => {e.stopPropagation(); showModal(data); setActive(true)}}
             >
-              {data.name === '' ? (
-                ''
-              ) : (
-                <span className={styles['Rec-Text']}>{data.name}</span>
-              )}
+              <div className={styles['Mygoals-Title']}>
+                <Button
+                  className={styles['Cross-btn']}
+                  onClick={(e) => {e.stopPropagation(); removeGoal(data.id)}}
+                >
+                  <CloseOutlined className={styles['Cross']} />
+                </Button>
+                {data.name === '' ? (
+                  ''
+                ) : (
+                  <span className={styles['Rec-Text']}>{data.name}</span>
+                )}
+              </div>
               <Button
-                className={styles['Cross-btn']}
-                onClick={(e) => {e.stopPropagation(); removeGoal(data.id)}}
+                key={key}
+                onClick={() => showModal(data)}
+                style={{
+                  color: `${v['primary-color2']}`,
+                  backgroundColor: `transparent`,
+                  border: '0px',
+                  padding: 0
+                }}
               >
-                <CloseOutlined className={styles['Cross']} />
+                <RightOutlined className={styles['Arrow']} />
               </Button>
             </div>
           ))}
