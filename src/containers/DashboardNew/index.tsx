@@ -42,9 +42,15 @@ const DashboardNew = () => {
             return dates[index]= [...dates[index], "grey"]
           }
          })
-         console.log('dates: ', dates)
          setElementStreak(new_streaks)
-         setStreakCount(response.data.checkup_streak)
+         //updated pattern shows check true on today or yesterday then the streak is valid, otherwise zero
+         if(dates[13][2]==="orange" || dates[12][2] === "orange"){
+          setStreakCount(response.data.checkup_streak)
+         }
+         else {
+          setStreakCount(0)
+         }
+        
         }
       })
       .catch((error) => {
