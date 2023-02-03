@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './index.scss';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import Button from '../../components/Button';
 import { toast } from 'react-toastify';
 import Question from '../../components/Question';
 import {
   getInteractionService,
+  getInteractionServiceByType,
   getUser,
   postInteractionService,
   preferencesService,
@@ -27,6 +28,7 @@ function UserCondition() {
 
 
   const navigate = useNavigate();
+  const location = useLocation();
   const getInteraction = () => {
     getInteractionService()
       .then((response) => {
@@ -98,8 +100,27 @@ function UserCondition() {
     });          
   }
   useEffect(() => {
-    getInteraction();
+    if(location && location.pathname ==='/c/checkup'){
+      handleInitiateCheckupByLink();
+    }
+    else{
+      getInteraction();
+    }
   }, []);
+  const handleInitiateCheckupByLink = () =>{
+    getInteractionServiceByType('checkup')
+    .then((response: any) => {
+      if (response) {
+        getInteraction();
+      } else {
+        toast.error(`Something went wrong while Initiating Checkup Interaction.`);
+        navigate('/dashboard');
+      }
+    })
+    .catch((error) => {
+      toast.error(`Something went wrong while Initiating Checkup Interaction.`);
+    });
+  }
   const onSubmit= async (state?: string, skip?: boolean) => {
     setClicked(true);
     if (
