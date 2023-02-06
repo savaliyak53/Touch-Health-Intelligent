@@ -21,6 +21,8 @@ import rehypeRaw from "rehype-raw";
 import { guidanceStatus } from '../../../services/authservice';
 import moment from 'moment'
 import { timeFrom } from '../../../utils/lib';
+import ConfirmModal from '../../Subscription/ConfirmModal';
+
 const GoalDetails = () => {
     const [goal, setGoal] = useState<any>()
     const [open, setOpen] = useState<boolean>(false)
@@ -33,6 +35,8 @@ const GoalDetails = () => {
     const [startDate, setForecastStartDate] = useState<any>();
     const [lastDate, setForecastLastDate] = useState<any>();
     const [isLoading, setIsLoading] = useState(true);
+    const [showCancelModal, setShowCancelModal] = useState(false);
+
     const navigate = useNavigate()
     let data = {};
     const { id:goalId } = useParams<string>()
@@ -170,6 +174,13 @@ const GoalDetails = () => {
             };
         },
     };
+    const handleOk = (id: any) => {
+        handleDelete(id)
+        setShowCancelModal(false);
+      };
+      const handleCancelModal = () => {
+        setShowCancelModal(false);
+      };
     const getGoalDetails = (goalId:string) => {
         setIsLoading(true)
         goalDetails(goalId)
@@ -259,9 +270,20 @@ const GoalDetails = () => {
             </div>
             {/* Top title with Delete button */}
             <div className={styles["Prevn-wrap"]}>
-                <Button className={styles["Prevn-btn"]} onClick={() => handleDelete(goalId)}><DeleteOutlined style={{ fontSize: '18px', color: '#D2D1D1', cursor: 'pointer' }} /></Button>
+                <Button className={styles["Prevn-btn"]} onClick={() => setShowCancelModal(true)}><DeleteOutlined style={{ fontSize: '18px', color: '#D2D1D1', cursor: 'pointer' }} /></Button>
                 <h2 className={styles["Prevn-text"]}>{goal?.info.name}</h2>
             </div>
+            <ConfirmModal
+                            title={'Confirmation'}
+                            visible={showCancelModal}
+                            handleCancel={handleCancelModal}
+                            handleOk={() => handleOk(goalId)}
+                            renderData={
+                              <div>
+                                Are you sure you want to delete goal?
+                              </div>
+                            }
+                          />
             <Spin spinning={isLoading} className="Spinner"></Spin>
             { goal?.data && (
                 <>
@@ -440,7 +462,7 @@ const GoalDetails = () => {
                         {followUpPattern && followUpPattern.map((item:any,index:number)=> {
                             if(item[2]==="purple"){
                                 return <div className={streakStyles.Tag} key={index}>
-                                <div className={streakStyles.Streak} style={{backgroundColor:'#6A2C70'}}></div>
+                                <div className={streakStyles.Streak} style={{backgroundColor:v['primary-color2']}}></div>
                                 <div className={streakStyles.StreakDay}>{item[1]}</div>
                             </div>
                             }
@@ -452,7 +474,7 @@ const GoalDetails = () => {
                             }
                             else if(item[2]==="orange"){
                             return <div className={streakStyles.Tag} key={index}>
-                                <div className={streakStyles.Streak} style={{backgroundColor:'#F08A5D'}}></div>
+                                <div className={streakStyles.Streak} style={{backgroundColor:v['secondary-color2']}}></div>
                                 <div className={streakStyles.StreakDay}>{item[1]}</div>
                             </div>
                             }
@@ -480,7 +502,7 @@ const GoalDetails = () => {
                 {type && type ==='inactive' && <p className={styles["Modal-subtitle"]}>Inactive</p>}
                 {type && type ==='active' && <p className={styles["Modal-subtitle"]}>Active</p>}
                 {type && <h2 className={`${styles["popup-title"]} `}>{guidanceData?.name}</h2> } 
-                {guidanceData && <p className={styles["markdown-desc"]}><ReactMarkdown rehypePlugins={[rehypeRaw]}>{guidanceData?.description_md}</ReactMarkdown></p>}
+                {guidanceData && <div className={styles["markdown-desc"]}><ReactMarkdown rehypePlugins={[rehypeRaw]}>{guidanceData?.description_md}</ReactMarkdown></div>}
                 
                 {type === 'active' && 
                 <div className={styles.GuidanceBtnWrap}>
