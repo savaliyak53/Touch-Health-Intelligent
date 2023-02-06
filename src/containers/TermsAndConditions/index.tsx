@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import './index.scss';
+import styles from './TermsAndConditions.module.scss';
 import { Typography } from 'antd';
 import { useForm } from 'react-hook-form';
-import { requestPhoneOTP } from '../../services/authservice';
-import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router';
 import Layout from '../../layouts/Layout/Layout';
-import { Checkbox } from 'antd';
 import Button from '../../components/Button';
-import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 type ITerms = {
   termsAndConditions: boolean;
 };
@@ -26,95 +22,29 @@ function TermsAndCondtions() {
     shouldFocusError: true,
     shouldUnregister: false,
   });
-  const sendPhoneOTP = async (userId: any) => {
-    //api call to send email otp
-    const phone = localStorage.getItem('phone');
-    const captchaToken= localStorage.getItem('captchaToken')
-    if(phone && captchaToken){
-      const phoneRequestResponse = await requestPhoneOTP(phone,captchaToken);
-      if (phoneRequestResponse?.response?.data) {
-        toast.error(phoneRequestResponse?.response?.data.details);
-        setIsLoading(false);
-        return false;
-      } else {
-        setIsLoading(false);
-        toast.success('Phone verification code sent');
-        return true;
-      }
-    }
-  };
   const onSubmit = async () => {
-    // setIsLoading(true);
-    // const userId = localStorage.getItem('userId');
-    // if (userId) {
-    //   const isOtpSent = await sendPhoneOTP(userId);
-    //   if (isOtpSent) {
-    //     navigate(`/verification-code`);
-    //   }
-    // } else {
-    //   setIsLoading(false);
-    //   toast.error('Error fetching user data');
-      navigate('/signup');
-    // }
+      navigate('/security');
   };
-  const onChange = (e: CheckboxChangeEvent) => {
-    setTermAndConditions(e.target.checked);
-  };
+
   return (
     <Layout defaultHeader={true} hamburger={false}>
-      <div className="container">
+      <div className={styles.Container}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <Title level={4}>Welcome to Touch Health Assistant</Title>
-            <Paragraph>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.Lorem Ipsum has been the industrys standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged.It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and
-              typesetting industry.Lorem Ipsum has been the industrys standard
-              dummy text ever since the 1500s, when an unknown printer took a
-              galley of type and scrambled it to make a type specimen book. It
-              has survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged.It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </Paragraph>
-            <div className={`Auth-terms`}>
-              <Checkbox
-                id="termsAndConditions"
-                checked={termsAndConditions}
-                {...register('termsAndConditions', {
-                  required: {
-                    value: termsAndConditions ? false : true,
-                    message:
-                      'Please accept the terms and Conditions to proceed!',
-                  },
-                })}
-                onChange={onChange}
-              >
-                I agree to the Terms & Conditions
-              </Checkbox>
-            </div>
-            <span className="error-message">
-              {errors?.termsAndConditions?.message}
-            </span>
-          </div>
+          <Title level={2} className={styles.TermsTitle} style={{color:'#6A2C70'}}>Terms and Conditions</Title>
+          <Paragraph className={styles.TermsText}>
+           {`With that in mind, here are 10 resons to prioritize shut-eye:\n`}</Paragraph>
+          <Paragraph className={styles.TermsText}>{`1. You'll Help Your Brain.\n We simply don't have the maximum brainpower we need to function when we're pooped all the time.
+           Sleep is the essential downtime that gray matter needs to consolidate memories, process emotions, and simply recharge to focus clearly the next day.`}</Paragraph>
 
-          <Button
-            className="terms-btn"
-            loading={isLoading}
-            onClick={handleSubmit(onSubmit)}
-          >
-            Continue
-          </Button>
+          <div className={styles.TermsBtnWrap}>
+            <Button
+              className={styles.TermsBtn}
+              loading={isLoading}
+              onClick={handleSubmit(onSubmit)}
+            >
+             Confirm and sign-up
+            </Button>
+          </div>
         </form>
       </div>
     </Layout>

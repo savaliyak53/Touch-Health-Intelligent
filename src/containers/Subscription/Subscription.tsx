@@ -4,6 +4,8 @@ import { Button, Spin, Typography, Tag } from 'antd';
 // import './Subscription.scss';
 import styles from './Subscription.module.scss';
 import { useParams } from 'react-router-dom';
+import { Alert } from 'antd';
+
 import {
   checkoutPlan,
   getPlansService,
@@ -20,6 +22,8 @@ import { useLocation, useNavigate } from 'react-router';
 import { dateFormatRenewal } from '../../utils/lib';
 import ConfirmModal from './ConfirmModal';
 import { ISubscriptionPlan, IUserSubscription } from './Interfaces';
+import { Link } from 'react-router-dom';
+
 import {
   getInteractionServiceByType,
   getUser,
@@ -27,10 +31,12 @@ import {
   updatePreference,
 } from '../../services/authservice';
 import moment from 'moment';
+import { ReloadOutlined } from '@ant-design/icons';
 const { Meta } = Card;
 
 const Subscription = () => {
   const navigate = useNavigate();
+  let retries = 0;
   const location = useLocation();
   const { id } = useParams();
   const [plans, setPlans] = useState<ISubscriptionPlan[] | undefined>([]);
@@ -44,6 +50,9 @@ const Subscription = () => {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showSwitchModal, setShowSwitchModal] = useState(false);
   const [switchPlanId, setSwitchPlanId] = useState<string>();
+  const [stripeStatus, setStripeStatus] = useState<any>(null);
+  const [retry, setRetry] = useState<any>(false);
+
   const [endDate, setEndDate] = useState(0);
   const [estimateAmount, setEstimateAmount] = useState();
   const showModal = () => {
@@ -104,65 +113,116 @@ const Subscription = () => {
         console.log('Error while getting user plan. ', error);
       });
   };
-  const userCheckoutStatus = () => {
+  const userCheckoutStatus =  () => {
     setSpin(true)
     getStatus()
       .then((response:any) => {
-        if(response.data.status === "complete"){
-          userSubscriptionStatus();
-          fetchPlans();
-          fetchUserSubscription();
-          setSpin(false)
-          const userId = localStorage.getItem('userId');
-          getUser(userId)
-            .then((response) => {
-              if (response.data.signup_status === 'new') {
-                const zoneVal = moment()
-                  .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
-                  .format('Z');
-                const preferenceData = {
-                  timezone: zoneVal,
-                };
-                updatePreference(preferenceData)
-                  .then((preferencesResponse) => {
-                    handleInitialIntake();
-                  })
-                  .catch((error) => {
-                    toast.error(
-                      `${error.response?.data?.title} Something went wrong while updating preference`
-                    );
-                  });
-              } else if (response.data.signup_status == 'done') {
-                setUserSignupStatus(true)
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+       setStripeStatus(response.data.status);
+       setSpin(false);
+       if(response.data.status === "open"){
+        if(retries>=20){
+          setRetry(true);
         }
-        else if(response.data.status === null){
-          setSpin(false)
-          userSubscriptionStatus();
-          fetchPlans();
-          fetchUserSubscription();
+        else{
+          userCheckoutStatus()
+          retries++;
         }
-        else if(response.data.status === "open"){
-          userCheckoutStatus();
-        }
+       }
+       else if(response.data.status === "complete"){
+        return response.data.status;
+       }
       })
       .catch((error) => {
         console.log('Error while getting user plan. ', error);
       });
+    return null;
   };
   useEffect(() => {
-    userCheckoutStatus();
+    const checkout_status:string | null = userCheckoutStatus()
+    if(checkout_status===null){
+      userSubscriptionStatus();
+      fetchPlans();
+      fetchUserSubscription();
+      setSpin(false)
+    }
+    else if(checkout_status === 'complete'){
+      console.log('calling complete')
+      userSubscriptionStatus();
+      fetchPlans();
+      fetchUserSubscription();
+      setSpin(false)
+      const userId = localStorage.getItem('userId');
+      getUser(userId)
+        .then((response) => {
+          if (response.data.signup_status === 'new') {
+            const zoneVal = moment()
+              .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+              .format('Z');
+            const preferenceData = {
+              timezone: zoneVal,
+            };
+            updatePreference(preferenceData)
+              .then((preferencesResponse) => {
+                handleInitialIntake();
+              })
+              .catch((error) => {
+                toast.error(
+                  `${error.response?.data?.title} Something went wrong while updating preference`
+                );
+              });
+          } else if (response.data.signup_status == 'done') {
+            setUserSignupStatus(true)
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, []);
+  useEffect(() => {
+    if(stripeStatus === "complete"){
+      userSubscriptionStatus();
+      fetchPlans();
+      fetchUserSubscription();
+      setSpin(false)
+      const userId = localStorage.getItem('userId');
+      getUser(userId)
+        .then((response) => {
+          if (response.data.signup_status === 'new') {
+            const zoneVal = moment()
+              .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+              .format('Z');
+            const preferenceData = {
+              timezone: zoneVal,
+            };
+            updatePreference(preferenceData)
+              .then((preferencesResponse) => {
+                handleInitialIntake();
+              })
+              .catch((error) => {
+                toast.error(
+                  `${error.response?.data?.title} Something went wrong while updating preference`
+                );
+              });
+          } else if (response.data.signup_status == 'done') {
+            setUserSignupStatus(true)
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }  
+  }, [stripeStatus]);
   useEffect(() => {
      if (location.search === '?success') {
       userCheckoutStatus();
     }
   }, [location]);
-
+  const handleRetry = () =>{
+    setRetry(false);
+    retries=1;
+    userCheckoutStatus();
+  }
   const handleInitialIntake = () => {
     const userId = localStorage.getItem('userId');
     //after successful subscription set signup_status to onboarding
@@ -308,7 +368,19 @@ const Subscription = () => {
       hamburger={!userSignupStatus ? false : true}
       dashboard={false}
     >
-    <Spin spinning={spin} tip={"Please wait, we are trying to verify your subscription"}>
+    {retry? <div className="Content-wrap DayCon">
+        <div className="Question">
+          <Alert message="Failed to verify your subscription" type="error" />
+        </div>
+        <button className="submit">
+          <Link to="/subscription">Check Subsciption</Link>
+        </button>
+        <button className="submit" onClick={handleRetry}>
+         <ReloadOutlined />
+          Retry 
+        </button>
+      </div>:
+    <Spin spinning={stripeStatus==="open"} tip={"Please wait, we are trying to verify your subscription"}>
       <div className="Content-wrap Sub">
         <h2 className={styles['Sub-title']}>
           Subscription <Spin spinning={loading} />
@@ -551,7 +623,7 @@ const Subscription = () => {
           }
         />
       </div>
-    </Spin>
+    </Spin>}
     </Layout>
   );
 };

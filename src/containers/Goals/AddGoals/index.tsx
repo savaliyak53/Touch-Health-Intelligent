@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './AddGoals.module.scss';
+import v from '../../../variables.module.scss'
 import Layout from '../../../layouts/Layout/Layout';
 import { LeftOutlined } from '@ant-design/icons';
 import {
@@ -51,6 +52,7 @@ const AddGoals = () => {
   const [options, setOptions] = useState<any>([]);
   const [isDisable, setIsDisabled] = useState(true);
   const [userStatus, setUserSatus] = useState(false)
+  const [active, setActive] = useState(false)
 
   const getUserStatus = () => {
     const userId = localStorage.getItem('userId');
@@ -104,8 +106,6 @@ const AddGoals = () => {
     getGoals().then((res: any) => {
       setGoals(res.data);
       getSuggestedGoals(res.data);
-      if (res.data.length > 0) setIsDisabled(false);
-      else setIsDisabled(true);
     });
   };
 
@@ -134,6 +134,7 @@ const AddGoals = () => {
         setIsModalOpen(false);
         setOptions(null);
         getGoalsData();
+        isDisable ? setIsDisabled(false) : null;
       })
       .catch((error) => {
         console.log(error);
@@ -141,12 +142,14 @@ const AddGoals = () => {
       });
   };
 
-  const removeGoal = (id: string) => {
+  const removeGoal = (id?: string) => {
     deleteGoal(id)
       .then((res) => {
         toast.success('Goal removed');
         setSearchValue('');
         getGoalsData();
+        setIsModalOpen(false);
+        isDisable ? setIsDisabled(false) : null
       })
       .catch((error: any) => {
         toast.error(error);
@@ -163,7 +166,6 @@ const AddGoals = () => {
         preferencesService(preferenceData, userId)
           .then((preferencesResponse: any) => {
             setIsLoading(false);
-            toast.success('Preferences submitted');
             if (preferencesResponse) {
               getInteractionServiceByType('goal_characterization')
                 .then((response: any) => {
@@ -258,8 +260,8 @@ const AddGoals = () => {
               type="primary"
               onClick={() => showModal(data)}
               style={{
-                color: `${'#' + data.color}`,
-                backgroundColor: `${'#' + data.color + '29'}`,
+                color: `${v['primary-color2']}`,
+                backgroundColor: `${'rgba(232, 232, 232, 0.31)'}`,
               }}
             >
               {data.name === '' ? (
@@ -278,33 +280,49 @@ const AddGoals = () => {
               key={key}
               className={styles['Selected-Goal']}
               style={{
-                color: `${'#' + data.color}`,
-                backgroundColor: `${'#' + data.color + '29'}`,
+                color: `${v['primary-color2']}`,
+                backgroundColor: `${'rgba(246, 187, 161, 0.22)'}`,
               }}
+              onClick={(e) => {e.stopPropagation(); showModal(data); setActive(true)}}
             >
-              {data.name === '' ? (
-                ''
-              ) : (
-                <span className={styles['Rec-Text']}>{data.name}</span>
-              )}
+              <div className={styles['Mygoals-Title']}>
+                <Button
+                  className={styles['Cross-btn']}
+                  onClick={(e) => {e.stopPropagation(); removeGoal(data.id)}}
+                >
+                  <CloseOutlined className={styles['Cross']} />
+                </Button>
+                {data.name === '' ? (
+                  ''
+                ) : (
+                  <span className={styles['Rec-Text']}>{data.name}</span>
+                )}
+              </div>
               <Button
-                className={styles['Cross-btn']}
-                onClick={() => removeGoal(data.id)}
+                key={key}
+                onClick={() => showModal(data)}
+                style={{
+                  color: `${v['primary-color2']}`,
+                  backgroundColor: `transparent`,
+                  border: '0px',
+                  padding: 0
+                }}
               >
-                <CloseOutlined className={styles['Cross']} />
+                <RightOutlined className={styles['Arrow']} />
               </Button>
             </div>
           ))}
         </div>
-
-        <Button
-          className={`Pref-btn btn ${isDisable ? 'disabled' : ''}`}
-          loading={isLoading}
-          onClick={handleNext}
-          disabled={isDisable}
-        >
-          Next
-        </Button>
+        <div style={{position: 'fixed', backgroundColor: 'white', bottom: '0', left: '0', width: '100vw', padding: '0 20px 20px'}}>
+          <Button
+            className={`Pref-btn btn ${isDisable ? 'disabled' : ''}`}
+            loading={isLoading}
+            onClick={handleNext}
+            disabled={isDisable}
+          >
+            Next
+          </Button>
+        </div>
       </div>
       <Modal
         footer={null}
@@ -314,22 +332,31 @@ const AddGoals = () => {
         onCancel={handleCancel}
       >
         <h3 className={styles['Goals-title']}>{selectedGoal?.name}</h3>
-        <p className={styles['Des-Short']}>{selectedGoal?.goal_class}</p>
         {selectedGoal && (
-          <p className={styles['Des-Goal']}>
+          <div className={styles['Des-Goal']}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
               {selectedGoal.description_md}
             </ReactMarkdown>
-          </p>
+          </div>
         )}
         <div className={styles['Modal-Btn-Group']}>
-          <Button
-            className="Pref-btn btn"
-            loading={isLoading}
-            onClick={() => addGoals(selectedGoal?.id)}
-          >
-            Pick goal
-          </Button>
+          {goals.filter((goal: any) => {return goal.name == selectedGoal?.name})[0]?.name ? (
+              <Button
+                className="Pref-btn btn"
+                loading={isLoading}
+                onClick={() => removeGoal(selectedGoal?.id)}
+              >
+                Remove goal
+              </Button>
+          ) : (
+            <Button
+              className="Pref-btn btn"
+              loading={isLoading}
+              onClick={() => addGoals(selectedGoal?.id)}
+            >
+              Pick goal
+            </Button>
+          )}
           <Button
             className="Back-btn btn"
             loading={isLoading}

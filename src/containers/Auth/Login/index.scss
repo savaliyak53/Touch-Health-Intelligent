@@ -60,21 +60,21 @@ input {
   flex-direction: row;
   font-size: 20px;
   line-height: 24px;
-  border: 2px solid #272424;
+  border: 2px solid rgba(#6A2C70,0.42);
   background-color: rgba(#fff,0.6);
-  color: #272424;
+  color: #6A2C70;
   font-size: 20px;
   line-height: 24px;
 
   &:hover,
   &:focus {
-    border: 2px solid #272424;
+    border: 2px solid rgba(#6A2C70,0.42);
     background-color: #e3e3e3;
-    color: #272424;
+    color: #6A2C70;
   }
 
   &::placeholder {
-    color: rgba(#272424, 0.8);
+    color: rgba(#6A2C70, 0.8);
   }
 }
 

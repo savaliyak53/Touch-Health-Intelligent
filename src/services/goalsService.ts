@@ -16,7 +16,7 @@ export const addGoal = async (data: any) => {
     return APIClient(`/ai/goals/active`, 'put', data);
 };
 
-export const deleteGoal = async (id: string) => {
+export const deleteGoal = async (id?: string) => {
     return APIClient(`/ai/goals/active/${id}`, 'delete');
 };
 

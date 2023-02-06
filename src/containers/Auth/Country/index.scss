@@ -1,13 +1,16 @@
+@import '../../../variables.module.scss';
+
 .PhoneInputInput {
   border: 0ch;
   &:hover,
   &:focus {
-    //border: 2px solid #272424;
+    //border: 2px solid $primary-color2;
     background-color: #e3e3e3;
-    color: #272424;
+    color: $primary-color2;
   }
 
   &::placeholder {
-    color: rgba(#272424, 0.8);
+    color: rgba(#6A2C70, 0.8);
   }
+
 }

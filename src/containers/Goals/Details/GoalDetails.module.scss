@@ -1,3 +1,5 @@
+@import '../../../variables.module.scss';
+
 .Prevn-wrap {
     display: flex;
     align-items: center;
@@ -5,12 +7,13 @@
     margin-top: 30px;
 }
 .Prevn-text {
-color: #657FD1;
-font-weight: 700;
-font-size: 28px;
+font-family: 'DM Serif Display', serif;
+color: $secondary-color1;
+font-weight: 400;
+font-size: 32px;
 line-height: 28px;
 margin-bottom: 0;
-margin-right: 15px;
+margin-left: 12px;
 }
 .Prevn-btn {
 background: transparent !important;
@@ -37,18 +40,19 @@ margin-bottom: 25px;
 
 }
 .Vel-name {
-color: #657FD1;
+color: $secondary-color1;
 font-weight: 400;
 font-size: 20px;
 line-height: 21px;
 margin-bottom: 0;
 display: flex;
 align-items: center;
+justify-content: space-between;
 text-align: start;
-width: 60%;
+width: 100%;
 }
 .Vel-number {
-color: #657FD1;
+color: $secondary-color1;
 font-weight: 700;
 font-size: 30px;
 line-height: 33px;
@@ -70,23 +74,37 @@ align-items: center;
 justify-content: space-between;
 width: 100%;
 }
+.Velocity {
+    font-size: 20px;
+}
 .Guidance-title,
 .Chart-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
     text-align: start;
     margin-top: 30px;
-    font-size: 22px;
+    font-size: 25px;
     line-height: 1.2;
     font-weight: 600;
     margin-bottom: 10px;
-    color: #657FD1;
+    color: $primary-color1;
     margin-left: 10px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 .Chart-title {
     margin-top: 30px;
 }
 
+.Succes-score {
+    color: $primary-color2;
+    font-size: 40px;
+    width: 24vw;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
 .Rec-wrap {
     display: flex;
     justify-content: start;
@@ -97,7 +115,8 @@ width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        max-width: 48%;
+        min-height: 130px;
+        width: 100%;
         padding: 16px;
         border-radius: 16px;
         border: none;
@@ -123,6 +142,11 @@ width: 100%;
         }
     }
 }
+.Rec-Text {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+}
 .Modal-subtitle {
 color: #647ED1;
 font-size: 18px;
@@ -140,7 +164,7 @@ font-style: italic;
     font-size: 28px;
     font-weight: 500;
     margin-bottom: 30px;
-
+    padding: 4px;
 }
 .Modal-Text {
     color: #647ED1;
@@ -148,15 +172,111 @@ font-style: italic;
     font-weight: 400;
     margin-top: 30px;
     margin-bottom: 10px;
-
 }
 .chart-container {
     position: relative;
-    margin: auto;
     height: 30vh;
     width: 100%;
   }
-  .Backflex {
-    margin-top: 20px;
-    flex-direction: row;
+.Backflex {
+margin-top: 20px;
+flex-direction: row;
+}
+
+.popup-title {
+    align-items: center;
+    color: #6A2C70;
+    font-family: Serif;
+    font-size: 36px;
+    line-height: 1.1;
+    font-weight: 700;
+    margin-bottom: 15px;
+    margin-top: clamp(0px, 7.5vh, 16px);
+}
+.markdown-desc {
+    padding: 10px;
+}
+.GuidanceBtnWrap {
+    position: fixed;
+    bottom: 0;
+    background-color: #fff;
+    width: calc(100% - 40px);
+    padding-bottom: 10px;
+    .GuidanceBtn {
+      border-radius: 100px;
+      height: 100%;
+      padding: 12px 26px;
+      background-color: transparent;
+      color: #E02424;
+      font-size: 20px;
+      line-height: 24px;
+      font-weight: 400;
+      border: 2px solid #E02424;
+      margin: 0 auto;
+      max-width: 400px;
+      display: block;
+      width: 60%;
+    
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: #fff;
+        color: #E02424;
+        border-color: #E02424;
+      }
+    }
   }
+.GuidanceBtnActiveWrap {
+display: flex;
+position: fixed;
+bottom: 0;
+background-color: #fff;
+width: calc(100% - 40px);
+padding-bottom: 10px;
+.GuidanceNotBtn {
+    border-radius: 100px;
+    height: 100%;
+    padding: 12px 26px;
+    background-color: transparent;
+    color: #E02424;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    border: 2px solid #E02424;
+    margin: 0 auto;
+    max-width: 400px;
+    display: block;
+    width: 60%;
+  
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #fff;
+      color: #E02424;
+      border-color: #E02424;
+    }
+  }
+.GuidanceActiveBtn {
+    border-radius: 100px;
+    height: 100%;
+    padding: 12px 26px;
+    background-color: transparent;
+    color: #6A2C70;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    border: 2px solid #6A2C70;
+    margin: 0 auto;
+    max-width: 400px;
+    display: block;
+    width: 60%;
+
+    &:hover,
+    &:focus,
+    &:active {
+    background-color: #fff;
+    color: #6A2C70;
+    border-color: #6A2C70;
+    }
+}
+}

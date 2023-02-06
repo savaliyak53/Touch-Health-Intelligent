@@ -1,14 +1,17 @@
+@import '../../../variables.module.scss';
+
 .AddGoals {
   text-align: center;
 }
 .Title {
+  font-family: 'DM Serif Display', serif;
   text-align: center;
   margin-top: 50px;
-  font-size: 28px;
+  font-size: 35px;
   line-height: 1.2;
-  font-weight: 600;
+  font-weight: 400;
   margin-bottom: 40px;
-  color: #657fd1;
+  color: $secondary-color1;
 }
 Select {
   max-width: 320px;
@@ -17,28 +20,28 @@ Select {
 .Goals-title,
 .Des-Short,
 .Des-Goal {
+  font-family: 'Raleway', sans-serif;
   text-align: start;
   margin-top: 50px;
   font-size: 22px;
   line-height: 1.2;
   font-weight: 600;
   margin-bottom: 10px;
-  color: #657fd1;
+  color: $primary-color1;
   margin-left: 10px;
 }
 .Health-Goals,
 .Rec-wrap {
-  display: flex;
-  justify-content: start;
-  flex-wrap: wrap;
   margin-bottom: 40px;
 
   .Rec-Goal,
   .Selected-Goal {
+    font-family: 'Raleway', sans-serif;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 48%;
+    width: 100%;
+    min-height: 140px;
     padding: 16px;
     border-radius: 16px;
     border: none;
@@ -55,8 +58,7 @@ Select {
   .Cross-btn {
     height: auto !important;
     padding: 0 !important;
-    margin-top: -28px;
-    margin-right: -8px;
+    border: 0 !important;
     background-color: transparent !important;
     &:hover,
     &:active {
@@ -66,6 +68,7 @@ Select {
 }
 .Health-Goals {
   justify-content: start;
+  margin-bottom: 100px;
 }
 
 .Selected-Goal {
@@ -73,7 +76,7 @@ Select {
 }
 .Cross,
 .Arrow {
-  color: rgba(#272424, 0.5) !important;
+  color: rgba($primary-color2, 0.5) !important;
   font-size: 20px;
 }
 
@@ -100,4 +103,8 @@ Select {
 }
 .Backflex {
   flex-direction: row;
+}
+.Mygoals-Title {
+  display: flex;
+  gap: 20px
 }
