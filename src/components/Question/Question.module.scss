@@ -45,7 +45,7 @@
     word-wrap: break-word;
     font-size: 17px;
     line-height: 24px;
-    color: rgba(#282f28, 0.7);
+    color: $primary-color2;
     align-self: flex-end;
   }
 
@@ -54,7 +54,7 @@
     word-wrap: break-word;
     font-size: 17px;
     line-height: 24px;
-    color: rgba(#282f28, 0.7);
+    color: $primary-color2;
     align-self: flex-start;
   }
   
@@ -163,13 +163,13 @@
   border-radius: 100px !important;
   height: auto !important;
   padding: 18px 30px !important;
-  color: $primary-color1 !important;
+  color: $primary-color2 !important;
   font-size: 20px !important;
   line-height: 24px !important;
   font-weight: 300 !important;
   margin-top: 20px !important;
   display: block !important;
-  border: 2px solid $primary-color1 !important;
+  border: 2px solid $primary-color2 !important;
   background-color: #fff !important;
   margin-right: 4px !important;
   margin-left: 4px !important;
@@ -177,9 +177,9 @@
   &:hover,
   &:focus,
   &:active {
-    background-color: rgba($primary-color1,0.2);
-    color: $primary-color1;
-    border-color: $primary-color1;
+    background-color: $primary-color2;
+    color: $primary-color2;
+    border-color: $primary-color2;
   }
 }
 
@@ -187,13 +187,13 @@
   border-radius: 100px;
   height: auto;
   padding: 18px 60px;
-  color: $primary-color1;
+  color: $primary-color2;
   font-size: 20px;
   line-height: 24px;
   font-weight: 300;
   margin-top: 20px;
   display: block;
-  border: 2px solid $primary-color1;
+  border: 2px solid $primary-color2;
   background-color: #fff;
   margin-right: 4px;
   margin-left: 4px;
@@ -201,9 +201,9 @@
   &:hover,
   &:focus,
   &:active {
-    background-color: rgba($primary-color1,0.2);
-    color: $primary-color1;
-    border-color: $primary-color1;
+    background-color: $primary-color2;
+    color: #fff;
+    border-color: $primary-color2;
   }
 }
 
@@ -211,13 +211,13 @@
   border-radius: 10px;
   height: auto;
   padding: 18px 60px;
-  color: $primary-color1;
+  color: $primary-color2;
   font-size: 20px;
   line-height: 24px;
   font-weight: 300;
   margin-top: 20px;
   display: block;
-  border: 2px solid $primary-color1;
+  border: 2px solid $primary-color2;
   background-color: transparent;
   max-width: 300px;
   margin-right: auto;
@@ -226,14 +226,14 @@
   &:hover,
   &:focus,
   &:active {
-      background-color: $primary-color1;
+      background-color: $primary-color2;
       color: #fff;
-      border-color: $primary-color1;
+      border-color: $primary-color2;
   }
   &.disabled {
-      background-color: rgba($primary-color1, 0.2);
-      border: 2px solid $primary-color1;
-      color: $primary-color1;
+      background-color: $primary-color2;
+      border: 2px solid $primary-color2;
+      color: $primary-color2;
     }
 }
   

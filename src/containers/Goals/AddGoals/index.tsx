@@ -325,11 +325,38 @@ const AddGoals = () => {
         </div>
       </div>
       <Modal
-        footer={null}
+        footer={        
+          <div className={styles['Modal-Btn-Group']} style={{ backgroundColor: '#fff'}}>
+            {goals.filter((goal: any) => {return goal.name == selectedGoal?.name})[0]?.name ? (
+                <Button
+                  className="Pref-btn btn"
+                  loading={isLoading}
+                  onClick={() => removeGoal(selectedGoal?.id)}
+                >
+                  Remove goal
+                </Button>
+            ) : (
+              <Button
+                className="Pref-btn btn"
+                loading={isLoading}
+                onClick={() => addGoals(selectedGoal?.id)}
+              >
+                Pick goal
+              </Button>
+            )}
+            <Button
+              className="Back-btn btn"
+              loading={isLoading}
+              onClick={handleCancel}
+            >
+              Take me back
+            </Button>
+          </div>}
         centered
         visible={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        className='Goals-Modal'
       >
         <h3 className={styles['Goals-title']}>{selectedGoal?.name}</h3>
         {selectedGoal && (
@@ -339,32 +366,6 @@ const AddGoals = () => {
             </ReactMarkdown>
           </div>
         )}
-        <div className={styles['Modal-Btn-Group']}>
-          {goals.filter((goal: any) => {return goal.name == selectedGoal?.name})[0]?.name ? (
-              <Button
-                className="Pref-btn btn"
-                loading={isLoading}
-                onClick={() => removeGoal(selectedGoal?.id)}
-              >
-                Remove goal
-              </Button>
-          ) : (
-            <Button
-              className="Pref-btn btn"
-              loading={isLoading}
-              onClick={() => addGoals(selectedGoal?.id)}
-            >
-              Pick goal
-            </Button>
-          )}
-          <Button
-            className="Back-btn btn"
-            loading={isLoading}
-            onClick={handleCancel}
-          >
-            Take me back
-          </Button>
-        </div>
       </Modal>
     </Layout>
   );

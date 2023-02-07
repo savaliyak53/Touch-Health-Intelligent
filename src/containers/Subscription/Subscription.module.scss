@@ -164,7 +164,7 @@
     &:hover,
     &:focus,
     &:active {
-      background-color: rgba(#282F28, 0.7) !important;
+      background-color: rgba($secondary-color2, 0.7) !important;
       color: #fff !important;
       border-color: $secondary-color2 !important;
     }
