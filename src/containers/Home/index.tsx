@@ -106,9 +106,10 @@ const Home = () => {
   const getUserSubscription = (response:any) => {
     getSubscriptionStatus()
       .then((res) => {
-        if (response.data.signup_status === 'new') {
+        if (response.data.signup_status === 'new' || res.data.isSubscribed===false) {
           navigate('/subscription');
-        } else {
+        }
+        else {
           if (response.data.signup_status === 'onboarding') {
             getInteractionServiceByType('onboarding')
               .then((response: any) => {
