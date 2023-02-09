@@ -177,9 +177,11 @@ function UserCondition() {
         setRefId(data.ref_id ?? '');
         if (data.question) {
           setQuestion(data.question);
-        } else {
+        } else if(!data.question && data.type==="done") {
           handleInteractionRedirect();
-          //navigate('/questionnaire-submit');
+        }
+        else {
+          toast.error('Something went wrong, question is null');
         }
       })
       .catch(() => {
