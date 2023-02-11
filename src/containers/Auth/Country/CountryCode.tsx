@@ -1,6 +1,7 @@
 import { Tooltip } from 'antd';
 import React, { useState } from 'react';
 import { Controller } from 'react-hook-form';
+import Authstyles from "../Auth.module.scss"
 import PhoneInput, {
   isValidPhoneNumber,
   formatPhoneNumberIntl,
@@ -69,11 +70,11 @@ const CountryCode = ({
               disabled={disabled}
               placeholder={
                 fieldName === 'phone' || fieldName === 'username'
-                  ? 'Phone'
-                  : 'Confirm Phone'
+                  ? 'Mobile phone number'
+                  : 'Confirm phone number'
               }
               countries={whitelist}
-              className="app-Input"
+              className={Authstyles["app-Input"]}
               value={value}
               onChange={onChange}
               defaultCountry="CA"

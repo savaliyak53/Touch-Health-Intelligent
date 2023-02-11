@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import { Input, Select, Spin } from 'antd';
-// import './index.scss';
+import v from "../../variables.module.scss"
 import styles from './SecurityQuestion.module.scss';
 import Button from '../../components/Button';
 import InputField from '../../components/Input';
@@ -94,7 +94,7 @@ const SecurityQuestions = () => {
               onChange={onChange}
             >
               {securityQuestions.map((item) => (
-                <Option key={item.id} value={item.text}>
+                <Option key={item.id} value={item.text} style={{color: v['primary-color2']}}>
                   {item.text}
                 </Option>
               ))}

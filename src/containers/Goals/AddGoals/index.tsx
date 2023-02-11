@@ -28,6 +28,8 @@ import {
   getUser
 } from '../../../services/authservice';
 import rehypeRaw from 'rehype-raw';
+import ConfirmModal from '../../Subscription/ConfirmModal';
+
 type ITerms = {
   termsAndConditions: boolean;
 };
@@ -53,6 +55,7 @@ const AddGoals = () => {
   const [isDisable, setIsDisabled] = useState(true);
   const [userStatus, setUserSatus] = useState(false)
   const [active, setActive] = useState(false)
+  const [showCancelModal, setShowCancelModal] = useState(false);
 
   const getUserStatus = () => {
     const userId = localStorage.getItem('userId');
@@ -76,6 +79,14 @@ const AddGoals = () => {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  const handleDeleteOk = (id: any) => {
+    removeGoal(id)
+    setShowCancelModal(false);
+  };
+  const handleDeleteModal = () => {
+    setShowCancelModal(false);
   };
   const {
     register,
@@ -288,7 +299,7 @@ const AddGoals = () => {
               <div className={styles['Mygoals-Title']}>
                 <Button
                   className={styles['Cross-btn']}
-                  onClick={(e) => {e.stopPropagation(); removeGoal(data.id)}}
+                  onClick={(e) => {e.stopPropagation(); setShowCancelModal(true)}}
                 >
                   <CloseOutlined className={styles['Cross']} />
                 </Button>
@@ -298,6 +309,17 @@ const AddGoals = () => {
                   <span className={styles['Rec-Text']}>{data.name}</span>
                 )}
               </div>
+              <ConfirmModal
+                            title={'Confirmation'}
+                            visible={showCancelModal}
+                            handleCancel={handleDeleteModal}
+                            handleOk={() => handleDeleteOk(data.id)}
+                            renderData={
+                              <div>
+                                Are you sure you want to delete goal?
+                              </div>
+                            }
+                          />
               <Button
                 key={key}
                 onClick={() => showModal(data)}

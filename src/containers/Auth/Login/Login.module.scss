@@ -16,10 +16,11 @@
 }
 
 .Auth-title {
-  color: #6A2C70;
+  font-family: 'DM Serif Display', serif;
+  color: $primary-color2;
   font-size: 40px;
   line-height: 1.1;
-  font-weight: 700;
+  font-weight: 400;
   margin-bottom: 15px;
   margin-top: clamp(0px, 7.5vh, 96px);
 }
