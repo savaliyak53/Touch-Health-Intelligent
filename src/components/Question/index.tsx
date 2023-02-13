@@ -99,15 +99,15 @@ const Question = ({
     return false;
   };
   const setDisableDate = (current: moment.Moment) => {
-    if(question.range == 'future_only') {
-      console.log('return date',current.isBefore(moment()));
-      return current.isBefore(moment().subtract(1,"day"))
-    } else if (question.range == 'past_only'){
-      return current.isAfter(moment())
+    if (question.range == 'future_only') {
+      console.log('return date', current.isBefore(moment()));
+      return current.isBefore(moment().subtract(1, 'day'));
+    } else if (question.range == 'past_only') {
+      return current.isAfter(moment());
     } else {
-      return false
+      return false;
     }
-  }
+  };
 
   useEffect(() => {
     if (question.type === 'slider') {
@@ -152,7 +152,8 @@ const Question = ({
           <DatePicker
             onChange={(date: any, dateString: any) => setValue(dateString)}
             className="Date-Select"
-            disabledDate={(current) => setDisableDate(current)} />
+            disabledDate={(current) => setDisableDate(current)}
+          />
         );
       case 'yes_no':
         return (
@@ -337,11 +338,11 @@ const Question = ({
         return (
           <div className={goal_styles['IntroGoals']}>
             <h2 className={goal_styles['Title']}>{question.title}</h2>
-            <div className={goal_styles["markdown-desc"]}>
+            <div className={goal_styles['markdown-desc']}>
               <ReactMarkdown rehypePlugins={[rehypeRaw]}>
                 {question.body_md}
               </ReactMarkdown>
-            </div> 
+            </div>
             <Radio.Group
               className="Question-Options"
               onChange={(e) => {
@@ -424,6 +425,7 @@ const Question = ({
                   {question?.options.map((item: any, index: any) => {
                     return (
                       <Option
+                        className="Question-Options"
                         key={question?.options[index]}
                         value={question?.options[index]}
                         disabled={

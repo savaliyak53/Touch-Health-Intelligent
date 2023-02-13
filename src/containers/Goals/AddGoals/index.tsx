@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './AddGoals.module.scss';
-import v from '../../../variables.module.scss'
+import v from '../../../variables.module.scss';
 import Layout from '../../../layouts/Layout/Layout';
 import { LeftOutlined } from '@ant-design/icons';
 import {
@@ -25,7 +25,7 @@ import ReactMarkdown from 'react-markdown';
 import {
   getInteractionServiceByType,
   preferencesService,
-  getUser
+  getUser,
 } from '../../../services/authservice';
 import rehypeRaw from 'rehype-raw';
 import ConfirmModal from '../../Subscription/ConfirmModal';
@@ -53,20 +53,22 @@ const AddGoals = () => {
   const [searchValue, setSearchValue] = useState('');
   const [options, setOptions] = useState<any>([]);
   const [isDisable, setIsDisabled] = useState(true);
-  const [userStatus, setUserSatus] = useState(false)
-  const [active, setActive] = useState(false)
+  const [userStatus, setUserSatus] = useState(false);
+  const [active, setActive] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
 
   const getUserStatus = () => {
     const userId = localStorage.getItem('userId');
     getUser(userId)
-    .then(res => {
-      res.data.signup_status == 'done' ? setUserSatus(true) : setUserSatus(false)
-    })
-    .catch(err => {
-      console.log(err);
-    })
-  }
+      .then((res) => {
+        res.data.signup_status == 'done'
+          ? setUserSatus(true)
+          : setUserSatus(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const showModal = (data: any) => {
     setSelectedGoal(data);
@@ -82,7 +84,7 @@ const AddGoals = () => {
   };
 
   const handleDeleteOk = (id: any) => {
-    removeGoal(id)
+    removeGoal(id);
     setShowCancelModal(false);
   };
   const handleDeleteModal = () => {
@@ -160,7 +162,7 @@ const AddGoals = () => {
         setSearchValue('');
         getGoalsData();
         setIsModalOpen(false);
-        isDisable ? setIsDisabled(false) : null
+        isDisable ? setIsDisabled(false) : null;
       })
       .catch((error: any) => {
         toast.error(error);
@@ -205,7 +207,7 @@ const AddGoals = () => {
   };
   useEffect(() => {
     getGoalsData();
-    getUserStatus()
+    getUserStatus();
   }, []);
   useEffect(() => {
     if (debouncedSearchValue) {
@@ -294,12 +296,19 @@ const AddGoals = () => {
                 color: `${v['primary-color2']}`,
                 backgroundColor: `${'rgba(246, 187, 161, 0.22)'}`,
               }}
-              onClick={(e) => {e.stopPropagation(); showModal(data); setActive(true)}}
+              onClick={(e) => {
+                e.stopPropagation();
+                showModal(data);
+                setActive(true);
+              }}
             >
               <div className={styles['Mygoals-Title']}>
                 <Button
                   className={styles['Cross-btn']}
-                  onClick={(e) => {e.stopPropagation(); setShowCancelModal(true)}}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowCancelModal(true);
+                  }}
                 >
                   <CloseOutlined className={styles['Cross']} />
                 </Button>
@@ -310,16 +319,12 @@ const AddGoals = () => {
                 )}
               </div>
               <ConfirmModal
-                            title={'Confirmation'}
-                            visible={showCancelModal}
-                            handleCancel={handleDeleteModal}
-                            handleOk={() => handleDeleteOk(data.id)}
-                            renderData={
-                              <div>
-                                Are you sure you want to delete goal?
-                              </div>
-                            }
-                          />
+                title={'Confirmation'}
+                visible={showCancelModal}
+                handleCancel={handleDeleteModal}
+                handleOk={() => handleDeleteOk(data.id)}
+                renderData={<div>Are you sure you want to delete goal?</div>}
+              />
               <Button
                 key={key}
                 onClick={() => showModal(data)}
@@ -327,7 +332,7 @@ const AddGoals = () => {
                   color: `${v['primary-color2']}`,
                   backgroundColor: `transparent`,
                   border: '0px',
-                  padding: 0
+                  padding: 0,
                 }}
               >
                 <RightOutlined className={styles['Arrow']} />
@@ -335,7 +340,16 @@ const AddGoals = () => {
             </div>
           ))}
         </div>
-        <div style={{position: 'fixed', backgroundColor: 'white', bottom: '0', left: '0', width: '100vw', padding: '0 20px 20px'}}>
+        <div
+          style={{
+            position: 'fixed',
+            backgroundColor: 'white',
+            bottom: '0',
+            left: '0',
+            width: '100vw',
+            padding: '0 20px 20px',
+          }}
+        >
           <Button
             className={`Pref-btn btn ${isDisable ? 'disabled' : ''}`}
             loading={isLoading}
@@ -347,16 +361,21 @@ const AddGoals = () => {
         </div>
       </div>
       <Modal
-        footer={        
-          <div className={styles['Modal-Btn-Group']} style={{ backgroundColor: '#fff'}}>
-            {goals.filter((goal: any) => {return goal.name == selectedGoal?.name})[0]?.name ? (
-                <Button
-                  className="Pref-btn btn"
-                  loading={isLoading}
-                  onClick={() => removeGoal(selectedGoal?.id)}
-                >
-                  Remove goal
-                </Button>
+        footer={
+          <div
+            className={styles['Modal-Btn-Group']}
+            style={{ backgroundColor: '#fff' }}
+          >
+            {goals.filter((goal: any) => {
+              return goal.name == selectedGoal?.name;
+            })[0]?.name ? (
+              <Button
+                className="Pref-btn btn"
+                loading={isLoading}
+                onClick={() => removeGoal(selectedGoal?.id)}
+              >
+                Remove goal
+              </Button>
             ) : (
               <Button
                 className="Pref-btn btn"
@@ -373,12 +392,13 @@ const AddGoals = () => {
             >
               Take me back
             </Button>
-          </div>}
+          </div>
+        }
         centered
         visible={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        className='Goals-Modal'
+        className="Goals-Modal"
       >
         <h3 className={styles['Goals-title']}>{selectedGoal?.name}</h3>
         {selectedGoal && (
