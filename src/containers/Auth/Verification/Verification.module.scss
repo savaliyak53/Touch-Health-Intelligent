@@ -1,3 +1,5 @@
+@import '../../../variables.module.scss';
+
 .ant-tooltip-arrow {
   display: none;
 }
@@ -9,11 +11,12 @@
   /* height: 100%; */
 }
 .Verification-title {
-  font-size: 26px;
-  line-height: 36px;
+  font-family: Serif;
+  font-size: 36px;
+  line-height: 1.1;
   font-weight: 700;
-  color: #272424;
-  margin-top: clamp(0px, 7.5vh, 24px);
+  color: $primary-color2;
+  margin-top: 50px;
 }
 .Verification-form {
   display: flex;

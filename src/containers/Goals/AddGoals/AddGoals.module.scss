@@ -17,7 +17,17 @@ Select {
   max-width: 320px;
   margin: 0 auto;
 }
-.Goals-title,
+.Goals-title{
+  font-family: 'DM Serif Display', sans-serif;
+  text-align: center;
+  margin-top: 50px;
+  font-size: 9vw;
+  line-height: 1.2;
+  font-weight: 400;
+  margin-bottom: 10px;
+  color: $primary-color2;
+  margin-left: 10px;
+}
 .Des-Short,
 .Des-Goal {
   font-family: 'Raleway', sans-serif;
@@ -27,9 +37,13 @@ Select {
   line-height: 1.2;
   font-weight: 600;
   margin-bottom: 10px;
-  color: $primary-color1;
+  color: $primary-color2;
   margin-left: 10px;
   padding: 4px 12px 4px 12px;
+  h3{
+    color: $primary-color2;
+
+  }
 }
 .Health-Goals,
 .Rec-wrap {

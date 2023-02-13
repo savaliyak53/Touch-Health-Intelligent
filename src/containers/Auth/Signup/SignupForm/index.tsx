@@ -112,7 +112,7 @@ const SignupForm = ({onSubmit, refCaptcha}: SignupFormProps) => {
                     message: 'Username can have maximum 50 characters.',
                   },
                 })}
-                placeholder="Username"
+                placeholder="Your name"
                 type="text"
                 className={Authstyles["app-Input"]}
               />
@@ -197,9 +197,11 @@ const SignupForm = ({onSubmit, refCaptcha}: SignupFormProps) => {
               title={"Please check the terms and conditions checkbox to proceed"}
               visible={checkedError}
             ></Tooltip>
-
+          <div className={Authstyles["Auth-terms-signup"]}>
+            <Link to="/login">Already have an account?</Link>
+          </div>
           <Button
-            className={`${Authstyles["Auth-submit"]} ${isDisabled ? Authstyles['disabled'] : ''}`}
+            className={`${styles["Auth-submit"]} ${isDisabled ? Authstyles['disabled'] : ''}`}
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
             disabled={isDisabled }
@@ -211,14 +213,9 @@ const SignupForm = ({onSubmit, refCaptcha}: SignupFormProps) => {
             ref={refCaptcha}
             sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
             onResolved={onVerify} />
-        <div className={Authstyles['Links-wrap']}>
-          <div className={Authstyles["Auth-terms-signup"]}>
-          For customer support, please follow this <a href="https://www.touchmedical.ca/customer-care">link</a>
+          <div className={Authstyles["Customer-support"]}>
+          Problems? Contact <a href="https://www.touchmedical.ca/customer-care">customer support</a>
           </div>
-          <div className={Authstyles["Auth-terms-signup"]}>
-            <Link to="/login">Already have an account?</Link>
-          </div>
-        </div>
         
       </div>
     )

@@ -2,13 +2,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import styles from "./Verification.module.scss"
 import { toast } from 'react-toastify';
 import Button from '../../../components/Button';
 import { AiOutlineEye } from 'react-icons/ai';
 import Layout from '../../../layouts/Layout/Layout';
 import { Tooltip } from 'antd';
-import './index.scss';
+// import './index.scss';
 import ReactCodeInput from 'react-code-input';
 import { requestPhoneOTP, verifyPhoneOTP } from '../../../services/authservice';
 type IVerificationCode = {
@@ -89,9 +89,9 @@ const Verification = () => {
   };
   return (
     <Layout defaultHeader={true} hamburger={false}>
-      <div className="Verification-wrap">
-        <form onSubmit={handleSubmit(onSubmit)} className="Verification-form">
-          <h2 className="Verification-title">Verification Code</h2>
+      <div className={styles["Verification-wrap"]}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles["Verification-form"]}>
+          <h2 className={styles["Verification-title"]}>Verification Code</h2>
           <Controller
             control={control}
             name="code"
