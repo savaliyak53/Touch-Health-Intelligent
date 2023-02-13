@@ -17,8 +17,6 @@ import TextArea from 'antd/lib/input/TextArea';
 import { Timepicker } from 'react-timepicker';
 import 'react-timepicker/timepicker.css';
 import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
-import { validateSignUp } from '../../services/authservice';
-import { setDefaultResultOrder } from 'dns';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import moment from 'moment';
@@ -339,10 +337,11 @@ const Question = ({
         return (
           <div className={goal_styles['IntroGoals']}>
             <h2 className={goal_styles['Title']}>{question.title}</h2>
-            <div className={goal_styles['Description']}>
-            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-              {question.body_md}
-            </ReactMarkdown></div> 
+            <div className={goal_styles["markdown-desc"]}>
+              <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+                {question.body_md}
+              </ReactMarkdown>
+            </div> 
             <Radio.Group
               className="Question-Options"
               onChange={(e) => {
