@@ -19,7 +19,7 @@ const SubscriptionError = () => {
         <div className="Question">
           <Alert message="Failed to subscribe to a plan" type="error" />
         </div>
-        <button className="submit">
+        <button className="submit" onClick={() => navigate('/subscription')}>
           <Link to="/subscription">Check Subscription</Link>
         </button>
         <button className="submit" onClick={() => navigate('/dashboard')}>
