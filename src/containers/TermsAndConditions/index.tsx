@@ -91,9 +91,10 @@ function TermsAndCondtions() {
           <Title level={2} className={styles.TermsTitle3} style={{color:'#6A2C70'}}>Contacting us</Title>
           <Paragraph className={styles.TermsText}>{`\n\nIf you have any questions, concerns, or complaints regarding this Agreement, we encourage you to contact us using the details below:\n`}
           <br/>
-          <Link href="mailto:support@touchmedical.ca">support@touchmedical.ca</Link> {` This document was last updated on November 29, 2022`}
-          
+          <Link href="mailto:support@touchmedical.ca" style={{color: '#6A2C70'}}>support@touchmedical.ca</Link>
           </Paragraph>
+          <Paragraph className={styles.TermsText}>{`\n\nThis document was last updated on November 29, 2022`}</Paragraph>
+
           
 
           <div className={styles.TermsBtnWrap}>

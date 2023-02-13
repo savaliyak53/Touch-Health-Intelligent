@@ -148,9 +148,9 @@
   &:hover,
   &:active,
   &:focus {
-    background-color: $primary-color1;
+    background-color: $primary-color2;
     color: #fff;
-    border-color: $primary-color1;
+    border-color: $primary-color2;
   }
   &.disabled {
     background-color: rgba($primary-color1, 0.2);

@@ -112,7 +112,7 @@ const SignupForm = ({onSubmit, refCaptcha}: SignupFormProps) => {
                     message: 'Username can have maximum 50 characters.',
                   },
                 })}
-                placeholder="Your name"
+                placeholder="Username, e.g. 🚀CosmicPotato"
                 type="text"
                 className={Authstyles["app-Input"]}
               />
