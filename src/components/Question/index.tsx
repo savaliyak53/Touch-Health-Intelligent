@@ -337,7 +337,7 @@ const Question = ({
       case 'markdown_select_one':
         return (
           <div className={goal_styles['IntroGoals']}>
-            <h2 className={goal_styles['Title']}>{question.title}</h2>
+           {question.title &&  <h2 className={goal_styles['Title']}>{question.title}</h2>}
             <div className={goal_styles['markdown-desc']}>
               <ReactMarkdown rehypePlugins={[rehypeRaw]}>
                 {question.body_md}
