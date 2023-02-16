@@ -1,10 +1,10 @@
 @import '../../variables.module.scss';
 
 .Sub-title {
-  font-size: 26px;
-  line-height: 36px;
-  font-weight: 400;
-  font-family: serif;
+  font-family: Serif;
+  font-size: 36px;
+  line-height: 1.1;
+  font-weight: 700;
   text-align: center;
   color: $primary-color2;
   margin-top: clamp(0px, 3.5vh, 20px);
