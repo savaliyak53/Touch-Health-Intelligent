@@ -12,6 +12,7 @@ function TermsAndCondtions() {
   const navigate = useNavigate();
   const [termsAndConditions, setTermAndConditions] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [disabled, setDisabled] = useState(true)
   const { Title, Paragraph,Link  } = Typography;
   const {
     register,
@@ -25,12 +26,16 @@ function TermsAndCondtions() {
   const onSubmit = async () => {
       navigate('/security');
   };
+  const handleScroll = (e:any) => {
+    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if(bottom) setDisabled(!bottom)
+};
 
   return (
     <Layout defaultHeader={true} hamburger={false}>
-      <div className={styles.Container}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Title level={2} className={styles.TermsTitle1} >Terms and Conditions</Title>
+      <div  className={styles.Container}>
+        <Title level={2} className={styles.TermsTitle1} style={{color:'#6A2C70'}}>Terms and Conditions</Title>
+        <form onSubmit={handleSubmit(onSubmit)} onScroll={handleScroll} style={{maxHeight: 600, overflow: 'auto'}}>
           <Paragraph className={styles.TermsText}>
            {`These terms and conditions (“Agreement”) set forth the general terms and conditions of your use of the touchmedical.ca website (“Website”), “Touch Health Assistant - THA” mobile application (“Mobile Application”) and any of their related products and services (collectively, “Services”). This Agreement is legally binding between you (“User”, “you” or “your”) and Touch Medical Intelligence Inc. (“Touch Medical Intelligence Inc.”, “we”, “us” or “our”). If you are entering into this agreement on behalf of a business or other legal entity, you represent that you have the authority to bind such entity to this agreement, in which case the terms “User”, “you” or “your” shall refer to such entity. If you do not have such authority, or if you do not agree with the terms of this agreement, you must not accept this agreement and may not access and use the Services. By accessing and using the Services, you acknowledge that you have read, understood, and agree to be bound by the terms of this Agreement. You acknowledge that this Agreement is a contract between you and Touch Medical Intelligence Inc., even though it is electronic and is not physically signed by you, and it governs your use of the Services.
            \n\n`}</Paragraph>
@@ -91,16 +96,16 @@ function TermsAndCondtions() {
           <Title level={2} className={styles.TermsTitle3} style={{color:'#6A2C70'}}>Contacting us</Title>
           <Paragraph className={styles.TermsText}>{`\n\nIf you have any questions, concerns, or complaints regarding this Agreement, we encourage you to contact us using the details below:\n`}
           <br/>
-          <Link href="mailto:support@touchmedical.ca">support@touchmedical.ca</Link> {` This document was last updated on November 29, 2022`}
-          
+          <Link href="mailto:support@touchmedical.ca">support@touchmedical.ca</Link>
           </Paragraph>
-          
+          <Paragraph className={styles.TermsText}>{` This document was last updated on November 29, 2022`}</Paragraph>
 
           <div className={styles.TermsBtnWrap}>
             <Button
               className={styles.TermsBtn}
               loading={isLoading}
               onClick={handleSubmit(onSubmit)}
+              disabled={disabled}
             >
              Confirm and sign-up
             </Button>
