@@ -36,8 +36,13 @@ function UserCondition() {
         if (response?.data?.question) {
           setQuestion(response?.data?.question);
           setRefId(response.data.ref_id);
-        } else {
+        } 
+        else if(response?.data?.type==="done"){
+          console.log('done')
           handleInteractionRedirect()
+        }
+        else{
+          navigate("/dashboard")
         }
       })
       .catch((error) => {
