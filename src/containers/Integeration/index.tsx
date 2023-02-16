@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Slider, Tooltip, Button, Spin, Switch } from 'antd';
 import styles from './Integeration.module.scss';
-import { CloudDownloadOutlined } from '@ant-design/icons';
 import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
 import {
   getGoogleCode,
   revokeGoogleFit,
   getIntegrationStatus,
-  getPreference,
 } from '../../services/authservice';
 import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
-import { Radio, Space, DatePicker } from 'antd';
-import moment from 'moment';
 import 'moment-timezone';
-import { getUser } from '../../services/authservice';
+import ConfirmModal from '../Subscription/ConfirmModal';
+import { deleteAllData } from '../../services/goalsService';
 
 type IFormInputs = {
   engagementLevel: number;
@@ -40,6 +36,9 @@ const Integrations = () => {
   const [loading, setloading] = useState(false);
   const [checked, setChecked] = useState<boolean>();
   const [spinning, setSpinning] = useState<boolean>(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
     const installApp = document.getElementById('installApp');
@@ -96,6 +95,19 @@ const Integrations = () => {
       }
     });
   };
+  const handleDeleteModal = () => {
+    setShowCancelModal(false);
+  };
+  const removeUserData = () => {
+    deleteAllData()
+    .then(res => {
+      toast('User data deleted')
+      navigate('/questionnaire')
+    })
+    .catch(err => {
+      toast('Unknown error');
+    })
+  }
   const createAuthLink = (response: any) => {
     setChecked(true);
     const redirect_uri = `${process.env.REACT_APP_FRONTEND}auth/google/code`;
@@ -187,11 +199,14 @@ const Integrations = () => {
                   />
                 </Tooltip>
               </h3>
-
-              <Button className={`Pref-post-btn ${styles['Data-dlt-btn']}`}>
-                {' '}
-                Delete all my data
-              </Button>
+              <Button className={`Pref-post-btn ${styles['Data-dlt-btn']}`} onClick={() => setShowCancelModal(true)}>  Delete all my data</Button>
+              <ConfirmModal
+                title={'Confirmation'}
+                visible={showCancelModal}
+                handleCancel={handleDeleteModal}
+                handleOk={() => removeUserData()}
+                renderData={<div>Are you sure you want to delete goal?</div>}
+              />
             </div>
           </div>
         </div>

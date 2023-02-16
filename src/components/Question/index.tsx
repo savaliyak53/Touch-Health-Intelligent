@@ -141,11 +141,14 @@ const Question = ({
     switch (question?.type) {
       case 'time':
         return (
-          <Timepicker
-            onChange={onTimeChange}
-            militaryTime={true}
-            radius={100}
-          />
+          <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+            <Timepicker
+              onChange={onTimeChange}
+              militaryTime={true}
+              radius={100}
+            />
+          </div>
+
         );
       case 'date':
         return (
