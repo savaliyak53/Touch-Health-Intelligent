@@ -63,11 +63,22 @@ const Verification = () => {
         toast.success('Verified');
         //localStorage.setItem('token', phoneVerificationResponse.token)
         navigate('/subscription');
-      } else if (phoneVerificationResponse?.response?.data) {
+      }
+      else if (phoneVerificationResponse?.response?.status === 409) {
+        toast.error("It seems your phone number already registered in our system. Please try to login or recover your password.");
+        setIsVerifying(false);
+        logoutClick();
+      } 
+      else if (phoneVerificationResponse?.response?.data) {
         toast.info(phoneVerificationResponse?.response?.data?.details);
         setIsVerifying(false);
       }
     }
+  };
+  const logoutClick = () => {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('token');
+    navigate('/login');
   };
   const sendPhoneOTP = async () => {
     // api call to send phone otp
