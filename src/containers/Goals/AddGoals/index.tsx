@@ -296,11 +296,6 @@ const AddGoals = () => {
                 color: `${v['primary-color2']}`,
                 backgroundColor: `${'rgba(246, 187, 161, 0.22)'}`,
               }}
-              onClick={(e) => {
-                e.stopPropagation();
-                showModal(data);
-                setActive(true);
-              }}
             >
               <div className={styles['Mygoals-Title']}>
                 <Button
@@ -315,7 +310,15 @@ const AddGoals = () => {
                 {data.name === '' ? (
                   ''
                 ) : (
-                  <span className={styles['Rec-Text']}>{data.name}</span>
+                  <span 
+                    className={styles['Rec-Text']}               
+                    onClick={(e) => {
+                      showModal(data);
+                      setActive(true);
+                    }}
+                  >
+                    {data.name}
+                  </span>
                 )}
               </div>
               <ConfirmModal
