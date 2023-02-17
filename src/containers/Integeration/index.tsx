@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Slider, Tooltip, Button, Spin, Switch } from 'antd';
 import styles from './Integeration.module.scss';
 import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
@@ -13,7 +13,9 @@ import Layout from '../../layouts/Layout/Layout';
 import 'moment-timezone';
 import ConfirmModal from '../Subscription/ConfirmModal';
 import { deleteAllData } from '../../services/goalsService';
-
+import {
+  postInteractionService,
+} from '../../services/authservice';
 type IFormInputs = {
   engagementLevel: number;
   yob: number;
@@ -32,12 +34,18 @@ declare global {
     beforeinstallprompt: BeforeInstallPromptEvent;
   }
 }
+interface LocationState {
+  state: {
+    redirect: boolean;
+  };
+}
 const Integrations = () => {
   const [loading, setloading] = useState(false);
   const [checked, setChecked] = useState<boolean>();
   const [spinning, setSpinning] = useState<boolean>(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const navigate = useNavigate();
+  const loc = useLocation() as LocationState
 
   useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
@@ -61,9 +69,6 @@ const Integrations = () => {
       }
     });
 
-    //const userId = localStorage.getItem('userId');
-    //setSpinning(true);
-    //setloading(true);
     getIntegrationStatusService();
   }, []);
   const getIntegrationStatusService = () => {
@@ -141,8 +146,23 @@ const Integrations = () => {
   };
   // const text = <span>prompt text</span>;
 
+  const handleNext = () => {
+    postInteractionService({
+      type: 'interaction_page_redirect',
+      value : true
+    })
+    .then(res => {
+      navigate('/questionnaire');
+    })
+    .catch(() => {
+      toast.error('Something went wrong');
+    });
+  }
+useEffect(() => {
+  console.log(loc)
+}, [])
   return (
-    <Layout defaultHeader={true} hamburger={true}>
+    <Layout defaultHeader={true} hamburger={loc.state?.redirect ? false : true}>
       <Spin spinning={spinning}>
         <div className={`Content-wrap ${styles['Pref']}`}>
           <h2 className={styles['Pref-title']}>Integrations</h2>
@@ -209,6 +229,17 @@ const Integrations = () => {
               />
             </div>
           </div>
+          {loc.state?.redirect == true && (
+            <div className={styles.TermsBtnWrap}>
+              <Button
+                className={styles.TermsBtn}
+                onClick={handleNext}
+              >
+              Next
+              </Button>
+            </div>
+          )}
+
         </div>
       </Spin>
     </Layout>

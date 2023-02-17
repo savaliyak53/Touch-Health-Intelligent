@@ -21,15 +21,16 @@ export interface IPreferencesService {
 
 export interface InteractionService {
   type: string | undefined;
-  ref_id: string | undefined;
-  question_response: {
+  ref_id?: string | undefined;
+  question_response?: {
     ref_id: string | undefined;
     type: string | undefined;
     value: any;
   };
-  reward_nugget_response: {
+  reward_nugget_response?: {
     shared: boolean;
   };
+  value?: boolean
 }
 
 export interface Interaction {

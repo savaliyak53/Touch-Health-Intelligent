@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Button, DatePicker, Input, Radio, Tooltip } from 'antd';
 import { Slider } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
@@ -42,6 +43,7 @@ const Question = ({
 }: Props) => {
   const [maxNum, setMaxNum] = useState(0);
   const [defaultLength, setDefaultLength] = useState(0);
+  const navigate = useNavigate();
 
   const labelRef = React.useRef<HTMLLabelElement>(null);
   let radioOptions: string[] = [];
@@ -380,6 +382,13 @@ const Question = ({
             }}
           />
         );
+      case 'integration_page_redirect':
+        navigate('/integrations', {
+          state: {
+            redirect: true
+          }
+        });
+        return null;
       default:
         return <h2></h2>;
     }
