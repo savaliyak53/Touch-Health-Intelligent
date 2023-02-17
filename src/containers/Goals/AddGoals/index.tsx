@@ -29,6 +29,7 @@ import {
 } from '../../../services/authservice';
 import rehypeRaw from 'rehype-raw';
 import ConfirmModal from '../../Subscription/ConfirmModal';
+import LastGoalModal from '../../Subscription/LastGoalModal';
 
 type ITerms = {
   termsAndConditions: boolean;
@@ -56,6 +57,8 @@ const AddGoals = () => {
   const [userStatus, setUserSatus] = useState(false);
   const [active, setActive] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const [showLastGoalModal, setShowLastGoalModal] = useState(false);
+
 
   const getUserStatus = () => {
     const userId = localStorage.getItem('userId');
@@ -237,6 +240,9 @@ const AddGoals = () => {
   const handleBack = () => {
     navigate('/dashboard');
   };
+  const handleCancelModal=()=>{
+    setShowLastGoalModal(false)
+  }
   return (
     <Layout defaultHeader={true} hamburger={false}>
       <>
@@ -302,7 +308,9 @@ const AddGoals = () => {
                   className={styles['Cross-btn']}
                   onClick={(e) => {
                     e.stopPropagation();
+                    if(goals.length>1)
                     setShowCancelModal(true);
+                    else setShowLastGoalModal(true)
                   }}
                 >
                   <CloseOutlined className={styles['Cross']} />
@@ -327,6 +335,13 @@ const AddGoals = () => {
                 handleCancel={handleDeleteModal}
                 handleOk={() => handleDeleteOk(data.id)}
                 renderData={<div>Are you sure you want to delete goal?</div>}
+              />
+              <LastGoalModal
+                title={'Warning'}
+                visible={showLastGoalModal}
+                handleCancel={handleCancelModal}
+                handleOk={handleCancelModal}
+                 renderData={<div>Alas! Unable to delete. This is your last goal</div>}
               />
               <Button
                 key={key}
@@ -375,7 +390,10 @@ const AddGoals = () => {
               <Button
                 className="Pref-btn btn"
                 loading={isLoading}
-                onClick={() => removeGoal(selectedGoal?.id)}
+                onClick={() => {
+                  if(goals.length>1)removeGoal(selectedGoal?.id)
+                  else setShowLastGoalModal(true)
+                }}
               >
                 Remove goal
               </Button>

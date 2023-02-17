@@ -5,10 +5,11 @@
    }
    .Title {
        text-align: center;
-       margin-top: 50px;
-       font-size: 28px;
+       margin-top: 20px;
+       font-size: 35px;
        line-height: 1.2;
        font-weight: 600;
+       font-family: serif;
        margin-bottom: 40px;
        color: $secondary-color1;
    }
@@ -31,7 +32,7 @@
    .markdown-desc {
     font-family: 'Raleway', sans-serif;
     text-align: left;
-    margin-top: 50px;
+    margin-top: 15px;
     font-size: 20px;
     line-height: 1.2;
     font-weight: 600;
