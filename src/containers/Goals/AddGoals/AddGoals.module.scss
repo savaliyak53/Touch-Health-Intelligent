@@ -26,7 +26,7 @@ Select {
   font-weight: 400;
   margin-bottom: 10px;
   color: $primary-color2;
-  margin-left: 10px;
+  //margin-left: 10px;
 }
 .Des-Short,
 .Des-Goal {
@@ -42,8 +42,13 @@ Select {
   padding: 4px 18px;
   h3{
     color: $primary-color2;
-
-  }
+  } 
+  h2{
+      color: $primary-color2;
+      }
+  h1{
+      color: $primary-color2;
+      }
 }
 .Health-Goals,
 .Rec-wrap {
