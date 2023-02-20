@@ -313,7 +313,7 @@ const GoalDetails = () => {
             style={{ fontSize: '18px', color: '#D2D1D1', cursor: 'pointer' }}
           />
         </Button>
-        <h2 className={styles['Prevn-text']}>{goal?.info.name}</h2>
+        { goal?.info && (<h2 className={styles['Prevn-text']}>{goal?.info.name}</h2>)}
       </div>
       <ConfirmModal
         title={'Confirmation'}
