@@ -16,6 +16,7 @@ import jwt from 'jwt-decode';
 import { toast } from 'react-toastify';
 import { onlyNumbers } from '../../../../utils/lib';
 import Recaptcha from 'react-google-invisible-recaptcha';
+import AccountLockModal from '../../../Subscription/AccountLockModal';
 
 type LoginFormProps = {
     onSubmit: SubmitHandler<IFormInputs>,
@@ -37,6 +38,8 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [modalText, setModalText] = useState("");
+  const [ showLockAccountModal,setShowLockAccountModal]=useState(false)
   const navigate = useNavigate();
   const {
     register,
@@ -60,6 +63,9 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
+  const handleCancelModal=()=>{
+    setShowLockAccountModal(false)
+  }
 
   const onVerify = async () => {
     setIsLoading(true);
@@ -82,7 +88,12 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
     } else {
       setIsDisabled(false);
       setIsLoading(false);
-      toast.error(loginResponse?.response?.data?.details);
+      if(loginResponse?.response?.status===429)
+      {
+          setShowLockAccountModal(true)
+          setModalText(loginResponse?.response?.data?.details)
+      }
+      else toast.error(loginResponse?.response?.data?.details);
     }
   }
     return (
@@ -115,7 +126,13 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
               togglePassword={togglePassword}
             />
           </Tooltip>
-
+          <AccountLockModal
+              title={'Too many retries'}
+              visible={showLockAccountModal}
+              handleCancel={handleCancelModal}
+              handleOk={handleCancelModal}
+              renderData={<div>{modalText}</div>}
+              />
           <Button
             className={Authstyles["Auth-submit"]}
             onClick={handleSubmit(onSubmit)}

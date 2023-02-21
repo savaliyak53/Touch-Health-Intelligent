@@ -62,8 +62,7 @@ export const verifyPhoneOTP = async (
   id: string | undefined
 ) => {
   try {
-    const response = await APIClient(`/auth/verify-phone`, 'put', {
-      user_id: id,
+    const response = await APIClient(`/users/signup/${id}/verify`, 'put', {
       code: otp,
     });
     if (response) return response.data;

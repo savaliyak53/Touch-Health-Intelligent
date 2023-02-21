@@ -295,7 +295,7 @@ const PasswordRecovery = () => {
               // className="Auth-wrap"
             >
               {/* <h2 className={styles["Auth-title"]}> */}
-              <h2 className="Auth-title">
+              <h2 className={styles["Auth-title"]}>
                 Security Question
               </h2>
               <input

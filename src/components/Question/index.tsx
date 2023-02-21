@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Button, DatePicker, Input, Radio, Tooltip } from 'antd';
 import { Slider } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
@@ -17,8 +18,6 @@ import TextArea from 'antd/lib/input/TextArea';
 import { Timepicker } from 'react-timepicker';
 import 'react-timepicker/timepicker.css';
 import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
-import { validateSignUp } from '../../services/authservice';
-import { setDefaultResultOrder } from 'dns';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import moment from 'moment';
@@ -44,6 +43,7 @@ const Question = ({
 }: Props) => {
   const [maxNum, setMaxNum] = useState(0);
   const [defaultLength, setDefaultLength] = useState(0);
+  const navigate = useNavigate();
 
   const labelRef = React.useRef<HTMLLabelElement>(null);
   let radioOptions: string[] = [];
@@ -101,15 +101,15 @@ const Question = ({
     return false;
   };
   const setDisableDate = (current: moment.Moment) => {
-    if(question.range == 'future_only') {
-      console.log('return date',current.isBefore(moment()));
-      return current.isBefore(moment().subtract(1,"day"))
-    } else if (question.range == 'past_only'){
-      return current.isAfter(moment())
+    if (question.range == 'future_only') {
+      console.log('return date', current.isBefore(moment()));
+      return current.isBefore(moment().subtract(1, 'day'));
+    } else if (question.range == 'past_only') {
+      return current.isAfter(moment());
     } else {
-      return false
+      return false;
     }
-  }
+  };
 
   useEffect(() => {
     if (question.type === 'slider') {
@@ -143,18 +143,22 @@ const Question = ({
     switch (question?.type) {
       case 'time':
         return (
-          <Timepicker
-            onChange={onTimeChange}
-            militaryTime={true}
-            radius={100}
-          />
+          <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+            <Timepicker
+              onChange={onTimeChange}
+              militaryTime={true}
+              radius={100}
+            />
+          </div>
+
         );
       case 'date':
         return (
           <DatePicker
             onChange={(date: any, dateString: any) => setValue(dateString)}
             className="Date-Select"
-            disabledDate={(current) => setDisableDate(current)} />
+            disabledDate={(current) => setDisableDate(current)}
+          />
         );
       case 'yes_no':
         return (
@@ -338,11 +342,12 @@ const Question = ({
       case 'markdown_select_one':
         return (
           <div className={goal_styles['IntroGoals']}>
-            <h2 className={goal_styles['Title']}>{question.title}</h2>
-            <div className={goal_styles['Description']}>
-            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-              {question.body_md}
-            </ReactMarkdown></div> 
+           {question.title &&  <h2 className={goal_styles['Title']}>{question.title}</h2>}
+            <div className={goal_styles['markdown-desc']}>
+              <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+                {question.body_md}
+              </ReactMarkdown>
+            </div>
             <Radio.Group
               className="Question-Options"
               onChange={(e) => {
@@ -377,6 +382,13 @@ const Question = ({
             }}
           />
         );
+      case 'integration_page_redirect':
+        navigate('/integrations', {
+          state: {
+            redirect: true
+          }
+        });
+        return null;
       default:
         return <h2></h2>;
     }
@@ -425,6 +437,7 @@ const Question = ({
                   {question?.options.map((item: any, index: any) => {
                     return (
                       <Option
+                        className="Question-Options"
                         key={question?.options[index]}
                         value={question?.options[index]}
                         disabled={

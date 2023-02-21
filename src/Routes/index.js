@@ -29,6 +29,7 @@ import IntroGoals from '../containers/Goals/IntroGoals';
 import GoalDetails from '../containers/Goals/Details/index';
 import PasswordRecovery from '../containers/Auth/PasswordRecovery';
 import GoogleFitSuccess from '../containers/GoogleFitSuccess/GoogleFitSuccess';
+import Integrations from '../containers/Integeration';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -69,6 +70,7 @@ const AppRoutes = () => {
             element={<ThankyouForSubmiting />}
           />
           <Route path="/preferences" element={<Preferences />} />
+          <Route path="/integrations" element={<Integrations />} />
           <Route path="/introvideo" element={<IntroVideo />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/subscription/:id" element={<Subscription />} />

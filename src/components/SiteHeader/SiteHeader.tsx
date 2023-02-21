@@ -79,6 +79,9 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
               <Link to="/preferences">Preferences</Link>
             </li>
             <li>
+              <Link to="/integrations">Integrations</Link>
+            </li>
+            <li>
               <Link to="/subscription">Subscription</Link>
             </li>
             <li>

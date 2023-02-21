@@ -1,0 +1,135 @@
+@import '../../variables.module.scss';
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.Pref-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 35px;
+    line-height: 36px;
+    font-weight: 300;
+    color: $primary-color2;
+    margin-top: 24px;
+}
+
+.Pref {
+    .Question {
+        margin-bottom: clamp(0px, 8vh, 60px);
+    }
+
+    .Question-title {
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        font-size: 25px;
+        line-height: 27px;
+        font-weight: 500;
+        color: $primary-color2;
+        margin-top: 10px;
+        margin-bottom: 24px;
+    }
+}
+.Question {
+    margin-bottom: clamp(0px, 8vh, 60px);
+    .ant-radio-group {
+        &.Options,.Options.ant-space {
+          display: flex;
+          flex-wrap: wrap;
+        }
+      }
+}
+
+.Question-title {
+    margin-bottom: 24px;
+    .TooltipIcon {
+        max-width: 24px;
+        margin-left: 10px;
+    }
+}
+
+.button-group {
+    display: flex;
+    flex-direction: row;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+@media (max-width: 450px) {
+
+    .Pref-post-btn
+     {
+      border-radius: 80px !important;
+      height: 60px !important;
+      padding: 10px !important;
+      border: 2px solid $primary-color1 !important;
+      background-color: transparent !important;
+      color: $primary-color1 !important;
+      font-size: 20px !important;
+      line-height: 24px !important;
+      font-weight: 300 !important;
+      margin: 0 4px 0 !important;
+      max-width: 150px !important;
+      max-height: 60px !important;
+      display: block !important;
+      width: 100% !important;
+  
+      @media  screen and (min-width: 768px) {
+        max-width: 300px;
+        max-height: unset;
+        padding: 18px 30px;
+      }
+  
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: $primary-color1;
+        color: #fff;
+        border-color: $primary-color1;
+      }
+  
+      &.disabled {
+        border: 2px solid $primary-color1;
+        color: $primary-color1;
+      }
+  
+      &.msg-btn {
+        margin-top: 0;
+      }
+    }
+
+    .Data-dlt-btn {
+        min-width: 210px !important;
+    }
+}
+.TermsBtnWrap {
+  position: fixed;
+  bottom: 0;
+  background-color: #fff;
+  width: calc(100% - 40px);
+  padding-bottom: 10px;
+  .TermsBtn {
+    border-radius: 100px;
+    height: 100%;
+    padding: 18px 54px;
+    background-color: transparent;
+    color: #6A2C70;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    border: 2px solid #6A2C70;
+    margin: 0 auto;
+    max-width: 400px;
+    display: block;
+    width: 100%;
+  
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #fff;
+      color: #6A2C70;
+      border-color: #6A2C70;
+    }
+  }
+}
