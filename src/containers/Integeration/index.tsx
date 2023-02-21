@@ -15,6 +15,8 @@ import ConfirmModal from '../Subscription/ConfirmModal';
 import { deleteAllData } from '../../services/goalsService';
 import {
   postInteractionService,
+  preferencesService,
+  getInteractionServiceByType
 } from '../../services/authservice';
 type IFormInputs = {
   engagementLevel: number;
@@ -113,6 +115,43 @@ const Integrations = () => {
       toast('Unknown error');
     })
   }
+  const handleSetUserStatus = () => {
+    const userId = localStorage.getItem('userId');
+    //after successful subscription set signup_status to onboarding
+    preferencesService(
+      {
+        signup_status: 'onboarding',
+      },
+      userId
+    )
+      .then((preferencesResponse) => {
+        if (preferencesResponse) {
+          //after successful subscription initiate onboarding interaction
+          getInteractionServiceByType('onboarding')
+            .then((response: any) => {
+              if (response) {
+                navigate('/questionnaire');
+              } else {
+                navigate('/');
+              }
+            })
+            .catch((error) => {
+              toast.error(
+                `Something went wrong. Cannot initiate interaction at the moment `
+              );
+              navigate('/dashboard');
+            });
+        } else {
+          // console.log('navigate to dashboard');
+          navigate('/dashboard');
+        }
+      })
+      .catch((error) => {
+        toast.error(
+          `${error.response?.data?.title}`
+        );
+      });
+  };
   const createAuthLink = (response: any) => {
     setChecked(true);
     const redirect_uri = `${process.env.REACT_APP_FRONTEND}auth/google/code`;
@@ -152,7 +191,7 @@ const Integrations = () => {
       value : true
     })
     .then(res => {
-      navigate('/questionnaire');
+      handleSetUserStatus()
     })
     .catch(() => {
       toast.error('Something went wrong');
