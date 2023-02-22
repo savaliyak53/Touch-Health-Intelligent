@@ -109,7 +109,7 @@ const Integrations = () => {
     deleteAllData()
     .then(res => {
       toast('User data deleted')
-      navigate('/questionnaire')
+      handleSetUserStatus()
     })
     .catch(err => {
       toast('Unknown error');
@@ -191,15 +191,13 @@ const Integrations = () => {
       value : true
     })
     .then(res => {
-      handleSetUserStatus()
+      navigate('/questionnaire')
     })
     .catch(() => {
       toast.error('Something went wrong');
     });
   }
-useEffect(() => {
-  console.log(loc)
-}, [])
+
   return (
     <Layout defaultHeader={true} hamburger={loc.state?.redirect ? false : true}>
       <Spin spinning={spinning}>
