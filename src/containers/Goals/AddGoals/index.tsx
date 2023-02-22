@@ -384,7 +384,6 @@ const AddGoals = () => {
         footer={
           <div
             className={styles['Modal-Btn-Group']}
-            style={{ backgroundColor: '#fff' }}
           >
             {goals.filter((goal: any) => {
               return goal.name == selectedGoal?.name;

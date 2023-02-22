@@ -27,7 +27,7 @@ function TermsAndCondtions() {
       navigate('/security');
   };
   const handleScroll = (e:any) => {
-    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    const bottom = e.target.scrollHeight - Math.ceil(e.target.scrollTop) === e.target.clientHeight;
     if(bottom) setDisabled(!bottom)
 };
 
