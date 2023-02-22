@@ -414,7 +414,7 @@ const GoalDetails = () => {
                     }`,
                   }}
                 >
-                  {goal?.data.velocity}
+                  {goal.data.velocity > 0 ? goal?.data.velocity: 0}
                   {goal.data.velocity == 0 ? null : goal.data.velocity < 0 ? (
                     <CaretDownOutlined style={{ color: v['primary-color1'] }} />
                   ) : (
