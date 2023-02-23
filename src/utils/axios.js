@@ -47,6 +47,9 @@ const apiClient = (url, method = 'get', data = {}, header='') => {
       else if(error.response.status===429){
         return Promise.reject(error)
       }
+      else if(error.response.status===422){
+        return Promise.reject(error)
+      }
     }
     )
     return axios(config)

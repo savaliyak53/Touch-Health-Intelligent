@@ -308,8 +308,10 @@ const AddGoals = () => {
                   className={styles['Cross-btn']}
                   onClick={(e) => {
                     e.stopPropagation();
-                    if(goals.length>1)
-                    setShowCancelModal(true);
+                    if(goals.length>1) {
+                      setSelectedGoal(data)
+                      setShowCancelModal(true);
+                    }    
                     else setShowLastGoalModal(true)
                   }}
                 >
@@ -333,7 +335,7 @@ const AddGoals = () => {
                 title={'Confirmation'}
                 visible={showCancelModal}
                 handleCancel={handleDeleteModal}
-                handleOk={() => handleDeleteOk(data.id)}
+                handleOk={() => handleDeleteOk(selectedGoal?.id)}
                 renderData={<div>Are you sure you want to delete goal?</div>}
               />
               <LastGoalModal
@@ -382,7 +384,6 @@ const AddGoals = () => {
         footer={
           <div
             className={styles['Modal-Btn-Group']}
-            style={{ backgroundColor: '#fff' }}
           >
             {goals.filter((goal: any) => {
               return goal.name == selectedGoal?.name;
