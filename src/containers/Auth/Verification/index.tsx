@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import styles from "./Verification.module.scss"
 import { toast } from 'react-toastify';
 import Button from '../../../components/Button';
-import { AiOutlineEye } from 'react-icons/ai';
+import ConfirmModal from '../../Subscription/ConfirmModal';
 import Layout from '../../../layouts/Layout/Layout';
 import { Tooltip } from 'antd';
 // import './index.scss';
@@ -19,9 +19,9 @@ const Verification = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(true)
+  const [isDisabled, setIsDisabled] = useState(false)
   const toastId = useRef<any>(null);
-
+  const [finishStatus, setfinishStatus] = useState(false);
 
   const {
     register,
@@ -38,21 +38,8 @@ const Verification = () => {
     if (!userId) {
       navigate('/');
     }
-    timerCount()
-  }, []);
-  const timerCount = () => {
-    let timer = 60;
-    toastId.current = toast(<div> Resend code in {timer} second(s)  </div>, {autoClose: 60000}); 
-    const interval = setInterval(() => {
-      if(timer == 1){
-        toast.dismiss()
-        clearInterval(interval)
-        setIsDisabled(false)
-      }
-      timer = timer - 1; 
-      toast.update(toastId.current,{render:<div> Resend code in {timer} second(s) </div>, autoClose: 60000}); 
-    },1000)
-  }
+    pageBackEvent()
+   }, []);
   const onSubmit = async (data: any) => {
     if (userId) {
       setIsVerifying(true);
@@ -94,10 +81,26 @@ const Verification = () => {
       } else {
         setIsLoading(false);
         toast.success('Phone verification code sent');
-        timerCount()
       }
     } 
   };
+  const pageBackEvent = () => {
+    window.history.pushState(null, '', window.location.pathname);
+    window.addEventListener('popstate', onBackButtonEvent);
+    return () => {
+      window.removeEventListener('popstate', onBackButtonEvent);  
+    }; 
+  }
+  const onBackButtonEvent = (e:any) => {
+    e.preventDefault();
+    if (!finishStatus) {
+        setfinishStatus(true)
+
+      } else {
+          window.history.pushState(null, '', window.location.pathname);
+      }
+  }
+
   return (
     <Layout defaultHeader={true} hamburger={false}>
       <div className={styles["Verification-wrap"]}>
@@ -149,6 +152,13 @@ const Verification = () => {
         >
           Resend OTP
         </Button>
+        <ConfirmModal
+            title={'Confirmation'}
+            visible={finishStatus}
+            handleCancel={() => {setfinishStatus(false); pageBackEvent(); }}
+            handleOk={logoutClick}
+            renderData={<div>Are you sure you want to navigate away from this page?</div>}
+          />
       </div>
     </Layout>
   );
