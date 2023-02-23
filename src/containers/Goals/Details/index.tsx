@@ -11,6 +11,7 @@ import {
   RightOutlined,
   CaretDownOutlined,
   CaretUpOutlined,
+  InfoOutlined,
 } from '@ant-design/icons';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { toast } from 'react-toastify';
@@ -44,6 +45,7 @@ const GoalDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showLastGoalModal, setShowLastGoalModal] = useState(false);
+  const [showGoalInfoModal, setShowGoalInfoModal] = useState(false);
 
   const navigate = useNavigate();
   let data = {};
@@ -198,6 +200,7 @@ const GoalDetails = () => {
   const handleCancelModal = () => {
     setShowCancelModal(false);
     setShowLastGoalModal(false);
+    setShowGoalInfoModal(false);
   };
   const getGoalDetails = (goalId: string) => {
     setIsLoading(true);
@@ -314,7 +317,44 @@ const GoalDetails = () => {
           />
         </Button>
         { goal?.info && (<h2 className={styles['Prevn-text']}>{goal?.info.name}</h2>)}
+        <Button
+          className={styles['Prevn-btn']}
+          onClick={() => {
+          setShowGoalInfoModal(true)}}
+        >
+           <p
+                 style={{ fontSize: '30px', fontFamily:"serif", fontWeight:"bolder" ,fontStyle : "Italic",color: `#B83B5E`, cursor: 'pointer', marginLeft: "30px"}}
+              >i</p>
+          </Button>
       </div>
+      <Modal
+        footer={
+          <div
+            className={styles['Modal-Btn-Group']}
+          >
+            <Button
+              className="Back-btn btn"
+              loading={isLoading}
+              onClick={handleCancelModal}
+            >
+              Take me back
+            </Button>
+          </div>
+        }
+        centered
+        visible={showGoalInfoModal}
+        onCancel={handleCancelModal}
+        className="Goals-Modal"
+      >
+         <h3 className={styles['Goals-title']}>{goal?.info.name}</h3>
+        { goal?.info&& (
+          <div className={styles['Des-Goal']}>
+            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+              {goal?.info.description_md}
+            </ReactMarkdown>
+          </div>
+        )}
+      </Modal>
       <ConfirmModal
         title={'Confirmation'}
         visible={showCancelModal}
