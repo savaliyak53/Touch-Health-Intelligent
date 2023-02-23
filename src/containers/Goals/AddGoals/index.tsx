@@ -29,6 +29,7 @@ import {
 } from '../../../services/authservice';
 import rehypeRaw from 'rehype-raw';
 import ConfirmModal from '../../Subscription/ConfirmModal';
+import LastGoalModal from '../../Subscription/LastGoalModal';
 
 type ITerms = {
   termsAndConditions: boolean;
@@ -56,6 +57,8 @@ const AddGoals = () => {
   const [userStatus, setUserSatus] = useState(false);
   const [active, setActive] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const [showLastGoalModal, setShowLastGoalModal] = useState(false);
+
 
   const getUserStatus = () => {
     const userId = localStorage.getItem('userId');
@@ -237,6 +240,9 @@ const AddGoals = () => {
   const handleBack = () => {
     navigate('/dashboard');
   };
+  const handleCancelModal=()=>{
+    setShowLastGoalModal(false)
+  }
   return (
     <Layout defaultHeader={true} hamburger={false}>
       <>
@@ -296,18 +302,17 @@ const AddGoals = () => {
                 color: `${v['primary-color2']}`,
                 backgroundColor: `${'rgba(246, 187, 161, 0.22)'}`,
               }}
-              onClick={(e) => {
-                e.stopPropagation();
-                showModal(data);
-                setActive(true);
-              }}
             >
               <div className={styles['Mygoals-Title']}>
                 <Button
                   className={styles['Cross-btn']}
                   onClick={(e) => {
                     e.stopPropagation();
-                    setShowCancelModal(true);
+                    if(goals.length>1) {
+                      setSelectedGoal(data)
+                      setShowCancelModal(true);
+                    }    
+                    else setShowLastGoalModal(true)
                   }}
                 >
                   <CloseOutlined className={styles['Cross']} />
@@ -315,15 +320,30 @@ const AddGoals = () => {
                 {data.name === '' ? (
                   ''
                 ) : (
-                  <span className={styles['Rec-Text']}>{data.name}</span>
+                  <span 
+                    className={styles['Rec-Text']}               
+                    onClick={(e) => {
+                      showModal(data);
+                      setActive(true);
+                    }}
+                  >
+                    {data.name}
+                  </span>
                 )}
               </div>
               <ConfirmModal
                 title={'Confirmation'}
                 visible={showCancelModal}
                 handleCancel={handleDeleteModal}
-                handleOk={() => handleDeleteOk(data.id)}
+                handleOk={() => handleDeleteOk(selectedGoal?.id)}
                 renderData={<div>Are you sure you want to delete goal?</div>}
+              />
+              <LastGoalModal
+                title={'Warning'}
+                visible={showLastGoalModal}
+                handleCancel={handleCancelModal}
+                handleOk={handleCancelModal}
+                 renderData={<div>Alas! Unable to delete. This is your last goal</div>}
               />
               <Button
                 key={key}
@@ -364,7 +384,6 @@ const AddGoals = () => {
         footer={
           <div
             className={styles['Modal-Btn-Group']}
-            style={{ backgroundColor: '#fff' }}
           >
             {goals.filter((goal: any) => {
               return goal.name == selectedGoal?.name;
@@ -372,7 +391,10 @@ const AddGoals = () => {
               <Button
                 className="Pref-btn btn"
                 loading={isLoading}
-                onClick={() => removeGoal(selectedGoal?.id)}
+                onClick={() => {
+                  if(goals.length>1)removeGoal(selectedGoal?.id)
+                  else setShowLastGoalModal(true)
+                }}
               >
                 Remove goal
               </Button>

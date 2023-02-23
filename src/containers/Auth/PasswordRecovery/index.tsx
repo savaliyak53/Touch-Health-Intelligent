@@ -166,13 +166,13 @@ const PasswordRecovery = () => {
   const sendCode = () => {
 
     //usman send recaptcha token here 
-    refCaptcha.current.callbacks.execute();
+    refCaptcha?.current?.callbacks.execute();
 
   };
   const onVerify = () => {
     setIsLoading(true);
     setIsDisabled(true);
-    const token = refCaptcha.current.callbacks.getResponse()
+    const token = refCaptcha?.current?.callbacks.getResponse()
     requestPhoneOTP(onlyNumbers(getValues('username')),token)
       .then((response: any) => {
         if (response.code === 'ERR_BAD_REQUEST') {

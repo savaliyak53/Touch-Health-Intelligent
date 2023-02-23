@@ -24,3 +24,7 @@ export const goalDetails = async (goalId: string) => {
     return APIClient(`/ai/goals/${goalId}/data`);
     // return goalDetail;
 };
+
+export const deleteAllData = async () => {
+    return APIClient(`/ai/data`, 'delete');
+};
