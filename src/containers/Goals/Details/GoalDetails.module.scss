@@ -298,3 +298,42 @@ padding-bottom: 10px;
     }
 }
 }
+.Goals-title{
+    font-family: 'DM Serif Display', sans-serif;
+    text-align: center;
+    margin-top: 50px;
+    font-size: 9vw;
+    line-height: 1.2;
+    font-weight: 400;
+    margin-bottom: 10px;
+    color: $primary-color2;
+    //margin-left: 10px;
+  }
+  .Des-Short,
+  .Des-Goal {
+    font-family: 'Raleway', sans-serif;
+    text-align: left;
+    margin-top: 15px;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: $primary-color1;
+    margin-left: 20px;
+    padding: 4px 18px;
+    h3{
+      color: $primary-color2;
+    } 
+    h2{
+        color: $primary-color2;
+        }
+    h1{
+        color: $primary-color2;
+        }
+}
+.Modal-Btn-Group{
+    background-color: white;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 10px 0;
+}
