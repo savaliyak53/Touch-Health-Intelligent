@@ -295,6 +295,9 @@ const GoalDetails = () => {
   const handleBack = () => {
     navigate('/dashboard');
   };
+  const convertToPositive = (num:number)=>{
+    return (num < 0) ? num * -1 : num;
+  }
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <div className={styles['Backflex']} onClick={handleBack}>
@@ -454,7 +457,7 @@ const GoalDetails = () => {
                     }`,
                   }}
                 >
-                  {goal.data.velocity > 0 ? goal?.data.velocity: 0}
+                  {goal.data.velocity<0?convertToPositive(goal.data.velocity):goal.data.velocity}
                   {goal.data.velocity == 0 ? null : goal.data.velocity < 0 ? (
                     <CaretDownOutlined style={{ color: v['primary-color1'] }} />
                   ) : (
