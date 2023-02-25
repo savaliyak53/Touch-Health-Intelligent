@@ -38,6 +38,7 @@ declare global {
 }
 interface LocationState {
   state: {
+    refId: string,
     redirect: boolean;
   };
 }
@@ -187,9 +188,13 @@ const Integrations = () => {
 
   const handleNext = () => {
     postInteractionService({
-      type: 'interaction_page_redirect',
-      value : true
-    })
+      type : "question",
+      ref_id : loc.state.refId ? loc.state.refId : '',
+      question_response : {
+        type: "integration_page_redirect", 
+        value: true
+        }
+      })
     .then(res => {
       navigate('/questionnaire')
     })
@@ -199,7 +204,7 @@ const Integrations = () => {
   }
 
   return (
-    <Layout defaultHeader={true} hamburger={loc.state?.redirect ? false : true}>
+    <Layout defaultHeader={true} hamburger={loc?.state?.redirect ? false : true}>
       <Spin spinning={spinning}>
         <div className={`Content-wrap ${styles['Pref']}`}>
           <h2 className={styles['Pref-title']}>Integrations</h2>

@@ -34,8 +34,12 @@ function UserCondition() {
       .then((response) => {
         setSkeletonLoading(false);
         if (response?.data?.question) {
-          setQuestion(response?.data?.question);
-          setRefId(response.data.ref_id);
+          if(response?.data?.question.type == 'integration_page_redirect'){
+            integrationPageRedirect(response.data.ref_id)
+          } else {
+            setQuestion(response?.data?.question);
+            setRefId(response.data.ref_id);
+          }
         } 
         else if(response?.data?.type==="done"){
           console.log('done')
@@ -126,6 +130,14 @@ function UserCondition() {
       toast.error(`Something went wrong while Initiating Checkup Interaction.`);
     });
   }
+  const integrationPageRedirect = (refId: string) => {
+      navigate('/integrations', {
+        state: {
+          refId: refId,
+          redirect: true
+        }
+      });
+  }
   const onSubmit= async (state?: string, skip?: boolean) => {
     setClicked(true);
     if (
@@ -181,7 +193,11 @@ function UserCondition() {
         setValue(undefined);
         setRefId(data.ref_id ?? '');
         if (data.question) {
-          setQuestion(data.question);
+          if(data.question.type == 'integration_page_redirect'){
+            integrationPageRedirect(data.ref_id)
+          } else {
+            setQuestion(data.question);
+          }
         } else if(!data.question && data.type==="done") {
           handleInteractionRedirect();
         }
