@@ -88,18 +88,15 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
               <Link to="/help-and-support">Help and Support</Link>
             </li>
           </div>
-          <li className={styles['Signout']}>
-            <a
+          <li className={styles['Signout']}
               onClick={() => {
                 localStorage.removeItem('userId');
                 localStorage.removeItem('token');
                 (window as any).Intercom('shutdown');
                 navigate('/login');
               }}
-            >
-              {' '}
-              Sign out
-            </a>
+          >
+            <a>Sign out</a>
           </li>
         </ul>
       </div>

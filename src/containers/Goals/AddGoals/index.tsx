@@ -150,7 +150,6 @@ const AddGoals = () => {
         setIsModalOpen(false);
         setOptions(null);
         getGoalsData();
-        isDisable ? setIsDisabled(false) : null;
       })
       .catch((error) => {
         console.log(error);
@@ -165,7 +164,6 @@ const AddGoals = () => {
         setSearchValue('');
         getGoalsData();
         setIsModalOpen(false);
-        isDisable ? setIsDisabled(false) : null;
       })
       .catch((error: any) => {
         toast.error(error);
@@ -371,10 +369,10 @@ const AddGoals = () => {
           }}
         >
           <Button
-            className={`Pref-btn btn ${isDisable ? 'disabled' : ''}`}
+            className={`Pref-btn btn ${goals.length < 1  ? 'disabled' : ''}`}
             loading={isLoading}
             onClick={handleNext}
-            disabled={isDisable}
+            disabled={goals.length < 1 ? true : false}
           >
             Next
           </Button>

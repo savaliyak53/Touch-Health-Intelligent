@@ -382,13 +382,6 @@ const Question = ({
             }}
           />
         );
-      case 'integration_page_redirect':
-        navigate('/integrations', {
-          state: {
-            redirect: true
-          }
-        });
-        return null;
       default:
         return <h2></h2>;
     }
