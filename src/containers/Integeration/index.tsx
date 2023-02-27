@@ -47,8 +47,10 @@ const Integrations = () => {
   const [checked, setChecked] = useState<boolean>();
   const [spinning, setSpinning] = useState<boolean>(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const [loc, setLocation] = useState<LocationState>()
   const navigate = useNavigate();
-  const loc = useLocation() as LocationState
+  const refId = localStorage.getItem('refId')
+  const redirect = localStorage.getItem('redirect')
 
   useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
@@ -73,6 +75,12 @@ const Integrations = () => {
     });
 
     getIntegrationStatusService();
+    if(refId && redirect) setLocation({
+      state: {
+        refId: refId,
+        redirect: redirect == 'true' ? true : false
+      }
+    })
   }, []);
   const getIntegrationStatusService = () => {
     getIntegrationStatus()
@@ -189,13 +197,15 @@ const Integrations = () => {
   const handleNext = () => {
     postInteractionService({
       type : "question",
-      ref_id : loc.state.refId ? loc.state.refId : '',
+      ref_id : loc?.state.refId ? loc?.state.refId : '',
       question_response : {
         type: "integration_page_redirect", 
         value: true
         }
       })
     .then(res => {
+      localStorage.removeItem('refId')
+      localStorage.removeItem('redirect')
       navigate('/questionnaire')
     })
     .catch(() => {
@@ -271,7 +281,7 @@ const Integrations = () => {
               />
             </div>
           </div>
-          {loc.state?.redirect == true && (
+          {loc?.state?.redirect == true && (
             <div className={styles.TermsBtnWrap}>
               <Button
                 className={styles.TermsBtn}

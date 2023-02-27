@@ -131,12 +131,9 @@ function UserCondition() {
     });
   }
   const integrationPageRedirect = (refId: string) => {
-      navigate('/integrations', {
-        state: {
-          refId: refId,
-          redirect: true
-        }
-      });
+      localStorage.setItem('refId', refId)
+      localStorage.setItem('redirect', 'true')
+      navigate('/integrations');
   }
   const onSubmit= async (state?: string, skip?: boolean) => {
     setClicked(true);
