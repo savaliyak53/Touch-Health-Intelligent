@@ -30,17 +30,24 @@ const GoogleFitSuccess = () => {
     scopes: paramScope,
     redirectUri: state?.redirect_uri
   };
-   postGoogleToken(body).then((response:any)=>{
+  if(paramCode) {
+    postGoogleToken(body).then((response:any)=>{
       if(response.data){
         setLoading(false);
         toast.success('Google Fit Integrated')
         navigate("/integrations")
       }
-   }).catch((error: any) => {
-    toast.error('Something went wrong');
+    }).catch((error: any) => {
+      toast.error('Something went wrong');
+      setLoading(false)
+      navigate('/integrations')
+    })
+  } else {
+    toast.error(`You didn't complete Google Fit Integration`);
     setLoading(false)
-    navigate('/dashboard')
-  })
+    navigate('/integrations')
+  }
+
   }
   useEffect(() => {
     setLoading(true);
