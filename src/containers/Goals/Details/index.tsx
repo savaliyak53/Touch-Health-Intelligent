@@ -36,6 +36,7 @@ const GoalDetails = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [type, setType] = useState<string>();
   const [guidanceData, setGuidanceDate] = useState<any>();
+  const [followUpData, setFollowUpData] = useState<any>();
   const [followUpPattern, setFollowUpPattern] = useState<any>();
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
@@ -229,19 +230,19 @@ const GoalDetails = () => {
         setIsLoading(false);
       });
   };
-  const handleClick = (type: string, info: any) => {
+  const handleClick = (type?: string, info?: any, data?:any) => {
     setOpen(true);
     setType(type);
     setGuidanceDate(info);
-
+    setFollowUpData(data);
     //calculate followUpPattern
     const dates = timeFrom(14).sort((a: any, b: any) =>
       a[0].localeCompare(b[0])
     );
     const new_streaks = dates.map((item, index) => {
       const this_date =
-        info.followup_pattern &&
-        info.followup_pattern.find((checkup: any) => checkup[0] === item[0]);
+        data.followup_pattern &&
+        data.followup_pattern.find((checkup: any) => checkup[0] === item[0]);
       if (!this_date && index === 13) {
         return (dates[index] = [...dates[index], 'purple']);
       } else if (this_date && this_date[1] === false && index === 13) {
@@ -252,7 +253,6 @@ const GoalDetails = () => {
         return (dates[index] = [...dates[index], 'grey']);
       }
     });
-    console.log('dates: ', dates);
     setFollowUpPattern(new_streaks);
   };
   const handleClose = () => {
@@ -506,7 +506,7 @@ const GoalDetails = () => {
                   <div className={styles['Rec-wrap']} key={key}>
                     {o.info && (
                       <Button
-                        onClick={() => handleClick('new', o.info)}
+                        onClick={() => handleClick('new', o.info, o.data)}
                         className={styles['Rec-Guidance']}
                         type="primary"
                         style={{
@@ -546,7 +546,7 @@ const GoalDetails = () => {
                 {o.data.status === 'active' && (
                   <div className={styles['Rec-wrap']}>
                     <Button
-                      onClick={() => handleClick('active', o.info)}
+                      onClick={() => handleClick('active', o.info, o.data)}
                       className={styles['Rec-Guidance']}
                       type="primary"
                       style={{
@@ -580,7 +580,7 @@ const GoalDetails = () => {
                 {o.data && o.data.status === 'inactive' && (
                   <div className={styles['Rec-wrap']}>
                     <Button
-                      onClick={() => handleClick('inactive', o.info)}
+                      onClick={() => handleClick('inactive', o.info, o.data)}
                       className={styles['Rec-Guidance']}
                       type="primary"
                       style={{
@@ -665,11 +665,10 @@ const GoalDetails = () => {
           <Col span={1}></Col>
           <Col span={2}>
             <Tooltip
-              title="Try maintaining a streak by completing your checkups regularly!"
+              title="Following guidance suggestions regularly results in an improved streak."
               placement="bottomRight"
-              overlayStyle={{ marginRight: '10px' }}
+              overlayStyle={{ marginRight: '10px', zIndex:"100000" }}
               mouseLeaveDelay={0}
-              style={{ marginRight: '10px' }}
             >
               <AiOutlineQuestionCircle
                 size={30}
