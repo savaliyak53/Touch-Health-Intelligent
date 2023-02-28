@@ -143,14 +143,14 @@
   &:hover,
   &:active,
   &:focus {
-    background-color: $primary-color1;
+    background-color: $primary-color2;
     color: #fff;
-    border-color: $primary-color1;
+    border-color: $primary-color2;
   }
   &.disabled {
-    background-color: rgba($primary-color1, 0.2);
-    border: 2px solid $primary-color1;
-    color: $primary-color1;
+    background-color: rgba($primary-color2, 0.2);
+    border: 2px solid $primary-color2;
+    color: $primary-color2;
   }
 }
 @media (max-width: 520px) {
@@ -172,9 +172,9 @@
       &:active,
       &:focus {
         a {
-          background-color: $primary-color1;
+          background-color: $primary-color2;
           color: #fff;
-          border-color: $primary-color1;
+          border-color: $primary-color2;
           opacity: 1;
           display: block;
         }
