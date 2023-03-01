@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Slider, Tooltip, Button, Spin, Switch } from 'antd';
 import styles from './Preferences.module.scss';
 import { CloudDownloadOutlined } from '@ant-design/icons';
 import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
 import {
-  getGoogleCode,
-  revokeGoogleFit,
   getIntegrationStatus,
   getPreference,
 } from '../../services/authservice';
@@ -18,11 +15,6 @@ import moment from 'moment';
 import 'moment-timezone';
 import { getUser } from '../../services/authservice';
 
-type IFormInputs = {
-  engagementLevel: number;
-  yob: number;
-  sex: string;
-};
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
   readonly userChoice: Promise<{
@@ -37,10 +29,6 @@ declare global {
   }
 }
 const Preferences = () => {
-  const userId = localStorage.getItem('userId');
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
   const [loading, setloading] = useState(false);
 
   const [username, setUsername] = useState<any>('');
