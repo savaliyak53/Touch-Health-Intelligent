@@ -197,9 +197,6 @@ const PasswordRecovery = () => {
     <Layout defaultHeader={false} hamburger={false} signupLogin="Reset-bg">
       <div className="Auth-wrap">
         {enterNumber && (
-        // {codeSubmitted && question && (
-          <>
-         
           <form onSubmit={handleSubmit(sendCode)} className={styles["Auth-form"]}>
             <h2 className={styles["Auth-title"]}>
               Reset Password
@@ -219,11 +216,6 @@ const PasswordRecovery = () => {
               {isCodeSent ? 'Resend Code' : 'Send Code'}
             </Button>
           </form>
-          <Recaptcha
-          ref={refCaptcha}
-          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
-          onResolved={onVerify} />
-          </>
         )}
 
         {isCodeSent && (
@@ -423,6 +415,10 @@ const PasswordRecovery = () => {
             </div>
           </>
         )}
+        <Recaptcha
+          ref={refCaptcha}
+          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+          onResolved={onVerify} />
 
         {/* <div className="Links-wrap">
           <div className="Auth-terms-signup">

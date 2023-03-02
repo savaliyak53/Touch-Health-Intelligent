@@ -81,9 +81,10 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
             <li>
               <Link to="/integrations">Integrations</Link>
             </li>
+            {process.env.REACT_APP_IS_BETA !== 'TRUE' &&
             <li>
               <Link to="/subscription">Subscription</Link>
-            </li>
+            </li>}
             <li>
               <Link to="/help-and-support">Help and Support</Link>
             </li>
