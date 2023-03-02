@@ -33,11 +33,14 @@
     line-height: 1.1;
     font-weight: 700;
     color: #6A2C70;
-    margin-top: 50px;
+    padding-top: 50px;
+    position: fixed;
+    background-color: #fff;
+    width: 100%;
 }
 
 .Con-Description {
-    margin-bottom: 0;
+    margin-top: 80px;
     font-size: 25px;
     line-height: 27px;
     font-weight: 300;
@@ -48,15 +51,15 @@
 
 @media (max-height: 670px) {
     .Con-title {
-        margin-top: 20px;
+        padding-top: 30px;
     }
     .Con-Description {
-        margin-bottom: 20px;
+        margin-bottom: 50px;
     }
 }
 
 .Switch-wrap {
-    margin-top: 30px;
+    margin-top: 0px;
 }
 
 .Title {
