@@ -113,16 +113,20 @@ const Subscription = () => {
         console.log('Error while getting user plan. ', error);
       });
   };
+  const delay = (ms:any) => new Promise(
+    resolve => setTimeout(resolve, ms)
+  );
   const userCheckoutStatus = () => {
     setSpin(true);
     getStatus()
-      .then((response: any) => {
+      .then(async(response: any) => {
         setStripeStatus(response.data.status);
         setSpin(false);
         if (response.data.status === 'open') {
           if (retries >= 20) {
             setRetry(true);
           } else {
+            await delay(3000);
             userCheckoutStatus();
             retries++;
           }
