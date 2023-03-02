@@ -49,7 +49,7 @@ const Verification = () => {
         toast.dismiss()
         toast.success('Verified');
         //localStorage.setItem('token', phoneVerificationResponse.token)
-        navigate('/subscription');
+        process.env.REACT_APP_IS_BETA == 'TRUE' ? navigate('/') : navigate('/subscription');
       }
       else if (phoneVerificationResponse?.response?.status === 409) {
         toast.error("It seems your phone number already registered in our system. Please try to login or recover your password.");

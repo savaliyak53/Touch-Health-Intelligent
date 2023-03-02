@@ -106,7 +106,7 @@ const Home = () => {
   const getUserSubscription = (response:any) => {
     getSubscriptionStatus()
       .then((res) => {
-        if (response.data.signup_status === 'new' || res.data.isSubscribed===false) {
+        if (response.data.signup_status === 'new' && res.data.isSubscribed===false) {
           navigate('/subscription');
         }
         else {
