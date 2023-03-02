@@ -620,7 +620,7 @@ const GoalDetails = () => {
                 <div className={streakStyles.TagWrap}>
                   {followUpPattern &&
                     followUpPattern.map((item: any, index: number) => {
-                      if (item[2] === 'purple') {
+                      if (item[2] === 'purple' && type !== 'new') {
                         return (
                           <div className={streakStyles.Tag} key={index}>
                             <div
@@ -644,7 +644,7 @@ const GoalDetails = () => {
                             </div>
                           </div>
                         );
-                      } else if (item[2] === 'orange') {
+                      } else if (item[2] === 'orange' && type !== 'new') {
                         return (
                           <div className={streakStyles.Tag} key={index}>
                             <div
