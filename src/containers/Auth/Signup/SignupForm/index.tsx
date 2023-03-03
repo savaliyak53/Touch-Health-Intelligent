@@ -10,7 +10,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { signUpService } from '../../../../services/authservice';
 import { onlyNumbers } from '../../../../utils/lib';
-import Recaptcha from 'react-google-invisible-recaptcha';
+import Recaptcha from 'react-google-recaptcha';
 
 type SignupFormProps = {
   onSubmit: SubmitHandler<IFormInputs>;
@@ -224,7 +224,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
       <Recaptcha
         ref={refCaptcha}
         sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
-        onResolved={onVerify}
+        onChange={onVerify}
       />
       <div className={Authstyles['Customer-support']}>
         Problems? Contact{' '}

@@ -15,7 +15,7 @@ import { ILogin } from '../../../../interfaces';
 import jwt from 'jwt-decode';
 import { toast } from 'react-toastify';
 import { onlyNumbers } from '../../../../utils/lib';
-import Recaptcha from 'react-google-invisible-recaptcha';
+import Recaptcha from 'react-google-recaptcha';
 import AccountLockModal from '../../../Subscription/AccountLockModal';
 
 type LoginFormProps = {
@@ -71,7 +71,8 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
     setIsLoading(true);
     setIsDisabled(true);
     const submitData = getValues()
-    const token = refCaptcha.current.callbacks.getResponse()
+    const token = refCaptcha.current.getValue();
+    refCaptcha.current.reset();
     const loginRequest: ILogin = {
       username: onlyNumbers(submitData.username),
       password: submitData.password,
@@ -133,7 +134,7 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
               handleOk={handleCancelModal}
               renderData={<div>{modalText}</div>}
               />
-          <Button
+              <Button
             className={Authstyles["Auth-submit"]}
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
@@ -142,11 +143,17 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
           >
             Login
           </Button>
+          <Recaptcha
+             className={Authstyles["recaptcha"]}
+                 ref={refCaptcha}
+                 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+                  onChange={()=>{
+                    handleSubmit(onSubmit)
+                    onVerify()} } 
+                    />
         </form>
-        <Recaptcha
-        ref={refCaptcha}
-        sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
-        onResolved={onVerify} />
+
+       
         <div className={Authstyles['Links-wrap']}>
           <div className={Authstyles["Auth-terms-signup"]}>
            For customer support, please follow this <a href="https://www.touchmedical.ca/customer-care">link</a>
