@@ -13,7 +13,7 @@ type IFormInputs = {
 
 const Login = () => {
   const refCaptcha = useRef<any>(null)
-const navigate= useNavigate()
+  const navigate= useNavigate()
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     const token = refCaptcha.current.getValue();
     refCaptcha.current.reset();

@@ -34,10 +34,10 @@ type User = {
   id: string;
 };
 
-const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
+const LoginForm = ({refCaptcha}: LoginFormProps) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [modalText, setModalText] = useState("");
   const [ showLockAccountModal,setShowLockAccountModal]=useState(false)
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
     setShowLockAccountModal(false)
   }
 
-  const onVerify = async () => {
+  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     setIsLoading(true);
     setIsDisabled(true);
     const submitData = getValues()
@@ -96,7 +96,7 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
       }
       else toast.error(loginResponse?.response?.data?.details);
     }
-  }
+  };
     return (
       <div className={styles["Auth-wrap"]}>
         <form role="login-form" onSubmit={handleSubmit(onSubmit)}  className={styles["Auth-form"]}>
@@ -134,6 +134,13 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
               handleOk={handleCancelModal}
               renderData={<div>{modalText}</div>}
               />
+                <Recaptcha
+                  className={Authstyles["recaptcha"]}
+                  ref={refCaptcha}
+                   sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+                  onChange={()=>{
+                     setIsDisabled(false) } } 
+                    />
               <Button
             className={Authstyles["Auth-submit"]}
             onClick={handleSubmit(onSubmit)}
@@ -143,14 +150,6 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
           >
             Login
           </Button>
-          <Recaptcha
-             className={Authstyles["recaptcha"]}
-                 ref={refCaptcha}
-                 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
-                  onChange={()=>{
-                    handleSubmit(onSubmit)
-                    onVerify()} } 
-                    />
         </form>
 
        
