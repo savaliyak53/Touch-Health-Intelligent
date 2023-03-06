@@ -416,9 +416,12 @@ const PasswordRecovery = () => {
           </>
         )}
         <Recaptcha
-          ref={refCaptcha}
-          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
-          onChange={onVerify} />
+              className={styles["recaptcha"]}
+              ref={refCaptcha}
+              sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+              onChange={()=>{
+              setIsDisabled(false) } } 
+            />
 
         {/* <div className="Links-wrap">
           <div className="Auth-terms-signup">

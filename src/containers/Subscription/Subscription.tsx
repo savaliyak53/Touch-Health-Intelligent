@@ -143,13 +143,11 @@ const Subscription = () => {
   useEffect(() => {
     const checkout_status: string | null = userCheckoutStatus();
     if (checkout_status === null) {
-      console.log('in this checkout status use Effect');
       userSubscriptionStatus();
       fetchPlans();
       fetchUserSubscription();
       setSpin(false);
     } else if (checkout_status === 'complete') {
-      console.log('calling complete');
       userSubscriptionStatus();
       fetchPlans();
       fetchUserSubscription();
