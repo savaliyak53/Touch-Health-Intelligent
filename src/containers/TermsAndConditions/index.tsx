@@ -31,6 +31,10 @@ function TermsAndCondtions() {
     if(bottom) setDisabled(!bottom)
 };
 
+useEffect(() => {
+  window.scrollTo(0,0)
+}, [])
+
   return (
     <Layout defaultHeader={true} hamburger={false}>
       <div  className={styles.Container}>
