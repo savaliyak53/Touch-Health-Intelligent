@@ -11,14 +11,21 @@
   /* height: 100%; */
 }
 .Verification-title {
+  display: flex;
+  justify-content: center;
   font-family: Serif;
   font-size: 36px;
   line-height: 1.1;
   font-weight: 700;
   color: $primary-color2;
-  margin-top: 50px;
+  padding-top: 50px;
+  position: fixed;
+  background-color: #fff;
+  width: 100%;
+  margin: 0 auto;
 }
 .Verification-form {
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;

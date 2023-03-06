@@ -1,6 +1,4 @@
 .Container {
-  padding-bottom: 70px;
-  overflow-y: auto;
   position: relative;
   // .error-message {
   //   color: red;
@@ -11,7 +9,11 @@
     line-height: 1.1;
     font-weight: 700;
     color: #6A2C70;
-    margin-top: 50px;
+    padding-top: 50px;
+    padding-bottom: 10px;
+    position: fixed;
+    background-color: #fff;
+    width: 100%;
   }
   .TermsTitle3 {
     font-family: Serif;

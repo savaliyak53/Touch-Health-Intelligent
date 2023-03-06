@@ -23,6 +23,7 @@ const SecurityQuestions = () => {
     setQuestion(option);
   };
   useEffect(() => {
+    window.scrollTo(0,0)
     const userId = localStorage.getItem('userId');
     if (!userId) {
       navigate('/signup');
@@ -77,16 +78,15 @@ const SecurityQuestions = () => {
 
   return (
     <Layout defaultHeader={true} hamburger={false}>
-      <div className="Content-wrap Con">
+      <div >
         <h2 className={styles['Con-title']}>
           Security Question <Spin spinning={loading} />
         </h2>
+        <div className={styles['Switch-wrap']} style={{maxHeight: 600, overflow: 'auto'}}>
         <p className={styles['Con-Description']}>
           Please help us protect your account. Select a security question and
           input answer. You can use this to get back access to your account.
         </p>
-
-        <div className={styles['Switch-wrap']}>
           <div className="Select-Wrap">
             <Select
               placeholder="Select a question"

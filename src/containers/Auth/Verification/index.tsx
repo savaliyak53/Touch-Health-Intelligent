@@ -35,6 +35,7 @@ const Verification = () => {
     shouldUnregister: false,
   });
   useEffect(() => {
+    window.scrollTo(0,0)
     if (!userId) {
       navigate('/');
     }
@@ -49,7 +50,7 @@ const Verification = () => {
         toast.dismiss()
         toast.success('Verified');
         //localStorage.setItem('token', phoneVerificationResponse.token)
-        navigate('/subscription');
+        process.env.REACT_APP_IS_BETA == 'TRUE' ? navigate('/') : navigate('/subscription');
       }
       else if (phoneVerificationResponse?.response?.status === 409) {
         toast.error("It seems your phone number already registered in our system. Please try to login or recover your password.");
@@ -104,8 +105,8 @@ const Verification = () => {
   return (
     <Layout defaultHeader={true} hamburger={false}>
       <div className={styles["Verification-wrap"]}>
+      <h2 className={styles["Verification-title"]}>Verification Code</h2>
         <form onSubmit={handleSubmit(onSubmit)} className={styles["Verification-form"]}>
-          <h2 className={styles["Verification-title"]}>Verification Code</h2>
           <Controller
             control={control}
             name="code"
@@ -143,15 +144,16 @@ const Verification = () => {
           >
             Verify
           </Button>
+          <Button
+            onClick={sendPhoneOTP}
+            className="Pref-btn btn"
+            loading={isLoading}
+            disabled={isDisabled}
+          >
+            Resend OTP
+          </Button>
         </form>
-        <Button
-          onClick={sendPhoneOTP}
-          className="Pref-btn btn"
-          loading={isLoading}
-          disabled={isDisabled}
-        >
-          Resend OTP
-        </Button>
+
         <ConfirmModal
             title={'Confirmation'}
             visible={finishStatus}
