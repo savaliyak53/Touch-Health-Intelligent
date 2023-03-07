@@ -15,7 +15,7 @@ import { ILogin } from '../../../../interfaces';
 import jwt from 'jwt-decode';
 import { toast } from 'react-toastify';
 import { onlyNumbers } from '../../../../utils/lib';
-import Recaptcha from 'react-google-recaptcha';
+import { ReCAPTCHA } from 'react-google-recaptcha';
 import AccountLockModal from '../../../Subscription/AccountLockModal';
 
 type LoginFormProps = {
@@ -112,7 +112,7 @@ const LoginForm = ({refCaptcha}: LoginFormProps) => {
             color="orange"
             placement="bottomLeft"
             title={errors.password?.message}
-            visible={errors.password ? true : false}
+            open={errors.password ? true : false}
           >
             <InputField
               id="password"
@@ -128,20 +128,20 @@ const LoginForm = ({refCaptcha}: LoginFormProps) => {
             />
           </Tooltip>
           <AccountLockModal
-              title={'Too many retries'}
-              visible={showLockAccountModal}
-              handleCancel={handleCancelModal}
-              handleOk={handleCancelModal}
-              renderData={<div>{modalText}</div>}
-              />
-                <Recaptcha
-                  className={Authstyles["recaptcha"]}
-                  ref={refCaptcha}
-                   sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
-                  onChange={()=>{
-                     setIsDisabled(false) } } 
-                    />
-              <Button
+            title={'Too many retries'}
+            visible={showLockAccountModal}
+            handleCancel={handleCancelModal}
+            handleOk={handleCancelModal}
+            renderData={<div>{modalText}</div>}
+          />
+          <ReCAPTCHA
+            className={Authstyles["recaptcha"]}
+            ref={refCaptcha}
+              sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+            onChange={()=>{
+            setIsDisabled(false) } } 
+          />
+          <Button
             className={Authstyles["Auth-submit"]}
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
