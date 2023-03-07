@@ -10,7 +10,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { signUpService } from '../../../../services/authservice';
 import { onlyNumbers } from '../../../../utils/lib';
-import Recaptcha from 'react-google-invisible-recaptcha';
+import Recaptcha from 'react-google-recaptcha';
 
 type SignupFormProps = {
   onSubmit: SubmitHandler<IFormInputs>;
@@ -31,7 +31,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
   const [checked, setChecked] = useState(false);
   const [checkedError, setCheckedError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const navigate = useNavigate();
   const {
     register,
@@ -64,7 +64,9 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
     setIsLoading(true);
     setIsDisabled(true);
     const submitData = getValues();
-    const token = refCaptcha.current.callbacks.getResponse();
+    //const token = refCaptcha.current.callbacks.getResponse();
+    const token = refCaptcha.current.getValue();
+    refCaptcha.current.reset();
     localStorage.setItem('captchaToken', token);
     localStorage.setItem('phone', onlyNumbers(submitData.phone));
     signUpService(
@@ -222,10 +224,12 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
         </Button>
       </form>
       <Recaptcha
-        ref={refCaptcha}
-        sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
-        onResolved={onVerify}
-      />
+          className={Authstyles["recaptcha"]}
+          ref={refCaptcha}
+          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+          onChange={()=>{
+          setIsDisabled(false) } } 
+          />
       <div className={Authstyles['Customer-support']}>
         Problems? Contact{' '}
         <a href="https://www.touchmedical.ca/customer-care">customer support</a>
