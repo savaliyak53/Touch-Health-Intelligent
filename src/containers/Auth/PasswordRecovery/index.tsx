@@ -24,7 +24,7 @@ import {
 } from '../../../services/authservice';
 import { ILogin } from '../../../interfaces';
 import jwt from 'jwt-decode';
-import Recaptcha from 'react-google-recaptcha';
+import { ReCAPTCHA } from 'react-google-recaptcha';
 
 type IRecoverFormInputs = {
   username: string;
@@ -258,7 +258,7 @@ const PasswordRecovery = () => {
                   color="orange"
                   placement="bottom"
                   title={errors.code?.message}
-                  visible={errors.code ? true : false}
+                  open={errors.code ? true : false}
                 />
                 <Button
                   onClick={handleSubmit(onSubmitCode)}
@@ -415,7 +415,7 @@ const PasswordRecovery = () => {
             </div>
           </>
         )}
-        <Recaptcha
+        <ReCAPTCHA
               className={styles["recaptcha"]}
               ref={refCaptcha}
               sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
