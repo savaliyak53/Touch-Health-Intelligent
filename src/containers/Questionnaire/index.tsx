@@ -42,7 +42,6 @@ function UserCondition() {
           }
         } 
         else if(response?.data?.type==="done"){
-          console.log('done')
           handleInteractionRedirect()
         }
         else{
