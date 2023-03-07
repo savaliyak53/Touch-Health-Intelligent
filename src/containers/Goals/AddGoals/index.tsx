@@ -379,10 +379,24 @@ const AddGoals = () => {
         </div>
       </div>
       <Modal
-        footer={
-          <div
-            className={styles['Modal-Btn-Group']}
-          >
+        footer={null
+
+        }
+        centered
+        visible={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        className="Goals-Modal"
+      >
+        <h3 className={styles['Goals-title']}>{selectedGoal?.name}</h3>
+        {selectedGoal && (
+          <div className={styles['Des-Goal']}>
+            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+              {selectedGoal.description_md}
+            </ReactMarkdown>
+          </div>
+        )}
+                  <div className={styles['Modal-Btn-Group']}>
             {goals.filter((goal: any) => {
               return goal.name == selectedGoal?.name;
             })[0]?.name ? (
@@ -413,21 +427,6 @@ const AddGoals = () => {
               Take me back
             </Button>
           </div>
-        }
-        centered
-        visible={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        className="Goals-Modal"
-      >
-        <h3 className={styles['Goals-title']}>{selectedGoal?.name}</h3>
-        {selectedGoal && (
-          <div className={styles['Des-Goal']}>
-            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-              {selectedGoal.description_md}
-            </ReactMarkdown>
-          </div>
-        )}
       </Modal>
     </Layout>
   );
