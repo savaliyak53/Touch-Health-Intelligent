@@ -36,9 +36,9 @@ const apiClient = (url, method = 'get', data = {}, header='') => {
         return Promise.reject(error)
       }
       else if (error.response.status === 401) {
-        localStorage.removeItem('userId');
-        localStorage.removeItem('token');
-        window.location = '/login';
+        //localStorage.removeItem('userId');
+       // localStorage.removeItem('token');
+        //window.location = '/login';
         return Promise.reject(error)
       }
       else if(error.response.status === 403){
