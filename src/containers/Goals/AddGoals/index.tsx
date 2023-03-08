@@ -74,6 +74,7 @@ const AddGoals = () => {
   };
 
   const showModal = (data: any) => {
+    document.querySelectorAll<HTMLElement>('.Layout')[0].style.height = '100%'
     setSelectedGoal(data);
     setIsModalOpen(true);
   };
@@ -84,6 +85,7 @@ const AddGoals = () => {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    document.querySelectorAll<HTMLElement>('.Layout')[0].style.height = 'auto'
   };
 
   const handleDeleteOk = (id: any) => {
