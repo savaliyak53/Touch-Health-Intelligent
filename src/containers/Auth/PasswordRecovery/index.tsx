@@ -24,7 +24,7 @@ import {
 } from '../../../services/authservice';
 import { ILogin } from '../../../interfaces';
 import jwt from 'jwt-decode';
-import { ReCAPTCHA } from 'react-google-recaptcha';
+import  ReCAPTCHA  from 'react-google-recaptcha';
 
 type IRecoverFormInputs = {
   username: string;
