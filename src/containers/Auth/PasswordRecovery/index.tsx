@@ -338,7 +338,7 @@ const PasswordRecovery = () => {
                 color="orange"
                 placement="bottomLeft"
                 title={errors.code?.message}
-                visible={errors.code ? true : false}
+                open={errors.code ? true : false}
               ></Tooltip>
               <div className={styles["input-element-wrapper-password"]}>
               {/* <div className="input-element-wrapper-password"> */}
@@ -346,7 +346,7 @@ const PasswordRecovery = () => {
                   color="orange"
                   placement="bottomLeft"
                   title={errors.new_password?.message}
-                  visible={errors.new_password ? true : false}
+                  open={errors.new_password ? true : false}
                 >
                   <input
                     id="new_password"
@@ -378,7 +378,7 @@ const PasswordRecovery = () => {
                   color="orange"
                   placement="bottomLeft"
                   title={errors.confirmPassword?.message}
-                  visible={errors.confirmPassword ? true : false}
+                  open={errors.confirmPassword ? true : false}
                 >
                   <input
                     id="confirmPassword"
@@ -416,12 +416,12 @@ const PasswordRecovery = () => {
           </>
         )}
         <ReCAPTCHA
-              className={styles["recaptcha"]}
-              ref={refCaptcha}
-              sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
-              onChange={()=>{
-              setIsDisabled(false) } } 
-            />
+          className={styles["recaptcha"]}
+          ref={refCaptcha}
+          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+          onChange={()=>{
+          setIsDisabled(false) } } 
+        />
 
         {/* <div className="Links-wrap">
           <div className="Auth-terms-signup">
