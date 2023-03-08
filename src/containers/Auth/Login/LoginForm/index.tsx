@@ -15,7 +15,7 @@ import { ILogin } from '../../../../interfaces';
 import jwt from 'jwt-decode';
 import { toast } from 'react-toastify';
 import { onlyNumbers } from '../../../../utils/lib';
-import { ReCAPTCHA } from 'react-google-recaptcha';
+import ReCAPTCHA from 'react-google-recaptcha'
 import AccountLockModal from '../../../Subscription/AccountLockModal';
 
 type LoginFormProps = {

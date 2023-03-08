@@ -10,7 +10,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { signUpService } from '../../../../services/authservice';
 import { onlyNumbers } from '../../../../utils/lib';
-import { ReCAPTCHA } from 'react-google-recaptcha';
+import  ReCAPTCHA from 'react-google-recaptcha';
 
 type SignupFormProps = {
   onSubmit: SubmitHandler<IFormInputs>;
