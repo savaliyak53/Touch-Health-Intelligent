@@ -18,7 +18,7 @@ const AccountLockModal = ({
   return (
     <Modal
       title={title}
-      open={open}
+      visible={visible}
       onOk={handleOk}
       onCancel={handleCancel}
       footer={[

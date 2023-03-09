@@ -7,13 +7,14 @@ import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
 import {
   getIntegrationStatus,
   getPreference,
+  preferencesService,
 } from '../../services/authservice';
 import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
 import { Radio, Space, DatePicker } from 'antd';
 import moment from 'moment';
 import 'moment-timezone';
-import { getUser } from '../../services/authservice';
+import { getUser, updatePreference } from '../../services/authservice';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -30,13 +31,15 @@ declare global {
 }
 const Preferences = () => {
   const [loading, setloading] = useState(false);
-
+  const [enable, setEnabled] = useState(false);
   const [username, setUsername] = useState<any>('');
   const [checked, setChecked] = useState<boolean>();
-
   const [yob, setYob] = useState<any>('');
   const [sex, setSex] = useState<any>('');
   const [spinning, setSpinning] = useState<boolean>(true);
+  const [userId, setUserId] = useState<any>('')
+  const navigate = useNavigate();
+
   useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
     const installApp = document.getElementById('installApp');
@@ -59,7 +62,8 @@ const Preferences = () => {
       }
     });
 
-    const userId = localStorage.getItem('userId');
+    const id = localStorage.getItem('userId');
+    setUserId(id)
     setSpinning(true);
     setloading(true);
     getIntegrationStatusService();
@@ -72,6 +76,7 @@ const Preferences = () => {
         if (response?.data) {
           setYob(response.data.yob);
           setSex(response.data.sex);
+          setUsername(response.data.username)
           setloading(false);
         }
         setSpinning(false);
@@ -79,16 +84,6 @@ const Preferences = () => {
       .catch((error) => {
         toast('Unknown error');
         setSpinning(false);
-      });
-    getUser(userId)
-      .then((res: any) => {
-        if (res.data) {
-          console.log(res.data.name);
-          setUsername(res.data.name);
-        }
-      })
-      .catch((error) => {
-        toast('Unknown error');
       });
   };
   const getIntegrationStatusService = () => {
@@ -103,6 +98,24 @@ const Preferences = () => {
         setSpinning(false);
       });
   };
+  const handleNext = () => {
+    if(username !== '') {
+      preferencesService({
+        name: username
+      }, userId)
+      updatePreference({
+        username : username
+        })
+      .then(res => {
+        navigate('/dashboard')
+      })
+      .catch(() => {
+        toast.error('Something went wrong');
+      });
+    } else {
+      toast.error("Username cannot be empty!")
+    }
+  }
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <Spin spinning={spinning}>
@@ -178,7 +191,6 @@ const Preferences = () => {
                 </Button>
               </div>
             )}
-            {username !== '' && (
               <div>
                 <h3
                   className={styles['Question-title']}
@@ -186,7 +198,23 @@ const Preferences = () => {
                 >
                   Username
                 </h3>
-                <Button className="Pref-username-btn">{username}</Button>
+                {/* <Button className="Pref-username-btn">{username}</Button> */}
+                <input
+                    type="text"
+                    className={styles["Pref-username-input"]}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    onClick={() => setEnabled(true)}
+                  />
+              </div>
+            {enable && (
+              <div className={styles.TermsBtnWrap}>
+                <Button
+                  className={styles.TermsBtn}
+                  onClick={handleNext}
+                >
+                Next
+                </Button>
               </div>
             )}
           </div>
