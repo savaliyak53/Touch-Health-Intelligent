@@ -258,7 +258,7 @@ const PasswordRecovery = () => {
                   color="orange"
                   placement="bottom"
                   title={errors.code?.message}
-                  open={errors.code ? true : false}
+                  visible={errors.code ? true : false}
                 />
                 <Button
                   onClick={handleSubmit(onSubmitCode)}
@@ -338,7 +338,7 @@ const PasswordRecovery = () => {
                 color="orange"
                 placement="bottomLeft"
                 title={errors.code?.message}
-                open={errors.code ? true : false}
+                visible={errors.code ? true : false}
               ></Tooltip>
               <div className={styles["input-element-wrapper-password"]}>
               {/* <div className="input-element-wrapper-password"> */}
@@ -346,7 +346,7 @@ const PasswordRecovery = () => {
                   color="orange"
                   placement="bottomLeft"
                   title={errors.new_password?.message}
-                  open={errors.new_password ? true : false}
+                  visible={errors.new_password ? true : false}
                 >
                   <input
                     id="new_password"
@@ -378,7 +378,7 @@ const PasswordRecovery = () => {
                   color="orange"
                   placement="bottomLeft"
                   title={errors.confirmPassword?.message}
-                  open={errors.confirmPassword ? true : false}
+                  visible={errors.confirmPassword ? true : false}
                 >
                   <input
                     id="confirmPassword"
