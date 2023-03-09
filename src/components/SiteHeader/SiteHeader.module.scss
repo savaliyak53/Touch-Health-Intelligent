@@ -59,7 +59,7 @@
       font-family: 'Lato', sans-serif;
       font-size: 34px;
       line-height: 72px;
-      color: white;
+      color: $primary-color1;
       font-weight: 400;
       background-color: transparent;
       border: none;
@@ -187,7 +187,7 @@
         font-family: 'Lato', sans-serif;
         font-size: 18px;
         line-height: 50px;
-        color: white;
+        color: $primary-color1;
         font-weight: 400;
         background-color: transparent;
         border: none;
@@ -235,6 +235,24 @@
       font-weight: 700;
       color: $primary-color1;
       line-height: 21px;
+    }
+  }
+
+  @media (max-height: 670px) {
+    .Signout {
+      margin-top: 70px;
+    }
+    .menu-routes {
+      li {
+        a {
+          line-height: 60px;
+        }
+      }
+    }
+    .Burger-menu{
+      ul{
+        margin-top: 10px;
+      }
     }
   }
 }

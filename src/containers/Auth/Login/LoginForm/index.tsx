@@ -112,7 +112,7 @@ const LoginForm = ({refCaptcha}: LoginFormProps) => {
             color="orange"
             placement="bottomLeft"
             title={errors.password?.message}
-            open={errors.password ? true : false}
+            visible={errors.password ? true : false}
           >
             <InputField
               id="password"

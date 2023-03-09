@@ -97,7 +97,7 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
                 navigate('/login');
               }}
           >
-            <a>Sign out</a>
+            <a style={{color: 'white'}}>Sign out</a>
           </li>
         </ul>
       </div>
