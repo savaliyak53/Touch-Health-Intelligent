@@ -129,7 +129,7 @@ const LoginForm = ({refCaptcha}: LoginFormProps) => {
           </Tooltip>
           <AccountLockModal
             title={'Too many retries'}
-            visible={showLockAccountModal}
+            open={showLockAccountModal}
             handleCancel={handleCancelModal}
             handleOk={handleCancelModal}
             renderData={<div>{modalText}</div>}

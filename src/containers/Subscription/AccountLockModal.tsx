@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { DatePicker, Modal, Button } from 'antd';
 import styles from './Subscription.module.scss';
 export type IProps = {
-  visible: boolean;
+  open: boolean;
   handleCancel: () => any;
   handleOk: any;
   renderData?: any;
   title: string;
 };
 const AccountLockModal = ({
-  visible,
+  open,
   handleCancel,
   title,
   handleOk,
@@ -18,7 +18,7 @@ const AccountLockModal = ({
   return (
     <Modal
       title={title}
-      open={visible}
+      open={open}
       onOk={handleOk}
       onCancel={handleCancel}
       footer={[

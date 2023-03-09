@@ -537,7 +537,7 @@ const Subscription = () => {
                               )}
                               <ConfirmModal
                                 title={'Confirmation'}
-                                visible={showCancelModal}
+                                open={showCancelModal}
                                 handleCancel={handleCancelModal}
                                 handleOk={handleOk}
                                 renderData={
@@ -605,7 +605,7 @@ const Subscription = () => {
             </>
             <ConfirmModal
               title={'Confirmation'}
-              visible={showSwitchModal}
+              open={showSwitchModal}
               handleCancel={handleCancelModal}
               handleOk={handleSwitch}
               renderData={

@@ -46,7 +46,7 @@ const CountryCode = ({
         color="orange"
         placement="bottomLeft"
         title={errors?.message ?? 'Invalid Phone number'}
-        visible={
+        open={
           fieldName === 'confirmPhone' ? isConfirmPhone : errors ? true : false
         }
       >

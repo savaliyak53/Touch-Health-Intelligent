@@ -17,7 +17,7 @@
         "@types/react-text-mask": "^5.4.11",
         "@types/uuid": "^8.3.4",
         "@types/yup": "^0.29.14",
-        "antd": "^4.19.5",
+        "antd": "^4.24.8",
         "axios": "^0.27.1",
         "buffer": "^6.0.3",
         "chart.js": "^3.8.0",
