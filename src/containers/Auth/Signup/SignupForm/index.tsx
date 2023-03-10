@@ -203,6 +203,13 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
             <AiOutlineEye />
           </button>
         </div>
+        <ReCAPTCHA
+          className={Authstyles["recaptcha"]}
+          ref={refCaptcha}
+          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+          onChange={()=>{
+          setIsDisabled(false) } } 
+        />
         <Tooltip
           color="orange"
           placement="bottom"
@@ -223,15 +230,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
           Register
         </Button>
       </form>
-      <>
-      <ReCAPTCHA
-        className={Authstyles["recaptcha"]}
-        ref={refCaptcha}
-        sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
-        onChange={()=>{
-        setIsDisabled(false) } } 
-        />
-      </>
+     
       <div className={Authstyles['Customer-support']}>
         Problems? Contact{' '}
         <a href="https://www.touchmedical.ca/customer-care">customer support</a>
