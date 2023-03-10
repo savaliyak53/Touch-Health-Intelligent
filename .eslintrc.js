@@ -17,5 +17,7 @@ module.exports = {
         sourceType: 'module',
     },
     plugins: ['react', '@typescript-eslint'],
-    rules: {},
+    rules:  {
+        "no-mixed-spaces-and-tabs": 0, // disable rule
+      },
 }

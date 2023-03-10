@@ -1,4 +1,4 @@
-const Data=[
+export const Data=[
     {
         "type": "question",
         "ref_id": "7f79ab89-4ff8-42f9-80c9-eb5eae78f17e",
