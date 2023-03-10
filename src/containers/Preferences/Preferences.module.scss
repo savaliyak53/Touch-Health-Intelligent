@@ -56,6 +56,53 @@
     margin-left: 10px;
 }
 
+.Pref-username-input {
+  border-radius: 80px;
+  height: 60px;
+  border: 2px solid $primary-color2;
+  color: $primary-color2;
+  font-size: 20px;
+  max-width: 150px;
+  text-align: center;
+  margin-bottom: 70px;
+  &:hover,
+  &:focus,
+  &.Selected {
+      border: 2px solid $primary-color2;
+  }
+}
+
+.TermsBtnWrap {
+  position: fixed;
+  bottom: 0;
+  background-color: #fff;
+  width: calc(100% - 40px);
+  padding-bottom: 10px;
+  .TermsBtn {
+    border-radius: 100px;
+    height: 100%;
+    padding: 18px 54px;
+    background-color: transparent;
+    color: #6A2C70;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    border: 2px solid #6A2C70;
+    margin: 0 auto;
+    max-width: 400px;
+    display: block;
+    width: 100%;
+  
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #fff;
+      color: #6A2C70;
+      border-color: #6A2C70;
+    }
+  }
+}
+
 @media (max-width: 450px) {
 
     .Pref-post-btn
