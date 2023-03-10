@@ -274,7 +274,7 @@ const Integrations = () => {
               <Button className={`Pref-post-btn ${styles['Data-dlt-btn']}`} onClick={() => setShowCancelModal(true)}>  Delete all my data</Button>
               <ConfirmModal
                 title={'Confirmation'}
-                visible={showCancelModal}
+                open={showCancelModal}
                 handleCancel={handleDeleteModal}
                 handleOk={() => removeUserData()}
                 renderData={<div>Are you sure you want to delete goal?</div>}

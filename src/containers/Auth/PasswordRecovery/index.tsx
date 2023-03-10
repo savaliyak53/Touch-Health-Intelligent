@@ -47,7 +47,7 @@ const PasswordRecovery = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [question, setQuestion] = useState('');
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
@@ -172,7 +172,9 @@ const PasswordRecovery = () => {
   const onVerify = () => {
     setIsLoading(true);
     setIsDisabled(true);
-    const token = refCaptcha?.current?.callbacks.getResponse()
+    const token = refCaptcha.current.getValue();
+    refCaptcha.current.reset();
+    //const token = refCaptcha?.current?.callbacks.getResponse()
     requestPhoneOTP(onlyNumbers(getValues('username')),token)
       .then((response: any) => {
         if (response.code === 'ERR_BAD_REQUEST') {
@@ -197,7 +199,7 @@ const PasswordRecovery = () => {
     <Layout defaultHeader={false} hamburger={false} signupLogin="Reset-bg">
       <div className="Auth-wrap">
         {enterNumber && (
-          <form onSubmit={handleSubmit(sendCode)} className={styles["Auth-form"]}>
+          <form onSubmit={handleSubmit(onVerify)} className={styles["Auth-form"]}>
             <h2 className={styles["Auth-title"]}>
               Reset Password
             </h2>
@@ -208,7 +210,7 @@ const PasswordRecovery = () => {
               fieldName="username"
             />
             <Button
-              onClick={isCodeSent ? sendCode : handleSubmit(sendCode)}
+              onClick={isCodeSent ? sendCode : handleSubmit(onVerify)}
               loading={isLoading}
               disabled={isDisabled}
               className="Pref-btn btn"

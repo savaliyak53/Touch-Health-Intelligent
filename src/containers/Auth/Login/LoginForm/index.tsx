@@ -129,7 +129,7 @@ const LoginForm = ({refCaptcha}: LoginFormProps) => {
           </Tooltip>
           <AccountLockModal
             title={'Too many retries'}
-            visible={showLockAccountModal}
+            open={showLockAccountModal}
             handleCancel={handleCancelModal}
             handleOk={handleCancelModal}
             renderData={<div>{modalText}</div>}
@@ -137,7 +137,7 @@ const LoginForm = ({refCaptcha}: LoginFormProps) => {
           <ReCAPTCHA
             className={Authstyles["recaptcha"]}
             ref={refCaptcha}
-              sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
             onChange={()=>{
             setIsDisabled(false) } } 
           />

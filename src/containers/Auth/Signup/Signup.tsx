@@ -21,8 +21,8 @@ const SignUp = () => {
   const navigate= useNavigate()
 
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-
-    refCaptcha.current.callbacks.execute();
+    const token = refCaptcha.current.getValue();
+    refCaptcha.current.reset();
   };
 
   return (

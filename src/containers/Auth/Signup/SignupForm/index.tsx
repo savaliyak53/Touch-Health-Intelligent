@@ -101,7 +101,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
     <div className={styles['Auth-wrap']}>
       <form
         role="signup-form"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onVerify)}
         className={styles['Auth-form']}
       >
         <h2 className={`${styles['Auth-title']} `}>Find your path to health</h2>
@@ -110,7 +110,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
             color="orange"
             placement="bottomLeft"
             title={errors.name?.message}
-            visible={errors.name ? true : false}
+            open={errors.name ? true : false}
           >
             <input
               id="name"
@@ -203,6 +203,13 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
             <AiOutlineEye />
           </button>
         </div>
+        <ReCAPTCHA
+          className={Authstyles["recaptcha"]}
+          ref={refCaptcha}
+          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+          onChange={()=>{
+          setIsDisabled(false) } } 
+        />
         <Tooltip
           color="orange"
           placement="bottom"
@@ -216,22 +223,14 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
           className={`${styles['Auth-submit']} ${
             isDisabled ? Authstyles['disabled'] : ''
           }`}
-          onClick={handleSubmit(onSubmit)}
+          onClick={handleSubmit(onVerify)}
           loading={isLoading}
           disabled={isDisabled}
         >
           Register
         </Button>
       </form>
-      <>
-      <ReCAPTCHA
-        className={Authstyles["recaptcha"]}
-        ref={refCaptcha}
-        sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
-        onChange={()=>{
-        setIsDisabled(false) } } 
-        />
-      </>
+     
       <div className={Authstyles['Customer-support']}>
         Problems? Contact{' '}
         <a href="https://www.touchmedical.ca/customer-care">customer support</a>

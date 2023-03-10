@@ -333,14 +333,14 @@ const AddGoals = () => {
               </div>
               <ConfirmModal
                 title={'Confirmation'}
-                visible={showCancelModal}
+                open={showCancelModal}
                 handleCancel={handleDeleteModal}
                 handleOk={() => handleDeleteOk(selectedGoal?.id)}
                 renderData={<div>Are you sure you want to delete goal?</div>}
               />
               <LastGoalModal
                 title={'Warning'}
-                visible={showLastGoalModal}
+                open={showLastGoalModal}
                 handleCancel={handleCancelModal}
                 handleOk={handleCancelModal}
                  renderData={<div>Alas! Unable to delete. This is your last goal</div>}
@@ -385,7 +385,7 @@ const AddGoals = () => {
 
         }
         centered
-        visible={isModalOpen}
+        open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
         className="Goals-Modal"

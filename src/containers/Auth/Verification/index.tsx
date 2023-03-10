@@ -135,7 +135,7 @@ const Verification = () => {
             color="orange"
             placement="bottom"
             title={errors.code?.message}
-            visible={errors.code ? true : false}
+            open={errors.code ? true : false}
           />
           <Button
             onClick={handleSubmit(onSubmit)}
@@ -156,7 +156,7 @@ const Verification = () => {
 
         <ConfirmModal
             title={'Confirmation'}
-            visible={finishStatus}
+            open={finishStatus}
             handleCancel={() => {setfinishStatus(false); pageBackEvent(); }}
             handleOk={logoutClick}
             renderData={<div>Are you sure you want to navigate away from this page?</div>}
