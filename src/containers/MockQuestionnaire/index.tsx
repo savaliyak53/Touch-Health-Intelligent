@@ -15,9 +15,13 @@ import { Interaction } from '../../interfaces';
 import Layout from '../../layouts/Layout/Layout';
 import { Skeleton, Divider } from 'antd';
 import { Data } from '../MockScrollingChat/mockdata'
+import cloneDeep from 'lodash/cloneDeep';
+import { Collapse } from 'antd';
+const { Panel } = Collapse;
 
 function MockQuestionnaire() {
-  const [question, setQuestion] = useState<Interaction | any>();
+  const [question, setQuestion] = useState<Interaction | any>(Data[0]);
+  const [index , setIndex]=useState<number>(0)
   const [value, setValue] = useState<string | undefined>();
   const [items, setItems] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -26,7 +30,10 @@ function MockQuestionnaire() {
   const [isClicked, setClicked] = useState(false);
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
   const [signupStatus, setSignupStatus] = useState<string | null >();
-  const [questionArray, setQuestionArray] = useState<any>(null)
+  const [historyQuestionArray, setHistoryQuestionArray] = useState<any>([Data[0]])
+ 
+
+
 
 
   const navigate = useNavigate();
@@ -40,7 +47,7 @@ function MockQuestionnaire() {
             integrationPageRedirect(response.data.ref_id)
           } else {
             setQuestion(response?.data?.question);
-            setQuestionArray([response?.data?.question])
+            // setQuestionArray([response?.data?.question])
             setRefId(response.data.ref_id);
           }
         } 
@@ -111,7 +118,10 @@ function MockQuestionnaire() {
     });          
   }
   useEffect(() => {
-    setQuestionArray(Data)
+    //setQuestionArray(Data)
+    console.log("Data ", Data)
+    console.log("Index ", index)
+    setQuestion(Data[index])
     // if(location && location.pathname ==='/c/checkup'){
     //   handleInitiateCheckupByLink();
     // }
@@ -139,29 +149,29 @@ function MockQuestionnaire() {
       navigate('/integrations');
   }
   const onSubmit= async (state?: string, skip?: boolean) => {
+    console.log("questopn : ", question)
     setClicked(true);
     if (
-      question.type !== 'select_many' && 
-      question.type !== 'mutli_select' &&
-      question.type !== 'yes_no' &&
-      question.type !== 'slider' &&
-      question.type !== 'select_one' &&
-      question.type !== 'dialog_select_one' &&
-      question.type !== 'image_and_text' &&
-      question.type !== 'image_and_text_select_one' &&
-      question.type !== 'markdown_select_one' &&
+      question.question.type !== 'select_many' && 
+      question.question.type !== 'mutli_select' &&
+      question.question.type !== 'yes_no' &&
+      question.question.type !== 'slider' &&
+      question.question.type !== 'select_one' &&
+      question.question.type !== 'dialog_select_one' &&
+      question.question.type !== 'image_and_text' &&
+      question.question.type !== 'image_and_text_select_one' &&
+      question.question.type !== 'markdown_select_one' &&
       !value
     ) {
       toast.error('Please select a value');
       return;
     }
-
     const payload = {
       type: 'question',
       ref_id: refId,
       question_response: {
         ref_id: question.ref_id,
-        type: question.type,
+        type:question.type,
         value: value,
       },
       reward_nugget_response: {
@@ -186,32 +196,41 @@ function MockQuestionnaire() {
     if (question.type == 'image_and_text') {
       payload.question_response.value = '1';
     }
+    const historyQuestionsClone= cloneDeep(historyQuestionArray)
+    setHistoryQuestionArray((historyQuestionsClone:any) => [...historyQuestionsClone, question])
     setLoading(true);
-    questionArray[questionArray.length - 1].answer = payload.question_response.value
-    postInteractionService(payload)
-      .then(({ data }) => {
-        setLoading(false);
-        setValue(undefined);
-        setRefId(data.ref_id ?? '');
-        if (data.question) {
-          if(data.question.type == 'integration_page_redirect'){
-            integrationPageRedirect(data.ref_id)
-          } else {
-            setQuestion(data.question);
-          }
-        } else if(!data.question && data.type==="done") {
-          handleInteractionRedirect();
-        }
-        else {
-          toast.error('Something went wrong, question is null');
-        }
-      })
-      .catch(() => {
-        setLoading(false);
-        toast.error('Something went wrong');
-        setLoading(false);
-        navigate('/dashboard');
-      });
+    setIndex(index+1)
+    setQuestion(Data[index]);
+    historyQuestionArray[historyQuestionArray.length-1].answer =  payload.question_response.value 
+    console.log(" question : ", question)
+    console.log("history question array : ", historyQuestionArray)
+    console.log("payload  : ",payload)
+    setLoading(false);
+
+    // postInteractionService(payload)
+    //   .then(({ data }) => {
+    //     setLoading(false);
+    //     setValue(undefined);
+    //     setRefId(data.ref_id ?? '');
+    //     if (data.question) {
+    //       if(data.question.type == 'integration_page_redirect'){
+    //         integrationPageRedirect(data.ref_id)
+    //       } else {
+    //         setQuestion(data.question);
+    //       }
+    //     } else if(!data.question && data.type==="done") {
+    //       handleInteractionRedirect();
+    //     }
+    //     else {
+    //       toast.error('Something went wrong, question is null');
+    //     }
+    //   })
+    //   .catch(() => {
+    //     setLoading(false);
+    //     toast.error('Something went wrong');
+    //     setLoading(false);
+    //     navigate('/dashboard');
+    //   });
   };
   useEffect(() => {
     question?.type === 'slider'
@@ -219,24 +238,29 @@ function MockQuestionnaire() {
       : setDisableNextButton(false);
     setClicked(false);
   }, [question, question?.q_str]);
-  console.log(questionArray);
+  console.log(question);
   return (
     <Layout defaultHeader={true} hamburger={false}>
+      <Collapse accordion>
+            {historyQuestionArray.map((q : any , index : number)=>{
+               <Panel header={q.question} key={index}>
+               <p>{q.answer}</p>
+               </Panel>
+            })}
+      </Collapse>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
-      {questionArray?.map((q: any, key: any) => (
-      <>
-        <div className="Content-wrap Pain" key={key}>
+        <div className="Content-wrap Pain">
             <>
               <Question
                 selectedValue={value}
-                question={q.question}
+                question={question.question}
                 items={items}
                 setItems={setItems}
                 setValue={setValue}
                 onSubmit={onSubmit}
                 setDisableNextButton={setDisableNextButton}
               />
-              {q.question?.type !== 'yes_no' && q.question?.type !== 'dialog_select_one' && q.question?.type !== 'image_and_text_select_one' && question?.type !== 'markdown_select_one' && (
+              {question.question?.type !== 'yes_no' && question.question?.type !== 'dialog_select_one' && question.question?.type !== 'image_and_text_select_one' && question.question?.type !== 'markdown_select_one' && (
                 <div className="Btn-group">
                   <Button
                     className={`Next ${isClicked && 'active'}`}
@@ -245,7 +269,7 @@ function MockQuestionnaire() {
                       onSubmit()
                     }}
                     loading={loading}
-                  disabled={q.question?.type !== 'select_many' && q.question?.type !=='multi_select' && q.question?.type !=='image_and_text' && typeof value === 'undefined' || loading}
+                  disabled={question.question?.type !== 'select_many' && question.question?.type !=='multi_select' && question.question?.type !=='image_and_text' && typeof value === 'undefined' || loading}
                   >
                     Next
                   </Button>
@@ -254,9 +278,6 @@ function MockQuestionnaire() {
             </>
         </div>
         <Divider/>
-      </>
-      ))}
-
     </Layout>
   );
 }
