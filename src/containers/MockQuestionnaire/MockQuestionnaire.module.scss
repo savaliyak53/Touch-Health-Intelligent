@@ -1,0 +1,77 @@
+
+.ArrowUpBtn {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+}
+
+.RecentQuestionWrap {
+    height: calc(100vh - 75px);
+    flex-direction: column;
+    position: relative;
+    padding-top: 55px;
+    display: flex;
+}
+
+.HistoryArrow,
+.HistoryArrow:before {
+    position: absolute;
+    left: 50%;
+}
+
+.HistoryArrow {
+    width: 40px;
+    height: 40px;
+    top: 5%;
+    margin: -20px 0 0 -20px;
+    -webkit-transform: rotate(225deg);
+    border-left: none;
+    border-top: none;
+    border-right: 3px #6A2C70 solid;
+    border-bottom: 3px #6A2C70 solid;
+}
+
+.HistoryArrow:before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    margin: -10px 0 0 -10px;
+    border-left: none;
+    border-top: none;
+    border-right: 2px #6A2C70 solid;
+    border-bottom: 2px #6A2C70 solid;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-name: arrow;
+}
+
+.HistorySection {
+    padding-top: 10px;
+    padding-bottom: 45px;
+    height: calc(100vh - 75px);
+    flex-direction: column;
+    position: relative;
+    display: flex;
+
+    .HistoryArrow {
+        -webkit-transform: rotate(45deg);
+        top: unset;
+        bottom: 0;
+    }
+}
+
+.HistoryContent,
+.RecentContent {
+overflow: auto;
+}
+
+@keyframes arrow {
+    0% {
+        opacity: 0;
+        transform: translate(-10px, -10px);
+    }
+    100% {
+        opacity: 1;
+    }
+}

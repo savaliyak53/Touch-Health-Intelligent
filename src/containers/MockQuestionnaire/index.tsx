@@ -17,6 +17,7 @@ import { Skeleton, Divider } from 'antd';
 import { Data } from '../MockScrollingChat/mockdata'
 import cloneDeep from 'lodash/cloneDeep';
 import { Collapse } from 'antd';
+import styles from './MockQuestionnaire.module.scss';
 const { Panel } = Collapse;
 
 function MockQuestionnaire() {
@@ -31,7 +32,11 @@ function MockQuestionnaire() {
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
   const [signupStatus, setSignupStatus] = useState<string | null >();
   const [historyQuestionArray, setHistoryQuestionArray] = useState<any>([Data[0]])
+  const [toggleHistoryRecent, setToggleHistoryRecent] = useState(false);
  
+  const handleToggleHistoryRecent = () => {
+    setToggleHistoryRecent(!toggleHistoryRecent);
+  }
 
 
 
@@ -249,35 +254,75 @@ function MockQuestionnaire() {
             })}
       </Collapse>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
-        <div className="Content-wrap Pain">
+        <div className=" Pain">
             <>
-              <Question
-                selectedValue={value}
-                question={question.question}
-                items={items}
-                setItems={setItems}
-                setValue={setValue}
-                onSubmit={onSubmit}
-                setDisableNextButton={setDisableNextButton}
-              />
-              {question.question?.type !== 'yes_no' && question.question?.type !== 'dialog_select_one' && question.question?.type !== 'image_and_text_select_one' && question.question?.type !== 'markdown_select_one' && (
-                <div className="Btn-group">
-                  <Button
-                    className={`Next ${isClicked && 'active'}`}
-                    onClick={() => {
-                      setClicked(true);
-                      onSubmit()
-                    }}
-                    loading={loading}
-                  disabled={question.question?.type !== 'select_many' && question.question?.type !=='multi_select' && question.question?.type !=='image_and_text' && typeof value === 'undefined' || loading}
-                  >
-                    Next
-                  </Button>
-                </div>
-              )}
+            <section className={styles.HistorySection} style={{'display':`${toggleHistoryRecent? 'flex' : 'none'}`}}>
+              <div className={styles.HistoryContent}>
+                  <Question
+                    selectedValue={value}
+                    question={question.question}
+                    items={items}
+                    setItems={setItems}
+                    setValue={setValue}
+                    onSubmit={onSubmit}
+                    setDisableNextButton={setDisableNextButton}
+                  />
+                  {question.question?.type !== 'yes_no' && question.question?.type !== 'dialog_select_one' && question.question?.type !== 'image_and_text_select_one' && question.question?.type !== 'markdown_select_one' && (
+                    <div className="Btn-group">
+                      <Button
+                        className={`Next ${isClicked && 'active'}`}
+                        onClick={() => {
+                          setClicked(true);
+                          onSubmit()
+                        }}
+                        loading={loading}
+                      disabled={question.question?.type !== 'select_many' && question.question?.type !=='multi_select' && question.question?.type !=='image_and_text' && typeof value === 'undefined' || loading}
+                      >
+                        Next
+                      </Button>
+                    </div>
+                  )}
+              </div>
+
+              <div onClick={handleToggleHistoryRecent}>
+                  <div className={styles.HistoryArrow}></div>
+              </div>
+            </section>
+
+            <section className={styles.RecentQuestionWrap} style={{'display':`${toggleHistoryRecent? 'none' : 'flex'}`}}>
+              <div onClick={handleToggleHistoryRecent}>
+                  <div className={styles.HistoryArrow}></div>
+              </div>
+
+              <div className={styles.RecentContent}>
+                <Question
+                  selectedValue={value}
+                  question={question.question}
+                  items={items}
+                  setItems={setItems}
+                  setValue={setValue}
+                  onSubmit={onSubmit}
+                  setDisableNextButton={setDisableNextButton}
+                />
+                {question.question?.type !== 'yes_no' && question.question?.type !== 'dialog_select_one' && question.question?.type !== 'image_and_text_select_one' && question.question?.type !== 'markdown_select_one' && (
+                  <div className="Btn-group">
+                    <Button
+                      className={`Next ${isClicked && 'active'}`}
+                      onClick={() => {
+                        setClicked(true);
+                        onSubmit()
+                      }}
+                      loading={loading}
+                    disabled={question.question?.type !== 'select_many' && question.question?.type !=='multi_select' && question.question?.type !=='image_and_text' && typeof value === 'undefined' || loading}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </section>
             </>
         </div>
-        <Divider/>
     </Layout>
   );
 }

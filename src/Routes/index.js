@@ -59,13 +59,13 @@ const AppRoutes = () => {
         <Route path="/goals/:id" element={<GoalDetails />} />
         {/* Protected Routes */}
         <Route path="/dashboard" element={<DashboardNew />} />
+        <Route path="/questionnaire-poc" element={<MockQuestionnaire />} />
         <Route element={<RequireAuth />}>
           <Route path="insights" element={<Insights />} />
           <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
           <Route path="/insights/guideline" element={<Timeline />} />
           <Route path="/diamond" element={<Diamond />} />
           <Route path="/questionnaire" element={<UserCondition />} />
-          <Route path="/questionnaire-poc" element={<MockQuestionnaire />} />
           <Route path="/c/:reason" element={<UserCondition />} />
           <Route
             path="/questionnaire-submit"
