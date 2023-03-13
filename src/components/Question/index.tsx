@@ -53,7 +53,7 @@ const Question = ({
   const formatter = (value: number | undefined) => `${value}`;
   let defaults: any = [];
   const removeclass = (item: any) => {
-    const el = document.querySelector<HTMLLabelElement>(`#label-${item}`);
+    const el = document.querySelector<HTMLLabelElement>(`label-${item}`);
     if (el) {
       el.classList.remove('ant-radio-button-wrapper-checked');
     }
@@ -80,21 +80,20 @@ const Question = ({
     setValue(`${hours}:${minutes ? minutes : '00'}:00.648052`);
   };
 
-  const handleClick = (item: string) => {
-    const index = question.options.indexOf(item);
-    if (radioOptions.includes(index)) {
-      const newArr = radioOptions.filter((item) => item !== index);
+  const handleClick = (index:number) => {
+    const index_string = index.toString();
+    if (radioOptions.includes(index_string)) {
+      const newArr = radioOptions.filter((i) => i !== index_string);
       radioOptions = [...newArr];
-      removeclass(item);
-      removeclass(item);
-    } else {
-      radioOptions = [...radioOptions, index];
+      removeclass(index_string);
+    } else {   
+      radioOptions = [...radioOptions, index_string];
     }
     setValue(radioOptions.length ? radioOptions : undefined);
   };
-  const isChecked = (item: string) => {
-    const index = question.options.indexOf(item);
-    if (radioOptions.includes(index)) {
+ 
+  const isChecked = (index: number) => {
+    if (radioOptions.includes(index.toString())) {
       return true;
     }
     // else
@@ -284,9 +283,9 @@ const Question = ({
             {question.options.map((item: any, index: number) => (
               <label
                 ref={labelRef}
-                id={`label-${item}`}
+                id={`label-${index}`}
                 className={`ant-radio-button-wrapper Option${index} ${
-                  isChecked(item) ? 'ant-radio-button-wrapper-checked' : ''
+                  isChecked(index) ? 'ant-radio-button-wrapper-checked' : ''
                 } `}
                 key={index}
               >
@@ -295,7 +294,7 @@ const Question = ({
                     type="radio"
                     className="ant-radio-button-input"
                     value={item}
-                    onClick={() => handleClick(item)}
+                    onClick={() => handleClick(index)}
                   />
                   <span className="ant-radio-button-inner"></span>
                 </span>
