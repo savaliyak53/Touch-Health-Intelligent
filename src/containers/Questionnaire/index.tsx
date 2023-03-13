@@ -213,7 +213,7 @@ function UserCondition() {
       ? setDisableNextButton(true)
       : setDisableNextButton(false);
     setClicked(false);
-  }, [question, question?.q_str]);
+  }, [question, question?.q_str, question?.ref_id]);
   
   return (
     <Layout defaultHeader={true} hamburger={false}>
