@@ -25,6 +25,7 @@ import {
 import { ILogin } from '../../../interfaces';
 import jwt from 'jwt-decode';
 import  ReCAPTCHA  from 'react-google-recaptcha';
+import RecaptchaModal from '../../Subscription/RecaptchaModal';
 
 type IRecoverFormInputs = {
   username: string;
@@ -55,6 +56,8 @@ const PasswordRecovery = () => {
   const [codeSubmitted, setCodeSubmitted] = useState(false);
   const [enterNumber, setEnterNumber] = useState(true);
   const [changePassword, setChangePassword] = useState(false);
+  const [openRecaptcha, setOpenRecaptcha] = useState(false);
+  
   const refCaptcha = useRef<any>(null)
 
   const togglePassword = () => {
@@ -158,23 +161,39 @@ const PasswordRecovery = () => {
           toast('error', error);
         });
     } else {
-      sendCode();
       setChangePassword(false);
       setEnterNumber(true);
     }
   };
-  const sendCode = () => {
-
-    //usman send recaptcha token here 
-    refCaptcha?.current?.callbacks.execute();
-
-  };
-  const onVerify = () => {
+  const resendOTP=()=>{
     setIsLoading(true);
     setIsDisabled(true);
-    const token = refCaptcha.current.getValue();
-    refCaptcha.current.reset();
-    //const token = refCaptcha?.current?.callbacks.getResponse()
+    const token =localStorage.getItem("recaptcha-token")
+    console.log("token : ", token)
+    requestPhoneOTP(onlyNumbers(getValues('username')),token || "")
+      .then((response: any) => {
+        if (response.code === 'ERR_BAD_REQUEST') {
+          toast(response.response.data.details);
+          setIsLoading(false);
+          setIsDisabled(false);
+        } else {
+          setEnterNumber(false);
+          setIsCodeSent(true);
+          toast.success('Verification Code sent');
+          setIsLoading(false);
+          setIsDisabled(true);
+        }
+      })
+      .catch((error: any) => {
+        toast(error.response);
+        setIsLoading(false);
+        setIsDisabled(false);
+      });
+  }
+  const onVerify = ( ) => {
+    setIsLoading(true);
+    setIsDisabled(true);
+    const token =  refCaptcha?.current?.getValue();
     requestPhoneOTP(onlyNumbers(getValues('username')),token)
       .then((response: any) => {
         if (response.code === 'ERR_BAD_REQUEST') {
@@ -217,7 +236,7 @@ const PasswordRecovery = () => {
              setIsDisabled(false) } } 
               />
             <Button
-              onClick={isCodeSent ? sendCode : handleSubmit(onVerify)}
+              onClick={handleSubmit(onVerify)}
               loading={isLoading}
               disabled={isDisabled}
               className="Pref-btn btn"
@@ -277,8 +296,16 @@ const PasswordRecovery = () => {
                   Verify
                 </Button>
               </form>
+              <RecaptchaModal
+                title={''}
+                open={openRecaptcha}
+                resendOTP={resendOTP}
+                setOpenRecaptcha={setOpenRecaptcha}
+               />
               <Button
-                onClick={sendCode}
+                onClick={()=>{
+                  setOpenRecaptcha(true)
+                }}
                 className="Pref-btn btn"
                 loading={isLoading}
               >
