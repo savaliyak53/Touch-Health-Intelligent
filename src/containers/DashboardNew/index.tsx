@@ -132,11 +132,11 @@ const DashboardNew = () => {
                <Typography className={styles.GoalCount} style={{color:'#6A2C70'}}>{item.success_score}</Typography>
              </div>
              <div className={styles.GoalBarWrap}>
-               <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>G</Typography>
+               <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>Goal</Typography>
                <Progress percent={item.success_score} strokeColor="#6A2C70" strokeWidth={15} showInfo={false}/>
              </div>
              <div className={styles.GoalBarWrap}>
-               <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>D</Typography>
+               <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>Data</Typography>
                <Progress percent={item.data_score} strokeColor="#F08A5D" strokeWidth={15} showInfo={false}/>
              </div>
            </div>
