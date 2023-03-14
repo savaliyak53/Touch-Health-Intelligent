@@ -464,6 +464,12 @@ input {
     }
   }
 }
+.Select-Wrap.history {
+  border: 2px solid grey;
+  .ant-select{
+    color: grey !important
+  }
+}
 .Goal-Select-Wrap {
   border: 2px solid $primary-color2;
   border-radius: 100px;

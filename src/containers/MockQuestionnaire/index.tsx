@@ -127,6 +127,7 @@ function MockQuestionnaire() {
     console.log("Data ", Data)
     console.log("Index ", index)
     setQuestion(Data[index])
+    setHistoryQuestionArray(Data)
     // if(location && location.pathname ==='/c/checkup'){
     //   handleInitiateCheckupByLink();
     // }
@@ -246,42 +247,32 @@ function MockQuestionnaire() {
   console.log(question);
   return (
     <Layout defaultHeader={true} hamburger={false}>
-      <Collapse accordion>
-            {historyQuestionArray.map((q : any , index : number)=>{
-               <Panel header={q.question} key={index}>
+      {/* <Collapse accordion>
+            {historyQuestionArray.map((q : any , index : number)=>(
+               <Panel header={q.question.q_str} key={index}>
                <p>{q.answer}</p>
                </Panel>
-            })}
-      </Collapse>
+            ))}
+      </Collapse> */}
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
         <div className=" Pain">
             <>
             <section className={styles.HistorySection} style={{'display':`${toggleHistoryRecent? 'flex' : 'none'}`}}>
-              <div className={styles.HistoryContent}>
+            <div className={styles.HistoryContent}>
+            {historyQuestionArray.map((q : any , index : number)=>(
+              <div key={index} style={{minHeight: '60vh' ,scrollSnapAlign: 'center'}}>
+                  <Divider/>
                   <Question
                     selectedValue={value}
-                    question={question.question}
+                    question={q.question}
                     items={items}
                     setItems={setItems}
                     setValue={setValue}
                     onSubmit={onSubmit}
                     setDisableNextButton={setDisableNextButton}
                   />
-                  {question.question?.type !== 'yes_no' && question.question?.type !== 'dialog_select_one' && question.question?.type !== 'image_and_text_select_one' && question.question?.type !== 'markdown_select_one' && (
-                    <div className="Btn-group">
-                      <Button
-                        className={`Next ${isClicked && 'active'}`}
-                        onClick={() => {
-                          setClicked(true);
-                          onSubmit()
-                        }}
-                        loading={loading}
-                      disabled={question.question?.type !== 'select_many' && question.question?.type !=='multi_select' && question.question?.type !=='image_and_text' && typeof value === 'undefined' || loading}
-                      >
-                        Next
-                      </Button>
-                    </div>
-                  )}
+                  </div>
+            ))}
               </div>
 
               <div onClick={handleToggleHistoryRecent}>
@@ -303,6 +294,7 @@ function MockQuestionnaire() {
                   setValue={setValue}
                   onSubmit={onSubmit}
                   setDisableNextButton={setDisableNextButton}
+                  recent={true}
                 />
                 {question.question?.type !== 'yes_no' && question.question?.type !== 'dialog_select_one' && question.question?.type !== 'image_and_text_select_one' && question.question?.type !== 'markdown_select_one' && (
                   <div className="Btn-group">

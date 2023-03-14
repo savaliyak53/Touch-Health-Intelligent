@@ -32,6 +32,7 @@ interface Props {
   onSubmit: any;
   setValue: any;
   setDisableNextButton: any;
+  recent?: boolean;
 }
 
 const Question = ({
@@ -42,6 +43,7 @@ const Question = ({
   setDisableNextButton,
   items,
   setItems,
+  recent
 }: Props) => {
   const [maxNum, setMaxNum] = useState(0);
   const [defaultLength, setDefaultLength] = useState(0);
@@ -144,19 +146,20 @@ const Question = ({
     }
   }, [selectedValue]);
   useEffect(() => {
-    const options = {
-    	strings: [question.q_str ?? ''],
-      typeSpeed: 50,
-    };
-    
-    // elRef refers to the <span> rendered below
-    typed.current = new Typed(el.current, options);
-    
-    return () => {
-      // Make sure to destroy Typed instance during cleanup
-      // to prevent memory leaks
-      typed.current.destroy();
-    }
+      const options = {
+        strings: [question.q_str ?? ''],
+        typeSpeed: recent ? 50 : 0,
+        showCursor: false
+      };
+      
+      // elRef refers to the <span> rendered below
+      typed.current = new Typed(el.current, options);
+      
+      return () => {
+        // Make sure to destroy Typed instance during cleanup
+        // to prevent memory leaks
+        typed.current.destroy();
+      }
   }, [])
   const InputField = useCallback(() => {
     switch (question?.type) {
@@ -411,7 +414,7 @@ const Question = ({
         {question && (
           <>
             <h3
-              className={` ${styles['Question-title']} ${styles['Question-heading']} `} >
+              className={` ${styles['Question-title']} ${styles['Question-heading']} ${recent ? '' : styles['history']} `} >
               {/* {question.q_str} */}
               <span ref={el} />
               {question.h_str && (
@@ -431,7 +434,7 @@ const Question = ({
             </h3>
             <br />
             {question.type === 'multi_select' ? (
-              <div className="Select-Wrap">
+              <div className={`Select-Wrap ${recent ? '' : "history"}`}>
                 <SearchOutlined className="search" />
                 <Select
                   value={items}

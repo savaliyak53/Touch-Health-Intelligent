@@ -64,6 +64,7 @@
 .HistoryContent,
 .RecentContent {
 overflow: auto;
+scroll-snap-type: y mandatory;
 }
 
 @keyframes arrow {
