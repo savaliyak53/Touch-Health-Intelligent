@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { getDashboard } from '../../services/dashboardservice';
 import { useNavigate } from 'react-router-dom';
 import { timeFrom } from '../../utils/lib';
+import { tooltipContent } from '../../constants';
 const DashboardNew = () => {
   const [elements, setElements] = useState<any>();
   const [elementStreak, setElementStreak] = useState<any>();
@@ -64,8 +65,29 @@ const DashboardNew = () => {
   return (
     <Layout defaultHeader={true} hamburger={true} dashboard={false}>
       <Spin spinning={loading}>
-      <div>
-        <Typography style={{color:'#6A2C70'}} className={styles.Title}>{streakCount && streakCount >0 ? `${streakCount} day streak!` :'No current streak'}</Typography>
+      <div>    
+        <Row>
+          <Col span={21}>
+          <Typography style={{color:'#6A2C70'}} className={styles.Title}>{'Your Dashboard'}</Typography>
+          </Col>
+          <Col span={1}>
+          </Col>
+          <Col span={2}>
+            <Tooltip
+              title={tooltipContent.dashboardText}
+              placement="bottomRight"
+              overlayStyle={{ marginRight: '10px' }}
+              color="blue"
+              mouseLeaveDelay={0}
+            >
+              <AiOutlineQuestionCircle
+                size={35}
+                className={styles.TitleToolTip}
+              />
+            </Tooltip>
+          </Col>
+        </Row>
+        <Typography style={{color:'#6A2C70'}} className={styles.StreakTitle}>{streakCount && streakCount >0 ? `${streakCount} day streak!` :'No current streak'}</Typography>
         <Row>
           <Col span={21}>
             <Row>
@@ -100,7 +122,7 @@ const DashboardNew = () => {
           </Col>
           <Col span={2}>
             <Tooltip
-              title='Try maintaining a streak by completing your checkups regularly!'
+              title={tooltipContent.streakText}
               placement="bottomRight"
               overlayStyle={{ marginRight: '10px' }}
               color="blue"
@@ -132,11 +154,11 @@ const DashboardNew = () => {
                <Typography className={styles.GoalCount} style={{color:'#6A2C70'}}>{item.success_score}</Typography>
              </div>
              <div className={styles.GoalBarWrap}>
-               <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>G</Typography>
+               <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>Goal</Typography>
                <Progress percent={item.success_score} strokeColor="#6A2C70" strokeWidth={15} showInfo={false}/>
              </div>
              <div className={styles.GoalBarWrap}>
-               <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>D</Typography>
+               <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>Data</Typography>
                <Progress percent={item.data_score} strokeColor="#F08A5D" strokeWidth={15} showInfo={false}/>
              </div>
            </div>

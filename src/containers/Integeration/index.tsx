@@ -199,7 +199,7 @@ const Integrations = () => {
       type : "question",
       ref_id : loc?.state.refId ? loc?.state.refId : '',
       question_response : {
-        type: "integration_page_redirect", 
+        type: "integration_page_redirect",
         value: true
         }
       })
@@ -248,8 +248,8 @@ const Integrations = () => {
                 className={styles['Question-title']}
                 style={{ color: '#A5A5A5' }}
               >
-                Here is the google fit description about the integration and
-                data usage
+                Touch Health Assistant collects health and activity data to enable health goal
+                analytics, guidance recommendation, and guidance follow up.
               </h3>
             </div>
             <div>
