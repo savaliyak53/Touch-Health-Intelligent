@@ -788,6 +788,54 @@ input {
     }
   }
 }
+.Question-Options-disabled {
+  color: black !important;
+  .ant-radio-button-wrapper,
+  .ant-radio-button-wrapper:first-child,
+  .ant-radio-button-wrapper:last-child {
+    margin: 10px 10px 10px 0;
+    border: 2px solid black;
+    padding: 12px 20px;
+    border-radius: 100px;
+    height: 100%;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    background-color: transparent;
+    color: black;
+
+    &:not(:first-child):before {
+      display: none;
+    }
+
+    &:hover {
+      color: black;
+    }
+  }
+  .ant-space {
+    flex-wrap: wrap;
+  }
+  .ant-radio-button-wrapper-checked {
+    // &:not(.ant-radio-button-wrapper-disabled) {
+      background-color: black;
+      border-color: black;
+      color: #fff;
+
+      // &:focus-within {
+      //   box-shadow: none;
+      // }
+
+      // &:hover {
+      //   background-color: black;
+      //   border-color: black;
+      //   color: #fff;
+      // }
+      &.ant-radio-button-wrapper:first-child {
+        border-color: black;
+      }
+    // }
+  }
+}
 @media (max-width: 400px) {
   .timepicker {
     margin-left: 20px;

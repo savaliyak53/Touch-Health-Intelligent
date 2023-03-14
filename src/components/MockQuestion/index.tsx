@@ -14,7 +14,7 @@ import { Select, Spin } from 'antd';
 import goal_styles from './IntroGoals.module.scss';
 const { Option } = Select;
 // import './index.scss';
-import styles from './Question.module.scss';
+import styles from './MockQuestion.module.scss';
 import TextArea from 'antd/lib/input/TextArea';
 import { Timepicker } from 'react-timepicker';
 import 'react-timepicker/timepicker.css';
@@ -170,6 +170,7 @@ const Question = ({
               onChange={onTimeChange}
               militaryTime={true}
               radius={100}
+              disabled={!recent?true:false}
             />
           </div>
 
@@ -177,30 +178,36 @@ const Question = ({
       case 'date':
         return (
           <DatePicker
-            onChange={(date: any, dateString: any) => setValue(dateString)}
+            onChange={(date: any, dateString: any) => {setValue(dateString)
+            console.log('datestring', dateString)
+            }}
+            defaultValue={moment()}
             className="Date-Select"
             disabledDate={(current) => setDisableDate(current)}
+            disabled={!recent}
           />
         );
       case 'yes_no':
         return (
           <div className={styles['align-center']}>
             <button
-              className={styles['no-btn']}
+              className={recent?styles['no-btn']:styles['no-btn-disabled']}
               onClick={async () => {
                 await setValue('false');
                 onSubmit('false');
               }}
+              disabled={!recent?true:false}
             >
               No
             </button>
             <button
-              className={styles['yes-btn']}
+              className={recent?styles['yes-btn']:styles['yes-btn-selected']}
               type="button"
               onClick={async () => {
                 await setValue('true');
                 onSubmit('true');
               }}
+              disabled={!recent?true:false}
             >
               Yes
             </button>
@@ -209,16 +216,18 @@ const Question = ({
       case 'select_one':
         return (
           <Radio.Group
-            className="Question-Options"
+            className={recent?"Question-Options":'Question-Options-disabled'}
             onChange={(e) => {
               const index = question.options.indexOf(e.target.value);
               setValue(index);
             }}
+            defaultValue={!recent && 'a'}
+            disabled={!recent}
           >
             {question.options.map((item: any, index: number) => (
               <>
                 <Radio.Button
-                  className={`Question-Option${index}`}
+                  //className={`Question Option${index}`}
                   value={item}
                   key={index}
                 >
@@ -269,15 +278,15 @@ const Question = ({
       case 'image_and_text_select_one':
         return (
           <div className={goal_styles['IntroGoals']}>
-            <h2 className={goal_styles['Title']}>{question.title}</h2>
-            <p className={goal_styles['Description']}>{question.sub_title}</p>
+            <h2 className={recent?goal_styles['Title']:styles['Title-disabled']}>{question.title}</h2>
+            <p className={recent?goal_styles['Description']:styles['Image-Description-Disabled']}>{question.sub_title}</p>
             <img
               src={question.image}
               className={goal_styles['Image']}
               alt="Image"
             />
             <Radio.Group
-              className="Question-Options"
+              className="Question-Options-disabled"
               onChange={(e) => {
                 const index = question.options.indexOf(e.target.value);
                 setValue(index);
@@ -302,7 +311,7 @@ const Question = ({
 
       case 'select_many':
         return (
-          <div className="ant-radio-group ant-radio-group-outline Question-Options">
+          <div className="ant-radio-group ant-radio-group-outline Question-Options-disabled">
             {question.options.map((item: any, index: number) => (
               <label
                 ref={labelRef}
@@ -330,21 +339,23 @@ const Question = ({
         return (
           <div className="Question-Slider-Vertical">
             {/* <div className={styles["Slider-Vertical"]}> */}
-            <span className={styles['Text1']}>{question.lower_qualifier}</span>
+            <span className={recent?styles['Text1']:styles['Text1-disabled']}>{question.lower_qualifier}</span>
             <Slider
               className="Slider"
               vertical
-              tipFormatter={formatter}
+              //tipFormatter={formatter}
               min={question.lower_value}
               max={question.upper_value}
               step={question.step_value}
-              tooltipVisible={question.show_values}
+              //tooltipVisible={question.show_values}
               onChange={(value) => {
                 setValue(value);
                 setDisableNextButton(false);
               }}
+              value={0.2}
+              disabled={!recent}
             />
-            <span className={styles['Text2']}>{question.upper_qualifier}</span>
+            <span className={recent?styles['Text2']:styles['Text2-disabled']}>{question.upper_qualifier}</span>
           </div>
         );
       case 'free_text':
@@ -358,20 +369,22 @@ const Question = ({
               onChange={(e) => {
                 setValue(e.target.value);
               }}
+              value={!recent?'I am having issues sleeping':''}
+              disabled={!recent}
             />
           </div>
         );
       case 'markdown_select_one':
         return (
           <div className={goal_styles['IntroGoals']}>
-           {question.title &&  <h2 className={goal_styles['Title']}>{question.title}</h2>}
-            <div className={goal_styles['markdown-desc']}>
+           {question.title &&  <h2 className={recent?goal_styles['Title']:styles['Title-disabled']}>{question.title}</h2>}
+            <div className={recent?goal_styles['markdown-desc']:styles['markdown-desc-disabled']}>
               <ReactMarkdown rehypePlugins={[rehypeRaw]}>
                 {question.body_md}
               </ReactMarkdown>
             </div>
             <Radio.Group
-              className="Question-Options"
+              className="Question-Options-disabled"
               onChange={(e) => {
                 const index = question.options.indexOf(e.target.value);
                 setValue(index);
@@ -402,6 +415,8 @@ const Question = ({
             onChange={(e) => {
               setValue(e.target.value);
             }}
+            value={0}
+            disabled={!recent}
           />
         );
       default:
@@ -435,9 +450,9 @@ const Question = ({
             <br />
             {question.type === 'multi_select' ? (
               <div className={`Select-Wrap ${recent ? '' : "history"}`}>
-                <SearchOutlined className="search" />
+                <SearchOutlined className={!recent?styles['search']:''} />
                 <Select
-                  value={items}
+                  value={recent?items:['a']}
                   mode="multiple"
                   showSearch
                   placeholder=""
@@ -448,6 +463,7 @@ const Question = ({
                       .toLowerCase()
                       .includes(input.toLowerCase())
                   }
+                  disabled={!recent}
                 >
                   {question?.options.map((item: any, index: any) => {
                     return (

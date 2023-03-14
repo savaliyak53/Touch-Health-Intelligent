@@ -212,31 +212,6 @@ function MockQuestionnaire() {
     console.log("history question array : ", historyQuestionArray)
     console.log("payload  : ",payload)
     setLoading(false);
-
-    // postInteractionService(payload)
-    //   .then(({ data }) => {
-    //     setLoading(false);
-    //     setValue(undefined);
-    //     setRefId(data.ref_id ?? '');
-    //     if (data.question) {
-    //       if(data.question.type == 'integration_page_redirect'){
-    //         integrationPageRedirect(data.ref_id)
-    //       } else {
-    //         setQuestion(data.question);
-    //       }
-    //     } else if(!data.question && data.type==="done") {
-    //       handleInteractionRedirect();
-    //     }
-    //     else {
-    //       toast.error('Something went wrong, question is null');
-    //     }
-    //   })
-    //   .catch(() => {
-    //     setLoading(false);
-    //     toast.error('Something went wrong');
-    //     setLoading(false);
-    //     navigate('/dashboard');
-    //   });
   };
   useEffect(() => {
     question?.type === 'slider'
@@ -263,13 +238,14 @@ function MockQuestionnaire() {
               <div key={index} style={{minHeight: '60vh' ,scrollSnapAlign: 'center'}}>
                   <Divider/>
                   <Question
-                    selectedValue={value}
+                    selectedValue={q.answer}
                     question={q.question}
                     items={items}
                     setItems={setItems}
                     setValue={setValue}
                     onSubmit={onSubmit}
                     setDisableNextButton={setDisableNextButton}
+                    recent={false}
                   />
                   </div>
             ))}

@@ -5,17 +5,8 @@ export const Data=[
         "question": {
             "type": "yes_no",
             "q_str": "Yesterday, have you done any moderate movement?",
-            "h_str": "Moderate-intensity activities are fast or strenuously enough to burn three to six times more energy than your basal metabolic rate (3 to 6 METs)."
-        }
-    },
-    {
-        "type": "question",
-        "ref_id": "a34091e8-b03a-4f91-b66f-c11055634af7",
-        "question": {
-            "type": "time",
-            "q_str": "What time is it?",
-            "h_str": null
-        }
+            "h_str": "Moderate-intensity activities are fast or strenuously enough to burn three to six times more energy than your basal metabolic rate (3 to 6 METs).",
+        },
     },
     {
         "type": "question",
@@ -197,19 +188,6 @@ export const Data=[
     },
     {
         "type": "question",
-        "ref_id": "c399b6b9-cd55-4660-b780-235f707011a7",
-        "question": {
-            "type": "dialog_select_one",
-            "q_str": "Hello, my name is Pie which stands for Personal Insight Engine. I'm an AI here to help you.",
-            "h_str": "AI stands for artificial intelligence.",
-            "options": [
-                "Nice to meet you, Pie.",
-                "What do you do, Pie?"
-            ]
-        }
-    },
-    {
-        "type": "question",
         "ref_id": "5c8a2a5f-be65-4ccf-affb-6090f4df316f",
         "question": {
             "type": "image_and_text_select_one",
@@ -260,6 +238,4 @@ export const Data=[
         }
     },
     
-
-
 ]
