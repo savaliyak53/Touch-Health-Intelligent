@@ -381,7 +381,7 @@ const GoalDetails = () => {
                 <div className={styles['Vel-wrap']}>
                   {/* Single Velocity Wrap */}
                   <span className={styles['Vel-name']}>
-                    G
+                    Goal
                     <Progress
                       style={{ margin: '0 25px' }}
                       percent={goal.data.success_score}
@@ -409,7 +409,7 @@ const GoalDetails = () => {
             {goal?.data?.data_score && (
               <div className={styles['Vel-wrap']}>
                 <span className={styles['Vel-name']}>
-                  D
+                  Data
                   <Progress
                     style={{ margin: '0 25px' }}
                     percent={goal.data.data_score}

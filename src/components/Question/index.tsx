@@ -89,7 +89,7 @@ const Question = ({
     } else {   
       radioOptions = [...radioOptions, index_string];
     }
-    setValue(radioOptions.length ? radioOptions : undefined);
+    setValue(radioOptions.length ? radioOptions : []);
   };
  
   const isChecked = (index: number) => {
