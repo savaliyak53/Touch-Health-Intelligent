@@ -5,9 +5,23 @@
     margin-bottom: 32px;
     margin-top: 48px;
     font-weight: 400;
+    align-items: center;
+}
+.StreakTitle {
+    font-size: 30px;
+    line-height: 1;
+    font-family: 'DM Serif Display', serif;
+    margin-bottom: 32px;
+    // margin-top: 32px;
+    font-weight: 400;
 }
 .TagWrap {
     display: flex;
+}
+.TitleToolTip {
+    margin-bottom: 32px;
+    margin-top: 48px;
+    color: #D2D1D1;
 }
 .Tag {
     display: flex;

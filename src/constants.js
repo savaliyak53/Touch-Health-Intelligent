@@ -20,3 +20,7 @@ export const securityQuestions = [
     text: 'What was the make of your first car?',
   },
 ];
+export const tooltipContent ={
+  dashboardText: 'Pie has summarized your goals and uploaded your data. Pie will also show you how many days you have completed your check up (health streak). You will also see the progress you are making with your identified goals (G) and the amount of data (D) that you have entered. You can click on each goal for more detailed information.', 
+  streakText:'Try maintaining a streak by completing your checkups regularly!',
+}
