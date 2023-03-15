@@ -30,6 +30,7 @@ import GoalDetails from '../containers/Goals/Details/index';
 import PasswordRecovery from '../containers/Auth/PasswordRecovery';
 import GoogleFitSuccess from '../containers/GoogleFitSuccess/GoogleFitSuccess';
 import Integrations from '../containers/Integeration';
+import MockQuestionnaire from '../containers/MockQuestionnaire';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -58,6 +59,7 @@ const AppRoutes = () => {
         <Route path="/goals/:id" element={<GoalDetails />} />
         {/* Protected Routes */}
         <Route path="/dashboard" element={<DashboardNew />} />
+        <Route path="/questionnaire-poc" element={<MockQuestionnaire />} />
         <Route element={<RequireAuth />}>
           <Route path="insights" element={<Insights />} />
           <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
