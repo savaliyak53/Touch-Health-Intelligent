@@ -20,6 +20,9 @@ export const checkoutPlan = (planId: string) => {
     successURL: '/subscription?success',
   });
 };
+export const managePayment = () => {
+  return APIClient('/payments/update-details', 'GET');
+};
 
 export const getSubscriptionStatus = () => {
   return APIClient('/payments/subscription/status', 'GET');
