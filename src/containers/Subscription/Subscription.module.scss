@@ -332,3 +332,33 @@
     }
   }
 }
+.manage-btn {
+  border-radius: 10px;
+  height: auto;
+  padding: 18px 60px;
+  color: $primary-color1;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  margin-top: 20px;
+  display: block;
+  border: 2px solid $primary-color1;
+  background-color: transparent;
+  max-width: 300px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 6px;
+  width: 100%;
+  &:hover,
+  &:focus,
+  &:active {
+      background-color: $primary-color1;
+      color: #fff;
+      border-color: $primary-color1;
+  }
+  &.disabled {
+      background-color: grey;
+      border: 2px solid grey;
+      color: grey;
+    }
+}

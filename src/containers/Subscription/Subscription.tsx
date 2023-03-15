@@ -15,6 +15,7 @@ import {
   updateUserSubscription,
   calculateSubscriptionProration,
   getStatus,
+  managePayment,
 } from '../../services/subscriptionService';
 import { Card } from 'antd';
 import { toast } from 'react-toastify';
@@ -23,7 +24,7 @@ import { dateFormatRenewal } from '../../utils/lib';
 import ConfirmModal from './ConfirmModal';
 import { ISubscriptionPlan, IUserSubscription } from './Interfaces';
 import { Link } from 'react-router-dom';
-
+import { LoadingOutlined } from '@ant-design/icons';
 import {
   getInteractionServiceByType,
   getUser,
@@ -33,7 +34,7 @@ import {
 import moment from 'moment';
 import { ReloadOutlined } from '@ant-design/icons';
 const { Meta } = Card;
-
+const antIcon = <LoadingOutlined style={{ fontSize: 24, color: 'white' }} spin />;
 const Subscription = () => {
   const navigate = useNavigate();
   let retries = 0;
@@ -42,6 +43,7 @@ const Subscription = () => {
   const [plans, setPlans] = useState<ISubscriptionPlan[] | undefined>([]);
   const [freeTrial, setFreeTrial] = useState<boolean | undefined>(false);
   const [loading, setLoading] = useState(false);
+  const [loadingManageBtn, setLoadingManageBtn] = useState(false);
   const [spin, setSpin] = useState(false);
   const [userPlan, setUserPlan] = useState<IUserSubscription | undefined>();
   const [disableButton, setDisableButton] = useState(false);
@@ -363,6 +365,21 @@ const Subscription = () => {
       });
     setShowSwitchModal(true);
   };
+  const handleManagePayment = () => { 
+    setLoadingManageBtn(true)
+    managePayment()
+    .then((response) => {
+      setLoadingManageBtn(false);
+      setDisableButton(false);
+      window.location.assign(response.data.url);
+    })
+    .catch((error) => {
+      setLoadingManageBtn(false);
+      setDisableButton(false);
+      console.log('error while trying to redirect to manage payment ', error);
+      toast.error('Something went wrong while subscribing');
+    });
+  }
   return (
     <Layout
       defaultHeader={true}
@@ -396,8 +413,17 @@ const Subscription = () => {
         >
           <div className="Content-wrap Sub">
             <h2 className={styles['Sub-title']}>
-              Subscription <Spin spinning={loading} />
+              Subscription <Spin spinning={loading} style={{marginLeft: 4}}/>
             </h2>
+            {userPlanStatus &&
+            <button
+              className={styles['manage-btn']}
+              onClick={handleManagePayment}
+              disabled={disableButton}
+            >
+              Manage Payment
+              <Spin spinning={loadingManageBtn} indicator={antIcon} />
+            </button>}
             {!loading && !userPlan && (
               <Tag
                 color="orange"
