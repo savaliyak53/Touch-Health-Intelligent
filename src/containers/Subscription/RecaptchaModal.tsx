@@ -40,6 +40,7 @@ const refCaptcha = useRef<any>(null)
           sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
           onChange={async ()=>{
             const token = refCaptcha?.current?.getValue();
+            refCaptcha.current.reset();
             localStorage.setItem("recaptcha-token", token)
             await resendOTP()
             setOpenRecaptcha(false)
