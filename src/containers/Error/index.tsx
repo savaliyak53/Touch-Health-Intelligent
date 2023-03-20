@@ -14,7 +14,7 @@ const SubscriptionError = () => {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={true}>
+    <Layout defaultHeader={true} hamburger={false}>
       <div className="Content-wrap DayCon">
         <div className="Question">
           <Alert message="Failed to subscribe to a plan" type="error" />
@@ -22,9 +22,9 @@ const SubscriptionError = () => {
         <button className="submit" onClick={() => navigate('/subscription')}>
           <Link to="/subscription">Check Subscription</Link>
         </button>
-        <button className="submit" onClick={() => navigate('/dashboard')}>
+        {/* <button className="submit" onClick={() => navigate('/dashboard')}>
           Home
-        </button>
+        </button> */}
         <button className="submit" onClick={logoutClick}>
           Logout
         </button>
