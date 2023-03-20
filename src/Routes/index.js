@@ -31,6 +31,7 @@ import PasswordRecovery from '../containers/Auth/PasswordRecovery';
 import GoogleFitSuccess from '../containers/GoogleFitSuccess/GoogleFitSuccess';
 import Integrations from '../containers/Integeration';
 import MockQuestionnaire from '../containers/MockQuestionnaire';
+import { RequireSubscription } from '../utils/RequireSubscription';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -54,13 +55,15 @@ const AppRoutes = () => {
         <Route element={<RequireSignup />}>
           <Route path="/verification-code" element={<Verification />} />
         </Route>
+        {/* Protected Routes */}
+        <Route path="/questionnaire-poc" element={<MockQuestionnaire />} />
+        <Route element={<RequireAuth />}>
+        <Route element={<RequireSubscription />}>
+        <Route path="/dashboard" element={<DashboardNew />} />
         <Route path="/add-goals" element={<AddGoals />} />
         <Route path="/intro-goals" element={<IntroGoals />} />
         <Route path="/goals/:id" element={<GoalDetails />} />
-        {/* Protected Routes */}
-        <Route path="/dashboard" element={<DashboardNew />} />
-        <Route path="/questionnaire-poc" element={<MockQuestionnaire />} />
-        <Route element={<RequireAuth />}>
+        
           <Route path="insights" element={<Insights />} />
           <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
           <Route path="/insights/guideline" element={<Timeline />} />
@@ -74,6 +77,7 @@ const AppRoutes = () => {
           <Route path="/preferences" element={<Preferences />} />
           <Route path="/integrations" element={<Integrations />} />
           <Route path="/introvideo" element={<IntroVideo />} />
+          </Route>
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/subscription/:id" element={<Subscription />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
