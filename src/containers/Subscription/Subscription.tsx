@@ -108,6 +108,7 @@ const Subscription = () => {
         ) {
           localStorage.removeItem('userId');
           localStorage.removeItem('token');
+          localStorage.clear();
           navigate('/login');
         }
       })
