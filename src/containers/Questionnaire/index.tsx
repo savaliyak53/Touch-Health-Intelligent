@@ -193,12 +193,14 @@ function UserCondition() {
             integrationPageRedirect(data.ref_id)
           } else {
             setQuestion(data.question);
+            setDisableNextButton(false)
           }
         } else if(!data.question && data.type==="done") {
           handleInteractionRedirect();
         }
         else {
           toast.error('Something went wrong, question is null');
+          setDisableNextButton(false)
         }
       })
       .catch(() => {
@@ -208,12 +210,6 @@ function UserCondition() {
         navigate('/dashboard');
       });
   };
-  useEffect(() => {
-    question?.type === 'slider'
-      ? setDisableNextButton(true)
-      : setDisableNextButton(false);
-    setClicked(false);
-  }, [question, question?.q_str, question?.ref_id]);
   
   return (
     <Layout defaultHeader={true} hamburger={false}>
@@ -229,6 +225,8 @@ function UserCondition() {
               setValue={setValue}
               onSubmit={onSubmit}
               setDisableNextButton={setDisableNextButton}
+              disable={disableNextButton}
+              value={value}
             />
             {question?.type !== 'yes_no' && question?.type !== 'dialog_select_one' && question?.type !== 'image_and_text_select_one' && question?.type !== 'markdown_select_one' && (
               <div className="Btn-group">
