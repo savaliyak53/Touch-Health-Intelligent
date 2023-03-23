@@ -24,6 +24,12 @@ const SecurityQuestions = () => {
   };
   useEffect(() => {
     window.scrollTo(0,0)
+    window.addEventListener('scroll', ()=> {
+      document.querySelectorAll<HTMLElement>('#header')[0].style.position = 'fixed'
+    })
+    window.addEventListener('beforeunload', ()=> {
+      document.querySelectorAll<HTMLElement>('#header')[0].style.position = 'unset'
+    })
     const userId = localStorage.getItem('userId');
     if (!userId) {
       navigate('/signup');
@@ -53,20 +59,7 @@ const SecurityQuestions = () => {
         .then(async (response) => {
           if (response?.id) {
             toast.success('Security Question saved successfully');
-            //const userId = localStorage.getItem('userId');
-            const phone = localStorage.getItem('phone');
-
-            if (phone) {
-              const isOtpSent = await sendPhoneOTP(phone);
-              if (isOtpSent) {
-                navigate(`/verification-code`);
-              } else {
-                setLoading(false);
-                toast.error(
-                  'Phone number can not be processed. Try another phone number.'
-                );
-              }
-            }
+            process.env.REACT_APP_IS_BETA == 'TRUE' ? navigate('/') : navigate('/subscription');
           }
         })
         .catch((error) => {
@@ -79,7 +72,7 @@ const SecurityQuestions = () => {
   return (
     <Layout defaultHeader={true} hamburger={false}>
       <div >
-        <h2 className={styles['Con-title']}>
+        <h2 id='header' className={styles['Con-title']}>
           Security Question <Spin spinning={loading} />
         </h2>
         <div className={styles['Switch-wrap']} style={{maxHeight: 600, overflow: 'auto'}}>
