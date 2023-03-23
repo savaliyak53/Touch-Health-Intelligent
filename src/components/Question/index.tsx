@@ -30,6 +30,8 @@ interface Props {
   onSubmit: any;
   setValue: any;
   setDisableNextButton: any;
+  disable: boolean;
+  value: any
 }
 
 const Question = ({
@@ -40,6 +42,8 @@ const Question = ({
   setDisableNextButton,
   items,
   setItems,
+  disable,
+  value
 }: Props) => {
   const [maxNum, setMaxNum] = useState(0);
   const [defaultLength, setDefaultLength] = useState(0);
@@ -138,6 +142,14 @@ const Question = ({
       }
     }
   }, [selectedValue]);
+  const disableBtn = () => {
+    setDisableNextButton(true)
+  }
+  useEffect(() => {
+    if(disable){
+      onSubmit(value)
+    }
+  }, [disable])
   const InputField = useCallback(() => {
     switch (question?.type) {
       case 'time':
@@ -164,20 +176,21 @@ const Question = ({
           <div className={styles['align-center']}>
             <button
               className={styles['no-btn']}
-              onClick={async () => {
-                await setValue('false');
-                onSubmit('false');
+              onClick={() => {
+                disableBtn()
+                setValue('false')
               }}
+              disabled={disable}    
             >
               No
             </button>
             <button
               className={styles['yes-btn']}
-              type="button"
-              onClick={async () => {
-                await setValue('true');
-                onSubmit('true');
+              onClick={() => {
+                disableBtn()
+                setValue('true')
               }}
+              disabled={disable}
             >
               Yes
             </button>
