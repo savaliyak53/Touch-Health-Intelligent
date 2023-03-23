@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   postResetPassword,
   requestPhoneOTP,
@@ -26,6 +26,7 @@ import { ILogin } from '../../../interfaces';
 import jwt from 'jwt-decode';
 import  ReCAPTCHA  from 'react-google-recaptcha';
 import RecaptchaModal from '../../Subscription/RecaptchaModal';
+import { useTimer } from 'react-timer-hook';
 
 type IRecoverFormInputs = {
   username: string;
@@ -45,6 +46,7 @@ type User = {
 };
 const PasswordRecovery = () => {
   const navigate = useNavigate();
+  const location: any = useLocation();
   const [passwordShown, setPasswordShown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -54,10 +56,13 @@ const PasswordRecovery = () => {
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
   const [answer, setAnswer] = useState('');
   const [codeSubmitted, setCodeSubmitted] = useState(false);
-  const [enterNumber, setEnterNumber] = useState(true);
+  const [enterNumber, setEnterNumber] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
   const [openRecaptcha, setOpenRecaptcha] = useState(false);
-  
+  const [enableTimer, setEnableTimer] = useState(true)
+  const time = new Date();
+  time.setSeconds(time.getSeconds() + 60);
+  const expiryTimestamp = time
   const refCaptcha = useRef<any>(null)
 
   const togglePassword = () => {
@@ -78,8 +83,29 @@ const PasswordRecovery = () => {
     shouldUnregister: false,
   });
 
+  const {
+    seconds,
+    restart,
+  } = useTimer({ expiryTimestamp, onExpire: () => {setEnableTimer(false); setIsDisabled(false);} });
+
+  useEffect(() => {
+    if(location.state){
+      onSubmitCode(location.state)
+    } else {
+      setEnterNumber(true)
+    }
+  }, [])
+
+  const restartTime = (time:number) => {
+    const t = new Date();
+    t.setSeconds(t.getSeconds() + time);
+    restart(t)
+  }
+  
   const onSubmitCode = async (data: any) => {
-    getSecurityQuestions(onlyNumbers(getValues('username')), getValues('code'))
+    const username = data.username ? onlyNumbers(data.username) : onlyNumbers(getValues('username'))
+    const code = data.code ? data.code : getValues('code')
+    getSecurityQuestions(username, code)
       .then((response) => {
         if (response && response.code === 'ERR_BAD_REQUEST') {
           toast.error(response.response.data.details);
@@ -99,7 +125,12 @@ const PasswordRecovery = () => {
   };
 
   const confirmAnswer = async (data: any) => {
-    data.username = onlyNumbers(getValues('username'));
+    if(getValues('username')) {
+      data.username = onlyNumbers(getValues('username'));
+    } else {
+      data.username = location.state.username
+      data.code = location.state.code
+    }
     if (question === 'null') {
       data.security_question = null;
     } else {
@@ -140,7 +171,12 @@ const PasswordRecovery = () => {
 
   const onSubmitRecover = async (data: any) => {
     if (changePassword) {
-      data.username = onlyNumbers(getValues('username'));
+      if(getValues('username')){
+        data.username = onlyNumbers(getValues('username'));
+      } else {
+        data.username = location.state.username
+        data.code = location.state.code
+      }
       if (question === 'null') {
         data.security_question = null;
       } else {
@@ -169,17 +205,21 @@ const PasswordRecovery = () => {
     setIsLoading(true);
     setIsDisabled(true);
     const token =localStorage.getItem("recaptcha-token")
-    console.log("token : ", token)
     requestPhoneOTP(onlyNumbers(getValues('username')),token || "")
       .then((response: any) => {
         if (response.code === 'ERR_BAD_REQUEST') {
-          toast(response.response.data.details);
+          setIsCodeSent(true)
+          // toast(response.response.data.details);
+          const remaining_time = response?.response?.data.details.match(/\d+/g);
+          restartTime(parseInt(remaining_time[0]))
           setIsLoading(false);
           setIsDisabled(false);
         } else {
-          setEnterNumber(false);
+          setEnterNumber(false); 
           setIsCodeSent(true);
-          toast.success('Verification Code sent');
+          setEnableTimer(true);
+          restartTime(60)
+          toast.success('We just sent a text to your number, confirm this is you by putting in the code you received here');
           setIsLoading(false);
           setIsDisabled(true);
         }
@@ -197,13 +237,19 @@ const PasswordRecovery = () => {
     requestPhoneOTP(onlyNumbers(getValues('username')),token)
       .then((response: any) => {
         if (response.code === 'ERR_BAD_REQUEST') {
-          toast(response.response.data.details);
+          // toast(response.response.data.details);
+          setEnterNumber(false);
+          setIsCodeSent(true);
+          const remaining_time = response?.response?.data.details.match(/\d+/g);
+          restartTime(parseInt(remaining_time[0]))
           setIsLoading(false);
           setIsDisabled(false);
         } else {
           setEnterNumber(false);
           setIsCodeSent(true);
-          toast.success('Verification Code sent');
+          setEnableTimer(true);
+          restartTime(60)
+          toast.success('We just sent a text to your number, confirm this is you by putting in the code you received here');
           setIsLoading(false);
           setIsDisabled(true);
         }
@@ -222,6 +268,13 @@ const PasswordRecovery = () => {
             <h2 className={styles["Auth-title"]}>
               Reset Password
             </h2>
+          <Tooltip
+            color="orange"
+            placement="bottomLeft"
+            title={errors.username?.message}
+            open={errors.username ? true : false}
+          >
+          </Tooltip>
             <CountryCode
               disabled={isCodeSent}
               errors={errors.username}
@@ -286,7 +339,7 @@ const PasswordRecovery = () => {
                   color="orange"
                   placement="bottom"
                   title={errors.code?.message}
-                  visible={errors.code ? true : false}
+                  open={errors.code ? true : false}
                 />
                 <Button
                   onClick={handleSubmit(onSubmitCode)}
@@ -302,12 +355,24 @@ const PasswordRecovery = () => {
                 resendOTP={resendOTP}
                 setOpenRecaptcha={setOpenRecaptcha}
                />
+              {enableTimer && (
+                <div style={{fontSize: '100px'}}>
+                  <br />
+                  <br />
+                  <br />
+                  <span>{seconds}</span>
+                  <br />
+                  <br />
+                  <br />
+                </div>
+              )}
               <Button
                 onClick={()=>{
                   setOpenRecaptcha(true)
                 }}
                 className="Pref-btn btn"
                 loading={isLoading}
+                disabled={isDisabled}
               >
                 Resend OTP
               </Button>
@@ -374,7 +439,7 @@ const PasswordRecovery = () => {
                 color="orange"
                 placement="bottomLeft"
                 title={errors.code?.message}
-                visible={errors.code ? true : false}
+                open={errors.code ? true : false}
               ></Tooltip>
               <div className={styles["input-element-wrapper-password"]}>
               {/* <div className="input-element-wrapper-password"> */}
@@ -382,7 +447,7 @@ const PasswordRecovery = () => {
                   color="orange"
                   placement="bottomLeft"
                   title={errors.new_password?.message}
-                  visible={errors.new_password ? true : false}
+                  open={errors.new_password ? true : false}
                 >
                   <input
                     id="new_password"
@@ -414,7 +479,7 @@ const PasswordRecovery = () => {
                   color="orange"
                   placement="bottomLeft"
                   title={errors.confirmPassword?.message}
-                  visible={errors.confirmPassword ? true : false}
+                  open={errors.confirmPassword ? true : false}
                 >
                   <input
                     id="confirmPassword"

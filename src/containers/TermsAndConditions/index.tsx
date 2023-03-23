@@ -24,7 +24,7 @@ function TermsAndCondtions() {
     shouldUnregister: false,
   });
   const onSubmit = async () => {
-      navigate('/security');
+      navigate(`/verification-code`);
   };
   const handleScroll = (e:any) => {
     const bottom = e.target.scrollHeight - Math.ceil(e.target.scrollTop) - e.target.clientHeight < 5;

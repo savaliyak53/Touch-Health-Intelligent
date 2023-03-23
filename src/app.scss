@@ -125,7 +125,7 @@ input {
 
       &.active {
         background-color: $primary-color2;
-        color: #fff;
+        color: #fff !important;
         border-color: $primary-color2;
       }
       &.disabled {

@@ -16,7 +16,7 @@ export const signUpService = async (data: ISignUp, header: string) => {
 };
 export const putSignUp = async (data: any, userId: string) => {
   try {
-    const res = await APIClient(`/users/signup/${userId}`, 'put', data);
+    const res = await APIClient(`/users/${userId}`, 'put', data);
     if (res) return res.data;
   } catch (err) {
     return err;
@@ -65,7 +65,7 @@ export const verifyPhoneOTP = async (
     const response = await APIClient(`/users/signup/${id}/verify`, 'put', {
       code: otp,
     });
-    if (response) return response.data;
+    if (response) return response
   } catch (error) {
     return error;
   }
