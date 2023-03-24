@@ -43,8 +43,8 @@ interface LocationState {
   };
 }
 const Integrations = () => {
-  const [loading, setloading] = useState(false);
-  const [checked, setChecked] = useState<boolean>();
+  
+  const [checked, setChecked] = useState<boolean|any>(undefined);
   const [spinning, setSpinning] = useState<boolean>(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [loc, setLocation] = useState<LocationState>()
@@ -91,6 +91,7 @@ const Integrations = () => {
       })
       .catch((error) => {
         toast('Unknown error');
+        setChecked(false);
         setSpinning(false);
       });
   };
