@@ -951,3 +951,8 @@ input {
 .PhoneInputInput {
   font-weight: 600;
 }
+.Delete-Modal{
+  .ant-modal-footer{
+    border: none;
+  }
+}
