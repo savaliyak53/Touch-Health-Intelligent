@@ -11,7 +11,7 @@ import {
 import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
 import 'moment-timezone';
-import ConfirmModal from '../Subscription/ConfirmModal';
+import DeleteModal from '../../components/DeleteDataModal';
 import { deleteAllData } from '../../services/goalsService';
 import {
   postInteractionService,
@@ -259,7 +259,7 @@ const Integrations = () => {
               >
                 Data Use
                 <Tooltip
-                  title={'You can control data sharing here!'}
+                  title={'This deletes all your data, setting your entire health profile in the Touch Health Assistant back to 0. We will retain your basic account information but all your data with the app so far will be deleted.'}
                   placement="bottomRight"
                   overlayStyle={{ marginRight: '10px' }}
                   mouseLeaveDelay={0}
@@ -272,12 +272,12 @@ const Integrations = () => {
                 </Tooltip>
               </h3>
               <Button className={`Pref-post-btn ${styles['Data-dlt-btn']}`} onClick={() => setShowCancelModal(true)}>  Delete all my data</Button>
-              <ConfirmModal
-                title={'Confirmation'}
+              <DeleteModal
+                title={''}
                 open={showCancelModal}
                 handleCancel={handleDeleteModal}
                 handleOk={() => removeUserData()}
-                renderData={<div>Are you sure you want to delete goal?</div>}
+                renderData={<div>By deleting your data, your entire health profile in the Touch Health Assistant will cease to exist. No data will be retained, and you will be sent back to the beginning as if you just started. This is irreversible, proceed with caution.</div>}
               />
             </div>
           </div>

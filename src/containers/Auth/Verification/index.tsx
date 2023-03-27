@@ -57,7 +57,6 @@ const Verification = () => {
     if (userId) {
       setIsVerifying(true);
       const phoneVerificationResponse: any = await verifyPhoneOTP(data.code, userId);
-      console.log(phoneVerificationResponse);
       if (phoneVerificationResponse?.data?.id) {
         setIsVerifying(false);
         toast.dismiss()
