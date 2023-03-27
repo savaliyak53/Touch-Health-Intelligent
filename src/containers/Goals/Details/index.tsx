@@ -319,7 +319,7 @@ const GoalDetails = () => {
             style={{ fontSize: '18px', color: '#D2D1D1', cursor: 'pointer' }}
           />
         </Button>
-        { goal?.info && (<h2 className={styles['Prevn-text']}>{goal?.info.name}</h2>)}
+        { goal?.info && (<h2 className={styles['Prevn-text']}>{goal?.info?.name ? goal.info.name :" "}</h2>)}
         <Button
           className={styles['Prevn-btn']}
           onClick={() => {
@@ -349,11 +349,11 @@ const GoalDetails = () => {
         onCancel={handleCancelModal}
         className="Goals-Modal"
       >
-         <h3 className={styles['Goals-title']}>{goal?.info.name}</h3>
+         <h3 className={styles['Goals-title']}>{goal?.info.name ? goal?.info.name : "" }</h3>
         { goal?.info&& (
           <div className={styles['Des-Goal']}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-              {goal?.info.description_md}
+              {goal?.info?.description_md? goal?.info?.description_md : ""}
             </ReactMarkdown>
           </div>
         )}
@@ -517,7 +517,7 @@ const GoalDetails = () => {
                         {/* <span className={styles["Rec-Text"]}><ReactMarkdown>{o.info.description_md}</ReactMarkdown></span> */}
                         {o.info.name && (
                           <span className={styles['Rec-Text']}>
-                            {o.info.name}
+                            {o.info.name ? o.info.name : ""}
                           </span>
                         )}
                         <RightOutlined className={styles['Arrow']} />
@@ -554,7 +554,7 @@ const GoalDetails = () => {
                         backgroundColor: `rgba(246, 187, 161, 0.16)`,
                       }}
                     >
-                      <span className={styles['Rec-Text']}>{o.info.name}</span>
+                      <span className={styles['Rec-Text']}>{o.info?.name? o.info?.name : ""}</span>
                       <RightOutlined className={styles['Arrow']} />
                     </Button>
                   </div>
@@ -588,7 +588,7 @@ const GoalDetails = () => {
                         backgroundColor: 'rgba(214, 214, 214, 0.24)',
                       }}
                     >
-                      <span className={styles['Rec-Text']}>{o.info.name}</span>
+                      <span className={styles['Rec-Text']}>{o.info.name ? o.info.name  :  ""}</span>
                       <RightOutlined className={styles['Arrow']} />
                     </Button>
                   </div>
@@ -689,7 +689,7 @@ const GoalDetails = () => {
         {guidanceData && (
           <div className={styles['markdown-desc']}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-              {guidanceData?.description_md}
+              {guidanceData?.description_md ? guidanceData?.description_md : ""}
             </ReactMarkdown>
           </div>
         )}
