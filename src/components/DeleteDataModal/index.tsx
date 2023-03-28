@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { DatePicker, Modal, Button } from 'antd';
+import React from 'react';
+import { Modal, Button } from 'antd';
 import styles from './DeleteModal.module.scss';
 export type IProps = {
   open: boolean;
