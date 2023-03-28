@@ -1,0 +1,56 @@
+@import '../../variables.module.scss';
+
+.Action-btn {
+    border: 2px solid $primary-color2 !important;
+    color: $primary-color2 !important;
+    background-color: transparent !important;
+    border-radius: 100px !important;
+    height: auto !important;
+    padding: 18px 20px !important;
+    font-size: 18px !important;
+    line-height: 24px !important;
+    font-weight: 400 !important;
+    display: block !important;
+    max-width: 300px;
+    white-space: normal !important;
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: rgba($primary-color2, 0.7) !important;
+      color: #fff !important;
+      border-color: $primary-color2 !important;
+    }
+    &.disabled {
+      background-color: rgba($primary-color2, 0.2) !important;
+      border: 2px solid $secondary-color2 !important;
+      color: $secondary-color2 !important;
+    }
+  }
+  .Btn-group {
+    gap: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .Data {
+    color: $primary-color2 !important;
+    background-color: transparent !important;
+    border-radius: 100px !important;
+    height: auto !important;
+    font-size: 18px !important;
+    line-height: 24px !important;
+    font-weight: 400 !important;
+    margin-top: 20px !important;
+    display: block !important;
+  }
+    .ant-modal-root{
+      .ant-modal{
+        .ant-modal-content{
+          .ant-modal-footer{
+            border: none;
+          }
+        }
+      }
+    }
+  

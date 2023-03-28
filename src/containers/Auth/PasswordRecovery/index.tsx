@@ -27,6 +27,7 @@ import jwt from 'jwt-decode';
 import  ReCAPTCHA  from 'react-google-recaptcha';
 import RecaptchaModal from '../../../components/Modal/RecaptchaModal';
 import { useTimer } from 'react-timer-hook';
+import ConfirmModal from '../../Subscription/ConfirmModal';
 
 type IRecoverFormInputs = {
   username: string;
@@ -59,7 +60,8 @@ const PasswordRecovery = () => {
   const [enterNumber, setEnterNumber] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
   const [openRecaptcha, setOpenRecaptcha] = useState(false);
-  const [enableTimer, setEnableTimer] = useState(true)
+  const [modalOpen, setModalOpen] = useState(false);
+  const [enableTimer, setEnableTimer] = useState(true);
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
   const expiryTimestamp = time
@@ -85,6 +87,7 @@ const PasswordRecovery = () => {
 
   const {
     seconds,
+    minutes,
     restart,
   } = useTimer({ expiryTimestamp, onExpire: () => {setEnableTimer(false); setIsDisabled(false);} });
 
@@ -217,9 +220,9 @@ const PasswordRecovery = () => {
         } else {
           setEnterNumber(false); 
           setIsCodeSent(true);
-          setEnableTimer(true);
           restartTime(60)
-          toast.success('We just sent a text to your number, confirm this is you by putting in the code you received here');
+          setEnableTimer(true);
+          setModalOpen(true)
           setIsLoading(false);
           setIsDisabled(true);
         }
@@ -247,9 +250,9 @@ const PasswordRecovery = () => {
         } else {
           setEnterNumber(false);
           setIsCodeSent(true);
-          setEnableTimer(true);
           restartTime(60)
-          toast.success('We just sent a text to your number, confirm this is you by putting in the code you received here');
+          setEnableTimer(true);
+          setModalOpen(true);
           setIsLoading(false);
           setIsDisabled(true);
         }
@@ -355,17 +358,6 @@ const PasswordRecovery = () => {
                 resendOTP={resendOTP}
                 setOpenRecaptcha={setOpenRecaptcha}
                />
-              {enableTimer && (
-                <div style={{fontSize: '100px'}}>
-                  <br />
-                  <br />
-                  <br />
-                  <span>{seconds}</span>
-                  <br />
-                  <br />
-                  <br />
-                </div>
-              )}
               <Button
                 onClick={()=>{
                   setOpenRecaptcha(true)
@@ -374,8 +366,15 @@ const PasswordRecovery = () => {
                 loading={isLoading}
                 disabled={isDisabled}
               >
-                Resend OTP
+                Resend OTP&nbsp; {enableTimer && (<span> in {minutes}:{seconds}</span>)}
               </Button>
+              <ConfirmModal
+                title={'Confirmation'}
+                open={modalOpen}
+                handleCancel={() => {setModalOpen(false)}}
+                handleOk={() => {setModalOpen(false)}}
+                renderData={<div>We just sent a text to your number, confirm this is you by putting in the code you received here</div>}
+              />
             </div>
           </>
         )}
