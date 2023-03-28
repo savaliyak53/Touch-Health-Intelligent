@@ -25,7 +25,7 @@ import {
 import { ILogin } from '../../../interfaces';
 import jwt from 'jwt-decode';
 import  ReCAPTCHA  from 'react-google-recaptcha';
-import RecaptchaModal from '../../Subscription/RecaptchaModal';
+import RecaptchaModal from '../../../components/Modal/RecaptchaModal';
 import { useTimer } from 'react-timer-hook';
 
 type IRecoverFormInputs = {

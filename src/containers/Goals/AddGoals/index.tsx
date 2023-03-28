@@ -28,8 +28,8 @@ import {
   getUser,
 } from '../../../services/authservice';
 import rehypeRaw from 'rehype-raw';
-import ConfirmModal from '../../Subscription/ConfirmModal';
-import LastGoalModal from '../../Subscription/LastGoalModal';
+import ConfirmModal from '../../../components/Modal/ConfirmModal';
+import LastGoalModal from '../../../components/Modal/LastGoalModal';
 
 type ITerms = {
   termsAndConditions: boolean;

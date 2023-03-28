@@ -14,7 +14,7 @@ import {
 import { Interaction } from '../../interfaces';
 import Layout from '../../layouts/Layout/Layout';
 import { Skeleton } from 'antd';
-import ErrorInteractionModal from '../Subscription/ErrorInteractionModal';
+import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 
 function UserCondition() {
   const [question, setQuestion] = useState<Interaction | any>();
@@ -228,7 +228,7 @@ function UserCondition() {
     <Layout defaultHeader={true} hamburger={false}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
       {question?.type==="error" || exception ? <div> 
-        <ErrorInteractionModal title={""} open={true}  handleRetry={handleRetry} handleOk={handleOk}/>
+        <ErrorInteractionModal title={""} open={true} showTryButton={!exception} handleRetry={handleRetry} handleOk={handleOk}/>
        </div> : <div className="Content-wrap Pain">
         {question && (
           <>

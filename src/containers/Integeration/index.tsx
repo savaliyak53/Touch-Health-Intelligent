@@ -11,7 +11,7 @@ import {
 import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
 import 'moment-timezone';
-import ConfirmModal from '../Subscription/ConfirmModal';
+import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { deleteAllData } from '../../services/goalsService';
 import {
   postInteractionService,

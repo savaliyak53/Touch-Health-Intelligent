@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import styles from "./Verification.module.scss"
 import { toast } from 'react-toastify';
 import Button from '../../../components/Button';
-import ConfirmModal from '../../Subscription/ConfirmModal';
+import ConfirmModal from '../../../components/Modal/ConfirmModal';
 import Layout from '../../../layouts/Layout/Layout';
 import { Tooltip } from 'antd';
 // import './index.scss';

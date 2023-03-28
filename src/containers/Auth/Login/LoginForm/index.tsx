@@ -16,7 +16,7 @@ import jwt from 'jwt-decode';
 import { toast } from 'react-toastify';
 import { onlyNumbers } from '../../../../utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha'
-import AccountLockModal from '../../../Subscription/AccountLockModal';
+import AccountLockModal from '../../../../components/Modal/AccountLockModal';
 
 type LoginFormProps = {
     onSubmit: SubmitHandler<IFormInputs>,

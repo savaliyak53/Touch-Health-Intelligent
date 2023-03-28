@@ -26,9 +26,9 @@ import rehypeRaw from 'rehype-raw';
 import { guidanceStatus } from '../../../services/authservice';
 import moment from 'moment';
 import { timeFrom } from '../../../utils/lib';
-import ConfirmModal from '../../Subscription/ConfirmModal';
+import ConfirmModal from '../../../components/Modal/ConfirmModal';
 import { getDashboard } from '../../../services/dashboardservice';
-import LastGoalModal from '../../Subscription/LastGoalModal';
+import LastGoalModal from '../../../components/Modal/LastGoalModal';
 
 const GoalDetails = () => {
   const [goal, setGoal] = useState<any>();
