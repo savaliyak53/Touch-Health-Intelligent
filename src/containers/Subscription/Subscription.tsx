@@ -21,7 +21,7 @@ import { Card } from 'antd';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router';
 import { dateFormatRenewal } from '../../utils/lib';
-import ConfirmModal from './ConfirmModal';
+import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { ISubscriptionPlan, IUserSubscription } from './Interfaces';
 import { Link } from 'react-router-dom';
 import { LoadingOutlined } from '@ant-design/icons';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { DatePicker, Modal, Button } from 'antd';
-import styles from './Subscription.module.scss';
+import { Modal, Button } from 'antd';
+import styles from './Modals.module.scss';
 export type IProps = {
   open: boolean;
   handleCancel: () => any;

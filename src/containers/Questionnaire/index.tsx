@@ -14,6 +14,7 @@ import {
 import { Interaction } from '../../interfaces';
 import Layout from '../../layouts/Layout/Layout';
 import { Skeleton } from 'antd';
+import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 
 function UserCondition() {
   const [question, setQuestion] = useState<Interaction | any>();
@@ -25,7 +26,8 @@ function UserCondition() {
   const [isClicked, setClicked] = useState(false);
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
   const [signupStatus, setSignupStatus] = useState<string | null >();
-
+  const [exception, setException] = useState<boolean>(false);
+  
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -203,18 +205,31 @@ function UserCondition() {
           setDisableNextButton(false)
         }
       })
-      .catch(() => {
+      .catch((error) => {
         setLoading(false);
+        if(error.response.data.details.status==500){
+          setException(true)
+        }
+        else {
         toast.error('Something went wrong');
         setLoading(false);
         navigate('/dashboard');
+        }
       });
   };
+  const handleRetry=()=>{
+    window.location.reload();
+  }
+  const handleOk=()=>{
+    navigate("/dashboard");
+  }
   
   return (
     <Layout defaultHeader={true} hamburger={false}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
-      <div className="Content-wrap Pain">
+      {question?.type==="error" || exception ? <div> 
+        <ErrorInteractionModal title={""} open={true} showTryButton={!exception} handleRetry={handleRetry} handleOk={handleOk}/>
+       </div> : <div className="Content-wrap Pain">
         {question && (
           <>
             <Question
@@ -245,7 +260,8 @@ function UserCondition() {
             )}
           </>
         )}
-      </div>
+      </div>}
+     
     </Layout>
   );
 }
