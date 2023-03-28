@@ -42,7 +42,7 @@ const ErrorInteractionModal = ({
         </div>,
       ]}
     >
-     <div className={styles['message']} >Oops! something went wrong.  <br/>It is not you its us.</div>
+     <div className={styles['message']} >Oops!  Looks like cannot continue interaction at this point.</div>
     </Modal>
   );
 };
