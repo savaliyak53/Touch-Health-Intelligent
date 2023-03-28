@@ -66,8 +66,26 @@
   font-family: 'Barlow', sans-serif;
 }
 
+.ant-modal-content {
+  border-radius: 4px;
+}
+
 .Btn-group {
   gap: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0%;
+}
+.ant-modal-body {
+  padding: 24px 10px 1px 10px;
+  font-size: 14px;
+  line-height: 1.5715;
+  word-wrap: break-word;
+}
+.message {
+  font-size: 20px !important;
+  font-weight: 400 !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -84,6 +102,33 @@
   line-height: 24px !important;
   font-weight: 400 !important;
   margin-top: 20px !important;
+  display: block !important;
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: rgba($primary-color2, 0.7) !important;
+    color: #fff !important;
+    border-color: $primary-color2 !important;
+  }
+  &.disabled {
+    background-color: rgba($primary-color2, 0.2) !important;
+    border: 2px solid $secondary-color2 !important;
+    color: $secondary-color2 !important;
+  }
+}
+.error {
+  border: 2px solid $primary-color2 !important;
+  color: $primary-color2 !important;
+  background-color: transparent !important;
+  border-radius: 100px !important;
+  height: auto !important;
+  min-width: 150px;
+  padding: 15px 10px !important;
+  color: $primary-color2 !important;
+  font-size: 15px !important;
+  line-height: 15px !important;
+  font-weight: 400 !important;
+  margin-top: 10px !important;
   display: block !important;
   &:hover,
   &:focus,

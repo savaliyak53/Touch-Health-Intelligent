@@ -228,7 +228,7 @@ function UserCondition() {
     <Layout defaultHeader={true} hamburger={false}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
       {question?.type==="error" || exception ? <div> 
-        <ErrorInteractionModal title={""} open={true}  handleRetry={handleRetry} handleOk={handleOk} renderData="Oops Something went wrong. It's not you it's us. "/>
+        <ErrorInteractionModal title={""} open={true}  handleRetry={handleRetry} handleOk={handleOk}/>
        </div> : <div className="Content-wrap Pain">
         {question && (
           <>

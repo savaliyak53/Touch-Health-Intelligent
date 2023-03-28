@@ -18,6 +18,7 @@ const ErrorInteractionModal = ({
   return (
     <Modal
       title={title}
+      className={"ant-modal-content"}
       open={open}
       closable={false}
       keyboard={false}
@@ -26,14 +27,14 @@ const ErrorInteractionModal = ({
         <div key="submit" className={styles['Btn-group']}>
           <Button
             key="submit"
-            className={styles['Subscribe']}
+            className={styles['error']}
             onClick={handleRetry}
           >
-            Retry
+            Try again
           </Button>
           <Button
             key="submit"
-            className={styles['Subscribe']}
+            className={styles['error']}
             onClick={handleOk}
           >
             Go to dashboard
@@ -41,7 +42,7 @@ const ErrorInteractionModal = ({
         </div>,
       ]}
     >
-      {renderData}
+     <div className={styles['message']} >Oops! something went wrong.  <br/>It is not you its us.</div>
     </Modal>
   );
 };
