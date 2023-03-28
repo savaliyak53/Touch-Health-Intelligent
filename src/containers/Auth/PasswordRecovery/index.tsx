@@ -27,7 +27,7 @@ import jwt from 'jwt-decode';
 import  ReCAPTCHA  from 'react-google-recaptcha';
 import RecaptchaModal from '../../../components/Modal/RecaptchaModal';
 import { useTimer } from 'react-timer-hook';
-import ConfirmModal from '../../Subscription/ConfirmModal';
+import ConfirmModal from '../../../components/Modal/ConfirmModal';
 
 type IRecoverFormInputs = {
   username: string;
