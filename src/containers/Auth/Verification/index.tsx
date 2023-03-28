@@ -24,7 +24,8 @@ const Verification = () => {
   const [isDisabled, setIsDisabled] = useState(true)
   const toastId = useRef<any>(null);
   const [finishStatus, setfinishStatus] = useState(false);
-  const [enableTimer, setEnableTimer] = useState(true)
+  const [modalOpen, setModalOpen] = useState(false);
+  const [enableTimer, setEnableTimer] = useState(true);
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
   const expiryTimestamp = time
@@ -42,6 +43,7 @@ const Verification = () => {
 
   const {
     seconds,
+    minutes,
     restart,
   } = useTimer({ expiryTimestamp, onExpire: () => {setEnableTimer(false); toast.success('You can now resend code'); setIsDisabled(false);} });
 
@@ -103,7 +105,7 @@ const Verification = () => {
         return false;
       } else {
         setIsLoading(false);
-        toast.success('We just sent a text to your number, confirm this is you by putting in the code you received here');
+        setModalOpen(true)
         setEnableTimer(true);
         setIsDisabled(true);
         restart(time);
@@ -170,34 +172,23 @@ const Verification = () => {
           >
             Verify
           </Button>
-          {enableTimer && (
-            <div style={{fontSize: '100px'}}>
-              <br />
-              <br />
-              <br />
-              <span>{seconds}</span>
-              <br />
-              <br />
-              <br />
-            </div>
-          )}
+          
           <Button
             onClick={sendPhoneOTP}
             className="Pref-btn btn"
             loading={isLoading}
             disabled={isDisabled}
           >
-            Resend OTP
+            Resend OTP&nbsp;{enableTimer && (<span>in&nbsp;{minutes}:{seconds}</span>)}
           </Button>
         </form>
-
         <ConfirmModal
-            title={'Confirmation'}
-            open={finishStatus}
-            handleCancel={() => {setfinishStatus(false); pageBackEvent(); }}
-            handleOk={logoutClick}
-            renderData={<div>Are you sure you want to navigate away from this page?</div>}
-          />
+          title={'Confirmation'}
+          open={modalOpen}
+          handleCancel={() => {setModalOpen(false)}}
+          handleOk={() => {setModalOpen(false)}}
+          renderData={<div>We just sent a text to your number, confirm this is you by putting in the code you received here</div>}
+        />
       </div>
     </Layout>
   );
