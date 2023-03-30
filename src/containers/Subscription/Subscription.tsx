@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import { Button, Spin, Typography, Tag } from 'antd';
-// import './Subscription.scss';
 import styles from './Subscription.module.scss';
-import { useParams } from 'react-router-dom';
 import { Alert } from 'antd';
 
 import {
@@ -39,7 +37,6 @@ const Subscription = () => {
   const navigate = useNavigate();
   let retries = 0;
   const location = useLocation();
-  const { id } = useParams();
   const [plans, setPlans] = useState<ISubscriptionPlan[] | undefined>([]);
   const [freeTrial, setFreeTrial] = useState<boolean | undefined>(false);
   const [loading, setLoading] = useState(false);
@@ -55,7 +52,6 @@ const Subscription = () => {
   const [stripeStatus, setStripeStatus] = useState<any>(null);
   const [retry, setRetry] = useState<any>(false);
 
-  const [endDate, setEndDate] = useState(0);
   const [estimateAmount, setEstimateAmount] = useState();
   const showModal = () => {
     setShowCancelModal(true);
