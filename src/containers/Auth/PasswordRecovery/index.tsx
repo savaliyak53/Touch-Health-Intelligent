@@ -153,8 +153,8 @@ const PasswordRecovery = () => {
           } else {
             toast.success('Password Recovered Successfuly');
             console.log(data);
-            loginRequest(data)
-            // navigate('/login');
+            // loginRequest(data)
+            navigate('/login');
           }
         })
         .catch((error: any) => {

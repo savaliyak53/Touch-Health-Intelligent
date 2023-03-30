@@ -30,7 +30,7 @@ const Button = ({
     <AntdButton
       className={className}
       onMouseOver={onMouseOver}
-      htmlType="submit"
+      // htmlType="submit"
       onClick={onClick}
       disabled={disabled}
       loading={loading}
