@@ -384,7 +384,7 @@ const Subscription = () => {
   return (
     <Layout
       defaultHeader={true}
-      hamburger={!userSignupStatus && retry ? false : true}
+      hamburger={!userSignupStatus || retry ? false : true}
       dashboard={false}
     >
       {retry ? (
