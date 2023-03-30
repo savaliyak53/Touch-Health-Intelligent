@@ -384,10 +384,11 @@ const AddGoals = () => {
         footer={null
 
         }
-        centered
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        width={'100vw'}
+        style={{height: '100vh'}}
         className="Goals-Modal"
       >
         <h3 className={styles['Goals-title']}>{selectedGoal?.name}</h3>

@@ -18,8 +18,8 @@ Select {
   margin: 0 auto;
 }
 .Goals-title{
-  font-family: 'DM Serif Display', sans-serif;
-  text-align: center;
+  font-family: $font-title;
+  text-align: left;
   margin-top: 50px;
   font-size: 9vw;
   line-height: 1.2;
@@ -30,16 +30,15 @@ Select {
 }
 .Des-Short,
 .Des-Goal {
-  font-family: 'Raleway', sans-serif;
+  font-family: $font-body;
   text-align: left;
   margin-top: 15px;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.2;
-  font-weight: 600;
+  font-weight: 400;
   margin-bottom: 10px;
-  color: $primary-color1;
-  margin-left: 20px;
-  padding: 4px 18px;
+  color: $primary-color2;
+  padding: 4px 0;
   h3{
     color: $primary-color2;
   } 
@@ -47,7 +46,9 @@ Select {
       color: $primary-color2;
       }
   h1{
-      color: $primary-color2;
+      color: $primary-color1;
+      font-weight: 800 !important;
+      font-size: 3vh;
       }
 }
 .Health-Goals,
@@ -112,7 +113,6 @@ Select {
 .Des-Goal {
   font-weight: 400;
   margin-top: 20px;
-  margin-bottom: 200px;
 }
 .LeftIcon {
   text-align: left !important;
@@ -132,12 +132,13 @@ Select {
   min-height: 10vh;
 }
 .Modal-Btn-Group{
-  background-color: white;
-  max-width: 520px;
+  background-image: linear-gradient(transparent, white);
+  // max-width: 520px;
   margin: 0 auto;
   padding: 10px 0;
   position: sticky;
   bottom: 0;
   width: 100%;
   border: none;
+  padding: 250px 0 50px;
 }
