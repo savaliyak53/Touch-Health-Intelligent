@@ -21,6 +21,7 @@ import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import moment from 'moment';
+import v from '../../variables.module.scss';
 
 interface Props {
   items: any;
@@ -114,6 +115,10 @@ const Question = ({
     }
   };
 
+  const handleButtonClick = () => {
+    (document.querySelector('#yesbtn') as HTMLButtonElement).disabled = true;
+    (document.querySelector('#nobtn') as HTMLButtonElement).disabled = true;
+  };
   useEffect(() => {
     if (question.type === 'slider') {
       const marks: SliderMarks = {};
@@ -148,6 +153,7 @@ const Question = ({
   useEffect(() => {
     if(disable){
       onSubmit(value)
+      handleButtonClick()
     }
   }, [disable])
   const InputField = useCallback(() => {
@@ -176,21 +182,27 @@ const Question = ({
           <div className={styles['align-center']}>
             <button
               className={styles['no-btn']}
-              onClick={() => {
+              onClick={(e) => {
+                e.currentTarget.style.backgroundColor = v['primary-color2'];
+                e.currentTarget.style.color = '#fff';
                 disableBtn()
                 setValue('false')
               }}
-              disabled={disable}    
+              disabled={disable}   
+              id='nobtn'
             >
               No
             </button>
             <button
               className={styles['yes-btn']}
-              onClick={() => {
+              onClick={(e) => {
+                e.currentTarget.style.backgroundColor = v['primary-color2'];
+                e.currentTarget.style.color = '#fff';
                 disableBtn()
                 setValue('true')
               }}
               disabled={disable}
+              id='yesbtn'
             >
               Yes
             </button>
@@ -331,7 +343,6 @@ const Question = ({
               tooltipVisible={question.show_values}
               onChange={(value) => {
                 setValue(value);
-                setDisableNextButton(false);
               }}
             />
             <span className={styles['Text2']}>{question.upper_qualifier}</span>
