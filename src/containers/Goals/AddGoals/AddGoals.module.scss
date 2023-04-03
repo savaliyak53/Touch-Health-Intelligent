@@ -66,7 +66,7 @@ Select {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    min-height: 140px;
+    height: 100px;
     padding: 16px;
     border-radius: 16px;
     border: none;
@@ -77,7 +77,7 @@ Select {
     line-height: 1.2;
     font-weight: 600;
     white-space: normal !important;
-    height: auto !important;
+    // height: auto !important;
     &:hover,
     &:active{
       background-color: rgba($primary-color1,0.8) !important;
@@ -88,6 +88,7 @@ Select {
   }
 
   .Cross-btn {
+    height: 100px;
     height: auto !important;
     padding: 0 !important;
     border: 0 !important;
