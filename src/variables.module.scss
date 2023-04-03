@@ -2,14 +2,19 @@
 // $primary-color2: #272424;
 // $secondary-color1: #657fd1;
 // $secondary-color2: #CD6052;
+// $primary-color1: #B83B5E;
+// $primary-color2: #6A2C70;
+// $secondary-color1: #6A2C70;
+// $secondary-color2: #F08A5D;
+
 $primary-color1: #204ECF;
 $primary-color2: #000;
-$primary-color3: #F26749;
+$primary-color3:#F26749;
 $secondary-color1: #CACACA;
 $secondary-color2: linear-gradient(to right, rgba(32,78,207,1), rgba(249,161,151,1));
-
 $font-title: 'Tilt Warp', cursive;
 $font-body: 'Roboto', sans-serif;
+
 
 :export {
     primary-color1: $primary-color1;
@@ -17,8 +22,7 @@ $font-body: 'Roboto', sans-serif;
     primary-color3: $primary-color3;
     secondary-color1: $secondary-color1;
     secondary-color2: $secondary-color2;
-    font-title: $font-title;
-    font-body: $font-body;
+    primary-color1:$primary-color1;
 }
 
 // Fonts

@@ -205,6 +205,11 @@
     color: #fff;
     border-color: $primary-color2;
   }
+  &:disabled{
+    background-color: transparent;
+    color: $primary-color2;
+    border-color: $primary-color2;
+    }
 }
 
 .no-btn {
@@ -230,10 +235,10 @@
       color: #fff;
       border-color: $primary-color2;
   }
-  &.disabled {
-      background-color: $primary-color2;
-      border: 2px solid $primary-color2;
-      color: $primary-color2;
+  &:disabled {
+    background-color: transparent;
+    color: $primary-color2;
+    border-color: $primary-color2;
     }
 }
   

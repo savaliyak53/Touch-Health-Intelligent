@@ -87,7 +87,7 @@ const SecurityQuestions = () => {
               onChange={onChange}
             >
               {securityQuestions.map((item) => (
-                <Option key={item.id} value={item.text} style={{color: v['primary-color2']}}>
+                <Option key={item.id} value={item.text} style={{color: v['primary-color1']}}>
                   {item.text}
                 </Option>
               ))}
