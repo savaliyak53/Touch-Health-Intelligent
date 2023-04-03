@@ -61,6 +61,7 @@ Select {
   .Rec-Goal,
   .Selected-Goal {
     font-family: $font-body;
+    background-color: rgba($secondary-color1,0.3);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -77,6 +78,13 @@ Select {
     font-weight: 600;
     white-space: normal !important;
     height: auto !important;
+    &:hover,
+    &:active{
+      background-color: rgba($primary-color1,0.8) !important;
+    }
+    &:focus{
+      background-color: rgba($secondary-color1,0.3);
+    }
   }
 
   .Cross-btn {
