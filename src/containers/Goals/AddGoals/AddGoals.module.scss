@@ -4,26 +4,30 @@
   text-align: center;
 }
 .Title {
-  font-family: serif;
+  font-family: $font-title;
+  padding-top: 15px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 34px;
   text-align: center;
   margin-top: 20px;
-  font-size: 35px;
-  line-height: 1.2;
-  font-weight: 600;
+  line-height: 110%;
   margin-bottom: 40px;
-  color: $secondary-color1;
+  color: $primary-color2;
 }
 Select {
   max-width: 320px;
   margin: 0 auto;
 }
 .Goals-title{
-  font-family: 'DM Serif Display', sans-serif;
-  text-align: center;
+  font-family: $font-body;
+  font-style: bold;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 110%;
+  letter-spacing: -0.01em;
+  text-align: left;
   margin-top: 50px;
-  font-size: 9vw;
-  line-height: 1.2;
-  font-weight: 400;
   margin-bottom: 10px;
   color: $primary-color2;
   //margin-left: 10px;
@@ -56,7 +60,7 @@ Select {
 
   .Rec-Goal,
   .Selected-Goal {
-    font-family: 'Raleway', sans-serif;
+    font-family: $font-body;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -96,7 +100,7 @@ Select {
 }
 .Cross,
 .Arrow {
-  color: rgba($primary-color2, 0.5) !important;
+  color: $primary-color1 !important;
   font-size: 20px;
 }
 

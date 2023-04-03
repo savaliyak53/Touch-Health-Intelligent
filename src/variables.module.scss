@@ -2,16 +2,27 @@
 // $primary-color2: #272424;
 // $secondary-color1: #657fd1;
 // $secondary-color2: #CD6052;
-$primary-color1: #B83B5E;
-$primary-color2: #6A2C70;
-$secondary-color1: #6A2C70;
-$secondary-color2: #F08A5D;
+// $primary-color1: #B83B5E;
+// $primary-color2: #6A2C70;
+// $secondary-color1: #6A2C70;
+// $secondary-color2: #F08A5D;
+
+$primary-color1: #204ECF;
+$primary-color2: #000;
+$primary-color3:#F26749;
+$secondary-color1: #CACACA;
+$secondary-color2: linear-gradient(to right, rgba(32,78,207,1), rgba(249,161,151,1));
+$font-title: 'Tilt Warp', cursive;
+$font-body: 'Roboto', sans-serif;
+
 
 :export {
     primary-color1: $primary-color1;
     primary-color2: $primary-color2;
     secondary-color1: $secondary-color1;
     secondary-color2: $secondary-color2;
+    primary-color1:$primary-color1;
+    secondary-color1:$secondary-color1;
 }
 
 // Fonts

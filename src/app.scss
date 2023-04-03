@@ -201,12 +201,12 @@ input {
   border-radius: 100px;
   height: auto;
   padding: 18px 54px;
-  background-color: transparent;
-  color: $primary-color2;
+  background-color: $primary-color1;
+  color: #fff;
   font-size: 20px;
   line-height: 24px;
   font-weight: 400;
-  border: 2px solid $primary-color2;
+  border: 2px solid  $primary-color1;
   margin: 20px auto 0;
   max-width: 400px;
   display: block;
@@ -215,14 +215,14 @@ input {
   &:hover,
   &:focus,
   &:active {
-    background-color: $primary-color2;
-    color: #fff;
-    border-color: $primary-color2;
+    background-color:transparent;
+    color: $primary-color1;
+    border-color:  $primary-color1;
   }
   &.disabled {
     background-color: rgba(#3a3a3a, 0.2);
-    border: 2px solid $primary-color2;
-    color: $primary-color2;
+    border: 2px solid $primary-color1;
+    color:  $primary-color1;
   }
   &.Guidance-active-btn,
   &.Inactive-Guidance-active-btn,
@@ -352,7 +352,7 @@ input {
   }
 }
 .Select-Wrap {
-  border: 2px solid $primary-color2;
+  border: 2px solid $primary-color1;
   display: inline-block;
   border-radius: 100px;
   position: relative;
@@ -360,7 +360,7 @@ input {
   .ant-select {
     padding: 0;
     width: 100%;
-    color: $primary-color2 !important;
+    color: $primary-color1 !important;
     font-size: 20px !important;
     line-height: 24px !important;
     white-space: nowrap;
@@ -410,7 +410,7 @@ input {
       display: none;
     }
     .ant-select-selection-placeholder {
-      color: $primary-color2;
+      color: $primary-color1;
       font-size: 20px;
       line-height: 24px;
       margin-left: 10px;
@@ -435,7 +435,7 @@ input {
             .ant-select-selection-search-input {
               padding: 16px 32px;
               height: 64px;
-              color: $primary-color2;
+              color: $primary-color1;
               font-size: 20px;
               line-height: 24px;
             }
@@ -451,6 +451,7 @@ input {
 
   .anticon {
     position: absolute;
+    color:$primary-color1;
     top: 50%;
     transform: translateY(-50%);
     z-index: 1;
@@ -471,12 +472,12 @@ input {
   }
 }
 .Goal-Select-Wrap {
-  border: 2px solid $primary-color2;
+  border: 2px solid $primary-color1;
   border-radius: 100px;
   position: relative;
   display: block;
   .ant-select {
-    color: $primary-color2 !important;
+    color: $primary-color1 !important;
     padding: 0;
     width: 100%;
     font-size: 20px !important;
@@ -487,7 +488,7 @@ input {
     height: 64px;
 
     .ant-select-selection-placeholder {
-      color: $primary-color2;
+      color: $primary-color1;
     }
 
     &:not(.ant-select-customize-input) {
@@ -513,7 +514,7 @@ input {
         &:not(.ant-select-customize-input) {
           .ant-select-selector {
             .ant-select-selection-search-input {
-              color: $primary-color2;
+              color: $primary-color1;
             }
           }
         }
@@ -526,7 +527,7 @@ input {
     top: 50%;
     transform: translateY(-50%);
     z-index: 1;
-    color: $primary-color2;
+    color: $primary-color1;
 
     &.anticon-search {
       left: 20px;
@@ -540,10 +541,10 @@ input {
   }
 }
 .ant-select-dropdown.ant-select-dropdown-placement-bottomLeft {
-  border: 2px solid $primary-color2;
+  border: 2px solid $primary-color1;
   border-radius: 30px;
   padding: 20px;
-  color: $primary-color2;
+  color: $primary-color1;
   font-size: 20px;
   line-height: 24px;
 }

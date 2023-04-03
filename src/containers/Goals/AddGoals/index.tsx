@@ -244,7 +244,7 @@ const AddGoals = () => {
     setShowLastGoalModal(false)
   }
   return (
-    <Layout defaultHeader={true} hamburger={false}>
+    <Layout defaultHeader={true} hamburger={true}>
       <>
         {userStatus && (
           <div className={styles['Backflex']} onClick={handleBack}>
@@ -280,7 +280,7 @@ const AddGoals = () => {
               onClick={() => showModal(data)}
               style={{
                 color: `${v['primary-color2']}`,
-                backgroundColor: `${'rgba(232, 232, 232, 0.31)'}`,
+                backgroundColor: `${'$secondary-color1'}`,
               }}
             >
               {data.name === '' ? (
@@ -292,7 +292,7 @@ const AddGoals = () => {
             </Button>
           ))}
         </div>
-        <h3 className={styles['Goals-title']}>Your health goals</h3>
+        <h3 className={styles['Goals-title']}>My goals</h3>
         <div className={styles['Health-Goals']}>
           {goals?.map((data: any, key: any) => (
             <div
@@ -300,7 +300,7 @@ const AddGoals = () => {
               className={styles['Selected-Goal']}
               style={{
                 color: `${v['primary-color2']}`,
-                backgroundColor: `${'rgba(246, 187, 161, 0.22)'}`,
+                backgroundColor: 'rgba(131, 165, 242, 0.3)',
               }}
             >
               <div className={styles['Mygoals-Title']}>
