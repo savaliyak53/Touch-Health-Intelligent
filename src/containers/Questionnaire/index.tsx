@@ -207,14 +207,7 @@ function UserCondition() {
       })
       .catch((error) => {
         setLoading(false);
-        if(error.response.data.details.status==500){
-          setException(true)
-        }
-        else {
-        toast.error('Something went wrong');
-        setLoading(false);
-        navigate('/dashboard');
-        }
+        setException(true);
       });
   };
   const handleRetry=()=>{
