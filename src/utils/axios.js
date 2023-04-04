@@ -38,6 +38,7 @@ const apiClient = (url, method = 'get', data = {}, header='') => {
       else if (error.response.status === 401) {
         localStorage.removeItem('userId');
         localStorage.removeItem('token');
+        localStorage.clear();
         window.location = '/login';
         return Promise.reject(error)
       }

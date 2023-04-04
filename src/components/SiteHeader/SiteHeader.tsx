@@ -94,6 +94,7 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
               onClick={() => {
                 localStorage.removeItem('userId');
                 localStorage.removeItem('token');
+                localStorage.clear();
                 (window as any).Intercom('shutdown');
                 navigate('/login');
               }}
