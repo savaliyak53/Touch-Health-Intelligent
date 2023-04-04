@@ -30,6 +30,12 @@
     }
   }
 }
+.menu{
+  color:$primary-color3 !important;
+  font-size: 25px;
+  font-weight: 700px;
+  font-style: bold;
+}
 
 .Burger-menu {
   background-color: #fff;
@@ -42,7 +48,7 @@
   z-index: 99999999;
   transform: translateX(-100%);
   transition: 0.2s all ease-in-out;
-  max-width: 428px;
+  max-width: 450px;
   min-height: 100%;
 
   ul {
@@ -78,6 +84,7 @@
   }
 }
 .menu-display {
+  background-color: $primary-color1;
   transform: translateX(0%);
 }
 .Cross-btn {
@@ -113,39 +120,44 @@
   svg {
     font-size: 20px;
     font-weight: 700;
-    color: $primary-color1;
+    color: $primary-color3;
     line-height: 21px;
   }
 }
 .menu-routes {
   li {
     a {
-      color: $primary-color1;
-      font-family: 'Raleway', sans-serif;
-      font-weight: 700;
-      font-size: 20px;
-      line-height: 60px;
+      color: $primary-color3;
+      font-family: $font-title;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 34px;
+      line-height: 110%;
+      // margin-bottom: 100px !important;
     }
   }
 }
 
 .Signout {
-  border: 2px solid $primary-color2;
-  border-radius: 8px;
+  font-family: $font-body !important;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 110%;
+  display: flex;
+  align-items: center;
   text-align: center;
+  text-decoration-line: underline;
   margin-top: 100px;
-
-  background-color: $primary-color2;
-  border-color: $primary-color2;
-  opacity: 1;
+  background-color: $primary-color1;
   display: block;
 
   &:hover,
   &:active,
   &:focus {
-    background-color: $primary-color2;
+    background-color: $primary-color1;
     color: #fff;
-    border-color: $primary-color2;
+    // border-color: $primary-color2;
   }
   &.disabled {
     background-color: rgba($primary-color2, 0.2);
@@ -156,7 +168,7 @@
 @media (max-width: 520px) {
   .Burger-menu {
     width: 100%;
-    max-width: 80%;
+    max-width: 100%;
 
     ul {
       padding-left: 0;
@@ -168,17 +180,24 @@
       margin-top: 50px;
     }
     .Signout {
-      &:hover,
-      &:active,
-      &:focus {
+      font-family: $font-body !important;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 110%;
         a {
-          background-color: $primary-color2;
+          font-family: $font-body !important;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 18px;
+          line-height: 110%;
+          background-color: $primary-color1;
           color: #fff;
-          border-color: $primary-color2;
+          border-color: $primary-color1;
           opacity: 1;
           display: block;
         }
-      }
+     
     }
 
     li {
@@ -207,12 +226,14 @@
   }
   .menu-routes {
     li {
+      margin-bottom: 30px !important;
       a {
-        color: $primary-color1;
-        font-family: 'Raleway', sans-serif;
-        font-weight: 700;
-        font-size: 20px;
-        line-height: 72px;
+        color: white;
+        font-family: $font-title;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 34px;
+        line-height: 110%;
       }
     }
   }
@@ -223,6 +244,7 @@
   }
   .cross-ant-btn {
     margin-top: 30px !important;
+    color: $primary-color3;
     margin-right: 20px !important;
     padding: 0 !important;
     background-color: transparent !important;
@@ -233,7 +255,7 @@
     svg {
       font-size: 20px;
       font-weight: 700;
-      color: $primary-color1;
+      color: $primary-color3;
       line-height: 21px;
     }
   }

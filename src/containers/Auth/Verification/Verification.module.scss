@@ -11,12 +11,16 @@
   /* height: 100%; */
 }
 .Verification-title {
+
+  font-family: $font-title;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 110%;
+  letter-spacing: -0.01em;
   display: flex;
-  justify-content: center;
-  font-family: Serif;
-  font-size: 36px;
-  line-height: 1.1;
-  font-weight: 700;
+  left: 20px;
+  justify-content: left;
   color: $primary-color2;
   padding-top: 50px;
   position: fixed;
@@ -24,15 +28,29 @@
   width: 100%;
   margin: 0 auto;
 }
+.box{
+  font-family: monospace;
+  border-radius: 8px !important;
+  border: 2px solid $secondary-color1 !important;
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px !important; 
+  margin: 4px;
+  padding-left: 8px;
+  width: 36px; 
+  height: 42px;
+  font-size: 32px; 
+  box-sizing: border-box; 
+  color: black;
+  background-color: white;
+}
 .Verification-form {
-  margin-top: 100px;
+  margin-top: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
 }
 .ant-btn.verification-btn {
-  width: 100%;
+  width: 50%;
   border-radius: 100px;
   padding: 16px 32px;
   font-size: 24px;

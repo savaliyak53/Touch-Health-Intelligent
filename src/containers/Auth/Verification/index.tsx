@@ -149,6 +149,7 @@ const Verification = () => {
             }}
             render={({ field: { onChange, onBlur, value, name, ref } }) => (
               <ReactCodeInput
+                // className={styles["box"]}
                 name={name}
                 inputMode="numeric"
                 fields={6}

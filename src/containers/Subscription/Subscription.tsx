@@ -5,7 +5,7 @@ import { Button, Spin, Typography, Tag } from 'antd';
 import styles from './Subscription.module.scss';
 import { useParams } from 'react-router-dom';
 import { Alert } from 'antd';
-
+import v from '../../variables.module.scss';
 import {
   checkoutPlan,
   getPlansService,
@@ -24,7 +24,7 @@ import { dateFormatRenewal } from '../../utils/lib';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { ISubscriptionPlan, IUserSubscription } from './Interfaces';
 import { Link } from 'react-router-dom';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined , InfoCircleOutlined } from '@ant-design/icons';
 import {
   getInteractionServiceByType,
   getUser,
@@ -415,6 +415,7 @@ const Subscription = () => {
             <h2 className={styles['Sub-title']}>
               Subscription <Spin spinning={loading} style={{marginLeft: 4}}/>
             </h2>
+            <div> </div>
             {userPlanStatus &&
             <button
               className={styles['manage-btn']}
@@ -425,18 +426,9 @@ const Subscription = () => {
               <Spin spinning={loadingManageBtn} indicator={antIcon} />
             </button>}
             {!loading && !userPlan && (
-              <Tag
-                color="orange"
-                className="Sub-alert"
-                style={{ margin: '0px' }}
-              >
-                <Typography.Title
-                  level={5}
-                  style={{ color: 'inherit', textAlign: 'center' }}
-                >
-                  You are not subscribed to any plan.
-                </Typography.Title>
-              </Tag>
+                <div className={styles['description']}>
+              <InfoCircleOutlined /> You are <b>not subscribed </b> to any plan.
+              </div>
             )}
             <>
               {plans?.map((plan: ISubscriptionPlan) => (
@@ -456,7 +448,7 @@ const Subscription = () => {
                 >
                   <Meta
                     title={
-                      <h3 className={styles['Question-title']}>{plan.name}</h3>
+                      <div className={styles['Question-title']}>{plan.name}</div>
                     }
                     className={styles['ant-card-meta']}
                     description={

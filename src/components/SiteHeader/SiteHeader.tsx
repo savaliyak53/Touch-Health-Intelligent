@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Button } from 'antd';
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined , MenuOutlined} from '@ant-design/icons';
 // import './SiteHeader.scss';
 import styles from './SiteHeader.module.scss';
 import { useNavigate } from 'react-router';
@@ -37,10 +37,11 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
           <Button
             className={`${hamburger ? styles['d-block'] : styles['d-none']}`}
           >
-            <img
+            <MenuOutlined className={styles["menu"]}/>
+            {/* <img
               src={`${process.env.PUBLIC_URL}/assets/mobileassets/nav.svg`}
               alt="Touch Logo"
-            />
+            /> */}
           </Button>
         </div>
       </header>
