@@ -280,7 +280,7 @@ const AddGoals = () => {
               onClick={() => showModal(data)}
               style={{
                 color: `${v['primary-color2']}`,
-                backgroundColor: `${'$secondary-color1'}`,
+                backgroundColor: `${v['$secondary-color1']}`,
               }}
             >
               {data.name === '' ? (
