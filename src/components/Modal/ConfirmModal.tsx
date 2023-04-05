@@ -7,6 +7,7 @@ export type IProps = {
   handleOk: any;
   renderData?: any;
   title: string;
+  className?: any
 };
 const ConfirmModal = ({
   open,
@@ -14,6 +15,7 @@ const ConfirmModal = ({
   title,
   handleOk,
   renderData,
+  className
 }: IProps) => {
   return (
     <Modal
@@ -21,9 +23,10 @@ const ConfirmModal = ({
       open={open}
       onOk={handleOk}
       onCancel={handleCancel}
+      className={`Confirm-Modal ${className}`}
       footer={[
         <div  key="submit" className={styles["Btn-group"]}>
-          <Button key="submit" className={styles["Subscribe"]} onClick={handleOk}>
+          <Button key="submit" className={'Button'} onClick={handleOk}>
            Confirm
           </Button>
         </div>

@@ -4,16 +4,9 @@
   text-align: center;
 }
 .Title {
-  font-family: $font-title;
   padding-top: 15px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 34px;
-  text-align: center;
   margin-top: 20px;
-  line-height: 110%;
   margin-bottom: 40px;
-  color: $primary-color2;
 }
 Select {
   max-width: 320px;
@@ -31,6 +24,11 @@ Select {
   margin-bottom: 10px;
   color: $primary-color2;
   //margin-left: 10px;
+}
+.Goals-Detail-title{
+  letter-spacing: -0.01em;
+  margin-top: 50px;
+  margin-bottom: 10px;
 }
 .Des-Short,
 .Des-Goal {
@@ -154,4 +152,11 @@ Select {
   width: 100%;
   border: none;
   padding: 250px 0 50px;
+}
+
+.dlt-msg{
+  color: $primary-color1;
+  font-family: $font-body;
+  font-size: 12px;
+  text-align: left;
 }
