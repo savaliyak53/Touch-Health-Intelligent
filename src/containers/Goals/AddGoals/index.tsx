@@ -254,7 +254,7 @@ const AddGoals = () => {
         )}
       </>
       <div className={styles['AddGoals']}>
-        <h2 className={`Title ${styles['Title']}`}>Adding a health goal</h2>
+        <h2 className={`Title`}>Adding a health goal</h2>
         <div className={`Goal-Select-Wrap Goals-Select`}>
           <SearchOutlined className="search" />
           <AutoComplete
@@ -398,7 +398,7 @@ const AddGoals = () => {
       >
         <h3 className={` Title ${styles['Goals-Detail-title']}`}>{selectedGoal?.name}</h3>
         {selectedGoal && (
-          <div className={styles['Des-Goal']}>
+          <div className={`Description ${styles['Des-Goal']}`}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
               {selectedGoal.description_md}
             </ReactMarkdown>
@@ -420,7 +420,7 @@ const AddGoals = () => {
               </Button>
             ) : (
               <Button
-                className="Button"
+                className="Submit-Button"
                 loading={isLoading}
                 onClick={() => addGoals(selectedGoal?.id)}
               >
@@ -428,7 +428,7 @@ const AddGoals = () => {
               </Button>
             )}
             <Button
-              className="Button"
+              className="Submit-Button"
               loading={isLoading}
               onClick={handleCancel}
             >

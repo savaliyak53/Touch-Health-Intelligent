@@ -5,21 +5,12 @@
     box-sizing: border-box;
 }
 
-.Pref-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 35px;
-    line-height: 36px;
-    font-weight: 300;
-    color: $primary-color2;
-    margin-top: 24px;
-}
-
-.Pref {
-    .Question {
+.Integration-wrap {
+    .Container {
         margin-bottom: clamp(0px, 8vh, 60px);
     }
 
-    .Question-title {
+    .Container-title {
         display: flex;
         flex-direction: row;
         position: relative;
@@ -31,7 +22,7 @@
         margin-bottom: 24px;
     }
 }
-.Question {
+.Container {
     margin-bottom: clamp(0px, 8vh, 60px);
     .ant-radio-group {
         &.Options,.Options.ant-space {
@@ -41,7 +32,7 @@
       }
 }
 
-.Question-title {
+.Container-title {
     margin-bottom: 24px;
     .TooltipIcon {
         max-width: 24px;

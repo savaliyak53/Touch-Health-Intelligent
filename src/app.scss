@@ -1021,12 +1021,13 @@ input {
   font-weight: 400;
   font-size: 34px;
   text-align: left;
-  margin-top: 20px;
+  margin-bottom: 32px;
+  margin-top: 48px;
   line-height: 37px;
   color: $primary-color2;
 }
 
-.Button.ant-btn{
+.Submit-Button.ant-btn{
   border-radius: 100px;
   height: auto;
   padding: 18px 54px;
@@ -1062,4 +1063,11 @@ input {
   font-size: 18px;
   line-height: 23px;
   color: $primary-color2;
+}
+.Heading{
+  font-family: $font-body;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 26px;
+  color: $primary-color1;
 }
