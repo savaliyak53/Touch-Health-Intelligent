@@ -96,7 +96,11 @@ const Home = () => {
     if (userId) {
       getUser(userId)
         .then((response) => {
-          getUserSubscription(response)
+          if(response.data.security_questions){
+            getUserSubscription(response)
+          } else {
+            navigate('/security')
+          }
         })
         .catch((error) => {
           console.log(error);
