@@ -53,7 +53,7 @@ export const getDayInitial = (index:number) =>{
   return day[index];
 }
 export const signupFlow = (pathname:any) =>{
-  if(pathname==="/login" || pathname==="/terms-and-conditions" || pathname==="/security" || pathname==="verification-code" || pathname==="password-reset"){
+  if(pathname==="/login" || pathname==="/terms-and-conditions" || pathname==="/security" || pathname==="/verification-code" || pathname==="/password-reset"){
     return true;
   }
   return false
