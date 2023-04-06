@@ -59,7 +59,7 @@ const SecurityQuestions = () => {
         .then(async (response) => {
           if (response?.id) {
             toast.success('Security Question saved successfully');
-            process.env.REACT_APP_IS_BETA == 'TRUE' ? navigate('/') : navigate('/subscription');
+            navigate('/');
           }
         })
         .catch((error) => {
