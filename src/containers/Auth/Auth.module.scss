@@ -8,18 +8,18 @@
     line-height: 29px !important;
     height: 60% !important;
     margin-top: clamp(0px, 5.5vh, 62px) !important;
-    background-color: $primary-color2 !important;
-    border: 1px solid $primary-color2 !important;
+    background-color: #6A2C70 !important;
+    border: 1px solid #6A2C70 !important;
     color: #fff !important;
     &:hover,
     &:focus,
     &:active {
-      background-color: rgba($primary-color2,0.7) !important;
+      background-color: rgba(#6A2C70,0.7) !important;
       color: #fff;
     }
   
     &:disabled {
-      background-color: rgba($primary-color2,0.7) !important;
+      background-color: rgba(#6A2C70,0.7) !important;
       color: #fff;
       pointer-events: none;
     }
@@ -51,19 +51,19 @@
     flex-direction: row;
     font-size: 20px;
     line-height: 24px;
-    border: 2px solid rgba($primary-color2,0.42);
+    border: 2px solid rgba(#6A2C70,0.42);
     background-color: rgba(#fff, 0.6);
-    color: $primary-color2;
+    color: #6A2C70;
   
     &:hover,
     &:focus {
-      border: 2px solid $primary-color2;
+      border: 2px solid #6A2C70;
       background-color: #e3e3e3;
-      color: $primary-color2;
+      color: #6A2C70;
     }
   
     &::placeholder {
-      color: rgba($primary-color2, 0.8);
+      color: rgba(#6A2C70, 0.8);
     }
   }
   
@@ -106,14 +106,14 @@
     margin-left: -2.76rem;
     cursor: pointer;
     margin-bottom: 16px;
-    color: $primary-color2;
+    color: #6A2C70;
   }
   
   .Auth-terms {
     text-align: center;
     font-size: 16px;
     line-height: 19px;
-    color: $primary-color2;
+    color: #6A2C70;
     padding: 7px 30px;
     border-radius: 100px;
     background-color: #fff;
@@ -143,17 +143,17 @@
       line-height: 29px;
       height: 60%;
       margin-top: clamp(0px, 5.5vh, 62px);
-      background-color: $primary-color2;
-      border: 1px solid $primary-color2;
+      background-color: #6A2C70;
+      border: 1px solid #6A2C70;
       color: #fff;
       &:hover,
       &:focus,
       &:active {
-        background-color: rgba($primary-color2,0.7);
+        background-color: rgba(#6A2C70,0.7);
         color: #fff;
       }
       &:disabled {
-        background-color: rgba($primary-color2,0.57);
+        background-color: rgba(#6A2C70,0.57);
         color: #fff;
       }
     }
@@ -234,7 +234,7 @@
     text-decoration: underline;
   
     &:hover {
-      color: $primary-color2;
+      color: #6A2C70;
       text-decoration: underline;
       opacity: 0.8;
     }
@@ -243,7 +243,7 @@
     text-align: center;
     font-size: 16px;
     line-height: 15px;
-    color: $primary-color2;
+    color: #6A2C70;
     padding: 7px 20px;
     border-radius: 100px;
     background-color: #fff;
@@ -254,11 +254,11 @@
   .Auth-terms a {
     font-size: 16px;
     line-height: 19px;
-    color: $primary-color2;
+    color: #6A2C70;
     text-decoration: underline;
   
     &:hover {
-      color: $primary-color2;
+      color: #6A2C70;
       text-decoration: underline;
       opacity: 0.8;
     }
@@ -266,11 +266,11 @@
   .Auth-terms-signup a {
     font-size: 16px;
     line-height: 19px;
-    color: $primary-color2;
+    color: #6A2C70;
     text-decoration: underline;
   
     &:hover {
-      color: $primary-color2;
+      color: #6A2C70;
       text-decoration: underline;
       opacity: 0.8;
     }

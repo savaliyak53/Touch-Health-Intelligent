@@ -295,7 +295,7 @@ const PasswordRecovery = () => {
               onClick={handleSubmit(onVerify)}
               loading={isLoading}
               disabled={isDisabled}
-              className="Pref-btn btn"
+              className={styles['Auth-submit']}
             >
               {isCodeSent ? 'Resend Code' : 'Send Code'}
             </Button>
@@ -346,7 +346,7 @@ const PasswordRecovery = () => {
                 />
                 <Button
                   onClick={handleSubmit(onSubmitCode)}
-                  className="Pref-btn btn"
+                  className={styles['Auth-submit']}
                   loading={isVerifying}
                 >
                   Verify
@@ -362,7 +362,7 @@ const PasswordRecovery = () => {
                 onClick={()=>{
                   setOpenRecaptcha(true)
                 }}
-                className="Pref-btn btn"
+                className={styles['Auth-submit']}
                 loading={isLoading}
                 disabled={isDisabled}
               >
@@ -415,7 +415,7 @@ const PasswordRecovery = () => {
               {/* <div className="action"> */}
                 <Button
                   onClick={handleSubmit(confirmAnswer)}
-                  className="Pref-btn btn"
+                  className={styles['Auth-submit']}
                 >
                   Submit
                 </Button>
@@ -507,7 +507,7 @@ const PasswordRecovery = () => {
               <div className="action">
                 <Button
                   onClick={handleSubmit(onSubmitRecover)}
-                  className="Pref-btn btn"
+                  className={styles['Auth-submit']}
                 >
                   Reset Password
                 </Button>

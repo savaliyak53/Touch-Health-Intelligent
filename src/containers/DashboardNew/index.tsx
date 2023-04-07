@@ -68,7 +68,7 @@ const DashboardNew = () => {
       <div>    
         <Row>
           <Col span={21}>
-          <Typography style={{color:'#6A2C70'}} className={styles.Title}>{'Your Dashboard'}</Typography>
+          <div className={`Title`}>Your Dashboard</div>
           </Col>
           <Col span={1}>
           </Col>
@@ -87,7 +87,7 @@ const DashboardNew = () => {
             </Tooltip>
           </Col>
         </Row>
-        <Typography style={{color:'#6A2C70'}} className={styles.StreakTitle}>{streakCount && streakCount >0 ? `${streakCount} day streak!` :'No current streak'}</Typography>
+        <div className={`Heading ${styles.StreakTitle}`}>{streakCount && streakCount >0 ? `${streakCount} day streak!` :'No current streak'}</div>
         <Row>
           <Col span={21}>
             <Row>

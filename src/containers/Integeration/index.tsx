@@ -217,8 +217,8 @@ const Integrations = () => {
   return (
     <Layout defaultHeader={true} hamburger={loc?.state?.redirect ? false : true}>
       <Spin spinning={spinning}>
-        <div className={`Content-wrap ${styles['Pref']}`}>
-          <h2 className={styles['Pref-title']}>Integrations</h2>
+        <div className={`${styles['Integration-wrap']}`}>
+          <h2 className={'Title'}>Integrations</h2>
           <div
             style={{
               display: 'flex',
@@ -244,9 +244,9 @@ const Integrations = () => {
           </div>
 
           <div>
-            <div className={styles['Question']}>
+            <div className={styles['Container']}>
               <h3
-                className={styles['Question-title']}
+                className={`Description ${styles['Container-title']}`}
                 style={{ color: '#A5A5A5' }}
               >
                 Touch Health Assistant collects health and activity data to enable health goal
@@ -255,7 +255,7 @@ const Integrations = () => {
             </div>
             <div>
               <h3
-                className={styles['Question-title']}
+                className={styles['Container-title']}
                 style={{ fontSize: '22px' }}
               >
                 Data Use
