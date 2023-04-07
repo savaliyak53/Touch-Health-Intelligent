@@ -1048,7 +1048,7 @@ input {
   &:active {
     background-image: $secondary-color2 !important;
     color: #fff !important;
-    border-color: $primary-color1 !important;
+    border-color: $secondary-color2 !important;
   }
   &.disabled {
     background-color: rgba(#3a3a3a, 0.2);

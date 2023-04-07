@@ -100,6 +100,41 @@ input[type='number']::-webkit-outer-spin-button {
 .resend-progress {
   height: 5px !important;
 }
+.resend{
+  font-family: $font-body;
+  border: 0px;
+  background-color: white;
+  cursor: pointer;
+  margin-top: 20px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 110%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-decoration-line: underline;
+  color: $primary-color2;
+
+  &:hover{
+    color: $primary-color2;
+  }
+}
+.grey{
+  border: 0px;
+  background-color: white;
+  font-family: $font-body;
+  margin-top: 20px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 110%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-decoration-line: underline;
+  color:$secondary-color1;
+}
 @media screen and (min-height: 670px) {
   .Verification-form {
     width: 100%;
