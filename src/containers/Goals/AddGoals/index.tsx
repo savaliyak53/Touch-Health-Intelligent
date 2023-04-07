@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './AddGoals.module.scss';
 import v from '../../../variables.module.scss';
 import Layout from '../../../layouts/Layout/Layout';
-import { LeftOutlined } from '@ant-design/icons';
+import { LeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import {
   DownOutlined,
   SearchOutlined,
@@ -58,6 +58,7 @@ const AddGoals = () => {
   const [active, setActive] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showLastGoalModal, setShowLastGoalModal] = useState(false);
+  const [deletedGoal, setDeletedGoal] = useState<string | undefined | null>(null)
 
 
   const getUserStatus = () => {
@@ -74,7 +75,6 @@ const AddGoals = () => {
   };
 
   const showModal = (data: any) => {
-    document.querySelectorAll<HTMLElement>('.Layout')[0].style.height = '100%'
     setSelectedGoal(data);
     setIsModalOpen(true);
   };
@@ -85,10 +85,10 @@ const AddGoals = () => {
 
   const handleCancel = () => {
     setIsModalOpen(false);
-    document.querySelectorAll<HTMLElement>('.Layout')[0].style.height = 'auto'
   };
 
   const handleDeleteOk = (id: any) => {
+    setDeletedGoal(selectedGoal?.name)
     removeGoal(id);
     setShowCancelModal(false);
   };
@@ -162,6 +162,7 @@ const AddGoals = () => {
   const removeGoal = (id?: string) => {
     deleteGoal(id)
       .then((res) => {
+        setDeletedGoal(selectedGoal?.name)
         toast.success('Goal removed');
         setSearchValue('');
         getGoalsData();
@@ -253,7 +254,7 @@ const AddGoals = () => {
         )}
       </>
       <div className={styles['AddGoals']}>
-        <h2 className={styles['Title']}>Adding a health goal</h2>
+        <h2 className={`Title`}>Adding a health goal</h2>
         <div className={`Goal-Select-Wrap Goals-Select`}>
           <SearchOutlined className="search" />
           <AutoComplete
@@ -336,7 +337,8 @@ const AddGoals = () => {
                 open={showCancelModal}
                 handleCancel={handleDeleteModal}
                 handleOk={() => handleDeleteOk(selectedGoal?.id)}
-                renderData={<div>Are you sure you want to delete goal?</div>}
+                className='Addgoal-Confirm-Modal'
+                renderData={<div className='Description'>Are you sure you want to delete the goal <strong>{data.name}</strong>?</div>}
               />
               <LastGoalModal
                 title={'Warning'}
@@ -359,6 +361,9 @@ const AddGoals = () => {
               </Button>
             </div>
           ))}
+            { deletedGoal ? (
+              <div className={styles['dlt-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> Your goal {deletedGoal} was successfully deleted</div>
+            ) : ''}
         </div>
         <div
           style={{
@@ -384,15 +389,16 @@ const AddGoals = () => {
         footer={null
 
         }
-        centered
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        width={'100vw'}
+        style={{height: '100vh'}}
         className="Goals-Modal"
       >
-        <h3 className={styles['Goals-title']}>{selectedGoal?.name}</h3>
+        <h3 className={` Title ${styles['Goals-Detail-title']}`}>{selectedGoal?.name}</h3>
         {selectedGoal && (
-          <div className={styles['Des-Goal']}>
+          <div className={`Description ${styles['Des-Goal']}`}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
               {selectedGoal.description_md}
             </ReactMarkdown>
@@ -403,7 +409,7 @@ const AddGoals = () => {
               return goal.name == selectedGoal?.name;
             })[0]?.name ? (
               <Button
-                className="Pref-btn btn"
+                className="Button"
                 loading={isLoading}
                 onClick={() => {
                   if(goals.length>1)removeGoal(selectedGoal?.id)
@@ -414,7 +420,7 @@ const AddGoals = () => {
               </Button>
             ) : (
               <Button
-                className="Pref-btn btn"
+                className="Submit-Button"
                 loading={isLoading}
                 onClick={() => addGoals(selectedGoal?.id)}
               >
@@ -422,7 +428,7 @@ const AddGoals = () => {
               </Button>
             )}
             <Button
-              className="Back-btn btn"
+              className="Submit-Button"
               loading={isLoading}
               onClick={handleCancel}
             >

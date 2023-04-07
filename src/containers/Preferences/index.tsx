@@ -119,8 +119,8 @@ const Preferences = () => {
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <Spin spinning={spinning}>
-        <div className={`Content-wrap ${styles['Pref']}`}>
-          <h2 className={styles['Pref-title']}>Preferences</h2>
+        <div className={`${styles['Pref-wrap']}`}>
+          <h2 className={`Title`}>Preferences</h2>
           <div
             style={{
               display: 'flex',
