@@ -101,7 +101,9 @@
       opacity: 0.7;
     }
     svg {
-      font-size: 26px;
+      font-size: 30px !important;
+      height: 1.5em !important;
+      width: 1.5em !important;
       font-weight: 700;
       color: $primary-color1;
       line-height: 30px;
@@ -145,6 +147,7 @@
   font-size: 18px;
   line-height: 110%;
   display: flex;
+  bottom: 10px;
   align-items: center;
   text-align: center;
   text-decoration-line: underline;
@@ -185,6 +188,8 @@
       font-weight: 400;
       font-size: 18px;
       line-height: 110%;
+      margin-top: 200px;
+      bottom: 10px;
         a {
           font-family: $font-body !important;
           font-style: normal;
@@ -196,6 +201,7 @@
           border-color: $primary-color1;
           opacity: 1;
           display: block;
+          text-decoration-line: underline;
         }
      
     }
@@ -241,6 +247,9 @@
     width: 100%;
     display: flex;
     justify-content: flex-end;
+    svg{
+      font-size: 28px !important;
+    }
   }
   .cross-ant-btn {
     margin-top: 30px !important;
