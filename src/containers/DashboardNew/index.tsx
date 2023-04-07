@@ -87,7 +87,7 @@ const DashboardNew = () => {
             </Tooltip>
           </Col>
         </Row>
-        <div className={`Heading ${styles.StreakTitle}`}>{streakCount && streakCount >0 ? `${streakCount} day streak!` :'No current streak'}</div>
+        <div className={`Heading Heading-color1 ${styles.StreakTitle}`}>{streakCount && streakCount >0 ? `${streakCount} day streak!` :'No current streak'}</div>
         <Row>
           <Col span={21}>
             <Row>

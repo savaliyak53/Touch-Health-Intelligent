@@ -1036,11 +1036,11 @@ input {
   font-size: 20px;
   line-height: 24px;
   font-weight: 400;
-  border: 2px solid $primary-color1;
+  border: none;
   margin: 20px auto 0;
   display: flex;
   justify-content: center;  
-  width: 60%;
+  width: 65%;
 
 
   &:hover,
@@ -1048,9 +1048,9 @@ input {
   &:active {
     background-image: $secondary-color2 !important;
     color: #fff !important;
-    border-color: $primary-color1 !important;
+    border: none
   }
-  &.disabled {
+  &:disabled {
     background-color: rgba(#3a3a3a, 0.2);
     border: 2px solid $primary-color1;
     color:  $primary-color1;
@@ -1069,5 +1069,11 @@ input {
   font-weight: 800;
   font-size: 24px;
   line-height: 26px;
+  text-align: left;
+}
+.Heading-color1{
   color: $primary-color1;
+}
+.Heading-color2{
+  color: $primary-color2;
 }

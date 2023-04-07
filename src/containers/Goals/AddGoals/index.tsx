@@ -270,7 +270,7 @@ const AddGoals = () => {
           <DownOutlined onClick={() => setIsDropdownOpen(!isDropdownOpen)} />
         </div>
 
-        <h3 className={styles['Goals-title']}>Recommended goals</h3>
+        <h3 className={`Heading Heading-color2 ${styles['Goals-title']}`}>Recommended goals</h3>
 
         <div className={styles['Rec-wrap']}>
           {suggestion?.map((data: any, key: any) => (
@@ -293,7 +293,7 @@ const AddGoals = () => {
             </Button>
           ))}
         </div>
-        <h3 className={styles['Goals-title']}>My goals</h3>
+        <h3 className={` Heading Heading-color2 ${styles['Goals-title']}`}>My goals</h3>
         <div className={styles['Health-Goals']}>
           {goals?.map((data: any, key: any) => (
             <div
@@ -376,7 +376,7 @@ const AddGoals = () => {
           }}
         >
           <Button
-            className={`Pref-btn btn ${goals.length < 1  ? 'disabled' : ''}`}
+            className={`Submit-Button ${goals.length < 1  ? 'disabled' : ''}`}
             loading={isLoading}
             onClick={handleNext}
             disabled={goals.length < 1 ? true : false}
