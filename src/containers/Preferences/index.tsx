@@ -153,10 +153,7 @@ const Preferences = () => {
           <div>
             {sex && (
               <div>
-                <h3
-                  className={styles['Question-title']}
-                  style={{ fontSize: '22px' }}
-                >
+                <h3 className={'Heading Heading-color1'}>
                   Biological Sex
                   <Tooltip
                     title={
@@ -180,10 +177,7 @@ const Preferences = () => {
             )}
             {yob && (
               <div>
-                <h3
-                  className={styles['Question-title']}
-                  style={{ fontSize: '22px' }}
-                >
+                <h3 className={'Heading Heading-color1'}>
                   Age
                 </h3>
                 <Button className="Pref-post-btn" disabled={true}>
@@ -192,10 +186,7 @@ const Preferences = () => {
               </div>
             )}
               <div>
-                <h3
-                  className={styles['Question-title']}
-                  style={{ fontSize: '22px' }}
-                >
+              <h3 className={'Heading Heading-color1'}>
                   Username
                 </h3>
                 {/* <Button className="Pref-username-btn">{username}</Button> */}
@@ -210,10 +201,10 @@ const Preferences = () => {
             {enable && (
               <div className={styles.TermsBtnWrap}>
                 <Button
-                  className={styles.TermsBtn}
+                  className={'Submit-Button'}
                   onClick={handleNext}
                 >
-                Next
+                Save
                 </Button>
               </div>
             )}
