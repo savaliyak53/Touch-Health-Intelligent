@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, DatePicker, Input, Radio, Tooltip } from 'antd';
 import { Slider } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
-import { RightOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { Select, Spin } from 'antd';
 import goal_styles from './IntroGoals.module.scss';
 const { Option } = Select;
@@ -180,21 +180,8 @@ const Question = ({
       case 'yes_no':
         return (
           <div className={styles['align-center']}>
-            <button
-              className={styles['no-btn']}
-              onClick={(e) => {
-                e.currentTarget.style.backgroundColor = v['primary-color2'];
-                e.currentTarget.style.color = '#fff';
-                disableBtn()
-                setValue('false')
-              }}
-              disabled={disable}   
-              id='nobtn'
-            >
-              No
-            </button>
-            <button
-              className={styles['yes-btn']}
+            <Button
+              className={'Submit-Button'}
               onClick={(e) => {
                 e.currentTarget.style.backgroundColor = v['primary-color2'];
                 e.currentTarget.style.color = '#fff';
@@ -205,31 +192,43 @@ const Question = ({
               id='yesbtn'
             >
               Yes
-            </button>
+            </Button>
+            <Button
+              className={'Submit-Button'}
+              onClick={(e) => {
+                e.currentTarget.style.backgroundColor = v['primary-color2'];
+                e.currentTarget.style.color = '#fff';
+                disableBtn()
+                setValue('false')
+              }}
+              disabled={disable}   
+              id='nobtn'
+            >
+              No
+            </Button>
           </div>
         );
       case 'select_one':
         return (
-          <Radio.Group
-            className="Question-Options"
-            onChange={(e) => {
-              const index = question.options.indexOf(e.target.value);
-              setValue(index);
-            }}
-          >
-            {question.options.map((item: any, index: number) => (
-              <>
-                <Radio.Button
-                  className={`Question-Option${index}`}
-                  value={item}
-                  key={index}
-                >
-                  {item}
-                </Radio.Button>
-                {index % 2 !== 0 && <br />}
-              </>
-            ))}
-          </Radio.Group>
+          <div className="Select-Options">
+            <Radio.Group
+              onChange={(e) => {
+                const index = question.options.indexOf(e.target.value);
+                setValue(index);
+              }}
+            >
+              {question.options.map((item: any, index: number) => (
+                <div className={`Select-Button`} key={index}>
+                  <Radio.Button
+                    value={item}
+                  >
+                    <PlusOutlined /> {item}
+                  </Radio.Button>
+                  {index % 2 !== 0 && <br />}
+                </div>
+              ))}
+            </Radio.Group>
+          </div>
         );
       case 'dialog_select_one':
         return (
@@ -304,29 +303,32 @@ const Question = ({
 
       case 'select_many':
         return (
-          <div className="ant-radio-group ant-radio-group-outline Question-Options">
-            {question.options.map((item: any, index: number) => (
-              <label
-                ref={labelRef}
-                id={`label-${index}`}
-                className={`ant-radio-button-wrapper Option${index} ${
-                  isChecked(index) ? 'ant-radio-button-wrapper-checked' : ''
-                } `}
-                key={index}
-              >
-                <span className={`ant-radio-button`}>
-                  <input
-                    type="radio"
-                    className="ant-radio-button-input"
-                    value={item}
-                    onClick={() => handleClick(index)}
-                  />
-                  <span className="ant-radio-button-inner"></span>
-                </span>
-                <span>{item}</span>
-              </label>
-            ))}
+          <div className="Select-Options">
+            <div className="ant-radio-group ant-radio-group-outline Select-Button">
+              {question.options.map((item: any, index: number) => (
+                <label
+                  ref={labelRef}
+                  id={`label-${index}`}
+                  className={`ant-radio-button-wrapper Option${index} ${
+                    isChecked(index) ? 'ant-radio-button-wrapper-checked' : ''
+                  } `}
+                  key={index}
+                >
+                  <span className={`ant-radio-button`}>
+                    <input
+                      type="radio"
+                      className="ant-radio-button-input"
+                      value={item}
+                      onClick={() => handleClick(index)}
+                    />
+                    <span className="ant-radio-button-inner"></span>
+                  </span>
+                  <span><PlusOutlined /> &nbsp;{item}</span>
+                </label>
+              ))}
+            </div>
           </div>
+
         );
       case 'slider':
         return (
