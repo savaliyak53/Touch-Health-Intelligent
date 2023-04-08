@@ -175,14 +175,14 @@ const Verification = () => {
             Verify
           </Button>
           
-          <Button
+          <button
             onClick={sendPhoneOTP}
-            className="Pref-btn btn"
-            loading={isLoading}
+            className={isDisabled? styles["grey"] : styles["resend"]}
+            type="button"
             disabled={isDisabled}
           >
             Resend OTP&nbsp;{enableTimer && (<span>in&nbsp;{minutes}:{seconds}</span>)}
-          </Button>
+          </button>
         </form>
         <ConfirmModal
           title={'Confirmation'}
@@ -190,6 +190,13 @@ const Verification = () => {
           handleCancel={() => {setModalOpen(false)}}
           handleOk={() => {setModalOpen(false)}}
           renderData={<div>We just sent a text to your number, confirm this is you by putting in the code you received here</div>}
+        />
+         <ConfirmModal
+          title={'Confirmation'}
+          open={finishStatus}
+          handleCancel={() => {setfinishStatus(false); pageBackEvent(); }}
+          handleOk={logoutClick}
+          renderData={<div>Are you sure you want to navigate away from this page?</div>}
         />
       </div>
     </Layout>

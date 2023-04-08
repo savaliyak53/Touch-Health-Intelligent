@@ -145,7 +145,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
             color="orange"
             placement="bottomLeft"
             title={errors.password?.message}
-            visible={errors.password ? true : false}
+            open={errors.password ? true : false}
           >
             <input
               id="password"
@@ -178,7 +178,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
             color="orange"
             placement="bottomLeft"
             title={errors.confirmPassword?.message}
-            visible={errors.confirmPassword ? true : false}
+            open={errors.confirmPassword ? true : false}
           >
             <input
               id="confirmPassword"
@@ -214,7 +214,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
           color="orange"
           placement="bottom"
           title={'Please check the terms and conditions checkbox to proceed'}
-          visible={checkedError}
+          open={checkedError}
         ></Tooltip>
         <div className={Authstyles['Auth-terms-signup']}>
           <Link to="/login">Already have an account?</Link>

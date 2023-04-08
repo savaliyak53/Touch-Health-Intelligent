@@ -38,15 +38,17 @@
   }
 }
 .TermsBtnWrap {
-  position: fixed;
+  background-image: linear-gradient(transparent, white);
+  margin: 0 auto;
   bottom: 0;
-  background-color: #fff;
+  border: none;
+  padding: 250px 0 0px;
+  position: fixed;
   width: calc(100% - 40px);
-  padding-bottom: 10px;
   .TermsBtn {
     border-radius: 100px;
     height: 100%;
-    padding: 18px 54px;
+    padding: 18px 38px;
     background-color: $primary-color1;
     color: #fff;
     font-size: 20px;
@@ -56,7 +58,7 @@
     margin: 0 auto;
     max-width: 400px;
     display: block;
-    width: 100%;
+    width: 80%;
   
     &:hover,
     &:focus,
