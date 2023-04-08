@@ -387,14 +387,14 @@ const PasswordRecovery = () => {
               // className="Auth-wrap"
             >
               {/* <h2 className={styles["Auth-title"]}> */}
-              <h2 className={styles["Auth-title"]}>
+              <h2 className={styles["Security-title"]}>
                 Security Question
               </h2>
               <input
                 id="security_question.question"
                 {...register('security_question.question')}
                 type="text"
-                className={styles["app-Input"]}
+                className={styles["security-Input"]}
                 // className="app-Input"
                 placeholder="Question"
                 value={question}
@@ -407,7 +407,7 @@ const PasswordRecovery = () => {
                     required: 'Answer is required',
                   })}
                   type="text"
-                  className={styles["app-Input"]}
+                  className={styles["answer-Input"]}
                   placeholder="Answer"
                   onChange={(event: any) => setAnswer(event.target.value)}
                 />
@@ -415,7 +415,7 @@ const PasswordRecovery = () => {
               {/* <div className="action"> */}
                 <Button
                   onClick={handleSubmit(confirmAnswer)}
-                  className={styles['Auth-submit']}
+                  className={styles['Answer-submit']}
                 >
                   Submit
                 </Button>

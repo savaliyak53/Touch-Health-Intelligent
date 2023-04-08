@@ -71,10 +71,16 @@ Select {
     // height: auto !important;
     &:hover,
     &:active{
-      background-color: rgba($primary-color1,0.8) !important;
+      background-color: rgba($primary-color3,0.5) !important;
+      svg{
+        color: $primary-color3;
+      }
     }
     &:focus{
-      background-color: rgba($secondary-color1,0.3);
+      background-color: rgba($primary-color3,0.3);
+      svg{
+        color: $primary-color3;
+      }
     }
   }
 
