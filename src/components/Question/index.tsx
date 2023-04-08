@@ -180,32 +180,31 @@ const Question = ({
       case 'yes_no':
         return (
           <div className={styles['align-center']}>
-            <Button
-              className={'Submit-Button'}
-              onClick={(e) => {
-                e.currentTarget.style.backgroundColor = v['primary-color2'];
-                e.currentTarget.style.color = '#fff';
-                disableBtn()
-                setValue('true')
+            <Radio.Group
+              onChange={(e) => {
+                setValue(e.target.value);
               }}
-              disabled={disable}
-              id='yesbtn'
             >
-              Yes
-            </Button>
-            <Button
-              className={'Submit-Button'}
-              onClick={(e) => {
-                e.currentTarget.style.backgroundColor = v['primary-color2'];
-                e.currentTarget.style.color = '#fff';
-                disableBtn()
-                setValue('false')
-              }}
-              disabled={disable}   
-              id='nobtn'
-            >
-              No
-            </Button>
+              
+                <div className={`Yes-No-Button`} key={`yes`}>
+                  <Radio.Button
+                    value={'true'}
+                    onClick={()=>onSubmit('true')}
+                  >
+                   Yes
+                  </Radio.Button>
+                  
+                </div>
+                <br/>
+                <div className={`Yes-No-Button`} key={`no`}>
+                  <Radio.Button
+                    value={'false'}
+                    onClick={()=>onSubmit('false')}
+                  >
+                   No
+                  </Radio.Button>
+                </div>
+            </Radio.Group>
           </div>
         );
       case 'select_one':

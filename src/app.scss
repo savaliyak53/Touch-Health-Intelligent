@@ -1144,3 +1144,61 @@ input {
 .Heading-color2{
   color: $primary-color2;
 }
+.Yes-No-Button{
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .ant-radio-button-wrapper,
+  .ant-radio-button-wrapper:first-child,
+  .ant-radio-button-wrapper:last-child {
+    width: 100%;
+    margin: 10px 10px 10px 0 !important;
+    border: 2px solid $primary-color1 !important;
+    padding: 18px 54px !important;
+    border-radius: 100px !important;
+    height: 100% !important;
+    font-size: 20px !important;
+    line-height: 24px !important;
+    font-weight: 400 !important;
+    background-color: $primary-color1;
+    color: #fff;
+    span{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &:not(:first-child):before {
+      display: none !important;
+    }
+
+    &:hover {
+      color: $primary-color2;
+    }
+  }
+  
+  .ant-space {
+    flex-wrap: wrap;
+  }
+  .ant-radio-button-wrapper-checked {
+    &:not(.ant-radio-button-wrapper-disabled) {
+      background-image: $secondary-color2;
+      border: none !important;
+      color: #fff !important;
+
+      &:focus-within {
+        box-shadow: none;
+      }
+
+      &:hover {
+        background-image: $secondary-color2;
+        border: none !important;
+        color: #fff !important;
+      }
+      &.ant-radio-button-wrapper:first-child {
+        border-color: $primary-color2;
+      }
+    }
+  }
+}
