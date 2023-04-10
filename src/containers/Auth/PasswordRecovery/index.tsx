@@ -268,7 +268,7 @@ const PasswordRecovery = () => {
       <div className="Auth-wrap">
         {enterNumber && (
           <form onSubmit={handleSubmit(onVerify)} className={styles["Auth-form"]}>
-            <h2 className={styles["Auth-title"]}>
+            <h2 className={styles["Security-title"]}>
               Reset Password
             </h2>
           <Tooltip
@@ -295,7 +295,7 @@ const PasswordRecovery = () => {
               onClick={handleSubmit(onVerify)}
               loading={isLoading}
               disabled={isDisabled}
-              className={styles['Auth-submit']}
+              className={styles['Answer-submit']}
             >
               {isCodeSent ? 'Resend Code' : 'Send Code'}
             </Button>
@@ -309,7 +309,7 @@ const PasswordRecovery = () => {
                 onSubmit={handleSubmit(onSubmitCode)}
                 className={styles["Verification-form"]}
               >
-                <h2 className={styles["Auth-title"]}>
+                <h2 className={styles["Security-title"]}>
                   Verification Code
                 </h2>
                 <Controller
@@ -346,7 +346,7 @@ const PasswordRecovery = () => {
                 />
                 <Button
                   onClick={handleSubmit(onSubmitCode)}
-                  className={styles['Auth-submit']}
+                  className={styles['Answer-submit']}
                   loading={isVerifying}
                 >
                   Verify
@@ -358,16 +358,16 @@ const PasswordRecovery = () => {
                 resendOTP={resendOTP}
                 setOpenRecaptcha={setOpenRecaptcha}
                />
-              <Button
-                onClick={()=>{
-                  setOpenRecaptcha(true)
-                }}
-                className={styles['Auth-submit']}
-                loading={isLoading}
-                disabled={isDisabled}
-              >
-                Resend OTP&nbsp; {enableTimer && (<span> in {minutes}:{seconds}</span>)}
-              </Button>
+               <button
+                  onClick={()=>{
+                    setOpenRecaptcha(true)
+                  }}
+                 className={isDisabled? styles["grey"] : styles["resend"]}
+                 type="button"
+                 disabled={isDisabled}
+                >
+                   Resend OTP&nbsp;{enableTimer && (<span>in&nbsp;{minutes}:{seconds}</span>)}
+               </button>
               <ConfirmModal
                 title={'Confirmation'}
                 open={modalOpen}
@@ -430,7 +430,7 @@ const PasswordRecovery = () => {
               className={styles["Auth-wrap"]}
               style={{ justifyContent: 'start', width: '100%' }}
             >
-              <h2 className={styles["Auth-title"]}>
+              <h2 className={styles["Security-title"]}>
                 Enter New Password
               </h2>
 
@@ -452,7 +452,7 @@ const PasswordRecovery = () => {
                     id="new_password"
                     placeholder="Enter new password here"
                     type={passwordShown ? 'text' : 'password'}
-                    className={styles["app-Input"]}
+                    className={styles["security-Input"]}
                     // className="app-Input"
                     {...register('new_password', {
                       required: 'Password is required',
@@ -470,7 +470,7 @@ const PasswordRecovery = () => {
                 {/* <button className="btn" onClick={togglePassword} type="button"> */}
                 <button className={styles["btn"]} onClick={togglePassword} type="button">
 
-                  <AiOutlineEye />
+                  <AiOutlineEye style={{color : "#204ECF"}} />
                 </button>
               </div>
               <div className={styles["input-element-wrapper-password"]}>
@@ -484,7 +484,7 @@ const PasswordRecovery = () => {
                     id="confirmPassword"
                     placeholder="Confirm password here"
                     type={confirmPasswordShown ? 'text' : 'password'}
-                    className={styles["app-Input"]}
+                    className={styles["security-Input"]}
                     {...register('confirmPassword', {
                       required: 'Confirm password is required',
                       validate: (value: string) => {
@@ -501,13 +501,13 @@ const PasswordRecovery = () => {
                   onClick={toggleConfirmPassword}
                   type="button"
                 >
-                  <AiOutlineEye />
+                  <AiOutlineEye style={{color : "#204ECF"}} />
                 </button>
               </div>
               <div className="action">
                 <Button
                   onClick={handleSubmit(onSubmitRecover)}
-                  className={styles['Auth-submit']}
+                  className={styles['Answer-submit']}
                 >
                   Reset Password
                 </Button>
