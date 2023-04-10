@@ -237,9 +237,9 @@ function UserCondition() {
               value={value}
             />
             {question?.type !== 'yes_no' && question?.type !== 'dialog_select_one' && question?.type !== 'image_and_text_select_one' && question?.type !== 'markdown_select_one' && (
-              <div className="Btn-group">
+              <div>
                 <Button
-                  className={`Next ${isClicked && 'active'}`}
+                  className={`Submit-Button ${isClicked && 'active'}`}
                    onClick={() => {
                      setClicked(true);
                      onSubmit()
