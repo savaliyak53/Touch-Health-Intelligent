@@ -97,30 +97,6 @@
     margin-bottom: 50px;
   }
 }
-
-//Text-area
-.ant-input.TextArea {
-  border: 2px solid #272424ed;
-  border-radius: 30px;
-  padding: 22px 33px;
-  font-size: 20px;
-  line-height: 24px;
-  color: rgba(#272424, 0.7);
-
-  &:hover,
-  &:focus,
-  &:active {
-    border: 2px solid #272424ed;
-    background-color: #e3e3e3;
-    color: #272424;
-    box-shadow: none;
-    outline: none;
-  }
-
-  &::placeholder {
-    color: rgba(#272424, 0.7);
-  }
-}
 //select_many
 .Options {
   .ant-radio-button-wrapper,
@@ -292,30 +268,7 @@
     border-color: #cd6052;
   }
 }
-//numeric
 
-.ant-input.NumberInput {
-  padding: 18px 20px;
-  font-size: 20px;
-  line-height: 24px;
-  font-weight: 300;
-  width: 100%;
-  border-radius: 100px;
-  border: 2px solid #272424;
-  color: rgba(#272424, 0.7);
-  max-width: 300px;
-  display: block;
-  margin: 0 auto;
-
-  &:hover,
-  &:focus,
-  &:active {
-    border: 2px solid #272424;
-    box-shadow: none;
-    background-color: #e3e3e3;
-    outline: none;
-  }
-}
 .ant-radio-button-wrapper:first-child:last-child {
   border-radius: 100px !important;
 }

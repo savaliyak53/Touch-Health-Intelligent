@@ -601,15 +601,15 @@ input {
   font-weight: 400;
   width: 100%;
   border-radius: 100px;
-  border: 2px solid $primary-color2;
-  color: rgba($primary-color2, 0.7);
+  border: 2px solid $primary-color1;
+  color: $primary-color1;
   max-width: 100%;
   display: block;
   &.ant-picker-focused,
   &:hover,
   &:focus,
   &:active {
-    border: 2px solid $primary-color2;
+    border: 2px solid $primary-color1 !important;
     box-shadow: none;
     background-color: #e3e3e3;
     outline: none;
@@ -617,10 +617,17 @@ input {
   input {
     font-size: 20px;
     line-height: 24px;
-    color: rgba($primary-color2, 0.7);
+    color: $primary-color1;
     font-weight: 400;
   }
 }
+.Date-Select .ant-picker-input input::placeholder {
+  color: $primary-color1 /* replace with the desired color */
+}
+.Date-Select .ant-picker-suffix svg {
+  fill: $primary-color1; /* replace with the desired color */
+}
+
 @media only screen and (max-width: 480px) {
   .Toastify__toast-container {
     width: 50vw;
@@ -693,23 +700,23 @@ input {
     &:hover {
       .ant-slider-rail,
       .ant-slider-track {
-        background-color: $primary-color2;
+        background-color: $primary-color1;
       }
       .ant-slider-handle {
         &:not(.ant-tooltip-open) {
-          border: 2px solid $primary-color2;
+          border: 2px solid $primary-color1;
         }
       }
     }
 
     .ant-slider-rail,
     .ant-slider-track {
-      background-color: $primary-color2;
+      background-color: $primary-color1;
     }
     .ant-slider-handle {
       width: 40px;
       height: 40px;
-      border: 2px solid $primary-color2;
+      border: 2px solid $primary-color1;
       margin-top: -13px;
       margin-left: -18px;
       &:focus {
@@ -718,6 +725,7 @@ input {
     }
   }
 }
+
 .ant-input.NumberInput {
   padding: 18px 20px;
   font-size: 20px;
@@ -725,8 +733,8 @@ input {
   font-weight: 300;
   width: 100%;
   border-radius: 100px;
-  border: 2px solid $primary-color2;
-  color: rgba($primary-color2, 0.7);
+  border: 2px solid $primary-color1;
+  color: rgba($primary-color1, 0.7);
   max-width: 300px;
   display: block;
   margin: 0 auto;
@@ -734,12 +742,15 @@ input {
   &:hover,
   &:focus,
   &:active {
-    border: 2px solid $primary-color2;
+    border: 2px solid $primary-color1;
     box-shadow: none;
     background-color: #e3e3e3;
     outline: none;
   }
 }
+.ant-input.NumberInput::placeholder {
+  color: $primary-color1;
+  }
 
 .Question-Options {
   color: $primary-color2 !important;
@@ -1200,5 +1211,14 @@ input {
         border-color: $primary-color2;
       }
     }
+  }
+}
+.TextArea.ant-input {
+  border: 1px solid #d9d9d9;
+  color: $primary-color1;
+
+  &:focus {
+    border-color: $primary-color1;
+    box-shadow: none;
   }
 }
