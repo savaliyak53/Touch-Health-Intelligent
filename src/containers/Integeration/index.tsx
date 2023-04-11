@@ -285,7 +285,7 @@ const Integrations = () => {
           {loc?.state?.redirect == true && (
             <div className={styles.TermsBtnWrap}>
               <Button
-                className={styles.TermsBtn}
+                className={'Submit-Button'}
                 onClick={handleNext}
               >
               Next

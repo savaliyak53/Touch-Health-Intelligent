@@ -51,7 +51,7 @@ const Question = ({
   const navigate = useNavigate();
 
   const labelRef = React.useRef<HTMLLabelElement>(null);
-  let radioOptions: string[] = [];
+  let radioOptions: any[] = [];
   if (question && question.type === 'select_many') {
     radioOptions = [...question.defaults];
   }
@@ -86,22 +86,21 @@ const Question = ({
   };
 
   const handleClick = (index:number) => {
-    const index_string = index.toString();
-    if (radioOptions.includes(index_string)) {
-      const newArr = radioOptions.filter((i) => i !== index_string);
+    if (radioOptions.includes(index)) {
+      const newArr = radioOptions.filter((i) => i !== index);
       radioOptions = [...newArr];
-      removeclass(index_string);
+      removeclass(index);
     } else {   
-      radioOptions = [...radioOptions, index_string];
+      radioOptions = [...radioOptions, index];
     }
     setValue(radioOptions.length ? radioOptions : []);
   };
  
   const isChecked = (index: number) => {
-    if (radioOptions.includes(index.toString())) {
+    //we are getting in this form defaults=[0,1]
+    if (radioOptions.includes(index)) {
       return true;
     }
-    // else
     return false;
   };
   const setDisableDate = (current: moment.Moment) => {
@@ -221,7 +220,7 @@ const Question = ({
                   <Radio.Button
                     value={item}
                   >
-                    <PlusOutlined /> {item}
+                    {item}
                   </Radio.Button>
                   {index % 2 !== 0 && <br />}
                 </div>
@@ -231,8 +230,8 @@ const Question = ({
         );
       case 'dialog_select_one':
         return (
+          <div className="Select-Options">
           <Radio.Group
-            className="Question-Options"
             onChange={(e) => {
               const index = question.options.indexOf(e.target.value);
               setValue(index);
@@ -240,18 +239,19 @@ const Question = ({
             }}
           >
             {question.options.map((item: any, index: number) => (
-              <>
+              <div className={`Select-Button`} key={index}>
                 <Radio.Button
-                  className={styles['dialog-btn']}
+                  //className={styles['dialog-btn']}
                   value={item}
                   key={index}
                 >
                   {item}
                 </Radio.Button>
                 {index % 2 !== 0 && <br />}
-              </>
+              </div>
             ))}
           </Radio.Group>
+          </div>
         );
       case 'image_and_text':
         return (
@@ -276,8 +276,8 @@ const Question = ({
               className={goal_styles['Image']}
               alt="Image"
             />
+            <div className="Select-Options">
             <Radio.Group
-              className="Question-Options"
               onChange={(e) => {
                 const index = question.options.indexOf(e.target.value);
                 setValue(index);
@@ -285,18 +285,18 @@ const Question = ({
               }}
             >
               {question.options.map((item: any, index: number) => (
-                <>
+                <div className={`Select-Button`} key={index}>
                   <Radio.Button
-                    className={`Question-Option${index}`}
                     value={item}
                     key={index}
                   >
                     {item}
                   </Radio.Button>
                   {index % 2 !== 0 && <br />}
-                </>
+                </div>
               ))}
             </Radio.Group>
+            </div>
           </div>
         );
 
@@ -322,7 +322,7 @@ const Question = ({
                     />
                     <span className="ant-radio-button-inner"></span>
                   </span>
-                  <span><PlusOutlined /> &nbsp;{item}</span>
+                  <span>{item}</span>
                 </label>
               ))}
             </div>
@@ -351,7 +351,7 @@ const Question = ({
         );
       case 'free_text':
         return (
-          <div>
+         
             <TextArea
               className="TextArea"
               rows={6}
@@ -361,7 +361,7 @@ const Question = ({
                 setValue(e.target.value);
               }}
             />
-          </div>
+          
         );
       case 'markdown_select_one':
         return (
@@ -372,8 +372,8 @@ const Question = ({
                 {question.body_md}
               </ReactMarkdown>
             </div>
+            <div className="Select-Options">
             <Radio.Group
-              className="Question-Options"
               onChange={(e) => {
                 const index = question.options.indexOf(e.target.value);
                 setValue(index);
@@ -381,18 +381,18 @@ const Question = ({
               }}
             >
               {question.options.map((item: any, index: number) => (
-                <>
+                <div className={`Select-Button`} key={index}>
                   <Radio.Button
-                    className={`Question-Option${index}`}
                     value={item}
                     key={index}
                   >
                     {item}
                   </Radio.Button>
                   {index % 2 !== 0 && <br />}
-                </>
+                </div>
               ))}
             </Radio.Group>
+            </div>
           </div>
         );
       case 'numeric':
@@ -416,7 +416,7 @@ const Question = ({
         {question && (
           <>
             <h3
-              className={` ${styles['Question-title']} ${styles['Question-heading']} `}
+              className={`Description`}
             >
               {question.q_str}
               {question.h_str && (

@@ -20,7 +20,11 @@ const Layout = ({ children, defaultHeader, hamburger, dashboard, signupLogin }: 
       if (userId) {
         getUser(userId)
           .then((response:any) => {
-            getUserSubscription(response)
+            if(response.data.security_questions){
+              getUserSubscription(response)
+            } else {
+              navigate('/security')
+            }          
           })
           .catch((error:any) => {
             console.log(error);
