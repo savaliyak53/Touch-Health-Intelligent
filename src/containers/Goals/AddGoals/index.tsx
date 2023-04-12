@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './AddGoals.module.scss';
 import v from '../../../variables.module.scss';
 import Layout from '../../../layouts/Layout/Layout';
-import { LeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import {
   DownOutlined,
   SearchOutlined,
@@ -91,6 +91,9 @@ const AddGoals = () => {
     setDeletedGoal(selectedGoal?.name)
     removeGoal(id);
     setShowCancelModal(false);
+    setTimeout(()=>{
+      setDeletedGoal(null)
+    },5000)
   };
   const handleDeleteModal = () => {
     setShowCancelModal(false);
@@ -163,7 +166,6 @@ const AddGoals = () => {
     deleteGoal(id)
       .then((res) => {
         setDeletedGoal(selectedGoal?.name)
-        toast.success('Goal removed');
         setSearchValue('');
         getGoalsData();
         setIsModalOpen(false);
@@ -249,7 +251,7 @@ const AddGoals = () => {
       <>
         {userStatus && (
           <div className={styles['Backflex']} onClick={handleBack}>
-            <LeftOutlined className={styles['LeftIcon']} /> Back
+            <ArrowLeftOutlined className={styles['LeftIcon']} />
           </div>
         )}
       </>
@@ -338,7 +340,7 @@ const AddGoals = () => {
                 handleCancel={handleDeleteModal}
                 handleOk={() => handleDeleteOk(selectedGoal?.id)}
                 className='Addgoal-Confirm-Modal'
-                renderData={<div className='Description'>Are you sure you want to delete the goal <strong>{data.name}</strong>?</div>}
+                renderData={<div className='Description'>Are you sure you want to delete the goal <strong>{selectedGoal?.name}</strong>?</div>}
               />
               <LastGoalModal
                 title={'Warning'}
@@ -409,7 +411,7 @@ const AddGoals = () => {
               return goal.name == selectedGoal?.name;
             })[0]?.name ? (
               <Button
-                className="Button"
+                className="Submit-Button"
                 loading={isLoading}
                 onClick={() => {
                   if(goals.length>1)removeGoal(selectedGoal?.id)

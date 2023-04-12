@@ -582,14 +582,14 @@ const Subscription = () => {
                                 <>
                                   {isNextPhase(plan) ? (
                                     <Button
-                                      className={` ${styles['Modal-cancel-btn']} ${styles['Subscribe']} `}
+                                      className={` ${styles['Modal-cancel-btn']} Submit-Button `}
                                       onClick={() => showModal()}
                                     >
                                       Cancel
                                     </Button>
                                   ) : (
                                     <Button
-                                      className={styles['Subscribe']}
+                                      className={'Submit-Button'}
                                       onClick={() => handleSwitchModal(plan.id)}
                                     >
                                       Switch
@@ -598,7 +598,7 @@ const Subscription = () => {
                                 </>
                               ) : (
                                 <Button
-                                  className={styles['Subscribe']}
+                                  className={'Submit-Button'}
                                   onClick={() => handleSubscribeClick(plan.id)}
                                   disabled={
                                     disableButton ||
