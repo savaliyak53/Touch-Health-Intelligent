@@ -6,6 +6,7 @@ export type IProps = {
   handleCancel: () => any;
   handleOk: any;
   renderData?: any;
+  className: string;
   title: string;
 };
 const LastGoalModal = ({
@@ -14,6 +15,7 @@ const LastGoalModal = ({
   title,
   handleOk,
   renderData,
+  className
 }: IProps) => {
   return (
     <Modal
@@ -21,11 +23,12 @@ const LastGoalModal = ({
       open={open}
       onOk={handleOk}
       onCancel={handleCancel}
+      className={`${className}`}
       footer={[
         <div key="submit" className={styles['Btn-group']}>
           <Button
             key="submit"
-            className={styles['Subscribe']}
+            className={'Submit-Button'}
             onClick={handleOk}
           >
             Keep it
