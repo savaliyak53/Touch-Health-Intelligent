@@ -405,7 +405,7 @@ const AddGoals = () => {
             </ReactMarkdown>
           </div>
         )}
-                  <div className={styles['Modal-Btn-Group']}>
+          <div className={styles['Modal-Btn-Group']}>
             {goals.filter((goal: any) => {
               return goal.name == selectedGoal?.name;
             })[0]?.name ? (
