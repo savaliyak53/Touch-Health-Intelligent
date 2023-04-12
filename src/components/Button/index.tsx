@@ -13,6 +13,8 @@ interface Props {
   className?: string;
   style?: React.CSSProperties;
   onMouseOver?: () => void;
+  onMouseEnter?:()=>void;
+  onMouseLeave?:()=>void;
 }
 
 const Button = ({
@@ -24,6 +26,8 @@ const Button = ({
   loading = false,
   style,
   onMouseOver,
+  onMouseEnter,
+  onMouseLeave,
   ...rest
 }: Props) => {
   return (
