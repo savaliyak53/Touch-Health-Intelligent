@@ -297,7 +297,7 @@ const PasswordRecovery = () => {
               onClick={handleSubmit(onVerify)}
               loading={isLoading}
               disabled={isDisabled}
-              className={styles['Answer-submit']}
+              className={'Submit-Button'}
             >
               {isCodeSent ? 'Resend Code' : 'Send Code'}
             </Button>
