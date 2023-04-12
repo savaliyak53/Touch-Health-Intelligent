@@ -684,10 +684,10 @@ const GoalDetails = () => {
           <p className={styles['Modal-subtitle']}>Active</p>
         )}
         {type && (
-          <h2 className={`${styles['popup-title']} `}>{guidanceData?.name}</h2>
+          <h2 className={`Title`}>{guidanceData?.name}</h2>
         )}
         {guidanceData && (
-          <div className={styles['markdown-desc']}>
+          <div className={"Description"}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
               {guidanceData?.description_md ? guidanceData?.description_md : ""}
             </ReactMarkdown>
@@ -698,7 +698,7 @@ const GoalDetails = () => {
           <div className={styles.GuidanceBtnWrap}>
             <Button
               // className="Pref-btn btn Guidance-Inactive-btn GuidanceBtn"
-              className={styles.GuidanceBtn}
+              className={'Submit-Button'}
               onClick={() => {
                 handleGuidanceStatus('inactive');
                 setLoading(true);
@@ -736,7 +736,7 @@ const GoalDetails = () => {
         {type === 'inactive' && (
           <div className={styles.GuidanceBtnActiveWrap}>
             <Button
-              className={styles.GuidanceActiveBtn}
+              className={`Submit-Button`}
               onClick={() => {
                 handleGuidanceStatus('active');
                 setLoading(true);
