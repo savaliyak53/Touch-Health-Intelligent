@@ -256,12 +256,12 @@ const AddGoals = () => {
         )}
       </>
       <div className={styles['AddGoals']}>
-        <h2 className={`Title`}>Adding a health goal</h2>
+        <h2 className={`Title`}>Health Goal Configuration</h2>
         <div className={`Goal-Select-Wrap Goals-Select`}>
           <SearchOutlined className="search" />
           <AutoComplete
             onChange={(v) => setSearchValue(v)}
-            placeholder="Add a goal"
+            placeholder="Explore all eligible goals"
             options={options}
             onSelect={handleOptionSelect}
             value={searchValue}

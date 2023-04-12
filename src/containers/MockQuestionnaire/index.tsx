@@ -159,7 +159,7 @@ function MockQuestionnaire() {
     setClicked(true);
     if (
       question.question.type !== 'select_many' && 
-      question.question.type !== 'mutli_select' &&
+      question.question.type !== 'multi_select' &&
       question.question.type !== 'yes_no' &&
       question.question.type !== 'slider' &&
       question.question.type !== 'select_one' &&

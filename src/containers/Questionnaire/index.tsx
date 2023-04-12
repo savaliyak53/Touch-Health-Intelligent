@@ -139,7 +139,7 @@ function UserCondition() {
     setClicked(true);
     if (
       question.type !== 'select_many' && 
-      question.type !== 'mutli_select' &&
+      question.type !== 'multi_select' &&
       question.type !== 'yes_no' &&
       question.type !== 'slider' &&
       question.type !== 'select_one' &&
