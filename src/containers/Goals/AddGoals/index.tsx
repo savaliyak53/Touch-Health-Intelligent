@@ -261,7 +261,7 @@ const AddGoals = () => {
           <SearchOutlined className="search" />
           <AutoComplete
             onChange={(v) => setSearchValue(v)}
-            placeholder="Add a goal"
+            placeholder="Explore all eligible goals"
             options={options}
             onSelect={handleOptionSelect}
             value={searchValue}
