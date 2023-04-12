@@ -142,8 +142,8 @@ const GoalDetails = () => {
           label: 'Historical',
           data: historicalArray,
           fill: false,
-          borderColor: v['secondary-color1'],
-          backgroundColor: v['secondary-color1'],
+          borderColor: v['primary-color1'],
+          backgroundColor: v['primary-color1'],
           lineTension: 1,
           borderCapStyle: 'round',
           borderWidth: '6',
@@ -156,8 +156,8 @@ const GoalDetails = () => {
           lineTension: 1,
           borderCapStyle: 'round',
           borderWidth: '6',
-          backgroundColor: v['secondary-color2'],
-          borderColor: v['secondary-color2'],
+          backgroundColor: v['primary-color3'],
+          borderColor: v['primary-color3'],
           pointBorderWidth: '0',
         },
       ],
@@ -326,7 +326,7 @@ const GoalDetails = () => {
           setShowGoalInfoModal(true)}}
         >
            <p
-                 style={{ fontSize: '30px', fontFamily:"serif", fontWeight:"bolder" ,fontStyle : "Italic",color: `#B83B5E`, cursor: 'pointer', marginLeft: "30px"}}
+                 style={{ fontSize: '30px', fontFamily:"serif", fontWeight:"bolder" ,fontStyle : "Italic",color: `#F26749`, cursor: 'pointer', marginLeft: "30px"}}
               >i</p>
           </Button>
       </div>
@@ -386,7 +386,7 @@ const GoalDetails = () => {
                       style={{ margin: '0 25px' }}
                       percent={goal.data.success_score}
                       showInfo={false}
-                      strokeColor={v['secondary-color1']}
+                      strokeColor={v['primary-color1']}
                       strokeWidth={20}
                     />
                     <Tooltip
@@ -414,7 +414,7 @@ const GoalDetails = () => {
                     style={{ margin: '0 25px' }}
                     percent={goal.data.data_score}
                     showInfo={false}
-                    strokeColor={v['secondary-color2']}
+                    strokeColor={v['primary-color3']}
                     strokeWidth={20}
                   />
                   <Tooltip

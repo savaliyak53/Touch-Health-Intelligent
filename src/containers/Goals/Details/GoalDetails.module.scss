@@ -7,11 +7,13 @@
     margin-top: 30px;
 }
 .Prevn-text {
-font-family: 'DM Serif Display', serif;
-color: $secondary-color1;
+font-family: $font-title;
+color: $primary-color2;
+font-style: normal;
 font-weight: 400;
-font-size: 32px;
-line-height: 28px;
+font-size: 34px;
+line-height: 110%;
+letter-spacing: -0.01em;
 margin-bottom: 0;
 margin-left: 12px;
 }
@@ -20,6 +22,7 @@ background: transparent !important;
 outline: none !important;
 border: none !important;
 padding: 0 !important;
+line-height: 1 !important;
 }
 .Prevn-btn-icon {
     width: 20px;
@@ -40,10 +43,12 @@ margin-bottom: 25px;
 
 }
 .Vel-name {
-color: $secondary-color1;
-font-weight: 400;
-font-size: 20px;
-line-height: 21px;
+font-family: $font-body;
+color: $primary-color1;
+font-style: normal;
+font-weight: 800;
+font-size: 24px;
+line-height: 110%;
 margin-bottom: 0;
 display: flex;
 align-items: center;
@@ -79,15 +84,16 @@ width: 100%;
 }
 .Guidance-title,
 .Chart-title {
-    font-family: 'Raleway', sans-serif;
-    font-weight: 700;
+    font-family: $font-body;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 110%;
+    letter-spacing: -0.01em;
     text-align: start;
     margin-top: 30px;
-    font-size: 25px;
-    line-height: 1.2;
-    font-weight: 600;
     margin-bottom: 10px;
-    color: $primary-color1;
+    color: $primary-color3;
     margin-left: 10px;
     display: flex;
     justify-content: space-between;
@@ -115,7 +121,7 @@ width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        min-height: 130px;
+        min-height: 100px;
         width: 100%;
         padding: 16px;
         border-radius: 16px;
