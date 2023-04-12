@@ -157,7 +157,7 @@ const Preferences = () => {
                   Biological Sex
                   <Tooltip
                     title={
-                      'Please choose the sex assigned to you at the time of birth.'
+                      'This is your sex assigned at birth, and may not align with your current sex and gender identify.'
                     }
                     placement="bottomRight"
                     overlayStyle={{ marginRight: '10px' }}
@@ -178,7 +178,21 @@ const Preferences = () => {
             {yob && (
               <div>
                 <h3 className={'Heading Heading-color1'}>
-                  Age
+                  Approximate Age
+                  <Tooltip
+                    title={
+                      'This is your approximate age. Since we do not collect your date of birth, this may not align with your actual age.'
+                    }
+                    placement="bottomRight"
+                    overlayStyle={{ marginRight: '10px' }}
+                    mouseLeaveDelay={0}
+                  >
+                    <AiOutlineQuestionCircle
+                      size={30}
+                      className="question-help"
+                      style={{ marginLeft: '10px' }}
+                    />
+                  </Tooltip>
                 </h3>
                 <Button className="Pref-post-btn" disabled={true}>
                   {parseInt(moment().format('YYYY')) - yob}
@@ -188,6 +202,20 @@ const Preferences = () => {
               <div>
               <h3 className={'Heading Heading-color1'}>
                   Username
+                <Tooltip
+                    title={
+                      'This is your username. You can set it to anything you want to be called, like "JazzyCat99 💃😽".'
+                    }
+                    placement="bottomRight"
+                    overlayStyle={{ marginRight: '10px' }}
+                    mouseLeaveDelay={0}
+                  >
+                    <AiOutlineQuestionCircle
+                      size={30}
+                      className="question-help"
+                      style={{ marginLeft: '10px' }}
+                    />
+                  </Tooltip>
                 </h3>
                 {/* <Button className="Pref-username-btn">{username}</Button> */}
                 <input

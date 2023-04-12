@@ -21,6 +21,6 @@ export const securityQuestions = [
   },
 ];
 export const tooltipContent ={
-  dashboardText: 'Pie has summarized your goals and uploaded your data. Pie will also show you how many days you have completed your check up (health streak). You will also see the progress you are making with your identified goals (G) and the amount of data (D) that you have entered. You can click on each goal for more detailed information.', 
-  streakText:'Try maintaining a streak by completing your checkups regularly!',
+  dashboardText: 'This is your dashboard. From here you can see your Goal scores, and Data scores for each of your goals. Go ahead and click on them to explore more. You can configure you goals by tapping the "+" button.',
+  streakText: 'This visualizes which days you have done a Checkup. A streak is when you have an unbroken chain of days with complete Checkups.',
 }

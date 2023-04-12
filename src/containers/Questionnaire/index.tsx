@@ -27,7 +27,6 @@ function UserCondition() {
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
   const [signupStatus, setSignupStatus] = useState<string | null >();
   const [exception, setException] = useState<boolean>(false);
-  
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -140,7 +139,7 @@ function UserCondition() {
     setClicked(true);
     if (
       question.type !== 'select_many' && 
-      question.type !== 'mutli_select' &&
+      question.type !== 'multi_select' &&
       question.type !== 'yes_no' &&
       question.type !== 'slider' &&
       question.type !== 'select_one' &&
@@ -190,6 +189,7 @@ function UserCondition() {
         setLoading(false);
         setValue(undefined);
         setRefId(data.ref_id ?? '');
+        setClicked(false);
         if (data.question) {
           if(data.question.type == 'integration_page_redirect'){
             integrationPageRedirect(data.ref_id)
@@ -216,7 +216,6 @@ function UserCondition() {
   const handleOk=()=>{
     navigate("/dashboard");
   }
-  
   return (
     <Layout defaultHeader={true} hamburger={false}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
@@ -239,16 +238,24 @@ function UserCondition() {
             {question?.type !== 'yes_no' && question?.type !== 'dialog_select_one' && question?.type !== 'image_and_text_select_one' && question?.type !== 'markdown_select_one' && (
               <div>
                 <Button
-                  className={`Submit-Button ${isClicked && 'active'}`}
-                   onClick={() => {
-                     setClicked(true);
-                     onSubmit()
-                   }}
-                  loading={loading}
-                 disabled={question?.type !== 'select_many' && question?.type !=='multi_select' && question?.type !=='image_and_text' && typeof value === 'undefined' || loading}
-                >
-                  Next
-                </Button>
+                className={`Submit-Button ${
+                  isClicked ? ' active' : ''
+                }`}
+                onClick={() => {
+                  setClicked(true);
+                  onSubmit();
+                }}
+                loading={loading}
+                disabled={
+                  question?.type !== 'select_many' &&
+                  question?.type !== 'multi_select' &&
+                  question?.type !== 'image_and_text' &&
+                  typeof value === 'undefined' ||
+                  loading
+                }
+              >
+                Next
+              </Button>
               </div>
             )}
           </>

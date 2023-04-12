@@ -393,7 +393,7 @@ const GoalDetails = () => {
                     />
                     <Tooltip
                       title={
-                        'Track your goal score now! The more coloured the bar the better you are doing.'
+                        'This is an instantaneous measure of your Goal Success right now. Each health goal has a proprietary formula to determine goal success based on your data.'
                       }
                       placement="bottomRight"
                       overlayStyle={{ marginRight: '10px' }}
@@ -421,7 +421,7 @@ const GoalDetails = () => {
                   />
                   <Tooltip
                     title={
-                      'This shows how much data Pie needs from you for this goal.'
+                      'Your data score shows how well this Health Goal is characterised by your data. Keep this as high as possible by giving data daily.'
                     }
                     placement="bottomRight"
                     overlayStyle={{ marginRight: '10px' }}
@@ -470,7 +470,7 @@ const GoalDetails = () => {
             </div>
 
             <Tooltip
-              title="The score and plot represent your progress for this goal."
+              title="Goal Success is a measure how well you're doing with the goal. Each health goal has a proprietary formula for determining success based on all the data you have given."
               placement="bottomRight"
               overlayStyle={{ marginRight: '10px' }}
               mouseLeaveDelay={0}
@@ -686,10 +686,10 @@ const GoalDetails = () => {
           <p className={styles['Modal-subtitle']}>Active</p>
         )}
         {type && (
-          <h2 className={`${styles['popup-title']} `}>{guidanceData?.name}</h2>
+          <h2 className={`Title`}>{guidanceData?.name}</h2>
         )}
         {guidanceData && (
-          <div className={styles['markdown-desc']}>
+          <div className={"Description"}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
               {guidanceData?.description_md ? guidanceData?.description_md : ""}
             </ReactMarkdown>
@@ -700,7 +700,7 @@ const GoalDetails = () => {
           <div className={styles.GuidanceBtnWrap}>
             <Button
               // className="Pref-btn btn Guidance-Inactive-btn GuidanceBtn"
-              className={styles.GuidanceBtn}
+              className={'Submit-Button'}
               onClick={() => {
                 handleGuidanceStatus('inactive');
                 setLoading(true);
@@ -738,7 +738,7 @@ const GoalDetails = () => {
         {type === 'inactive' && (
           <div className={styles.GuidanceBtnActiveWrap}>
             <Button
-              className={styles.GuidanceActiveBtn}
+              className={`Submit-Button`}
               onClick={() => {
                 handleGuidanceStatus('active');
                 setLoading(true);

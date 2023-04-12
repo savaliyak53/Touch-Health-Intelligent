@@ -367,7 +367,7 @@ const Question = ({
         return (
           <div className={goal_styles['IntroGoals']}>
            {question.title &&  <h2 className={goal_styles['Title']}>{question.title}</h2>}
-            <div className={goal_styles['markdown-desc']}>
+            <div className={ `Description Heading-color2`}>
               <ReactMarkdown rehypePlugins={[rehypeRaw]}>
                 {question.body_md}
               </ReactMarkdown>

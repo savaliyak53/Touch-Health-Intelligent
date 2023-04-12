@@ -17,17 +17,17 @@ const HelpAndSupport = () => {
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <div className="Content-wrPArCon">
-        <h2 className={styles["Title"]}>
+        <h2 className={'Title'}>
           Get in Touch! 
         </h2>
-        <div className='Text'>
+        <div className='Description'>
           <Paragraph>We are here to help.</Paragraph>
           <Space/>
           <Paragraph>If you have any questions, ask us!</Paragraph>
           <Space/>
           <Paragraph>If you have feedback, enlighten us!</Paragraph>
           <Space/>
-          <Paragraph>Reach out in the chat bubble at the bottom of the page.</Paragraph>
+          <Paragraph>Reach out in the chat bubble 💬 at the bottom of the page.</Paragraph>
           <Space/>
           <Paragraph>We are here Monday to Friday from 11:00 AM to 7:00 PM EDT. After hours, just drop us a message and you will be our first priority when we get back.</Paragraph>
           <Space/> 
