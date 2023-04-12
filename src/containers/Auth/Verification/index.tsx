@@ -184,7 +184,7 @@ const Verification = () => {
             type="button"
             disabled={isDisabled}
           >
-            Resend OTP&nbsp;{enableTimer && (<span>in&nbsp;{minutes}:{seconds}</span>)}
+            Resend code&nbsp;{enableTimer && (<span>in&nbsp;{minutes}:{seconds}</span>)}
           </button>
         </form>
         <ConfirmModal

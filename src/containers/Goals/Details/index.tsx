@@ -363,14 +363,16 @@ const GoalDetails = () => {
         open={showCancelModal}
         handleCancel={handleCancelModal}
         handleOk={() => handleOk(goalId)}
-        renderData={<div>Are you sure you want to delete goal?</div>}
+        className='Addgoal-Confirm-Modal'
+        renderData={<div  className='Description' >Are you sure you want to delete goal?</div>}
       />
       <LastGoalModal
         title={'Warning'}
         open={showLastGoalModal}
         handleCancel={handleCancelModal}
         handleOk={handleCancelModal}
-        renderData={<div>Alas! Unable to delete. This is your last goal</div>}
+        className="Addgoal-Confirm-Modal"
+        renderData={<div className='Description'>Alas! Unable to delete. This is your last goal</div>}
       />
       <Spin spinning={isLoading} className="Spinner"></Spin>
       {goal?.data && (

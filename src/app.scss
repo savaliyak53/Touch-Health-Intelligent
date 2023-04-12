@@ -206,7 +206,7 @@ input {
   font-size: 20px;
   line-height: 24px;
   font-weight: 400;
-  border: 2px solid $primary-color1;
+  border: none !important;
   margin: 20px auto 0;
   max-width: 300px;
   display: block;
@@ -217,11 +217,11 @@ input {
   &:active {
     background-image: $secondary-color2;
     color: #fff;
-    border-color: $primary-color1;
+    border: none !important;
   }
   &.disabled {
     background-color: rgba(#3a3a3a, 0.2);
-    border: 2px solid $primary-color1;
+    border: none !important;
     color:  $primary-color1;
   }
   &.Guidance-active-btn,
@@ -1184,9 +1184,9 @@ input {
       display: none !important;
     }
 
-    &:hover {
-      color: $primary-color2;
-    }
+    // &:hover {
+    //   color: $primary-color2;
+    // }
   }
   
   .ant-space {

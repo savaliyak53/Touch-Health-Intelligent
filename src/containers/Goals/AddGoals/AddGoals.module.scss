@@ -84,10 +84,10 @@ Select {
       }
     }
     &:focus{
-      background-color: rgba($primary-color3,0.3);
-      svg{
-        color: $primary-color3;
-      }
+      background-color: rgba($secondary-color1,0.3);
+      // svg{
+      //   color: $primary-color3;
+      // }
     }
   }
 

@@ -270,7 +270,7 @@ const PasswordRecovery = () => {
       <div className="Auth-wrap">
         {enterNumber && (
           <form onSubmit={handleSubmit(onVerify)} className={styles["Auth-form"]}>
-            <h2 className={styles["Security-title"]} style={{marginBottom : "150px"}}>
+            <h2 className={styles["Security-title"]}>
               Reset Password
             </h2>
           <Tooltip
@@ -312,7 +312,7 @@ const PasswordRecovery = () => {
                 className={styles["Verification-form"]}
               >
                 <h2 className={styles["Security-title"]}>
-                  Verification Code
+                  Verification code
                 </h2>
                 {/* <div className={styles['description']}>
                <InfoCircleOutlined /> We just sent a text to your number, confirm this is you by putting in the code you received here
@@ -371,7 +371,7 @@ const PasswordRecovery = () => {
                  type="button"
                  disabled={isDisabled}
                 >
-                   Resend OTP&nbsp;{enableTimer && (<span>in&nbsp;{minutes}:{seconds}</span>)}
+                   Resend code&nbsp;{enableTimer && (<span>in&nbsp;{minutes}:{seconds}</span>)}
                </button>
               <ConfirmModal
                 title={'Confirmation'}
@@ -392,7 +392,7 @@ const PasswordRecovery = () => {
               // className="Auth-wrap"
             >
               {/* <h2 className={styles["Auth-title"]}> */}
-              <h2 className={styles["Security-title"]}  style={{marginBottom : "150px"}}>
+              <h2 className={styles["Security-title"]}>
                 Security Question
               </h2>
               <input
@@ -435,7 +435,7 @@ const PasswordRecovery = () => {
               className={styles["Auth-wrap"]}
               style={{ justifyContent: 'start', width: '100%' }}
             >
-              <h2 className={styles["Security-title"]}  style={{marginBottom : "150px"}}>
+              <h2 className={styles["Security-title"]}>
                 Enter New Password
               </h2>
 

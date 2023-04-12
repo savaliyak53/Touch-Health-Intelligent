@@ -345,7 +345,8 @@ const AddGoals = () => {
                 open={showLastGoalModal}
                 handleCancel={handleCancelModal}
                 handleOk={handleCancelModal}
-                 renderData={<div>Alas! Unable to delete. This is your last goal</div>}
+                className="Addgoal-Confirm-Modal"
+                 renderData={<div className='Description' >Alas! Unable to delete. This is your last goal</div>}
               />
               <Button
                 key={key}
