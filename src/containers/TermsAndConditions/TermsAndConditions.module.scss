@@ -42,7 +42,7 @@
   margin: 0 auto;
   bottom: 0;
   border: none;
-  padding: 250px 0 0px;
+  padding: 250px 0 10px;
   position: fixed;
   width: calc(100% - 40px);
   .TermsBtn {
@@ -63,9 +63,9 @@
     &:hover,
     &:focus,
     &:active {
-      background-color: #fff;
-      color: $primary-color1;
-      border-color: $primary-color1;
+      background-image: $secondary-color2;
+      color: white;
+      border: none !important;
     }
   }
 }

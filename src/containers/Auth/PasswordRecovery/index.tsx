@@ -28,6 +28,8 @@ import  ReCAPTCHA  from 'react-google-recaptcha';
 import RecaptchaModal from '../../../components/Modal/RecaptchaModal';
 import { useTimer } from 'react-timer-hook';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
+// import { InfoCircleOutlined } from '@ant-design/icons';
+
 
 type IRecoverFormInputs = {
   username: string;
@@ -268,7 +270,7 @@ const PasswordRecovery = () => {
       <div className="Auth-wrap">
         {enterNumber && (
           <form onSubmit={handleSubmit(onVerify)} className={styles["Auth-form"]}>
-            <h2 className={styles["Security-title"]}>
+            <h2 className={styles["Security-title"]} style={{marginBottom : "150px"}}>
               Reset Password
             </h2>
           <Tooltip
@@ -312,6 +314,9 @@ const PasswordRecovery = () => {
                 <h2 className={styles["Security-title"]}>
                   Verification Code
                 </h2>
+                {/* <div className={styles['description']}>
+               <InfoCircleOutlined /> We just sent a text to your number, confirm this is you by putting in the code you received here
+              </div> */}
                 <Controller
                   control={control}
                   name="code"
@@ -387,7 +392,7 @@ const PasswordRecovery = () => {
               // className="Auth-wrap"
             >
               {/* <h2 className={styles["Auth-title"]}> */}
-              <h2 className={styles["Security-title"]}>
+              <h2 className={styles["Security-title"]}  style={{marginBottom : "150px"}}>
                 Security Question
               </h2>
               <input
@@ -430,7 +435,7 @@ const PasswordRecovery = () => {
               className={styles["Auth-wrap"]}
               style={{ justifyContent: 'start', width: '100%' }}
             >
-              <h2 className={styles["Security-title"]}>
+              <h2 className={styles["Security-title"]}  style={{marginBottom : "150px"}}>
                 Enter New Password
               </h2>
 

@@ -326,7 +326,7 @@ const GoalDetails = () => {
           setShowGoalInfoModal(true)}}
         >
            <p
-                 style={{ fontSize: '30px', fontFamily:"serif", fontWeight:"bolder" ,fontStyle : "Italic",color: `#B83B5E`, cursor: 'pointer', marginLeft: "30px"}}
+                 style={{ fontSize: '30px', fontFamily:"serif", fontWeight:"bolder" ,fontStyle : "Italic",color: `#F26749`, cursor: 'pointer', marginLeft: "30px"}}
               >i</p>
           </Button>
       </div>
@@ -386,7 +386,7 @@ const GoalDetails = () => {
                       style={{ margin: '0 25px' }}
                       percent={goal.data.success_score}
                       showInfo={false}
-                      strokeColor={v['secondary-color1']}
+                      strokeColor={v['secondary-color2']}
                       strokeWidth={20}
                     />
                     <Tooltip
