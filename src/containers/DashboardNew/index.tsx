@@ -140,6 +140,7 @@ const DashboardNew = () => {
           <Col span={24}>
             <div className={styles.GoalsHead}>
               <Typography className={styles.GoalsHeadTitle} style={{color:'#B83B5E'}}>Health Goals</Typography>
+                <Button className={styles.GoalsHeadButton} onClick={()=>navigate("/c/checkup")}>👋</Button>
               <Button className={styles.GoalsHeadButton} onClick={()=>navigate("/add-goals")}>+</Button>
             </div>
           </Col>
