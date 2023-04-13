@@ -297,7 +297,7 @@ const PasswordRecovery = () => {
               onClick={handleSubmit(onVerify)}
               loading={isLoading}
               disabled={isDisabled}
-              className={'Submit-Button'}
+              className={styles['Answer-submit']}
             >
               {isCodeSent ? 'Resend Code' : 'Send Code'}
             </Button>
@@ -378,8 +378,10 @@ const PasswordRecovery = () => {
                 open={modalOpen}
                 handleCancel={() => {setModalOpen(false)}}
                 handleOk={() => {setModalOpen(false)}}
-                renderData={<div>We just sent a text to your number, confirm this is you by putting in the code you received here</div>}
+                className='Addgoal-Confirm-Modal'
+                renderData={<div className='Description' >We just sent a text to your number, confirm this is you by putting in the code you received here</div>}
               />
+
             </div>
           </>
         )}
