@@ -113,7 +113,7 @@ const SecurityQuestions = () => {
             loading={loading}
             onClick={handleSave}
             disabled={loading || !question || !answer}
-            className="Pref-btn btn"
+            className="Submit-Button"
           >
             Save
           </Button>

@@ -172,7 +172,7 @@ const Verification = () => {
           />
           <Button
             onClick={handleSubmit(onSubmit)}
-            className="Pref-btn btn"
+            className="Submit-Button"
             loading={isVerifying}
           >
             Verify
