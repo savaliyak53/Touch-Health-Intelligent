@@ -34,7 +34,7 @@ const IntroGoals = () => {
                 </p>
                 <img src={`${process.env.PUBLIC_URL}/assets/images/background.png`} className={styles["Image"]} alt="Image" />
                 <Button
-                    className="Pref-btn btn"
+                    className="Submit-Button"
                     loading={isLoading}
                     onClick={handleSubmit(onSubmit)}
                 >
