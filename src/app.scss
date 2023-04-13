@@ -1039,7 +1039,7 @@ input {
   color: $primary-color2;
 }
 
-.Submit-Button.ant-btn{
+.Questionnaire-Submit-Button.ant-btn{
   border-radius: 100px;
   height: auto;
   padding: 18px 54px;
@@ -1063,6 +1063,36 @@ input {
     border: none
   }
   &.active {
+    background-image: $secondary-color2 !important;
+    color: #fff !important;
+    border: none
+  }
+  &:disabled {
+    background-color: rgba(#3a3a3a, 0.2);
+    border: none;
+    color:  $primary-color1;
+  }
+}
+
+.Submit-Button.ant-btn{
+  border-radius: 100px;
+  height: auto;
+  padding: 18px 54px;
+  background-color: $primary-color1;
+  color: #fff;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  border: none;
+  margin: 20px auto 0;
+  display: flex;
+  justify-content: center;  
+  width: 65%;
+
+
+  &:hover,
+  &:focus,
+  &:active {
     background-image: $secondary-color2 !important;
     color: #fff !important;
     border: none

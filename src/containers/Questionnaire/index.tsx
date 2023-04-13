@@ -238,7 +238,7 @@ function UserCondition() {
             {question?.type !== 'yes_no' && question?.type !== 'dialog_select_one' && question?.type !== 'image_and_text_select_one' && question?.type !== 'markdown_select_one' && (
               <div>
                 <Button
-                className={`Submit-Button ${
+                className={`Questionnaire-Submit-Button ${
                   isClicked ? ' active' : ''
                 }`}
                 onClick={() => {
