@@ -103,7 +103,7 @@ useEffect(() => {
           <br/>
           <Link href="mailto:support@touchmedical.ca">support@touchmedical.ca</Link>
           </Paragraph>
-          <Paragraph className={styles.TermsText} style={{marginBottom: "70px"}}>{` This document was last updated on November 29, 2022`}</Paragraph>
+          <Paragraph className={styles.TermsText}>{` This document was last updated on November 29, 2022`}</Paragraph>
 
           <div className={styles.TermsBtnWrap}>
             <Button
