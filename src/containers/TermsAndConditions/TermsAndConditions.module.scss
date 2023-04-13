@@ -45,6 +45,7 @@
   padding: 250px 0 10px;
   position: fixed;
   width: calc(100% - 40px);
+  pointer-events: none;
   .TermsBtn {
     border-radius: 100px;
     height: 100%;
@@ -59,6 +60,7 @@
     max-width: 400px;
     display: block;
     width: 80%;
+    pointer-events: auto;
   
     &:hover,
     &:focus,
