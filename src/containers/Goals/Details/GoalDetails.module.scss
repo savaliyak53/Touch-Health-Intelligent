@@ -317,29 +317,37 @@ padding-bottom: 10px;
   }
   .Des-Short,
   .Des-Goal {
-    font-family: 'Raleway', sans-serif;
+    font-family: $font-body;
     text-align: left;
     margin-top: 15px;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1.2;
-    font-weight: 600;
+    font-weight: 400;
     margin-bottom: 10px;
-    color: $primary-color1;
-    margin-left: 20px;
-    padding: 4px 18px;
+    color: $primary-color2;
+    padding: 4px 0;
     h3{
-      color: $primary-color2;
+      font-family: $font-body;
+      color: $primary-color1;
+      font-weight: 700 !important;
     } 
     h2{
-        color: $primary-color2;
-        }
+      font-family: $font-body;
+      color: $primary-color1;
+      font-weight: 700 !important;
+      }
     h1{
-        color: $primary-color2;
-        }
+      font-family: $font-body;
+      color: $primary-color1;
+      font-weight: 700 !important;
+      }
 }
 .Modal-Btn-Group{
-    background-color: white;
+    background-image: linear-gradient(transparent, white) !important;
     max-width: 520px;
     margin: 0 auto;
     padding: 10px 0;
+    position: sticky;
+    bottom: 0; 
+    border: none;
 }
