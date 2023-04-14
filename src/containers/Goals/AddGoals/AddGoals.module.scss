@@ -39,21 +39,11 @@ Select {
   margin-bottom: 10px;
   color: $primary-color2;
   padding: 4px 0;
-  h3{
+  h1, h2, h3 {
     font-family: $font-body;
     color: $primary-color1;
     font-weight: 700 !important;
-  } 
-  h2{
-    font-family: $font-body;
-    color: $primary-color1;
-    font-weight: 700 !important;
-    }
-  h1{
-    font-family: $font-body;
-    color: $primary-color1;
-    font-weight: 700 !important;
-    }
+  }
 }
 .Health-Goals,
 .Rec-wrap {
