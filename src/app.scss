@@ -1269,3 +1269,16 @@ input {
     box-shadow: none;
   }
 }
+//back button
+.LeftIcon {
+  text-align: left !important;
+  margin-top: 22px;
+}
+.Backflex {
+  flex-direction: row;
+  color:$primary-color3 !important;
+  font-size: 25px;
+  font-weight: 700px;
+  font-style: bold;
+  
+}

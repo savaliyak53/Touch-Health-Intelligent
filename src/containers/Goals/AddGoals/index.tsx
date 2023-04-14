@@ -250,8 +250,8 @@ const AddGoals = () => {
     <Layout defaultHeader={true} hamburger={true}>
       <>
         {userStatus && (
-          <div className={styles['Backflex']} onClick={handleBack}>
-            <ArrowLeftOutlined className={styles['LeftIcon']} />
+          <div className={'Backflex'} onClick={handleBack}>
+            <ArrowLeftOutlined className={'LeftIcon'} />
           </div>
         )}
       </>
@@ -400,8 +400,8 @@ const AddGoals = () => {
         style={{height: '100vh'}}
         className="Goals-Modal"
       >
-        <div className={styles['Backflex']}  onClick={()=>{ setIsModalOpen(false);}}>
-            <ArrowLeftOutlined className={styles['LeftIcon']} />
+        <div className={'Backflex'}  onClick={()=>{ setIsModalOpen(false);}}>
+            <ArrowLeftOutlined className={'LeftIcon'} />
           </div>
         <h3 className={` Title ${styles['Goals-Detail-title']}`}>{selectedGoal?.name}</h3>
         {selectedGoal && (

@@ -5,6 +5,8 @@ import v from '../../../variables.module.scss';
 import Layout from '../../../layouts/Layout/Layout';
 import { Modal, Spin } from 'antd';
 import { Row, Col, Typography, Tooltip, Button, Progress } from 'antd';
+import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
+
 import {
   DeleteOutlined,
   LeftOutlined,
@@ -300,8 +302,8 @@ const GoalDetails = () => {
   }
   return (
     <Layout defaultHeader={true} hamburger={true}>
-      <div className={styles['Backflex']} onClick={handleBack}>
-        <LeftOutlined className={styles['LeftIcon']} /> Back
+      <div className={'Backflex'} onClick={handleBack}>
+        <ArrowLeftOutlined className={'LeftIcon'} />
       </div>
       {/* Top title with Delete button */}
       <div className={styles['Prevn-wrap']}>
@@ -338,7 +340,11 @@ const GoalDetails = () => {
         open={showGoalInfoModal}
         onCancel={handleCancelModal}
         className="Goals-Modal"
+        closable={false}
       >
+        <div className={'Backflex'}  onClick={handleCancelModal}>
+            <ArrowLeftOutlined className={'LeftIcon'} />
+          </div>
          <h3 className={'Title'}>{goal?.info.name ? goal?.info.name : "" }</h3>
         { goal?.info&& (
           <div className={styles['Des-Goal']}>

@@ -121,7 +121,6 @@
   }
   svg {
     font-size: 20px;
-    font-weight: 700;
     color: $primary-color3;
     line-height: 21px;
   }
@@ -129,7 +128,7 @@
 .menu-routes {
   li {
     a {
-      color: $primary-color3;
+      color: #fff;
       font-family: $font-title;
       font-style: normal;
       font-weight: 400;
@@ -141,20 +140,24 @@
 }
 
 .Signout {
-  font-family: $font-body !important;
+  font-family: "Roboto", sans-serif !important;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
   line-height: 110%;
   display: flex;
-  bottom: 10px;
   align-items: center;
   text-align: center;
   text-decoration-line: underline;
-  margin-top: 100px;
-  background-color: $primary-color1;
+  background-color: #204ECF;
   display: block;
-
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 46px;
   &:hover,
   &:active,
   &:focus {
@@ -263,7 +266,6 @@
     }
     svg {
       font-size: 20px;
-      font-weight: 700;
       color: $primary-color3;
       line-height: 21px;
     }
