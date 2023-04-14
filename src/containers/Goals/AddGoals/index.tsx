@@ -396,9 +396,13 @@ const AddGoals = () => {
         onOk={handleOk}
         onCancel={handleCancel}
         width={'100vw'}
+        closable={false}
         style={{height: '100vh'}}
         className="Goals-Modal"
       >
+        <div className={styles['Backflex']}  onClick={()=>{ setIsModalOpen(false);}}>
+            <ArrowLeftOutlined className={styles['LeftIcon']} />
+          </div>
         <h3 className={` Title ${styles['Goals-Detail-title']}`}>{selectedGoal?.name}</h3>
         {selectedGoal && (
           <div className={`Description ${styles['Des-Goal']}`}>
@@ -430,13 +434,13 @@ const AddGoals = () => {
                 Pick goal
               </Button>
             )}
-            <Button
+            {/* <Button
               className="Submit-Button"
               loading={isLoading}
               onClick={handleCancel}
             >
               Take me back
-            </Button>
+            </Button> */}
           </div>
       </Modal>
     </Layout>

@@ -332,24 +332,14 @@ const GoalDetails = () => {
       </div>
       <Modal
         footer={
-          <div
-            className={styles['Modal-Btn-Group']}
-          >
-            <Button
-              className="Back-btn btn"
-              loading={isLoading}
-              onClick={handleCancelModal}
-            >
-              Take me back
-            </Button>
-          </div>
+          null
         }
         centered
         open={showGoalInfoModal}
         onCancel={handleCancelModal}
         className="Goals-Modal"
       >
-         <h3 className={styles['Goals-title']}>{goal?.info.name ? goal?.info.name : "" }</h3>
+         <h3 className={'Title'}>{goal?.info.name ? goal?.info.name : "" }</h3>
         { goal?.info&& (
           <div className={styles['Des-Goal']}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
@@ -357,6 +347,18 @@ const GoalDetails = () => {
             </ReactMarkdown>
           </div>
         )}
+        <div
+            className={styles['Modal-Btn-Group']}
+          >
+            <Button
+              className="Submit-Button"
+              loading={isLoading}
+              onClick={handleCancelModal}
+            >
+             Take me back
+            </Button>
+
+        </div>
       </Modal>
       <ConfirmModal
         title={'Confirmation'}

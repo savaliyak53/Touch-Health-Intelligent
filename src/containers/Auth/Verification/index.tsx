@@ -192,14 +192,16 @@ const Verification = () => {
           open={modalOpen}
           handleCancel={() => {setModalOpen(false)}}
           handleOk={() => {setModalOpen(false)}}
-          renderData={<div>We just sent a text to your number, confirm this is you by putting in the code you received here</div>}
+          className='Addgoal-Confirm-Modal'
+          renderData={<div className='Description' >We just sent a text to your number, confirm this is you by putting in the code you received here</div>}
         />
          <ConfirmModal
           title={'Confirmation'}
           open={finishStatus}
           handleCancel={() => {setfinishStatus(false); pageBackEvent(); }}
           handleOk={logoutClick}
-          renderData={<div>Are you sure you want to navigate away from this page?</div>}
+          className='Addgoal-Confirm-Modal'
+          renderData={<div className='Description'>Are you sure you want to navigate away from this page?</div>}
         />
       </div>
     </Layout>
