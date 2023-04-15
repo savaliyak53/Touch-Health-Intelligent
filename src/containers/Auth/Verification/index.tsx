@@ -12,6 +12,7 @@ import { Tooltip } from 'antd';
 import ReactCodeInput from 'react-code-input';
 import { requestPhoneOTP, verifyPhoneOTP } from '../../../services/authservice';
 import { useTimer } from 'react-timer-hook';
+import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
 
 type IVerificationCode = {
   code: string;
@@ -45,7 +46,7 @@ const Verification = () => {
     seconds,
     minutes,
     restart,
-  } = useTimer({ expiryTimestamp, onExpire: () => {setEnableTimer(false); toast.success('You can now resend code'); setIsDisabled(false);} });
+  } = useTimer({ expiryTimestamp, onExpire: () => {setEnableTimer(false); setIsDisabled(false);} });
 
   useEffect(() => {
     window.scrollTo(0,0)
@@ -147,8 +148,8 @@ const Verification = () => {
                 return value && value.length === 6
                   ? true
                   : !value
-                  ? 'Verification Code is required'
-                  : 'Invalid Verification Code';
+                  ? 'Verification code is required'
+                  : 'Invalid verification code';
               },
             }}
             render={({ field: { onChange, onBlur, value, name, ref } }) => (
@@ -163,13 +164,13 @@ const Verification = () => {
               />
             )}
           />
-
-          <Tooltip
+         {errors.code?.message? <div className={styles['error-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> {errors.code?.message}</div>: null}
+          {/* <Tooltip
             color="orange"
             placement="bottom"
             title={errors.code?.message}
             open={errors.code ? true : false}
-          />
+          /> */}
           <Button
             onClick={handleSubmit(onSubmit)}
             className="Submit-Button"

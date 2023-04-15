@@ -407,7 +407,7 @@ const GoalDetails = () => {
                       overlayStyle={{ marginRight: '10px' }}
                       mouseLeaveDelay={0}
                     >
-                      <AiOutlineQuestionCircle
+                      <InfoCircleOutlined
                         size={30}
                         style={{ color: '#D2D1D1', marginLeft: '6px' }}
                       />
@@ -435,7 +435,7 @@ const GoalDetails = () => {
                     overlayStyle={{ marginRight: '10px' }}
                     mouseLeaveDelay={0}
                   >
-                    <AiOutlineQuestionCircle
+                    <InfoCircleOutlined
                       size={30}
                       style={{ color: '#D2D1D1', marginLeft: '6px' }}
                     />
@@ -451,7 +451,7 @@ const GoalDetails = () => {
       {dataset && (
         <>
           <div className={styles['Chart-title']}>
-            <div style={{ fontSize: '25px' }}>Goal Success</div>
+            <div className={styles["sub-heading"]}>Goal Success</div>
             <div className={styles['Succes-score']}>
               {goal?.data.success_score}
               {goal.data.velocity !== null && (
@@ -484,7 +484,7 @@ const GoalDetails = () => {
               mouseLeaveDelay={0}
               style={{ marginRight: '10px' }}
             >
-              <AiOutlineQuestionCircle
+              <InfoCircleOutlined
                 size={30}
                 style={{ color: '#D2D1D1', marginLeft: '6px' }}
               />
@@ -505,7 +505,7 @@ const GoalDetails = () => {
           (element: any) => element.data?.status === 'new'
         ) && (
           <>
-            <h3 className={styles['Guidance-title']}>New Guidance</h3>
+            <div className={styles["sub-heading"]}>New Guidance</div>
           </>
         )}
         {goal?.guidances.map((o: any, key: any) => (
@@ -517,7 +517,7 @@ const GoalDetails = () => {
                     {o.info && (
                       <Button
                         onClick={() => handleClick('new', o.info, o.data)}
-                        className={styles['Rec-Guidance']}
+                        className={styles['guidance-button']}
                         type="primary"
                         style={{
                           color: v['secondary-color1'],
@@ -546,7 +546,7 @@ const GoalDetails = () => {
           (element: any) => element.data?.status === 'active'
         ) && (
           <>
-            <h3 className={styles['Guidance-title']}>Active Guidance</h3>
+            <div className={styles["sub-heading"]}>Active Guidance</div>
           </>
         )}
         {goal?.guidances.map((o: any) => (
@@ -557,7 +557,7 @@ const GoalDetails = () => {
                   <div className={styles['Rec-wrap']}>
                     <Button
                       onClick={() => handleClick('active', o.info, o.data)}
-                      className={styles['Rec-Guidance']}
+                      className={styles['guidance-button']}
                       type="primary"
                       style={{
                         color: v['secondary-color1'],
@@ -580,7 +580,7 @@ const GoalDetails = () => {
           (element: any) => element.data?.status === 'inactive'
         ) && (
           <>
-            <h3 className={styles['Guidance-title']}>Inactive Guidance</h3>
+            <div className={styles["sub-heading"]}>Inactive Guidance</div>
           </>
         )}
         {goal?.guidances.map((o: any) => (
@@ -591,7 +591,7 @@ const GoalDetails = () => {
                   <div className={styles['Rec-wrap']}>
                     <Button
                       onClick={() => handleClick('inactive', o.info, o.data)}
-                      className={styles['Rec-Guidance']}
+                      className={styles['guidance-button']}
                       type="primary"
                       style={{
                         color: v['secondary-color1'],
@@ -614,8 +614,7 @@ const GoalDetails = () => {
         zIndex={99999}
         closeIcon={
           <>
-            <LeftOutlined />
-            Back
+           <ArrowLeftOutlined style={{fontSize : "25px", color:"#F26749", marginTop:"20px"}} />
           </>
         }
         footer={false}
