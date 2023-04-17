@@ -281,10 +281,6 @@ const AddGoals = () => {
               className={styles['Rec-Goal']}
               type="primary"
               onClick={() => showModal(data)}
-              style={{
-                color: `${v['primary-color2']}`,
-                backgroundColor: `${v['$secondary-color1']}`,
-              }}
             >
               {data.name === '' ? (
                 ''
@@ -301,10 +297,6 @@ const AddGoals = () => {
             <div
               key={key}
               className={styles['Selected-Goal']}
-              style={{
-                color: `${v['primary-color2']}`,
-                backgroundColor: 'rgba(131, 165, 242, 0.3)',
-              }}
             >
               <div className={styles['Mygoals-Title']}>
                 <Button

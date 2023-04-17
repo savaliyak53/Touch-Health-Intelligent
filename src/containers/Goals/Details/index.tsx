@@ -451,7 +451,7 @@ const GoalDetails = () => {
       {dataset && (
         <>
           <div className={styles['Chart-title']}>
-            <div className={styles["sub-heading"]}>Goal Success</div>
+            <div className={`Heading Heading-color2 ${styles["sub-heading"]}`}>Goal Success</div>
             <div className={styles['Succes-score']}>
               {goal?.data.success_score}
               {goal.data.velocity !== null && (
@@ -508,37 +508,34 @@ const GoalDetails = () => {
             <div className={styles["sub-heading"]}>New Guidance</div>
           </>
         )}
-        {goal?.guidances.map((o: any, key: any) => (
-          <>
-            {o.data && (
-              <div key={o.data.id}>
-                {o.data.status == 'new' && (
-                  <div className={styles['Rec-wrap']} key={key}>
-                    {o.info && (
-                      <Button
-                        onClick={() => handleClick('new', o.info, o.data)}
-                        className={styles['guidance-button']}
-                        type="primary"
-                        style={{
-                          color: v['secondary-color1'],
-                          backgroundColor: `rgba(106, 44, 112, 0.11)`,
-                        }}
-                      >
-                        {/* <span className={styles["Rec-Text"]}><ReactMarkdown>{o.info.description_md}</ReactMarkdown></span> */}
-                        {o.info.name && (
-                          <span className={styles['Rec-Text']}>
-                            {o.info.name ? o.info.name : ""}
-                          </span>
-                        )}
-                        <RightOutlined className={styles['Arrow']} />
-                      </Button>
-                    )}
+        <div className={styles['Health-Goals']}>
+          {goal?.guidances.map((o: any,index:number) => (
+            
+            <>
+              {o.data && o.data.status === 'new' && (
+                <div
+                key={index}
+                className={styles['Selected-Goal']}
+               >
+                <div className={styles['Mygoals-Title']}>
+                  <span 
+                    className={styles['Rec-Text']}               
+                    onClick={() => handleClick('new', o.info, o.data)}
+                  >
+                    {o.info?.name || ""}
+                  </span>
+                  <Button
+                    onClick={() => handleClick('new', o.info, o.data)}
+                    className={styles['Cross-btn']}
+                  >
+                    <RightOutlined className={styles['Cross']} />
+                  </Button>
                   </div>
+                </div>
                 )}
-              </div>
-            )}
-          </>
-        ))}
+            </>
+          ))}
+       </div>
       </>
       {/* Active Guidance */}
       <>
@@ -546,33 +543,37 @@ const GoalDetails = () => {
           (element: any) => element.data?.status === 'active'
         ) && (
           <>
-            <div className={styles["sub-heading"]}>Active Guidance</div>
+            <div className={`Heading Heading-color2 ${styles["sub-heading"]}`}>Active Guidance</div>
           </>
         )}
-        {goal?.guidances.map((o: any) => (
-          <>
-            {o.data && (
-              <div key={o.data.id}>
-                {o.data.status === 'active' && (
-                  <div className={styles['Rec-wrap']}>
-                    <Button
-                      onClick={() => handleClick('active', o.info, o.data)}
-                      className={styles['guidance-button']}
-                      type="primary"
-                      style={{
-                        color: v['secondary-color1'],
-                        backgroundColor: `rgba(246, 187, 161, 0.16)`,
-                      }}
-                    >
-                      <span className={styles['Rec-Text']}>{o.info?.name? o.info?.name : ""}</span>
-                      <RightOutlined className={styles['Arrow']} />
-                    </Button>
+       <div className={styles['Health-Goals']}>
+          {goal?.guidances.map((o: any,index:number) => (
+            
+            <>
+              {o.data && o.data.status === 'active' && (
+                <div
+                key={index}
+                className={styles['Selected-Goal']}
+               >
+                <div className={styles['Mygoals-Title']}>
+                  <span 
+                    className={styles['Rec-Text']}               
+                    onClick={() => handleClick('active', o.info, o.data)}
+                  >
+                    {o.info?.name || ""}
+                  </span>
+                  <Button
+                    onClick={() => handleClick('active', o.info, o.data)}
+                    className={styles['Cross-btn']}
+                  >
+                    <RightOutlined className={styles['Cross']} />
+                  </Button>
                   </div>
+                </div>
                 )}
-              </div>
-            )}
-          </>
-        ))}
+            </>
+          ))}
+       </div>
       </>
       {/* Inactive Guidance */}
       <>
@@ -583,30 +584,35 @@ const GoalDetails = () => {
             <div className={styles["sub-heading"]}>Inactive Guidance</div>
           </>
         )}
-        {goal?.guidances.map((o: any) => (
-          <>
-            {o.data && (
-              <div key={o.data.id}>
-                {o.data && o.data.status === 'inactive' && (
-                  <div className={styles['Rec-wrap']}>
-                    <Button
-                      onClick={() => handleClick('inactive', o.info, o.data)}
-                      className={styles['guidance-button']}
-                      type="primary"
-                      style={{
-                        color: v['secondary-color1'],
-                        backgroundColor: 'rgba(214, 214, 214, 0.24)',
-                      }}
-                    >
-                      <span className={styles['Rec-Text']}>{o.info.name ? o.info.name  :  ""}</span>
-                      <RightOutlined className={styles['Arrow']} />
-                    </Button>
+        <div className={styles['Health-Goals']}>
+          {goal?.guidances.map((o: any,index:number) => (
+            
+            <>
+              {o.data && o.data.status === 'inactive' && (
+                <div
+                key={index}
+                className={styles['Selected-Goal']}
+               >
+                <div className={styles['Mygoals-Title']}>
+                  <span 
+                    className={styles['Rec-Text']}               
+                    onClick={() => handleClick('inactive', o.info, o.data)}
+                  >
+                    {o.info?.name || ""}
+                  </span>
+                  <Button
+                    onClick={() => handleClick('inactive', o.info, o.data)}
+                    className={styles['Cross-btn']}
+                  >
+                    <RightOutlined className={styles['Cross']} />
+                  </Button>
                   </div>
+                </div>
                 )}
-              </div>
-            )}
-          </>
-        ))}
+            </>
+          ))}
+       </div>
+
       </>
       <Modal
         className="Guidance-Modal"
