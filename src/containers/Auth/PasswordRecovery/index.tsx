@@ -297,7 +297,7 @@ const PasswordRecovery = () => {
               onClick={handleSubmit(onVerify)}
               loading={isLoading}
               disabled={isDisabled}
-              className={styles['Answer-submit']}
+              className={'Submit-Button'}
             >
               {isCodeSent ? 'Resend Code' : 'Send Code'}
             </Button>
@@ -351,7 +351,7 @@ const PasswordRecovery = () => {
                 />
                 <Button
                   onClick={handleSubmit(onSubmitCode)}
-                  className={styles['Answer-submit']}
+                  className={'Submit-Button'}
                   loading={isVerifying}
                 >
                   Verify
@@ -422,7 +422,7 @@ const PasswordRecovery = () => {
               {/* <div className="action"> */}
                 <Button
                   onClick={handleSubmit(confirmAnswer)}
-                  className={styles['Answer-submit']}
+                  className={'Submit-Button'}
                 >
                   Submit
                 </Button>
@@ -514,7 +514,7 @@ const PasswordRecovery = () => {
               <div className="action">
                 <Button
                   onClick={handleSubmit(onSubmitRecover)}
-                  className={styles['Answer-submit']}
+                  className={'Submit-Button'}
                 >
                   Reset Password
                 </Button>
