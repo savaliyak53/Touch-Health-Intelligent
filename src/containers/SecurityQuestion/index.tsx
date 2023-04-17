@@ -9,7 +9,7 @@ import { securityQuestions } from '../../constants';
 import { putSignUp, requestPhoneOTP } from '../../services/authservice';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { DownOutlined } from '@ant-design/icons';
+import { DownOutlined, InfoCircleOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
@@ -17,6 +17,7 @@ const SecurityQuestions = () => {
   const [loading, setLoading] = useState(false);
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
+  const [saveMsg, setSaveMsg] = useState<boolean>(false)
   const navigate = useNavigate();
 
   const onChange = (option: any) => {
@@ -58,8 +59,13 @@ const SecurityQuestions = () => {
       putSignUp({ security_questions: securityQuestion }, userId)
         .then(async (response) => {
           if (response?.id) {
-            toast.success('Security Question saved successfully');
-            navigate('/');
+            // toast.success('Security Question saved successfully');
+            setLoading(false)
+            setSaveMsg(true);
+            setTimeout(()=>{
+              setSaveMsg(false)
+              navigate('/');
+            },5000)
           }
         })
         .catch((error) => {
@@ -73,7 +79,7 @@ const SecurityQuestions = () => {
     <Layout defaultHeader={true} hamburger={false}>
       <div >
         <h2 id='header' className={styles['Con-title']}>
-          Security Question <Spin spinning={loading} />
+          Security question <Spin spinning={loading} />
         </h2>
         <div className={styles['Switch-wrap']} style={{maxHeight: 600, overflow: 'auto'}}>
         <p className={styles['Con-Description']}>
@@ -108,7 +114,7 @@ const SecurityQuestions = () => {
           </div>
         </div>
 
-        <div className="action">
+        <div className={styles['Security-Btn']}>
           <Button
             loading={loading}
             onClick={handleSave}
@@ -117,6 +123,9 @@ const SecurityQuestions = () => {
           >
             Save
           </Button>
+          { saveMsg ? (
+              <div className={styles['dlt-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> Security question saved succesfully</div>
+            ) : ''}
         </div>
       </div>
     </Layout>
