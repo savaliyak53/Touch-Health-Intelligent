@@ -52,7 +52,7 @@ Select {
   .Rec-Goal,
   .Selected-Goal {
     font-family: $font-body;
-    background-color: rgba($secondary-color1,0.3);
+    background-color: $ternary-color1;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -108,10 +108,6 @@ Select {
 .Arrow {
   color: $primary-color1 !important;
   font-size: 20px;
-}
-
-.Cross {
-  font-size: 16px;
 }
 
 .Des-Short {
