@@ -128,3 +128,24 @@
       margin-bottom: 16px;
     }
 }
+
+.Security-Btn{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 50px;
+  width: 100%;
+  left: 0;
+  right: 0;
+}
+
+.dlt-msg{
+  color: $primary-color1;
+  font-family: $font-body;
+  font-size: 12px;
+  text-align: left;
+  margin-top: 10px;
+}
