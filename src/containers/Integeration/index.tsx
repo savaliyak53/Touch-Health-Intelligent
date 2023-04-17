@@ -224,7 +224,7 @@ const Integrations = () => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              fontSize: '25px',
+              // fontSize: '25px',
               marginBottom: '24px',
             }}
           >
@@ -233,7 +233,7 @@ const Integrations = () => {
               height={50}
               width={50}
             />
-            Google Fit
+            <div className={styles['Container-title']}>Google Fit </div> 
             {checked === undefined ? (
               <Spin spinning={checked === undefined ? true : false} />
             ) : (
@@ -246,8 +246,8 @@ const Integrations = () => {
           <div>
             <div className={styles['Container']}>
               <h3
-                className={`Description ${styles['Container-title']}`}
-                style={{ color: '#A5A5A5' }}
+                className={`Description`}
+                // style={{ color: '#A5A5A5' }}
               >
                 Touch Health Assistant collects health and activity data to enable health goal
                 analytics, guidance recommendation, and guidance follow up.

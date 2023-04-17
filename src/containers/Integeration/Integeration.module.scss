@@ -14,9 +14,12 @@
         display: flex;
         flex-direction: row;
         position: relative;
-        font-size: 25px;
-        line-height: 27px;
-        font-weight: 500;
+        font-family: $font-body;
+        font-style: normal;
+        font-weight: 800;
+        font-size: 24px;
+        line-height: 110%;
+        letter-spacing: -0.01em;
         color: $primary-color2;
         margin-top: 10px;
         margin-bottom: 24px;

@@ -24,10 +24,10 @@ const DeleteModal = ({
       className={"Delete-Modal"} 
       footer={[
         <div  key="submit" className={styles["Btn-group"]}>
-          <Button key="submit" className={styles["Action-btn"]} onClick={handleOk}>
+          <Button key="submit" className={"Submit-Button"} onClick={handleOk}>
             I acknowledge the above and wish to delete my data.
           </Button>
-          <Button key="submit" className={styles["Action-btn"]} onClick={handleCancel}>
+          <Button key="submit" className={"Submit-Button"} onClick={handleCancel}>
             Take me back. I do not want to delete my data
           </Button>
         </div>
