@@ -327,9 +327,10 @@ const GoalDetails = () => {
           onClick={() => {
           setShowGoalInfoModal(true)}}
         >
-           <p
-                 style={{ fontSize: '30px', fontFamily:"serif", fontWeight:"bolder" ,fontStyle : "Italic",color: `#F26749`, cursor: 'pointer', marginLeft: "30px"}}
-              >i</p>
+           <InfoCircleOutlined
+                size={30}
+                style={{ color: '#204ECF', marginLeft: '6px', fontSize:"24px" }}
+              />
           </Button>
       </div>
       <Modal
@@ -702,7 +703,7 @@ const GoalDetails = () => {
           <h2 className={`Title`}>{guidanceData?.name}</h2>
         )}
         {guidanceData && (
-          <div className={"Description"}>
+          <div className={styles.guidancedetail}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
               {guidanceData?.description_md ? guidanceData?.description_md : ""}
             </ReactMarkdown>
@@ -710,7 +711,7 @@ const GoalDetails = () => {
         )}
 
         {type === 'active' && (
-          <div className={styles.GuidanceBtnWrap}>
+           <div className={styles.GuidanceBtnWrap}>
             <Button
               // className="Pref-btn btn Guidance-Inactive-btn GuidanceBtn"
               className={'Submit-Button'}
@@ -722,7 +723,7 @@ const GoalDetails = () => {
             >
               Inactivate guidance
             </Button>
-          </div>
+           </div>
         )}
         {type === 'new' && (
           <div className={styles.GuidanceBtnActiveWrap}>

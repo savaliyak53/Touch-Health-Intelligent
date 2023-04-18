@@ -20,23 +20,23 @@ const ErrorInteractionModal = ({
   return (
     <Modal
       title={title}
-      className={"exceptionStyle"}
+      className={"Delete-Modal"}
       open={open}
       closable={false}
       keyboard={false}
       onOk={handleOk}
       footer={[
-        <div key="submit" className={styles['Btn-group']}>
+        <div key="submit" className={showTryButton? styles['Btn-group-withoutgap'] : styles['Btn-group']}>
           {showTryButton && <Button
             key="submit"
-            className={styles['error']}
+            className={'Submit-Button'}
             onClick={handleRetry}
           >
             Try again
           </Button>}
           <Button
             key="submit"
-            className={styles['error']}
+            className={'Submit-Button'}
             onClick={handleOk}
           >
             Go to dashboard
@@ -44,7 +44,7 @@ const ErrorInteractionModal = ({
         </div>,
       ]}
     >
-     <div className={styles['message']} >Oops! Looks like we cannot continue interaction at this point  <br/>Try again later.</div>
+      {renderData}
     </Modal>
   );
 };
