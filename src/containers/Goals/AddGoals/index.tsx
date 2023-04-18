@@ -256,7 +256,7 @@ const AddGoals = () => {
         )}
       </>
       <div className={styles['AddGoals']}>
-        <h2 className={`Title`}>Health Goal Configuration</h2>
+        <h2 className={`Title`}>Adding a health goal</h2>
         <div className={`Goal-Select-Wrap Goals-Select`}>
           <SearchOutlined className="search" />
           <AutoComplete
@@ -299,19 +299,6 @@ const AddGoals = () => {
               className={styles['Selected-Goal']}
             >
               <div className={styles['Mygoals-Title']}>
-                <Button
-                  className={styles['Cross-btn']}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if(goals.length>1) {
-                      setSelectedGoal(data)
-                      setShowCancelModal(true);
-                    }    
-                    else setShowLastGoalModal(true)
-                  }}
-                >
-                  <CloseOutlined className={styles['Cross']} />
-                </Button>
                 {data.name === '' ? (
                   ''
                 ) : (
@@ -342,18 +329,19 @@ const AddGoals = () => {
                 className="Addgoal-Confirm-Modal"
                  renderData={<div className='Description' >Alas! Unable to delete. This is your last goal</div>}
               />
-              <Button
-                key={key}
-                onClick={() => showModal(data)}
-                style={{
-                  color: `${v['primary-color2']}`,
-                  backgroundColor: `transparent`,
-                  border: '0px',
-                  padding: 0,
-                }}
-              >
-                <RightOutlined className={styles['Arrow']} />
-              </Button>
+                <Button
+                  className={styles['Cross-btn']}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if(goals.length>1) {
+                      setSelectedGoal(data)
+                      setShowCancelModal(true);
+                    }    
+                    else setShowLastGoalModal(true)
+                  }}
+                >
+                  <CloseOutlined className={styles['Cross']} style={{fontSize: 20}} />
+                </Button>
             </div>
           ))}
             { deletedGoal ? (
@@ -367,7 +355,7 @@ const AddGoals = () => {
             bottom: '0',
             left: '0',
             width: '100vw',
-            padding: '0 20px 20px',
+            padding: '20px 0',
           }}
         >
           <Button
