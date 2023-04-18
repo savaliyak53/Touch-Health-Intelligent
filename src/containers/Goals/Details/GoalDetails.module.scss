@@ -91,18 +91,12 @@ width: 100%;
     line-height: 110%;
     letter-spacing: -0.01em;
     text-align: start;
-    margin-top: 30px;
     margin-bottom: 10px;
     color: $primary-color3;
-    margin-left: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.Chart-title {
-    margin-top: 30px;
-}
-
 .Succes-score {
     color: $primary-color2;
     font-size: 40px;
@@ -110,6 +104,7 @@ width: 100%;
     display: flex;
     gap: 10px;
     align-items: center;
+    margin-top: 20px;
 }
 .Mygoals-Title {
   display: flex;
