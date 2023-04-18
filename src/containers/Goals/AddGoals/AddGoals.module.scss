@@ -85,7 +85,7 @@ Select {
   }
 
   .Cross-btn {
-    height: 100px;
+    color: #ACACAC !important;
     height: auto !important;
     padding: 0 !important;
     border: 0 !important;
@@ -106,8 +106,9 @@ Select {
 }
 .Cross,
 .Arrow {
-  color: $primary-color1 !important;
+  color: $primary-color1;
   font-size: 20px;
+  margin-right: 2vw;
 }
 
 .Des-Short {
@@ -128,6 +129,7 @@ Select {
   align-items: center;
   min-width: 70vw;
   min-height: 10vh;
+  margin-left: 5vw;
 }
 .Modal-Btn-Group{
   background-image: linear-gradient(transparent, white) ;
