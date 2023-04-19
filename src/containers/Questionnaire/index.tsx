@@ -220,7 +220,13 @@ function UserCondition() {
     <Layout defaultHeader={true} hamburger={false}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
       {question?.type==="error" || exception ? <div> 
-        <ErrorInteractionModal title={""} open={true} showTryButton={!exception} handleRetry={handleRetry} handleOk={handleOk}/>
+        <ErrorInteractionModal 
+           title={"Error"} 
+           open={true} 
+           showTryButton={!exception} 
+           handleRetry={handleRetry} 
+           handleOk={handleOk} 
+           renderData={<div className={"Description"} >Oops! Looks like we cannot continue interaction at this point  <br/>Try again later.</div>}/>
        </div> : <div className="Content-wrap Pain">
         {question && (
           <>

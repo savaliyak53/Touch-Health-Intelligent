@@ -91,18 +91,12 @@ width: 100%;
     line-height: 110%;
     letter-spacing: -0.01em;
     text-align: start;
-    margin-top: 30px;
     margin-bottom: 10px;
     color: $primary-color3;
-    margin-left: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.Chart-title {
-    margin-top: 30px;
-}
-
 .Succes-score {
     color: $primary-color2;
     font-size: 40px;
@@ -110,6 +104,7 @@ width: 100%;
     display: flex;
     gap: 10px;
     align-items: center;
+    margin-top: 20px;
 }
 .Mygoals-Title {
   display: flex;
@@ -267,6 +262,20 @@ font-style: italic;
     margin-bottom: 15px;
     margin-top: clamp(0px, 7.5vh, 16px);
 }
+.guidancedetail{
+  font-family: $font-body;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 23px;
+  color: $primary-color2;
+  text-align: left;
+  margin-bottom: 60px;
+  h1{
+    font-weight: 800 !important;
+    font-size: 24px;
+    line-height: 26px;
+    }
+}
 .markdown-desc {
     font-family: 'Raleway', sans-serif;
     text-align: left;
@@ -289,11 +298,22 @@ font-style: italic;
         }
 }
 .GuidanceBtnWrap {
-    position: fixed;
+
+    background-image: linear-gradient(transparent, white);
+    margin: 0px;
     bottom: 0;
-    background-color: #fff;
+    border: none;
+    padding: 50px 0px 0px 20px;
     width: calc(100% - 40px);
-    padding-bottom: 10px;
+      // pointer-events: none;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    bottom: 0;
+    // background-color: #fff;
+    // width: calc(100% - 40px);
+    // padding-bottom: 10px;
+    // border: none !important;
     .GuidanceBtn {
       border-radius: 100px;
       height: 100%;
