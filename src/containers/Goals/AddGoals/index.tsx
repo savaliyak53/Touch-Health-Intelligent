@@ -91,9 +91,10 @@ const AddGoals = () => {
     setDeletedGoal(selectedGoal?.name)
     removeGoal(id);
     setShowCancelModal(false);
-    setTimeout(()=>{
-      setDeletedGoal(null)
-    },5000)
+    toast.success(`Your goal was successfully deleted`)
+    // setTimeout(()=>{
+    //   setDeletedGoal(null)
+    // },5000)
   };
   const handleDeleteModal = () => {
     setShowCancelModal(false);
@@ -344,9 +345,9 @@ const AddGoals = () => {
                 </Button>
             </div>
           ))}
-            { deletedGoal ? (
+            {/* { deletedGoal ? (
               <div className={styles['dlt-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> Your goal {deletedGoal} was successfully deleted</div>
-            ) : ''}
+            ) : ''} */}
         </div>
         <div
           style={{

@@ -728,7 +728,7 @@ const GoalDetails = () => {
         {type === 'new' && (
           <div className={styles.GuidanceBtnActiveWrap}>
             <Button
-              className={styles.GuidanceNotBtn}
+              className={'Submit-Button'}
               onClick={() => {
                 handleGuidanceStatus('inactive');
                 setLoading2(true);
@@ -738,7 +738,7 @@ const GoalDetails = () => {
               Not For me
             </Button>
             <Button
-              className={styles.GuidanceActiveBtn}
+              className={'Submit-Button'}
               onClick={() => {
                 handleGuidanceStatus('active');
                 setLoading(true);

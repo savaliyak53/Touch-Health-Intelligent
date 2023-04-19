@@ -59,7 +59,7 @@ const SecurityQuestions = () => {
       putSignUp({ security_questions: securityQuestion }, userId)
         .then(async (response) => {
           if (response?.id) {
-            // toast.success('Security Question saved successfully');
+             toast.success('Security Question saved successfully');
             setLoading(false)
             setSaveMsg(true);
             setTimeout(()=>{
@@ -123,9 +123,9 @@ const SecurityQuestions = () => {
           >
             Save
           </Button>
-          { saveMsg ? (
+          {/* { saveMsg ? (
               <div className={styles['dlt-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> Security question saved succesfully</div>
-            ) : ''}
+            ) : ''} */}
         </div>
       </div>
     </Layout>
