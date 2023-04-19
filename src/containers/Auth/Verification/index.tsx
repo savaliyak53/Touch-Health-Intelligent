@@ -138,7 +138,7 @@ const Verification = () => {
   return (
     <Layout defaultHeader={true} hamburger={false}>
       <div className={styles["Verification-wrap"]}>
-      <h2 className={styles["Verification-title"]}>Verification Code</h2>
+      <h2 className={styles["Verification-title"]}>Verification code</h2>
         <form onSubmit={handleSubmit(onSubmit)} className={styles["Verification-form"]}>
           <Controller
             control={control}
@@ -164,13 +164,13 @@ const Verification = () => {
               />
             )}
           />
-         {errors.code?.message? <div className={styles['error-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> {errors.code?.message}</div>: null}
-          {/* <Tooltip
+         {/* {errors.code?.message? <div className={styles['error-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> {errors.code?.message}</div>: null} */}
+          <Tooltip
             color="orange"
             placement="bottom"
             title={errors.code?.message}
             open={errors.code ? true : false}
-          /> */}
+          />
           <Button
             onClick={handleSubmit(onSubmit)}
             className="Submit-Button"

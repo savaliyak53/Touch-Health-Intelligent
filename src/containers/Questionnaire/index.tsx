@@ -241,6 +241,7 @@ function UserCondition() {
               disable={disableNextButton}
               value={value}
             />
+            {console.log(value && value?.length<1)}
             {question?.type !== 'yes_no' && question?.type !== 'dialog_select_one' && question?.type !== 'image_and_text_select_one' && question?.type !== 'markdown_select_one' && (
               <div>
                 <Button
@@ -256,7 +257,7 @@ function UserCondition() {
                   question?.type !== 'select_many' &&
                   question?.type !== 'multi_select' &&
                   question?.type !== 'image_and_text' &&
-                  typeof value === 'undefined' ||
+                  (typeof value === 'undefined' || value?.length<1) ||
                   loading
                 }
               >

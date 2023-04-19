@@ -91,6 +91,7 @@ const AddGoals = () => {
     // setDeletedGoal(selectedGoal?.name)
     removeGoal(id);
     setShowCancelModal(false);
+    toast.success(`Your goal was successfully deleted`)
     // setTimeout(()=>{
     //   setDeletedGoal(null)
     // },5000)
