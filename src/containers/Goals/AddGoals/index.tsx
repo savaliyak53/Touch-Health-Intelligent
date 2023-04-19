@@ -88,12 +88,12 @@ const AddGoals = () => {
   };
 
   const handleDeleteOk = (id: any) => {
-    setDeletedGoal(selectedGoal?.name)
+    // setDeletedGoal(selectedGoal?.name)
     removeGoal(id);
     setShowCancelModal(false);
-    setTimeout(()=>{
-      setDeletedGoal(null)
-    },5000)
+    // setTimeout(()=>{
+    //   setDeletedGoal(null)
+    // },5000)
   };
   const handleDeleteModal = () => {
     setShowCancelModal(false);
@@ -165,7 +165,8 @@ const AddGoals = () => {
   const removeGoal = (id?: string) => {
     deleteGoal(id)
       .then((res) => {
-        setDeletedGoal(selectedGoal?.name)
+        // setDeletedGoal(selectedGoal?.name)
+        toast("Goal deleted successfully")
         setSearchValue('');
         getGoalsData();
         setIsModalOpen(false);
@@ -344,19 +345,12 @@ const AddGoals = () => {
                 </Button>
             </div>
           ))}
-            { deletedGoal ? (
+            {/* { deletedGoal ? (
               <div className={styles['dlt-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> Your goal {deletedGoal} was successfully deleted</div>
-            ) : ''}
+            ) : ''} */}
         </div>
         <div
-          style={{
-            position: 'fixed',
-            backgroundColor: 'white',
-            bottom: '0',
-            left: '0',
-            width: '100vw',
-            padding: '20px 0',
-          }}
+          className={styles['Submit-Button']}
         >
           <Button
             className={`Submit-Button ${goals.length < 1  ? 'disabled' : ''}`}
