@@ -325,8 +325,8 @@ const PasswordRecovery = () => {
                       return value && value.length === 6
                         ? true
                         : !value
-                        ? 'Verification Code is required'
-                        : 'Invalid Verification Code';
+                        ? 'Verification code is required'
+                        : 'Invalid verification code';
                     },
                   }}
                   render={({

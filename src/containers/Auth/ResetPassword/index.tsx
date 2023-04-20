@@ -91,7 +91,7 @@ const ResetPassword = () => {
           setIsCodeSent(true);
           setResetResponse(response);
           setQuestion(response.security_questions[0].question);
-          toast.success('Verification Code sent');
+          toast.success('Verification code sent');
           setIsLoading(false);
           setIsDisabled(false);
           navigate('/reset-verification-code');

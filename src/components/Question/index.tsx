@@ -184,7 +184,6 @@ const Question = ({
                 setValue(e.target.value);
               }}
             >
-              
                 <div className={`Yes-No-Button`} key={`yes`}>
                   <Radio.Button
                     value={'true'}
@@ -239,7 +238,7 @@ const Question = ({
             }}
           >
             {question.options.map((item: any, index: number) => (
-              <div className={`Select-Button`} key={index}>
+              <div className={`Yes-No-Button`} key={index}>
                 <Radio.Button
                   //className={styles['dialog-btn']}
                   value={item}
@@ -285,7 +284,7 @@ const Question = ({
               }}
             >
               {question.options.map((item: any, index: number) => (
-                <div className={`Select-Button`} key={index}>
+                <div className={`Yes-No-Button`} key={index}>
                   <Radio.Button
                     value={item}
                     key={index}
@@ -381,7 +380,7 @@ const Question = ({
               }}
             >
               {question.options.map((item: any, index: number) => (
-                <div className={`Select-Button`} key={index}>
+                <div className={`Yes-No-Button`} key={index}>
                   <Radio.Button
                     value={item}
                     key={index}

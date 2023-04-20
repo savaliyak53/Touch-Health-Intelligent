@@ -582,7 +582,7 @@ const GoalDetails = () => {
           (element: any) => element.data?.status === 'inactive'
         ) && (
           <>
-            <div className={styles["sub-heading"]}>Inactive Guidance</div>
+            <div className={styles["sub-heading"]}>Deactive Guidance</div>
           </>
         )}
         <div className={styles['Health-Goals']}>
@@ -694,7 +694,7 @@ const GoalDetails = () => {
           </Col>
         </Row>
         {type && type === 'inactive' && (
-          <p className={styles['Modal-subtitle']}>Inactive</p>
+          <p className={styles['Modal-subtitle']}>Deactive</p>
         )}
         {type && type === 'active' && (
           <p className={styles['Modal-subtitle']}>Active</p>
@@ -721,14 +721,14 @@ const GoalDetails = () => {
               }}
               loading={loading}
             >
-              Inactivate guidance
+              Deactivate
             </Button>
            </div>
         )}
         {type === 'new' && (
           <div className={styles.GuidanceBtnActiveWrap}>
             <Button
-              className={styles.GuidanceNotBtn}
+              className={'Submit-Button'}
               onClick={() => {
                 handleGuidanceStatus('inactive');
                 setLoading2(true);
@@ -738,14 +738,14 @@ const GoalDetails = () => {
               Not For me
             </Button>
             <Button
-              className={styles.GuidanceActiveBtn}
+              className={'Submit-Button'}
               onClick={() => {
                 handleGuidanceStatus('active');
                 setLoading(true);
               }}
               loading={loading}
             >
-              Activate guidance
+              Activate
             </Button>
           </div>
         )}
@@ -759,7 +759,7 @@ const GoalDetails = () => {
               }}
               loading={loading}
             >
-              Activate guidance
+              Activate
             </Button>
           </div>
         )}

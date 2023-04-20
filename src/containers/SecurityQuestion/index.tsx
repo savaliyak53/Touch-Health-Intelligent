@@ -59,7 +59,7 @@ const SecurityQuestions = () => {
       putSignUp({ security_questions: securityQuestion }, userId)
         .then(async (response) => {
           if (response?.id) {
-            toast.success('Security Question saved successfully');
+             toast.success('Security Question saved successfully');
             setLoading(false)
             navigate('/');
             // setSaveMsg(true);
