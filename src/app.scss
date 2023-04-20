@@ -1072,7 +1072,7 @@ input {
   font-family: $font-title;
   font-style: normal;
   font-weight: 400;
-  font-size: 34px;
+  font-size: 8.5vw;
   text-align: left;
   margin-bottom: 32px;
   margin-top: 48px;
@@ -1135,9 +1135,12 @@ input {
   &:hover,
   &:focus,
   &:active {
-    background-image: $secondary-color2 !important;
-    color: #fff !important;
-    border: none
+    &:not([disabled]){
+      background-image: $secondary-color2 !important;
+      color: #fff !important;
+      border: none
+    }
+
   }
   &:disabled {
     background-color: rgba(#3a3a3a, 0.2);
