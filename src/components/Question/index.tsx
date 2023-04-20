@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, DatePicker, Input, Radio, Tooltip } from 'antd';
 import { Slider } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
-import { RightOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { Select, Spin } from 'antd';
 import goal_styles from './IntroGoals.module.scss';
 const { Option } = Select;
@@ -21,6 +21,7 @@ import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import moment from 'moment';
+import v from '../../variables.module.scss';
 
 interface Props {
   items: any;
@@ -30,6 +31,8 @@ interface Props {
   onSubmit: any;
   setValue: any;
   setDisableNextButton: any;
+  disable: boolean;
+  value: any
 }
 
 const Question = ({
@@ -40,13 +43,15 @@ const Question = ({
   setDisableNextButton,
   items,
   setItems,
+  disable,
+  value
 }: Props) => {
   const [maxNum, setMaxNum] = useState(0);
   const [defaultLength, setDefaultLength] = useState(0);
   const navigate = useNavigate();
 
   const labelRef = React.useRef<HTMLLabelElement>(null);
-  let radioOptions: string[] = [];
+  let radioOptions: any[] = [];
   if (question && question.type === 'select_many') {
     radioOptions = [...question.defaults];
   }
@@ -81,22 +86,21 @@ const Question = ({
   };
 
   const handleClick = (index:number) => {
-    const index_string = index.toString();
-    if (radioOptions.includes(index_string)) {
-      const newArr = radioOptions.filter((i) => i !== index_string);
+    if (radioOptions.includes(index)) {
+      const newArr = radioOptions.filter((i) => i !== index);
       radioOptions = [...newArr];
-      removeclass(index_string);
+      removeclass(index);
     } else {   
-      radioOptions = [...radioOptions, index_string];
+      radioOptions = [...radioOptions, index];
     }
     setValue(radioOptions.length ? radioOptions : []);
   };
  
   const isChecked = (index: number) => {
-    if (radioOptions.includes(index.toString())) {
+    //we are getting in this form defaults=[0,1]
+    if (radioOptions.includes(index)) {
       return true;
     }
-    // else
     return false;
   };
   const setDisableDate = (current: moment.Moment) => {
@@ -110,6 +114,10 @@ const Question = ({
     }
   };
 
+  const handleButtonClick = () => {
+    (document.querySelector('#yesbtn') as HTMLButtonElement).disabled = true;
+    (document.querySelector('#nobtn') as HTMLButtonElement).disabled = true;
+  };
   useEffect(() => {
     if (question.type === 'slider') {
       const marks: SliderMarks = {};
@@ -138,6 +146,15 @@ const Question = ({
       }
     }
   }, [selectedValue]);
+  const disableBtn = () => {
+    setDisableNextButton(true)
+  }
+  useEffect(() => {
+    if(disable){
+      onSubmit(value)
+      handleButtonClick()
+    }
+  }, [disable])
   const InputField = useCallback(() => {
     switch (question?.type) {
       case 'time':
@@ -162,54 +179,58 @@ const Question = ({
       case 'yes_no':
         return (
           <div className={styles['align-center']}>
-            <button
-              className={styles['no-btn']}
-              onClick={async () => {
-                await setValue('false');
-                onSubmit('false');
+            <Radio.Group
+              onChange={(e) => {
+                setValue(e.target.value);
               }}
             >
-              No
-            </button>
-            <button
-              className={styles['yes-btn']}
-              type="button"
-              onClick={async () => {
-                await setValue('true');
-                onSubmit('true');
-              }}
-            >
-              Yes
-            </button>
+                <div className={`Yes-No-Button`} key={`yes`}>
+                  <Radio.Button
+                    value={'true'}
+                    onClick={()=>onSubmit('true')}
+                  >
+                   Yes
+                  </Radio.Button>
+                  
+                </div>
+                <br/>
+                <div className={`Yes-No-Button`} key={`no`}>
+                  <Radio.Button
+                    value={'false'}
+                    onClick={()=>onSubmit('false')}
+                  >
+                   No
+                  </Radio.Button>
+                </div>
+            </Radio.Group>
           </div>
         );
       case 'select_one':
         return (
-          <Radio.Group
-            className="Question-Options"
-            onChange={(e) => {
-              const index = question.options.indexOf(e.target.value);
-              setValue(index);
-            }}
-          >
-            {question.options.map((item: any, index: number) => (
-              <>
-                <Radio.Button
-                  className={`Question-Option${index}`}
-                  value={item}
-                  key={index}
-                >
-                  {item}
-                </Radio.Button>
-                {index % 2 !== 0 && <br />}
-              </>
-            ))}
-          </Radio.Group>
+          <div className="Select-Options">
+            <Radio.Group
+              onChange={(e) => {
+                const index = question.options.indexOf(e.target.value);
+                setValue(index);
+              }}
+            >
+              {question.options.map((item: any, index: number) => (
+                <div className={`Select-Button`} key={index}>
+                  <Radio.Button
+                    value={item}
+                  >
+                    {item}
+                  </Radio.Button>
+                  {index % 2 !== 0 && <br />}
+                </div>
+              ))}
+            </Radio.Group>
+          </div>
         );
       case 'dialog_select_one':
         return (
+          <div className="Select-Options">
           <Radio.Group
-            className="Question-Options"
             onChange={(e) => {
               const index = question.options.indexOf(e.target.value);
               setValue(index);
@@ -217,18 +238,19 @@ const Question = ({
             }}
           >
             {question.options.map((item: any, index: number) => (
-              <>
+              <div className={`Yes-No-Button`} key={index}>
                 <Radio.Button
-                  className={styles['dialog-btn']}
+                  //className={styles['dialog-btn']}
                   value={item}
                   key={index}
                 >
                   {item}
                 </Radio.Button>
                 {index % 2 !== 0 && <br />}
-              </>
+              </div>
             ))}
           </Radio.Group>
+          </div>
         );
       case 'image_and_text':
         return (
@@ -253,8 +275,8 @@ const Question = ({
               className={goal_styles['Image']}
               alt="Image"
             />
+            <div className="Select-Options">
             <Radio.Group
-              className="Question-Options"
               onChange={(e) => {
                 const index = question.options.indexOf(e.target.value);
                 setValue(index);
@@ -262,46 +284,49 @@ const Question = ({
               }}
             >
               {question.options.map((item: any, index: number) => (
-                <>
+                <div className={`Yes-No-Button`} key={index}>
                   <Radio.Button
-                    className={`Question-Option${index}`}
                     value={item}
                     key={index}
                   >
                     {item}
                   </Radio.Button>
                   {index % 2 !== 0 && <br />}
-                </>
+                </div>
               ))}
             </Radio.Group>
+            </div>
           </div>
         );
 
       case 'select_many':
         return (
-          <div className="ant-radio-group ant-radio-group-outline Question-Options">
-            {question.options.map((item: any, index: number) => (
-              <label
-                ref={labelRef}
-                id={`label-${index}`}
-                className={`ant-radio-button-wrapper Option${index} ${
-                  isChecked(index) ? 'ant-radio-button-wrapper-checked' : ''
-                } `}
-                key={index}
-              >
-                <span className={`ant-radio-button`}>
-                  <input
-                    type="radio"
-                    className="ant-radio-button-input"
-                    value={item}
-                    onClick={() => handleClick(index)}
-                  />
-                  <span className="ant-radio-button-inner"></span>
-                </span>
-                <span>{item}</span>
-              </label>
-            ))}
+          <div className="Select-Options">
+            <div className="ant-radio-group ant-radio-group-outline Select-Button">
+              {question.options.map((item: any, index: number) => (
+                <label
+                  ref={labelRef}
+                  id={`label-${index}`}
+                  className={`ant-radio-button-wrapper Option${index} ${
+                    isChecked(index) ? 'ant-radio-button-wrapper-checked' : ''
+                  } `}
+                  key={index}
+                >
+                  <span className={`ant-radio-button`}>
+                    <input
+                      type="radio"
+                      className="ant-radio-button-input"
+                      value={item}
+                      onClick={() => handleClick(index)}
+                    />
+                    <span className="ant-radio-button-inner"></span>
+                  </span>
+                  <span>{item}</span>
+                </label>
+              ))}
+            </div>
           </div>
+
         );
       case 'slider':
         return (
@@ -318,7 +343,6 @@ const Question = ({
               tooltipVisible={question.show_values}
               onChange={(value) => {
                 setValue(value);
-                setDisableNextButton(false);
               }}
             />
             <span className={styles['Text2']}>{question.upper_qualifier}</span>
@@ -326,7 +350,7 @@ const Question = ({
         );
       case 'free_text':
         return (
-          <div>
+         
             <TextArea
               className="TextArea"
               rows={6}
@@ -336,19 +360,19 @@ const Question = ({
                 setValue(e.target.value);
               }}
             />
-          </div>
+          
         );
       case 'markdown_select_one':
         return (
           <div className={goal_styles['IntroGoals']}>
            {question.title &&  <h2 className={goal_styles['Title']}>{question.title}</h2>}
-            <div className={goal_styles['markdown-desc']}>
+            <div className={ `Description Heading-color2`}>
               <ReactMarkdown rehypePlugins={[rehypeRaw]}>
                 {question.body_md}
               </ReactMarkdown>
             </div>
+            <div className="Select-Options">
             <Radio.Group
-              className="Question-Options"
               onChange={(e) => {
                 const index = question.options.indexOf(e.target.value);
                 setValue(index);
@@ -356,18 +380,18 @@ const Question = ({
               }}
             >
               {question.options.map((item: any, index: number) => (
-                <>
+                <div className={`Yes-No-Button`} key={index}>
                   <Radio.Button
-                    className={`Question-Option${index}`}
                     value={item}
                     key={index}
                   >
                     {item}
                   </Radio.Button>
                   {index % 2 !== 0 && <br />}
-                </>
+                </div>
               ))}
             </Radio.Group>
+            </div>
           </div>
         );
       case 'numeric':
@@ -391,7 +415,7 @@ const Question = ({
         {question && (
           <>
             <h3
-              className={` ${styles['Question-title']} ${styles['Question-heading']} `}
+              className={`Description`}
             >
               {question.q_str}
               {question.h_str && (

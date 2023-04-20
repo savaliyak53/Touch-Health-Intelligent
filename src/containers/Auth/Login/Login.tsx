@@ -13,9 +13,10 @@ type IFormInputs = {
 
 const Login = () => {
   const refCaptcha = useRef<any>(null)
-const navigate= useNavigate()
+  const navigate= useNavigate()
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    refCaptcha.current.callbacks.execute();
+    const token = refCaptcha.current.getValue();
+    refCaptcha.current.reset();
   };
 
 
@@ -28,7 +29,6 @@ const navigate= useNavigate()
         />
         <div className={styles.SignupBGShape1}></div>
         <div className={styles.SignupBGShape2}></div>
-        {/* nayab reconsider Link */}
         <div className={styles.SignupBGShape3}></div>
       </div>
 

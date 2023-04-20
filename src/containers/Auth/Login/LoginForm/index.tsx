@@ -15,8 +15,8 @@ import { ILogin } from '../../../../interfaces';
 import jwt from 'jwt-decode';
 import { toast } from 'react-toastify';
 import { onlyNumbers } from '../../../../utils/lib';
-import Recaptcha from 'react-google-invisible-recaptcha';
-import AccountLockModal from '../../../Subscription/AccountLockModal';
+import ReCAPTCHA from 'react-google-recaptcha'
+import AccountLockModal from '../../../../components/Modal/AccountLockModal';
 
 type LoginFormProps = {
     onSubmit: SubmitHandler<IFormInputs>,
@@ -34,10 +34,10 @@ type User = {
   id: string;
 };
 
-const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
+const LoginForm = ({refCaptcha}: LoginFormProps) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [modalText, setModalText] = useState("");
   const [ showLockAccountModal,setShowLockAccountModal]=useState(false)
   const navigate = useNavigate();
@@ -67,11 +67,12 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
     setShowLockAccountModal(false)
   }
 
-  const onVerify = async () => {
+  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     setIsLoading(true);
     setIsDisabled(true);
     const submitData = getValues()
-    const token = refCaptcha.current.callbacks.getResponse()
+    const token = refCaptcha.current.getValue();
+    refCaptcha.current.reset();
     const loginRequest: ILogin = {
       username: onlyNumbers(submitData.username),
       password: submitData.password,
@@ -95,7 +96,7 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
       }
       else toast.error(loginResponse?.response?.data?.details);
     }
-  }
+  };
     return (
       <div className={styles["Auth-wrap"]}>
         <form role="login-form" onSubmit={handleSubmit(onSubmit)}  className={styles["Auth-form"]}>
@@ -111,7 +112,7 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
             color="orange"
             placement="bottomLeft"
             title={errors.password?.message}
-            visible={errors.password ? true : false}
+            open={errors.password ? true : false}
           >
             <InputField
               id="password"
@@ -127,12 +128,19 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
             />
           </Tooltip>
           <AccountLockModal
-              title={'Too many retries'}
-              visible={showLockAccountModal}
-              handleCancel={handleCancelModal}
-              handleOk={handleCancelModal}
-              renderData={<div>{modalText}</div>}
-              />
+            title={'Too many retries'}
+            open={showLockAccountModal}
+            handleCancel={handleCancelModal}
+            handleOk={handleCancelModal}
+            renderData={<div>{modalText}</div>}
+          />
+          <ReCAPTCHA
+            className={Authstyles["recaptcha"]}
+            ref={refCaptcha}
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+            onChange={()=>{
+            setIsDisabled(false) } } 
+          />
           <Button
             className={Authstyles["Auth-submit"]}
             onClick={handleSubmit(onSubmit)}
@@ -143,10 +151,8 @@ const LoginForm = ({onSubmit, refCaptcha}: LoginFormProps) => {
             Login
           </Button>
         </form>
-        <Recaptcha
-        ref={refCaptcha}
-        sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
-        onResolved={onVerify} />
+
+       
         <div className={Authstyles['Links-wrap']}>
           <div className={Authstyles["Auth-terms-signup"]}>
            For customer support, please follow this <a href="https://www.touchmedical.ca/customer-care">link</a>

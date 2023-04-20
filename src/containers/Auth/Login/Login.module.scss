@@ -17,7 +17,7 @@
 
 .Auth-title {
   font-family: 'DM Serif Display', serif;
-  color: $primary-color2;
+  color: #6A2C70;
   font-size: 40px;
   line-height: 1.1;
   font-weight: 400;
@@ -63,21 +63,21 @@
     flex-direction: row;
     font-size: 20px;
     line-height: 24px;
-    border: 2px solid $primary-color2;
+    border: 2px solid #6A2C70;
     background-color: rgba(#fff,0.6);
-    color: $primary-color2;
+    color: #6A2C70;
     font-size: 20px;
     line-height: 24px;
   
     &:hover,
     &:focus {
-      border: 2px solid $primary-color2;
+      border: 2px solid #6A2C70;
       background-color: #e3e3e3;
-      color: $primary-color2;
+      color: #6A2C70;
     }
   
     &::placeholder {
-      color: rgba($primary-color2, 0.8);
+      color: rgba(#6A2C70, 0.8);
     }
   }
   

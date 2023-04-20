@@ -19,7 +19,7 @@
 .Question-title {
     font-size: 25px;
     line-height: 27px;
-    font-weight: 300;
+    font-weight: 400;
     color: $primary-color2;
     margin-top: 10px;
     margin-top: 20px;
@@ -58,29 +58,7 @@
     align-self: flex-start;
   }
   
-  //Text-area
-  .ant-input.TextArea {
-    border: 2px solid $primary-color2;
-    border-radius: 30px;
-    padding: 22px 33px;
-    font-size: 20px;
-    line-height: 24px;
-    color: rgba($primary-color2, 0.7);
-  
-    &:hover,
-    &:focus,
-    &:active {
-      border: 2px solid $primary-color2;
-      background-color: #e3e3e3;
-      color: $primary-color2;
-      box-shadow: none;
-      outline: none;
-    }
-  
-    &::placeholder {
-      color: rgba($primary-color2, 0.7);
-    }
-  }
+ 
   .radio-Input {
     //max-width: 40%;
     min-width: 30%;
@@ -163,14 +141,14 @@
   border-radius: 100px !important;
   height: auto !important;
   padding: 18px 30px !important;
-  color: $primary-color2 !important;
+  color: #fff !important;
   font-size: 20px !important;
   line-height: 24px !important;
-  font-weight: 300 !important;
+  font-weight: 400 !important;
   margin-top: 20px !important;
   display: block !important;
   border: 2px solid $primary-color2 !important;
-  background-color: #fff !important;
+  background-color: $primary-color1 !important;
   margin-right: 4px !important;
   margin-left: 4px !important;
   width: 100%;
@@ -190,7 +168,7 @@
   color: $primary-color2;
   font-size: 20px;
   line-height: 24px;
-  font-weight: 300;
+  font-weight: 400;
   margin-top: 20px;
   display: block;
   border: 2px solid $primary-color2;
@@ -205,6 +183,11 @@
     color: #fff;
     border-color: $primary-color2;
   }
+  &:disabled{
+    background-color: transparent;
+    color: $primary-color2;
+    border-color: $primary-color2;
+    }
 }
 
 .no-btn {
@@ -214,7 +197,7 @@
   color: $primary-color2;
   font-size: 20px;
   line-height: 24px;
-  font-weight: 300;
+  font-weight: 400;
   margin-top: 20px;
   display: block;
   border: 2px solid $primary-color2;
@@ -230,37 +213,13 @@
       color: #fff;
       border-color: $primary-color2;
   }
-  &.disabled {
-      background-color: $primary-color2;
-      border: 2px solid $primary-color2;
-      color: $primary-color2;
+  &:disabled {
+    background-color: transparent;
+    color: $primary-color2;
+    border-color: $primary-color2;
     }
 }
   
-  //numeric
-  
-  .ant-input.NumberInput {
-    padding: 18px 20px;
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: 300;
-    width: 100%;
-    border-radius: 100px;
-    border: 2px solid $primary-color2;
-    color: rgba($primary-color2, 0.7);
-    max-width: 300px;
-    display: block;
-    margin: 0 auto;
-  
-    &:hover,
-    &:focus,
-    &:active {
-      border: 2px solid $primary-color2;
-      box-shadow: none;
-      background-color: #e3e3e3;
-      outline: none;
-    }
-  }
   .ant-radio-button-wrapper:first-child:last-child {
     border-radius: 100px !important;
   }
@@ -278,6 +237,7 @@
 
   .align-center {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
   }

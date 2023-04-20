@@ -10,7 +10,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { signUpService } from '../../../../services/authservice';
 import { onlyNumbers } from '../../../../utils/lib';
-import Recaptcha from 'react-google-invisible-recaptcha';
+import  ReCAPTCHA from 'react-google-recaptcha';
 
 type SignupFormProps = {
   onSubmit: SubmitHandler<IFormInputs>;
@@ -31,7 +31,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
   const [checked, setChecked] = useState(false);
   const [checkedError, setCheckedError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const navigate = useNavigate();
   const {
     register,
@@ -64,7 +64,9 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
     setIsLoading(true);
     setIsDisabled(true);
     const submitData = getValues();
-    const token = refCaptcha.current.callbacks.getResponse();
+    //const token = refCaptcha.current.callbacks.getResponse();
+    const token = refCaptcha.current.getValue();
+    refCaptcha.current.reset();
     localStorage.setItem('captchaToken', token);
     localStorage.setItem('phone', onlyNumbers(submitData.phone));
     signUpService(
@@ -99,7 +101,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
     <div className={styles['Auth-wrap']}>
       <form
         role="signup-form"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onVerify)}
         className={styles['Auth-form']}
       >
         <h2 className={`${styles['Auth-title']} `}>Find your path to health</h2>
@@ -108,7 +110,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
             color="orange"
             placement="bottomLeft"
             title={errors.name?.message}
-            visible={errors.name ? true : false}
+            open={errors.name ? true : false}
           >
             <input
               id="name"
@@ -143,7 +145,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
             color="orange"
             placement="bottomLeft"
             title={errors.password?.message}
-            visible={errors.password ? true : false}
+            open={errors.password ? true : false}
           >
             <input
               id="password"
@@ -176,7 +178,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
             color="orange"
             placement="bottomLeft"
             title={errors.confirmPassword?.message}
-            visible={errors.confirmPassword ? true : false}
+            open={errors.confirmPassword ? true : false}
           >
             <input
               id="confirmPassword"
@@ -201,11 +203,18 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
             <AiOutlineEye />
           </button>
         </div>
+        <ReCAPTCHA
+          className={Authstyles["recaptcha"]}
+          ref={refCaptcha}
+          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
+          onChange={()=>{
+          setIsDisabled(false) } } 
+        />
         <Tooltip
           color="orange"
           placement="bottom"
           title={'Please check the terms and conditions checkbox to proceed'}
-          visible={checkedError}
+          open={checkedError}
         ></Tooltip>
         <div className={Authstyles['Auth-terms-signup']}>
           <Link to="/login">Already have an account?</Link>
@@ -214,18 +223,14 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
           className={`${styles['Auth-submit']} ${
             isDisabled ? Authstyles['disabled'] : ''
           }`}
-          onClick={handleSubmit(onSubmit)}
+          onClick={handleSubmit(onVerify)}
           loading={isLoading}
           disabled={isDisabled}
         >
           Register
         </Button>
       </form>
-      <Recaptcha
-        ref={refCaptcha}
-        sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
-        onResolved={onVerify}
-      />
+     
       <div className={Authstyles['Customer-support']}>
         Problems? Contact{' '}
         <a href="https://www.touchmedical.ca/customer-care">customer support</a>

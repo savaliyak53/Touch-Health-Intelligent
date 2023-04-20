@@ -10,6 +10,7 @@ const SubscriptionSuccess = () => {
   const logoutClick = () => {
     localStorage.removeItem('userId');
     localStorage.removeItem('token');
+    localStorage.clear();
     navigate('/login');
   };
 

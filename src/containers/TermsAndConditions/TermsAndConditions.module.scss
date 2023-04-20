@@ -1,62 +1,72 @@
+@import '../../variables.module.scss';
+
 .Container {
-  padding-bottom: 70px;
-  overflow-y: auto;
   position: relative;
   // .error-message {
   //   color: red;
   // }
   .TermsTitle1 {
-    font-family: Serif;
-    font-size: 36px;
-    line-height: 1.1;
-    font-weight: 700;
-    color: #6A2C70;
-    margin-top: 50px;
+    font-family: $font-title;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 34px;
+    line-height: 110%;
+    letter-spacing: -0.01em;
+    color: $primary-color2;
+    padding-top: 50px;
+    padding-bottom: 10px;
+    position: fixed;
+    background-color: #fff;
+    width: 100%;
+    max-width: 550px;
   }
   .TermsTitle3 {
-    font-family: Serif;
+    font-family: $font-body;
     font-size: 24px;
     line-height: 1.1;
     font-weight: 700;
-    color: #6A2C70;
+    color: $primary-color1;
     margin-top: 50px;
   }
   .TermsText {
-    font-family: 'Lato', sans-serif;
+    font-family: $font-body;
     font-size: 16px;
     line-height: 2;
     font-weight: 400;
-    color: #6A2C70;
+    color: $primary-color2;
     margin-top: 30px;
   }
 }
 .TermsBtnWrap {
-  position: fixed;
+  background-image: linear-gradient(transparent, white);
+  margin: 0 auto;
   bottom: 0;
-  background-color: #fff;
+  border: none;
+  padding: 50px 0 0px;
   width: calc(100% - 40px);
-  padding-bottom: 10px;
+  pointer-events: none;
   .TermsBtn {
     border-radius: 100px;
     height: 100%;
-    padding: 18px 54px;
-    background-color: transparent;
-    color: #6A2C70;
+    padding: 18px 38px;
+    background-color: $primary-color1;
+    color: #fff;
     font-size: 20px;
     line-height: 24px;
     font-weight: 400;
-    border: 2px solid #6A2C70;
+    border: 2px solid $primary-color1;
     margin: 0 auto;
     max-width: 400px;
     display: block;
-    width: 100%;
+    width: 80%;
+    pointer-events: auto;
   
     &:hover,
     &:focus,
     &:active {
-      background-color: #fff;
-      color: #6A2C70;
-      border-color: #6A2C70;
+      background-image: $secondary-color2;
+      color: white;
+      border: none !important;
     }
   }
 }

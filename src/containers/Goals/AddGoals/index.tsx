@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './AddGoals.module.scss';
 import v from '../../../variables.module.scss';
 import Layout from '../../../layouts/Layout/Layout';
-import { LeftOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import {
   DownOutlined,
   SearchOutlined,
@@ -28,8 +28,8 @@ import {
   getUser,
 } from '../../../services/authservice';
 import rehypeRaw from 'rehype-raw';
-import ConfirmModal from '../../Subscription/ConfirmModal';
-import LastGoalModal from '../../Subscription/LastGoalModal';
+import ConfirmModal from '../../../components/Modal/ConfirmModal';
+import LastGoalModal from '../../../components/Modal/LastGoalModal';
 
 type ITerms = {
   termsAndConditions: boolean;
@@ -58,6 +58,7 @@ const AddGoals = () => {
   const [active, setActive] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showLastGoalModal, setShowLastGoalModal] = useState(false);
+  const [deletedGoal, setDeletedGoal] = useState<string | undefined | null>(null)
 
 
   const getUserStatus = () => {
@@ -87,8 +88,13 @@ const AddGoals = () => {
   };
 
   const handleDeleteOk = (id: any) => {
+    // setDeletedGoal(selectedGoal?.name)
     removeGoal(id);
     setShowCancelModal(false);
+    toast.success(`Your goal was successfully deleted`)
+    // setTimeout(()=>{
+    //   setDeletedGoal(null)
+    // },5000)
   };
   const handleDeleteModal = () => {
     setShowCancelModal(false);
@@ -160,7 +166,8 @@ const AddGoals = () => {
   const removeGoal = (id?: string) => {
     deleteGoal(id)
       .then((res) => {
-        toast.success('Goal removed');
+        // setDeletedGoal(selectedGoal?.name)
+        toast("Goal deleted successfully")
         setSearchValue('');
         getGoalsData();
         setIsModalOpen(false);
@@ -242,21 +249,21 @@ const AddGoals = () => {
     setShowLastGoalModal(false)
   }
   return (
-    <Layout defaultHeader={true} hamburger={false}>
+    <Layout defaultHeader={true} hamburger={true}>
       <>
         {userStatus && (
-          <div className={styles['Backflex']} onClick={handleBack}>
-            <LeftOutlined className={styles['LeftIcon']} /> Back
+          <div className={'Backflex'} onClick={handleBack}>
+            <ArrowLeftOutlined className={'LeftIcon'} />
           </div>
         )}
       </>
       <div className={styles['AddGoals']}>
-        <h2 className={styles['Title']}>Adding a health goal</h2>
+        <h2 className={`Title`}>Adding a health goal</h2>
         <div className={`Goal-Select-Wrap Goals-Select`}>
           <SearchOutlined className="search" />
           <AutoComplete
             onChange={(v) => setSearchValue(v)}
-            placeholder="Add a goal"
+            placeholder="Explore all eligible goals"
             options={options}
             onSelect={handleOptionSelect}
             value={searchValue}
@@ -267,7 +274,7 @@ const AddGoals = () => {
           <DownOutlined onClick={() => setIsDropdownOpen(!isDropdownOpen)} />
         </div>
 
-        <h3 className={styles['Goals-title']}>Recommended goals</h3>
+        <h3 className={`Heading Heading-color2 ${styles['Goals-title']}`}>Recommended goals</h3>
 
         <div className={styles['Rec-wrap']}>
           {suggestion?.map((data: any, key: any) => (
@@ -276,10 +283,6 @@ const AddGoals = () => {
               className={styles['Rec-Goal']}
               type="primary"
               onClick={() => showModal(data)}
-              style={{
-                color: `${v['primary-color2']}`,
-                backgroundColor: `${'rgba(232, 232, 232, 0.31)'}`,
-              }}
             >
               {data.name === '' ? (
                 ''
@@ -290,31 +293,14 @@ const AddGoals = () => {
             </Button>
           ))}
         </div>
-        <h3 className={styles['Goals-title']}>Your health goals</h3>
+        <h3 className={` Heading Heading-color2 ${styles['Goals-title']}`}>My goals</h3>
         <div className={styles['Health-Goals']}>
           {goals?.map((data: any, key: any) => (
             <div
               key={key}
               className={styles['Selected-Goal']}
-              style={{
-                color: `${v['primary-color2']}`,
-                backgroundColor: `${'rgba(246, 187, 161, 0.22)'}`,
-              }}
             >
               <div className={styles['Mygoals-Title']}>
-                <Button
-                  className={styles['Cross-btn']}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if(goals.length>1) {
-                      setSelectedGoal(data)
-                      setShowCancelModal(true);
-                    }    
-                    else setShowLastGoalModal(true)
-                  }}
-                >
-                  <CloseOutlined className={styles['Cross']} />
-                </Button>
                 {data.name === '' ? (
                   ''
                 ) : (
@@ -331,45 +317,44 @@ const AddGoals = () => {
               </div>
               <ConfirmModal
                 title={'Confirmation'}
-                visible={showCancelModal}
+                open={showCancelModal}
                 handleCancel={handleDeleteModal}
                 handleOk={() => handleDeleteOk(selectedGoal?.id)}
-                renderData={<div>Are you sure you want to delete goal?</div>}
+                className='Addgoal-Confirm-Modal'
+                renderData={<div className='Description'>Are you sure you want to delete the goal <strong>{selectedGoal?.name}</strong>?</div>}
               />
               <LastGoalModal
                 title={'Warning'}
-                visible={showLastGoalModal}
+                open={showLastGoalModal}
                 handleCancel={handleCancelModal}
                 handleOk={handleCancelModal}
-                 renderData={<div>Alas! Unable to delete. This is your last goal</div>}
+                className="Addgoal-Confirm-Modal"
+                 renderData={<div className='Description' >Alas! Unable to delete. This is your last goal</div>}
               />
-              <Button
-                key={key}
-                onClick={() => showModal(data)}
-                style={{
-                  color: `${v['primary-color2']}`,
-                  backgroundColor: `transparent`,
-                  border: '0px',
-                  padding: 0,
-                }}
-              >
-                <RightOutlined className={styles['Arrow']} />
-              </Button>
+                <Button
+                  className={styles['Cross-btn']}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if(goals.length>1) {
+                      setSelectedGoal(data)
+                      setShowCancelModal(true);
+                    }    
+                    else setShowLastGoalModal(true)
+                  }}
+                >
+                  <CloseOutlined className={styles['Cross']} style={{fontSize: 20}} />
+                </Button>
             </div>
           ))}
+            {/* { deletedGoal ? (
+              <div className={styles['dlt-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> Your goal {deletedGoal} was successfully deleted</div>
+            ) : ''} */}
         </div>
         <div
-          style={{
-            position: 'fixed',
-            backgroundColor: 'white',
-            bottom: '0',
-            left: '0',
-            width: '100vw',
-            padding: '0 20px 20px',
-          }}
+          className={styles['Submit-Button']}
         >
           <Button
-            className={`Pref-btn btn ${goals.length < 1  ? 'disabled' : ''}`}
+            className={`Submit-Button ${goals.length < 1  ? 'disabled' : ''}`}
             loading={isLoading}
             onClick={handleNext}
             disabled={goals.length < 1 ? true : false}
@@ -379,15 +364,34 @@ const AddGoals = () => {
         </div>
       </div>
       <Modal
-        footer={
-          <div
-            className={styles['Modal-Btn-Group']}
-          >
+        footer={null
+
+        }
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        width={'100vw'}
+        closable={false}
+        style={{height: '100vh'}}
+        className="Goals-Modal"
+      >
+        <div className={'Backflex'}  onClick={()=>{ setIsModalOpen(false);}}>
+            <ArrowLeftOutlined className={'LeftIcon'} />
+          </div>
+        <h3 className={` Title ${styles['Goals-Detail-title']}`}>{selectedGoal?.name}</h3>
+        {selectedGoal && (
+          <div className={`Description ${styles['Des-Goal']}`}>
+            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+              {selectedGoal.description_md}
+            </ReactMarkdown>
+          </div>
+        )}
+          <div className={styles['Modal-Btn-Group']}>
             {goals.filter((goal: any) => {
               return goal.name == selectedGoal?.name;
             })[0]?.name ? (
               <Button
-                className="Pref-btn btn"
+                className="Submit-Button"
                 loading={isLoading}
                 onClick={() => {
                   if(goals.length>1)removeGoal(selectedGoal?.id)
@@ -398,36 +402,21 @@ const AddGoals = () => {
               </Button>
             ) : (
               <Button
-                className="Pref-btn btn"
+                className="Submit-Button"
                 loading={isLoading}
                 onClick={() => addGoals(selectedGoal?.id)}
               >
                 Pick goal
               </Button>
             )}
-            <Button
-              className="Back-btn btn"
+            {/* <Button
+              className="Submit-Button"
               loading={isLoading}
               onClick={handleCancel}
             >
               Take me back
-            </Button>
+            </Button> */}
           </div>
-        }
-        centered
-        visible={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        className="Goals-Modal"
-      >
-        <h3 className={styles['Goals-title']}>{selectedGoal?.name}</h3>
-        {selectedGoal && (
-          <div className={styles['Des-Goal']}>
-            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-              {selectedGoal.description_md}
-            </ReactMarkdown>
-          </div>
-        )}
       </Modal>
     </Layout>
   );

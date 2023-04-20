@@ -5,6 +5,8 @@ import v from '../../../variables.module.scss';
 import Layout from '../../../layouts/Layout/Layout';
 import { Modal, Spin } from 'antd';
 import { Row, Col, Typography, Tooltip, Button, Progress } from 'antd';
+import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
+
 import {
   DeleteOutlined,
   LeftOutlined,
@@ -26,9 +28,9 @@ import rehypeRaw from 'rehype-raw';
 import { guidanceStatus } from '../../../services/authservice';
 import moment from 'moment';
 import { timeFrom } from '../../../utils/lib';
-import ConfirmModal from '../../Subscription/ConfirmModal';
+import ConfirmModal from '../../../components/Modal/ConfirmModal';
 import { getDashboard } from '../../../services/dashboardservice';
-import LastGoalModal from '../../Subscription/LastGoalModal';
+import LastGoalModal from '../../../components/Modal/LastGoalModal';
 
 const GoalDetails = () => {
   const [goal, setGoal] = useState<any>();
@@ -142,8 +144,8 @@ const GoalDetails = () => {
           label: 'Historical',
           data: historicalArray,
           fill: false,
-          borderColor: v['secondary-color1'],
-          backgroundColor: v['secondary-color1'],
+          borderColor: v['primary-color1'],
+          backgroundColor: v['primary-color1'],
           lineTension: 1,
           borderCapStyle: 'round',
           borderWidth: '6',
@@ -156,8 +158,8 @@ const GoalDetails = () => {
           lineTension: 1,
           borderCapStyle: 'round',
           borderWidth: '6',
-          backgroundColor: v['secondary-color2'],
-          borderColor: v['secondary-color2'],
+          backgroundColor: v['primary-color3'],
+          borderColor: v['primary-color3'],
           pointBorderWidth: '0',
         },
       ],
@@ -300,8 +302,8 @@ const GoalDetails = () => {
   }
   return (
     <Layout defaultHeader={true} hamburger={true}>
-      <div className={styles['Backflex']} onClick={handleBack}>
-        <LeftOutlined className={styles['LeftIcon']} /> Back
+      <div className={'Backflex'} onClick={handleBack}>
+        <ArrowLeftOutlined className={'LeftIcon'} />
       </div>
       {/* Top title with Delete button */}
       <div className={styles['Prevn-wrap']}>
@@ -319,58 +321,67 @@ const GoalDetails = () => {
             style={{ fontSize: '18px', color: '#D2D1D1', cursor: 'pointer' }}
           />
         </Button>
-        { goal?.info && (<h2 className={styles['Prevn-text']}>{goal?.info.name}</h2>)}
+        { goal?.info && (<h2 className={styles['Prevn-text']}>{goal?.info?.name ? goal.info.name :" "}</h2>)}
         <Button
           className={styles['Prevn-btn']}
           onClick={() => {
           setShowGoalInfoModal(true)}}
         >
-           <p
-                 style={{ fontSize: '30px', fontFamily:"serif", fontWeight:"bolder" ,fontStyle : "Italic",color: `#B83B5E`, cursor: 'pointer', marginLeft: "30px"}}
-              >i</p>
+           <InfoCircleOutlined
+                size={30}
+                style={{ color: '#204ECF', marginLeft: '6px', fontSize:"24px" }}
+              />
           </Button>
       </div>
       <Modal
         footer={
-          <div
-            className={styles['Modal-Btn-Group']}
-          >
-            <Button
-              className="Back-btn btn"
-              loading={isLoading}
-              onClick={handleCancelModal}
-            >
-              Take me back
-            </Button>
-          </div>
+          null
         }
         centered
-        visible={showGoalInfoModal}
+        open={showGoalInfoModal}
         onCancel={handleCancelModal}
         className="Goals-Modal"
+        closable={false}
       >
-         <h3 className={styles['Goals-title']}>{goal?.info.name}</h3>
+        <div className={'Backflex'}  onClick={handleCancelModal}>
+            <ArrowLeftOutlined className={'LeftIcon'} />
+          </div>
+         <h3 className={'Title'}>{goal?.info.name ? goal?.info.name : "" }</h3>
         { goal?.info&& (
           <div className={styles['Des-Goal']}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-              {goal?.info.description_md}
+              {goal?.info?.description_md? goal?.info?.description_md : ""}
             </ReactMarkdown>
           </div>
         )}
+        <div
+            className={styles['Modal-Btn-Group']}
+          >
+            <Button
+              className="Submit-Button"
+              loading={isLoading}
+              onClick={handleCancelModal}
+            >
+             Take me back
+            </Button>
+
+        </div>
       </Modal>
       <ConfirmModal
         title={'Confirmation'}
-        visible={showCancelModal}
+        open={showCancelModal}
         handleCancel={handleCancelModal}
         handleOk={() => handleOk(goalId)}
-        renderData={<div>Are you sure you want to delete goal?</div>}
+        className='Addgoal-Confirm-Modal'
+        renderData={<div  className='Description' >Are you sure you want to delete goal?</div>}
       />
       <LastGoalModal
         title={'Warning'}
-        visible={showLastGoalModal}
+        open={showLastGoalModal}
         handleCancel={handleCancelModal}
         handleOk={handleCancelModal}
-        renderData={<div>Alas! Unable to delete. This is your last goal</div>}
+        className="Addgoal-Confirm-Modal"
+        renderData={<div className='Description'>Alas! Unable to delete. This is your last goal</div>}
       />
       <Spin spinning={isLoading} className="Spinner"></Spin>
       {goal?.data && (
@@ -386,18 +397,18 @@ const GoalDetails = () => {
                       style={{ margin: '0 25px' }}
                       percent={goal.data.success_score}
                       showInfo={false}
-                      strokeColor={v['secondary-color1']}
+                      strokeColor={v['primary-color1']}
                       strokeWidth={20}
                     />
                     <Tooltip
                       title={
-                        'Track your goal score now! The more coloured the bar the better you are doing.'
+                        'This is an instantaneous measure of your Goal Success right now. Each health goal has a proprietary formula to determine goal success based on your data.'
                       }
                       placement="bottomRight"
                       overlayStyle={{ marginRight: '10px' }}
                       mouseLeaveDelay={0}
                     >
-                      <AiOutlineQuestionCircle
+                      <InfoCircleOutlined
                         size={30}
                         style={{ color: '#D2D1D1', marginLeft: '6px' }}
                       />
@@ -414,18 +425,18 @@ const GoalDetails = () => {
                     style={{ margin: '0 25px' }}
                     percent={goal.data.data_score}
                     showInfo={false}
-                    strokeColor={v['secondary-color2']}
+                    strokeColor={v['primary-color3']}
                     strokeWidth={20}
                   />
                   <Tooltip
                     title={
-                      'This shows how much data Pie needs from you for this goal.'
+                      'Your data score shows how well this Health Goal is characterised by your data. Keep this as high as possible by giving data daily.'
                     }
                     placement="bottomRight"
                     overlayStyle={{ marginRight: '10px' }}
                     mouseLeaveDelay={0}
                   >
-                    <AiOutlineQuestionCircle
+                    <InfoCircleOutlined
                       size={30}
                       style={{ color: '#D2D1D1', marginLeft: '6px' }}
                     />
@@ -441,7 +452,7 @@ const GoalDetails = () => {
       {dataset && (
         <>
           <div className={styles['Chart-title']}>
-            <div style={{ fontSize: '25px' }}>Goal Success</div>
+            <div className={`Heading Heading-color2 ${styles["sub-heading"]}`}>Goal Success</div>
             <div className={styles['Succes-score']}>
               {goal?.data.success_score}
               {goal.data.velocity !== null && (
@@ -468,13 +479,13 @@ const GoalDetails = () => {
             </div>
 
             <Tooltip
-              title="The score and plot represent your progress for this goal."
+              title="Goal Success is a measure how well you're doing with the goal. Each health goal has a proprietary formula for determining success based on all the data you have given."
               placement="bottomRight"
               overlayStyle={{ marginRight: '10px' }}
               mouseLeaveDelay={0}
               style={{ marginRight: '10px' }}
             >
-              <AiOutlineQuestionCircle
+              <InfoCircleOutlined
                 size={30}
                 style={{ color: '#D2D1D1', marginLeft: '6px' }}
               />
@@ -495,40 +506,37 @@ const GoalDetails = () => {
           (element: any) => element.data?.status === 'new'
         ) && (
           <>
-            <h3 className={styles['Guidance-title']}>New Guidance</h3>
+            <div className={styles["sub-heading"]}>New Guidance</div>
           </>
         )}
-        {goal?.guidances.map((o: any, key: any) => (
-          <>
-            {o.data && (
-              <div key={o.data.id}>
-                {o.data.status == 'new' && (
-                  <div className={styles['Rec-wrap']} key={key}>
-                    {o.info && (
-                      <Button
-                        onClick={() => handleClick('new', o.info, o.data)}
-                        className={styles['Rec-Guidance']}
-                        type="primary"
-                        style={{
-                          color: v['secondary-color1'],
-                          backgroundColor: `rgba(106, 44, 112, 0.11)`,
-                        }}
-                      >
-                        {/* <span className={styles["Rec-Text"]}><ReactMarkdown>{o.info.description_md}</ReactMarkdown></span> */}
-                        {o.info.name && (
-                          <span className={styles['Rec-Text']}>
-                            {o.info.name}
-                          </span>
-                        )}
-                        <RightOutlined className={styles['Arrow']} />
-                      </Button>
-                    )}
+        <div className={styles['Health-Goals']}>
+          {goal?.guidances.map((o: any,index:number) => (
+            
+            <>
+              {o.data && o.data.status === 'new' && (
+                <div
+                key={index}
+                className={styles['Selected-Goal']}
+               >
+                <div className={styles['Mygoals-Title']}>
+                  <span 
+                    className={styles['Rec-Text']}               
+                    onClick={() => handleClick('new', o.info, o.data)}
+                  >
+                    {o.info?.name || ""}
+                  </span>
+                  <Button
+                    onClick={() => handleClick('new', o.info, o.data)}
+                    className={styles['Cross-btn']}
+                  >
+                    <RightOutlined className={styles['Cross']} />
+                  </Button>
                   </div>
+                </div>
                 )}
-              </div>
-            )}
-          </>
-        ))}
+            </>
+          ))}
+       </div>
       </>
       {/* Active Guidance */}
       <>
@@ -536,33 +544,37 @@ const GoalDetails = () => {
           (element: any) => element.data?.status === 'active'
         ) && (
           <>
-            <h3 className={styles['Guidance-title']}>Active Guidance</h3>
+            <div className={`Heading Heading-color2 ${styles["sub-heading"]}`}>Active Guidance</div>
           </>
         )}
-        {goal?.guidances.map((o: any) => (
-          <>
-            {o.data && (
-              <div key={o.data.id}>
-                {o.data.status === 'active' && (
-                  <div className={styles['Rec-wrap']}>
-                    <Button
-                      onClick={() => handleClick('active', o.info, o.data)}
-                      className={styles['Rec-Guidance']}
-                      type="primary"
-                      style={{
-                        color: v['secondary-color1'],
-                        backgroundColor: `rgba(246, 187, 161, 0.16)`,
-                      }}
-                    >
-                      <span className={styles['Rec-Text']}>{o.info.name}</span>
-                      <RightOutlined className={styles['Arrow']} />
-                    </Button>
+       <div className={styles['Health-Goals']}>
+          {goal?.guidances.map((o: any,index:number) => (
+            
+            <>
+              {o.data && o.data.status === 'active' && (
+                <div
+                key={index}
+                className={styles['Selected-Goal']}
+               >
+                <div className={styles['Mygoals-Title']}>
+                  <span 
+                    className={styles['Rec-Text']}               
+                    onClick={() => handleClick('active', o.info, o.data)}
+                  >
+                    {o.info?.name || ""}
+                  </span>
+                  <Button
+                    onClick={() => handleClick('active', o.info, o.data)}
+                    className={styles['Cross-btn']}
+                  >
+                    <RightOutlined className={styles['Cross']} />
+                  </Button>
                   </div>
+                </div>
                 )}
-              </div>
-            )}
-          </>
-        ))}
+            </>
+          ))}
+       </div>
       </>
       {/* Inactive Guidance */}
       <>
@@ -570,42 +582,46 @@ const GoalDetails = () => {
           (element: any) => element.data?.status === 'inactive'
         ) && (
           <>
-            <h3 className={styles['Guidance-title']}>Inactive Guidance</h3>
+            <div className={styles["sub-heading"]}>Deactive Guidance</div>
           </>
         )}
-        {goal?.guidances.map((o: any) => (
-          <>
-            {o.data && (
-              <div key={o.data.id}>
-                {o.data && o.data.status === 'inactive' && (
-                  <div className={styles['Rec-wrap']}>
-                    <Button
-                      onClick={() => handleClick('inactive', o.info, o.data)}
-                      className={styles['Rec-Guidance']}
-                      type="primary"
-                      style={{
-                        color: v['secondary-color1'],
-                        backgroundColor: 'rgba(214, 214, 214, 0.24)',
-                      }}
-                    >
-                      <span className={styles['Rec-Text']}>{o.info.name}</span>
-                      <RightOutlined className={styles['Arrow']} />
-                    </Button>
+        <div className={styles['Health-Goals']}>
+          {goal?.guidances.map((o: any,index:number) => (
+            
+            <>
+              {o.data && o.data.status === 'inactive' && (
+                <div
+                key={index}
+                className={styles['Selected-Goal']}
+               >
+                <div className={styles['Mygoals-Title']}>
+                  <span 
+                    className={styles['Rec-Text']}               
+                    onClick={() => handleClick('inactive', o.info, o.data)}
+                  >
+                    {o.info?.name || ""}
+                  </span>
+                  <Button
+                    onClick={() => handleClick('inactive', o.info, o.data)}
+                    className={styles['Cross-btn']}
+                  >
+                    <RightOutlined className={styles['Cross']} />
+                  </Button>
                   </div>
+                </div>
                 )}
-              </div>
-            )}
-          </>
-        ))}
+            </>
+          ))}
+       </div>
+
       </>
       <Modal
         className="Guidance-Modal"
-        visible={open}
+        open={open}
         zIndex={99999}
         closeIcon={
           <>
-            <LeftOutlined />
-            Back
+           <ArrowLeftOutlined style={{fontSize : "25px", color:"#F26749", marginTop:"20px"}} />
           </>
         }
         footer={false}
@@ -678,41 +694,41 @@ const GoalDetails = () => {
           </Col>
         </Row>
         {type && type === 'inactive' && (
-          <p className={styles['Modal-subtitle']}>Inactive</p>
+          <p className={styles['Modal-subtitle']}>Deactive</p>
         )}
         {type && type === 'active' && (
           <p className={styles['Modal-subtitle']}>Active</p>
         )}
         {type && (
-          <h2 className={`${styles['popup-title']} `}>{guidanceData?.name}</h2>
+          <h2 className={`Title`}>{guidanceData?.name}</h2>
         )}
         {guidanceData && (
-          <div className={styles['markdown-desc']}>
+          <div className={styles.guidancedetail}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-              {guidanceData?.description_md}
+              {guidanceData?.description_md ? guidanceData?.description_md : ""}
             </ReactMarkdown>
           </div>
         )}
 
         {type === 'active' && (
-          <div className={styles.GuidanceBtnWrap}>
+           <div className={styles.GuidanceBtnWrap}>
             <Button
               // className="Pref-btn btn Guidance-Inactive-btn GuidanceBtn"
-              className={styles.GuidanceBtn}
+              className={'Submit-Button'}
               onClick={() => {
                 handleGuidanceStatus('inactive');
                 setLoading(true);
               }}
               loading={loading}
             >
-              Inactivate guidance
+              Deactivate
             </Button>
-          </div>
+           </div>
         )}
         {type === 'new' && (
           <div className={styles.GuidanceBtnActiveWrap}>
             <Button
-              className={styles.GuidanceNotBtn}
+              className={'Submit-Button'}
               onClick={() => {
                 handleGuidanceStatus('inactive');
                 setLoading2(true);
@@ -722,28 +738,28 @@ const GoalDetails = () => {
               Not For me
             </Button>
             <Button
-              className={styles.GuidanceActiveBtn}
+              className={'Submit-Button'}
               onClick={() => {
                 handleGuidanceStatus('active');
                 setLoading(true);
               }}
               loading={loading}
             >
-              Activate guidance
+              Activate
             </Button>
           </div>
         )}
         {type === 'inactive' && (
           <div className={styles.GuidanceBtnActiveWrap}>
             <Button
-              className={styles.GuidanceActiveBtn}
+              className={`Submit-Button`}
               onClick={() => {
                 handleGuidanceStatus('active');
                 setLoading(true);
               }}
               loading={loading}
             >
-              Activate guidance
+              Activate
             </Button>
           </div>
         )}

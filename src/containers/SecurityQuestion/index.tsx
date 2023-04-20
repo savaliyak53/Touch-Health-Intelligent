@@ -9,7 +9,7 @@ import { securityQuestions } from '../../constants';
 import { putSignUp, requestPhoneOTP } from '../../services/authservice';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { DownOutlined } from '@ant-design/icons';
+import { DownOutlined, InfoCircleOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
@@ -17,12 +17,20 @@ const SecurityQuestions = () => {
   const [loading, setLoading] = useState(false);
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
+  const [saveMsg, setSaveMsg] = useState<boolean>(true)
   const navigate = useNavigate();
 
   const onChange = (option: any) => {
     setQuestion(option);
   };
   useEffect(() => {
+    window.scrollTo(0,0)
+    window.addEventListener('scroll', ()=> {
+      document.querySelectorAll<HTMLElement>('#header')[0].style.position = 'fixed'
+    })
+    window.addEventListener('beforeunload', ()=> {
+      document.querySelectorAll<HTMLElement>('#header')[0].style.position = 'unset'
+    })
     const userId = localStorage.getItem('userId');
     if (!userId) {
       navigate('/signup');
@@ -51,21 +59,14 @@ const SecurityQuestions = () => {
       putSignUp({ security_questions: securityQuestion }, userId)
         .then(async (response) => {
           if (response?.id) {
-            toast.success('Security Question saved successfully');
-            //const userId = localStorage.getItem('userId');
-            const phone = localStorage.getItem('phone');
-
-            if (phone) {
-              const isOtpSent = await sendPhoneOTP(phone);
-              if (isOtpSent) {
-                navigate(`/verification-code`);
-              } else {
-                setLoading(false);
-                toast.error(
-                  'Phone number can not be processed. Try another phone number.'
-                );
-              }
-            }
+             toast.success('Security Question saved successfully');
+            setLoading(false)
+            navigate('/');
+            // setSaveMsg(true);
+            // setTimeout(()=>{
+            //   setSaveMsg(false)
+            //   navigate('/');
+            // },5000)
           }
         })
         .catch((error) => {
@@ -77,16 +78,15 @@ const SecurityQuestions = () => {
 
   return (
     <Layout defaultHeader={true} hamburger={false}>
-      <div className="Content-wrap Con">
-        <h2 className={styles['Con-title']}>
-          Security Question <Spin spinning={loading} />
+      <div >
+        <h2 id='header' className={styles['Con-title']}>
+          Security question <Spin spinning={loading} />
         </h2>
+        <div className={styles['Switch-wrap']} style={{maxHeight: 600, overflow: 'auto'}}>
         <p className={styles['Con-Description']}>
           Please help us protect your account. Select a security question and
           input answer. You can use this to get back access to your account.
         </p>
-
-        <div className={styles['Switch-wrap']}>
           <div className="Select-Wrap">
             <Select
               placeholder="Select a question"
@@ -94,7 +94,7 @@ const SecurityQuestions = () => {
               onChange={onChange}
             >
               {securityQuestions.map((item) => (
-                <Option key={item.id} value={item.text} style={{color: v['primary-color2']}}>
+                <Option key={item.id} value={item.text} style={{color: v['primary-color1']}}>
                   {item.text}
                 </Option>
               ))}
@@ -115,15 +115,18 @@ const SecurityQuestions = () => {
           </div>
         </div>
 
-        <div className="action">
+        <div className={styles['Security-Btn']}>
           <Button
             loading={loading}
             onClick={handleSave}
             disabled={loading || !question || !answer}
-            className="Pref-btn btn"
+            className="Submit-Button"
           >
             Save
           </Button>
+          {/* { saveMsg ? (
+              <div className={styles['dlt-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> Security question saved succesfully</div>
+            ) : ''} */}
         </div>
       </div>
     </Layout>

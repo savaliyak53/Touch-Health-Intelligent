@@ -11,7 +11,7 @@ import {
 import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
 import 'moment-timezone';
-import ConfirmModal from '../Subscription/ConfirmModal';
+import DeleteModal from '../../components/Modal/DeleteDataModal';
 import { deleteAllData } from '../../services/goalsService';
 import {
   postInteractionService,
@@ -43,8 +43,8 @@ interface LocationState {
   };
 }
 const Integrations = () => {
-  const [loading, setloading] = useState(false);
-  const [checked, setChecked] = useState<boolean>();
+  
+  const [checked, setChecked] = useState<boolean|any>(undefined);
   const [spinning, setSpinning] = useState<boolean>(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [loc, setLocation] = useState<LocationState>()
@@ -91,6 +91,7 @@ const Integrations = () => {
       })
       .catch((error) => {
         toast('Unknown error');
+        setChecked(false);
         setSpinning(false);
       });
   };
@@ -216,14 +217,14 @@ const Integrations = () => {
   return (
     <Layout defaultHeader={true} hamburger={loc?.state?.redirect ? false : true}>
       <Spin spinning={spinning}>
-        <div className={`Content-wrap ${styles['Pref']}`}>
-          <h2 className={styles['Pref-title']}>Integrations</h2>
+        <div className={`${styles['Integration-wrap']}`}>
+          <h2 className={'Title'}>Integrations</h2>
           <div
             style={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              fontSize: '25px',
+              // fontSize: '25px',
               marginBottom: '24px',
             }}
           >
@@ -232,7 +233,7 @@ const Integrations = () => {
               height={50}
               width={50}
             />
-            Google Fit
+            <div className={styles['Container-title']}>Google Fit </div> 
             {checked === undefined ? (
               <Spin spinning={checked === undefined ? true : false} />
             ) : (
@@ -243,10 +244,10 @@ const Integrations = () => {
           </div>
 
           <div>
-            <div className={styles['Question']}>
+            <div className={styles['Container']}>
               <h3
-                className={styles['Question-title']}
-                style={{ color: '#A5A5A5' }}
+                className={`Description`}
+                // style={{ color: '#A5A5A5' }}
               >
                 Touch Health Assistant collects health and activity data to enable health goal
                 analytics, guidance recommendation, and guidance follow up.
@@ -254,12 +255,12 @@ const Integrations = () => {
             </div>
             <div>
               <h3
-                className={styles['Question-title']}
+                className={styles['Container-title']}
                 style={{ fontSize: '22px' }}
               >
                 Data Use
                 <Tooltip
-                  title={'You can control data sharing here!'}
+                  title={'This deletes all your data, setting your entire health profile in the Touch Health Assistant back to 0. We will retain your basic account information but all your data with the app so far will be deleted.'}
                   placement="bottomRight"
                   overlayStyle={{ marginRight: '10px' }}
                   mouseLeaveDelay={0}
@@ -272,19 +273,19 @@ const Integrations = () => {
                 </Tooltip>
               </h3>
               <Button className={`Pref-post-btn ${styles['Data-dlt-btn']}`} onClick={() => setShowCancelModal(true)}>  Delete all my data</Button>
-              <ConfirmModal
-                title={'Confirmation'}
-                visible={showCancelModal}
+              <DeleteModal
+                title={''}
+                open={showCancelModal}
                 handleCancel={handleDeleteModal}
                 handleOk={() => removeUserData()}
-                renderData={<div>Are you sure you want to delete goal?</div>}
+                renderData={<div>By deleting your data, your entire health profile in the Touch Health Assistant will cease to exist. No data will be retained, and you will be sent back to the beginning as if you just started. This is irreversible, proceed with caution.</div>}
               />
             </div>
           </div>
           {loc?.state?.redirect == true && (
             <div className={styles.TermsBtnWrap}>
               <Button
-                className={styles.TermsBtn}
+                className={'Submit-Button'}
                 onClick={handleNext}
               >
               Next

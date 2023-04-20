@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { DatePicker, Modal, Button } from 'antd';
-import styles from './Subscription.module.scss';
+import { Modal, Button } from 'antd';
+import styles from './Modals.module.scss';
 export type IProps = {
-  visible: boolean;
+  open: boolean;
   handleCancel: () => any;
   handleOk: any;
   renderData?: any;
   title: string;
 };
-const LastGoalModal = ({
-  visible,
+const AccountLockModal = ({
+  open,
   handleCancel,
   title,
   handleOk,
@@ -18,7 +18,7 @@ const LastGoalModal = ({
   return (
     <Modal
       title={title}
-      visible={visible}
+      open={open}
       onOk={handleOk}
       onCancel={handleCancel}
       footer={[
@@ -28,7 +28,7 @@ const LastGoalModal = ({
             className={styles['Subscribe']}
             onClick={handleOk}
           >
-            Keep it
+            Okay
           </Button>
         </div>,
       ]}
@@ -38,4 +38,4 @@ const LastGoalModal = ({
   );
 };
 
-export default LastGoalModal;
+export default AccountLockModal;

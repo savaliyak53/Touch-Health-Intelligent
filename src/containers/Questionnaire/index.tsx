@@ -14,6 +14,7 @@ import {
 import { Interaction } from '../../interfaces';
 import Layout from '../../layouts/Layout/Layout';
 import { Skeleton } from 'antd';
+import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 
 function UserCondition() {
   const [question, setQuestion] = useState<Interaction | any>();
@@ -25,7 +26,7 @@ function UserCondition() {
   const [isClicked, setClicked] = useState(false);
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
   const [signupStatus, setSignupStatus] = useState<string | null >();
-
+  const [exception, setException] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -42,7 +43,6 @@ function UserCondition() {
           }
         } 
         else if(response?.data?.type==="done"){
-          console.log('done')
           handleInteractionRedirect()
         }
         else{
@@ -139,7 +139,7 @@ function UserCondition() {
     setClicked(true);
     if (
       question.type !== 'select_many' && 
-      question.type !== 'mutli_select' &&
+      question.type !== 'multi_select' &&
       question.type !== 'yes_no' &&
       question.type !== 'slider' &&
       question.type !== 'select_one' &&
@@ -189,37 +189,45 @@ function UserCondition() {
         setLoading(false);
         setValue(undefined);
         setRefId(data.ref_id ?? '');
+        setClicked(false);
         if (data.question) {
           if(data.question.type == 'integration_page_redirect'){
             integrationPageRedirect(data.ref_id)
           } else {
             setQuestion(data.question);
+            setDisableNextButton(false)
           }
         } else if(!data.question && data.type==="done") {
           handleInteractionRedirect();
         }
         else {
           toast.error('Something went wrong, question is null');
+          setDisableNextButton(false)
         }
       })
-      .catch(() => {
+      .catch((error) => {
         setLoading(false);
-        toast.error('Something went wrong');
-        setLoading(false);
-        navigate('/dashboard');
+        setException(true);
       });
   };
-  useEffect(() => {
-    question?.type === 'slider'
-      ? setDisableNextButton(true)
-      : setDisableNextButton(false);
-    setClicked(false);
-  }, [question, question?.q_str]);
-  
+  const handleRetry=()=>{
+    window.location.reload();
+  }
+  const handleOk=()=>{
+    navigate("/dashboard");
+  }
   return (
     <Layout defaultHeader={true} hamburger={false}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
-      <div className="Content-wrap Pain">
+      {question?.type==="error" || exception ? <div> 
+        <ErrorInteractionModal 
+           title={"Error"} 
+           open={true} 
+           showTryButton={!exception} 
+           handleRetry={handleRetry} 
+           handleOk={handleOk} 
+           renderData={<div className={"Description"} >Oops! Looks like we cannot continue interaction at this point  <br/>Try again later.</div>}/>
+       </div> : <div className="Content-wrap Pain">
         {question && (
           <>
             <Question
@@ -230,25 +238,37 @@ function UserCondition() {
               setValue={setValue}
               onSubmit={onSubmit}
               setDisableNextButton={setDisableNextButton}
+              disable={disableNextButton}
+              value={value}
             />
+            {console.log(value && value?.length<1)}
             {question?.type !== 'yes_no' && question?.type !== 'dialog_select_one' && question?.type !== 'image_and_text_select_one' && question?.type !== 'markdown_select_one' && (
-              <div className="Btn-group">
+              <div>
                 <Button
-                  className={`Next ${isClicked && 'active'}`}
-                   onClick={() => {
-                     setClicked(true);
-                     onSubmit()
-                   }}
-                  loading={loading}
-                 disabled={question?.type !== 'select_many' && question?.type !=='multi_select' && question?.type !=='image_and_text' && typeof value === 'undefined' || loading}
-                >
-                  Next
-                </Button>
+                className={`Questionnaire-Submit-Button ${
+                  isClicked ? ' active' : ''
+                }`}
+                onClick={() => {
+                  setClicked(true);
+                  onSubmit();
+                }}
+                loading={loading}
+                disabled={
+                  question?.type !== 'select_many' &&
+                  question?.type !== 'multi_select' &&
+                  question?.type !== 'image_and_text' &&
+                  (typeof value === 'undefined' || value?.length<1) ||
+                  loading
+                }
+              >
+                Next
+              </Button>
               </div>
             )}
           </>
         )}
-      </div>
+      </div>}
+     
     </Layout>
   );
 }

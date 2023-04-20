@@ -4,51 +4,46 @@
   text-align: center;
 }
 .Title {
-  font-family: serif;
-  text-align: center;
+  padding-top: 15px;
   margin-top: 20px;
-  font-size: 35px;
-  line-height: 1.2;
-  font-weight: 600;
   margin-bottom: 40px;
-  color: $secondary-color1;
 }
 Select {
   max-width: 320px;
   margin: 0 auto;
 }
 .Goals-title{
-  font-family: 'DM Serif Display', sans-serif;
-  text-align: center;
+  font-family: $font-body;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 110%;
+  letter-spacing: -0.01em;
+  text-align: left;
   margin-top: 50px;
-  font-size: 9vw;
+  margin-bottom: 10px;
+}
+.Goals-Detail-title{
+  letter-spacing: -0.01em;
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+.Des-Short,
+.Des-Goal {
+  font-family: $font-body;
+  text-align: left;
+  margin-top: 15px;
+  font-size: 18px;
   line-height: 1.2;
   font-weight: 400;
   margin-bottom: 10px;
   color: $primary-color2;
-  //margin-left: 10px;
-}
-.Des-Short,
-.Des-Goal {
-  font-family: 'Raleway', sans-serif;
-  text-align: left;
-  margin-top: 15px;
-  font-size: 20px;
-  line-height: 1.2;
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: $primary-color1;
-  margin-left: 20px;
-  padding: 4px 18px;
-  h3{
-    color: $primary-color2;
-  } 
-  h2{
-      color: $primary-color2;
-      }
-  h1{
-      color: $primary-color2;
-      }
+  padding: 4px 0;
+  h1, h2, h3 {
+    font-family: $font-body;
+    color: $primary-color1;
+    font-weight: 700 !important;
+  }
 }
 .Health-Goals,
 .Rec-wrap {
@@ -56,13 +51,14 @@ Select {
 
   .Rec-Goal,
   .Selected-Goal {
-    font-family: 'Raleway', sans-serif;
+    font-family: $font-body;
+    background-color: $ternary-color1;
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    min-height: 140px;
-    padding: 16px;
+    height: 100px;
+    padding: 39px 10px;
     border-radius: 16px;
     border: none;
     margin: 8px 3px;
@@ -72,10 +68,23 @@ Select {
     line-height: 1.2;
     font-weight: 600;
     white-space: normal !important;
-    height: auto !important;
+    &:hover,
+    &:active{
+      background-color: rgba($primary-color3,0.5) !important;
+      svg{
+        color: $primary-color3;
+      }
+    }
+    &:focus{
+      background-color: rgba($secondary-color1,0.3);
+    }
+  }
+  .Rec-Goal{
+    background-color: rgba(197, 197, 197, 0.3);
   }
 
   .Cross-btn {
+    color: #ACACAC !important;
     height: auto !important;
     padding: 0 !important;
     border: 0 !important;
@@ -96,12 +105,9 @@ Select {
 }
 .Cross,
 .Arrow {
-  color: rgba($primary-color2, 0.5) !important;
+  color: $primary-color1 !important;
   font-size: 20px;
-}
-
-.Cross {
-  font-size: 16px;
+  margin-right: 2vw;
 }
 
 .Des-Short {
@@ -112,14 +118,6 @@ Select {
 .Des-Goal {
   font-weight: 400;
   margin-top: 20px;
-  margin-bottom: 200px;
-}
-.LeftIcon {
-  text-align: left !important;
-  margin-top: 22px;
-}
-.Backflex {
-  flex-direction: row;
 }
 .Mygoals-Title {
   display: flex;
@@ -127,13 +125,35 @@ Select {
 }
 .Rec-Text{
   display: flex !important;
+  color: $primary-color2;
   align-items: center;
   min-width: 70vw;
   min-height: 10vh;
+  margin-left: 5vw;
 }
 .Modal-Btn-Group{
-  background-color: white;
-  max-width: 520px;
+  background-image: linear-gradient(transparent, white) ;
+  // max-width: 520px;
   margin: 0 auto;
   padding: 10px 0;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  border: none;
+  padding: 250px 0 50px;
+}
+
+.dlt-msg{
+  color: $primary-color1;
+  font-family: $font-body;
+  font-size: 12px;
+  text-align: left;
+}
+.Submit-Button{
+  position: fixed;
+  background-color: white;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  padding: 20px 0;
 }

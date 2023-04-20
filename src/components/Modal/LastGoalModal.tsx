@@ -1,34 +1,37 @@
-import React, { useState } from 'react';
-import { DatePicker, Modal, Button } from 'antd';
-import styles from './Subscription.module.scss';
+import React from 'react';
+import { Modal, Button } from 'antd';
+import styles from './Modals.module.scss';
 export type IProps = {
-  visible: boolean;
+  open: boolean;
   handleCancel: () => any;
   handleOk: any;
   renderData?: any;
+  className: string;
   title: string;
 };
-const AccountLockModal = ({
-  visible,
+const LastGoalModal = ({
+  open,
   handleCancel,
   title,
   handleOk,
   renderData,
+  className
 }: IProps) => {
   return (
     <Modal
       title={title}
-      visible={visible}
+      open={open}
       onOk={handleOk}
       onCancel={handleCancel}
+      className={`${className}`}
       footer={[
         <div key="submit" className={styles['Btn-group']}>
           <Button
             key="submit"
-            className={styles['Subscribe']}
+            className={'Submit-Button'}
             onClick={handleOk}
           >
-            Okay
+            Keep it
           </Button>
         </div>,
       ]}
@@ -38,4 +41,4 @@ const AccountLockModal = ({
   );
 };
 
-export default AccountLockModal;
+export default LastGoalModal;

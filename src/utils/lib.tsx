@@ -52,6 +52,12 @@ export const onlyNumbers = (str: string) => {
 export const getDayInitial = (index:number) =>{
   return day[index];
 }
+export const signupFlow = (pathname:any) =>{
+  if(pathname==="/login" || pathname==="/terms-and-conditions" || pathname==="/security" || pathname==="/verification-code" || pathname==="/password-reset"){
+    return true;
+  }
+  return false
+}
 export const timeFrom = (X:any) => {
   const dates = [];
   for (let I = 0; I < Math.abs(X); I++) {

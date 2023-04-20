@@ -68,7 +68,7 @@ const DashboardNew = () => {
       <div>    
         <Row>
           <Col span={21}>
-          <Typography style={{color:'#6A2C70'}} className={styles.Title}>{'Your Dashboard'}</Typography>
+          <div className={`Title`}>Your Dashboard</div>
           </Col>
           <Col span={1}>
           </Col>
@@ -87,7 +87,7 @@ const DashboardNew = () => {
             </Tooltip>
           </Col>
         </Row>
-        <Typography style={{color:'#6A2C70'}} className={styles.StreakTitle}>{streakCount && streakCount >0 ? `${streakCount} day streak!` :'No current streak'}</Typography>
+        <div className={`Heading Heading-color1 ${styles.StreakTitle}`}>{streakCount && streakCount >0 ? `${streakCount} day streak!` :'No current streak'}</div>
         <Row>
           <Col span={21}>
             <Row>
@@ -140,6 +140,7 @@ const DashboardNew = () => {
           <Col span={24}>
             <div className={styles.GoalsHead}>
               <Typography className={styles.GoalsHeadTitle} style={{color:'#B83B5E'}}>Health Goals</Typography>
+                <Button className={styles.GoalsHeadButton} onClick={()=>navigate("/c/checkup")}>👋</Button>
               <Button className={styles.GoalsHeadButton} onClick={()=>navigate("/add-goals")}>+</Button>
             </div>
           </Col>

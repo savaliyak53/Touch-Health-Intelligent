@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import { Button, Spin, Typography, Tag } from 'antd';
-// import './Subscription.scss';
 import styles from './Subscription.module.scss';
-import { useParams } from 'react-router-dom';
 import { Alert } from 'antd';
-
+import v from '../../variables.module.scss';
 import {
   checkoutPlan,
   getPlansService,
@@ -15,15 +13,16 @@ import {
   updateUserSubscription,
   calculateSubscriptionProration,
   getStatus,
+  managePayment,
 } from '../../services/subscriptionService';
 import { Card } from 'antd';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router';
 import { dateFormatRenewal } from '../../utils/lib';
-import ConfirmModal from './ConfirmModal';
+import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { ISubscriptionPlan, IUserSubscription } from './Interfaces';
 import { Link } from 'react-router-dom';
-
+import { LoadingOutlined , InfoCircleOutlined } from '@ant-design/icons';
 import {
   getInteractionServiceByType,
   getUser,
@@ -33,15 +32,15 @@ import {
 import moment from 'moment';
 import { ReloadOutlined } from '@ant-design/icons';
 const { Meta } = Card;
-
+const antIcon = <LoadingOutlined style={{ fontSize: 24, color: 'white' }} spin />;
 const Subscription = () => {
   const navigate = useNavigate();
   let retries = 0;
   const location = useLocation();
-  const { id } = useParams();
   const [plans, setPlans] = useState<ISubscriptionPlan[] | undefined>([]);
   const [freeTrial, setFreeTrial] = useState<boolean | undefined>(false);
   const [loading, setLoading] = useState(false);
+  const [loadingManageBtn, setLoadingManageBtn] = useState(false);
   const [spin, setSpin] = useState(false);
   const [userPlan, setUserPlan] = useState<IUserSubscription | undefined>();
   const [disableButton, setDisableButton] = useState(false);
@@ -53,7 +52,6 @@ const Subscription = () => {
   const [stripeStatus, setStripeStatus] = useState<any>(null);
   const [retry, setRetry] = useState<any>(false);
 
-  const [endDate, setEndDate] = useState(0);
   const [estimateAmount, setEstimateAmount] = useState();
   const showModal = () => {
     setShowCancelModal(true);
@@ -106,6 +104,7 @@ const Subscription = () => {
         ) {
           localStorage.removeItem('userId');
           localStorage.removeItem('token');
+          localStorage.clear();
           navigate('/login');
         }
       })
@@ -143,13 +142,11 @@ const Subscription = () => {
   useEffect(() => {
     const checkout_status: string | null = userCheckoutStatus();
     if (checkout_status === null) {
-      console.log('in this checkout status use Effect');
       userSubscriptionStatus();
       fetchPlans();
       fetchUserSubscription();
       setSpin(false);
     } else if (checkout_status === 'complete') {
-      console.log('calling complete');
       userSubscriptionStatus();
       fetchPlans();
       fetchUserSubscription();
@@ -365,10 +362,25 @@ const Subscription = () => {
       });
     setShowSwitchModal(true);
   };
+  const handleManagePayment = () => { 
+    setLoadingManageBtn(true)
+    managePayment()
+    .then((response) => {
+      setLoadingManageBtn(false);
+      setDisableButton(false);
+      window.location.assign(response.data.url);
+    })
+    .catch((error) => {
+      setLoadingManageBtn(false);
+      setDisableButton(false);
+      console.log('error while trying to redirect to manage payment ', error);
+      toast.error('Something went wrong while subscribing');
+    });
+  }
   return (
     <Layout
       defaultHeader={true}
-      hamburger={!userSignupStatus ? false : true}
+      hamburger={!userSignupStatus || retry ? false : true}
       dashboard={false}
     >
       {retry ? (
@@ -398,21 +410,22 @@ const Subscription = () => {
         >
           <div className="Content-wrap Sub">
             <h2 className={styles['Sub-title']}>
-              Subscription <Spin spinning={loading} />
+              Subscription <Spin spinning={loading} style={{marginLeft: 4}}/>
             </h2>
+            <div> </div>
+            {userPlanStatus &&
+            <button
+              className={styles['manage-btn']}
+              onClick={handleManagePayment}
+              disabled={disableButton}
+            >
+              Manage Payment
+              <Spin spinning={loadingManageBtn} indicator={antIcon} />
+            </button>}
             {!loading && !userPlan && (
-              <Tag
-                color="orange"
-                className="Sub-alert"
-                style={{ margin: '0px' }}
-              >
-                <Typography.Title
-                  level={5}
-                  style={{ color: 'inherit', textAlign: 'center' }}
-                >
-                  You are not subscribed to any plan.
-                </Typography.Title>
-              </Tag>
+                <div className={styles['description']}>
+              <InfoCircleOutlined /> You are <b>not subscribed </b> to any plan.
+              </div>
             )}
             <>
               {plans?.map((plan: ISubscriptionPlan) => (
@@ -432,7 +445,7 @@ const Subscription = () => {
                 >
                   <Meta
                     title={
-                      <h3 className={styles['Question-title']}>{plan.name}</h3>
+                      <div className={styles['Question-title']}>{plan.name}</div>
                     }
                     className={styles['ant-card-meta']}
                     description={
@@ -539,7 +552,7 @@ const Subscription = () => {
                               )}
                               <ConfirmModal
                                 title={'Confirmation'}
-                                visible={showCancelModal}
+                                open={showCancelModal}
                                 handleCancel={handleCancelModal}
                                 handleOk={handleOk}
                                 renderData={
@@ -569,14 +582,14 @@ const Subscription = () => {
                                 <>
                                   {isNextPhase(plan) ? (
                                     <Button
-                                      className={` ${styles['Modal-cancel-btn']} ${styles['Subscribe']} `}
+                                      className={` ${styles['Modal-cancel-btn']} Submit-Button `}
                                       onClick={() => showModal()}
                                     >
                                       Cancel
                                     </Button>
                                   ) : (
                                     <Button
-                                      className={styles['Subscribe']}
+                                      className={'Submit-Button'}
                                       onClick={() => handleSwitchModal(plan.id)}
                                     >
                                       Switch
@@ -585,7 +598,7 @@ const Subscription = () => {
                                 </>
                               ) : (
                                 <Button
-                                  className={styles['Subscribe']}
+                                  className={'Submit-Button'}
                                   onClick={() => handleSubscribeClick(plan.id)}
                                   disabled={
                                     disableButton ||
@@ -607,7 +620,7 @@ const Subscription = () => {
             </>
             <ConfirmModal
               title={'Confirmation'}
-              visible={showSwitchModal}
+              open={showSwitchModal}
               handleCancel={handleCancelModal}
               handleOk={handleSwitch}
               renderData={

@@ -1,29 +1,32 @@
-import React, { useState } from 'react';
-import { DatePicker, Modal, Button } from 'antd';
-import styles from './Subscription.module.scss';
+import React from 'react';
+import { Modal, Button } from 'antd';
+import styles from './Modals.module.scss';
 export type IProps = {
-  visible: boolean;
+  open: boolean;
   handleCancel: () => any;
   handleOk: any;
   renderData?: any;
   title: string;
+  className?: any
 };
 const ConfirmModal = ({
-  visible,
+  open,
   handleCancel,
   title,
   handleOk,
   renderData,
+  className
 }: IProps) => {
   return (
     <Modal
       title={title}
-      visible={visible}
+      open={open}
       onOk={handleOk}
       onCancel={handleCancel}
+      className={`Confirm-Modal ${className}`}
       footer={[
         <div  key="submit" className={styles["Btn-group"]}>
-          <Button key="submit" className={styles["Subscribe"]} onClick={handleOk}>
+          <Button key="submit" className={'Submit-Button'} onClick={handleOk}>
            Confirm
           </Button>
         </div>

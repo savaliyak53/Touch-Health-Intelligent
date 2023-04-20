@@ -3,7 +3,7 @@ import axios from 'axios'
 const apiClient = (url, method = 'get', data = {}, header='') => {
   const baseURL = process.env.REACT_APP_API_HOST
   const config = {
-    timeout: 20000,
+    // timeout: 20000,
     url: url,
     method: method,
     baseURL: baseURL
@@ -38,6 +38,7 @@ const apiClient = (url, method = 'get', data = {}, header='') => {
       else if (error.response.status === 401) {
         localStorage.removeItem('userId');
         localStorage.removeItem('token');
+        localStorage.clear();
         window.location = '/login';
         return Promise.reject(error)
       }

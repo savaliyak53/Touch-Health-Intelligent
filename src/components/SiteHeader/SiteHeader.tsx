@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Button } from 'antd';
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined , MenuOutlined} from '@ant-design/icons';
 // import './SiteHeader.scss';
 import styles from './SiteHeader.module.scss';
 import { useNavigate } from 'react-router';
@@ -37,10 +37,11 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
           <Button
             className={`${hamburger ? styles['d-block'] : styles['d-none']}`}
           >
-            <img
+            <MenuOutlined className={styles["menu"]}/>
+            {/* <img
               src={`${process.env.PUBLIC_URL}/assets/mobileassets/nav.svg`}
               alt="Touch Logo"
-            />
+            /> */}
           </Button>
         </div>
       </header>
@@ -81,9 +82,10 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
             <li>
               <Link to="/integrations">Integrations</Link>
             </li>
+            {process.env.REACT_APP_IS_BETA !== 'TRUE' &&
             <li>
               <Link to="/subscription">Subscription</Link>
-            </li>
+            </li>}
             <li>
               <Link to="/help-and-support">Help and Support</Link>
             </li>
@@ -92,11 +94,12 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
               onClick={() => {
                 localStorage.removeItem('userId');
                 localStorage.removeItem('token');
+                localStorage.clear();
                 (window as any).Intercom('shutdown');
                 navigate('/login');
               }}
           >
-            <a>Sign out</a>
+            <a style={{color: 'white'}}>Sign out</a>
           </li>
         </ul>
       </div>

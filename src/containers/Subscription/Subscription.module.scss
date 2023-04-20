@@ -1,16 +1,23 @@
 @import '../../variables.module.scss';
 
 .Sub-title {
-  font-family: Serif;
+  font-family: $font-title;
+  letter-spacing: -0.01em;
   font-size: 36px;
-  line-height: 1.1;
-  font-weight: 700;
-  text-align: center;
+  line-height: 110%;
+  font-weight: 400;
+  text-align: left;
   color: $primary-color2;
   margin-top: clamp(0px, 3.5vh, 20px);
   margin-bottom: clamp(0px, 1.5vh, 36px);
 }
-
+.description{
+  color:$primary-color3;
+  font-family: $font-body;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 130%;
+}
 .Question {
   margin-bottom: 8px;
   color: $primary-color2;
@@ -18,33 +25,37 @@
 }
 
 .Question-title {
-  color: $primary-color2;
-  margin-bottom: 24px;
-  margin-top: 10px;
-  line-height: 17px;
-  font-size: 20px !important;
+  color: $primary-color1;
+  font-family: $font-body;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 110%;
   text-align: center;
-  font-weight: 400;
-  // color: rgba(#282f28, 0.7);
+  text-transform: uppercase;
+  // margin-bottom: 24px;
+  margin-top: 10px;
 }
 
 .Description {
-  font-size: 32px;
-  line-height: 33px;
-  color: $primary-color2;
-  // color: rgba(#282f28, 0.7);
-  font-weight: 200;
+  font-family: $font-body;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 110%;
+  text-align: center;
+  color: $primary-color1;
   margin-bottom: 0;
-  font-family: 'Barlow', sans-serif;
 }
 .otherDates {
-  font-size: 32px;
-  line-height: 33px;
+  font-family: $font-body;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 110%;
+  text-align: center;
   color: $primary-color2;
-  // color: rgba(#282f28, 0.7);
-  font-weight: 200;
   margin-bottom: 2px;
-  font-family: 'Barlow', sans-serif;
 }
 .subDescription {
   font-size: 16px;
@@ -56,34 +67,77 @@
   font-family: 'Barlow', sans-serif;
 }
 .subDates {
-  font-size: 20px;
-  line-height: 20px;
+  font-family: $font-body;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 110%;
+  text-align: center;
   color: $primary-color2;
-  // color: rgba(#282f28, 0.7);
-  font-weight: 400;
   margin-top: 10px;
   margin-bottom: 10px;
-  font-family: 'Barlow', sans-serif;
 }
+
 
 .Btn-group {
   gap: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 0%;
+}
+.ant-modal-body {
+  padding: 24px 10px 1px 10px;
+  font-size: 14px;
+  line-height: 1.5715;
+  word-wrap: break-word;
+}
+.message {
+  font-size: 20px !important;
+  font-weight: 400 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .Subscribe {
+  border: none !important;
+  color: white !important;
+  background-color: $primary-color1 !important;
+  border-radius: 100px !important;
+  height: auto !important;
+  padding: 18px 40px !important;
+  font-size: 20px !important;
+  line-height: 24px !important;
+  font-weight: 400 !important;
+  margin-top: 20px !important;
+  display: block !important;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-image: $secondary-color2 !important;
+    color: #fff !important;
+    border-color: $primary-color1 !important;
+  }
+  &.disabled {
+    background-color: rgba($primary-color2, 0.2) !important;
+    border: none !important;
+    color: $secondary-color2 !important;
+  }
+}
+.error {
   border: 2px solid $primary-color2 !important;
   color: $primary-color2 !important;
   background-color: transparent !important;
   border-radius: 100px !important;
   height: auto !important;
-  padding: 18px 40px !important;
+  min-width: 150px;
+  padding: 15px 10px !important;
   color: $primary-color2 !important;
-  font-size: 20px !important;
-  line-height: 24px !important;
+  font-size: 15px !important;
+  line-height: 15px !important;
   font-weight: 400 !important;
-  margin-top: 20px !important;
+  margin-top: 10px !important;
   display: block !important;
   &:hover,
   &:focus,
@@ -133,7 +187,8 @@
 }
 
 .Subspt-Card {
-  border: 2px solid $primary-color2 !important;
+  // height: 208px;
+  border: 2px solid $primary-color1 !important;
   box-sizing: border-box !important;
   padding: 0 !important;
   color: rgba($primary-color2, 0.2) !important;
@@ -144,7 +199,7 @@
   font-feature-settings: 'tnum' !important;
   position: relative !important;
   border-radius: 20px !important;
-  width: 300 !important;
+  width: 328 !important;
   margin: 10px !important;
   overflow: 'hidden' !important;
   justify-content: center !important;
@@ -297,6 +352,11 @@
   }
 }
 
+.recaptcha{
+   margin-top: 25px;
+}
+
+
 .ant-modal-root {
   .ant-modal-content {
     border-radius: 36px;
@@ -326,4 +386,34 @@
       padding-bottom: 30px;
     }
   }
+}
+.manage-btn {
+  border-radius: 10px;
+  height: auto;
+  padding: 18px 60px;
+  color: $primary-color1;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  margin-top: 20px;
+  display: block;
+  border: 2px solid $primary-color1;
+  background-color: transparent;
+  max-width: 300px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 6px;
+  width: 100%;
+  &:hover,
+  &:focus,
+  &:active {
+      background-color: $primary-color1;
+      color: #fff;
+      border-color: $primary-color1;
+  }
+  &.disabled {
+      background-color: grey;
+      border: 2px solid grey;
+      color: grey;
+    }
 }
