@@ -1146,56 +1146,6 @@ input {
   }
 }
 
-.dialog-select-one{
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .ant-radio-button-wrapper,
-  .ant-radio-button-wrapper:first-child,
-  .ant-radio-button-wrapper:last-child {
-    width: 75%;
-    margin: 10px 10px 10px 0 !important;
-    border: none !important;
-    padding: 18px 54px !important;
-    border-radius: 100px !important;
-    height: 100% !important;
-    font-size: 20px !important;
-    line-height: 24px !important;
-    font-weight: 400 !important;
-    background-color: $primary-color1 !important;
-    color: #fff !important;
-    span{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    &:not(:first-child):before {
-      display: none !important;
-    }
-
-    &:hover,
-    &:focus,
-    &:active {
-      background-color: $primary-color1 !important;
-      color: #fff !important;
-      border: none
-    }
-    &:active,
-    &:focus{
-      background-image: $secondary-color2 !important;
-      color: #fff !important;
-      border: none
-    }
-    &:disabled {
-      background-color: rgba(#3a3a3a, 0.2);
-      border: none;
-      color:  $primary-color1;
-    }
-  }
-}
-
 .Select-Button{
   width: 100%;
   display: flex;
