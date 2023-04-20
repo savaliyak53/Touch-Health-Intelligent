@@ -232,6 +232,7 @@ const Integrations = () => {
               src={'assets/icons/GoogleFit_Icon_Color_RGB.png'}
               height={50}
               width={50}
+              className={styles['Google-fit-img']}
             />
             <div className={styles['Container-title']}>Google Fit </div> 
             {checked === undefined ? (
@@ -260,6 +261,7 @@ const Integrations = () => {
               >
                 Data Use
                 <Tooltip
+                  className={styles['TooltipIcon']}
                   title={'This deletes all your data, setting your entire health profile in the Touch Health Assistant back to 0. We will retain your basic account information but all your data with the app so far will be deleted.'}
                   placement="bottomRight"
                   overlayStyle={{ marginRight: '10px' }}
@@ -267,7 +269,6 @@ const Integrations = () => {
                 >
                   <AiOutlineQuestionCircle
                     size={30}
-                    className="question-help"
                     style={{ marginLeft: '10px' }}
                   />
                 </Tooltip>
