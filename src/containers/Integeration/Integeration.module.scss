@@ -9,6 +9,9 @@
     .Container {
         margin-bottom: clamp(0px, 8vh, 60px);
     }
+    .Google-fit-img{
+      margin-bottom: 10px;
+    }
 
     .Container-title {
         display: flex;
@@ -36,10 +39,12 @@
 }
 
 .Container-title {
-    margin-bottom: 24px;
+    margin-top: 20px;
     .TooltipIcon {
-        max-width: 24px;
+        max-width: 22px;
         margin-left: 10px;
+        padding-bottom: 4px;
+        color: $primary-color1;
     }
 }
 
