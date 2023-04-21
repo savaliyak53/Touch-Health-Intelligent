@@ -13,7 +13,7 @@ import DashboardNew from '../containers/DashboardNew';
 import Insights from '../containers/Insights';
 import Timeline from '../containers/Timeline/index';
 import ManageConditions from '../containers/Conditions';
-import Diamond from '../components/diamond';
+import Diamond from '../components/Diamond';
 import ManageConcerns from '../containers/Concerns';
 import Subscription from '../containers/Subscription/Subscription';
 import SecurityQuestion from '../containers/SecurityQuestion';
