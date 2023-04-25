@@ -104,7 +104,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
         onSubmit={handleSubmit(onVerify)}
         className={styles['Auth-form']}
       >
-        <h2 className={`${styles['Auth-title']} `}>Find your path to health</h2>
+        <h2 className={`Title ${styles['Auth-title']} `}>Find your path to health</h2>
         <div className={Authstyles['input-element-wrapper']}>
           <Tooltip
             color="orange"
@@ -220,12 +220,13 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
           <Link to="/login">Already have an account?</Link>
         </div>
         <Button
-          className={`${styles['Auth-submit']} ${
-            isDisabled ? Authstyles['disabled'] : ''
-          }`}
+          // className={`${styles['Auth-submit']} ${
+          //   isDisabled ? Authstyles['disabled'] : ''
+          // }`}
           onClick={handleSubmit(onVerify)}
           loading={isLoading}
           disabled={isDisabled}
+          className={'Submit-Button'}
         >
           Register
         </Button>
