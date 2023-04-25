@@ -51,6 +51,7 @@ const Subscription = () => {
   const [switchPlanId, setSwitchPlanId] = useState<string>();
   const [stripeStatus, setStripeStatus] = useState<any>(null);
   const [retry, setRetry] = useState<any>(false);
+  const [disableAllButtons, setDisableAllButtons] = useState<boolean>(false);
 
   const [estimateAmount, setEstimateAmount] = useState();
   const showModal = () => {
@@ -382,6 +383,7 @@ const Subscription = () => {
       defaultHeader={true}
       hamburger={!userSignupStatus || retry ? false : true}
       dashboard={false}
+      setDisableAllButtons={setDisableAllButtons}
     >
       {retry ? (
         <div className="Content-wrap DayCon">
@@ -417,7 +419,7 @@ const Subscription = () => {
             <button
               className={styles['manage-btn']}
               onClick={handleManagePayment}
-              disabled={disableButton}
+              disabled={disableButton || disableAllButtons}
             >
               Manage Payment
               <Spin spinning={loadingManageBtn} indicator={antIcon} />
@@ -546,6 +548,7 @@ const Subscription = () => {
                                 <Button
                                   className={` ${styles['Modal-cancel-btn']} ${styles['Subscribe']} `}
                                   onClick={() => showModal()}
+                                  disabled={disableAllButtons}
                                 >
                                   Cancel
                                 </Button>
@@ -591,6 +594,7 @@ const Subscription = () => {
                                     <Button
                                       className={'Submit-Button'}
                                       onClick={() => handleSwitchModal(plan.id)}
+                                      disabled={disableAllButtons}
                                     >
                                       Switch
                                     </Button>
@@ -603,7 +607,8 @@ const Subscription = () => {
                                   disabled={
                                     disableButton ||
                                     loading ||
-                                    isActivePlan(plan)
+                                    isActivePlan(plan) ||
+                                    disableAllButtons
                                   }
                                 >
                                   Activate
