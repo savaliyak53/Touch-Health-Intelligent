@@ -30,6 +30,7 @@ import {
 import rehypeRaw from 'rehype-raw';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
 import LastGoalModal from '../../../components/Modal/LastGoalModal';
+import ListItem from '../../../components/ListItem/ListItem';
 
 type ITerms = {
   termsAndConditions: boolean;
@@ -248,6 +249,17 @@ const AddGoals = () => {
   const handleCancelModal=()=>{
     setShowLastGoalModal(false)
   }
+  const handleClose = (data:any) => {
+    if(goals.length>1) {
+      setSelectedGoal(data)
+      setShowCancelModal(true);
+    }    
+    else setShowLastGoalModal(true)
+  }
+  const handleClick = (data:any) => {
+    showModal(data);
+    setActive(true);
+  }
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <>
@@ -276,46 +288,31 @@ const AddGoals = () => {
 
         <h3 className={`Heading Heading-color2 ${styles['Goals-title']}`}>Recommended goals</h3>
 
-        <div className={styles['Rec-wrap']}>
-          {suggestion?.map((data: any, key: any) => (
-            <Button
-              key={key}
-              className={styles['Rec-Goal']}
-              type="primary"
-              onClick={() => showModal(data)}
-            >
-              {data.name === '' ? (
-                ''
-              ) : (
-                <span className={styles['Rec-Text']}>{data.name}</span>
-              )}
-              <RightOutlined className={styles['Arrow']} />
-            </Button>
+        <div className={styles['Health-Goals']}>
+          {suggestion?.map((data: any, index: any) => (
+            <>
+            <ListItem 
+              index={index}
+              handleClick={() => showModal(data)}
+              item={data}
+              name={data.name}
+            />
+            </>
           ))}
         </div>
         <h3 className={` Heading Heading-color2 ${styles['Goals-title']}`}>My goals</h3>
         <div className={styles['Health-Goals']}>
-          {goals?.map((data: any, key: any) => (
-            <div
-              key={key}
-              className={styles['Selected-Goal']}
-            >
-              <div className={styles['Mygoals-Title']}>
-                {data.name === '' ? (
-                  ''
-                ) : (
-                  <span 
-                    className={styles['Rec-Text']}               
-                    onClick={(e) => {
-                      showModal(data);
-                      setActive(true);
-                    }}
-                  >
-                    {data.name}
-                  </span>
-                )}
-              </div>
-              <ConfirmModal
+          {goals?.map((data: any, index: any) => (
+            <>
+              <ListItem 
+                index={index}
+                handleClick={handleClick}
+                handleClose={handleClose}
+                item={data}
+                name={data.name}
+                closable={true}
+              />
+            <ConfirmModal
                 title={'Confirmation'}
                 open={showCancelModal}
                 handleCancel={handleDeleteModal}
@@ -331,20 +328,7 @@ const AddGoals = () => {
                 className="Addgoal-Confirm-Modal"
                  renderData={<div className='Description' >Alas! Unable to delete. This is your last goal</div>}
               />
-                <Button
-                  className={styles['Cross-btn']}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if(goals.length>1) {
-                      setSelectedGoal(data)
-                      setShowCancelModal(true);
-                    }    
-                    else setShowLastGoalModal(true)
-                  }}
-                >
-                  <CloseOutlined className={styles['Cross']} style={{fontSize: 20}} />
-                </Button>
-            </div>
+            </>
           ))}
             {/* { deletedGoal ? (
               <div className={styles['dlt-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> Your goal {deletedGoal} was successfully deleted</div>

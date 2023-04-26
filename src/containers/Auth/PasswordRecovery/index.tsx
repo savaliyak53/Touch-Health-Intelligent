@@ -397,6 +397,10 @@ const PasswordRecovery = () => {
               <h2 className={styles["Security-title"]}>
                 Security Question
               </h2>
+              <p className={styles['Security-Description']}>
+                Please help us protect your account. Select a security question and
+                input answer. You can use this to get back access to your account.
+              </p>
               <input
                 id="security_question.question"
                 {...register('security_question.question')}
