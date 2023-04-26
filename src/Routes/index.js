@@ -13,7 +13,7 @@ import DashboardNew from '../containers/DashboardNew';
 import Insights from '../containers/Insights';
 import Timeline from '../containers/Timeline/index';
 import ManageConditions from '../containers/Conditions';
-import Diamond from '../components/Diamond';
+import Diamond from '../components/diamond/index';
 import ManageConcerns from '../containers/Concerns';
 import Subscription from '../containers/Subscription/Subscription';
 import SecurityQuestion from '../containers/SecurityQuestion';
@@ -57,12 +57,11 @@ const AppRoutes = () => {
         {/* Protected Routes */}
         <Route path="/questionnaire-poc" element={<MockQuestionnaire />} />
         <Route element={<RequireAuth />}>
-        
-        <Route path="/dashboard" element={<DashboardNew />} />
-        <Route path="/add-goals" element={<AddGoals />} />
-        <Route path="/intro-goals" element={<IntroGoals />} />
-        <Route path="/goals/:id" element={<GoalDetails />} />
-        
+          <Route path="/dashboard" element={<DashboardNew />} />
+          <Route path="/add-goals" element={<AddGoals />} />
+          <Route path="/intro-goals" element={<IntroGoals />} />
+          <Route path="/goals/:id" element={<GoalDetails />} />
+
           <Route path="insights" element={<Insights />} />
           <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
           <Route path="/insights/guideline" element={<Timeline />} />
@@ -76,7 +75,7 @@ const AppRoutes = () => {
           <Route path="/preferences" element={<Preferences />} />
           <Route path="/integrations" element={<Integrations />} />
           <Route path="/introvideo" element={<IntroVideo />} />
-          
+
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/subscription/:id" element={<Subscription />} />
           <Route path="/post-conditions" element={<ManageConditions />} />

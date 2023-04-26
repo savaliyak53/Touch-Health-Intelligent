@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './index.scss';
-import { useNavigate,useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Button from '../../components/Button';
 import { toast } from 'react-toastify';
 import Question from '../../components/Question';
@@ -25,7 +25,7 @@ function UserCondition() {
   const [skeletonLoading, setSkeletonLoading] = useState(true);
   const [isClicked, setClicked] = useState(false);
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
-  const [signupStatus, setSignupStatus] = useState<string | null >();
+  const [signupStatus, setSignupStatus] = useState<string | null>();
   const [exception, setException] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -35,110 +35,118 @@ function UserCondition() {
       .then((response) => {
         setSkeletonLoading(false);
         if (response?.data?.question) {
-          if(response?.data?.question.type == 'integration_page_redirect'){
-            integrationPageRedirect(response.data.ref_id)
+          if (response?.data?.question.type == 'integration_page_redirect') {
+            integrationPageRedirect(response.data.ref_id);
           } else {
             setQuestion(response?.data?.question);
             setRefId(response.data.ref_id);
           }
-        } 
-        else if(response?.data?.type==="done"){
-          handleInteractionRedirect()
-        }
-        else{
-          navigate("/dashboard")
+        } else if (response?.data?.type === 'done') {
+          handleInteractionRedirect();
+        } else {
+          navigate('/dashboard');
         }
       })
       .catch((error) => {
-        toast(error?.details?.message?error?.details?.message:'Cannot get question');
+        toast(
+          error?.details?.message
+            ? error?.details?.message
+            : 'Cannot get question'
+        );
         navigate('/dashboard');
         setSkeletonLoading(false);
       });
   };
-  const handleInteractionRedirect = () =>{
-    const userId=localStorage.getItem('userId');
+  const handleInteractionRedirect = () => {
+    const userId = localStorage.getItem('userId');
     getUser(userId)
-    .then((response:any) => {
-      if (response?.data.signup_status==='onboarding') {
-        preferencesService({
-          signup_status:"goal-selection"
-        }, userId)
-        .then((preferencesResponse) => {
-          if (preferencesResponse) {
-            navigate('/add-goals')
-          } else {
-            console.log('navigate to dashboard')
-          }
-        })
-        .catch((error) => {
-          toast.error(
-            `${error.response?.data?.title} Please check values and try again.`
-          );
-        });
-      }
-      else if (response?.data.signup_status==='goal-characterization') {
-        preferencesService({
-          signup_status:"done"
-        }, userId)
-        .then((preferencesResponse) => {
-          if (preferencesResponse) {
-            //nayab revisit this
-            navigate('/dashboard')
-          } else {
-            console.log('navigate to dashboard')
-            //navigate('/dashboard');
-          }
-        })
-        .catch((error) => {
-          toast.error(
-            `${error.response?.data?.title} Please check values and try again.`
-          );
-        });
-      } 
-      else if (response?.data.signup_status==='done') {
-        navigate("/dashboard")
-      }
-      else{
-        navigate("/dashboard")
-      }
-    })
-    .catch((error) => {
-      toast.error(
-        `${error.response?.data?.title} Please check values and try again.`
-      );
-    });          
-  }
+      .then((response: any) => {
+        if (response?.data.signup_status === 'onboarding') {
+          preferencesService(
+            {
+              signup_status: 'goal-selection',
+            },
+            userId
+          )
+            .then((preferencesResponse) => {
+              if (preferencesResponse) {
+                navigate('/add-goals');
+              } else {
+                console.log('navigate to dashboard');
+              }
+            })
+            .catch((error) => {
+              toast.error(
+                `${error.response?.data?.title} Please check values and try again.`
+              );
+            });
+        } else if (response?.data.signup_status === 'goal-characterization') {
+          preferencesService(
+            {
+              signup_status: 'done',
+            },
+            userId
+          )
+            .then((preferencesResponse) => {
+              if (preferencesResponse) {
+                //nayab revisit this
+                navigate('/dashboard');
+              } else {
+                console.log('navigate to dashboard');
+                //navigate('/dashboard');
+              }
+            })
+            .catch((error) => {
+              toast.error(
+                `${error.response?.data?.title} Please check values and try again.`
+              );
+            });
+        } else if (response?.data.signup_status === 'done') {
+          navigate('/dashboard');
+        } else {
+          navigate('/dashboard');
+        }
+      })
+      .catch((error) => {
+        toast.error(
+          `${error.response?.data?.title} Please check values and try again.`
+        );
+      });
+  };
   useEffect(() => {
-    if(location && location.pathname ==='/c/checkup'){
+    if (location && location.pathname === '/c/checkup') {
       handleInitiateCheckupByLink();
-    }
-    else{
+    } else {
       getInteraction();
     }
   }, []);
-  const handleInitiateCheckupByLink = () =>{
+  const handleInitiateCheckupByLink = () => {
     getInteractionServiceByType('checkup')
-    .then((response: any) => {
-      if (response) {
-        getInteraction();
-      } else {
-        toast.error(`Something went wrong while Initiating Checkup Interaction.`);
-        navigate('/dashboard');
-      }
-    })
-    .catch((error) => {
-      toast.error(`Something went wrong while Initiating Checkup Interaction.`);
-    });
-  }
+      .then((response: any) => {
+        if (response) {
+          getInteraction();
+        } else {
+          toast.error(
+            `Something went wrong while Initiating Checkup Interaction.`
+          );
+          navigate('/dashboard');
+        }
+      })
+      .catch((error) => {
+        toast.error(
+          `Something went wrong while Initiating Checkup Interaction.`
+        );
+      });
+  };
   const integrationPageRedirect = (refId: string) => {
-      localStorage.setItem('refId', refId)
-      localStorage.setItem('redirect', 'true')
-      navigate('/integrations');
-  }
-  const onSubmit= async (state?: string, skip?: boolean) => {
+    localStorage.setItem('refId', refId);
+    localStorage.setItem('redirect', 'true');
+    navigate('/integrations');
+  };
+  const onSubmit = async (state?: string, skip?: boolean) => {
     setClicked(true);
     if (
-      question.type !== 'select_many' && 
+      question.type !== 'select_many' &&
       question.type !== 'multi_select' &&
       question.type !== 'yes_no' &&
       question.type !== 'slider' &&
@@ -191,18 +199,17 @@ function UserCondition() {
         setRefId(data.ref_id ?? '');
         setClicked(false);
         if (data.question) {
-          if(data.question.type == 'integration_page_redirect'){
-            integrationPageRedirect(data.ref_id)
+          if (data.question.type == 'integration_page_redirect') {
+            integrationPageRedirect(data.ref_id);
           } else {
             setQuestion(data.question);
-            setDisableNextButton(false)
+            setDisableNextButton(false);
           }
-        } else if(!data.question && data.type==="done") {
+        } else if (!data.question && data.type === 'done') {
           handleInteractionRedirect();
-        }
-        else {
+        } else {
           toast.error('Something went wrong, question is null');
-          setDisableNextButton(false)
+          setDisableNextButton(false);
         }
       })
       .catch((error) => {
@@ -210,65 +217,78 @@ function UserCondition() {
         setException(true);
       });
   };
-  const handleRetry=()=>{
+  const handleRetry = () => {
     window.location.reload();
-  }
-  const handleOk=()=>{
-    navigate("/dashboard");
-  }
+  };
+  const handleOk = () => {
+    navigate('/dashboard');
+  };
   return (
     <Layout defaultHeader={true} hamburger={false}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
-      {question?.type==="error" || exception ? <div> 
-        <ErrorInteractionModal 
-           title={"Error"} 
-           open={true} 
-           showTryButton={!exception} 
-           handleRetry={handleRetry} 
-           handleOk={handleOk} 
-           renderData={<div className={"Description"} >Oops! Looks like we cannot continue interaction at this point  <br/>Try again later.</div>}/>
-       </div> : <div className="Content-wrap Pain">
-        {question && (
-          <>
-            <Question
-              selectedValue={value}
-              question={question}
-              items={items}
-              setItems={setItems}
-              setValue={setValue}
-              onSubmit={onSubmit}
-              setDisableNextButton={setDisableNextButton}
-              disable={disableNextButton}
-              value={value}
-            />
-            {console.log(value && value?.length<1)}
-            {question?.type !== 'yes_no' && question?.type !== 'dialog_select_one' && question?.type !== 'image_and_text_select_one' && question?.type !== 'markdown_select_one' && (
-              <div>
-                <Button
-                className={`Questionnaire-Submit-Button ${
-                  isClicked ? ' active' : ''
-                }`}
-                onClick={() => {
-                  setClicked(true);
-                  onSubmit();
-                }}
-                loading={loading}
-                disabled={
-                  question?.type !== 'select_many' &&
-                  question?.type !== 'multi_select' &&
-                  question?.type !== 'image_and_text' &&
-                  (typeof value === 'undefined' || value?.length<1) ||
-                  loading
-                }
-              >
-                Next
-              </Button>
+      {question?.type === 'error' || exception ? (
+        <div>
+          <ErrorInteractionModal
+            title={'Error'}
+            open={true}
+            showTryButton={!exception}
+            handleRetry={handleRetry}
+            handleOk={handleOk}
+            renderData={
+              <div className={'Description'}>
+                Oops! Looks like we cannot continue interaction at this point{' '}
+                <br />
+                Try again later.
               </div>
-            )}
-          </>
-        )}
-      </div>}
-     
+            }
+          />
+        </div>
+      ) : (
+        <div className="Content-wrap Pain">
+          {question && (
+            <>
+              <Question
+                selectedValue={value}
+                question={question}
+                items={items}
+                setItems={setItems}
+                setValue={setValue}
+                onSubmit={onSubmit}
+                setDisableNextButton={setDisableNextButton}
+                disable={disableNextButton}
+                value={value}
+              />
+              {question?.type !== 'yes_no' &&
+                question?.type !== 'dialog_select_one' &&
+                question?.type !== 'image_and_text_select_one' &&
+                question?.type !== 'markdown_select_one' && (
+                  <div>
+                    <Button
+                      className={`Questionnaire-Submit-Button ${
+                        isClicked ? ' active' : ''
+                      }`}
+                      onClick={() => {
+                        setClicked(true);
+                        onSubmit();
+                      }}
+                      loading={loading}
+                      disabled={
+                        (question?.type !== 'select_many' &&
+                          question?.type !== 'multi_select' &&
+                          question?.type !== 'image_and_text' &&
+                          (typeof value === 'undefined' ||
+                            value?.length < 1)) ||
+                        loading
+                      }
+                    >
+                      Next
+                    </Button>
+                  </div>
+                )}
+            </>
+          )}
+        </div>
+      )}
     </Layout>
   );
 }
