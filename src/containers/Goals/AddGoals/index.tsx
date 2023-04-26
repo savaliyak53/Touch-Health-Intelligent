@@ -46,7 +46,7 @@ type IGoalInfo = {
 };
 const AddGoals = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [goals, setGoals] = useState<any>([]);
@@ -152,6 +152,8 @@ const AddGoals = () => {
   const addGoals = (goalId?: string) => {
     addGoal({ goal_ids: [goalId] })
       .then((res) => {
+        setIsLoading(false);
+        setIsDisabled(false);
         setSearchValue('');
         toast.success('Goal added successfully');
         setIsModalOpen(false);
@@ -167,6 +169,8 @@ const AddGoals = () => {
   const removeGoal = (id?: string) => {
     deleteGoal(id)
       .then((res) => {
+        setIsLoading(false);
+        setIsDisabled(false);
         // setDeletedGoal(selectedGoal?.name)
         toast("Goal deleted successfully")
         setSearchValue('');
@@ -377,8 +381,9 @@ const AddGoals = () => {
               <Button
                 className="Submit-Button"
                 loading={isLoading}
+                disabled={isDisable}
                 onClick={() => {
-                  if(goals.length>1)removeGoal(selectedGoal?.id)
+                  if(goals.length>1){setIsLoading(true); setIsDisabled(true); removeGoal(selectedGoal?.id)}
                   else setShowLastGoalModal(true)
                 }}
               >
@@ -388,7 +393,8 @@ const AddGoals = () => {
               <Button
                 className="Submit-Button"
                 loading={isLoading}
-                onClick={() => addGoals(selectedGoal?.id)}
+                disabled={isDisable}
+                onClick={() => {setIsLoading(true); setIsDisabled(true); addGoals(selectedGoal?.id)}}
               >
                 Pick goal
               </Button>
