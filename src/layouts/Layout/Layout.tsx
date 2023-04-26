@@ -39,19 +39,7 @@ const Layout = ({ children, defaultHeader, hamburger, dashboard, signupLogin, se
           if (response.data.signup_status === 'new' && res.data.isSubscribed===false) {
             location.pathname!=="/subscription"? navigate('/subscription') : null;
             return;
-          } else if (
-            res.data.isSubscribed &&
-            ['onboarding', 'goal-characterization', 'goal-selection'].includes(response.data.signup_status) &&
-            location.pathname==='/subscription'
-          ) {
-            if (setDisableAllButtons) {
-              setDisableAllButtons(true);
-            }
-            toast.success('Subscription confirmed.', {autoClose: 3000})
-            sleep(3000).then(() => {
-              navigate('/questionnaire');
-            })
-          }
+          } 
         })
         .catch((error) => {
           console.log('Error while getting user plan. ', error);

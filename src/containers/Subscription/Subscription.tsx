@@ -18,7 +18,7 @@ import {
 import { Card } from 'antd';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router';
-import { dateFormatRenewal } from '../../utils/lib';
+import { dateFormatRenewal, sleep } from '../../utils/lib';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { ISubscriptionPlan, IUserSubscription } from './Interfaces';
 import { Link } from 'react-router-dom';
@@ -216,6 +216,11 @@ const Subscription = () => {
   }, [stripeStatus]);
   useEffect(() => {
     if (location.search === '?success') {
+      !disableAllButtons && setDisableAllButtons(true);
+      toast.success('Subscription confirmed.', {autoClose: 3000})
+      sleep(3000).then(() => {
+        navigate('/questionnaire');
+      })
       userCheckoutStatus();
     }
   }, [location]);
