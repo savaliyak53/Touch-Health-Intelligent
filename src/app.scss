@@ -1012,6 +1012,9 @@ input {
   .ant-modal-footer{
     border: none;
   }
+  .ant-modal-footer .ant-btn+.ant-btn:not(.ant-dropdown-trigger){
+    margin-left: auto;
+  }
 }
 
 .Goals-Modal{
@@ -1072,7 +1075,7 @@ input {
   font-family: $font-title;
   font-style: normal;
   font-weight: 400;
-  font-size: 34px;
+  font-size: min(8.5vw, 34px);
   text-align: left;
   margin-bottom: 32px;
   margin-top: 48px;
@@ -1099,9 +1102,11 @@ input {
   &:hover,
   &:focus,
   &:active {
-    background-color: $primary-color1 !important;
-    color: #fff !important;
-    border: none
+    &:not([disabled]){
+      background-color: $primary-color1 !important;
+      color: #fff !important;
+      border: none
+    }
   }
   &.active {
     background-image: $secondary-color2 !important;
@@ -1166,8 +1171,8 @@ input {
     font-size: 20px !important;
     line-height: 24px !important;
     font-weight: 400 !important;
-    background-color: transparent !important;
-    color: $primary-color1 !important;
+    background-color: $primary-color1;
+    color: #fff;
     span{
       display: flex;
       align-items: center;
@@ -1179,7 +1184,7 @@ input {
     }
 
     &:hover {
-      color: $primary-color2;
+      color: #fff;
     }
   }
   
@@ -1227,6 +1232,9 @@ input {
     font-size: 24px;
     line-height: 26px;
     }
+    ol, ul{
+      margin-left: 20px;
+    }
 }
 .Heading{
   font-family: $font-body;
@@ -1236,13 +1244,11 @@ input {
   text-align: left;
 }
 .Heading-color1{
-  color: $primary-color1;
   h1 {
     color: $primary-color1;
   }
 }
 .Heading-color2{
-  color: $primary-color2;
   h1 {
     color: $primary-color2;
   }

@@ -366,7 +366,7 @@ const Question = ({
         return (
           <div className={goal_styles['IntroGoals']}>
            {question.title &&  <h2 className={goal_styles['Title']}>{question.title}</h2>}
-            <div className={ `Description Heading-color2`}>
+            <div className={ `Description Heading-color1 ${styles['Des-Goal']}`}>
               <ReactMarkdown rehypePlugins={[rehypeRaw]}>
                 {question.body_md}
               </ReactMarkdown>
@@ -417,21 +417,28 @@ const Question = ({
             <h3
               className={`Description`}
             >
-              {question.q_str}
-              {question.h_str && (
-                <Tooltip
-                  title={question?.h_str}
-                  placement="bottomRight"
-                  overlayStyle={{ marginRight: '10px' }}
-                  color="blue"
-                  mouseLeaveDelay={0}
-                >
-                  <AiOutlineQuestionCircle
-                    size={30}
-                    className="question-help"
-                  />
-                </Tooltip>
-              )}
+              <div className={`${question.h_str ? styles['Text-wrapper'] : ''}`}>
+                <div className={`${question.h_str ? styles['Question-Description'] : ''}`}>
+                  {question.q_str}
+                </div>
+                {question.h_str && (
+                  <div className={styles['Question-Tooltip']}>
+                    <Tooltip
+                      title={question?.h_str}
+                      placement="bottomRight"
+                      overlayStyle={{ marginRight: '20px' }}
+                      color="blue"
+                      mouseLeaveDelay={0}
+                    >
+                      <AiOutlineQuestionCircle
+                        size={30}
+                        className="question-help"
+                      />
+                    </Tooltip>
+                  </div>
+
+                )}
+              </div>
             </h3>
             <br />
             {question.type === 'multi_select' ? (
