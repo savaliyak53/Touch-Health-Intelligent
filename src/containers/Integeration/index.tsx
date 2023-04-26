@@ -273,7 +273,13 @@ const Integrations = () => {
                   />
                 </Tooltip>
               </h3>
-              <Button className={`Pref-post-btn ${styles['Data-dlt-btn']}`} onClick={() => setShowCancelModal(true)}>  Delete all my data</Button>
+              <Button
+                className={`Pref-post-btn ${styles['Data-dlt-btn']}`}
+                onClick={() => setShowCancelModal(true)}
+                disabled={loc?.state.redirect}
+              >
+                Delete all my data
+              </Button>
               <DeleteModal
                 title={''}
                 open={showCancelModal}
