@@ -101,7 +101,7 @@ const LoginForm = ({refCaptcha}: LoginFormProps) => {
       <div className={styles["Auth-wrap"]}>
         <form role="login-form" onSubmit={handleSubmit(onSubmit)}  className={styles["Auth-form"]}>
         {/* <h2 className={`${styles["Auth-title"]} ${Authstyles["Auth-title"]}`}>Find your path to health</h2> */}
-        <h2 className={`${styles["Auth-title"]} `}>Find your path to health</h2>
+        <h2 className={`Title ${styles["Auth-title"]} `}>Find your path to health</h2>
 
           <CountryCode
             errors={errors.username}
@@ -142,7 +142,7 @@ const LoginForm = ({refCaptcha}: LoginFormProps) => {
             setIsDisabled(false) } } 
           />
           <Button
-            className={Authstyles["Auth-submit"]}
+            className={"Submit-Button"}
             onClick={handleSubmit(onSubmit)}
             loading={isLoading}
             disabled={isDisabled}
