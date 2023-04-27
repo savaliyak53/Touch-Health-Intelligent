@@ -205,11 +205,14 @@ function UserCondition() {
             setQuestion(data.question);
             setDisableNextButton(false);
           }
-        } else if (!data.question && data.type === 'done') {
+        } else if(!data.question && data.type === "done") {
           handleInteractionRedirect();
-        } else {
+        }
+        else if (!data || !data.question || data.question===null)
+        {
           toast.error('Something went wrong, question is null');
-          setDisableNextButton(false);
+          setException(true);
+          setDisableNextButton(false)
         }
       })
       .catch((error) => {
