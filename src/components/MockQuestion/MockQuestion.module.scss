@@ -210,8 +210,8 @@
   font-weight: 400;
   margin-top: 20px;
   display: block;
-  border: 2px solid black;
-  background-color: black;
+  border: 2px solid $primary-color2;
+  background-color: $primary-color2;
   margin-right: 4px;
   margin-left: 4px;
   width: 100%;
@@ -249,13 +249,13 @@
   border-radius: 10px;
   height: auto;
   padding: 18px 60px;
-  color: black;
+  color: $primary-color2;
   font-size: 20px;
   line-height: 24px;
   font-weight: 400;
   margin-top: 20px;
   display: block;
-  border: 2px solid black;
+  border: 2px solid $primary-color2;
   background-color: transparent;
   max-width: 300px;
   margin-right: auto;
@@ -328,7 +328,7 @@
     z-index: 2;
     max-width: 200px;
     box-shadow: none;
-    color: black;
+    color: $primary-color2;
   }
 }
 

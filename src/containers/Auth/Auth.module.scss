@@ -108,7 +108,7 @@
     margin-left: -2.76rem;
     cursor: pointer;
     margin-bottom: 16px;
-    color: black;
+    color: $primary-color2;
   }
   
   .Auth-terms {
@@ -224,7 +224,7 @@
     font-weight: 400px;
     font-family: $font-body;
     line-height: 20px;
-    color: black;
+    color: $primary-color2;
     padding: 17px 20px;
     border-radius: 100px;
     background-color: rgba(#fff,0.5);
@@ -237,11 +237,11 @@
     font-weight: 400px;
     font-family: $font-body;
     line-height: 20px;
-    color: black;
+    color: $primary-color2;
     text-decoration: underline;
   
     &:hover {
-      color: black;
+      color: $primary-color2;
       text-decoration: underline;
       opacity: 0.8;
     }
@@ -250,7 +250,7 @@
     text-align: center;
     font-size: 18px; 
     line-height: 15px;
-    color: black;
+    color: $primary-color2;
     padding: 7px 0px;
     border-radius: 100px;
     background-color: #fff;
@@ -275,11 +275,11 @@
     font-weight: 400px !important;
     font-size: 18px;
     line-height: 20px;
-    color: black;
+    color: $primary-color2;
     text-decoration: underline;
   
     &:hover {
-      color: black;
+      color: $primary-color2;
       text-decoration: underline;
       opacity: 0.8;
     }
