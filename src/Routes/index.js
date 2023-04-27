@@ -13,8 +13,6 @@ import DashboardNew from '../containers/DashboardNew';
 import Insights from '../containers/Insights';
 import Timeline from '../containers/Timeline/index';
 import ManageConditions from '../containers/Conditions';
-import Diamond from '../components/Diamond';
-import ManageConcerns from '../containers/Concerns';
 import Subscription from '../containers/Subscription/Subscription';
 import SecurityQuestion from '../containers/SecurityQuestion';
 import ResetPassword from '../containers/Auth/ResetPassword';
@@ -66,7 +64,6 @@ const AppRoutes = () => {
           <Route path="insights" element={<Insights />} />
           <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
           <Route path="/insights/guideline" element={<Timeline />} />
-          <Route path="/diamond" element={<Diamond />} />
           <Route path="/questionnaire" element={<UserCondition />} />
           <Route path="/c/:reason" element={<UserCondition />} />
           <Route
@@ -80,7 +77,6 @@ const AppRoutes = () => {
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/subscription/:id" element={<Subscription />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
-          {/* <Route path="/post-concerns" element={<ManageConcerns />} /> */}
           <Route path="/help-and-support" element={<HelpAndSupport />} />
           <Route path="/success" element={<Success />} />
           <Route path="/error" element={<Error />} />

@@ -1113,7 +1113,7 @@ input {
     color: #fff !important;
     border: none
   }
-  &:disabled {
+  &:disabled, &:disabled:hover {
     background-color: rgba(#3a3a3a, 0.2);
     border: none;
     color:  $primary-color1;
@@ -1147,7 +1147,7 @@ input {
     }
 
   }
-  &:disabled {
+  &:disabled, &:disabled:hover {
     background-color: rgba(#3a3a3a, 0.2);
     border: none;
     color:  $primary-color1;

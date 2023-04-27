@@ -46,7 +46,7 @@ type IGoalInfo = {
 };
 const AddGoals = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [goals, setGoals] = useState<any>([]);
@@ -54,7 +54,7 @@ const AddGoals = () => {
   const [selectedGoal, setSelectedGoal] = useState<IGoalInfo>();
   const [searchValue, setSearchValue] = useState('');
   const [options, setOptions] = useState<any>([]);
-  const [isDisable, setIsDisabled] = useState(true);
+  const [isDisable, setIsDisabled] = useState(false);
   const [userStatus, setUserSatus] = useState(false);
   const [active, setActive] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
@@ -172,7 +172,7 @@ const AddGoals = () => {
         setIsLoading(false);
         setIsDisabled(false);
         // setDeletedGoal(selectedGoal?.name)
-        toast("Goal deleted successfully")
+        // toast("Goal deleted successfully")
         setSearchValue('');
         getGoalsData();
         setIsModalOpen(false);
@@ -300,12 +300,14 @@ const AddGoals = () => {
               handleClick={() => showModal(data)}
               item={data}
               name={data.name}
+              disabled={isDisable}
+              className={`${styles['Goals-List']} ${styles['Suggested-Goals-List']}`}
             />
             </>
           ))}
         </div>
         <h3 className={` Heading Heading-color2 ${styles['Goals-title']}`}>My goals</h3>
-        <div className={styles['Health-Goals']}>
+        <div className={styles['Active-Goals']}>
           {goals?.map((data: any, index: any) => (
             <>
               <ListItem 
@@ -315,6 +317,8 @@ const AddGoals = () => {
                 item={data}
                 name={data.name}
                 closable={true}
+                disabled={isDisable}
+                className={`${styles['Goals-List']} ${styles['Active-Goals-List']}`}
               />
             <ConfirmModal
                 title={'Confirmation'}

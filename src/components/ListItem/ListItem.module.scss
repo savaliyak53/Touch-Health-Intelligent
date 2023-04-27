@@ -2,7 +2,7 @@
 
 .Mygoals-Title {
     display: flex;
-    gap: 20px
+    gap: 10px
   }
 .Rec-Goal,
 .Selected-Goal {
@@ -62,5 +62,4 @@
 .Arrow {
   color: $primary-color1 !important;
   font-size: 20px;
-  margin-right: 2vw;
 }
