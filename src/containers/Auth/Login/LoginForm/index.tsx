@@ -160,7 +160,7 @@ const LoginForm = ({refCaptcha}: LoginFormProps) => {
 
           <div className={Authstyles["Auth-terms-signup"]}>
             <Link to="/password-reset" className={Authstyles["Auth-signup"]}>
-              Forgot Password?
+              Reset password
             </Link>
           </div>
 
