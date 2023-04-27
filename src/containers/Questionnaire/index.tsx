@@ -207,8 +207,9 @@ function UserCondition() {
           }
         } else if (!data.question && data.type === 'done') {
           handleInteractionRedirect();
-        } else {
+        } else if (!data || !data.question || data.question === null) {
           toast.error('Something went wrong, question is null');
+          setException(true);
           setDisableNextButton(false);
         }
       })
