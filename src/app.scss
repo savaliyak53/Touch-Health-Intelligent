@@ -1171,8 +1171,8 @@ input {
     font-size: 20px !important;
     line-height: 24px !important;
     font-weight: 400 !important;
-    background-color: $primary-color1;
-    color: #fff;
+    background-color: #fff;
+    color: $primary-color1;
     span{
       display: flex;
       align-items: center;
@@ -1184,7 +1184,7 @@ input {
     }
 
     &:hover {
-      color: #fff;
+      color: $primary-color1;
     }
   }
   
