@@ -138,9 +138,41 @@
     }
   }
 }
+.logout-button{
+  border-radius: 100px;
+  height: auto;
+  padding: 18px 54px;
+  background-color: $primary-color1;
+  color: #fff;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 400;
+  border: 2px solid #fff;
+  margin: 20px auto 0px;
+  display: flex;
+  justify-content: center;  
+  width: 65%;
+  white-space: pre-line !important;
 
+
+  &:hover,
+  &:focus,
+  &:active {
+    &:not([disabled]){
+      background-image: $secondary-color2 !important;
+      color: #fff !important;
+      border: none
+    }
+
+  }
+  &:disabled {
+    background-color: rgba(#3a3a3a, 0.2);
+    border: none;
+    color:  $primary-color1;
+  }
+}
 .Signout {
-  font-family: "Roboto", sans-serif !important;
+  font-family: $font-body !important;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -148,7 +180,6 @@
   display: flex;
   align-items: center;
   text-align: center;
-  text-decoration-line: underline;
   background-color: #204ECF;
   display: block;
   position: fixed;

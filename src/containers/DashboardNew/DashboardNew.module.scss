@@ -1,3 +1,5 @@
+@import '../../variables.module.scss';
+
 .Title {
     font-size: 36px;
     line-height: 1;
@@ -33,8 +35,20 @@
     max-width: 20px;
     width: 100%;
 }
-.Streak {
+.StreakPeach{
+    background-color: $primary-color3;
+    border-radius: 10px;
+    width: 100%;
+    height: 40px;
+}
+.StreakGrey{
     background-color: #E8E8E8;
+    border-radius: 10px;
+    width: 100%;
+    height: 40px;
+}
+.StreakBlue{
+    background-color: $primary-color1;
     border-radius: 10px;
     width: 100%;
     height: 40px;
@@ -58,25 +72,24 @@
         font-size: 28px;
         line-height: 1;
         font-weight: 700;
-        color:#B83B5E;
-        border: none;
+        color: $primary-color1;
+        border: 2px solid $primary-color1;
         outline: none;
-        background-color: #F8F8F8;
+        background-color: #fff;
         border-radius: 100px;
-        padding: 20px 40px;
+        padding: 20px 35px;
         display: flex;
         align-items: center;
         justify-content: center;
         &:focus {
-            border: none;
-            outline: none;
-            background-color: #F8F8F8;
+            background-image: $secondary-color2;
+            border: none !important;
+            color: #fff !important;
         }
         &:hover {
-            border: none;
-            outline: none;
-            background-color: #F8F8F8;
-            color:#B83B5E;
+            background-image: $secondary-color2;
+            border: none !important;
+            color: #fff !important;
         }
     }
 }
@@ -85,6 +98,7 @@
     line-height: 1;
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
+    color: $primary-color2 !important;
 }
 
 .Goal {
@@ -99,16 +113,18 @@
     justify-content: space-between;
 }
 .GoalTitle {
+    font-family: $font-body;
+    color:$primary-color2 !important;
+    font-weight: 800;
     font-size: 20px;
-    line-height: 1;
-    font-family: 'Raleway', sans-serif;
-    font-weight: 700;
+    line-height: 110%;
 }
 .GoalCount {
-    font-size: 36px;
-    line-height: 1;
-    font-family: 'Raleway', sans-serif;
-    font-weight: 700;
+    font-size: 24px;
+    line-height: 110%;
+    font-family: $font-body;
+    color: $primary-color2 !important;
+    font-weight: 800;
 }
 .GoalBarWrap {
     display: flex;
@@ -116,10 +132,11 @@
     margin-top: 4px;
 }
 .GoalLetter {
-    font-size: 18px;
-    line-height: 1;
-    font-family: 'Raleway', sans-serif;
-    font-weight: 700;
+    font-family: $font-body;
+    color:$primary-color1 !important;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 110%;
     margin-right: 12px;
     word-break: initial !important;
 }

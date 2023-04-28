@@ -32,9 +32,9 @@ const SignUp = () => {
           onSubmit={onSubmit}
           refCaptcha={refCaptcha}
         />
-        <div className={styles.SignupBGShape1}></div>
+        {/* <div className={styles.SignupBGShape1}></div>
         <div className={styles.SignupBGShape2}></div>
-        <div className={styles.SignupBGShape3}></div>
+        <div className={styles.SignupBGShape3}></div> */}
       </div>
 
     </Layout>

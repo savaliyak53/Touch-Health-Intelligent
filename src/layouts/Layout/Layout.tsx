@@ -4,15 +4,17 @@ import './Layout.scss';
 import { useLocation, useNavigate } from 'react-router';
 import { getUser} from '../../services/authservice';
 import { getSubscriptionStatus } from '../../services/subscriptionService';
-import { signupFlow } from '../../utils/lib';
+import { signupFlow, sleep } from '../../utils/lib';
+import { toast } from 'react-toastify';
 type Props = {
   defaultHeader: boolean;
   hamburger: boolean;
+  setDisableAllButtons?: React.Dispatch<React.SetStateAction<boolean>>;
   dashboard?: boolean;
   signupLogin?: string;
   children?: React.ReactChild | React.ReactChild[];
 };
-const Layout = ({ children, defaultHeader, hamburger, dashboard, signupLogin }: Props) => {
+const Layout = ({ children, defaultHeader, hamburger, dashboard, signupLogin, setDisableAllButtons }: Props) => {
   const navigate=useNavigate()
   const location = useLocation();
     const checkUserData = () => {
@@ -37,7 +39,7 @@ const Layout = ({ children, defaultHeader, hamburger, dashboard, signupLogin }: 
           if (response.data.signup_status === 'new' && res.data.isSubscribed===false) {
             location.pathname!=="/subscription"? navigate('/subscription') : null;
             return;
-          }
+          } 
         })
         .catch((error) => {
           console.log('Error while getting user plan. ', error);
