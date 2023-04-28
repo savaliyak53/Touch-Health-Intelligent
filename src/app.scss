@@ -307,6 +307,10 @@ input {
     margin-top: 0;
   }
 }
+.Pref-post-btn-disabled {
+  background: rgba(#3a3a3a, 0.2) !important;
+  border: none !important;
+}
 .Pref-username-btn {
   border-radius: 80px !important;
   height: 60px !important;

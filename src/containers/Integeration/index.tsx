@@ -274,7 +274,7 @@ const Integrations = () => {
                 </Tooltip>
               </h3>
               <Button
-                className={`Pref-post-btn ${styles['Data-dlt-btn']}`}
+                className={`Pref-post-btn ${loc?.state.redirect ? 'Pref-post-btn-disabled' : ''} ${styles['Data-dlt-btn']}`}
                 onClick={() => setShowCancelModal(true)}
                 disabled={loc?.state.redirect}
               >
