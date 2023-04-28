@@ -54,7 +54,7 @@ const AddGoals = () => {
   const [selectedGoal, setSelectedGoal] = useState<IGoalInfo>();
   const [searchValue, setSearchValue] = useState('');
   const [options, setOptions] = useState<any>([]);
-  const [isDisable, setIsDisabled] = useState(true);
+  const [isDisable, setIsDisabled] = useState(false);
   const [userStatus, setUserSatus] = useState(false);
   const [active, setActive] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
@@ -152,6 +152,8 @@ const AddGoals = () => {
   const addGoals = (goalId?: string) => {
     addGoal({ goal_ids: [goalId] })
       .then((res) => {
+        setIsLoading(false);
+        setIsDisabled(false);
         setSearchValue('');
         toast.success('Goal added successfully');
         setIsModalOpen(false);
@@ -167,8 +169,10 @@ const AddGoals = () => {
   const removeGoal = (id?: string) => {
     deleteGoal(id)
       .then((res) => {
+        setIsLoading(false);
+        setIsDisabled(false);
         // setDeletedGoal(selectedGoal?.name)
-        toast("Goal deleted successfully")
+        // toast("Goal deleted successfully")
         setSearchValue('');
         getGoalsData();
         setIsModalOpen(false);
@@ -296,12 +300,14 @@ const AddGoals = () => {
               handleClick={() => showModal(data)}
               item={data}
               name={data.name}
+              disabled={isDisable}
+              className={`${styles['Suggested-Goals-List']}`}
             />
             </>
           ))}
         </div>
         <h3 className={` Heading Heading-color2 ${styles['Goals-title']}`}>My goals</h3>
-        <div className={styles['Health-Goals']}>
+        <div className={styles['Active-Goals']}>
           {goals?.map((data: any, index: any) => (
             <>
               <ListItem 
@@ -311,6 +317,8 @@ const AddGoals = () => {
                 item={data}
                 name={data.name}
                 closable={true}
+                disabled={isDisable}
+                className={`${styles['Active-Goals-List']}`}
               />
             <ConfirmModal
                 title={'Confirmation'}
@@ -377,8 +385,9 @@ const AddGoals = () => {
               <Button
                 className="Submit-Button"
                 loading={isLoading}
+                disabled={isDisable}
                 onClick={() => {
-                  if(goals.length>1)removeGoal(selectedGoal?.id)
+                  if(goals.length>1){setIsLoading(true); setIsDisabled(true); removeGoal(selectedGoal?.id)}
                   else setShowLastGoalModal(true)
                 }}
               >
@@ -388,7 +397,8 @@ const AddGoals = () => {
               <Button
                 className="Submit-Button"
                 loading={isLoading}
-                onClick={() => addGoals(selectedGoal?.id)}
+                disabled={isDisable}
+                onClick={() => {setIsLoading(true); setIsDisabled(true); addGoals(selectedGoal?.id)}}
               >
                 Pick goal
               </Button>

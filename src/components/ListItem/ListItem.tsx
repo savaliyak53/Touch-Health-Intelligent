@@ -15,6 +15,8 @@ export type IProps = {
   handleClose?:any;
   closable?:boolean;
   title?: string;
+  disabled?: boolean;
+  className?: string
 };
 const ListItem = ({
   index,
@@ -24,11 +26,13 @@ const ListItem = ({
   status,
   name,
   closable,
+  disabled,
+  className
 }: IProps) => {
   return (
     <div
       key={index}
-      className={styles['Selected-Goal']}
+      className={`${styles['Goals-Card']} ${className}`}
     >
         <div className={styles['Mygoals-Title']}>
           <span 
@@ -40,6 +44,7 @@ const ListItem = ({
           {closable?
           <Button
             className={styles['Arrow-btn']}
+            disabled={disabled}
             onClick={() => handleClose(item)}
           >
             <CloseOutlined className={styles['Cross']}  />
