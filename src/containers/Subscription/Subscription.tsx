@@ -563,6 +563,7 @@ const Subscription = () => {
                                 open={showCancelModal}
                                 handleCancel={handleCancelModal}
                                 handleOk={handleOk}
+                                className='Addgoal-Confirm-Modal'
                                 renderData={
                                   <div>
                                     Your subscription will be cancelled
@@ -633,6 +634,7 @@ const Subscription = () => {
               open={showSwitchModal}
               handleCancel={handleCancelModal}
               handleOk={handleSwitch}
+              className='Addgoal-Confirm-Modal'
               renderData={
                 <div>
                   {estimateAmount ? (
