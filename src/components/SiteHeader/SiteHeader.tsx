@@ -99,7 +99,11 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
                 navigate('/login');
               }}
           >
-            <a style={{color: 'white'}}>Sign out</a>
+          <Button
+            className={styles["logout-button"]}
+          >
+            Sign out
+          </Button>
           </li>
         </ul>
       </div>

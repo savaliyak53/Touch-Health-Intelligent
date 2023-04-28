@@ -96,19 +96,19 @@ const DashboardNew = () => {
                   {elementStreak && elementStreak.map((item:any,index:number)=> {
                     if(item[2]==="purple"){
                         return <div className={styles.Tag} key={index}>
-                        <div className={styles.Streak} style={{backgroundColor:'#6A2C70'}}></div>
+                        <div className={styles.StreakBlue}></div>
                         <div className={styles.StreakDay}>{item[1]}</div>
                       </div>
                     }
                     else if(item[2]==="grey"){
                         return <div className={styles.Tag} key={index}>
-                        <div className={styles.Streak} style={{backgroundColor:'#E8E8E8'}}></div>
+                        <div className={styles.StreakGrey}></div>
                         <div className={styles.StreakDay}>{item[1]}</div>
                       </div>
                       }
                     else if(item[2]==="orange"){
                       return <div className={styles.Tag} key={index}>
-                        <div className={styles.Streak} style={{backgroundColor:'#F08A5D'}}></div>
+                        <div className={styles.StreakPeach}></div>
                         <div className={styles.StreakDay}>{item[1]}</div>
                       </div>
                     }
@@ -139,7 +139,7 @@ const DashboardNew = () => {
         <Row>
           <Col span={24}>
             <div className={styles.GoalsHead}>
-              <Typography className={styles.GoalsHeadTitle} style={{color:'#B83B5E'}}>Health Goals</Typography>
+              <Typography className={`Heading Heading-color1 ${styles.GoalsHeadTitle}`}>Health Goals</Typography>
                 <Button className={styles.GoalsHeadButton} onClick={()=>navigate("/c/checkup")}>👋</Button>
               <Button className={styles.GoalsHeadButton} onClick={()=>navigate("/add-goals")}>+</Button>
             </div>
@@ -151,16 +151,16 @@ const DashboardNew = () => {
          <Col span={24}>
            <div className={styles.Goal} onClick={()=>navigate(`/goals/${item.id}`)}>
              <div className={styles.GoalHeadWrap}>
-               <Typography className={styles.GoalTitle} style={{color:'#6A2C70'}}>{item.name}</Typography>
-               <Typography className={styles.GoalCount} style={{color:'#6A2C70'}}>{item.success_score}</Typography>
+               <Typography className={styles.GoalTitle} >{item.name}</Typography>
+               <Typography className={styles.GoalCount} >{item.success_score}</Typography>
              </div>
              <div className={styles.GoalBarWrap}>
-               <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>Goal</Typography>
-               <Progress percent={item.success_score} strokeColor="#6A2C70" strokeWidth={15} showInfo={false}/>
+               <Typography className={styles.GoalLetter}>Goal</Typography>
+               <Progress percent={item.success_score} strokeColor="#204ECF" strokeWidth={15} showInfo={false}/>
              </div>
              <div className={styles.GoalBarWrap}>
-               <Typography className={styles.GoalLetter} style={{color:'#6A2C70'}}>Data</Typography>
-               <Progress percent={item.data_score} strokeColor="#F08A5D" strokeWidth={15} showInfo={false}/>
+               <Typography className={styles.GoalLetter}>Data</Typography>
+               <Progress percent={item.data_score} strokeColor="#F26749" strokeWidth={15} showInfo={false}/>
              </div>
            </div>
          </Col>
