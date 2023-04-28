@@ -271,7 +271,7 @@ const PasswordRecovery = () => {
         {enterNumber && (
           <form onSubmit={handleSubmit(onVerify)} className={styles["Auth-form"]}>
             <h2 className={styles["Security-title"]}>
-              Reset Password
+              Reset password
             </h2>
           <Tooltip
             color="orange"
@@ -299,7 +299,7 @@ const PasswordRecovery = () => {
               disabled={isDisabled}
               className={'Submit-Button'}
             >
-              {isCodeSent ? 'Resend Code' : 'Send Code'}
+              {isCodeSent ? 'Resend code' : 'Send code'}
             </Button>
           </form>
         )}
@@ -520,7 +520,7 @@ const PasswordRecovery = () => {
                   onClick={handleSubmit(onSubmitRecover)}
                   className={'Submit-Button'}
                 >
-                  Reset Password
+                  Reset password
                 </Button>
               </div>
             </div>

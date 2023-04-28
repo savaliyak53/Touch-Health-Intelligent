@@ -72,7 +72,7 @@ const ResetPassword = () => {
     //     if (response && response.code === 'ERR_BAD_REQUEST') {
     //       toast.error(response.response.data.details);
     //     } else {
-    toast.success('Password Recovered Successfuly');
+    toast.success('Password recovered successfuly');
     navigate('/login');
     //   }
     // })
@@ -113,7 +113,7 @@ const ResetPassword = () => {
     <Layout defaultHeader={false} hamburger={false}>
       <div className="Auth-wrap">
         <form onSubmit={handleSubmit(onSubmitRecover)} className="Auth-form">
-          <h2 className="Auth-title">Reset Password</h2>
+          <h2 className="Auth-title">Reset password</h2>
 
           <>
             <div className="input-element-wrapper-password">
@@ -182,7 +182,7 @@ const ResetPassword = () => {
               className="Auth-submit"
               style={{ color: 'white' }}
             >
-              Reset Password
+              Reset password
             </Button>
           </>
         </form>
