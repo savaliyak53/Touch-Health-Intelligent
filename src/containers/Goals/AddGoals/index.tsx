@@ -301,7 +301,7 @@ const AddGoals = () => {
               item={data}
               name={data.name}
               disabled={isDisable}
-              className={`${styles['Goals-List']} ${styles['Suggested-Goals-List']}`}
+              className={`${styles['Suggested-Goals-List']}`}
             />
             </>
           ))}
@@ -318,7 +318,7 @@ const AddGoals = () => {
                 name={data.name}
                 closable={true}
                 disabled={isDisable}
-                className={`${styles['Goals-List']} ${styles['Active-Goals-List']}`}
+                className={`${styles['Active-Goals-List']}`}
               />
             <ConfirmModal
                 title={'Confirmation'}

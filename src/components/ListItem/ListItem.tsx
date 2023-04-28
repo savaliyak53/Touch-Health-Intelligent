@@ -32,7 +32,7 @@ const ListItem = ({
   return (
     <div
       key={index}
-      className={className}
+      className={`${styles['Goals-Card']} ${className}`}
     >
         <div className={styles['Mygoals-Title']}>
           <span 
