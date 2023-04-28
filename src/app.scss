@@ -1333,3 +1333,20 @@ input {
   font-style: bold;
   
 }
+
+  .Markdown-Desc {
+    font-family: $font-body;
+    text-align: left;
+    margin-top: 15px;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: 400;
+    margin-bottom: 10px;
+    color: $primary-color2;
+    padding: 4px 0;
+    h1, h2, h3, strong {
+        font-family: $font-body;
+        color: $primary-color1;
+        font-weight: 700 !important;
+    }
+}

@@ -15,7 +15,7 @@ export default function MarkdownSelectOne({
       {question.title && (
         <h2 className={goal_styles['Title']}>{question.title}</h2>
       )}
-      <div className={`Description Heading-color1 ${styles['Des-Goal']}`}>
+      <div className={`Description Heading-color1 Markdown-Desc`}>
         <ReactMarkdown rehypePlugins={[rehypeRaw]}>
           {question.body_md}
         </ReactMarkdown>
