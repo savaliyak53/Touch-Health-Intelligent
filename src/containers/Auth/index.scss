@@ -156,15 +156,7 @@ input {
     font-size: 16px;
     line-height: 16px;
   }
-  .Auth-terms-signup {
-    line-height: 19px;
-    padding: 7px 30px;
-    margin-bottom: 52px;
-  }
-  .Auth-terms-signup a {
-    font-size: 16px;
-    line-height: 16px;
-  }
+
   .app-Input {
     width: 100%;
     border-radius: 100px;
@@ -199,43 +191,4 @@ input {
 .highlight {
   border: 3px solid orange;
 }
-.Auth-terms-signup {
-  text-align: center;
-  font-size: 16px;
-  line-height: 15px;
-  color: #6A2C70;
-  padding: 7px 20px;
-  border-radius: 100px;
-  background-color: #fff;
-  margin-top: 20px;
-  margin-bottom: 5px;
-  max-width: 220px;
-}
-.Auth-terms a {
-  font-size: 16px;
-  line-height: 19px;
-  color: #6A2C70;
-  text-decoration: underline;
 
-  &:hover {
-    color: #6A2C70;
-    text-decoration: underline;
-    opacity: 0.8;
-  }
-}
-.Auth-terms-signup a {
-  font-size: 16px;
-  line-height: 19px;
-  color: #6A2C70;
-  text-decoration: underline;
-
-  &:hover {
-    color: #6A2C70;
-    text-decoration: underline;
-    opacity: 0.8;
-  }
-}
-.Links-wrap{
-  display: flex;
-  flex-direction: column;
-}
