@@ -63,10 +63,6 @@
     }
 }
 
-.Switch-wrap {
-    margin-top: 0px;
-}
-
 .Title {
     color: rgba($primary-color2,0.7);
     font-size: 20px;
@@ -130,16 +126,15 @@
 }
 
 .Security-Btn{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
   position: absolute;
   bottom: 0;
-  margin-bottom: 50px;
-  width: 100%;
   left: 0;
   right: 0;
+
+  @media (min-width: 700px){
+    position: relative;
+    margin-top: 30vh;
+  }
 }
 
 .dlt-msg{
