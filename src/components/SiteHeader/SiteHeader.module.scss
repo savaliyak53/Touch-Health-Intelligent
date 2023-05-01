@@ -139,19 +139,19 @@
   }
 }
 .logout-button{
-  border-radius: 100px;
-  height: auto;
-  padding: 18px 54px;
-  background-color: $primary-color1;
-  color: #fff;
-  font-size: 20px;
-  line-height: 24px;
-  font-weight: 400;
-  border: 2px solid #fff;
-  margin: 20px auto 0px;
-  display: flex;
-  justify-content: center;  
-  width: 65%;
+  border-radius: 100px !important;
+  height: auto !important;
+  padding: 18px 54px !important;
+  background-color: $primary-color1 !important;
+  color: #fff !important;
+  font-size: 20px !important;
+  line-height: 24px !important;
+  font-weight: 400 !important;
+  border: 2px solid #fff !important;
+  margin: 20px auto 0px !important;
+  display: flex !important;
+  justify-content: center !important;  
+  width: 65% !important;
   white-space: pre-line !important;
 
 
@@ -161,14 +161,9 @@
     &:not([disabled]){
       background-image: $secondary-color2 !important;
       color: #fff !important;
-      border: none
+      border: none!important;
     }
 
-  }
-  &:disabled {
-    background-color: rgba(#3a3a3a, 0.2);
-    border: none;
-    color:  $primary-color1;
   }
 }
 .Signout {
@@ -185,7 +180,7 @@
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 0px;
   margin: 0 auto;
   margin-top: 100px;
   margin-bottom: 46px;
@@ -223,7 +218,7 @@
       font-size: 18px;
       line-height: 110%;
       margin-top: 200px;
-      bottom: 10px;
+      bottom: 25px;
         a {
           font-family: $font-body !important;
           font-style: normal;
