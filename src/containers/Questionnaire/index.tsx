@@ -226,6 +226,7 @@ function UserCondition() {
   const handleOk = () => {
     navigate('/dashboard');
   };
+
   return (
     <Layout defaultHeader={true} hamburger={false}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}

@@ -45,6 +45,10 @@
   align-items: center;
   min-width: 70vw;
   min-height: 10vh;
+
+  @media (min-width: 992px){
+    min-width: 38vw;
+  }
 }
 .Arrow-btn {
   height: 100px;
