@@ -226,6 +226,14 @@ function UserCondition() {
   const handleOk = () => {
     navigate('/dashboard');
   };
+  // console.log((question?.type !== 'select_many' &&
+  // question?.type !== 'multi_select' &&
+  // question?.type !== 'image_and_text' &&
+  // (typeof value === 'undefined' ||
+  //   value?.length < 1)));
+  //   console.log(question?.type);
+  //   console.log(value?.length);
+  //   console.log(false && true);
   return (
     <Layout defaultHeader={true} hamburger={false}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
@@ -277,7 +285,7 @@ function UserCondition() {
                       loading={loading}
                       disabled={
                         (question?.type !== 'select_many' &&
-                          question?.type !== 'multi_select' &&
+                          // question?.type !== 'multi_select' &&
                           question?.type !== 'image_and_text' &&
                           (typeof value === 'undefined' ||
                             value?.length < 1)) ||
