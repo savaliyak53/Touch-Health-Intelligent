@@ -23,7 +23,7 @@
 .TitleToolTip {
     margin-bottom: 32px;
     margin-top: 48px;
-    color: #D2D1D1;
+    color: $primary-color1;
 }
 .Tag {
     display: flex;
@@ -61,7 +61,7 @@
     font-weight: 600;
 }
 .Tooltip {
-    color: #D2D1D1;
+    color: $primary-color1;
 }
 .GoalsHead {
     display: flex;

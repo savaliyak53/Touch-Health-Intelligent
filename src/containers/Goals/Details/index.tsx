@@ -408,7 +408,7 @@ const GoalDetails = () => {
                     >
                       <InfoCircleOutlined
                         size={30}
-                        style={{ color: '#D2D1D1', marginLeft: '6px' }}
+                        style={{ color: '#204ECF', marginLeft: '6px' }}
                       />
                     </Tooltip>
                   </span>
@@ -436,7 +436,7 @@ const GoalDetails = () => {
                   >
                     <InfoCircleOutlined
                       size={30}
-                      style={{ color: '#D2D1D1', marginLeft: '6px' }}
+                      style={{ color: '#204ECF', marginLeft: '6px' }}
                     />
                   </Tooltip>
                 </span>
@@ -485,7 +485,7 @@ const GoalDetails = () => {
             >
               <InfoCircleOutlined
                 size={30}
-                style={{ color: '#D2D1D1', marginLeft: '6px' }}
+                style={{ color: '#204ECF', marginLeft: '6px' }}
               />
             </Tooltip>
           </div>
