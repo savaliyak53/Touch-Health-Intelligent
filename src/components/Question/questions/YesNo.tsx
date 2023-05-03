@@ -18,13 +18,23 @@ const YesNo = ({ setValue, onSubmit }: Props) => {
         }}
       >
         <div className={`Yes-No-Button`} key={`yes`}>
-          <Radio.Button value={'true'} onClick={() => {onSubmit('true'); setIsDisabled(true)}} disabled={isDisabled}>
+          <Radio.Button 
+            value={'true'} 
+            onClick={() => {
+            onSubmit('true')
+            setIsDisabled(true)}} 
+            disabled={isDisabled}>
             Yes
           </Radio.Button>
         </div>
         <br />
         <div className={`Yes-No-Button`} key={`no`}>
-          <Radio.Button value={'false'} onClick={() => {onSubmit('false'); setIsDisabled(true)}} disabled={isDisabled}>
+          <Radio.Button 
+             value={'false'} 
+             onClick={() => {
+             onSubmit('false')
+             setIsDisabled(true)}} 
+             disabled={isDisabled}>
             No
           </Radio.Button>
         </div>

@@ -112,7 +112,8 @@ const GuidanceModal = ({
             >
               <AiOutlineQuestionCircle
                 size={30}
-                style={{ color: '#D2D1D1', marginLeft: '6px' }}
+                className={styles['tooltip']}
+                // style={{ color: '#D2D1D1', marginLeft: '6px' }}
               />
             </Tooltip>
           </Col>
