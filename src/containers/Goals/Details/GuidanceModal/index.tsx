@@ -145,7 +145,7 @@ const GuidanceModal = ({
               }}
               loading={loading}
             >
-              Deactivate
+              Deactivate guidance
             </Button>
            </div>
         )}

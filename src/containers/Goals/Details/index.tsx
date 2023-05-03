@@ -555,7 +555,7 @@ const GoalDetails = () => {
           (element: any) => element.data?.status === 'inactive'
         ) && (
           <>
-            <div className={styles["sub-heading"]}>Deactive Guidance</div>
+            <div className={styles["sub-heading"]}>Inactive guidances</div>
           </>
         )}
         <div className={styles['Health-Goals']}>
