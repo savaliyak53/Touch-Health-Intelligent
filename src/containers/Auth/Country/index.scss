@@ -6,11 +6,11 @@
   &:focus {
     //border: 2px solid $primary-color2;
     background-color: #e3e3e3;
-    color: #6A2C70;
+    color: $primary-color1;
   }
 
   &::placeholder {
-    color: rgba(#6A2C70, 0.8);
+    color: $primary-color1;
   }
 
 }

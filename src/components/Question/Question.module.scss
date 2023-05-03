@@ -275,6 +275,22 @@
     z-index: 2;
     max-width: 200px;
     box-shadow: none;
-    color: black;
+    color: $primary-color2;
   }
+}
+
+.Text-wrapper{
+  display: flex;
+  justify-content: space-around;
+
+}
+.Question-Tooltip{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 5px;
+  padding-right: 20px;
+}
+.Question-Description{
+  width: 85%;
 }

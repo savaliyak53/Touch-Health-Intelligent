@@ -307,6 +307,10 @@ input {
     margin-top: 0;
   }
 }
+.Pref-post-btn-disabled {
+  background: rgba(#3a3a3a, 0.2) !important;
+  border: none !important;
+}
 .Pref-username-btn {
   border-radius: 80px !important;
   height: 60px !important;
@@ -801,12 +805,12 @@ input {
   }
 }
 .Question-Options-disabled {
-  color: black !important;
+  color: $primary-color2 !important;
   .ant-radio-button-wrapper,
   .ant-radio-button-wrapper:first-child,
   .ant-radio-button-wrapper:last-child {
     margin: 10px 10px 10px 0;
-    border: 2px solid black;
+    border: 2px solid $primary-color2;
     padding: 12px 20px;
     border-radius: 100px;
     height: 100%;
@@ -814,14 +818,14 @@ input {
     line-height: 24px;
     font-weight: 400;
     background-color: transparent;
-    color: black;
+    color: $primary-color2;
 
     &:not(:first-child):before {
       display: none;
     }
 
     &:hover {
-      color: black;
+      color: $primary-color2;
     }
   }
   .ant-space {
@@ -829,8 +833,8 @@ input {
   }
   .ant-radio-button-wrapper-checked {
     // &:not(.ant-radio-button-wrapper-disabled) {
-      background-color: black;
-      border-color: black;
+      background-color: $primary-color2;
+      border-color: $primary-color2;
       color: #fff;
 
       // &:focus-within {
@@ -843,7 +847,7 @@ input {
       //   color: #fff;
       // }
       &.ant-radio-button-wrapper:first-child {
-        border-color: black;
+        border-color: $primary-color2;
       }
     // }
   }
@@ -961,7 +965,7 @@ input {
 }
 
 .PhoneInputInput {
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .exceptionStyle .ant-modal-content{
@@ -1011,6 +1015,9 @@ input {
   }
   .ant-modal-footer{
     border: none;
+  }
+  .ant-modal-footer .ant-btn+.ant-btn:not(.ant-dropdown-trigger){
+    margin-left: auto;
   }
 }
 
@@ -1072,7 +1079,7 @@ input {
   font-family: $font-title;
   font-style: normal;
   font-weight: 400;
-  font-size: 34px;
+  font-size: min(8.5vw, 34px);
   text-align: left;
   margin-bottom: 32px;
   margin-top: 48px;
@@ -1099,16 +1106,18 @@ input {
   &:hover,
   &:focus,
   &:active {
-    background-color: $primary-color1 !important;
-    color: #fff !important;
-    border: none
+    &:not([disabled]){
+      background-color: $primary-color1 !important;
+      color: #fff !important;
+      border: none
+    }
   }
   &.active {
     background-image: $secondary-color2 !important;
     color: #fff !important;
     border: none
   }
-  &:disabled {
+  &:disabled, &:disabled:hover {
     background-color: rgba(#3a3a3a, 0.2);
     border: none;
     color:  $primary-color1;
@@ -1142,7 +1151,7 @@ input {
     }
 
   }
-  &:disabled {
+  &:disabled, &:disabled:hover {
     background-color: rgba(#3a3a3a, 0.2);
     border: none;
     color:  $primary-color1;
@@ -1166,8 +1175,8 @@ input {
     font-size: 20px !important;
     line-height: 24px !important;
     font-weight: 400 !important;
-    background-color: transparent !important;
-    color: $primary-color1 !important;
+    background-color: #fff;
+    color: $primary-color1;
     span{
       display: flex;
       align-items: center;
@@ -1179,7 +1188,7 @@ input {
     }
 
     &:hover {
-      color: $primary-color2;
+      color: $primary-color1;
     }
   }
   
@@ -1227,6 +1236,9 @@ input {
     font-size: 24px;
     line-height: 26px;
     }
+    ol, ul{
+      margin-left: 20px;
+    }
 }
 .Heading{
   font-family: $font-body;
@@ -1236,13 +1248,11 @@ input {
   text-align: left;
 }
 .Heading-color1{
-  color: $primary-color1;
   h1 {
     color: $primary-color1;
   }
 }
 .Heading-color2{
-  color: $primary-color2;
   h1 {
     color: $primary-color2;
   }
@@ -1326,4 +1336,21 @@ input {
   font-weight: 700px;
   font-style: bold;
   
+}
+
+  .Markdown-Desc {
+    font-family: $font-body;
+    text-align: left;
+    margin-top: 15px;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: 400;
+    margin-bottom: 10px;
+    color: $primary-color2;
+    padding: 4px 0;
+    h1, h2, h3, strong {
+        font-family: $font-body;
+        color: $primary-color1;
+        font-weight: 700 !important;
+    }
 }

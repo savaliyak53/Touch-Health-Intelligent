@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import styles from './GoalDetails.module.scss';
-import streakStyles from '../../DashboardNew/DashboardNew.module.scss';
 import v from '../../../variables.module.scss';
 import Layout from '../../../layouts/Layout/Layout';
 import { Modal, Spin } from 'antd';
-import { Row, Col, Typography, Tooltip, Button, Progress } from 'antd';
+import { Tooltip, Button, Progress } from 'antd';
 import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
-
 import {
   DeleteOutlined,
-  LeftOutlined,
   RightOutlined,
   CaretDownOutlined,
   CaretUpOutlined,
-  InfoOutlined,
 } from '@ant-design/icons';
-import { AiOutlineQuestionCircle } from 'react-icons/ai';
+
 import { toast } from 'react-toastify';
 import ReactMarkdown from 'react-markdown';
 import { goalDetails, deleteGoal } from '../../../services/goalsService';
-import { Chart as ChartJS } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { Line } from 'react-chartjs-2';
 import { useNavigate } from 'react-router';
@@ -31,6 +26,8 @@ import { timeFrom } from '../../../utils/lib';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
 import { getDashboard } from '../../../services/dashboardservice';
 import LastGoalModal from '../../../components/Modal/LastGoalModal';
+import ListItem from '../../../components/ListItem/ListItem';
+import GuidanceModal from './GuidanceModal';
 
 const GoalDetails = () => {
   const [goal, setGoal] = useState<any>();
@@ -232,7 +229,8 @@ const GoalDetails = () => {
         setIsLoading(false);
       });
   };
-  const handleClick = (type?: string, info?: any, data?:any) => {
+  const handleClick = (item:any, type?: string) => {
+    const {info,data}=item; 
     setOpen(true);
     setType(type);
     setGuidanceDate(info);
@@ -514,25 +512,13 @@ const GoalDetails = () => {
             
             <>
               {o.data && o.data.status === 'new' && (
-                <div
-                key={index}
-                className={styles['Selected-Goal']}
-               >
-                <div className={styles['Mygoals-Title']}>
-                  <span 
-                    className={styles['Rec-Text']}               
-                    onClick={() => handleClick('new', o.info, o.data)}
-                  >
-                    {o.info?.name || ""}
-                  </span>
-                  <Button
-                    onClick={() => handleClick('new', o.info, o.data)}
-                    className={styles['Cross-btn']}
-                  >
-                    <RightOutlined className={styles['Cross']} />
-                  </Button>
-                  </div>
-                </div>
+                <ListItem 
+                index={index}
+                status='new'
+                handleClick={handleClick}
+                item={o}
+                name={o.info?.name}
+              />
                 )}
             </>
           ))}
@@ -548,29 +534,16 @@ const GoalDetails = () => {
           </>
         )}
        <div className={styles['Health-Goals']}>
-          {goal?.guidances.map((o: any,index:number) => (
-            
+          {goal?.guidances.map((o: any,index:number) => ( 
             <>
               {o.data && o.data.status === 'active' && (
-                <div
-                key={index}
-                className={styles['Selected-Goal']}
-               >
-                <div className={styles['Mygoals-Title']}>
-                  <span 
-                    className={styles['Rec-Text']}               
-                    onClick={() => handleClick('active', o.info, o.data)}
-                  >
-                    {o.info?.name || ""}
-                  </span>
-                  <Button
-                    onClick={() => handleClick('active', o.info, o.data)}
-                    className={styles['Cross-btn']}
-                  >
-                    <RightOutlined className={styles['Cross']} />
-                  </Button>
-                  </div>
-                </div>
+                <ListItem 
+                  index={index}
+                  status='active'
+                  handleClick={handleClick}
+                  item={o}
+                  name={o.info?.name}
+                />
                 )}
             </>
           ))}
@@ -590,180 +563,31 @@ const GoalDetails = () => {
             
             <>
               {o.data && o.data.status === 'inactive' && (
-                <div
-                key={index}
-                className={styles['Selected-Goal']}
-               >
-                <div className={styles['Mygoals-Title']}>
-                  <span 
-                    className={styles['Rec-Text']}               
-                    onClick={() => handleClick('inactive', o.info, o.data)}
-                  >
-                    {o.info?.name || ""}
-                  </span>
-                  <Button
-                    onClick={() => handleClick('inactive', o.info, o.data)}
-                    className={styles['Cross-btn']}
-                  >
-                    <RightOutlined className={styles['Cross']} />
-                  </Button>
-                  </div>
-                </div>
+                <ListItem 
+                  index={index}
+                  status='inactive'
+                  handleClick={handleClick}
+                  item={o}
+                  name={o.info?.name}
+                />
                 )}
             </>
           ))}
        </div>
-
-      </>
-      <Modal
-        className="Guidance-Modal"
+      <GuidanceModal 
         open={open}
-        zIndex={99999}
-        closeIcon={
-          <>
-           <ArrowLeftOutlined style={{fontSize : "25px", color:"#F26749", marginTop:"20px"}} />
-          </>
-        }
-        footer={false}
-        onCancel={handleClose}
-      >
-        {/* show streak */}
-
-        <Row>
-          <Col span={21}>
-            <Row>
-              <Col span={24}>
-                <div className={streakStyles.TagWrap}>
-                  {followUpPattern &&
-                    followUpPattern.map((item: any, index: number) => {
-                      if (item[2] === 'purple' && type !== 'new') {
-                        return (
-                          <div className={streakStyles.Tag} key={index}>
-                            <div
-                              className={streakStyles.Streak}
-                              style={{ backgroundColor: v['primary-color2'] }}
-                            ></div>
-                            <div className={streakStyles.StreakDay}>
-                              {item[1]}
-                            </div>
-                          </div>
-                        );
-                      } else if (item[2] === 'grey') {
-                        return (
-                          <div className={streakStyles.Tag} key={index}>
-                            <div
-                              className={streakStyles.Streak}
-                              style={{ backgroundColor: '#E8E8E8' }}
-                            ></div>
-                            <div className={streakStyles.StreakDay}>
-                              {item[1]}
-                            </div>
-                          </div>
-                        );
-                      } else if (item[2] === 'orange' && type !== 'new') {
-                        return (
-                          <div className={streakStyles.Tag} key={index}>
-                            <div
-                              className={streakStyles.Streak}
-                              style={{ backgroundColor: v['secondary-color2'] }}
-                            ></div>
-                            <div className={streakStyles.StreakDay}>
-                              {item[1]}
-                            </div>
-                          </div>
-                        );
-                      }
-                    })}
-                </div>
-              </Col>
-            </Row>
-          </Col>
-          <Col span={1}></Col>
-          <Col span={2}>
-            <Tooltip
-              title="Following guidance suggestions regularly results in an improved streak."
-              placement="bottomRight"
-              overlayStyle={{ marginRight: '10px', zIndex:"100000" }}
-              mouseLeaveDelay={0}
-            >
-              <AiOutlineQuestionCircle
-                size={30}
-                style={{ color: '#D2D1D1', marginLeft: '6px' }}
-              />
-            </Tooltip>
-          </Col>
-        </Row>
-        {type && type === 'inactive' && (
-          <p className={styles['Modal-subtitle']}>Deactive</p>
-        )}
-        {type && type === 'active' && (
-          <p className={styles['Modal-subtitle']}>Active</p>
-        )}
-        {type && (
-          <h2 className={`Title`}>{guidanceData?.name}</h2>
-        )}
-        {guidanceData && (
-          <div className={styles.guidancedetail}>
-            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-              {guidanceData?.description_md ? guidanceData?.description_md : ""}
-            </ReactMarkdown>
-          </div>
-        )}
-
-        {type === 'active' && (
-           <div className={styles.GuidanceBtnWrap}>
-            <Button
-              // className="Pref-btn btn Guidance-Inactive-btn GuidanceBtn"
-              className={'Submit-Button'}
-              onClick={() => {
-                handleGuidanceStatus('inactive');
-                setLoading(true);
-              }}
-              loading={loading}
-            >
-              Deactivate
-            </Button>
-           </div>
-        )}
-        {type === 'new' && (
-          <div className={styles.GuidanceBtnActiveWrap}>
-            <Button
-              className={'Submit-Button'}
-              onClick={() => {
-                handleGuidanceStatus('inactive');
-                setLoading2(true);
-              }}
-              loading={loading2}
-            >
-              Not For me
-            </Button>
-            <Button
-              className={'Submit-Button'}
-              onClick={() => {
-                handleGuidanceStatus('active');
-                setLoading(true);
-              }}
-              loading={loading}
-            >
-              Activate
-            </Button>
-          </div>
-        )}
-        {type === 'inactive' && (
-          <div className={styles.GuidanceBtnActiveWrap}>
-            <Button
-              className={`Submit-Button`}
-              onClick={() => {
-                handleGuidanceStatus('active');
-                setLoading(true);
-              }}
-              loading={loading}
-            >
-              Activate
-            </Button>
-          </div>
-        )}
-      </Modal>
+        handleClose={handleClose}
+        followUpPattern={followUpPattern}
+        type={type}
+        guidanceData={guidanceData}
+        handleGuidanceStatus={handleGuidanceStatus}
+        setLoading={setLoading}
+        loading={loading}
+        setLoading2={setLoading2}
+        loading2={loading2}
+      />
+      </>
+      
     </Layout>
   );
 };

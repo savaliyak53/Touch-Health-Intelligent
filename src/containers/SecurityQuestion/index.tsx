@@ -23,13 +23,20 @@ const SecurityQuestions = () => {
   const onChange = (option: any) => {
     setQuestion(option);
   };
+  const scrollListener = (x:any) => {
+    if(x.matches){
+      document.querySelectorAll<HTMLElement>('.Layout')[0].style.height = '80vh'
+      document.querySelectorAll<HTMLElement>('.Layout')[0].style.minHeight = '80vh'
+    }
+  }
   useEffect(() => {
     window.scrollTo(0,0)
-    window.addEventListener('scroll', ()=> {
-      document.querySelectorAll<HTMLElement>('#header')[0].style.position = 'fixed'
-    })
+    const x = window.matchMedia("(max-width: 900px)")
+    scrollListener(x)
+    window.addEventListener('scroll', scrollListener)
     window.addEventListener('beforeunload', ()=> {
-      document.querySelectorAll<HTMLElement>('#header')[0].style.position = 'unset'
+      document.querySelectorAll<HTMLElement>('.Layout')[0].style.height = 'auto'
+      document.querySelectorAll<HTMLElement>('.Layout')[0].style.minHeight = '100vh'
     })
     const userId = localStorage.getItem('userId');
     if (!userId) {
@@ -78,11 +85,11 @@ const SecurityQuestions = () => {
 
   return (
     <Layout defaultHeader={true} hamburger={false}>
-      <div >
+      <div className={styles['Security-wrap']}>
         <h2 id='header' className={styles['Con-title']}>
           Security question <Spin spinning={loading} />
         </h2>
-        <div className={styles['Switch-wrap']} style={{maxHeight: 600, overflow: 'auto'}}>
+        <div className={styles['Switch-wrap']} style={{overflow: 'hidden'}}>
         <p className={styles['Con-Description']}>
           Please help us protect your account. Select a security question and
           input answer. You can use this to get back access to your account.
@@ -113,7 +120,7 @@ const SecurityQuestions = () => {
               className={` ${styles['app-Input']} ${styles['security-answer']} `}
             />
           </div>
-        </div>
+
 
         <div className={styles['Security-Btn']}>
           <Button
@@ -124,10 +131,13 @@ const SecurityQuestions = () => {
           >
             Save
           </Button>
+
           {/* { saveMsg ? (
               <div className={styles['dlt-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> Security question saved succesfully</div>
             ) : ''} */}
         </div>
+        </div>
+
       </div>
     </Layout>
   );

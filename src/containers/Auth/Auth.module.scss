@@ -25,6 +25,7 @@
     }
   }
   .recaptcha{
+    margin: 20px auto 0px;
     margin-top: 25px;
   }
   .Auth-submit-wrapper{
@@ -41,29 +42,30 @@
     }
   }
   .app-Input {
-    font-family: 'Raleway', sans-serif;
-    font-weight: 600;
+    font-family: $font-body;
+    font-weight: 400;
     width: 100%;
     border-radius: 100px;
     margin-bottom: 14px;
     padding: 18px 20px;
     display: flex;
     flex-direction: row;
-    font-size: 20px;
-    line-height: 24px;
-    border: 2px solid rgba(#6A2C70,0.42);
+    font-size: 18px;
+    line-height: 23px;
+    border: 2px solid $primary-color1;
     background-color: rgba(#fff, 0.6);
-    color: #6A2C70;
+    color: $primary-color1;
   
     &:hover,
     &:focus {
-      border: 2px solid #6A2C70;
-      background-color: #e3e3e3;
-      color: #6A2C70;
+      border: 2px solid $primary-color1;
+      background-color: #e3e3e3 !important;
+      color: $primary-color1;
+
     }
   
     &::placeholder {
-      color: rgba(#6A2C70, 0.8);
+      color: $primary-color1;
     }
   }
   
@@ -106,7 +108,7 @@
     margin-left: -2.76rem;
     cursor: pointer;
     margin-bottom: 16px;
-    color: #6A2C70;
+    color: $primary-color2;
   }
   
   .Auth-terms {
@@ -173,9 +175,11 @@
       line-height: 16px;
     }
     .Auth-terms-signup {
+      margin: 20px auto 0px;
       line-height: 19px;
-      padding: 7px 30px;
+      padding: 7px 0px;
       margin-bottom: 52px;
+      font-family: $font-body;
     }
     .Auth-terms-signup a {
       font-size: 16px;
@@ -217,9 +221,11 @@
   }
   .Customer-support {
     text-align: center;
-    font-size: 16px;
-    line-height: 15px;
-    color: black;
+    font-size: 18px;
+    font-weight: 400px;
+    font-family: $font-body;
+    line-height: 20px;
+    color: $primary-color2;
     padding: 17px 20px;
     border-radius: 100px;
     background-color: rgba(#fff,0.5);
@@ -228,23 +234,25 @@
     width: 100%;
   }
   .Customer-support a {
-    font-size: 16px;
-    line-height: 19px;
-    color: black;
+    font-size: 18px;
+    font-weight: 400px;
+    font-family: $font-body;
+    line-height: 20px;
+    color: $primary-color2;
     text-decoration: underline;
   
     &:hover {
-      color: #6A2C70;
+      color: $primary-color2;
       text-decoration: underline;
       opacity: 0.8;
     }
   }
   .Auth-terms-signup {
     text-align: center;
-    font-size: 16px;
+    font-size: 18px; 
     line-height: 15px;
-    color: #6A2C70;
-    padding: 7px 20px;
+    color: $primary-color2;
+    padding: 7px 0px;
     border-radius: 100px;
     background-color: #fff;
     margin-top: clamp(0px, 5.5vh, 62px) !important;
@@ -264,13 +272,15 @@
     }
   }
   .Auth-terms-signup a {
-    font-size: 16px;
-    line-height: 19px;
-    color: #6A2C70;
+    font-family: $font-body;
+    font-weight: 400px !important;
+    font-size: 18px;
+    line-height: 20px;
+    color: $primary-color2;
     text-decoration: underline;
   
     &:hover {
-      color: #6A2C70;
+      color: $primary-color2;
       text-decoration: underline;
       opacity: 0.8;
     }

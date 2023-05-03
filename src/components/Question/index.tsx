@@ -1,27 +1,26 @@
-import React, {
-  HtmlHTMLAttributes,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
-import { useNavigate } from "react-router-dom";
-import { Button, DatePicker, Input, Radio, Tooltip } from 'antd';
-import { Slider } from 'antd';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Tooltip } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
-import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import { Select, Spin } from 'antd';
-import goal_styles from './IntroGoals.module.scss';
+import { SearchOutlined } from '@ant-design/icons';
+import { Select } from 'antd';
 const { Option } = Select;
 // import './index.scss';
 import styles from './Question.module.scss';
-import TextArea from 'antd/lib/input/TextArea';
-import { Timepicker } from 'react-timepicker';
-import 'react-timepicker/timepicker.css';
-import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
-import ReactMarkdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw';
+import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import moment from 'moment';
-import v from '../../variables.module.scss';
+import Time from './questions/Time';
+import Date from './questions/Date';
+import YesNo from './questions/YesNo';
+import SelectOne from './questions/SelectOne';
+import DialogSelectOne from './questions/DialogSelectOne';
+import ImageAndtext from './questions/ImageAndtext';
+import ImageAndTextSelectOne from './questions/ImageAndTextSelectOne';
+import SelectMany from './questions/SelectMany';
+import SliderComponent from './questions/Slider';
+import Text from './questions/Text';
+import MarkdownSelectOne from './questions/MarkdownSelectOne';
+import Numeric from './questions/Numeric';
 
 interface Props {
   items: any;
@@ -32,7 +31,7 @@ interface Props {
   setValue: any;
   setDisableNextButton: any;
   disable: boolean;
-  value: any
+  value: any;
 }
 
 const Question = ({
@@ -44,7 +43,7 @@ const Question = ({
   items,
   setItems,
   disable,
-  value
+  value,
 }: Props) => {
   const [maxNum, setMaxNum] = useState(0);
   const [defaultLength, setDefaultLength] = useState(0);
@@ -66,7 +65,7 @@ const Question = ({
   if (question && question.type === 'multi_select') {
     if (question.defaults) {
       defaults = question.defaults.map(function (key: any) {
-        return question.options[key];
+        return question?.options[key];
       });
     }
   }
@@ -74,7 +73,7 @@ const Question = ({
     let i = 0;
     const indexArray = [];
     while (value.length > i) {
-      const index = question.options.indexOf(value[i]);
+      const index = question?.options.indexOf(value[i]);
       indexArray.push(index);
       i++;
     }
@@ -85,17 +84,17 @@ const Question = ({
     setValue(`${hours}:${minutes ? minutes : '00'}:00.648052`);
   };
 
-  const handleClick = (index:number) => {
+  const handleClick = (index: number) => {
     if (radioOptions.includes(index)) {
       const newArr = radioOptions.filter((i) => i !== index);
       radioOptions = [...newArr];
       removeclass(index);
-    } else {   
+    } else {
       radioOptions = [...radioOptions, index];
     }
     setValue(radioOptions.length ? radioOptions : []);
   };
- 
+
   const isChecked = (index: number) => {
     //we are getting in this form defaults=[0,1]
     if (radioOptions.includes(index)) {
@@ -105,7 +104,6 @@ const Question = ({
   };
   const setDisableDate = (current: moment.Moment) => {
     if (question.range == 'future_only') {
-      console.log('return date', current.isBefore(moment()));
       return current.isBefore(moment().subtract(1, 'day'));
     } else if (question.range == 'past_only') {
       return current.isAfter(moment());
@@ -147,264 +145,75 @@ const Question = ({
     }
   }, [selectedValue]);
   const disableBtn = () => {
-    setDisableNextButton(true)
-  }
+    setDisableNextButton(true);
+  };
   useEffect(() => {
-    if(disable){
-      onSubmit(value)
-      handleButtonClick()
+    if (disable) {
+      onSubmit(value);
+      handleButtonClick();
     }
-  }, [disable])
+  }, [disable]);
   const InputField = useCallback(() => {
     switch (question?.type) {
       case 'time':
         return (
-          <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-            <Timepicker
-              onChange={onTimeChange}
-              militaryTime={true}
-              radius={100}
-            />
-          </div>
-
+          <Time onTimeChange={onTimeChange} militaryTime={true} radius={100} />
         );
       case 'date':
-        return (
-          <DatePicker
-            onChange={(date: any, dateString: any) => setValue(dateString)}
-            className="Date-Select"
-            disabledDate={(current) => setDisableDate(current)}
-          />
-        );
+        return <Date setValue={setValue} setDisableDate={setDisableDate} />;
       case 'yes_no':
-        return (
-          <div className={styles['align-center']}>
-            <Radio.Group
-              onChange={(e) => {
-                setValue(e.target.value);
-              }}
-            >
-                <div className={`Yes-No-Button`} key={`yes`}>
-                  <Radio.Button
-                    value={'true'}
-                    onClick={()=>onSubmit('true')}
-                  >
-                   Yes
-                  </Radio.Button>
-                  
-                </div>
-                <br/>
-                <div className={`Yes-No-Button`} key={`no`}>
-                  <Radio.Button
-                    value={'false'}
-                    onClick={()=>onSubmit('false')}
-                  >
-                   No
-                  </Radio.Button>
-                </div>
-            </Radio.Group>
-          </div>
-        );
+        return <YesNo setValue={setValue} onSubmit={onSubmit} />;
       case 'select_one':
-        return (
-          <div className="Select-Options">
-            <Radio.Group
-              onChange={(e) => {
-                const index = question.options.indexOf(e.target.value);
-                setValue(index);
-              }}
-            >
-              {question.options.map((item: any, index: number) => (
-                <div className={`Select-Button`} key={index}>
-                  <Radio.Button
-                    value={item}
-                  >
-                    {item}
-                  </Radio.Button>
-                  {index % 2 !== 0 && <br />}
-                </div>
-              ))}
-            </Radio.Group>
-          </div>
-        );
+        return <SelectOne question={question} setValue={setValue} />;
       case 'dialog_select_one':
         return (
-          <div className="Select-Options">
-          <Radio.Group
-            onChange={(e) => {
-              const index = question.options.indexOf(e.target.value);
-              setValue(index);
-              onSubmit(index);
-            }}
-          >
-            {question.options.map((item: any, index: number) => (
-              <div className={`Yes-No-Button`} key={index}>
-                <Radio.Button
-                  //className={styles['dialog-btn']}
-                  value={item}
-                  key={index}
-                >
-                  {item}
-                </Radio.Button>
-                {index % 2 !== 0 && <br />}
-              </div>
-            ))}
-          </Radio.Group>
-          </div>
+          <DialogSelectOne
+            setValue={setValue}
+            onSubmit={onSubmit}
+            question={question}
+          />
         );
       case 'image_and_text':
-        return (
-          <div className={goal_styles['IntroGoals']}>
-            <h2 className={goal_styles['Title']}>{question.title}</h2>
-            <p className={goal_styles['Description']}>{question.sub_title}</p>
-            <img
-              src={question.image}
-              className={goal_styles['Image']}
-              alt="Image"
-            />
-          </div>
-        );
+        return <ImageAndtext question={question} />;
 
       case 'image_and_text_select_one':
         return (
-          <div className={goal_styles['IntroGoals']}>
-            <h2 className={goal_styles['Title']}>{question.title}</h2>
-            <p className={goal_styles['Description']}>{question.sub_title}</p>
-            <img
-              src={question.image}
-              className={goal_styles['Image']}
-              alt="Image"
-            />
-            <div className="Select-Options">
-            <Radio.Group
-              onChange={(e) => {
-                const index = question.options.indexOf(e.target.value);
-                setValue(index);
-                onSubmit(index);
-              }}
-            >
-              {question.options.map((item: any, index: number) => (
-                <div className={`Yes-No-Button`} key={index}>
-                  <Radio.Button
-                    value={item}
-                    key={index}
-                  >
-                    {item}
-                  </Radio.Button>
-                  {index % 2 !== 0 && <br />}
-                </div>
-              ))}
-            </Radio.Group>
-            </div>
-          </div>
+          <ImageAndTextSelectOne
+            question={question}
+            setValue={setValue}
+            onSubmit={onSubmit}
+          />
         );
 
       case 'select_many':
         return (
-          <div className="Select-Options">
-            <div className="ant-radio-group ant-radio-group-outline Select-Button">
-              {question.options.map((item: any, index: number) => (
-                <label
-                  ref={labelRef}
-                  id={`label-${index}`}
-                  className={`ant-radio-button-wrapper Option${index} ${
-                    isChecked(index) ? 'ant-radio-button-wrapper-checked' : ''
-                  } `}
-                  key={index}
-                >
-                  <span className={`ant-radio-button`}>
-                    <input
-                      type="radio"
-                      className="ant-radio-button-input"
-                      value={item}
-                      onClick={() => handleClick(index)}
-                    />
-                    <span className="ant-radio-button-inner"></span>
-                  </span>
-                  <span>{item}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
+          <SelectMany
+            question={question}
+            isChecked={isChecked}
+            handleClick={handleClick}
+            labelRef={labelRef}
+          />
         );
       case 'slider':
         return (
-          <div className="Question-Slider-Vertical">
-            {/* <div className={styles["Slider-Vertical"]}> */}
-            <span className={styles['Text1']}>{question.lower_qualifier}</span>
-            <Slider
-              className="Slider"
-              vertical
-              tipFormatter={formatter}
-              min={question.lower_value}
-              max={question.upper_value}
-              step={question.step_value}
-              tooltipVisible={question.show_values}
-              onChange={(value) => {
-                setValue(value);
-              }}
-            />
-            <span className={styles['Text2']}>{question.upper_qualifier}</span>
-          </div>
-        );
-      case 'free_text':
-        return (
-         
-            <TextArea
-              className="TextArea"
-              rows={6}
-              placeholder="Enter answer here…"
-              maxLength={500}
-              onChange={(e) => {
-                setValue(e.target.value);
-              }}
-            />
-          
-        );
-      case 'markdown_select_one':
-        return (
-          <div className={goal_styles['IntroGoals']}>
-           {question.title &&  <h2 className={goal_styles['Title']}>{question.title}</h2>}
-            <div className={ `Description Heading-color2`}>
-              <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-                {question.body_md}
-              </ReactMarkdown>
-            </div>
-            <div className="Select-Options">
-            <Radio.Group
-              onChange={(e) => {
-                const index = question.options.indexOf(e.target.value);
-                setValue(index);
-                onSubmit(index);
-              }}
-            >
-              {question.options.map((item: any, index: number) => (
-                <div className={`Yes-No-Button`} key={index}>
-                  <Radio.Button
-                    value={item}
-                    key={index}
-                  >
-                    {item}
-                  </Radio.Button>
-                  {index % 2 !== 0 && <br />}
-                </div>
-              ))}
-            </Radio.Group>
-            </div>
-          </div>
-        );
-      case 'numeric':
-        return (
-          <Input
-            className="NumberInput"
-            placeholder="Enter a number"
-            type="number"
-            onChange={(e) => {
-              setValue(e.target.value);
-            }}
+          <SliderComponent
+            question={question}
+            formatter={formatter}
+            setValue={setValue}
           />
         );
+      case 'free_text':
+        return <Text setValue={setValue} rows={6} maxLength={500} />;
+      case 'markdown_select_one':
+        return (
+          <MarkdownSelectOne
+            question={question}
+            setValue={setValue}
+            onSubmit={onSubmit}
+          />
+        );
+      case 'numeric':
+        return <Numeric setValue={setValue} />;
       default:
         return <h2></h2>;
     }
@@ -414,24 +223,34 @@ const Question = ({
       <div className={` ${styles['Question']} ${styles['Question-grp']} `}>
         {question && (
           <>
-            <h3
-              className={`Description`}
-            >
-              {question.q_str}
-              {question.h_str && (
-                <Tooltip
-                  title={question?.h_str}
-                  placement="bottomRight"
-                  overlayStyle={{ marginRight: '10px' }}
-                  color="blue"
-                  mouseLeaveDelay={0}
+            <h3 className={`Description`}>
+              <div
+                className={`${question.h_str ? styles['Text-wrapper'] : ''}`}
+              >
+                <div
+                  className={`${
+                    question.h_str ? styles['Question-Description'] : ''
+                  }`}
                 >
-                  <AiOutlineQuestionCircle
-                    size={30}
-                    className="question-help"
-                  />
-                </Tooltip>
-              )}
+                  {question.q_str}
+                </div>
+                {question.h_str && (
+                  <div className={styles['Question-Tooltip']}>
+                    <Tooltip
+                      title={question?.h_str}
+                      placement="bottomRight"
+                      overlayStyle={{ marginRight: '20px' }}
+                      color="blue"
+                      mouseLeaveDelay={0}
+                    >
+                      <AiOutlineQuestionCircle
+                        size={30}
+                        className="question-help"
+                      />
+                    </Tooltip>
+                  </div>
+                )}
+              </div>
             </h3>
             <br />
             {question.type === 'multi_select' ? (

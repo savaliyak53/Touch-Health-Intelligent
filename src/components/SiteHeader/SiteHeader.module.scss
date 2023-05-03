@@ -138,9 +138,36 @@
     }
   }
 }
+.logout-button{
+  border-radius: 100px !important;
+  height: auto !important;
+  padding: 18px 54px !important;
+  background-color: $primary-color1 !important;
+  color: #fff !important;
+  font-size: 20px !important;
+  line-height: 24px !important;
+  font-weight: 400 !important;
+  border: 2px solid #fff !important;
+  margin: 20px auto 0px !important;
+  display: flex !important;
+  justify-content: center !important;  
+  width: 65% !important;
+  white-space: pre-line !important;
 
+
+  &:hover,
+  &:focus,
+  &:active {
+    &:not([disabled]){
+      background-image: $secondary-color2 !important;
+      color: #fff !important;
+      border: none!important;
+    }
+
+  }
+}
 .Signout {
-  font-family: "Roboto", sans-serif !important;
+  font-family: $font-body !important;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -148,13 +175,12 @@
   display: flex;
   align-items: center;
   text-align: center;
-  text-decoration-line: underline;
   background-color: #204ECF;
   display: block;
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 0px;
   margin: 0 auto;
   margin-top: 100px;
   margin-bottom: 46px;
@@ -192,7 +218,7 @@
       font-size: 18px;
       line-height: 110%;
       margin-top: 200px;
-      bottom: 10px;
+      bottom: 25px;
         a {
           font-family: $font-body !important;
           font-style: normal;
