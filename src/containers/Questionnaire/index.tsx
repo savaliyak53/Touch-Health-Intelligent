@@ -288,7 +288,6 @@ function UserCondition() {
                           question?.type !== 'image_and_text' &&
                           (typeof value === 'undefined' ||
                             value?.length < 1)) ||
-                            // (typeof value === 'undefined' ||value?.length >= Math.min(question?.max_num_selections, question?.options.length) ) ||
                         loading
                       }
                     >
