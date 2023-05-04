@@ -5,6 +5,7 @@ export default function SelectMany({
   isChecked,
   handleClick,
   labelRef,
+  value
 }: any) {
   return (
     <div className="Select-Options">
@@ -14,8 +15,9 @@ export default function SelectMany({
             ref={labelRef}
             id={`label-${index}`}
             className={`ant-radio-button-wrapper Option${index} ${
-              isChecked(index) ? 'ant-radio-button-wrapper-checked' : ''
-            } `}
+              isChecked(index) ? 'ant-radio-button-wrapper-checked' : ''}
+              ${value?.length >= Math.min(question.max_num_selections, question?.options?.length) && !isChecked(index) ? 'ant-radio-button-disabled' : ''}
+              `}
             key={index}
           >
             <span className={`ant-radio-button`}>
@@ -24,6 +26,7 @@ export default function SelectMany({
                 className="ant-radio-button-input"
                 value={item}
                 onClick={() => handleClick(index)}
+                disabled={value?.length >= Math.min(question.max_num_selections, question?.options?.length) && !isChecked(index)}
               />
               <span className="ant-radio-button-inner"></span>
             </span>

@@ -1191,6 +1191,9 @@ input {
       color: $primary-color1;
     }
   }
+  .ant-radio-button-disabled{
+    background-color: rgba(#3a3a3a, 0.2) !important;
+  }
   
   .ant-space {
     flex-wrap: wrap;
