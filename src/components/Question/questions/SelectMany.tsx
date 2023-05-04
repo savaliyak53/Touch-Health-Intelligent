@@ -7,6 +7,9 @@ export default function SelectMany({
   labelRef,
   value
 }: any) {
+  const checkMaxSelected = (selections: Array<number>, questionObj:any, optionIndex: number) => {
+    return selections?.length >= Math.min(questionObj.max_num_selections, questionObj?.options?.length) && !isChecked(optionIndex)
+  }
   return (
     <div className="Select-Options">
       <div className="ant-radio-group ant-radio-group-outline Select-Button">
@@ -16,7 +19,7 @@ export default function SelectMany({
             id={`label-${index}`}
             className={`ant-radio-button-wrapper Option${index} ${
               isChecked(index) ? 'ant-radio-button-wrapper-checked' : ''}
-              ${value?.length >= Math.min(question.max_num_selections, question?.options?.length) && !isChecked(index) ? 'ant-radio-button-disabled' : ''}
+              ${checkMaxSelected(value, question, index) ? 'ant-radio-button-disabled' : ''}
               `}
             key={index}
           >
@@ -26,7 +29,7 @@ export default function SelectMany({
                 className="ant-radio-button-input"
                 value={item}
                 onClick={() => handleClick(index)}
-                disabled={value?.length >= Math.min(question.max_num_selections, question?.options?.length) && !isChecked(index)}
+                disabled={checkMaxSelected(value, question, index)}
               />
               <span className="ant-radio-button-inner"></span>
             </span>
