@@ -265,7 +265,7 @@ const AddGoals = () => {
     setActive(true);
   }
   return (
-    <Layout defaultHeader={true} hamburger={true}>
+    <Layout defaultHeader={true} hamburger={false}>
       <>
         {userStatus && (
           <div className={'Backflex'} onClick={handleBack}>
