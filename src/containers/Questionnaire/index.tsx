@@ -161,7 +161,7 @@ function UserCondition() {
       return;
     }
 
-    if(value !== undefined && value?.length < Math.min(question.min_num_selections, question.options.length)){
+    if(value !== undefined && value?.length < Math.min(question.min_num_selections, question.options?.length)){
       toast(`Please select at least ${question.min_num_selections} options`)
       setClicked(false);
       return;
