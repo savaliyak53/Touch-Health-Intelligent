@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import goal_styles from '../IntroGoals.module.scss';
 import { Radio } from 'antd';
 
@@ -7,6 +7,7 @@ export default function ImageAndTextSelectOne({
   setValue,
   onSubmit,
 }: any) {
+  const [isDisabled, setIsDisabled]=useState(false);
   return (
     <div className={goal_styles['IntroGoals']}>
       <h2 className={goal_styles['Title']}>{question.title}</h2>
@@ -15,6 +16,7 @@ export default function ImageAndTextSelectOne({
       <div className="Select-Options">
         <Radio.Group
           onChange={(e) => {
+            setIsDisabled(true)
             const index = question.options.indexOf(e.target.value);
             setValue(index);
             onSubmit(index);
@@ -22,7 +24,10 @@ export default function ImageAndTextSelectOne({
         >
           {question.options.map((item: any, index: number) => (
             <div className={`Yes-No-Button`} key={index}>
-              <Radio.Button value={item} key={index}>
+              <Radio.Button 
+                 value={item}
+                 key={index}
+                 disabled={isDisabled}>
                 {item}
               </Radio.Button>
               {index % 2 !== 0 && <br />}
