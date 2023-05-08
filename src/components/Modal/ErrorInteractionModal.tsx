@@ -1,22 +1,28 @@
 import React from 'react';
 import {Modal, Button } from 'antd';
 import styles from './Modals.module.scss';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 export type IProps = {
   open: boolean;
-  handleRetry: () => any;
-  handleOk: ()=>any;
   renderData?: any;
   showTryButton?:boolean;
   title: string;
 };
 const ErrorInteractionModal = ({
   open,
-  handleRetry,
   title,
   showTryButton,
-  handleOk,
   renderData,
 }: IProps) => {
+  const navigate = useNavigate();
+
+  const handleRetry = () => {
+    window.location.reload();
+  };
+  const handleOk = () => {
+    navigate('/dashboard');
+  };
   return (
     <Modal
       title={title}

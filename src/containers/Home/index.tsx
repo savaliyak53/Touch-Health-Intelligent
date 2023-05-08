@@ -11,9 +11,11 @@ import { getSubscriptionStatus } from '../../services/subscriptionService';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
 import moment from 'moment';
+import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 
 const Home = () => {
   const navigate = useNavigate();
+  const [exception, setException] = useState<boolean>(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -98,9 +100,12 @@ const Home = () => {
         .then((response) => {
           if(response.data.security_questions){
             getUserSubscription(response)
-          } else {
+          } else if(response.data && !response.data.security_questions){
             navigate('/security')
-          }
+          } else {
+            setException(true)
+            //show modal that something went wrong
+          }  
         })
         .catch((error) => {
           console.log(error);
@@ -164,6 +169,21 @@ const Home = () => {
   return (
     <div className="Btn-group">
       <Spin size="large" className=" Spinner" />
+      {exception && (
+        <div>
+          <ErrorInteractionModal
+            title={'Error'}
+            open={true}
+            showTryButton={!exception}
+            renderData={
+              <div className={'Description'}>
+                Oops! Something went wrong
+                <br />
+                Try again later.
+              </div>
+            }
+          />
+        </div>)}
     </div>
   );
 };
