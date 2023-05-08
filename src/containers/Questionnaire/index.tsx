@@ -161,6 +161,12 @@ function UserCondition() {
       return;
     }
 
+    if(value !== undefined && value?.length < Math.min(question.min_num_selections, question.options?.length)){
+      toast(`Please select at least ${question.min_num_selections} options`)
+      setClicked(false);
+      return;
+    }
+
     const payload = {
       type: 'question',
       ref_id: refId,
@@ -220,12 +226,6 @@ function UserCondition() {
         setException(true);
       });
   };
-  const handleRetry = () => {
-    window.location.reload();
-  };
-  const handleOk = () => {
-    navigate('/dashboard');
-  };
 
   return (
     <Layout defaultHeader={true} hamburger={false}>
@@ -236,8 +236,6 @@ function UserCondition() {
             title={'Error'}
             open={true}
             showTryButton={!exception}
-            handleRetry={handleRetry}
-            handleOk={handleOk}
             renderData={
               <div className={'Description'}>
                 Oops! Looks like we cannot continue interaction at this point{' '}

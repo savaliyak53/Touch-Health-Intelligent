@@ -218,7 +218,7 @@ const PasswordRecovery = () => {
           const remaining_time = response?.response?.data.details.match(/\d+/g);
           restartTime(parseInt(remaining_time[0]))
           setIsLoading(false);
-          setIsDisabled(false);
+          // setIsDisabled(false);
         } else {
           setEnterNumber(false); 
           setIsCodeSent(true);
@@ -337,7 +337,10 @@ const PasswordRecovery = () => {
                       inputMode="numeric"
                       fields={6}
                       type="number"
-                      onChange={onChange}
+                      onChange={(value:any)=>{
+                        onChange(value)
+                        setIsDisabled(false)
+                      }}
                       value={value}
                     />
                   )}
@@ -353,6 +356,7 @@ const PasswordRecovery = () => {
                   onClick={handleSubmit(onSubmitCode)}
                   className={'Submit-Button'}
                   loading={isVerifying}
+                  disabled={isDisabled}
                 >
                   Verify
                 </Button>

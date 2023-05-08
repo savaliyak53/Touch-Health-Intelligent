@@ -640,6 +640,14 @@ input {
     margin-left: 50vw;
   }
 }
+.question-help {
+  // position: absolute;
+  // margin-left: 8px;
+  // margin-bottom: 4px;
+  // right: 0px;
+  color: $primary-color1 !important;
+  //width: 50px;
+}
 .ant-tooltip {
   .ant-tooltip-content {
     .ant-tooltip-arrow {
@@ -1190,6 +1198,9 @@ input {
     &:hover {
       color: $primary-color1;
     }
+  }
+  .ant-radio-button-disabled{
+    background-color: rgba(#3a3a3a, 0.2) !important;
   }
   
   .ant-space {

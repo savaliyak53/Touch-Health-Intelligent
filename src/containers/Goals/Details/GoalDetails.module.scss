@@ -56,6 +56,11 @@ justify-content: space-between;
 text-align: start;
 width: 100%;
 }
+.tooltip{
+  color: $primary-color1 !important;
+  margin-left: 6px;
+  font-size:  24px;
+}
 .Vel-number {
 color: $secondary-color1;
 font-weight: 700;

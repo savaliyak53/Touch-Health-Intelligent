@@ -21,6 +21,6 @@ export const securityQuestions = [
   },
 ];
 export const tooltipContent ={
-  dashboardText: 'This is your dashboard. From here you can see your Goal scores, and Data scores for each of your goals. Go ahead and click on them to explore more. You can configure you goals by tapping the "+" button.',
+  dashboardText: 'This is your dashboard. From here you can see your Goal scores, and Data scores for each of your goals. Go ahead and click on them to explore more. You can configure your goals by tapping the "+" button.',
   streakText: 'This visualizes which days you have done a Checkup. A streak is when you have an unbroken chain of days with complete Checkups.',
 }

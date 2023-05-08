@@ -265,7 +265,7 @@ const AddGoals = () => {
     setActive(true);
   }
   return (
-    <Layout defaultHeader={true} hamburger={true}>
+    <Layout defaultHeader={true} hamburger={userStatus}>
       <>
         {userStatus && (
           <div className={'Backflex'} onClick={handleBack}>
@@ -307,7 +307,7 @@ const AddGoals = () => {
           ))}
         </div>
         <h3 className={` Heading Heading-color2 ${styles['Goals-title']}`}>My goals</h3>
-        <div className={styles['Active-Goals']}>
+        <div>
           {goals?.map((data: any, index: any) => (
             <>
               <ListItem 
@@ -342,9 +342,7 @@ const AddGoals = () => {
               <div className={styles['dlt-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> Your goal {deletedGoal} was successfully deleted</div>
             ) : ''} */}
         </div>
-        <div
-          className={styles['Submit-Button']}
-        >
+        <div>
           <Button
             className={`Submit-Button ${goals.length < 1  ? 'disabled' : ''}`}
             loading={isLoading}

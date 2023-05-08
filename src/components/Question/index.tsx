@@ -132,13 +132,13 @@ const Question = ({
     }
   }, [question]);
   useEffect(() => {
-    setMaxNum(question.max_num_selections);
+    setMaxNum(Math.min(question.max_num_selections, question.options?.length));
     if (question?.type === 'multi_select') {
       if (
         question.defaults &&
         question.defaults.length > question.max_num_selections
       ) {
-        setDefaultLength(question.max_num_selections);
+        setDefaultLength(Math.min(question.max_num_selections, question.options.length));
       } else {
         setDefaultLength(question.defaults.length);
       }
@@ -168,6 +168,7 @@ const Question = ({
       case 'dialog_select_one':
         return (
           <DialogSelectOne
+            value={value}
             setValue={setValue}
             onSubmit={onSubmit}
             question={question}
@@ -192,6 +193,7 @@ const Question = ({
             isChecked={isChecked}
             handleClick={handleClick}
             labelRef={labelRef}
+            value={radioOptions}
           />
         );
       case 'slider':
