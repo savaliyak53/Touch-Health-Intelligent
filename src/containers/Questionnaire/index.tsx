@@ -226,12 +226,6 @@ function UserCondition() {
         setException(true);
       });
   };
-  const handleRetry = () => {
-    window.location.reload();
-  };
-  const handleOk = () => {
-    navigate('/dashboard');
-  };
 
   return (
     <Layout defaultHeader={true} hamburger={false}>
@@ -242,8 +236,6 @@ function UserCondition() {
             title={'Error'}
             open={true}
             showTryButton={!exception}
-            handleRetry={handleRetry}
-            handleOk={handleOk}
             renderData={
               <div className={'Description'}>
                 Oops! Looks like we cannot continue interaction at this point{' '}

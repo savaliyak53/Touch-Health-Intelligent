@@ -168,6 +168,7 @@ const Question = ({
       case 'dialog_select_one':
         return (
           <DialogSelectOne
+            value={value}
             setValue={setValue}
             onSubmit={onSubmit}
             question={question}

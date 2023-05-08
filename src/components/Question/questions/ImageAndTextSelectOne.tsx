@@ -7,7 +7,14 @@ export default function ImageAndTextSelectOne({
   setValue,
   onSubmit,
 }: any) {
-  const [isDisabled, setIsDisabled]=useState(false);
+  const [selectedValue, setSelectedValue] = useState<string | null>(null);
+  const handleRadioChange = (e: any) => {
+    const value = e.target.value;
+    setSelectedValue(value);
+    const index = question.options.indexOf(e.target.value);
+    setValue(index);
+    onSubmit(index);
+  }
   return (
     <div className={goal_styles['IntroGoals']}>
       <h2 className={goal_styles['Title']}>{question.title}</h2>
@@ -15,19 +22,15 @@ export default function ImageAndTextSelectOne({
       <img src={question.image} className={goal_styles['Image']} alt="Image" />
       <div className="Select-Options">
         <Radio.Group
-          onChange={(e) => {
-            setIsDisabled(true)
-            const index = question.options.indexOf(e.target.value);
-            setValue(index);
-            onSubmit(index);
-          }}
+          onChange={handleRadioChange}
         >
           {question.options.map((item: any, index: number) => (
             <div className={`Yes-No-Button`} key={index}>
               <Radio.Button 
                  value={item}
                  key={index}
-                 disabled={isDisabled}>
+                 disabled={selectedValue !== null && selectedValue !== item}
+                 >
                 {item}
               </Radio.Button>
               {index % 2 !== 0 && <br />}
