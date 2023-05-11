@@ -171,8 +171,6 @@ const Integrations = () => {
       response_type: 'code',
       scope: [
         'https://www.googleapis.com/auth/fitness.activity.read',
-        'https://www.googleapis.com/auth/fitness.location.read',
-        'https://www.googleapis.com/auth/fitness.nutrition.read',
       ]
         .join(' ')
         .trim(),
