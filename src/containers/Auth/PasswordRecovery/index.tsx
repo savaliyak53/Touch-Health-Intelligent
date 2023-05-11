@@ -64,6 +64,8 @@ const PasswordRecovery = () => {
   const [openRecaptcha, setOpenRecaptcha] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [enableTimer, setEnableTimer] = useState(true);
+  const [isSubmitted, setIsSubmitted]=useState(false);
+  const [disableSubmit, setDisableSubmit]=useState(true);
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
   const expiryTimestamp = time
@@ -80,7 +82,7 @@ const PasswordRecovery = () => {
     handleSubmit,
     control,
     getValues,
-    formState: { errors },
+    formState: { errors},
   } = useForm<IRecoverFormInputs>({
     mode: 'onSubmit',
     shouldFocusError: true,
@@ -108,6 +110,7 @@ const PasswordRecovery = () => {
   }
   
   const onSubmitCode = async (data: any) => {
+    setIsSubmitted(true)
     const username = data.username ? onlyNumbers(data.username) : onlyNumbers(getValues('username'))
     const code = data.code ? data.code : getValues('code')
     getSecurityQuestions(username, code)
@@ -322,11 +325,16 @@ const PasswordRecovery = () => {
                   name="code"
                   rules={{
                     validate: (value) => {
-                      return value && value.length === 6
-                        ? true
-                        : !value
-                        ? 'Verification code is required'
-                        : 'Invalid verification code';
+                      // only apply validation rules when the form is submitted
+                      if (isSubmitted) {
+                        console.log("is sumitted : ", isSubmitted)
+                        return value && value.length === 6
+                          ? true
+                          : !value
+                          ? 'Verification code is required'
+                          : 'Invalid verification code';
+                      }
+                      return true; // skip validation on first render
                     },
                   }}
                   render={({
@@ -339,7 +347,7 @@ const PasswordRecovery = () => {
                       type="number"
                       onChange={(value:any)=>{
                         onChange(value)
-                        setIsDisabled(false)
+                        setDisableSubmit(false)
                       }}
                       value={value}
                     />
@@ -356,7 +364,7 @@ const PasswordRecovery = () => {
                   onClick={handleSubmit(onSubmitCode)}
                   className={'Submit-Button'}
                   loading={isVerifying}
-                  disabled={isDisabled}
+                  disabled={disableSubmit}
                 >
                   Verify
                 </Button>

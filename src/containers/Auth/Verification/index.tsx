@@ -27,6 +27,7 @@ const Verification = () => {
   const [finishStatus, setfinishStatus] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [enableTimer, setEnableTimer] = useState(true);
+  const [disableSubmit, setDisableSubmit]=useState(true)
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
   const expiryTimestamp = time
@@ -159,7 +160,10 @@ const Verification = () => {
                 inputMode="numeric"
                 fields={6}
                 type="number"
-                onChange={onChange}
+                onChange={(value)=>{
+                   onChange(value)
+                   setDisableSubmit(false)
+                }}
                 value={value}
               />
             )}
@@ -175,6 +179,7 @@ const Verification = () => {
             onClick={handleSubmit(onSubmit)}
             className="Submit-Button"
             loading={isVerifying}
+            disabled={disableSubmit}
           >
             Verify
           </Button>
