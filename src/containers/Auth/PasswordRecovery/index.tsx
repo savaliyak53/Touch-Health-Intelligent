@@ -327,7 +327,6 @@ const PasswordRecovery = () => {
                     validate: (value) => {
                       // only apply validation rules when the form is submitted
                       if (isSubmitted) {
-                        console.log("is sumitted : ", isSubmitted)
                         return value && value.length === 6
                           ? true
                           : !value
