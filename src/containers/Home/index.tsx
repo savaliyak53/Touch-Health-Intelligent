@@ -151,9 +151,9 @@ const Home = () => {
     if (userId) {
       getUser(userId)
         .then((response) => {
-          if (response.security_questions) {
+          if (response.data.security_questions) {
             getUserSubscription(response);
-          } else if (response && !response.security_questions) {
+          } else if (response.data && !response.data.security_questions) {
             navigate('/security');
           } else {
             setException(true);
@@ -166,14 +166,15 @@ const Home = () => {
     }
   };
   const getUserSubscription = (response: any) => {
-    const { signup_status } = response;
     getSubscriptionStatus()
       .then((res) => {
-        console.log('res', res);
-        if (signup_status === 'new' && res.data.isSubscribed === false) {
+        if (
+          response.data.signup_status === 'new' &&
+          res.data.isSubscribed === false
+        ) {
           navigate('/subscription');
         } else {
-          if (signup_status === 'onboarding') {
+          if (response.data.signup_status === 'onboarding') {
             getInteractionServiceByType('onboarding')
               .then((response: any) => {
                 handleRedirect(response);
@@ -184,9 +185,9 @@ const Home = () => {
                 );
                 navigate('/dashboard');
               });
-          } else if (signup_status === 'goal-selection') {
+          } else if (response.data.signup_status === 'goal-selection') {
             navigate('/add-goals');
-          } else if (signup_status === 'goal-characterization') {
+          } else if (response.data.signup_status === 'goal-characterization') {
             getInteractionServiceByType('goal_characterization')
               .then((response: any) => {
                 handleRedirect(response);
@@ -197,7 +198,7 @@ const Home = () => {
                 );
                 navigate('/dashboard');
               });
-          } else if (signup_status === 'done') {
+          } else if (response.data.signup_status === 'done') {
             getInteractionByType('checkup');
           } else if (response.data.signup_status === 'new') {
             const zoneVal = moment()

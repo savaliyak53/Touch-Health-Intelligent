@@ -1,66 +1,61 @@
-import axiosInstance from '../utils/axiosNew';
-
-const BASE_URL = process.env.REACT_APP_API_HOST;
+import axiosInstance from '../utils/axios';
 
 export const getPlansService = () => {
-  return axiosInstance.get(`${BASE_URL}/payments/subscription/plans`);
+  return axiosInstance.get(`/payments/subscription/plans`);
 };
 
 export const getUserSubscription = () => {
-  return axiosInstance.get(`${BASE_URL}/payments/subscription`);
+  return axiosInstance.get(`/payments/subscription`);
 };
 
 export const getStatus = () => {
-  return axiosInstance.get(`${BASE_URL}/payments/checkout/status`);
+  return axiosInstance.get(`/payments/checkout/status`);
 };
 
 export const getUserPlan = () => {
-  return axiosInstance.get(`${BASE_URL}/payments/subscription/info`);
+  return axiosInstance.get(`/payments/subscription/info`);
 };
 
 export const checkoutPlan = (planId: string) => {
-  return axiosInstance.post(`${BASE_URL}/payments/checkout`, {
+  return axiosInstance.post(`/payments/checkout`, {
     planId: planId,
   });
 };
 
 export const managePayment = () => {
-  return axiosInstance.get(`${BASE_URL}/payments/update-details`);
+  return axiosInstance.get(`/payments/update-details`);
 };
 
 export const getSubscriptionStatus = () => {
-  return axiosInstance.get(`${BASE_URL}/payments/subscription/status`);
+  return axiosInstance.get(`/payments/subscription/status`);
 };
 
 export const pauseSubscription = () => {
-  return axiosInstance.post(`${BASE_URL}/payments/subscription/pause`);
+  return axiosInstance.post(`/payments/subscription/pause`);
 };
 
 export const cancelSubscription = () => {
-  return axiosInstance.post(`${BASE_URL}/payments/subscription/cancel`);
+  return axiosInstance.post(`/payments/subscription/cancel`);
 };
 
 export const resumeSubscription = () => {
-  return axiosInstance.post(`${BASE_URL}/payments/subscription/unpause`);
+  return axiosInstance.post(`/payments/subscription/unpause`);
 };
 
 export const updateSubscription = (planId: string) => {
-  return axiosInstance.post(`${BASE_URL}/payments/subscription/update`, {
+  return axiosInstance.post(`/payments/subscription/update`, {
     planId: planId,
   });
 };
 
 export const updateUserSubscription = (planId: string) => {
-  return axiosInstance.post(`${BASE_URL}/payments/subscription`, {
+  return axiosInstance.post(`/payments/subscription`, {
     planId: planId,
   });
 };
 
 export const calculateSubscriptionProration = (planId: string) => {
-  return axiosInstance.post(
-    `${BASE_URL}/payments/subscription/update/estimate`,
-    {
-      planId: planId,
-    }
-  );
+  return axiosInstance.post(`/payments/subscription/update/estimate`, {
+    planId: planId,
+  });
 };

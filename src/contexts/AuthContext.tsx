@@ -1,13 +1,8 @@
 import { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
-import jwt from 'jwt-decode';
 import { loginService } from '../services/authservice';
-import { getTokenExpiration } from '../utils/lib';
-export const getUser = (token: string) => {
-  const user: any = jwt(token);
-  return user.id;
-};
+import { getTokenExpiration, getUser } from '../utils/lib';
+
 export interface AuthContextData {
   user: any;
   authTokens: any;
@@ -100,7 +95,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     loginUser,
     logoutUser,
   };
-  console.log('loading', loading);
   return (
     // eslint-disable-next-line react/react-in-jsx-scope
     <AuthContext.Provider value={contextData}>

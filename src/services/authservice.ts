@@ -4,16 +4,13 @@ import {
   IPreferencesService,
   InteractionService,
 } from '../interfaces';
-// import APIClient from '../utils/axiosInstance';
-import axiosInstance from '../utils/axiosNew';
-// import useAxios from '../utils/useAxios';
+
+import axiosInstance from '../utils/axios';
 
 const baseURL = process.env.REACT_APP_API_HOST;
-// const config = {};
+
 axiosInstance.defaults.baseURL = baseURL;
-// const apiClient = axiosInstance.create({
-//   baseURL,
-// });
+
 export const signUpService = async (data: ISignUp, header: string) => {
   try {
     const config: any = {};
@@ -108,29 +105,24 @@ export const updatePreference = async (data: any) => {
 };
 
 export const getPreference = async () => {
-  const response = await axiosInstance.get(`${baseURL}/ai/preferences`);
-  return response.data;
+  return axiosInstance.get(`${baseURL}/ai/preferences`);
 };
 export const getInteractionService = async () => {
-  const response = await axiosInstance.get(`${baseURL}/ai/interaction`);
-  return response.data;
+  return await axiosInstance.get(`${baseURL}/ai/interaction`);
 };
 
 export const getInteractionServiceByType = async (flow_id: string) => {
-  const response = await axiosInstance.post(`${baseURL}/ai/interaction-flow`, {
+  return await axiosInstance.post(`${baseURL}/ai/interaction-flow`, {
     flow_id,
   });
-  return response.data;
 };
 
 export const postInteractionService = async (data: InteractionService) => {
-  const response = await axiosInstance.post(`${baseURL}/ai/interaction`, data);
-  return response.data;
+  return await axiosInstance.post(`${baseURL}/ai/interaction`, data);
 };
 
 export const getUser = async (id: string | null | undefined) => {
-  const response = await axiosInstance.get(`/users/${id}`);
-  return response.data;
+  return await axiosInstance.get(`/users/${id}`);
 };
 
 export const postResetPassword = async (data: any) => {
@@ -154,34 +146,21 @@ export const checkAnswer = async (data: any) => {
 };
 
 export const getGoogleCode = async () => {
-  const response = await axiosInstance.get(`${baseURL}/auth/google`);
-  return response.data;
+  return await axiosInstance.get(`${baseURL}/auth/google`);
 };
 
 export const postGoogleToken = async (body: any) => {
-  const response = await axiosInstance.post(
-    `${baseURL}/auth/google/token`,
-    body
-  );
-  return response.data;
+  return await axiosInstance.post(`${baseURL}/auth/google/token`, body);
 };
 
 export const revokeGoogleFit = async () => {
-  const response = await axiosInstance.post(`${baseURL}/auth/google/revoke`);
-  return response.data;
+  return await axiosInstance.post(`${baseURL}/auth/google/revoke`);
 };
 
 export const getIntegrationStatus = async () => {
-  const response = await axiosInstance.get(
-    `${baseURL}/user/integration/status`
-  );
-  return response.data;
+  return await axiosInstance.get(`${baseURL}/user/integration/status`);
 };
 
 export const guidanceStatus = async (id: string, body: any) => {
-  const response = await axiosInstance.put(
-    `${baseURL}/ai/guidances/${id}`,
-    body
-  );
-  return response.data;
+  return await axiosInstance.put(`${baseURL}/ai/guidances/${id}`, body);
 };

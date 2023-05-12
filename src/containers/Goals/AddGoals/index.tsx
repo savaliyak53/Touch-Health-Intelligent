@@ -67,7 +67,9 @@ const AddGoals = () => {
     const userId = localStorage.getItem('userId');
     getUser(userId)
       .then((res) => {
-        res.signup_status == 'done' ? setUserSatus(true) : setUserSatus(false);
+        res?.data?.signup_status == 'done'
+          ? setUserSatus(true)
+          : setUserSatus(false);
       })
       .catch((err) => {
         console.log(err);

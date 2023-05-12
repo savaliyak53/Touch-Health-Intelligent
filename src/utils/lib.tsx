@@ -1,4 +1,5 @@
 import jwt_decode from 'jwt-decode';
+import jwt from 'jwt-decode';
 
 const monthNames = [
   'Jan',
@@ -79,6 +80,9 @@ export const sleep = (ms: number): Promise<void> => {
 };
 export const getTokenExpiration = (token: string) => {
   const decodedToken: any = jwt_decode(token);
-  console.log('decoded_token from utils', decodedToken);
   return decodedToken.exp;
+};
+export const getUser = (token: string) => {
+  const user: any = jwt(token);
+  return user.id;
 };

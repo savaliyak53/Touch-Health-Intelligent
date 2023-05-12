@@ -126,16 +126,13 @@ function UserCondition() {
         if (response) {
           getInteraction();
         } else {
-          toast.error(
-            `Something went wrong while Initiating Checkup Interaction.`
-          );
+          setException(true);
+
           navigate('/dashboard');
         }
       })
       .catch((error) => {
-        toast.error(
-          `Something went wrong while Initiating Checkup Interaction.`
-        );
+        setException(true);
       });
   };
   const integrationPageRedirect = (refId: string) => {
@@ -161,8 +158,12 @@ function UserCondition() {
       return;
     }
 
-    if(value !== undefined && value?.length < Math.min(question.min_num_selections, question.options?.length)){
-      toast(`Please select at least ${question.min_num_selections} options`)
+    if (
+      value !== undefined &&
+      value?.length <
+        Math.min(question.min_num_selections, question.options?.length)
+    ) {
+      toast(`Please select at least ${question.min_num_selections} options`);
       setClicked(false);
       return;
     }
@@ -211,14 +212,12 @@ function UserCondition() {
             setQuestion(data.question);
             setDisableNextButton(false);
           }
-        } else if(!data.question && data.type === "done") {
+        } else if (!data.question && data.type === 'done') {
           handleInteractionRedirect();
-        }
-        else if (!data || !data.question || data.question===null)
-        {
+        } else if (!data || !data.question || data.question === null) {
           toast.error('Something went wrong, question is null');
           setException(true);
-          setDisableNextButton(false)
+          setDisableNextButton(false);
         }
       })
       .catch((error) => {

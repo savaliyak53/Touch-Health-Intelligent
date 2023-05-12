@@ -1,7 +1,4 @@
-import axiosInstance from '../utils/axiosNew';
-
-const baseURL = process.env.REACT_APP_API_HOST;
-axiosInstance.defaults.baseURL = baseURL;
+import axiosInstance from '../utils/axios';
 
 export const getConditionsService = async () => {
   return axiosInstance.get(`/conditions`);
@@ -44,5 +41,5 @@ export const getInsightsService = async () => {
 };
 
 export const getDashboard = async () => {
-  return axiosInstance.get(`/ai/dashboard`);
+  return await axiosInstance.get(`/ai/dashboard`);
 };

@@ -31,10 +31,10 @@ const Layout = ({
     if (userId) {
       getUser(userId)
         .then((response: any) => {
-          const { security_questions } = response;
-          if (security_questions) {
+          // const { security_questions } = response.data;
+          if (response.data.security_questions) {
             getUserSubscription(response);
-          } else if (response.data && !security_questions) {
+          } else if (response.data && !response.data.security_questions) {
             navigate('/security');
           } else {
             setException(true);
@@ -49,8 +49,10 @@ const Layout = ({
   const getUserSubscription = (response: any) => {
     getSubscriptionStatus()
       .then((res) => {
-        const { signup_status } = response;
-        if (signup_status === 'new' && res.data.isSubscribed === false) {
+        if (
+          response.data.signup_status === 'new' &&
+          res.data.isSubscribed === false
+        ) {
           location.pathname !== '/subscription'
             ? navigate('/subscription')
             : null;
