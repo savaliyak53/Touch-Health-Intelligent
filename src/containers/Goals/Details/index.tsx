@@ -206,8 +206,8 @@ const GoalDetails = () => {
     setIsLoading(true);
     goalDetails(goalId)
       .then((res: any) => {
-        setGoal(res.data);
-        calculate(res.data);
+        setGoal(res);
+        calculate(res);
         setIsLoading(false);
       })
       .catch((error: any) => {
@@ -229,8 +229,8 @@ const GoalDetails = () => {
         setIsLoading(false);
       });
   };
-  const handleClick = (item:any, type?: string) => {
-    const {info,data}=item; 
+  const handleClick = (item: any, type?: string) => {
+    const { info, data } = item;
     setOpen(true);
     setType(type);
     setGuidanceDate(info);
@@ -295,9 +295,9 @@ const GoalDetails = () => {
   const handleBack = () => {
     navigate('/dashboard');
   };
-  const convertToPositive = (num:number)=>{
-    return (num < 0) ? num * -1 : num;
-  }
+  const convertToPositive = (num: number) => {
+    return num < 0 ? num * -1 : num;
+  };
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <div className={'Backflex'} onClick={handleBack}>
@@ -319,51 +319,51 @@ const GoalDetails = () => {
             style={{ fontSize: '18px', color: '#D2D1D1', cursor: 'pointer' }}
           />
         </Button>
-        { goal?.info && (<h2 className={styles['Prevn-text']}>{goal?.info?.name ? goal.info.name :" "}</h2>)}
+        {goal?.info && (
+          <h2 className={styles['Prevn-text']}>
+            {goal?.info?.name ? goal.info.name : ' '}
+          </h2>
+        )}
         <Button
           className={styles['Prevn-btn']}
           onClick={() => {
-          setShowGoalInfoModal(true)}}
+            setShowGoalInfoModal(true);
+          }}
         >
-           <InfoCircleOutlined
-                size={30}
-                className={styles['tooltip']}
-                // style={{ color: '#204ECF', marginLeft: '6px', fontSize:"24px" }}
-              />
-          </Button>
+          <InfoCircleOutlined
+            size={30}
+            className={styles['tooltip']}
+            // style={{ color: '#204ECF', marginLeft: '6px', fontSize:"24px" }}
+          />
+        </Button>
       </div>
       <Modal
-        footer={
-          null
-        }
+        footer={null}
         centered
         open={showGoalInfoModal}
         onCancel={handleCancelModal}
         className="Goals-Modal"
         closable={false}
       >
-        <div className={'Backflex'}  onClick={handleCancelModal}>
-            <ArrowLeftOutlined className={'LeftIcon'} />
-          </div>
-         <h3 className={'Title'}>{goal?.info.name ? goal?.info.name : "" }</h3>
-        { goal?.info&& (
+        <div className={'Backflex'} onClick={handleCancelModal}>
+          <ArrowLeftOutlined className={'LeftIcon'} />
+        </div>
+        <h3 className={'Title'}>{goal?.info.name ? goal?.info.name : ''}</h3>
+        {goal?.info && (
           <div className={styles['Des-Goal']}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-              {goal?.info?.description_md? goal?.info?.description_md : ""}
+              {goal?.info?.description_md ? goal?.info?.description_md : ''}
             </ReactMarkdown>
           </div>
         )}
-        <div
-            className={styles['Modal-Btn-Group']}
+        <div className={styles['Modal-Btn-Group']}>
+          <Button
+            className="Submit-Button"
+            loading={isLoading}
+            onClick={handleCancelModal}
           >
-            <Button
-              className="Submit-Button"
-              loading={isLoading}
-              onClick={handleCancelModal}
-            >
-             Take me back
-            </Button>
-
+            Take me back
+          </Button>
         </div>
       </Modal>
       <ConfirmModal
@@ -371,8 +371,12 @@ const GoalDetails = () => {
         open={showCancelModal}
         handleCancel={handleCancelModal}
         handleOk={() => handleOk(goalId)}
-        className='Addgoal-Confirm-Modal'
-        renderData={<div  className='Description' >Are you sure you want to delete goal?</div>}
+        className="Addgoal-Confirm-Modal"
+        renderData={
+          <div className="Description">
+            Are you sure you want to delete goal?
+          </div>
+        }
       />
       <LastGoalModal
         title={'Warning'}
@@ -380,7 +384,11 @@ const GoalDetails = () => {
         handleCancel={handleCancelModal}
         handleOk={handleCancelModal}
         className="Addgoal-Confirm-Modal"
-        renderData={<div className='Description'>Alas! Unable to delete. This is your last goal</div>}
+        renderData={
+          <div className="Description">
+            Alas! Unable to delete. This is your last goal
+          </div>
+        }
       />
       <Spin spinning={isLoading} className="Spinner"></Spin>
       {goal?.data && (
@@ -439,7 +447,7 @@ const GoalDetails = () => {
                     <InfoCircleOutlined
                       size={30}
                       className={styles['tooltip']}
-                    //  style={{ color: '#204ECF', marginLeft: '6px' }}
+                      //  style={{ color: '#204ECF', marginLeft: '6px' }}
                     />
                   </Tooltip>
                 </span>
@@ -453,7 +461,9 @@ const GoalDetails = () => {
       {dataset && (
         <>
           <div className={styles['Chart-title']}>
-            <div className={`Heading Heading-color2 ${styles["sub-heading"]}`}>Goal Success</div>
+            <div className={`Heading Heading-color2 ${styles['sub-heading']}`}>
+              Goal Success
+            </div>
             <div className={styles['Succes-score']}>
               {goal?.data.success_score}
               {goal.data.velocity !== null && (
@@ -469,7 +479,9 @@ const GoalDetails = () => {
                     }`,
                   }}
                 >
-                  {goal.data.velocity<0?convertToPositive(goal.data.velocity):goal.data.velocity}
+                  {goal.data.velocity < 0
+                    ? convertToPositive(goal.data.velocity)
+                    : goal.data.velocity}
                   {goal.data.velocity == 0 ? null : goal.data.velocity < 0 ? (
                     <CaretDownOutlined style={{ color: v['primary-color1'] }} />
                   ) : (
@@ -508,25 +520,24 @@ const GoalDetails = () => {
           (element: any) => element.data?.status === 'new'
         ) && (
           <>
-            <div className={styles["sub-heading"]}>New Guidance</div>
+            <div className={styles['sub-heading']}>New Guidance</div>
           </>
         )}
         <div className={styles['Health-Goals']}>
-          {goal?.guidances.map((o: any,index:number) => (
-            
+          {goal?.guidances.map((o: any, index: number) => (
             <>
               {o.data && o.data.status === 'new' && (
-                <ListItem 
-                index={index}
-                status='new'
-                handleClick={handleClick}
-                item={o}
-                name={o.info?.name}
-              />
-                )}
+                <ListItem
+                  index={index}
+                  status="new"
+                  handleClick={handleClick}
+                  item={o}
+                  name={o.info?.name}
+                />
+              )}
             </>
           ))}
-       </div>
+        </div>
       </>
       {/* Active Guidance */}
       <>
@@ -534,24 +545,26 @@ const GoalDetails = () => {
           (element: any) => element.data?.status === 'active'
         ) && (
           <>
-            <div className={`Heading Heading-color2 ${styles["sub-heading"]}`}>Active Guidance</div>
+            <div className={`Heading Heading-color2 ${styles['sub-heading']}`}>
+              Active Guidance
+            </div>
           </>
         )}
-       <div className={styles['Health-Goals']}>
-          {goal?.guidances.map((o: any,index:number) => ( 
+        <div className={styles['Health-Goals']}>
+          {goal?.guidances.map((o: any, index: number) => (
             <>
               {o.data && o.data.status === 'active' && (
-                <ListItem 
+                <ListItem
                   index={index}
-                  status='active'
+                  status="active"
                   handleClick={handleClick}
                   item={o}
                   name={o.info?.name}
                 />
-                )}
+              )}
             </>
           ))}
-       </div>
+        </div>
       </>
       {/* Inactive Guidance */}
       <>
@@ -559,39 +572,37 @@ const GoalDetails = () => {
           (element: any) => element.data?.status === 'inactive'
         ) && (
           <>
-            <div className={styles["sub-heading"]}>Inactive guidances</div>
+            <div className={styles['sub-heading']}>Inactive guidances</div>
           </>
         )}
         <div className={styles['Health-Goals']}>
-          {goal?.guidances.map((o: any,index:number) => (
-            
+          {goal?.guidances.map((o: any, index: number) => (
             <>
               {o.data && o.data.status === 'inactive' && (
-                <ListItem 
+                <ListItem
                   index={index}
-                  status='inactive'
+                  status="inactive"
                   handleClick={handleClick}
                   item={o}
                   name={o.info?.name}
                 />
-                )}
+              )}
             </>
           ))}
-       </div>
-      <GuidanceModal 
-        open={open}
-        handleClose={handleClose}
-        followUpPattern={followUpPattern}
-        type={type}
-        guidanceData={guidanceData}
-        handleGuidanceStatus={handleGuidanceStatus}
-        setLoading={setLoading}
-        loading={loading}
-        setLoading2={setLoading2}
-        loading2={loading2}
-      />
+        </div>
+        <GuidanceModal
+          open={open}
+          handleClose={handleClose}
+          followUpPattern={followUpPattern}
+          type={type}
+          guidanceData={guidanceData}
+          handleGuidanceStatus={handleGuidanceStatus}
+          setLoading={setLoading}
+          loading={loading}
+          setLoading2={setLoading2}
+          loading2={loading2}
+        />
       </>
-      
     </Layout>
   );
 };

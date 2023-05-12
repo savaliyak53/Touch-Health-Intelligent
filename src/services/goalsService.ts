@@ -1,30 +1,38 @@
-import APIClient from '../utils/axios';
+import axios from 'axios';
+
+const baseUrl = process.env.REACT_APP_API_HOST;
 
 export const getGoals = async () => {
-    return APIClient(`/ai/goals/active`);
-}
+  const response = await axios.get(`${baseUrl}/ai/goals/active`);
+  return response.data;
+};
 
 export const getGoalsSuggestion = async () => {
-    return APIClient(`/ai/goals/suggested`);
-} 
+  const response = await axios.get(`${baseUrl}/ai/goals/suggested`);
+  return response.data;
+};
 
 export const getGoalsSearch = async (search: string) => {
-    return APIClient(`/ai/goals/search?q=${search}`, 'get');
+  const response = await axios.get(`${baseUrl}/ai/goals/search?q=${search}`);
+  return response.data;
 };
 
 export const addGoal = async (data: any) => {
-    return APIClient(`/ai/goals/active`, 'put', data);
+  const response = await axios.put(`${baseUrl}/ai/goals/active`, data);
+  return response.data;
 };
 
 export const deleteGoal = async (id?: string) => {
-    return APIClient(`/ai/goals/active/${id}`, 'delete');
+  const response = await axios.delete(`${baseUrl}/ai/goals/active/${id}`);
+  return response.data;
 };
 
 export const goalDetails = async (goalId: string) => {
-    return APIClient(`/ai/goals/${goalId}/data`);
-    // return goalDetail;
+  const response = await axios.get(`${baseUrl}/ai/goals/${goalId}/data`);
+  return response.data;
 };
 
 export const deleteAllData = async () => {
-    return APIClient(`/ai/data`, 'delete');
+  const response = await axios.delete(`${baseUrl}/ai/data`);
+  return response.data;
 };

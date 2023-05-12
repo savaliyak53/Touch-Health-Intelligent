@@ -59,16 +59,15 @@ const AddGoals = () => {
   const [active, setActive] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showLastGoalModal, setShowLastGoalModal] = useState(false);
-  const [deletedGoal, setDeletedGoal] = useState<string | undefined | null>(null)
-
+  const [deletedGoal, setDeletedGoal] = useState<string | undefined | null>(
+    null
+  );
 
   const getUserStatus = () => {
     const userId = localStorage.getItem('userId');
     getUser(userId)
       .then((res) => {
-        res.data.signup_status == 'done'
-          ? setUserSatus(true)
-          : setUserSatus(false);
+        res.signup_status == 'done' ? setUserSatus(true) : setUserSatus(false);
       })
       .catch((err) => {
         console.log(err);
@@ -92,7 +91,7 @@ const AddGoals = () => {
     // setDeletedGoal(selectedGoal?.name)
     removeGoal(id);
     setShowCancelModal(false);
-    toast.success(`Your goal was successfully deleted`)
+    toast.success(`Your goal was successfully deleted`);
     // setTimeout(()=>{
     //   setDeletedGoal(null)
     // },5000)
@@ -127,8 +126,8 @@ const AddGoals = () => {
 
   const getGoalsData = () => {
     getGoals().then((res: any) => {
-      setGoals(res.data);
-      getSuggestedGoals(res.data);
+      setGoals(res);
+      getSuggestedGoals(res);
     });
   };
 
@@ -250,20 +249,19 @@ const AddGoals = () => {
   const handleBack = () => {
     navigate('/dashboard');
   };
-  const handleCancelModal=()=>{
-    setShowLastGoalModal(false)
-  }
-  const handleClose = (data:any) => {
-    if(goals.length>1) {
-      setSelectedGoal(data)
+  const handleCancelModal = () => {
+    setShowLastGoalModal(false);
+  };
+  const handleClose = (data: any) => {
+    if (goals.length > 1) {
+      setSelectedGoal(data);
       setShowCancelModal(true);
-    }    
-    else setShowLastGoalModal(true)
-  }
-  const handleClick = (data:any) => {
+    } else setShowLastGoalModal(true);
+  };
+  const handleClick = (data: any) => {
     showModal(data);
     setActive(true);
-  }
+  };
   return (
     <Layout defaultHeader={true} hamburger={userStatus}>
       <>
@@ -290,27 +288,31 @@ const AddGoals = () => {
           <DownOutlined onClick={() => setIsDropdownOpen(!isDropdownOpen)} />
         </div>
 
-        <h3 className={`Heading Heading-color2 ${styles['Goals-title']}`}>Recommended goals</h3>
+        <h3 className={`Heading Heading-color2 ${styles['Goals-title']}`}>
+          Recommended goals
+        </h3>
 
         <div className={styles['Health-Goals']}>
           {suggestion?.map((data: any, index: any) => (
             <>
-            <ListItem 
-              index={index}
-              handleClick={() => showModal(data)}
-              item={data}
-              name={data.name}
-              disabled={isDisable}
-              className={`${styles['Suggested-Goals-List']}`}
-            />
+              <ListItem
+                index={index}
+                handleClick={() => showModal(data)}
+                item={data}
+                name={data.name}
+                disabled={isDisable}
+                className={`${styles['Suggested-Goals-List']}`}
+              />
             </>
           ))}
         </div>
-        <h3 className={` Heading Heading-color2 ${styles['Goals-title']}`}>My goals</h3>
+        <h3 className={` Heading Heading-color2 ${styles['Goals-title']}`}>
+          My goals
+        </h3>
         <div>
           {goals?.map((data: any, index: any) => (
             <>
-              <ListItem 
+              <ListItem
                 index={index}
                 handleClick={handleClick}
                 handleClose={handleClose}
@@ -320,13 +322,18 @@ const AddGoals = () => {
                 disabled={isDisable}
                 className={`${styles['Active-Goals-List']}`}
               />
-            <ConfirmModal
+              <ConfirmModal
                 title={'Confirmation'}
                 open={showCancelModal}
                 handleCancel={handleDeleteModal}
                 handleOk={() => handleDeleteOk(selectedGoal?.id)}
-                className='Addgoal-Confirm-Modal'
-                renderData={<div className='Description'>Are you sure you want to delete the goal <strong>{selectedGoal?.name}</strong>?</div>}
+                className="Addgoal-Confirm-Modal"
+                renderData={
+                  <div className="Description">
+                    Are you sure you want to delete the goal{' '}
+                    <strong>{selectedGoal?.name}</strong>?
+                  </div>
+                }
               />
               <LastGoalModal
                 title={'Warning'}
@@ -334,17 +341,21 @@ const AddGoals = () => {
                 handleCancel={handleCancelModal}
                 handleOk={handleCancelModal}
                 className="Addgoal-Confirm-Modal"
-                 renderData={<div className='Description' >Alas! Unable to delete. This is your last goal</div>}
+                renderData={
+                  <div className="Description">
+                    Alas! Unable to delete. This is your last goal
+                  </div>
+                }
               />
             </>
           ))}
-            {/* { deletedGoal ? (
+          {/* { deletedGoal ? (
               <div className={styles['dlt-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> Your goal {deletedGoal} was successfully deleted</div>
             ) : ''} */}
         </div>
         <div>
           <Button
-            className={`Submit-Button ${goals.length < 1  ? 'disabled' : ''}`}
+            className={`Submit-Button ${goals.length < 1 ? 'disabled' : ''}`}
             loading={isLoading}
             onClick={handleNext}
             disabled={goals.length < 1 ? true : false}
@@ -354,21 +365,26 @@ const AddGoals = () => {
         </div>
       </div>
       <Modal
-        footer={null
-
-        }
+        footer={null}
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
         width={'100vw'}
         closable={false}
-        style={{height: '100vh'}}
+        style={{ height: '100vh' }}
         className="Goals-Modal"
       >
-        <div className={'Backflex'}  onClick={()=>{ setIsModalOpen(false);}}>
-            <ArrowLeftOutlined className={'LeftIcon'} />
-          </div>
-        <h3 className={` Title ${styles['Goals-Detail-title']}`}>{selectedGoal?.name}</h3>
+        <div
+          className={'Backflex'}
+          onClick={() => {
+            setIsModalOpen(false);
+          }}
+        >
+          <ArrowLeftOutlined className={'LeftIcon'} />
+        </div>
+        <h3 className={` Title ${styles['Goals-Detail-title']}`}>
+          {selectedGoal?.name}
+        </h3>
         {selectedGoal && (
           <div className={`Description ${styles['Des-Goal']}`}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
@@ -376,39 +392,46 @@ const AddGoals = () => {
             </ReactMarkdown>
           </div>
         )}
-          <div className={styles['Modal-Btn-Group']}>
-            {goals.filter((goal: any) => {
-              return goal.name == selectedGoal?.name;
-            })[0]?.name ? (
-              <Button
-                className="Submit-Button"
-                loading={isLoading}
-                disabled={isDisable}
-                onClick={() => {
-                  if(goals.length>1){setIsLoading(true); setIsDisabled(true); removeGoal(selectedGoal?.id)}
-                  else setShowLastGoalModal(true)
-                }}
-              >
-                Remove goal
-              </Button>
-            ) : (
-              <Button
-                className="Submit-Button"
-                loading={isLoading}
-                disabled={isDisable}
-                onClick={() => {setIsLoading(true); setIsDisabled(true); addGoals(selectedGoal?.id)}}
-              >
-                Pick goal
-              </Button>
-            )}
-            {/* <Button
+        <div className={styles['Modal-Btn-Group']}>
+          {goals.filter((goal: any) => {
+            return goal.name == selectedGoal?.name;
+          })[0]?.name ? (
+            <Button
+              className="Submit-Button"
+              loading={isLoading}
+              disabled={isDisable}
+              onClick={() => {
+                if (goals.length > 1) {
+                  setIsLoading(true);
+                  setIsDisabled(true);
+                  removeGoal(selectedGoal?.id);
+                } else setShowLastGoalModal(true);
+              }}
+            >
+              Remove goal
+            </Button>
+          ) : (
+            <Button
+              className="Submit-Button"
+              loading={isLoading}
+              disabled={isDisable}
+              onClick={() => {
+                setIsLoading(true);
+                setIsDisabled(true);
+                addGoals(selectedGoal?.id);
+              }}
+            >
+              Pick goal
+            </Button>
+          )}
+          {/* <Button
               className="Submit-Button"
               loading={isLoading}
               onClick={handleCancel}
             >
               Take me back
             </Button> */}
-          </div>
+        </div>
       </Modal>
     </Layout>
   );

@@ -12,18 +12,73 @@ import { toast } from 'react-toastify';
 import { Spin } from 'antd';
 import moment from 'moment';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
+import axios, { AxiosRequestConfig } from 'axios';
+import { getTokenExpiration } from '../../utils/lib';
+import { setUpAxios } from '../../utils/axiosNew';
 
 const Home = () => {
   const navigate = useNavigate();
   const [exception, setException] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
 
+  const axiosConfig: any = {
+    withCredentials: true,
+  };
+
+  async function fetchToken(): Promise<string> {
+    return axios
+      .get('/auth/token', axiosConfig)
+      .then((response) => {
+        setLoading(false);
+        return response.data.token; // Handle success
+      })
+      .catch((error) => {
+        // Handle error
+      });
+  }
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   if (token) {
+  //     checkUserData();
+  //   } else {
+  //     navigate('/login');
+  //   }
+  // }, []);
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      checkUserData();
-    } else {
-      navigate('/login');
-    }
+    const getInitialToken = async () => {
+      console.log('auth/token called');
+      const isLoginPage = window.location.pathname === '/login';
+      if (!isLoginPage) {
+        try {
+          // const response = await axios.get('/auth/token', {
+          //   credentials: 'include',
+          // } as AxiosRequestConfig<{ credentials: string }>);
+          const token = await fetchToken();
+          localStorage.setItem('token', token);
+          localStorage.setItem('expiration', getTokenExpiration(token));
+          setUpAxios(axios, token, getTokenExpiration(token))
+            .then(() => {
+              if (token) {
+                console.log('check user now');
+                checkUserData();
+                setLoading(false);
+              } else {
+                navigate('/login');
+              }
+              return; // Handle success
+            })
+            .catch((error) => {
+              // Handle error
+            });
+        } catch (error) {
+          // Handle error
+        }
+      }
+      //setUpAxios(axios);
+    };
+
+    getInitialToken();
   }, []);
   const handleRedirect = (response: any) => {
     if (response) {
@@ -98,50 +153,53 @@ const Home = () => {
     if (userId) {
       getUser(userId)
         .then((response) => {
-          if(response.data.security_questions){
-            getUserSubscription(response)
-          } else if(response.data && !response.data.security_questions){
-            navigate('/security')
+          if (response.security_questions) {
+            getUserSubscription(response);
+          } else if (response && !response.security_questions) {
+            navigate('/security');
           } else {
-            setException(true)
+            setException(true);
             //show modal that something went wrong
-          }  
+          }
         })
         .catch((error) => {
           console.log(error);
         });
     }
   };
-  const getUserSubscription = (response:any) => {
+  const getUserSubscription = (response: any) => {
+    const { signup_status } = response;
     getSubscriptionStatus()
       .then((res) => {
-        if (response.data.signup_status === 'new' && res.data.isSubscribed===false) {
+        console.log('res', res);
+        if (signup_status === 'new' && res.data.isSubscribed === false) {
           navigate('/subscription');
-        }
-        else {
-          if (response.data.signup_status === 'onboarding') {
+        } else {
+          if (signup_status === 'onboarding') {
             getInteractionServiceByType('onboarding')
               .then((response: any) => {
                 handleRedirect(response);
               })
               .catch((error) => {
-                toast.error(`Something went wrong. Cannot initiate interaction at the moment`);
+                toast.error(
+                  `Something went wrong. Cannot initiate interaction at the moment`
+                );
                 navigate('/dashboard');
               });
-          } else if (response.data.signup_status === 'goal-selection') {
+          } else if (signup_status === 'goal-selection') {
             navigate('/add-goals');
-          } else if (response.data.signup_status === 'goal-characterization') {
+          } else if (signup_status === 'goal-characterization') {
             getInteractionServiceByType('goal_characterization')
               .then((response: any) => {
                 handleRedirect(response);
               })
               .catch((error) => {
-                toast.error(`Something went wrong. Cannot initiate interaction at the moment`);
+                toast.error(
+                  `Something went wrong. Cannot initiate interaction at the moment`
+                );
                 navigate('/dashboard');
               });
-          } else if (
-            response.data.signup_status === 'done'
-          ) {
+          } else if (signup_status === 'done') {
             getInteractionByType('checkup');
           } else if (response.data.signup_status === 'new') {
             const zoneVal = moment()
@@ -183,7 +241,8 @@ const Home = () => {
               </div>
             }
           />
-        </div>)}
+        </div>
+      )}
     </div>
   );
 };

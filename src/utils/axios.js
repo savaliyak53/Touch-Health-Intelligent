@@ -1,59 +1,56 @@
-import axios from 'axios'
+// import axios from 'axios';
 
-const apiClient = (url, method = 'get', data = {}, header='') => {
-  const baseURL = process.env.REACT_APP_API_HOST
-  const config = {
-    // timeout: 20000,
-    url: url,
-    method: method,
-    baseURL: baseURL
-    }
-    if(header !== ''){
-      config.headers = {'X-Recaptcha-Token': header}
-    }
+// const apiClient = (url, method = 'get', data = {}, header = '') => {
+//   // eslint-disable-next-line no-undef
+//   const baseURL = process.env.REACT_APP_API_HOST;
+//   const config = {
+//     // timeout: 20000,
+//     url: url,
+//     method: method,
+//     baseURL: baseURL,
+//   };
+//   if (header !== '') {
+//     config.headers = { 'X-Recaptcha-Token': header };
+//   }
 
-  if (method.toLocaleLowerCase === 'get') {
-        config['params'] = data
-  } else {
-        config['data'] = data
-  }
+//   if (method.toLocaleLowerCase === 'get') {
+//     config['params'] = data;
+//   } else {
+//     config['data'] = data;
+//   }
 
-  const token = localStorage.getItem('token')
-  
-  axios.interceptors.request.use((config) => {
-    if (token) {
-            config.headers.Authorization = `Bearer ${localStorage.token}`
-    }
-        return config
-    })
+//   const token = localStorage.getItem('token');
 
-  axios.interceptors.response.use(
-    (response) => {
-            return response
-    },
-    (error) => {
-      if(error.response.status === 409){
-        return Promise.reject(error)
-      }
-      else if (error.response.status === 401) {
-        localStorage.removeItem('userId');
-        localStorage.removeItem('token');
-        localStorage.clear();
-        window.location = '/login';
-        return Promise.reject(error)
-      }
-      else if(error.response.status === 403){
-        return Promise.reject(error)
-      }
-      else if(error.response.status===429){
-        return Promise.reject(error)
-      }
-      else if(error.response.status===422){
-        return Promise.reject(error)
-      }
-    }
-    )
-    return axios(config)
-}
+//   axios.interceptors.request.use((config) => {
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${localStorage.token}`;
+//     }
+//     return config;
+//   });
 
-export default apiClient
+//   axios.interceptors.response.use(
+//     (response) => {
+//       return response;
+//     },
+//     (error) => {
+//       if (error.response.status === 409) {
+//         return Promise.reject(error);
+//       } else if (error.response.status === 401) {
+//         localStorage.removeItem('userId');
+//         localStorage.removeItem('token');
+//         localStorage.clear();
+//         window.location = '/login';
+//         return Promise.reject(error);
+//       } else if (error.response.status === 403) {
+//         return Promise.reject(error);
+//       } else if (error.response.status === 429) {
+//         return Promise.reject(error);
+//       } else if (error.response.status === 422) {
+//         return Promise.reject(error);
+//       }
+//     }
+//   );
+//   return axios(config);
+// };
+
+// export default apiClient;

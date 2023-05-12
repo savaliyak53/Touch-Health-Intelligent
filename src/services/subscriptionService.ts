@@ -1,48 +1,61 @@
-import APIClient from '../utils/axios';
+import axios from 'axios';
+
+const BASE_URL = process.env.REACT_APP_API_HOST;
 
 export const getPlansService = () => {
-  return APIClient('/payments/subscription/plans', 'GET');
+  return axios.get(`${BASE_URL}/payments/subscription/plans`);
 };
 
 export const getUserSubscription = () => {
-  return APIClient('/payments/subscription', 'GET');
+  return axios.get(`${BASE_URL}/payments/subscription`);
 };
+
 export const getStatus = () => {
-  return APIClient('/payments/checkout/status', 'GET');
+  return axios.get(`${BASE_URL}/payments/checkout/status`);
 };
+
 export const getUserPlan = () => {
-  return APIClient('/payments/subscription/info', 'GET');
+  return axios.get(`${BASE_URL}/payments/subscription/info`);
 };
+
 export const checkoutPlan = (planId: string) => {
-  return APIClient('/payments/checkout', 'POST', {
+  return axios.post(`${BASE_URL}/payments/checkout`, {
     planId: planId,
   });
 };
+
 export const managePayment = () => {
-  return APIClient('/payments/update-details', 'GET');
+  return axios.get(`${BASE_URL}/payments/update-details`);
 };
 
 export const getSubscriptionStatus = () => {
-  return APIClient('/payments/subscription/status', 'GET');
+  return axios.get(`${BASE_URL}/payments/subscription/status`);
 };
 
 export const pauseSubscription = () => {
-  return APIClient('/payments/subscription/pause', 'POST');
+  return axios.post(`${BASE_URL}/payments/subscription/pause`);
 };
 
 export const cancelSubscription = () => {
-  return APIClient('/payments/subscription/cancel', 'POST');
+  return axios.post(`${BASE_URL}/payments/subscription/cancel`);
 };
+
 export const resumeSubscription = () => {
-  return APIClient('/payments/subscription/unpause', 'POST');
+  return axios.post(`${BASE_URL}/payments/subscription/unpause`);
 };
 
 export const updateSubscription = (planId: string) => {
-  return APIClient('/payments/subscription/update', 'POST', { planId: planId });
+  return axios.post(`${BASE_URL}/payments/subscription/update`, {
+    planId: planId,
+  });
 };
+
 export const updateUserSubscription = (planId: string) => {
-  return APIClient('/payments/subscription', 'POST', { planId: planId });
+  return axios.post(`${BASE_URL}/payments/subscription`, { planId: planId });
 };
+
 export const calculateSubscriptionProration = (planId: string) => {
-  return APIClient('/payments/subscription/update/estimate', 'POST', { planId: planId });
+  return axios.post(`${BASE_URL}/payments/subscription/update/estimate`, {
+    planId: planId,
+  });
 };
