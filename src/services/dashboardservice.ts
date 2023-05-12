@@ -1,48 +1,48 @@
-import axios from 'axios';
+import axiosInstance from '../utils/axiosNew';
 
 const baseURL = process.env.REACT_APP_API_HOST;
-axios.defaults.baseURL = baseURL;
+axiosInstance.defaults.baseURL = baseURL;
 
 export const getConditionsService = async () => {
-  return axios.get(`/conditions`);
+  return axiosInstance.get(`/conditions`);
 };
 
 export const addConditionsService = async (data: any) => {
-  return axios.post(`/conditions`, data);
+  return axiosInstance.post(`/conditions`, data);
 };
 
 export const deleteCondition = (id: string) => {
-  return axios.delete(`/conditions/${id}`);
+  return axiosInstance.delete(`/conditions/${id}`);
 };
 
 export const getConditionsSearch = async (search: string) => {
-  return axios.get(`/conditions/search?q=${search}`);
+  return axiosInstance.get(`/conditions/search?q=${search}`);
 };
 
 export const getDefaultConditions = async () => {
-  return axios.get(`/conditions/search`);
+  return axiosInstance.get(`/conditions/search`);
 };
 
 export const getConcernsService = async () => {
-  return axios.get(`/concerns/`);
+  return axiosInstance.get(`/concerns/`);
 };
 
 export const addConcernsService = async (data: any) => {
-  return axios.post(`/concerns`, data);
+  return axiosInstance.post(`/concerns`, data);
 };
 
 export const deleteConcern = (id: string) => {
-  return axios.delete(`/concerns/${id}`);
+  return axiosInstance.delete(`/concerns/${id}`);
 };
 
 export const getConcernsSearch = async (search: string) => {
-  return axios.get(`/concerns/search?q=${search}`);
+  return axiosInstance.get(`/concerns/search?q=${search}`);
 };
 
 export const getInsightsService = async () => {
-  return axios.get(`/insights/`);
+  return axiosInstance.get(`/insights/`);
 };
 
 export const getDashboard = async () => {
-  return axios.get(`/ai/dashboard`);
+  return axiosInstance.get(`/ai/dashboard`);
 };

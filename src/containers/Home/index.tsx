@@ -14,7 +14,6 @@ import moment from 'moment';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 import axios, { AxiosRequestConfig } from 'axios';
 import { getTokenExpiration } from '../../utils/lib';
-import { setUpAxios } from '../../utils/axiosNew';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -37,48 +36,47 @@ const Home = () => {
       });
   }
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   if (token) {
-  //     checkUserData();
-  //   } else {
-  //     navigate('/login');
-  //   }
-  // }, []);
   useEffect(() => {
-    const getInitialToken = async () => {
-      console.log('auth/token called');
-      const isLoginPage = window.location.pathname === '/login';
-      if (!isLoginPage) {
-        try {
-          // const response = await axios.get('/auth/token', {
-          //   credentials: 'include',
-          // } as AxiosRequestConfig<{ credentials: string }>);
-          const token = await fetchToken();
-          localStorage.setItem('token', token);
-          localStorage.setItem('expiration', getTokenExpiration(token));
-          setUpAxios(axios, token, getTokenExpiration(token))
-            .then(() => {
-              if (token) {
-                console.log('check user now');
-                checkUserData();
-                setLoading(false);
-              } else {
-                navigate('/login');
-              }
-              return; // Handle success
-            })
-            .catch((error) => {
-              // Handle error
-            });
-        } catch (error) {
-          // Handle error
-        }
-      }
-      //setUpAxios(axios);
-    };
-
-    getInitialToken();
+    const token = localStorage.getItem('token');
+    if (token) {
+      checkUserData();
+    } else {
+      navigate('/login');
+    }
+  }, []);
+  useEffect(() => {
+    // const getInitialToken = async () => {
+    //   console.log('auth/token called');
+    //   const isLoginPage = window.location.pathname === '/login';
+    //   if (!isLoginPage) {
+    //     try {
+    //       // const response = await axios.get('/auth/token', {
+    //       //   credentials: 'include',
+    //       // } as AxiosRequestConfig<{ credentials: string }>);
+    //       const token = await fetchToken();
+    //       localStorage.setItem('token', token);
+    //       localStorage.setItem('expiration', getTokenExpiration(token));
+    //       setUpAxios(axios, token, getTokenExpiration(token))
+    //         .then(() => {
+    //           if (token) {
+    //             console.log('check user now');
+    //             checkUserData();
+    //             setLoading(false);
+    //           } else {
+    //             navigate('/login');
+    //           }
+    //           return; // Handle success
+    //         })
+    //         .catch((error: any) => {
+    //           // Handle error
+    //         });
+    //     } catch (error) {
+    //       // Handle error
+    //     }
+    //   }
+    //   //setUpAxios(axios);
+    // };
+    // getInitialToken();
   }, []);
   const handleRedirect = (response: any) => {
     if (response) {

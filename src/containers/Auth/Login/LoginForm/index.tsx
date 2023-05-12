@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 import { getTokenExpiration, onlyNumbers } from '../../../../utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
 import AccountLockModal from '../../../../components/Modal/AccountLockModal';
+import AuthContext, { AuthContextData } from '../../../../contexts/AuthContext';
 
 type LoginFormProps = {
   onSubmit: SubmitHandler<IFormInputs>;
@@ -66,7 +67,9 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
   const handleCancelModal = () => {
     setShowLockAccountModal(false);
   };
-
+  const authContext = useContext<AuthContextData | undefined>(AuthContext); // Add the type parameter
+  if (!authContext) return null;
+  const { loginUser } = authContext;
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     setIsLoading(true);
     setIsDisabled(true);
@@ -77,27 +80,31 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
       username: onlyNumbers(submitData.username),
       password: submitData.password,
     };
-    const loginResponse = await loginService(loginRequest, token);
-    if (loginResponse?.token) {
+    const loginResponse = await loginUser(
+      loginRequest.username,
+      loginRequest.password,
+      token
+    );
+    if (loginResponse?.status === 200) {
       reset();
       setIsDisabled(false);
       setIsLoading(false);
 
-      localStorage.setItem('token', `${loginResponse.token}`);
-      localStorage.setItem(
-        'expiration',
-        getTokenExpiration(loginResponse.token)
-      );
-      const userId = getId(loginResponse.token);
-      localStorage.setItem('userId', userId);
-      navigate('/');
+      // localStorage.setItem('token', `${loginResponse.token}`);
+      // localStorage.setItem(
+      //   'expiration',
+      //   getTokenExpiration(loginResponse.token)
+      // );
+      // const userId = getId(loginResponse.token);
+      // localStorage.setItem('userId', userId);
+      // navigate('/');
     } else {
       setIsDisabled(false);
       setIsLoading(false);
-      if (loginResponse?.response?.status === 429) {
+      if (loginResponse?.status === 429) {
         setShowLockAccountModal(true);
-        setModalText(loginResponse?.response?.data?.details);
-      } else toast.error(loginResponse?.response?.data?.details);
+        setModalText(loginResponse?.data?.details);
+      } else toast.error(loginResponse?.data?.details);
     }
   };
   return (

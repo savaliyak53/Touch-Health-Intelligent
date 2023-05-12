@@ -4,12 +4,14 @@ import {
   IPreferencesService,
   InteractionService,
 } from '../interfaces';
-// import APIClient from '../utils/axios';
-import axios from 'axios';
+// import APIClient from '../utils/axiosInstance';
+import axiosInstance from '../utils/axiosNew';
+// import useAxios from '../utils/useAxios';
+
 const baseURL = process.env.REACT_APP_API_HOST;
 // const config = {};
-axios.defaults.baseURL = baseURL;
-// const apiClient = axios.create({
+axiosInstance.defaults.baseURL = baseURL;
+// const apiClient = axiosInstance.create({
 //   baseURL,
 // });
 export const signUpService = async (data: ISignUp, header: string) => {
@@ -18,7 +20,7 @@ export const signUpService = async (data: ISignUp, header: string) => {
     if (header !== '') {
       config.headers = { 'X-Recaptcha-Token': header };
     }
-    const res = await axios.post('/users/signup', data, config);
+    const res = await axiosInstance.post('/users/signup', data, config);
     if (res) return res.data;
   } catch (err) {
     return err;
@@ -33,7 +35,7 @@ export const loginService = async (data: ILogin, header: string) => {
     if (header !== '') {
       config.headers = { 'X-Recaptcha-Token': header };
     }
-    const res = await axios.post('/auth/login', data, config);
+    const res = await axiosInstance.post('/auth/login', data, config);
     if (res) return res.data;
   } catch (err) {
     return err;
@@ -45,7 +47,7 @@ export const requestPhoneOTP = async (phone: string, token: string) => {
     if (token !== '') {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       '/auth/phone-verification',
       {
         phone: phone,
@@ -60,7 +62,7 @@ export const requestPhoneOTP = async (phone: string, token: string) => {
 
 export const putSignUp = async (data: any, userId: string) => {
   try {
-    const res = await axios.put(`${baseURL}/users/${userId}`, data);
+    const res = await axiosInstance.put(`${baseURL}/users/${userId}`, data);
     if (res) return res.data;
   } catch (err) {
     return err;
@@ -69,7 +71,9 @@ export const putSignUp = async (data: any, userId: string) => {
 
 export const validateSignUp = async (id: string | undefined) => {
   try {
-    const res = await axios.get(`${baseURL}/api/THA/PatientSignup/${id}`);
+    const res = await axiosInstance.get(
+      `${baseURL}/api/THA/PatientSignup/${id}`
+    );
     if (res) return res.data;
   } catch (err) {
     return err;
@@ -81,9 +85,12 @@ export const verifyPhoneOTP = async (
   id: string | undefined
 ) => {
   try {
-    const response = await axios.put(`${baseURL}/users/signup/${id}/verify`, {
-      code: otp,
-    });
+    const response = await axiosInstance.put(
+      `${baseURL}/users/signup/${id}/verify`,
+      {
+        code: otp,
+      }
+    );
     if (response) return response;
   } catch (error) {
     return error;
@@ -94,52 +101,52 @@ export const preferencesService = async (
   data: IPreferencesService | any,
   id: string | null
 ) => {
-  return axios.put(`${baseURL}/users/${id}`, data);
+  return axiosInstance.put(`${baseURL}/users/${id}`, data);
 };
 export const updatePreference = async (data: any) => {
-  return axios.put(`${baseURL}/ai/preferences`, data);
+  return axiosInstance.put(`${baseURL}/ai/preferences`, data);
 };
 
 export const getPreference = async () => {
-  const response = await axios.get(`${baseURL}/ai/preferences`);
+  const response = await axiosInstance.get(`${baseURL}/ai/preferences`);
   return response.data;
 };
 export const getInteractionService = async () => {
-  const response = await axios.get(`${baseURL}/ai/interaction`);
+  const response = await axiosInstance.get(`${baseURL}/ai/interaction`);
   return response.data;
 };
 
 export const getInteractionServiceByType = async (flow_id: string) => {
-  const response = await axios.post(`${baseURL}/ai/interaction-flow`, {
+  const response = await axiosInstance.post(`${baseURL}/ai/interaction-flow`, {
     flow_id,
   });
   return response.data;
 };
 
 export const postInteractionService = async (data: InteractionService) => {
-  const response = await axios.post(`${baseURL}/ai/interaction`, data);
+  const response = await axiosInstance.post(`${baseURL}/ai/interaction`, data);
   return response.data;
 };
 
 export const getUser = async (id: string | null | undefined) => {
-  const response = await axios.get(`${baseURL}/users/${id}`);
+  const response = await axiosInstance.get(`/users/${id}`);
   return response.data;
 };
 
 export const postResetPassword = async (data: any) => {
-  const response = await axios.put('/auth/password-recovery', data);
+  const response = await axiosInstance.put('/auth/password-recovery', data);
   return response.data;
 };
 
 export const getSecurityQuestions = async (username: string, code: string) => {
-  const response = await axios.get(
+  const response = await axiosInstance.get(
     `${baseURL}/auth/password-recovery/security-questions?username=${username}&code=${code}`
   );
   return response.data;
 };
 
 export const checkAnswer = async (data: any) => {
-  const response = await axios.put(
+  const response = await axiosInstance.put(
     '/auth/password-recovery/security-questions',
     data
   );
@@ -147,26 +154,34 @@ export const checkAnswer = async (data: any) => {
 };
 
 export const getGoogleCode = async () => {
-  const response = await axios.get(`${baseURL}/auth/google`);
+  const response = await axiosInstance.get(`${baseURL}/auth/google`);
   return response.data;
 };
 
 export const postGoogleToken = async (body: any) => {
-  const response = await axios.post(`${baseURL}/auth/google/token`, body);
+  const response = await axiosInstance.post(
+    `${baseURL}/auth/google/token`,
+    body
+  );
   return response.data;
 };
 
 export const revokeGoogleFit = async () => {
-  const response = await axios.post(`${baseURL}/auth/google/revoke`);
+  const response = await axiosInstance.post(`${baseURL}/auth/google/revoke`);
   return response.data;
 };
 
 export const getIntegrationStatus = async () => {
-  const response = await axios.get(`${baseURL}/user/integration/status`);
+  const response = await axiosInstance.get(
+    `${baseURL}/user/integration/status`
+  );
   return response.data;
 };
 
 export const guidanceStatus = async (id: string, body: any) => {
-  const response = await axios.put(`${baseURL}/ai/guidances/${id}`, body);
+  const response = await axiosInstance.put(
+    `${baseURL}/ai/guidances/${id}`,
+    body
+  );
   return response.data;
 };
