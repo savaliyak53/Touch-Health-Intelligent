@@ -128,8 +128,8 @@ const AddGoals = () => {
 
   const getGoalsData = () => {
     getGoals().then((res: any) => {
-      setGoals(res);
-      getSuggestedGoals(res);
+      setGoals(res.data);
+      getSuggestedGoals(res.data);
     });
   };
 

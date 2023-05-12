@@ -206,8 +206,8 @@ const GoalDetails = () => {
     setIsLoading(true);
     goalDetails(goalId)
       .then((res: any) => {
-        setGoal(res);
-        calculate(res);
+        setGoal(res.data);
+        calculate(res.data);
         setIsLoading(false);
       })
       .catch((error: any) => {
@@ -348,7 +348,7 @@ const GoalDetails = () => {
         <div className={'Backflex'} onClick={handleCancelModal}>
           <ArrowLeftOutlined className={'LeftIcon'} />
         </div>
-        <h3 className={'Title'}>{goal?.info.name ? goal?.info.name : ''}</h3>
+        <h3 className={'Title'}>{goal?.info?.name ? goal?.info.name : ''}</h3>
         {goal?.info && (
           <div className={styles['Des-Goal']}>
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
