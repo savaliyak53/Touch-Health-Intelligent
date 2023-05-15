@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Slider, Tooltip, Button, Spin, Switch } from 'antd';
 import styles from './Integeration.module.scss';
@@ -18,6 +18,7 @@ import {
   preferencesService,
   getInteractionServiceByType
 } from '../../services/authservice';
+import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
 type IFormInputs = {
   engagementLevel: number;
   yob: number;
@@ -50,7 +51,9 @@ const Integrations = () => {
   const [loc, setLocation] = useState<LocationState>()
   const navigate = useNavigate();
   const refId = localStorage.getItem('refId')
-  const redirect = localStorage.getItem('redirect')
+  const redirect = localStorage.getItem('redirect') 
+  const context = useContext<AuthContextData | undefined>(AuthContext); 
+
 
   useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
@@ -126,7 +129,8 @@ const Integrations = () => {
     })
   }
   const handleSetUserStatus = () => {
-    const userId = localStorage.getItem('userId');
+    // const userId = localStorage.getItem('userId');
+    const userId=context?.user;
     //after successful subscription set signup_status to onboarding
     preferencesService(
       {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   getInteractionService,
@@ -14,11 +14,13 @@ import moment from 'moment';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 import axios, { AxiosRequestConfig } from 'axios';
 import { getTokenExpiration } from '../../utils/lib';
+import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
 
 const Home = () => {
   const navigate = useNavigate();
   const [exception, setException] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
+  const context = useContext<AuthContextData | undefined>(AuthContext); 
 
   const axiosConfig: any = {
     withCredentials: true,
@@ -37,7 +39,8 @@ const Home = () => {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
+    const token = context?.authTokens;
     if (token) {
       checkUserData();
     } else {
@@ -110,7 +113,8 @@ const Home = () => {
       });
   };
   const handleInitialIntake = () => {
-    const userId = localStorage.getItem('userId');
+    // const userId = localStorage.getItem('userId');
+    const userId=context?.user;
     //after successful subscription set signup_status to onboarding
     preferencesService(
       {
@@ -147,7 +151,8 @@ const Home = () => {
       });
   };
   const checkUserData = () => {
-    const userId = localStorage.getItem('userId');
+    const userId=context?.user;
+    // const userId = localStorage.getItem('userId');
     if (userId) {
       getUser(userId)
         .then((response) => {

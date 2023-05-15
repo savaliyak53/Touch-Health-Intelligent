@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SiteHeader from '../../components/SiteHeader/SiteHeader';
 import './Layout.scss';
 import { useLocation, useNavigate } from 'react-router';
@@ -7,6 +7,7 @@ import { getSubscriptionStatus } from '../../services/subscriptionService';
 import { signupFlow, sleep } from '../../utils/lib';
 import { toast } from 'react-toastify';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
+import AuthContext from '../../contexts/AuthContext';
 type Props = {
   defaultHeader: boolean;
   hamburger: boolean;
@@ -25,9 +26,11 @@ const Layout = ({
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation(); 
+  const context = useContext(AuthContext);
   const checkUserData = () => {
-    const userId = localStorage.getItem('userId');
+    const userId = context?.user;
+    // const userId = localStorage.getItem('userId');
     if (userId) {
       getUser(userId)
         .then((response: any) => {

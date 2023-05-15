@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './index.scss';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Button from '../../components/Button';
@@ -15,6 +15,7 @@ import { Interaction } from '../../interfaces';
 import Layout from '../../layouts/Layout/Layout';
 import { Skeleton } from 'antd';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
+import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
 
 function UserCondition() {
   const [question, setQuestion] = useState<Interaction | any>();
@@ -26,7 +27,9 @@ function UserCondition() {
   const [isClicked, setClicked] = useState(false);
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
   const [signupStatus, setSignupStatus] = useState<string | null>();
-  const [exception, setException] = useState<boolean>(false);
+  const [exception, setException] = useState<boolean>(false); 
+  const context = useContext<AuthContextData | undefined>(AuthContext); 
+
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -58,7 +61,8 @@ function UserCondition() {
       });
   };
   const handleInteractionRedirect = () => {
-    const userId = localStorage.getItem('userId');
+    const userId=context?.user;
+    // const userId = localStorage.getItem('userId');
     getUser(userId)
       .then((response: any) => {
         if (response?.data.signup_status === 'onboarding') {

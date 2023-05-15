@@ -55,9 +55,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setUser(userId);
       const expiration = getTokenExpiration(response.token);
       setExpiration(expiration);
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('userId', userId);
-      localStorage.setItem('expiration', expiration);
+      // localStorage.setItem('token', response.token);
+      // localStorage.setItem('userId', userId);
+      // localStorage.setItem('expiration', expiration);
       navigate('/');
       return response;
     } else if (response.status === 429) {

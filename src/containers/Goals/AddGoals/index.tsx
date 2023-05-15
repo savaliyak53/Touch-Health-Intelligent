@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './AddGoals.module.scss';
 import v from '../../../variables.module.scss';
 import Layout from '../../../layouts/Layout/Layout';
@@ -31,6 +31,7 @@ import rehypeRaw from 'rehype-raw';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
 import LastGoalModal from '../../../components/Modal/LastGoalModal';
 import ListItem from '../../../components/ListItem/ListItem';
+import AuthContext, {AuthContextData} from '../../../contexts/AuthContext';
 
 type ITerms = {
   termsAndConditions: boolean;
@@ -62,9 +63,10 @@ const AddGoals = () => {
   const [deletedGoal, setDeletedGoal] = useState<string | undefined | null>(
     null
   );
-
-  const getUserStatus = () => {
-    const userId = localStorage.getItem('userId');
+  const authContext = useContext<AuthContextData | undefined>(AuthContext); 
+  const getUserStatus = () => { 
+    const userId=authContext?.user;
+    // const userId = localStorage.getItem('userId');
     getUser(userId)
       .then((res) => {
         res?.data?.signup_status == 'done'
@@ -188,7 +190,8 @@ const AddGoals = () => {
       const preferenceData = {
         signup_status: 'goal-characterization',
       };
-      const userId = localStorage.getItem('userId');
+      const userId=authContext?.user;
+      // const userId = localStorage.getItem('userId');
       if (userId) {
         preferencesService(preferenceData, userId)
           .then((preferencesResponse: any) => {

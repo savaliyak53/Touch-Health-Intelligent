@@ -27,7 +27,7 @@ const useAxios = () => {
       withCredentials: true,
     });
 
-    localStorage.setItem('token', response.data.token);
+    // localStorage.setItem('token', response.data.token);
 
     setAuthTokens(response.data.token);
     setUser(getUser(response.data.token));

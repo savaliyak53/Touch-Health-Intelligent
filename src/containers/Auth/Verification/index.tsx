@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -13,12 +13,13 @@ import ReactCodeInput from 'react-code-input';
 import { requestPhoneOTP, verifyPhoneOTP } from '../../../services/authservice';
 import { useTimer } from 'react-timer-hook';
 import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import AuthContext, {AuthContextData} from '../../../contexts/AuthContext';
 
 type IVerificationCode = {
   code: string;
 };
 const Verification = () => {
-  const userId = localStorage.getItem('userId');
+  // const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -27,6 +28,10 @@ const Verification = () => {
   const [finishStatus, setfinishStatus] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [enableTimer, setEnableTimer] = useState(true);
+  const authContext = useContext<AuthContextData | undefined>(AuthContext); 
+  const userId=authContext?.user;
+  if (!authContext) return null;
+  const { logoutUser } = authContext;
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
   const expiryTimestamp = time
@@ -88,9 +93,7 @@ const Verification = () => {
     }
   };
   const logoutClick = () => {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('token');
-    localStorage.clear();
+    logoutUser();
     navigate('/login');
   };
   const sendPhoneOTP = async () => {

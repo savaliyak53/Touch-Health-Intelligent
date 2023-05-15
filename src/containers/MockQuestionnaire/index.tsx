@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './index.scss';
 import { useNavigate,useLocation } from 'react-router-dom';
 import Button from '../../components/Button';
@@ -18,6 +18,7 @@ import { Data } from '../MockScrollingChat/mockdata'
 import cloneDeep from 'lodash/cloneDeep';
 import { Collapse } from 'antd';
 import styles from './MockQuestionnaire.module.scss';
+import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
 const { Panel } = Collapse;
 
 function MockQuestionnaire() {
@@ -33,6 +34,8 @@ function MockQuestionnaire() {
   const [signupStatus, setSignupStatus] = useState<string | null >();
   const [historyQuestionArray, setHistoryQuestionArray] = useState<any>([Data[0]])
   const [toggleHistoryRecent, setToggleHistoryRecent] = useState(false);
+  const context = useContext<AuthContextData | undefined>(AuthContext); 
+
  
   const handleToggleHistoryRecent = () => {
     setToggleHistoryRecent(!toggleHistoryRecent);
@@ -70,7 +73,9 @@ function MockQuestionnaire() {
       });
   };
   const handleInteractionRedirect = () =>{
-    const userId=localStorage.getItem('userId');
+    
+    // const userId=localStorage.getItem('userId');
+    const userId=context?.user;
     getUser(userId)
     .then((response:any) => {
       if (response?.data.signup_status==='onboarding') {

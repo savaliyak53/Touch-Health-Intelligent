@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { useContext } from 'react';
+import AuthContext from '../contexts/AuthContext';
 import { getTokenExpiration, getUser } from './lib';
 
 // eslint-disable-next-line no-undef
@@ -9,7 +11,10 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(async (config) => {
-  const token = localStorage.getItem('token');
+  const context = useContext(AuthContext); 
+  const {setUser, setAuthTokens, setExpiration} = context;
+  const token = context?.authTokens;
+  // const token = localStorage.getItem('token');
 
   if (token) {
     const expiration = getTokenExpiration(token);
@@ -22,15 +27,23 @@ axiosInstance.interceptors.request.use(async (config) => {
       const response = await axios.get(`${baseURL}/auth/token`, axiosConfig);
       if (response) {
         const newToken = response.data.token;
-        localStorage.setItem('token', newToken);
-        localStorage.setItem('userId', getUser(newToken));
-        localStorage.setItem('expiration', getTokenExpiration(newToken));
+        setAuthTokens(newToken);
+        const userId = getUser(newToken);
+        setUser(userId);
+        const expiration = getTokenExpiration(newToken);
+        setExpiration(expiration);
+        // localStorage.setItem('token', newToken);
+        // localStorage.setItem('userId', getUser(newToken));
+        // localStorage.setItem('expiration', getTokenExpiration(newToken));
         console.log('token refreshed');
         config.headers.Authorization = `Bearer ${newToken}`;
       } else {
-        localStorage.removeItem('userId');
-        localStorage.removeItem('token');
-        localStorage.clear();
+        setAuthTokens(null);
+        setUser(null);
+        setExpiration(null);
+        // localStorage.removeItem('userId');
+        // localStorage.removeItem('token');
+        // localStorage.clear();
         window.location = '/login';
       }
     } else {
@@ -45,6 +58,8 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
+    const context = useContext(AuthContext); 
+    
     if (error.response.status === 409) {
       return Promise.reject(error);
     } else if (error.response.status === 401) {

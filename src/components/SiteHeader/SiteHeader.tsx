@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Button } from 'antd';
 import { CloseOutlined , MenuOutlined} from '@ant-design/icons';
@@ -6,6 +6,7 @@ import { CloseOutlined , MenuOutlined} from '@ant-design/icons';
 import styles from './SiteHeader.module.scss';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import AuthContext , { AuthContextData }  from '../../contexts/AuthContext';
 
 type Props = {
   defaultHeader: boolean;
@@ -14,6 +15,9 @@ type Props = {
 const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
   const [BurgerMenu, setBurgerMenu] = useState(false);
   const navigate = useNavigate();
+  const authContext = useContext<AuthContextData | undefined>(AuthContext); 
+  if (!authContext) return null;
+  const { logoutUser } = authContext;
   return (
     <>
       {/* Navigation */}
@@ -92,9 +96,10 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
           </div>
           <li className={styles['Signout']}
               onClick={() => {
-                localStorage.removeItem('userId');
-                localStorage.removeItem('token');
-                localStorage.clear();
+                  logoutUser();
+                // localStorage.removeItem('userId');
+                // localStorage.removeItem('token');
+                // localStorage.clear();
                 (window as any).Intercom('shutdown');
                 navigate('/login');
               }}

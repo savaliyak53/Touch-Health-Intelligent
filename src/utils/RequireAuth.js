@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
+import AuthContext from '../contexts/AuthContext';
 
 export const RequireAuth = () => {
-  const token = localStorage.getItem('token');
+  // const token = localStorage.getItem('token');
+  const context = useContext(AuthContext); 
+  const token = context?.authTokens;
   const location = useLocation();
 
   return token ? (
@@ -13,7 +16,9 @@ export const RequireAuth = () => {
 };
 
 export const RequireSignup = () => {
-  const userId = localStorage.getItem('userId');
+  const context = useContext(AuthContext); 
+  // const userId = localStorage.getItem('userId');
+  const userId = context?.user;
   const location = useLocation();
 
   return userId ? (
