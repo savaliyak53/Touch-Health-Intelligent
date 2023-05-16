@@ -21,6 +21,7 @@ import SliderComponent from './questions/Slider';
 import Text from './questions/Text';
 import MarkdownSelectOne from './questions/MarkdownSelectOne';
 import Numeric from './questions/Numeric';
+import ScrollableTime from './questions/ScrollableTime';
 
 interface Props {
   items: any;
@@ -80,8 +81,10 @@ const Question = ({
     setValue(indexArray);
     setItems(value);
   };
-  const onTimeChange = (hours: any, minutes: any) => {
-    setValue(`${hours}:${minutes ? minutes : '00'}:00.648052`);
+  const onScrollableTimeChange = (timeString: any) => {
+    const time = moment(timeString, 'hh:mm A');
+    const formattedTime = time.format('H:mm:00.648052');
+    setValue(formattedTime);
   };
 
   const handleClick = (index: number) => {
@@ -156,9 +159,7 @@ const Question = ({
   const InputField = useCallback(() => {
     switch (question?.type) {
       case 'time':
-        return (
-          <Time onTimeChange={onTimeChange} militaryTime={true} radius={100} />
-        );
+        return <ScrollableTime onTimeChange={onScrollableTimeChange} />;
       case 'date':
         return <Date setValue={setValue} setDisableDate={setDisableDate} />;
       case 'yes_no':
