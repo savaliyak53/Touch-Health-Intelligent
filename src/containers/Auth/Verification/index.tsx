@@ -17,7 +17,11 @@ import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
 type IVerificationCode = {
   code: string;
 };
-const Verification = () => {
+type VerificationProps={
+  isResetPassword?:boolean;
+  onSubmitResetPassword?:(code:any)=>void
+}
+const Verification = ({isResetPassword, onSubmitResetPassword}:VerificationProps) => {
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +55,7 @@ const Verification = () => {
 
   useEffect(() => {
     window.scrollTo(0,0)
-    if (!userId) {
+    if (!userId && !isResetPassword) {
       navigate('/');
     }
     pageBackEvent()
@@ -88,6 +92,7 @@ const Verification = () => {
       }
     }
   };
+
   const logoutClick = () => {
     localStorage.removeItem('userId');
     localStorage.removeItem('token');
@@ -176,7 +181,16 @@ const Verification = () => {
             open={errors.code ? true : false}
           />
           <Button
-            onClick={handleSubmit(onSubmit)}
+            onClick={()=>{
+              if(isResetPassword)
+              {
+                const code=getValues("code")
+                onSubmitResetPassword && onSubmitResetPassword({code : code})
+              }
+              else{
+              handleSubmit(onSubmit)
+              }
+            }}
             className="Submit-Button"
             loading={isVerifying}
             disabled={disableSubmit}

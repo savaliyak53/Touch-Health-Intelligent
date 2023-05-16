@@ -112,7 +112,7 @@ export const postResetPassword = async (data: any) => {
   }
 };
 
-export const getSecurityQuestions = async (username: string, code: string) => {
+export const getSecurityQuestions = async (username: string | null, code: string) => {
   try {
     const res = await APIClient(
       `/auth/password-recovery/security-questions?username=${username}&code=${code}`
