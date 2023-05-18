@@ -1,14 +1,13 @@
 import { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginService } from '../services/authservice';
-import { getTokenExpiration, getUser } from '../utils/lib';
+import { loginService, logoutService, tokenService } from '../services/authservice';
+import { getTokenExpiration, getUser, getSession } from '../utils/lib';
 
 export interface AuthContextData {
   user: any;
   authTokens: any;
-  expiration: any;
-  setExpiration: (expiration: any) => void;
   setAuthTokens: (tokens: any) => void;
+  session: string;
   setUser: (user: any) => void;
   loginUser: (
     username: string,
@@ -26,21 +25,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   // eslint-disable-next-line react/prop-types
   children,
 }) => {
-  const [authTokens, setAuthTokens] = useState<any>(() => {
-    const token = localStorage.getItem('token');
-    return token ? token : null;
-  });
-  const [user, setUser] = useState<any>(() => {
-    const user = localStorage.getItem('userId');
-    return user ? user : null;
-  });
-  const [expiration, setExpiration] = useState<any>(() => {
-    const expiration = localStorage.getItem('expiration');
-    return expiration ? expiration : null;
-  });
-  const [loading, setLoading] = useState<boolean>(true);
+  const [authTokens, setAuthTokens] = useState<any>();
+  const [user, setUser] = useState<any>();
+  const [session, setSession] = useState<any>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
+
+  const getToken = () => {
+    const location = window.location.pathname
+    if(location !== '/login'){
+      setLoading(true);
+      tokenService()
+      .then(res => {
+        if(res.token){
+          setLoading(false);
+          setAuthTokens(res.token);
+          setUser(getUser(res.token));
+          setSession(getSession(res.token));
+
+        }
+      })
+    }
+  };
 
   const loginUser = async (
     username: string,
@@ -48,16 +55,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     recaptchaToken: string
   ) => {
     const response = await loginService({ username, password }, recaptchaToken);
-
     if (response.token) {
       setAuthTokens(response.token);
       const userId = getUser(response.token);
       setUser(userId);
+      const sessionId = getSession(response.token);
+      setSession(sessionId);
       const expiration = getTokenExpiration(response.token);
-      setExpiration(expiration);
-      // localStorage.setItem('token', response.token);
-      // localStorage.setItem('userId', userId);
-      // localStorage.setItem('expiration', expiration);
       navigate('/');
       return response;
     } else if (response.status === 429) {
@@ -69,28 +73,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const logoutUser = () => {
-    setAuthTokens(null);
-    setUser(null);
-    setExpiration(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('expiration');
-    navigate('/login');
+    logoutService(session)
+    .then(res => {
+      console.log(res);
+      setAuthTokens(null);
+      setUser(null);
+      setSession(null);
+      // navigate('/login');
+    })
+    .catch(err => {
+      console.log(err);
+    })
   };
 
   useEffect(() => {
     if (authTokens) {
       setUser(getUser(authTokens));
+    } else {
+      getToken()
     }
-    setLoading(false);
-  }, [authTokens]);
+  }, []);
 
   const contextData: AuthContextData = {
     user,
     authTokens,
-    expiration,
     setAuthTokens,
-    setExpiration,
+    session,
     setUser,
     loginUser,
     logoutUser,

@@ -86,3 +86,7 @@ export const getUser = (token: string) => {
   const user: any = jwt(token);
   return user.id;
 };
+export const getSession = (token: string) => {
+  const user: any = jwt(token);
+  return user.sid;
+};

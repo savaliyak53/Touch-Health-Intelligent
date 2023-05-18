@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import styles from './HelpAndSupport.module.scss'
 import { Space, Typography } from 'antd';
-import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
+import AuthContext from '../../contexts/AuthContext';
+import AuthContextData from '../../contexts/AuthContext';
 const { Paragraph }=Typography;
 //Set your APP_ID
 var APP_ID = "ipsho729";

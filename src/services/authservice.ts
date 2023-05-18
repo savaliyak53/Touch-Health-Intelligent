@@ -5,11 +5,12 @@ import {
   InteractionService,
 } from '../interfaces';
 
-import axiosInstance from '../utils/axios';
+// import axios from '../utils/axios';
+import axios from 'axios';
 
 const baseURL = process.env.REACT_APP_API_HOST;
 
-axiosInstance.defaults.baseURL = baseURL;
+axios.defaults.baseURL = baseURL;
 
 export const signUpService = async (data: ISignUp, header: string) => {
   try {
@@ -17,7 +18,7 @@ export const signUpService = async (data: ISignUp, header: string) => {
     if (header !== '') {
       config.headers = { 'X-Recaptcha-Token': header };
     }
-    const res = await axiosInstance.post('/users/signup', data, config);
+    const res = await axios.post('/users/signup', data, config);
     if (res) return res.data;
   } catch (err) {
     return err;
@@ -32,7 +33,27 @@ export const loginService = async (data: ILogin, header: string) => {
     if (header !== '') {
       config.headers = { 'X-Recaptcha-Token': header };
     }
-    const res = await axiosInstance.post('/auth/login', data, config);
+    const res = await axios.post('/auth/login', data, config);
+    if (res) return res.data;
+  } catch (err) {
+    return err;
+  }
+};
+export const logoutService = async (sessionId: string) => {
+  try {
+    const res = await axios.delete(`/auth/sessions/${sessionId}`);
+    if (res) return res;
+  } catch (err) {
+    return err;
+  }
+};
+export const tokenService = async () => {
+  try {
+    const config: any = {
+      withCredentials: true,
+    };
+    const res = await axios.get(`/auth/token`, config);
+
     if (res) return res.data;
   } catch (err) {
     return err;
@@ -44,7 +65,7 @@ export const requestPhoneOTP = async (phone: string, token: string) => {
     if (token !== '') {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    const res = await axiosInstance.post(
+    const res = await axios.post(
       '/auth/phone-verification',
       {
         phone: phone,
@@ -59,7 +80,7 @@ export const requestPhoneOTP = async (phone: string, token: string) => {
 
 export const putSignUp = async (data: any, userId: string) => {
   try {
-    const res = await axiosInstance.put(`${baseURL}/users/${userId}`, data);
+    const res = await axios.put(`${baseURL}/users/${userId}`, data);
     if (res) return res.data;
   } catch (err) {
     return err;
@@ -68,7 +89,7 @@ export const putSignUp = async (data: any, userId: string) => {
 
 export const validateSignUp = async (id: string | undefined) => {
   try {
-    const res = await axiosInstance.get(
+    const res = await axios.get(
       `${baseURL}/api/THA/PatientSignup/${id}`
     );
     if (res) return res.data;
@@ -82,7 +103,7 @@ export const verifyPhoneOTP = async (
   id: string | undefined
 ) => {
   try {
-    const response = await axiosInstance.put(
+    const response = await axios.put(
       `${baseURL}/users/signup/${id}/verify`,
       {
         code: otp,
@@ -98,47 +119,47 @@ export const preferencesService = async (
   data: IPreferencesService | any,
   id: string | null
 ) => {
-  return axiosInstance.put(`${baseURL}/users/${id}`, data);
+  return axios.put(`${baseURL}/users/${id}`, data);
 };
 export const updatePreference = async (data: any) => {
-  return axiosInstance.put(`${baseURL}/ai/preferences`, data);
+  return axios.put(`${baseURL}/ai/preferences`, data);
 };
 
 export const getPreference = async () => {
-  return axiosInstance.get(`${baseURL}/ai/preferences`);
+  return axios.get(`${baseURL}/ai/preferences`);
 };
 export const getInteractionService = async () => {
-  return await axiosInstance.get(`${baseURL}/ai/interaction`);
+  return await axios.get(`${baseURL}/ai/interaction`);
 };
 
 export const getInteractionServiceByType = async (flow_id: string) => {
-  return await axiosInstance.post(`${baseURL}/ai/interaction-flow`, {
+  return await axios.post(`${baseURL}/ai/interaction-flow`, {
     flow_id,
   });
 };
 
 export const postInteractionService = async (data: InteractionService) => {
-  return await axiosInstance.post(`${baseURL}/ai/interaction`, data);
+  return await axios.post(`${baseURL}/ai/interaction`, data);
 };
 
 export const getUser = async (id: string | null | undefined) => {
-  return await axiosInstance.get(`/users/${id}`);
+  return await axios.get(`/users/${id}`);
 };
 
 export const postResetPassword = async (data: any) => {
-  const response = await axiosInstance.put('/auth/password-recovery', data);
+  const response = await axios.put('/auth/password-recovery', data);
   return response.data;
 };
 
 export const getSecurityQuestions = async (username: string, code: string) => {
-  const response = await axiosInstance.get(
+  const response = await axios.get(
     `${baseURL}/auth/password-recovery/security-questions?username=${username}&code=${code}`
   );
   return response.data;
 };
 
 export const checkAnswer = async (data: any) => {
-  const response = await axiosInstance.put(
+  const response = await axios.put(
     '/auth/password-recovery/security-questions',
     data
   );
@@ -146,21 +167,21 @@ export const checkAnswer = async (data: any) => {
 };
 
 export const getGoogleCode = async () => {
-  return await axiosInstance.get(`${baseURL}/auth/google`);
+  return await axios.get(`${baseURL}/auth/google`);
 };
 
 export const postGoogleToken = async (body: any) => {
-  return await axiosInstance.post(`${baseURL}/auth/google/token`, body);
+  return await axios.post(`${baseURL}/auth/google/token`, body);
 };
 
 export const revokeGoogleFit = async () => {
-  return await axiosInstance.post(`${baseURL}/auth/google/revoke`);
+  return await axios.post(`${baseURL}/auth/google/revoke`);
 };
 
 export const getIntegrationStatus = async () => {
-  return await axiosInstance.get(`${baseURL}/user/integration/status`);
+  return await axios.get(`${baseURL}/user/integration/status`);
 };
 
 export const guidanceStatus = async (id: string, body: any) => {
-  return await axiosInstance.put(`${baseURL}/ai/guidances/${id}`, body);
+  return await axios.put(`${baseURL}/ai/guidances/${id}`, body);
 };
