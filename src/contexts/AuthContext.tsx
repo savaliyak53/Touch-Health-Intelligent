@@ -25,8 +25,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   // eslint-disable-next-line react/prop-types
   children,
 }) => {
-  const [authTokens, setAuthTokens] = useState<any>();
-  const [user, setUser] = useState<any>();
+  const [authTokens, setAuthTokens] = useState<any>(() => {
+    const token = localStorage.getItem('token');
+    return token ? token : null;
+  });
+  const [user, setUser] = useState<any>(() => {
+    const user = localStorage.getItem('userId');
+    return user ? user : null;
+  });
   const [session, setSession] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -61,8 +67,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setUser(userId);
       const sessionId = getSession(response.token);
       setSession(sessionId);
-      const expiration = getTokenExpiration(response.token);
-      navigate('/');
       return response;
     } else if (response.status === 429) {
       return response;
@@ -75,11 +79,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const logoutUser = () => {
     logoutService(session)
     .then(res => {
-      console.log(res);
       setAuthTokens(null);
       setUser(null);
       setSession(null);
-      // navigate('/login');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('token');
+      localStorage.clear();
+      navigate('/login');
     })
     .catch(err => {
       console.log(err);
@@ -90,7 +96,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     if (authTokens) {
       setUser(getUser(authTokens));
     } else {
-      getToken()
+      // getToken()
     }
   }, []);
 

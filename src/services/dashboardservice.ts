@@ -1,4 +1,6 @@
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../utils/axios';
+
 
 export const getConditionsService = async () => {
   return axios.get(`/conditions`);

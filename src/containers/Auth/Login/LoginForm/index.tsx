@@ -85,19 +85,19 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
       loginRequest.password,
       token
     );
-    if (loginResponse?.status === 200) {
+    if (loginResponse?.token) {
       reset();
       setIsDisabled(false);
       setIsLoading(false);
 
-      // localStorage.setItem('token', `${loginResponse.token}`);
-      // localStorage.setItem(
-      //   'expiration',
-      //   getTokenExpiration(loginResponse.token)
-      // );
-      // const userId = getId(loginResponse.token);
-      // localStorage.setItem('userId', userId);
-      // navigate('/');
+      localStorage.setItem('token', `${loginResponse.token}`);
+      localStorage.setItem(
+        'expiration',
+        getTokenExpiration(loginResponse.token)
+      );
+      const userId = getId(loginResponse.token);
+      localStorage.setItem('userId', userId);
+      navigate('/');
     } else {
       setIsDisabled(false);
       setIsLoading(false);

@@ -5,8 +5,8 @@ import {
   InteractionService,
 } from '../interfaces';
 
-// import axios from '../utils/axios';
-import axios from 'axios';
+import axios from '../utils/axios';
+// import axios from 'axios';
 
 const baseURL = process.env.REACT_APP_API_HOST;
 

@@ -18,7 +18,7 @@ console.log(version);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Application = () => {
     const context = useContext(AuthContext);
-    useAxios(context?.authTokens, context?.setAuthTokens, context?.setUser, context?.logoutUser)
+    // useAxios(context?.authTokens, context?.setAuthTokens, context?.setUser)
   return (
     <>
       <AppRoutes />
