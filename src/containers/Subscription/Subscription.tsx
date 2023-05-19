@@ -565,7 +565,7 @@ const Subscription = () => {
                                 handleOk={handleOk}
                                 className='Addgoal-Confirm-Modal'
                                 renderData={
-                                  <div>
+                                  <div className='Description'>
                                     Your subscription will be cancelled
                                     {userPlan?.renewalDate
                                       ? ` and not renewed on ${userPlan?.renewalDate}`
@@ -636,7 +636,7 @@ const Subscription = () => {
               handleOk={handleSwitch}
               className='Addgoal-Confirm-Modal'
               renderData={
-                <div>
+                <div className='Description'>
                   {estimateAmount ? (
                     estimateAmount !== '$0.00' ? (
                       <>
