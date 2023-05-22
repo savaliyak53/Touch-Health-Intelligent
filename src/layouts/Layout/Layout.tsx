@@ -52,6 +52,7 @@ const Layout = ({
   const getUserSubscription = (response: any) => {
     getSubscriptionStatus()
       .then((res) => {
+        localStorage.setItem('isSubscribed', res.data.isSubscribed.toString());
         if (
           response.data.signup_status === 'new' &&
           res.data.isSubscribed === false
