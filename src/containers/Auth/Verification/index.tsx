@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -20,6 +20,7 @@ type IVerificationCode = {
 type VerificationProps={
   isResetPassword?:boolean;
   onSubmitResetPassword?:(code:any)=>void
+  setCode: Dispatch<SetStateAction<string>>;
 }
 const Verification = ({isResetPassword, onSubmitResetPassword}:VerificationProps) => {
   const userId = localStorage.getItem('userId');
