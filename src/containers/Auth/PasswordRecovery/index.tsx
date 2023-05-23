@@ -67,7 +67,6 @@ const PasswordRecovery = () => {
   const [enableTimer, setEnableTimer] = useState(true);
   const [isSubmitted, setIsSubmitted]=useState(false);
   const [disableSubmit, setDisableSubmit]=useState(true);
-  const [code, setCode] = useState('');
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
   const expiryTimestamp = time
@@ -123,7 +122,6 @@ const PasswordRecovery = () => {
           setCodeSubmitted(true);
           setIsCodeSent(false);
           setQuestion(response.security_questions[0].question);
-          setCode(data.code);
         } else {
           setQuestion('null');
           setIsCodeSent(false);
@@ -138,7 +136,6 @@ const PasswordRecovery = () => {
   const confirmAnswer = async (data: any) => {
     if(getValues('username')) {
       data.username = onlyNumbers(getValues('username'));
-      data.code = code;
     } else {
       data.username = location.state.username
       data.code = location.state.code
@@ -314,7 +311,7 @@ const PasswordRecovery = () => {
         )}
 
         {isCodeSent && (
-          <Verification isResetPassword={true} onSubmitResetPassword={onSubmitCode} setCode={setCode}/>
+          <Verification isResetPassword={true} onSubmitResetPassword={onSubmitCode}/>
           // <>
           //   <div className={styles["Verification-wrap"]}>
           //     <form

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,7 @@ import { Tooltip } from 'antd';
 import ReactCodeInput from 'react-code-input';
 import { requestPhoneOTP, verifyPhoneOTP } from '../../../services/authservice';
 import { useTimer } from 'react-timer-hook';
+import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
 
 type IVerificationCode = {
   code: string;
@@ -19,7 +20,6 @@ type IVerificationCode = {
 type VerificationProps={
   isResetPassword?:boolean;
   onSubmitResetPassword?:(code:any)=>void
-  setCode: Dispatch<SetStateAction<string>>
 }
 const Verification = ({isResetPassword, onSubmitResetPassword}:VerificationProps) => {
   const userId = localStorage.getItem('userId');
