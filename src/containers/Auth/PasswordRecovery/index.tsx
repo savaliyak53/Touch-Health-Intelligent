@@ -28,6 +28,7 @@ import  ReCAPTCHA  from 'react-google-recaptcha';
 import RecaptchaModal from '../../../components/Modal/RecaptchaModal';
 import { useTimer } from 'react-timer-hook';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
+import Verification from '../Verification';
 // import { InfoCircleOutlined } from '@ant-design/icons';
 
 
@@ -64,6 +65,9 @@ const PasswordRecovery = () => {
   const [openRecaptcha, setOpenRecaptcha] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [enableTimer, setEnableTimer] = useState(true);
+  const [isSubmitted, setIsSubmitted]=useState(false);
+  const [disableSubmit, setDisableSubmit]=useState(true);
+  const [code, setCode] = useState('');
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
   const expiryTimestamp = time
@@ -80,7 +84,7 @@ const PasswordRecovery = () => {
     handleSubmit,
     control,
     getValues,
-    formState: { errors },
+    formState: { errors},
   } = useForm<IRecoverFormInputs>({
     mode: 'onSubmit',
     shouldFocusError: true,
@@ -108,7 +112,8 @@ const PasswordRecovery = () => {
   }
   
   const onSubmitCode = async (data: any) => {
-    const username = data.username ? onlyNumbers(data.username) : onlyNumbers(getValues('username'))
+    setIsSubmitted(true)
+    const username = localStorage.getItem("username");
     const code = data.code ? data.code : getValues('code')
     getSecurityQuestions(username, code)
       .then((response) => {
@@ -118,6 +123,7 @@ const PasswordRecovery = () => {
           setCodeSubmitted(true);
           setIsCodeSent(false);
           setQuestion(response.security_questions[0].question);
+          setCode(data.code);
         } else {
           setQuestion('null');
           setIsCodeSent(false);
@@ -132,6 +138,7 @@ const PasswordRecovery = () => {
   const confirmAnswer = async (data: any) => {
     if(getValues('username')) {
       data.username = onlyNumbers(getValues('username'));
+      data.code = code;
     } else {
       data.username = location.state.username
       data.code = location.state.code
@@ -239,6 +246,8 @@ const PasswordRecovery = () => {
     setIsLoading(true);
     setIsDisabled(true);
     const token =  refCaptcha?.current?.getValue();
+    const username=onlyNumbers(getValues("username"));
+    localStorage.setItem("username", username);
     requestPhoneOTP(onlyNumbers(getValues('username')),token)
       .then((response: any) => {
         if (response.code === 'ERR_BAD_REQUEST') {
@@ -305,89 +314,94 @@ const PasswordRecovery = () => {
         )}
 
         {isCodeSent && (
-          <>
-            <div className={styles["Verification-wrap"]}>
-              <form
-                onSubmit={handleSubmit(onSubmitCode)}
-                className={styles["Verification-form"]}
-              >
-                <h2 className={styles["Security-title"]}>
-                  Verification code
-                </h2>
-                {/* <div className={styles['description']}>
-               <InfoCircleOutlined /> We just sent a text to your number, confirm this is you by putting in the code you received here
-              </div> */}
-                <Controller
-                  control={control}
-                  name="code"
-                  rules={{
-                    validate: (value) => {
-                      return value && value.length === 6
-                        ? true
-                        : !value
-                        ? 'Verification code is required'
-                        : 'Invalid verification code';
-                    },
-                  }}
-                  render={({
-                    field: { onChange, onBlur, value, name, ref },
-                  }) => (
-                    <ReactCodeInput
-                      name={name}
-                      inputMode="numeric"
-                      fields={6}
-                      type="number"
-                      onChange={(value:any)=>{
-                        onChange(value)
-                        setIsDisabled(false)
-                      }}
-                      value={value}
-                    />
-                  )}
-                />
+          <Verification isResetPassword={true} onSubmitResetPassword={onSubmitCode} setCode={setCode}/>
+          // <>
+          //   <div className={styles["Verification-wrap"]}>
+          //     <form
+          //       onSubmit={handleSubmit(onSubmitCode)}
+          //       className={styles["Verification-form"]}
+          //     >
+          //       <h2 className={styles["Security-title"]}>
+          //         Verification code
+          //       </h2>
+          //       {/* <div className={styles['description']}>
+          //      <InfoCircleOutlined /> We just sent a text to your number, confirm this is you by putting in the code you received here
+          //     </div> */}
+          //       <Controller
+          //         control={control}
+          //         name="code"
+          //         rules={{
+          //           validate: (value) => {
+          //             // only apply validation rules when the form is submitted
+          //             if (isSubmitted) {
+          //               return value && value.length === 6
+          //                 ? true
+          //                 : !value
+          //                 ? 'Verification code is required'
+          //                 : 'Invalid verification code';
+          //             }
+          //             return true; // skip validation on first render
+          //           },
+          //         }}
+          //         render={({
+          //           field: { onChange, onBlur, value, name, ref },
+          //         }) => (
+          //           <ReactCodeInput
+          //             name={name}
+          //             inputMode="numeric"
+          //             fields={6}
+          //             type="number"
+          //             onChange={(value:any)=>{
+          //               onChange(value)
+          //               setDisableSubmit(false)
+          //             }}
+          //             value={value}
+          //           />
+          //         )}
+          //       />
 
-                <Tooltip
-                  color="orange"
-                  placement="bottom"
-                  title={errors.code?.message}
-                  open={errors.code ? true : false}
-                />
-                <Button
-                  onClick={handleSubmit(onSubmitCode)}
-                  className={'Submit-Button'}
-                  loading={isVerifying}
-                  disabled={isDisabled}
-                >
-                  Verify
-                </Button>
-              </form>
-              <RecaptchaModal
-                title={''}
-                open={openRecaptcha}
-                resendOTP={resendOTP}
-                setOpenRecaptcha={setOpenRecaptcha}
-               />
-               <button
-                  onClick={()=>{
-                    setOpenRecaptcha(true)
-                  }}
-                 className={isDisabled? styles["grey"] : styles["resend"]}
-                 type="button"
-                 disabled={isDisabled}
-                >
-                   Resend code&nbsp;{enableTimer && (<span>in&nbsp;{minutes}:{seconds}</span>)}
-               </button>
-              <ConfirmModal
-                title={'Confirmation'}
-                open={modalOpen}
-                handleCancel={() => {setModalOpen(false)}}
-                handleOk={() => {setModalOpen(false)}}
-                className='Addgoal-Confirm-Modal'
-                renderData={<div className='Description' >We just sent a text to your number, confirm this is you by putting in the code you received here</div>}
-              />
+          //       <Tooltip
+          //         color="orange"
+          //         placement="bottom"
+          //         title={errors.code?.message}
+          //         open={errors.code ? true : false}
+          //       />
+          //       <Button
+          //         onClick={handleSubmit(onSubmitCode)}
+          //         className={'Submit-Button'}
+          //         loading={isVerifying}
+          //         disabled={disableSubmit}
+          //       >
+          //         Verify
+          //       </Button>
+          //     </form>
+          //     <RecaptchaModal
+          //       title={''}
+          //       open={openRecaptcha}
+          //       resendOTP={resendOTP}
+          //       setOpenRecaptcha={setOpenRecaptcha}
+          //      />
+          //      <button
+          //         onClick={()=>{
+          //           setOpenRecaptcha(true)
+          //         }}
+          //        className={isDisabled? styles["grey"] : styles["resend"]}
+          //        type="button"
+          //        disabled={isDisabled}
+          //       >
+          //          Resend code&nbsp;{enableTimer && (<span>in&nbsp;{minutes}:{seconds}</span>)}
+          //      </button>
+          //     <ConfirmModal
+          //       title={'Confirmation'}
+          //       open={modalOpen}
+          //       handleCancel={() => {setModalOpen(false)}}
+          //       handleOk={() => {setModalOpen(false)}}
+          //       className='Addgoal-Confirm-Modal'
+          //       renderData={<div className='Description' >We just sent a text to your number, confirm this is you by putting in the code you received here</div>}
+          //     />
 
-            </div>
-          </>
+          //   </div>
+          // </>
         )}
                {/* {(    */}
 

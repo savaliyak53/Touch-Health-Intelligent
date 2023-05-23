@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -17,7 +17,12 @@ import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
 type IVerificationCode = {
   code: string;
 };
-const Verification = () => {
+type VerificationProps={
+  isResetPassword?:boolean;
+  onSubmitResetPassword?:(code:any)=>void
+  setCode: Dispatch<SetStateAction<string>>;
+}
+const Verification = ({isResetPassword, onSubmitResetPassword}:VerificationProps) => {
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +32,7 @@ const Verification = () => {
   const [finishStatus, setfinishStatus] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [enableTimer, setEnableTimer] = useState(true);
+  const [disableSubmit, setDisableSubmit]=useState(true)
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
   const expiryTimestamp = time
@@ -50,43 +56,50 @@ const Verification = () => {
 
   useEffect(() => {
     window.scrollTo(0,0)
-    if (!userId) {
+    if (!userId && !isResetPassword) {
       navigate('/');
     }
     pageBackEvent()
     sendPhoneOTP()
    }, []);
-  const onSubmit = async (data: any) => {
-    if (userId) {
-      setIsVerifying(true);
-      const phoneVerificationResponse: any = await verifyPhoneOTP(data.code, userId);
-      if (phoneVerificationResponse?.data?.id) {
-        setIsVerifying(false);
-        toast.dismiss()
-        toast.success('Verified');
-        //localStorage.setItem('token', phoneVerificationResponse.token)
-        // process.env.REACT_APP_IS_BETA == 'TRUE' ? navigate('/') : navigate('/subscription');
-        navigate('/security');
-      }
-      else if (phoneVerificationResponse?.response?.status === 409) {
-        const phone = localStorage.getItem('phone');
-        // navigate('/password-reset',{state: {
-        //   username: phone,
-        //   code: data.code
-        // }}) 
-        localStorage.clear()
-        toast.error("User already exists")
-        navigate('/login')
-        // toast.error("It seems your phone number already registered in our system. Please try to login or recover your password.");
-        setIsVerifying(false);
-        // logoutClick();
-      } 
-      else if (phoneVerificationResponse?.response?.data) {
-        toast.info(phoneVerificationResponse?.response?.data?.details);
-        setIsVerifying(false);
+   const onSubmit = async (data: any) => {
+    if (isResetPassword) {
+      const code = getValues('code');
+      onSubmitResetPassword && onSubmitResetPassword({ code: code });
+    } else {
+      if (userId) {
+        setIsVerifying(true);
+        const phoneVerificationResponse: any = await verifyPhoneOTP(
+          data.code,
+          userId
+        );
+        if (phoneVerificationResponse?.data?.id) {
+          setIsVerifying(false);
+          toast.dismiss();
+          toast.success('Verified');
+          //localStorage.setItem('token', phoneVerificationResponse.token)
+          // process.env.REACT_APP_IS_BETA == 'TRUE' ? navigate('/') : navigate('/subscription');
+          navigate('/security');
+        } else if (phoneVerificationResponse?.response?.status === 409) {
+          const phone = localStorage.getItem('phone');
+          // navigate('/password-reset',{state: {
+          //   username: phone,
+          //   code: data.code
+          // }})
+          localStorage.clear();
+          toast.error('User already exists');
+          navigate('/login');
+          // toast.error("It seems your phone number already registered in our system. Please try to login or recover your password.");
+          setIsVerifying(false);
+          // logoutClick();
+        } else if (phoneVerificationResponse?.response?.data) {
+          toast.info(phoneVerificationResponse?.response?.data?.details);
+          setIsVerifying(false);
+        }
       }
     }
   };
+
   const logoutClick = () => {
     localStorage.removeItem('userId');
     localStorage.removeItem('token');
@@ -159,7 +172,10 @@ const Verification = () => {
                 inputMode="numeric"
                 fields={6}
                 type="number"
-                onChange={onChange}
+                onChange={(value)=>{
+                   onChange(value)
+                   setDisableSubmit(false)
+                }}
                 value={value}
               />
             )}
@@ -175,6 +191,7 @@ const Verification = () => {
             onClick={handleSubmit(onSubmit)}
             className="Submit-Button"
             loading={isVerifying}
+            disabled={disableSubmit}
           >
             Verify
           </Button>
