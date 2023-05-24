@@ -33,7 +33,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const user = localStorage.getItem('userId');
     return user ? user : null;
   });
-  const [session, setSession] = useState<any>();
+  const [session, setSession] = useState<any>(() => {
+    const session = localStorage.getItem('sessionId');
+    return session ? session : null;
+  });
   const [loading, setLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();

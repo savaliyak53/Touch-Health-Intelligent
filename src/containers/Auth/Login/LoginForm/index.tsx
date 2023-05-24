@@ -18,6 +18,7 @@ import { getTokenExpiration, onlyNumbers } from '../../../../utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
 import AccountLockModal from '../../../../components/Modal/AccountLockModal';
 import AuthContext, { AuthContextData } from '../../../../contexts/AuthContext';
+import { getSession, getUser } from '../../../../utils/lib';
 
 type LoginFormProps = {
   onSubmit: SubmitHandler<IFormInputs>;
@@ -31,6 +32,7 @@ type IFormInputs = {
 
 type User = {
   exp: string;
+  sid: string;
   iat: string;
   id: string;
 };
@@ -55,11 +57,6 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
     shouldFocusError: true,
     shouldUnregister: false,
   });
-
-  const getId = (token: string) => {
-    const user: User = jwt(token);
-    return user.id;
-  };
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
@@ -95,8 +92,10 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
         'expiration',
         getTokenExpiration(loginResponse.token)
       );
-      const userId = getId(loginResponse.token);
+      const userId = getUser(loginResponse.token);
       localStorage.setItem('userId', userId);
+      const sessionId = getSession(loginResponse.token);
+      localStorage.setItem('sessionId', sessionId);
       navigate('/');
     } else {
       setIsDisabled(false);
