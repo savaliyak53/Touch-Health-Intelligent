@@ -20,16 +20,16 @@ import ReactCodeInput from 'react-code-input';
 import {
   checkAnswer,
   getSecurityQuestions,
-  loginService
+  loginService,
 } from '../../../services/authservice';
 import { ILogin } from '../../../interfaces';
 import jwt from 'jwt-decode';
-import  ReCAPTCHA  from 'react-google-recaptcha';
+import ReCAPTCHA from 'react-google-recaptcha';
 import RecaptchaModal from '../../../components/Modal/RecaptchaModal';
 import { useTimer } from 'react-timer-hook';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
+import Verification from '../Verification';
 // import { InfoCircleOutlined } from '@ant-design/icons';
-
 
 type IRecoverFormInputs = {
   username: string;
@@ -64,10 +64,13 @@ const PasswordRecovery = () => {
   const [openRecaptcha, setOpenRecaptcha] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [enableTimer, setEnableTimer] = useState(true);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [disableSubmit, setDisableSubmit] = useState(true);
+  const [code, setCode] = useState('');
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
-  const expiryTimestamp = time
-  const refCaptcha = useRef<any>(null)
+  const expiryTimestamp = time;
+  const refCaptcha = useRef<any>(null);
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
@@ -87,29 +90,32 @@ const PasswordRecovery = () => {
     shouldUnregister: false,
   });
 
-  const {
-    seconds,
-    minutes,
-    restart,
-  } = useTimer({ expiryTimestamp, onExpire: () => {setEnableTimer(false); setIsDisabled(false);} });
+  const { seconds, minutes, restart } = useTimer({
+    expiryTimestamp,
+    onExpire: () => {
+      setEnableTimer(false);
+      setIsDisabled(false);
+    },
+  });
 
   useEffect(() => {
-    if(location.state){
-      onSubmitCode(location.state)
+    if (location.state) {
+      onSubmitCode(location.state);
     } else {
-      setEnterNumber(true)
+      setEnterNumber(true);
     }
-  }, [])
+  }, []);
 
-  const restartTime = (time:number) => {
+  const restartTime = (time: number) => {
     const t = new Date();
     t.setSeconds(t.getSeconds() + time);
-    restart(t)
-  }
-  
+    restart(t);
+  };
+
   const onSubmitCode = async (data: any) => {
-    const username = data.username ? onlyNumbers(data.username) : onlyNumbers(getValues('username'))
-    const code = data.code ? data.code : getValues('code')
+    setIsSubmitted(true);
+    const username = localStorage.getItem('username');
+    const code = data.code ? data.code : getValues('code');
     getSecurityQuestions(username, code)
       .then((response) => {
         if (response && response.code === 'ERR_BAD_REQUEST') {
@@ -118,6 +124,7 @@ const PasswordRecovery = () => {
           setCodeSubmitted(true);
           setIsCodeSent(false);
           setQuestion(response.security_questions[0].question);
+          setCode(data.code);
         } else {
           setQuestion('null');
           setIsCodeSent(false);
@@ -130,11 +137,12 @@ const PasswordRecovery = () => {
   };
 
   const confirmAnswer = async (data: any) => {
-    if(getValues('username')) {
+    if (getValues('username')) {
       data.username = onlyNumbers(getValues('username'));
+      data.code = code;
     } else {
-      data.username = location.state.username
-      data.code = location.state.code
+      data.username = location.state.username;
+      data.code = location.state.code;
     }
     if (question === 'null') {
       data.security_question = null;
@@ -154,33 +162,33 @@ const PasswordRecovery = () => {
     const user: User = jwt(token);
     return user.id;
   };
-  // const loginRequest = async (data:any) => {
-  //   const loginRequest: ILogin = {
-  //     username: onlyNumbers(data.username),
-  //     password: data.confirmPassword,
-  //   };
-  //   const loginResponse = await loginService(loginRequest,'');
-  //   if (loginResponse?.token) {
-  //     setIsDisabled(false);
-  //     setIsLoading(false);
-  //     localStorage.setItem('token', `${loginResponse.token}`);
-  //     const userId = getId(loginResponse.token);
-  //     localStorage.setItem('userId', userId);
-  //     navigate('/');
-  //   } else {
-  //     setIsDisabled(false);
-  //     setIsLoading(false);
-  //     toast.error(loginResponse?.response?.data?.details);
-  //   }
-  // };
+  const loginRequest = async (data: any) => {
+    const loginRequest: ILogin = {
+      username: onlyNumbers(data.username),
+      password: data.confirmPassword,
+    };
+    const loginResponse = await loginService(loginRequest, '');
+    if (loginResponse?.token) {
+      setIsDisabled(false);
+      setIsLoading(false);
+      localStorage.setItem('token', `${loginResponse.token}`);
+      const userId = getId(loginResponse.token);
+      localStorage.setItem('userId', userId);
+      navigate('/');
+    } else {
+      setIsDisabled(false);
+      setIsLoading(false);
+      toast.error(loginResponse?.response?.data?.details);
+    }
+  };
 
   const onSubmitRecover = async (data: any) => {
     if (changePassword) {
-      if(getValues('username')){
+      if (getValues('username')) {
         data.username = onlyNumbers(getValues('username'));
       } else {
-        data.username = location.state.username
-        data.code = location.state.code
+        data.username = location.state.username;
+        data.code = location.state.code;
       }
       if (question === 'null') {
         data.security_question = null;
@@ -206,53 +214,23 @@ const PasswordRecovery = () => {
       setEnterNumber(true);
     }
   };
-  const resendOTP=()=>{
+  const resendOTP = () => {
     setIsLoading(true);
     setIsDisabled(true);
-    const token =localStorage.getItem("recaptcha-token")
-    requestPhoneOTP(onlyNumbers(getValues('username')),token || "")
+    const token = localStorage.getItem('recaptcha-token');
+    requestPhoneOTP(onlyNumbers(getValues('username')), token || '')
       .then((response: any) => {
         if (response.code === 'ERR_BAD_REQUEST') {
-          setIsCodeSent(true)
+          setIsCodeSent(true);
           // toast(response.response.data.details);
           const remaining_time = response?.response?.data.details.match(/\d+/g);
-          restartTime(parseInt(remaining_time[0]))
+          restartTime(parseInt(remaining_time[0]));
           setIsLoading(false);
           // setIsDisabled(false);
         } else {
-          setEnterNumber(false); 
-          setIsCodeSent(true);
-          restartTime(60)
-          setEnableTimer(true);
-          setModalOpen(true)
-          setIsLoading(false);
-          setIsDisabled(true);
-        }
-      })
-      .catch((error: any) => {
-        toast(error.response);
-        setIsLoading(false);
-        setIsDisabled(false);
-      });
-  }
-  const onVerify = ( ) => {
-    setIsLoading(true);
-    setIsDisabled(true);
-    const token =  refCaptcha?.current?.getValue();
-    requestPhoneOTP(onlyNumbers(getValues('username')),token)
-      .then((response: any) => {
-        if (response.code === 'ERR_BAD_REQUEST') {
-          // toast(response.response.data.details);
           setEnterNumber(false);
           setIsCodeSent(true);
-          const remaining_time = response?.response?.data.details.match(/\d+/g);
-          restartTime(parseInt(remaining_time[0]))
-          setIsLoading(false);
-          setIsDisabled(false);
-        } else {
-          setEnterNumber(false);
-          setIsCodeSent(true);
-          restartTime(60)
+          restartTime(60);
           setEnableTimer(true);
           setModalOpen(true);
           setIsLoading(false);
@@ -264,35 +242,68 @@ const PasswordRecovery = () => {
         setIsLoading(false);
         setIsDisabled(false);
       });
-  }
+  };
+  const onVerify = () => {
+    setIsLoading(true);
+    setIsDisabled(true);
+    const token = refCaptcha?.current?.getValue();
+    const username = onlyNumbers(getValues('username'));
+    localStorage.setItem('username', username);
+    requestPhoneOTP(onlyNumbers(getValues('username')), token)
+      .then((response: any) => {
+        if (response.code === 'ERR_BAD_REQUEST') {
+          // toast(response.response.data.details);
+          setEnterNumber(false);
+          setIsCodeSent(true);
+          const remaining_time = response?.response?.data.details.match(/\d+/g);
+          restartTime(parseInt(remaining_time[0]));
+          setIsLoading(false);
+          setIsDisabled(false);
+        } else {
+          setEnterNumber(false);
+          setIsCodeSent(true);
+          restartTime(60);
+          setEnableTimer(true);
+          setModalOpen(true);
+          setIsLoading(false);
+          setIsDisabled(true);
+        }
+      })
+      .catch((error: any) => {
+        toast(error.response);
+        setIsLoading(false);
+        setIsDisabled(false);
+      });
+  };
   return (
     <Layout defaultHeader={false} hamburger={false} signupLogin="Reset-bg">
       <div className="Auth-wrap">
         {enterNumber && (
-          <form onSubmit={handleSubmit(onVerify)} className={styles["Auth-form"]}>
-            <h2 className={styles["Security-title"]}>
-              Reset password
-            </h2>
-          <Tooltip
-            color="orange"
-            placement="bottomLeft"
-            title={errors.username?.message}
-            open={errors.username ? true : false}
+          <form
+            onSubmit={handleSubmit(onVerify)}
+            className={styles['Auth-form']}
           >
-          </Tooltip>
+            <h2 className={styles['Security-title']}>Reset password</h2>
+            <Tooltip
+              color="orange"
+              placement="bottomLeft"
+              title={errors.username?.message}
+              open={errors.username ? true : false}
+            ></Tooltip>
             <CountryCode
               disabled={isCodeSent}
               errors={errors.username}
               control={control}
               fieldName="username"
             />
-             <ReCAPTCHA
-              className={styles["recaptcha"]}
+            <ReCAPTCHA
+              className={styles['recaptcha']}
               ref={refCaptcha}
-             sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
-             onChange={()=>{
-             setIsDisabled(false) } } 
-              />
+              sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
+              onChange={() => {
+                setIsDisabled(false);
+              }}
+            />
             <Button
               onClick={handleSubmit(onVerify)}
               loading={isLoading}
@@ -305,135 +316,56 @@ const PasswordRecovery = () => {
         )}
 
         {isCodeSent && (
-          <>
-            <div className={styles["Verification-wrap"]}>
-              <form
-                onSubmit={handleSubmit(onSubmitCode)}
-                className={styles["Verification-form"]}
-              >
-                <h2 className={styles["Security-title"]}>
-                  Verification code
-                </h2>
-                {/* <div className={styles['description']}>
-               <InfoCircleOutlined /> We just sent a text to your number, confirm this is you by putting in the code you received here
-              </div> */}
-                <Controller
-                  control={control}
-                  name="code"
-                  rules={{
-                    validate: (value) => {
-                      return value && value.length === 6
-                        ? true
-                        : !value
-                        ? 'Verification code is required'
-                        : 'Invalid verification code';
-                    },
-                  }}
-                  render={({
-                    field: { onChange, onBlur, value, name, ref },
-                  }) => (
-                    <ReactCodeInput
-                      name={name}
-                      inputMode="numeric"
-                      fields={6}
-                      type="number"
-                      onChange={(value:any)=>{
-                        onChange(value)
-                        setIsDisabled(false)
-                      }}
-                      value={value}
-                    />
-                  )}
-                />
-
-                <Tooltip
-                  color="orange"
-                  placement="bottom"
-                  title={errors.code?.message}
-                  open={errors.code ? true : false}
-                />
-                <Button
-                  onClick={handleSubmit(onSubmitCode)}
-                  className={'Submit-Button'}
-                  loading={isVerifying}
-                  disabled={isDisabled}
-                >
-                  Verify
-                </Button>
-              </form>
-              <RecaptchaModal
-                title={''}
-                open={openRecaptcha}
-                resendOTP={resendOTP}
-                setOpenRecaptcha={setOpenRecaptcha}
-               />
-               <button
-                  onClick={()=>{
-                    setOpenRecaptcha(true)
-                  }}
-                 className={isDisabled? styles["grey"] : styles["resend"]}
-                 type="button"
-                 disabled={isDisabled}
-                >
-                   Resend code&nbsp;{enableTimer && (<span>in&nbsp;{minutes}:{seconds}</span>)}
-               </button>
-              <ConfirmModal
-                title={'Confirmation'}
-                open={modalOpen}
-                handleCancel={() => {setModalOpen(false)}}
-                handleOk={() => {setModalOpen(false)}}
-                className='Addgoal-Confirm-Modal'
-                renderData={<div className='Description' >We just sent a text to your number, confirm this is you by putting in the code you received here</div>}
-              />
-
-            </div>
-          </>
+          <Verification
+            isResetPassword={true}
+            onSubmitResetPassword={onSubmitCode}
+            setCode={setCode}
+          />
         )}
-               {/* {(    */}
+        {/* {(    */}
 
         {codeSubmitted && question && (
           <>
             <div
-              className={styles["Question-Auth-wrap"]}
+              className={styles['Question-Auth-wrap']}
               // className="Auth-wrap"
             >
               {/* <h2 className={styles["Auth-title"]}> */}
-              <h2 className={styles["Security-title"]}>
-                Security Question
-              </h2>
+              <h2 className={styles['Security-title']}>Security Question</h2>
               <p className={styles['Security-Description']}>
-                Please help us protect your account. Select a security question and
-                input answer. You can use this to get back access to your account.
+                Please help us protect your account. Select a security question
+                and input answer. You can use this to get back access to your
+                account.
               </p>
               <input
                 id="security_question.question"
                 {...register('security_question.question')}
                 type="text"
-                className={styles["security-Input"]}
+                className={styles['security-Input']}
                 // className="app-Input"
                 placeholder="Question"
                 value={question}
                 disabled={true}
               />
-              <div className={styles["input-element-wrapper"]}>
+              <div className={styles['input-element-wrapper']}>
                 <InputField
                   id="security_question.answer"
                   {...register('security_question.answer', {
                     required: 'Answer is required',
                   })}
                   type="text"
-                  className={styles["answer-Input"]}
+                  className={styles['answer-Input']}
                   placeholder="Answer"
                   onChange={(event: any) => setAnswer(event.target.value)}
                 />
               </div>
               {/* <div className="action"> */}
-                <Button
-                  onClick={handleSubmit(confirmAnswer)}
-                  className={'Submit-Button'}
-                >
-                  Submit
-                </Button>
+              <Button
+                onClick={handleSubmit(confirmAnswer)}
+                className={'Submit-Button'}
+              >
+                Submit
+              </Button>
               {/* </div> */}
             </div>
           </>
@@ -442,12 +374,10 @@ const PasswordRecovery = () => {
         {changePassword && (
           <>
             <div
-              className={styles["Auth-wrap"]}
+              className={styles['Auth-wrap']}
               style={{ justifyContent: 'start', width: '100%' }}
             >
-              <h2 className={styles["Security-title"]}>
-                Enter New Password
-              </h2>
+              <h2 className={styles['Security-title']}>Enter New Password</h2>
 
               <Tooltip
                 color="orange"
@@ -455,8 +385,8 @@ const PasswordRecovery = () => {
                 title={errors.code?.message}
                 open={errors.code ? true : false}
               ></Tooltip>
-              <div className={styles["input-element-wrapper-password"]}>
-              {/* <div className="input-element-wrapper-password"> */}
+              <div className={styles['input-element-wrapper-password']}>
+                {/* <div className="input-element-wrapper-password"> */}
                 <Tooltip
                   color="orange"
                   placement="bottomLeft"
@@ -467,7 +397,7 @@ const PasswordRecovery = () => {
                     id="new_password"
                     placeholder="Enter new password here"
                     type={passwordShown ? 'text' : 'password'}
-                    className={styles["security-Input"]}
+                    className={styles['security-Input']}
                     // className="app-Input"
                     {...register('new_password', {
                       required: 'Password is required',
@@ -483,12 +413,15 @@ const PasswordRecovery = () => {
                   />
                 </Tooltip>
                 {/* <button className="btn" onClick={togglePassword} type="button"> */}
-                <button className={styles["btn"]} onClick={togglePassword} type="button">
-
-                  <AiOutlineEye style={{color : "#204ECF"}} />
+                <button
+                  className={styles['btn']}
+                  onClick={togglePassword}
+                  type="button"
+                >
+                  <AiOutlineEye style={{ color: '#204ECF' }} />
                 </button>
               </div>
-              <div className={styles["input-element-wrapper-password"]}>
+              <div className={styles['input-element-wrapper-password']}>
                 <Tooltip
                   color="orange"
                   placement="bottomLeft"
@@ -499,7 +432,7 @@ const PasswordRecovery = () => {
                     id="confirmPassword"
                     placeholder="Confirm password here"
                     type={confirmPasswordShown ? 'text' : 'password'}
-                    className={styles["security-Input"]}
+                    className={styles['security-Input']}
                     {...register('confirmPassword', {
                       required: 'Confirm password is required',
                       validate: (value: string) => {
@@ -512,11 +445,11 @@ const PasswordRecovery = () => {
                   />
                 </Tooltip>
                 <button
-                  className={styles["btn"]}
+                  className={styles['btn']}
                   onClick={toggleConfirmPassword}
                   type="button"
                 >
-                  <AiOutlineEye style={{color : "#204ECF"}} />
+                  <AiOutlineEye style={{ color: '#204ECF' }} />
                 </button>
               </div>
               <div className="action">
@@ -530,7 +463,6 @@ const PasswordRecovery = () => {
             </div>
           </>
         )}
-       
 
         {/* <div className="Links-wrap">
           <div className="Auth-terms-signup">
