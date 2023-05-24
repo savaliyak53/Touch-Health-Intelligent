@@ -18,6 +18,7 @@ import {
   preferencesService,
   getInteractionServiceByType
 } from '../../services/authservice';
+import GoogleOAuthDisclosureModal from '../../components/Modal/GoogleOAuthDisclosureModal';
 type IFormInputs = {
   engagementLevel: number;
   yob: number;
@@ -47,6 +48,7 @@ const Integrations = () => {
   const [checked, setChecked] = useState<boolean|any>(undefined);
   const [spinning, setSpinning] = useState<boolean>(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const [showGoogleOAuthModal, setShowGoogleOAuthModal] = useState(false);
   const [loc, setLocation] = useState<LocationState>()
   const navigate = useNavigate();
   const refId = localStorage.getItem('refId')
@@ -97,12 +99,16 @@ const Integrations = () => {
   };
   const handleClick = (checked: any) => {
     if (checked) {
-      getGoogleCode().then((res) => {
-        createAuthLink(res);
-      });
+      setChecked(true);
+      setShowGoogleOAuthModal(true);
     } else {
       revokeCredentials();
     }
+  };
+  const googleOAuthModalOk = () => {
+    getGoogleCode().then((res) => {
+      createAuthLink(res);
+    });
   };
   const revokeCredentials = () => {
     revokeGoogleFit().then((res) => {
@@ -284,6 +290,16 @@ const Integrations = () => {
                 handleCancel={handleDeleteModal}
                 handleOk={() => removeUserData()}
                 renderData={<div>By deleting your data, your entire health profile in the Touch Health Assistant will cease to exist. No data will be retained, and you will be sent back to the beginning as if you just started. This is irreversible, proceed with caution.</div>}
+              />
+              <GoogleOAuthDisclosureModal
+                title={''}
+                open={showGoogleOAuthModal}
+                handleCancel={() => {
+                  setShowGoogleOAuthModal(false);
+                  setChecked(false);
+                }}
+                handleOk={googleOAuthModalOk}
+                renderData={<div>Touch Health Assistant&apos;s use and transfer to any other app of information received from Google APIs will adhere to <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</div>}
               />
             </div>
           </div>
