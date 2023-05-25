@@ -30,7 +30,7 @@ function UserCondition() {
   const [signupStatus, setSignupStatus] = useState<string | null>();
   const [exception, setException] = useState<boolean>(false); 
   const context = useContext<AuthContextData | undefined>(AuthContext); 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -232,11 +232,6 @@ function UserCondition() {
         setException(true);
       });
   };
-
-  useEffect(() => {
-    pageBackEvent();
-    pageUrlEvent();
-  }, []);
   const onBackButtonEvent = (e: any) => {
     e.preventDefault();
     if (!isOpen) {
