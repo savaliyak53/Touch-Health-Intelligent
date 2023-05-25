@@ -1,8 +1,14 @@
-import React, { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import styles from "./Verification.module.scss"
+import styles from './Verification.module.scss';
 import { toast } from 'react-toastify';
 import Button from '../../../components/Button';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
@@ -17,25 +23,28 @@ import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
 type IVerificationCode = {
   code: string;
 };
-type VerificationProps={
-  isResetPassword?:boolean;
-  onSubmitResetPassword?:(code:any)=>void
+type VerificationProps = {
+  isResetPassword?: boolean;
+  onSubmitResetPassword?: (code: any) => void;
   setCode: Dispatch<SetStateAction<string>>;
-}
-const Verification = ({isResetPassword, onSubmitResetPassword}:VerificationProps) => {
+};
+const Verification = ({
+  isResetPassword,
+  onSubmitResetPassword,
+}: VerificationProps) => {
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(true)
+  const [isDisabled, setIsDisabled] = useState(true);
   const toastId = useRef<any>(null);
   const [finishStatus, setfinishStatus] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [enableTimer, setEnableTimer] = useState(true);
-  const [disableSubmit, setDisableSubmit]=useState(true)
+  const [disableSubmit, setDisableSubmit] = useState(true);
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
-  const expiryTimestamp = time
+  const expiryTimestamp = time;
   const {
     register,
     handleSubmit,
@@ -48,21 +57,23 @@ const Verification = ({isResetPassword, onSubmitResetPassword}:VerificationProps
     shouldUnregister: false,
   });
 
-  const {
-    seconds,
-    minutes,
-    restart,
-  } = useTimer({ expiryTimestamp, onExpire: () => {setEnableTimer(false); setIsDisabled(false);} });
+  const { seconds, minutes, restart } = useTimer({
+    expiryTimestamp,
+    onExpire: () => {
+      setEnableTimer(false);
+      setIsDisabled(false);
+    },
+  });
 
   useEffect(() => {
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0);
     if (!userId && !isResetPassword) {
       navigate('/');
     }
-    pageBackEvent()
-    sendPhoneOTP()
-   }, []);
-   const onSubmit = async (data: any) => {
+    pageBackEvent();
+    sendPhoneOTP();
+  }, []);
+  const onSubmit = async (data: any) => {
     if (isResetPassword) {
       const code = getValues('code');
       onSubmitResetPassword && onSubmitResetPassword({ code: code });
@@ -109,50 +120,53 @@ const Verification = ({isResetPassword, onSubmitResetPassword}:VerificationProps
   const sendPhoneOTP = async () => {
     // api call to send phone otp
     const phone = localStorage.getItem('phone');
-    const captchaToken= localStorage.getItem('captchaToken')
+    const captchaToken = localStorage.getItem('captchaToken');
     setIsLoading(true);
-    if(phone && captchaToken){
-      const phoneRequestResponse = await requestPhoneOTP(phone,captchaToken);
+    if (phone && captchaToken) {
+      const phoneRequestResponse = await requestPhoneOTP(phone, captchaToken);
       if (phoneRequestResponse?.response?.data) {
         // toast.error(phoneRequestResponse?.response?.data.details);
-        const remaining_time = phoneRequestResponse?.response?.data.details.match(/\d+/g);
+        const remaining_time =
+          phoneRequestResponse?.response?.data.details.match(/\d+/g);
         const t = new Date();
         t.setSeconds(t.getSeconds() + parseInt(remaining_time[0]));
-        restart(t)
+        restart(t);
         setIsLoading(false);
         return false;
       } else {
         setIsLoading(false);
-        setModalOpen(true)
+        setModalOpen(true);
         setEnableTimer(true);
         setIsDisabled(true);
         restart(time);
         setIsLoading(false);
       }
-    } 
+    }
   };
   const pageBackEvent = () => {
     window.history.pushState(null, '', window.location.pathname);
     window.addEventListener('popstate', onBackButtonEvent);
     return () => {
-      window.removeEventListener('popstate', onBackButtonEvent);  
-    }; 
-  }
-  const onBackButtonEvent = (e:any) => {
+      window.removeEventListener('popstate', onBackButtonEvent);
+    };
+  };
+  const onBackButtonEvent = (e: any) => {
     e.preventDefault();
     if (!finishStatus) {
-        setfinishStatus(true)
-
-      } else {
-          window.history.pushState(null, '', window.location.pathname);
-      }
-  }
+      setfinishStatus(true);
+    } else {
+      window.history.pushState(null, '', window.location.pathname);
+    }
+  };
 
   return (
     <Layout defaultHeader={true} hamburger={false}>
-      <div className={styles["Verification-wrap"]}>
-      <h2 className={styles["Verification-title"]}>Verification code</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className={styles["Verification-form"]}>
+      <div className={styles['Verification-wrap']}>
+        <h2 className={styles['Verification-title']}>Verification code</h2>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={styles['Verification-form']}
+        >
           <Controller
             control={control}
             name="code"
@@ -172,15 +186,15 @@ const Verification = ({isResetPassword, onSubmitResetPassword}:VerificationProps
                 inputMode="numeric"
                 fields={6}
                 type="number"
-                onChange={(value)=>{
-                   onChange(value)
-                   setDisableSubmit(false)
+                onChange={(value) => {
+                  onChange(value);
+                  setDisableSubmit(false);
                 }}
                 value={value}
               />
             )}
           />
-         {/* {errors.code?.message? <div className={styles['error-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> {errors.code?.message}</div>: null} */}
+          {/* {errors.code?.message? <div className={styles['error-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> {errors.code?.message}</div>: null} */}
           <Tooltip
             color="orange"
             placement="bottom"
@@ -195,31 +209,52 @@ const Verification = ({isResetPassword, onSubmitResetPassword}:VerificationProps
           >
             Verify
           </Button>
-          
+
           <button
             onClick={sendPhoneOTP}
-            className={isDisabled? styles["grey"] : styles["resend"]}
+            className={isDisabled ? styles['grey'] : styles['resend']}
             type="button"
             disabled={isDisabled}
           >
-            Resend code&nbsp;{enableTimer && (<span>in&nbsp;{minutes}:{seconds}</span>)}
+            Resend code&nbsp;
+            {enableTimer && (
+              <span>
+                in&nbsp;{minutes}:{seconds}
+              </span>
+            )}
           </button>
         </form>
         <ConfirmModal
           title={'Confirmation'}
           open={modalOpen}
-          handleCancel={() => {setModalOpen(false)}}
-          handleOk={() => {setModalOpen(false)}}
-          className='Addgoal-Confirm-Modal'
-          renderData={<div className='Description' >We just sent a text to your number, confirm this is you by putting in the code you received here</div>}
+          handleCancel={() => {
+            setModalOpen(false);
+          }}
+          handleOk={() => {
+            setModalOpen(false);
+          }}
+          className="Addgoal-Confirm-Modal"
+          renderData={
+            <div className="Description">
+              We just sent a text to your number, confirm this is you by putting
+              in the code you received here
+            </div>
+          }
         />
-         <ConfirmModal
+        <ConfirmModal
           title={'Confirmation'}
           open={finishStatus}
-          handleCancel={() => {setfinishStatus(false); pageBackEvent(); }}
+          handleCancel={() => {
+            setfinishStatus(false);
+            pageBackEvent();
+          }}
           handleOk={logoutClick}
-          className='Addgoal-Confirm-Modal'
-          renderData={<div className='Description'>Are you sure you want to navigate away from this page?</div>}
+          className="Addgoal-Confirm-Modal"
+          renderData={
+            <div className="Description">
+              Are you sure you want to navigate away from this page?
+            </div>
+          }
         />
       </div>
     </Layout>

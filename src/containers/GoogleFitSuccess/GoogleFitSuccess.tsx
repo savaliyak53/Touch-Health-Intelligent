@@ -11,12 +11,12 @@ const GoogleFitSuccess = () => {
   const { search } = useLocation();
   const [loading, setLoading] = useState(true);
 
-  const logoutClick = () => {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('token');
-    localStorage.clear();
-    navigate('/login');
-  };
+  // const logoutClick = () => {
+  //   localStorage.removeItem('userId');
+  //   localStorage.removeItem('token');
+  //   localStorage.clear();
+  //   navigate('/login');
+  // };
 
   const handleBackendParams=()=>{
    

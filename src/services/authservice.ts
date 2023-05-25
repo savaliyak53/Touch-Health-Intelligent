@@ -4,19 +4,21 @@ import {
   IPreferencesService,
   InteractionService,
 } from '../interfaces';
-import APIClient from '../utils/axios';
+
+import axios from '../utils/axios';
+// import axios from 'axios';
+
+const baseURL = process.env.REACT_APP_API_HOST;
+
+axios.defaults.baseURL = baseURL;
 
 export const signUpService = async (data: ISignUp, header: string) => {
   try {
-    const res = await APIClient('/users/signup', 'post', data, header);
-    if (res) return res.data;
-  } catch (err) {
-    return err;
-  }
-};
-export const putSignUp = async (data: any, userId: string) => {
-  try {
-    const res = await APIClient(`/users/${userId}`, 'put', data);
+    const config: any = {};
+    if (header !== '') {
+      config.headers = { 'X-Recaptcha-Token': header };
+    }
+    const res = await axios.post('/users/signup', data, config);
     if (res) return res.data;
   } catch (err) {
     return err;
@@ -25,7 +27,60 @@ export const putSignUp = async (data: any, userId: string) => {
 
 export const loginService = async (data: ILogin, header: string) => {
   try {
-    const res = await APIClient('/auth/login', 'post', data, header);
+    const config: any = {
+      withCredentials: true,
+    };
+    if (header !== '') {
+      config.headers = { 'X-Recaptcha-Token': header };
+    }
+    const res = await axios.post('/auth/login', data, config);
+    if (res) return res.data;
+  } catch (err) {
+    return err;
+  }
+};
+export const logoutService = async (sessionId: string) => {
+  try {
+    const res = await axios.delete(`/auth/sessions/${sessionId}`);
+    if (res) return res;
+  } catch (err) {
+    return err;
+  }
+};
+export const tokenService = async () => {
+  try {
+    const config: any = {
+      withCredentials: true,
+    };
+    const res = await axios.get(`/auth/token`, config);
+
+    if (res) return res.data;
+  } catch (err) {
+    return err;
+  }
+};
+export const requestPhoneOTP = async (phone: string, token: string) => {
+  try {
+    const config: any = {};
+    if (token !== '') {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    const res = await axios.post(
+      '/auth/phone-verification',
+      {
+        phone: phone,
+      },
+      config
+    );
+    if (res) return res.data;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const putSignUp = async (data: any, userId: string) => {
+  try {
+    const res = await axios.put(`${baseURL}/users/${userId}`, data);
     if (res) return res.data;
   } catch (err) {
     return err;
@@ -34,26 +89,10 @@ export const loginService = async (data: ILogin, header: string) => {
 
 export const validateSignUp = async (id: string | undefined) => {
   try {
-    const res = await APIClient(`api/THA/PatientSignup/${id}`, 'get');
+    const res = await axios.get(`${baseURL}/api/THA/PatientSignup/${id}`);
     if (res) return res.data;
   } catch (err) {
     return err;
-  }
-};
-
-export const requestPhoneOTP = async (phone: string, token: string) => {
-  try {
-    const response = await APIClient(
-      `/auth/phone-verification`,
-      'post',
-      {
-        phone: phone,
-      },
-      token
-    );
-    if (response) return response.data;
-  } catch (error) {
-    return error;
   }
 };
 
@@ -62,10 +101,10 @@ export const verifyPhoneOTP = async (
   id: string | undefined
 ) => {
   try {
-    const response = await APIClient(`/users/signup/${id}/verify`, 'put', {
+    const response = await axios.put(`${baseURL}/users/signup/${id}/verify`, {
       code: otp,
     });
-    if (response) return response
+    if (response) return response;
   } catch (error) {
     return error;
   }
@@ -75,79 +114,72 @@ export const preferencesService = async (
   data: IPreferencesService | any,
   id: string | null
 ) => {
-  return APIClient(`/users/${id}`, 'put', data);
+  return axios.put(`${baseURL}/users/${id}`, data);
 };
 export const updatePreference = async (data: any) => {
-  return APIClient(`/ai/preferences`, 'put', data);
+  return axios.put(`${baseURL}/ai/preferences`, data);
 };
+
 export const getPreference = async () => {
-  return APIClient(`/ai/preferences`, 'get');
+  return axios.get(`${baseURL}/ai/preferences`);
 };
 export const getInteractionService = async () => {
-  //only return the service like this and resolve the promise where you are calling this actual API
-  //TODO(<HamzaIjaz>): Refactor all the API calls like this
-  //TODO(<HamzaIjaz>): Create a new service file for interaction services and move this APi there
-  return APIClient(`/ai/interaction`, 'get');
+  return await axios.get(`${baseURL}/ai/interaction`);
 };
+
 export const getInteractionServiceByType = async (flow_id: string) => {
-  //interacion service by flow_id
-  return APIClient(`/ai/interaction-flow`, 'POST', { flow_id: flow_id });
+  return await axios.post(`${baseURL}/ai/interaction-flow`, {
+    flow_id,
+  });
 };
 
 export const postInteractionService = async (data: InteractionService) => {
-  //TODO(<HamzaIjaz>): Create a new service file for interaction services and move this APi there
-  return APIClient(`/ai/interaction`, 'post', data);
+  return await axios.post(`${baseURL}/ai/interaction`, data);
 };
 
-export const getUser = (id: string | null | undefined) => {
-  return APIClient(`/users/${id}`, 'GET');
+export const getUser = async (id: string | null | undefined) => {
+  return await axios.get(`/users/${id}`);
 };
 
 export const postResetPassword = async (data: any) => {
-  try {
-    const res = await APIClient('/auth/password-recovery', 'put', data);
-    if (res) return res.data;
-  } catch (err) {
-    return err;
-  }
+  const response = await axios.put('/auth/password-recovery', data);
+  return response.data;
 };
 
-export const getSecurityQuestions = async (username: string | null, code: string) => {
-  try {
-    const res = await APIClient(
-      `/auth/password-recovery/security-questions?username=${username}&code=${code}`
-    );
-    if (res) return res.data;
-  } catch (err) {
-    return err;
-  }
+export const getSecurityQuestions = async (
+  username: string | null,
+  code: string
+) => {
+  const response = await axios.get(
+    `${baseURL}/auth/password-recovery/security-questions?username=${username}&code=${code}`
+  );
+  return response.data;
 };
 
 export const checkAnswer = async (data: any) => {
-  try {
-    const res = await APIClient(
-      '/auth/password-recovery/security-questions',
-      'put',
-      data
-    );
-    if (res) return res.data;
-  } catch (err) {
-    return err;
-  }
+  const response = await axios.put(
+    '/auth/password-recovery/security-questions',
+    data
+  );
+  return response.data;
 };
 
 export const getGoogleCode = async () => {
-  return APIClient('/auth/google');
+  return await axios.get(`${baseURL}/auth/google`);
 };
+
 export const postGoogleToken = async (body: any) => {
-  return APIClient('/auth/google/token', 'post', body);
+  return await axios.post(`${baseURL}/auth/google/token`, body);
 };
+
 export const revokeGoogleFit = async () => {
-  return APIClient('/auth/google/revoke', 'post');
+  return await axios.post(`${baseURL}/auth/google/revoke`);
 };
+
 export const getIntegrationStatus = async () => {
-  return APIClient('/user/integration/status', 'get');
+  return await axios.get(`${baseURL}/user/integration/status`);
 };
+
 export const guidanceStatus = async (id: string, body: any) => {
-  return APIClient(`/ai/guidances/${id}`, 'put', body);
+  return await axios.put(`${baseURL}/ai/guidances/${id}`, body);
 };

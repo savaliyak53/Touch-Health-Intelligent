@@ -1,30 +1,31 @@
-import APIClient from '../utils/axios';
+// import axios from 'axios';
+import axios from '../utils/axios';
+
 
 export const getGoals = async () => {
-    return APIClient(`/ai/goals/active`);
-}
+  return axios.get(`/ai/goals/active`);
+};
 
 export const getGoalsSuggestion = async () => {
-    return APIClient(`/ai/goals/suggested`);
-} 
+  return axios.get(`/ai/goals/suggested`);
+};
 
 export const getGoalsSearch = async (search: string) => {
-    return APIClient(`/ai/goals/search?q=${search}`, 'get');
+  return axios.get(`/ai/goals/search?q=${search}`);
 };
 
 export const addGoal = async (data: any) => {
-    return APIClient(`/ai/goals/active`, 'put', data);
+  return axios.put(`/ai/goals/active`, data);
 };
 
 export const deleteGoal = async (id?: string) => {
-    return APIClient(`/ai/goals/active/${id}`, 'delete');
+  return axios.delete(`/ai/goals/active/${id}`);
 };
 
 export const goalDetails = async (goalId: string) => {
-    return APIClient(`/ai/goals/${goalId}/data`);
-    // return goalDetail;
+  return axios.get(`/ai/goals/${goalId}/data`);
 };
 
 export const deleteAllData = async () => {
-    return APIClient(`/ai/data`, 'delete');
+  return axios.delete(`/ai/data`);
 };

@@ -37,7 +37,7 @@ ChartJS.register(
 const Insights = () => {
   const context = useContext(InsightContext);
   const navigate = useNavigate();
-  const userId = localStorage.getItem('userId');
+  // const userId = localStorage.getItem('userId');
   const [insightResponse, setInsightResponse] = useState();
   const [dataset, setDataset] = useState();
   const [loader, setLoader] = useState(false);

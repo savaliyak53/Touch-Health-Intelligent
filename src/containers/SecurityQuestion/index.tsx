@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import { Input, Select, Spin } from 'antd';
 import v from "../../variables.module.scss"
@@ -10,6 +10,8 @@ import { putSignUp, requestPhoneOTP } from '../../services/authservice';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { DownOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { convertLegacyProps } from 'antd/lib/button/button';
+import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
 
 const { Option } = Select;
 
@@ -19,7 +21,7 @@ const SecurityQuestions = () => {
   const [answer, setAnswer] = useState('');
   const [saveMsg, setSaveMsg] = useState<boolean>(true)
   const navigate = useNavigate();
-
+  const authContext = useContext<AuthContextData | undefined>(AuthContext); 
   const onChange = (option: any) => {
     setQuestion(option);
   };
@@ -38,7 +40,8 @@ const SecurityQuestions = () => {
       document.querySelectorAll<HTMLElement>('.Layout')[0].style.height = 'auto'
       document.querySelectorAll<HTMLElement>('.Layout')[0].style.minHeight = '100vh'
     })
-    const userId = localStorage.getItem('userId');
+    // const userId = localStorage.getItem('userId');
+    const userId=authContext?.user;
     if (!userId) {
       navigate('/signup');
     }
@@ -59,7 +62,8 @@ const SecurityQuestions = () => {
   };
   const handleSave = async () => {
     //const userId = localStorage.getItem('userId');
-    const userId = localStorage.getItem('userId');
+    // const userId = localStorage.getItem('userId');
+    const userId=authContext?.user;
     const securityQuestion = [{ question: question, answer: answer }];
     setLoading(true);
     if (userId) {
