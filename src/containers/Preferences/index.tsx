@@ -231,6 +231,9 @@ const Preferences = () => {
                     onClick={() => setEnabled(true)}
                   />
               </div>
+              <div>
+                <Button className={`Submit-Button ${styles['Manage-Devices-btn']}`} onClick={() => navigate('/manage-devices')}>{'Manage Devices'}</Button>
+              </div>
             {enable && (
               <div className={styles.TermsBtnWrap}>
                 <Button

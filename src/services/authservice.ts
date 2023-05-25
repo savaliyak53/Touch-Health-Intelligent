@@ -39,6 +39,14 @@ export const loginService = async (data: ILogin, header: string) => {
     return err;
   }
 };
+export const sessionsService = async () => {
+  try {
+    const res = await axios.get(`/auth/sessions`);
+    if (res) return res;
+  } catch (err) {
+    return err;
+  }
+};
 export const logoutService = async (sessionId: string) => {
   try {
     const res = await axios.delete(`/auth/sessions/${sessionId}`);

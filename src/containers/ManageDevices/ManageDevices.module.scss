@@ -1,0 +1,9 @@
+.Device-Container{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-around;
+}
+.Device-Name{
+    min-width: 200px;
+}
