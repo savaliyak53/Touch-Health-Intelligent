@@ -29,8 +29,7 @@ import PasswordRecovery from '../containers/Auth/PasswordRecovery';
 import GoogleFitSuccess from '../containers/GoogleFitSuccess/GoogleFitSuccess';
 import Integrations from '../containers/Integeration';
 import MockQuestionnaire from '../containers/MockQuestionnaire';
-import BlockRedirection from '../utils/BlockRedirect';
-import { RequireSub } from '../utils/RequireSub';
+import { RequireSubscription } from '../utils/RequireSubscription';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -57,7 +56,7 @@ const AppRoutes = () => {
         {/* Protected Routes */}
         <Route path="/questionnaire-poc" element={<MockQuestionnaire />} />
         <Route element={<RequireAuth />}>
-          <Route element={<RequireSub />}>
+          <Route element={<RequireSubscription />}>
             <Route path="/dashboard" element={<DashboardNew />} />
             <Route path="/add-goals" element={<AddGoals />} />
             <Route path="/intro-goals" element={<IntroGoals />} />
@@ -72,15 +71,15 @@ const AppRoutes = () => {
               element={<ThankyouForSubmiting />}
             />
             <Route path="/preferences" element={<Preferences />} />
+            <Route path="/integrations" element={<Integrations />} />
+            <Route path="/introvideo" element={<IntroVideo />} />
+            <Route path="/post-conditions" element={<ManageConditions />} />
+            <Route path="/help-and-support" element={<HelpAndSupport />} />
+            <Route path="/success" element={<Success />} />
+            <Route path="/error" element={<Error />} />
           </Route>
-          <Route path="/integrations" element={<Integrations />} />
-          <Route path="/introvideo" element={<IntroVideo />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/subscription/:id" element={<Subscription />} />
-          <Route path="/post-conditions" element={<ManageConditions />} />
-          <Route path="/help-and-support" element={<HelpAndSupport />} />
-          <Route path="/success" element={<Success />} />
-          <Route path="/error" element={<Error />} />
         </Route>
       </Routes>
     </React.Suspense>
