@@ -971,6 +971,39 @@ input {
     }
   }
 }
+.Switch-btn-with-text {
+  .ant-switch {
+    color: white;
+    height: 28px;
+    min-width: 70px;
+    .ant-switch-inner{
+      font-size: 17px;
+    }
+    // border: 2px solid $primary-color2;
+    &.ant-switch-checked {
+      // background-color: white;
+      .ant-switch-handle {
+        left: calc(100% - 25px);
+      }
+    }
+    .ant-switch-handle {
+      width: 24px;
+      height: 24px;
+      top: calc(100% - 26px);
+      left: calc(100% - 68px);
+      &:before {
+        background-color: white;
+        border-radius: 30px;
+        // border: 2px solid $primary-color2;
+      }
+    }
+    .ant-btn {
+      padding: 0;
+      // margin-left: 10px;
+      border: none;
+    }
+  }
+}
 
 .PhoneInputInput {
   font-weight: 400;
