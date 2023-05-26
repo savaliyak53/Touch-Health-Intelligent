@@ -18,7 +18,11 @@
     position: fixed;
     background-color: #fff;
     width: 100%;
-    max-width: 550px;
+  }
+  @media screen and (min-width: 992px) {
+    .TermsTitle1 {
+      max-width: 46vw;
+    }
   }
   .TermsTitle3 {
     font-family: $font-body;
