@@ -63,7 +63,7 @@ export const requestPhoneOTP = async (phone: string, token: string) => {
   try {
     const config: any = {};
     if (token !== '') {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers = { 'X-Recaptcha-Token': token };
     }
     const res = await axios.post(
       '/auth/phone-verification',
