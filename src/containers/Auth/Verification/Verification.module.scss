@@ -34,6 +34,11 @@
   width: 100%;
   margin: 0 auto;
 }
+@media screen and (min-width: 992px) {
+  .Verification-title {
+    max-width: 46vw;
+  }
+}
 .box{
   font-family: monospace;
   border-radius: 8px !important;
