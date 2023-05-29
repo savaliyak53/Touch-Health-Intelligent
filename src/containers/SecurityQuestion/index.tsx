@@ -41,7 +41,7 @@ const SecurityQuestions = () => {
       document.querySelectorAll<HTMLElement>('.Layout')[0].style.minHeight = '100vh'
     })
     // const userId = localStorage.getItem('userId');
-    const userId=authContext?.user;
+    const userId=authContext?.user ? authContext?.user : localStorage.getItem('userId');
     if (!userId) {
       navigate('/signup');
     }
@@ -63,7 +63,7 @@ const SecurityQuestions = () => {
   const handleSave = async () => {
     //const userId = localStorage.getItem('userId');
     // const userId = localStorage.getItem('userId');
-    const userId=authContext?.user;
+    const userId=authContext?.user ? authContext?.user : localStorage.getItem('userId');
     const securityQuestion = [{ question: question, answer: answer }];
     setLoading(true);
     if (userId) {
