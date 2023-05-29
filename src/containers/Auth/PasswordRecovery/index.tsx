@@ -201,7 +201,6 @@ const PasswordRecovery = () => {
             toast.error(response.response.data.details);
           } else {
             toast.success('Password Recovered Successfuly');
-            console.log(data);
             // loginRequest(data)
             navigate('/login');
           }

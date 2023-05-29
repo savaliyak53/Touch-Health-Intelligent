@@ -40,7 +40,7 @@ const Home = () => {
 
   useEffect(() => {
     // const token = localStorage.getItem('token');
-    const token = context?.authTokens;
+    const token = context?.authTokens ? context?.authTokens : localStorage.getItem('token');
     if (token) {
       checkUserData();
     } else {
@@ -151,7 +151,7 @@ const Home = () => {
       });
   };
   const checkUserData = () => {
-    const userId=context?.user;
+    const userId=context?.user ? context?.user : localStorage.getItem('userId');
     // const userId = localStorage.getItem('userId');
     if (userId) {
       getUser(userId)
