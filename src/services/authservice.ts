@@ -47,9 +47,17 @@ export const sessionsService = async () => {
     return err;
   }
 };
-export const logoutService = async (sessionId: string) => {
+export const deleteSessionService = async (sessionId: string) => {
   try {
     const res = await axios.delete(`/auth/sessions/${sessionId}`);
+    if (res) return res;
+  } catch (err) {
+    return err;
+  }
+};
+export const logoutService = async (sessionId: string) => {
+  try {
+    const res = await axios.delete(`/auth/logout`);
     if (res) return res;
   } catch (err) {
     return err;
