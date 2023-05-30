@@ -251,11 +251,17 @@ const PasswordRecovery = () => {
     requestPhoneOTP(onlyNumbers(getValues('username')), token)
       .then((response: any) => {
         if (response.code === 'ERR_BAD_REQUEST') {
-          // toast(response.response.data.details);
-          setEnterNumber(false);
-          setIsCodeSent(true);
+          if(response.response.data.details.issues){
+            toast(response.response.data.details.issues[0].message);
+        } else {
+          toast(response.response.data.details);
           const remaining_time = response?.response?.data.details.match(/\d+/g);
-          restartTime(parseInt(remaining_time[0]));
+          if(remaining_time){
+            setEnterNumber(false);
+            setIsCodeSent(true);
+            restartTime(parseInt(remaining_time[0]));   
+          }
+        }
           setIsLoading(false);
           setIsDisabled(false);
         } else {
@@ -269,6 +275,7 @@ const PasswordRecovery = () => {
         }
       })
       .catch((error: any) => {
+        // console.log(error);
         toast(error.response);
         setIsLoading(false);
         setIsDisabled(false);

@@ -72,7 +72,7 @@ export const requestPhoneOTP = async (phone: string, token: string) => {
       },
       config
     );
-    if (res) return res.data;
+    if (res) return res;
   } catch (err) {
     return err;
   }

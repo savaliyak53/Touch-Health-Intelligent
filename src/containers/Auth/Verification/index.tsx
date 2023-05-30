@@ -115,24 +115,30 @@ const Verification = () => {
     const captchaToken = localStorage.getItem('captchaToken');
     setIsLoading(true);
     if (phone && captchaToken) {
-      const phoneRequestResponse = await requestPhoneOTP(phone, captchaToken);
-      if (phoneRequestResponse?.response?.data) {
-        // toast.error(phoneRequestResponse?.response?.data.details);
+      const phoneRequestResponse: any = await requestPhoneOTP(phone, captchaToken);
+      if (phoneRequestResponse.code === 'ERR_BAD_REQUEST') {
+        if(phoneRequestResponse.response.data.details.issues){
+          toast(phoneRequestResponse.response.data.details.issues[0].message);
+      } else if (phoneRequestResponse?.response.data.details) {
+        toast(phoneRequestResponse?.response?.data.details)
         const remaining_time =
           phoneRequestResponse?.response?.data.details.match(/\d+/g);
-        const t = new Date();
-        t.setSeconds(t.getSeconds() + parseInt(remaining_time[0]));
-        restart(t);
+          if(remaining_time){
+            const t = new Date();
+            t.setSeconds(t.getSeconds() + parseInt(remaining_time[0]));
+            restart(t);
+          }
         setIsLoading(false);
         return false;
-      } else {
-        setIsLoading(false);
-        setModalOpen(true);
-        setEnableTimer(true);
-        setIsDisabled(true);
-        restart(time);
-        setIsLoading(false);
       }
+    }  else {
+      setIsLoading(false);
+      setModalOpen(true);
+      setEnableTimer(true);
+      setIsDisabled(true);
+      restart(time);
+      setIsLoading(false);
+    }
     }
   };
   const pageBackEvent = () => {
