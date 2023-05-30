@@ -201,7 +201,6 @@ const PasswordRecovery = () => {
             toast.error(response.response.data.details);
           } else {
             toast.success('Password Recovered Successfuly');
-            console.log(data);
             // loginRequest(data)
             navigate('/login');
           }
@@ -316,11 +315,104 @@ const PasswordRecovery = () => {
         )}
 
         {isCodeSent && (
-          <Verification
-            isResetPassword={true}
-            onSubmitResetPassword={onSubmitCode}
-            setCode={setCode}
-          />
+          <>
+            <div className={styles['Verification-wrap']}>
+              <form
+                onSubmit={handleSubmit(onSubmitCode)}
+                className={styles['Verification-form']}
+              >
+                <h2 className={styles['Security-title']}>Verification code</h2>
+                {/* <div className={styles['description']}>
+               <InfoCircleOutlined /> We just sent a text to your number, confirm this is you by putting in the code you received here
+              </div> */}
+                <Controller
+                  control={control}
+                  name="code"
+                  rules={{
+                    validate: (value) => {
+                      // only apply validation rules when the form is submitted
+                      if (isSubmitted) {
+                        return value && value.length === 6
+                          ? true
+                          : !value
+                          ? 'Verification code is required'
+                          : 'Invalid verification code';
+                      }
+                      return true; // skip validation on first render
+                    },
+                  }}
+                  render={({
+                    field: { onChange, onBlur, value, name, ref },
+                  }) => (
+                    <ReactCodeInput
+                      name={name}
+                      inputMode="numeric"
+                      fields={6}
+                      type="number"
+                      onChange={(value: any) => {
+                        onChange(value);
+                        setDisableSubmit(false);
+                      }}
+                      value={value}
+                    />
+                  )}
+                />
+
+                <Tooltip
+                  color="orange"
+                  placement="bottom"
+                  title={errors.code?.message}
+                  open={errors.code ? true : false}
+                />
+                <Button
+                  onClick={handleSubmit(onSubmitCode)}
+                  className={'Submit-Button'}
+                  loading={isVerifying}
+                  disabled={disableSubmit}
+                >
+                  Verify
+                </Button>
+              </form>
+              <RecaptchaModal
+                title={''}
+                open={openRecaptcha}
+                resendOTP={resendOTP}
+                setOpenRecaptcha={setOpenRecaptcha}
+              />
+              <button
+                onClick={() => {
+                  setOpenRecaptcha(true);
+                }}
+                className={isDisabled ? styles['grey'] : styles['resend']}
+                type="button"
+                disabled={isDisabled}
+              >
+                Resend code&nbsp;
+                {enableTimer && (
+                  <span>
+                    in&nbsp;{minutes}:{seconds}
+                  </span>
+                )}
+              </button>
+              <ConfirmModal
+                title={'Confirmation'}
+                open={modalOpen}
+                handleCancel={() => {
+                  setModalOpen(false);
+                }}
+                handleOk={() => {
+                  setModalOpen(false);
+                }}
+                className="Addgoal-Confirm-Modal"
+                renderData={
+                  <div className="Description">
+                    We just sent a text to your number, confirm this is you by
+                    putting in the code you received here
+                  </div>
+                }
+              />
+            </div>
+          </>
         )}
         {/* {(    */}
 
