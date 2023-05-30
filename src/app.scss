@@ -1400,9 +1400,18 @@ input {
 }
 //scrollable time
 .scrollable-time-container {
-  height: 350px;
+  height: 50vh;
   display: flex;
   justify-content: center;
+  @media (max-height: 680px){
+    height: 30vh
+  }
+}
+.react-ios-time-picker-popup {
+  position: absolute;
+}
+.react-ios-time-picker-popup-overlay {
+  position: absolute;
 }
 .react-ios-time-picker-input {
   border-radius: 5px;
@@ -1411,6 +1420,9 @@ input {
   font-size: 25px;
   background-color: rgba(58, 58, 58, 0.2);
   text-align: center;
+  @media (max-width: 500px) {
+    width: 60vw;
+  }
 }
 .react-ios-time-picker-main {
   margin: auto;
@@ -1418,7 +1430,17 @@ input {
 .react-ios-time-picker-container {
   background-color: #fff;
   width: 340px;
+  @media (max-width: 500px) {
+    width: 65vw;
+  }
+  @media (max-height: 680px) and (min-width: 560px) and (max-width: 990px) {
+    width: 65vw;
+  }
+  @media (max-height: 680px) and (min-width: 1125px) {
+    width: 32vw;
+  }
 }
+
 .react-ios-time-picker {
   margin-bottom: auto !important;
   margin-top: 145px;
