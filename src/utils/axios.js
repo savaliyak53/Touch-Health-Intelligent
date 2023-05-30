@@ -44,20 +44,14 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {    
-    if (error.response.status === 409) {
-      return Promise.reject(error);
-    } else if (error.response.status === 401) {
+    if (error.response.status === 401) {
       localStorage.removeItem('userId');
       localStorage.removeItem('token');
       localStorage.clear();
       window.location = '/login';
       return Promise.reject(error);
-    } else if (error.response.status === 403) {
-      return Promise.reject(error);
-    } else if (error.response.status === 429) {
-      return Promise.reject(error);
-    } else if (error.response.status === 422) {
-      return Promise.reject(error);
+    } else {
+      return error;
     }
   }
 );

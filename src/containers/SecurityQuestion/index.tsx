@@ -46,20 +46,6 @@ const SecurityQuestions = () => {
       navigate('/signup');
     }
   }, []);
-  const sendPhoneOTP = async (phone: any) => {
-    //api call to send phone otp
-    const captchaToken = localStorage.getItem('captchaToken');
-    if (captchaToken) {
-      const phoneRequestResponse = await requestPhoneOTP(phone, captchaToken);
-      if (phoneRequestResponse?.response?.data) {
-        toast.error(phoneRequestResponse?.response?.data.details);
-        return false;
-      } else {
-        toast.success('Phone verification code sent');
-        return true;
-      }
-    }
-  };
   const handleSave = async () => {
     //const userId = localStorage.getItem('userId');
     // const userId = localStorage.getItem('userId');
