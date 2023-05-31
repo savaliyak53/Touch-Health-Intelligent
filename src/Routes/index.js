@@ -29,6 +29,7 @@ import PasswordRecovery from '../containers/Auth/PasswordRecovery';
 import GoogleFitSuccess from '../containers/GoogleFitSuccess/GoogleFitSuccess';
 import Integrations from '../containers/Integeration';
 import MockQuestionnaire from '../containers/MockQuestionnaire';
+import ManageDevices from '../containers/ManageDevices';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -72,7 +73,7 @@ const AppRoutes = () => {
           <Route path="/preferences" element={<Preferences />} />
           <Route path="/integrations" element={<Integrations />} />
           <Route path="/introvideo" element={<IntroVideo />} />
-
+          <Route path="/manage-devices" element={<ManageDevices />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/subscription/:id" element={<Subscription />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
