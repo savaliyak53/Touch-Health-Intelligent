@@ -11,6 +11,7 @@ import Button from '../../../components/Button';
 import { AiOutlineEye } from 'react-icons/ai';
 import Layout from '../../../layouts/Layout/Layout';
 import { Tooltip } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 // import '../index.scss';
 import styles from './PasswordRecovery.module.scss';
 import InputField from '../../../components/Input';
@@ -289,6 +290,9 @@ const PasswordRecovery = () => {
             onSubmit={handleSubmit(onVerify)}
             className={styles['Auth-form']}
           >
+          <div className={'Reset-Pwd-Back-Btn'}>
+            <ArrowLeftOutlined className={'LeftIcon'} onClick={() => navigate('/login')} />
+          </div>
             <h2 className={styles['Security-title']}>Reset password</h2>
             <Tooltip
               color="orange"
