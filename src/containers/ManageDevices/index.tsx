@@ -4,6 +4,7 @@ import { Button, Spin } from 'antd';
 import Layout from '../../layouts/Layout/Layout';
 import styles from './ManageDevices.module.scss'
 import DeleteSessionModal from '../../components/Modal/DeleteSessionModal';
+import parser from 'ua-parser-js';
 
 const ManageDevices = () => {
 
@@ -39,6 +40,13 @@ const ManageDevices = () => {
         setOpen(false);
         deviceSignout(signoutDevice);
     }
+
+    function extractDeviceName(userAgent: string) {
+        const ua = parser(userAgent);
+        console.log(ua);
+        return `${ua.device.vendor ?? ""} ${ua.device.model ?? ""} ${ua.os.name ?? ""} ${ua.browser.name ?? ""}`;
+
+    }
     useEffect(() => {
         getSessionData()
     }, [])
@@ -49,7 +57,8 @@ const ManageDevices = () => {
             <div>
                 {devices && devices.map((device: any, key: any) => (
                     <div className={styles['Device-Container']} key={key}>
-                        <div className={`Heading ${styles['Device-Name']}`}>{device.user_agent.split('(')[1].split(')')[0].split(';').slice(-1)[0]}</div>
+                        {/* <div className={`Heading ${styles['Device-Name']}`}>{device.user_agent.split('(')[1].split(')')[0].split(';').slice(-1)[0]}</div> */}
+                        <div className={`Heading ${styles['Device-Name']}`}>{extractDeviceName(device.user_agent)}</div>
                         <Button className='Submit-Button' onClick={() => {setSignoutDevice(device.id); setOpen(true)}}>Signout</Button>
                     </div>
                 ))}
