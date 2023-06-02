@@ -242,7 +242,7 @@ const Integrations = () => {
               width={50}
               className={styles['Google-fit-img']}
             />
-            <div className={styles['Container-title']}>{checked ? 'Disconnect Google Fit' : 'Connect Google Fit'}</div> 
+            <div className={styles['Container-title']}>{'Use the toggle to turn Google Fit integration on or off'}</div> 
             {checked === undefined ? (
               <Spin spinning={checked === undefined ? true : false} />
             ) : (
