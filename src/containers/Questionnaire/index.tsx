@@ -125,19 +125,33 @@ function UserCondition() {
     }
   }, []);
   const handleInitiateCheckupByLink = () => {
-    getInteractionServiceByType('checkup')
-      .then((response: any) => {
-        if (response) {
-          getInteraction();
-        } else {
-          setException(true);
+    const userId=context?.user;
 
-          navigate('/dashboard');
-        }
-      })
-      .catch((error) => {
-        setException(true);
-      });
+    getUser(userId)
+    .then((response: any) => {
+      if (response?.data.signup_status === 'done') {
+        getInteractionServiceByType('checkup')
+        .then((response: any) => {
+          if (response) {
+            getInteraction();
+          } else {
+            setException(true);
+  
+            navigate('/dashboard');
+          }
+        })
+        .catch((error) => {
+          setException(true);
+        });
+      } else {
+        navigate('/');
+      }
+    })
+    .catch((error) => {
+      toast.error(
+        `${error.response?.data?.title} Please check values and try again.`
+      );
+    });
   };
   const integrationPageRedirect = (refId: string) => {
     localStorage.setItem('refId', refId);
