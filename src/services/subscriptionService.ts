@@ -3,7 +3,7 @@ import axios from '../utils/axios';
 
 
 export const getPlansService = () => {
-  return axios.get(`/payments/subscription/plans`);
+  return axios.get(`/payments/list-plans`);
 };
 
 export const getUserSubscription = () => {
@@ -25,11 +25,11 @@ export const checkoutPlan = (planId: string) => {
 };
 
 export const managePayment = () => {
-  return axios.get(`/payments/update-details`);
+  return axios.get(`/payments/subscription/update-payment-methods`);
 };
 
 export const getSubscriptionStatus = () => {
-  return axios.get(`/payments/subscription/status`);
+  return axios.get(`/payments/subscription-status`);
 };
 
 export const pauseSubscription = () => {
