@@ -71,10 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const sessionId = getSession(response.token);
       setSession(sessionId);
       return response;
-    } else if (response.status === 429) {
-      return response;
     } else {
-      alert('Something went wrong!');
       return response;
     }
   };

@@ -34,7 +34,8 @@ export const loginService = async (data: ILogin, header: string) => {
       config.headers = { 'X-Recaptcha-Token': header };
     }
     const res = await axios.post('/auth/login', data, config);
-    if (res) return res.data;
+    if(res.data) return res.data
+    else return res;  
   } catch (err) {
     return err;
   }
@@ -169,15 +170,16 @@ export const getSecurityQuestions = async (
   const response = await axios.get(
     `${baseURL}/auth/password-recovery/security-questions?username=${username}&code=${code}`
   );
-  return response.data;
-};
+  if(response.data) return response.data
+  else return response;};
 
 export const checkAnswer = async (data: any) => {
   const response = await axios.put(
     '/auth/password-recovery/security-questions',
     data
   );
-  return response.data;
+  if(response.data) return response.data
+  else return response;
 };
 
 export const getGoogleCode = async () => {
