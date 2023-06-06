@@ -100,6 +100,7 @@ const PasswordRecovery = () => {
   });
 
   useEffect(() => {
+    window.scrollTo(0,0)
     if (location.state) {
       onSubmitCode(location.state);
     } else {

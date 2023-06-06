@@ -118,6 +118,7 @@ function UserCondition() {
       });
   };
   useEffect(() => {
+    window.scrollTo(0,0);
     if (location && location.pathname === '/c/checkup') {
       handleInitiateCheckupByLink();
     } else {
