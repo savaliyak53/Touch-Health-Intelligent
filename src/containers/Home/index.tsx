@@ -9,7 +9,7 @@ import {
 } from '../../services/authservice';
 import { getSubscriptionStatus } from '../../services/subscriptionService';
 import { toast } from 'react-toastify';
-import { Spin, Typography } from 'antd';
+import { Spin } from 'antd';
 import moment from 'moment';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 import axios, { AxiosRequestConfig } from 'axios';

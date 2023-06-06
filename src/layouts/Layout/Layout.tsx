@@ -10,8 +10,7 @@ import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal'
 import AuthContext from '../../contexts/AuthContext';
 import moment from 'moment';
 import FreeTrialModal from '../../components/Modal/FreeTrial';
-import { Typography } from 'antd';
-const { Paragraph } = Typography;
+
 type Props = {
   defaultHeader: boolean;
   hamburger: boolean;
