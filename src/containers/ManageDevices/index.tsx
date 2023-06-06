@@ -47,6 +47,7 @@ const ManageDevices = () => {
 
     }
     useEffect(() => {
+        window.scrollTo(0,0);
         getSessionData()
     }, [])
     return (

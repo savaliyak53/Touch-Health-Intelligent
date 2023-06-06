@@ -120,6 +120,7 @@ const Question = ({
     (document.querySelector('#nobtn') as HTMLButtonElement).disabled = true;
   };
   useEffect(() => {
+    window.scrollTo(0,0);
     if (question.type === 'slider') {
       const marks: SliderMarks = {};
 
