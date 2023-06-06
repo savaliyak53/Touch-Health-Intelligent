@@ -103,18 +103,7 @@ const Layout = ({
         }}
         open={trialEndModal}
         buttonText="Subscribe Now!"
-        renderData={
-          <>
-            <Paragraph>
-              Your free trial ended on{' '}
-              {moment(trialEndDate).format('MMMM Do, YYYY')}
-            </Paragraph>
-            <Paragraph>
-              We&apos;re thrilled to have you on board! Begin your subscription
-              now to continue enjoying our services beyond the trial period!
-            </Paragraph>
-          </>
-        }
+        trialEndDate={trialEndDate}
       />
       {exception && (
         <div>

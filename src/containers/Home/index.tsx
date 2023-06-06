@@ -16,7 +16,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { getTokenExpiration } from '../../utils/lib';
 import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
 import FreeTrialModal from '../../components/Modal/FreeTrial';
-const { Paragraph, Text } = Typography;
+
 const Home = () => {
   const navigate = useNavigate();
   const [exception, setException] = useState<boolean>(false);
@@ -263,24 +263,6 @@ const Home = () => {
         open={trialModal}
         title="Free Trial"
         buttonText="Let's get started!"
-        renderData={
-          <>
-            <Paragraph>Dear Valued User,</Paragraph>
-            <Text>
-              You are currently on a free trial!
-              <Text strong italic>
-                We want to assure you that there is no need to provide any
-                payment details at this moment.
-              </Text>
-            </Text>
-            <Paragraph>
-              Enjoy exploring our services without any obligation. Take this
-              opportunity to fully experience what we have to offer. We&apos;ll
-              guide you through the subscription process if you decide to
-              continue after the trial period. Enjoy your journey with us!
-            </Paragraph>
-          </>
-        }
       />
 
       {exception && (
