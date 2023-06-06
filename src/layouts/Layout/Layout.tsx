@@ -9,7 +9,9 @@ import { toast } from 'react-toastify';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 import AuthContext from '../../contexts/AuthContext';
 import moment from 'moment';
-import TrialEndModal from '../../components/Modal/TrialEnd';
+import FreeTrialModal from '../../components/Modal/FreeTrial';
+import { Typography } from 'antd';
+const { Paragraph } = Typography;
 type Props = {
   defaultHeader: boolean;
   hamburger: boolean;
@@ -94,13 +96,25 @@ const Layout = ({
         </div>
       </div>
       <div className="Layout-graphics" />
-      <TrialEndModal
+      <FreeTrialModal
         title="Subscription"
         handleOk={() => {
           setTrialEndModal(false);
         }}
         open={trialEndModal}
-        trialEndDate={trialEndDate}
+        buttonText="Subscribe Now!"
+        renderData={
+          <>
+            <Paragraph>
+              Your free trial ended on{' '}
+              {moment(trialEndDate).format('MMMM Do, YYYY')}
+            </Paragraph>
+            <Paragraph>
+              We&apos;re thrilled to have you on board! Begin your subscription
+              now to continue enjoying our services beyond the trial period!
+            </Paragraph>
+          </>
+        }
       />
       {exception && (
         <div>
