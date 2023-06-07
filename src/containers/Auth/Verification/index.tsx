@@ -28,10 +28,7 @@ type VerificationProps = {
   onSubmitResetPassword?: (code: any) => void;
   setCode: Dispatch<SetStateAction<string>>;
 };
-const Verification = ({
-  isResetPassword,
-  onSubmitResetPassword,
-}: VerificationProps) => {
+const Verification = () => {
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -67,46 +64,41 @@ const Verification = ({
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (!userId && !isResetPassword) {
+    if (!userId) {
       navigate('/');
     }
     pageBackEvent();
     sendPhoneOTP();
   }, []);
   const onSubmit = async (data: any) => {
-    if (isResetPassword) {
-      const code = getValues('code');
-      onSubmitResetPassword && onSubmitResetPassword({ code: code });
-    } else {
-      if (userId) {
-        setIsVerifying(true);
-        const phoneVerificationResponse: any = await verifyPhoneOTP(
-          data.code,
-          userId
-        );
-        if (phoneVerificationResponse?.data?.id) {
-          setIsVerifying(false);
-          toast.dismiss();
-          toast.success('Verified');
-          //localStorage.setItem('token', phoneVerificationResponse.token)
-          // process.env.REACT_APP_IS_BETA == 'TRUE' ? navigate('/') : navigate('/subscription');
-          navigate('/security');
-        } else if (phoneVerificationResponse?.response?.status === 409) {
-          const phone = localStorage.getItem('phone');
-          // navigate('/password-reset',{state: {
-          //   username: phone,
-          //   code: data.code
-          // }})
-          localStorage.clear();
-          toast.error('User already exists');
-          navigate('/login');
-          // toast.error("It seems your phone number already registered in our system. Please try to login or recover your password.");
-          setIsVerifying(false);
-          // logoutClick();
-        } else if (phoneVerificationResponse?.response?.data) {
-          toast.info(phoneVerificationResponse?.response?.data?.details);
-          setIsVerifying(false);
-        }
+    if (userId) {
+      setIsVerifying(true);
+      const phoneVerificationResponse: any = await verifyPhoneOTP(
+        data.code,
+        userId
+      );
+      if (phoneVerificationResponse?.data?.id) {
+        setIsVerifying(false);
+        toast.dismiss();
+        toast.success('Verified');
+        //localStorage.setItem('token', phoneVerificationResponse.token)
+        // process.env.REACT_APP_IS_BETA == 'TRUE' ? navigate('/') : navigate('/subscription');
+        navigate('/security');
+      } else if (phoneVerificationResponse?.response?.status === 409) {
+        const phone = localStorage.getItem('phone');
+        // navigate('/password-reset',{state: {
+        //   username: phone,
+        //   code: data.code
+        // }})
+        localStorage.clear();
+        toast.error('User already exists');
+        navigate('/login');
+        // toast.error("It seems your phone number already registered in our system. Please try to login or recover your password.");
+        setIsVerifying(false);
+        // logoutClick();
+      } else if (phoneVerificationResponse?.response?.data) {
+        toast.info(phoneVerificationResponse?.response?.data?.details);
+        setIsVerifying(false);
       }
     }
   };
@@ -123,24 +115,30 @@ const Verification = ({
     const captchaToken = localStorage.getItem('captchaToken');
     setIsLoading(true);
     if (phone && captchaToken) {
-      const phoneRequestResponse = await requestPhoneOTP(phone, captchaToken);
-      if (phoneRequestResponse?.response?.data) {
-        // toast.error(phoneRequestResponse?.response?.data.details);
+      const phoneRequestResponse: any = await requestPhoneOTP(phone, captchaToken);
+      if (phoneRequestResponse.code === 'ERR_BAD_REQUEST') {
+        if(phoneRequestResponse.response.data.details.issues){
+          toast(phoneRequestResponse.response.data.details.issues[0].message);
+      } else if (phoneRequestResponse?.response.data.details) {
+        toast(phoneRequestResponse?.response?.data.details)
         const remaining_time =
           phoneRequestResponse?.response?.data.details.match(/\d+/g);
-        const t = new Date();
-        t.setSeconds(t.getSeconds() + parseInt(remaining_time[0]));
-        restart(t);
+          if(remaining_time){
+            const t = new Date();
+            t.setSeconds(t.getSeconds() + parseInt(remaining_time[0]));
+            restart(t);
+          }
         setIsLoading(false);
         return false;
-      } else {
-        setIsLoading(false);
-        setModalOpen(true);
-        setEnableTimer(true);
-        setIsDisabled(true);
-        restart(time);
-        setIsLoading(false);
       }
+    }  else {
+      setIsLoading(false);
+      setModalOpen(true);
+      setEnableTimer(true);
+      setIsDisabled(true);
+      restart(time);
+      setIsLoading(false);
+    }
     }
   };
   const pageBackEvent = () => {

@@ -62,29 +62,31 @@ function UserCondition() {
       });
   };
   const handleInteractionRedirect = () => {
-    const userId=context?.user;
+    const userId = context?.user ? context?.user : localStorage.getItem('userId');
     // const userId = localStorage.getItem('userId');
     getUser(userId)
       .then((response: any) => {
         if (response?.data.signup_status === 'onboarding') {
-          preferencesService(
-            {
-              signup_status: 'goal-selection',
-            },
-            userId
-          )
-            .then((preferencesResponse) => {
-              if (preferencesResponse) {
-                navigate('/add-goals');
-              } else {
-                console.log('navigate to dashboard');
-              }
-            })
-            .catch((error) => {
-              toast.error(
-                `${error.response?.data?.title} Please check values and try again.`
-              );
-            });
+          const preferenceData = {
+            signup_status: 'goal-characterization',
+          };
+          const userId=context?.user ?? localStorage.getItem('userId');
+          if (userId) {
+            preferencesService(preferenceData, userId)
+              .then(async (preferencesResponse: any) => {
+                if (preferencesResponse) {
+                  navigate('/');
+                } else {
+                  toast.error(`Preference status doesn't exist`);
+                  navigate('/dashboard');
+                }
+              })
+              .catch((error) => {
+                toast.error(
+                  `${error.response?.data?.title} Please check values and try again.`
+                );
+              });
+          }
         } else if (response?.data.signup_status === 'goal-characterization') {
           preferencesService(
             {
@@ -119,6 +121,7 @@ function UserCondition() {
       });
   };
   useEffect(() => {
+    window.scrollTo(0,0);
     if (location && location.pathname === '/c/checkup') {
       handleInitiateCheckupByLink();
     } else {
@@ -128,19 +131,33 @@ function UserCondition() {
     pageUrlEvent();
   }, []);
   const handleInitiateCheckupByLink = () => {
-    getInteractionServiceByType('checkup')
-      .then((response: any) => {
-        if (response) {
-          getInteraction();
-        } else {
-          setException(true);
+    const userId=context?.user;
 
-          navigate('/dashboard');
-        }
-      })
-      .catch((error) => {
-        setException(true);
-      });
+    getUser(userId)
+    .then((response: any) => {
+      if (response?.data.signup_status === 'done') {
+        getInteractionServiceByType('checkup')
+        .then((response: any) => {
+          if (response) {
+            getInteraction();
+          } else {
+            setException(true);
+  
+            navigate('/dashboard');
+          }
+        })
+        .catch((error) => {
+          setException(true);
+        });
+      } else {
+        navigate('/');
+      }
+    })
+    .catch((error) => {
+      toast.error(
+        `${error.response?.data?.title} Please check values and try again.`
+      );
+    });
   };
   const integrationPageRedirect = (refId: string) => {
     localStorage.setItem('refId', refId);

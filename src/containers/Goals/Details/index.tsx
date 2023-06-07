@@ -279,11 +279,10 @@ const GoalDetails = () => {
       });
   };
   useEffect(() => {
+    window.scrollTo(0,0);
     if (goalId) {
       getGoalDetails(goalId);
     }
-  }, []);
-  useEffect(() => {
     setLoading(true);
     getDashboard().then((response) => {
       setLoading(false);

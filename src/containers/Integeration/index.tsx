@@ -242,26 +242,27 @@ const Integrations = () => {
               width={50}
               className={styles['Google-fit-img']}
             />
-            <div className={styles['Container-title']}>Google Fit </div> 
+            <div className={styles['Container-title']}>{'Use the toggle to turn Google Fit integration on or off'}</div> 
             {checked === undefined ? (
               <Spin spinning={checked === undefined ? true : false} />
             ) : (
-              <div className="Switch-btn-wrap">
-                <Switch checked={checked} onChange={handleClick} />
+              <div className="Switch-btn-with-text">
+                <Switch checked={checked} onChange={handleClick} checkedChildren="On" unCheckedChildren="Off" />
               </div>
             )}
           </div>
 
           <div>
-            <div className={styles['Container']}>
-              <h3
-                className={`Description`}
-                // style={{ color: '#A5A5A5' }}
-              >
-                Touch Health Assistant collects health and activity data to enable health goal
-                analytics, guidance recommendation, and guidance follow up.
-              </h3>
-            </div>
+            {!checked && (
+              <div className={styles['Container']}>
+                <h3
+                  className={`Description`}
+                  // style={{ color: '#A5A5A5' }}
+                >
+                  By connecting Touch Health Assistant with Google Fit, you can integrate your fitness activity and movement data from various health apps to help you better understand your progress toward your health goals.
+                </h3>
+              </div>
+            )}
             <div>
               <h3
                 className={styles['Container-title']}

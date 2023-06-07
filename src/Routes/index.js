@@ -30,6 +30,7 @@ import GoogleFitSuccess from '../containers/GoogleFitSuccess/GoogleFitSuccess';
 import Integrations from '../containers/Integeration';
 import MockQuestionnaire from '../containers/MockQuestionnaire';
 import { RequireSubscription } from '../utils/RequireSubscription';
+import ManageDevices from '../containers/ManageDevices';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -61,6 +62,7 @@ const AppRoutes = () => {
             <Route path="/add-goals" element={<AddGoals />} />
             <Route path="/intro-goals" element={<IntroGoals />} />
             <Route path="/goals/:id" element={<GoalDetails />} />
+
             <Route path="insights" element={<Insights />} />
             <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
             <Route path="/insights/guideline" element={<Timeline />} />
@@ -73,10 +75,7 @@ const AppRoutes = () => {
             <Route path="/preferences" element={<Preferences />} />
             <Route path="/integrations" element={<Integrations />} />
             <Route path="/introvideo" element={<IntroVideo />} />
-            <Route path="/post-conditions" element={<ManageConditions />} />
-            <Route path="/help-and-support" element={<HelpAndSupport />} />
-            <Route path="/success" element={<Success />} />
-            <Route path="/error" element={<Error />} />
+            <Route path="/manage-devices" element={<ManageDevices />} />
           </Route>
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/subscription/:id" element={<Subscription />} />

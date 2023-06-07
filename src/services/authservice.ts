@@ -34,14 +34,31 @@ export const loginService = async (data: ILogin, header: string) => {
       config.headers = { 'X-Recaptcha-Token': header };
     }
     const res = await axios.post('/auth/login', data, config);
-    if (res) return res.data;
+    if(res.data) return res.data
+    else return res;  
+  } catch (err) {
+    return err;
+  }
+};
+export const sessionsService = async () => {
+  try {
+    const res = await axios.get(`/auth/sessions`);
+    if (res) return res;
+  } catch (err) {
+    return err;
+  }
+};
+export const deleteSessionService = async (sessionId: string) => {
+  try {
+    const res = await axios.delete(`/auth/sessions/${sessionId}`);
+    if (res) return res;
   } catch (err) {
     return err;
   }
 };
 export const logoutService = async (sessionId: string) => {
   try {
-    const res = await axios.delete(`/auth/sessions/${sessionId}`);
+    const res = await axios.delete(`/auth/logout`);
     if (res) return res;
   } catch (err) {
     return err;
@@ -63,7 +80,7 @@ export const requestPhoneOTP = async (phone: string, token: string) => {
   try {
     const config: any = {};
     if (token !== '') {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers = { 'X-Recaptcha-Token': token };
     }
     const res = await axios.post(
       '/auth/phone-verification',
@@ -72,7 +89,7 @@ export const requestPhoneOTP = async (phone: string, token: string) => {
       },
       config
     );
-    if (res) return res.data;
+    if (res) return res;
   } catch (err) {
     return err;
   }
@@ -153,15 +170,16 @@ export const getSecurityQuestions = async (
   const response = await axios.get(
     `${baseURL}/auth/password-recovery/security-questions?username=${username}&code=${code}`
   );
-  return response.data;
-};
+  if(response.data) return response.data
+  else return response;};
 
 export const checkAnswer = async (data: any) => {
   const response = await axios.put(
     '/auth/password-recovery/security-questions',
     data
   );
-  return response.data;
+  if(response.data) return response.data
+  else return response;
 };
 
 export const getGoogleCode = async () => {

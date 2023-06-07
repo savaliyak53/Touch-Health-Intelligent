@@ -1,0 +1,37 @@
+@import '../../../variables.module.scss';
+
+.app-Input {
+    font-family: $font-body;
+    font-weight: 400;
+    width: 100%;
+    border-radius: 100px;
+    margin-bottom: 14px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: row;
+    font-size: 18px;
+    line-height: 23px;
+    border: 2px solid $primary-color1;
+    background-color: rgba(#fff, 0.6);
+    color: $primary-color1;
+  
+    &:hover,
+    &:focus {
+      border: 2px solid $primary-color1;
+      background-color: #e3e3e3 !important;
+      color: $primary-color1;
+
+    }
+  
+    &::placeholder {
+      color: $primary-color1;
+    }
+  }
+
+  .Btn-group {
+    gap: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0%;
+  }

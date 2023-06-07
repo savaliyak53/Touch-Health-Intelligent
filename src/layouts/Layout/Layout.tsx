@@ -8,6 +8,9 @@ import { signupFlow, sleep } from '../../utils/lib';
 import { toast } from 'react-toastify';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 import AuthContext from '../../contexts/AuthContext';
+import moment from 'moment';
+import FreeTrialModal from '../../components/Modal/FreeTrial';
+
 type Props = {
   defaultHeader: boolean;
   hamburger: boolean;
@@ -25,6 +28,9 @@ const Layout = ({
   setDisableAllButtons,
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
+  const [trialRemaining, setTrialRemaining] = useState<string>('');
+  const [trialEndModal, setTrialEndModal] = useState<boolean>(false);
+  const [trialEndDate, setTrialEndDate] = useState<string>("");
   const navigate = useNavigate();
   const location = useLocation(); 
   const context = useContext(AuthContext);
@@ -37,6 +43,9 @@ const Layout = ({
           // const { security_questions } = response.data;
           if (response.data.security_questions) {
             getUserSubscription(response);
+            if (moment(response?.data?.trial_end_date).isAfter(moment())) {
+              setTrialRemaining(response.data.trial_remaining);
+            }
           } else if (response.data && !response.data.security_questions) {
             navigate('/security');
           } else {
@@ -54,9 +63,11 @@ const Layout = ({
       .then((res) => {
         localStorage.setItem('isSubscribed', res.data.isSubscribed.toString());
         if (
-          response.data.signup_status === 'new' &&
-          res.data.isSubscribed === false
+          res.data.isSubscribed === false &&
+          moment(response?.data?.trial_end_date).isBefore(moment())
         ) {
+          setTrialEndDate(response.data.trial_end_date)
+          setTrialEndModal(true);
           location.pathname !== '/subscription'
             ? navigate('/subscription')
             : null;
@@ -79,12 +90,21 @@ const Layout = ({
           dashboard ? 'Layout-Transparent header-transp' : 'Layout-Transparent'
         }
       >
-        <SiteHeader defaultHeader={defaultHeader} hamburger={hamburger} />
+        <SiteHeader defaultHeader={defaultHeader} hamburger={hamburger} trialRemaining={trialRemaining} />
         <div className={defaultHeader ? 'MobileScreen' : 'MobileScreen bg'}>
           <div className="Layout-main">{children}</div>
         </div>
       </div>
       <div className="Layout-graphics" />
+      <FreeTrialModal
+        title="Subscription"
+        handleOk={() => {
+          setTrialEndModal(false);
+        }}
+        open={trialEndModal}
+        buttonText="Subscribe Now!"
+        trialEndDate={trialEndDate}
+      />
       {exception && (
         <div>
           <ErrorInteractionModal

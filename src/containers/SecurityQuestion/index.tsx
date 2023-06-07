@@ -41,29 +41,15 @@ const SecurityQuestions = () => {
       document.querySelectorAll<HTMLElement>('.Layout')[0].style.minHeight = '100vh'
     })
     // const userId = localStorage.getItem('userId');
-    const userId=authContext?.user;
+    const userId=authContext?.user ? authContext?.user : localStorage.getItem('userId');
     if (!userId) {
       navigate('/signup');
     }
   }, []);
-  const sendPhoneOTP = async (phone: any) => {
-    //api call to send phone otp
-    const captchaToken = localStorage.getItem('captchaToken');
-    if (captchaToken) {
-      const phoneRequestResponse = await requestPhoneOTP(phone, captchaToken);
-      if (phoneRequestResponse?.response?.data) {
-        toast.error(phoneRequestResponse?.response?.data.details);
-        return false;
-      } else {
-        toast.success('Phone verification code sent');
-        return true;
-      }
-    }
-  };
   const handleSave = async () => {
     //const userId = localStorage.getItem('userId');
     // const userId = localStorage.getItem('userId');
-    const userId=authContext?.user;
+    const userId=authContext?.user ? authContext?.user : localStorage.getItem('userId');
     const securityQuestion = [{ question: question, answer: answer }];
     setLoading(true);
     if (userId) {

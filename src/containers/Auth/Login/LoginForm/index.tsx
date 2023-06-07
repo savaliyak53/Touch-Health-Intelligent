@@ -102,8 +102,8 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
       setIsLoading(false);
       if (loginResponse?.status === 429) {
         setShowLockAccountModal(true);
-        setModalText(loginResponse?.data?.details);
-      } else toast.error(loginResponse?.data?.details);
+        setModalText(loginResponse?.response?.data?.details);
+      } else toast.error(loginResponse?.response?.data?.details);
     }
   };
   return (
