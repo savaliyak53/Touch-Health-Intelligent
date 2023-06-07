@@ -66,24 +66,26 @@ function UserCondition() {
     getUser(userId)
       .then((response: any) => {
         if (response?.data.signup_status === 'onboarding') {
-          preferencesService(
-            {
-              signup_status: 'goal-selection',
-            },
-            userId
-          )
-            .then((preferencesResponse) => {
-              if (preferencesResponse) {
-                navigate('/add-goals');
-              } else {
-                console.log('navigate to dashboard');
-              }
-            })
-            .catch((error) => {
-              toast.error(
-                `${error.response?.data?.title} Please check values and try again.`
-              );
-            });
+          const preferenceData = {
+            signup_status: 'goal-characterization',
+          };
+          const userId=context?.user ?? localStorage.getItem('userId');
+          if (userId) {
+            preferencesService(preferenceData, userId)
+              .then(async (preferencesResponse: any) => {
+                if (preferencesResponse) {
+                  navigate('/');
+                } else {
+                  toast.error(`Preference status doesn't exist`);
+                  navigate('/dashboard');
+                }
+              })
+              .catch((error) => {
+                toast.error(
+                  `${error.response?.data?.title} Please check values and try again.`
+                );
+              });
+          }
         } else if (response?.data.signup_status === 'goal-characterization') {
           preferencesService(
             {

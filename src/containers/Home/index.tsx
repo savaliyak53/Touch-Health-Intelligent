@@ -190,9 +190,7 @@ const Home = () => {
                 );
                 navigate('/dashboard');
               });
-          } else if (response.data.signup_status === 'goal-selection') {
-            navigate('/add-goals');
-          } else if (response.data.signup_status === 'goal-characterization') {
+          } else if (response.data.signup_status === 'goal-characterization' || response.data.signup_status === 'goal-selection') {
             getInteractionServiceByType('goal_characterization')
               .then((response: any) => {
                 handleRedirect(response);
