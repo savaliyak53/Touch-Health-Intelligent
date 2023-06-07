@@ -16,6 +16,7 @@ import Layout from '../../layouts/Layout/Layout';
 import { Skeleton } from 'antd';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
+import ConfirmModal from '../../components/Modal/ConfirmModal';
 
 function UserCondition() {
   const [question, setQuestion] = useState<Interaction | any>();
@@ -29,7 +30,7 @@ function UserCondition() {
   const [signupStatus, setSignupStatus] = useState<string | null>();
   const [exception, setException] = useState<boolean>(false); 
   const context = useContext<AuthContextData | undefined>(AuthContext); 
-
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -126,6 +127,8 @@ function UserCondition() {
     } else {
       getInteraction();
     }
+    pageBackEvent();
+    pageUrlEvent();
   }, []);
   const handleInitiateCheckupByLink = () => {
     const userId=context?.user;
@@ -246,6 +249,40 @@ function UserCondition() {
         setException(true);
       });
   };
+  const onBackButtonEvent = (e: any) => {
+    e.preventDefault();
+    if (!isOpen) {
+      setIsOpen(true);
+    } else {
+      window.history.pushState(null, '', window.location.pathname);
+    }
+    window.history.pushState(null, '', window.location.pathname);
+  };
+  const handleUrlChange = (e: any) => {
+    e.preventDefault();
+    e.returnValue = '';
+    window.history.pushState(null, '', window.location.pathname);
+  };
+  const pageBackEvent = () => {
+    window.history.pushState(null, '', window.location.pathname);
+    window.addEventListener('popstate', onBackButtonEvent);
+    return () => {
+      window.removeEventListener('popstate', onBackButtonEvent);
+    };
+  };
+  const pageUrlEvent = () => {
+    window.addEventListener('beforeunload', handleUrlChange);
+    return () => {
+      window.removeEventListener('beforeunload', handleUrlChange);
+    };
+  };
+  const handleOk = () => {
+    navigate('/dashboard');
+  };
+  const handleCancel = () => {
+    setIsOpen(false);
+    pageBackEvent();
+  };
 
   return (
     <Layout defaultHeader={true} hamburger={false}>
@@ -309,6 +346,19 @@ function UserCondition() {
                 )}
             </>
           )}
+          <ConfirmModal
+            title={'Confirmation'}
+            open={isOpen}
+            handleCancel={handleCancel}
+            handleOk={handleOk}
+            className="Addgoal-Confirm-Modal"
+            renderData={
+              <div className="Description">
+                Going back won&apos;t take you to the previous page but to the
+                dashboard. Are you sure you want to go there?
+              </div>
+            }
+          />
         </div>
       )}
     </Layout>
