@@ -79,6 +79,10 @@ const AppRoutes = () => {
           </Route>
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/subscription/:id" element={<Subscription />} />
+          <Route path="/post-conditions" element={<ManageConditions />} />
+          <Route path="/help-and-support" element={<HelpAndSupport />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/error" element={<Error />} />
         </Route>
       </Routes>
     </React.Suspense>
