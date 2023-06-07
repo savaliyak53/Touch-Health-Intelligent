@@ -43,7 +43,7 @@ const Layout = ({
           // const { security_questions } = response.data;
           if (response.data.security_questions) {
             getUserSubscription(response);
-            if (moment(response.data.trial_end_date).isAfter(moment())) {
+            if (moment(response?.data?.trial_end_date).isAfter(moment())) {
               setTrialRemaining(response.data.trial_remaining);
             }
           } else if (response.data && !response.data.security_questions) {
