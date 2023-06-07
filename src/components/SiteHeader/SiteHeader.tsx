@@ -7,17 +7,20 @@ import styles from './SiteHeader.module.scss';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import AuthContext , { AuthContextData }  from '../../contexts/AuthContext';
-
+import {FieldTimeOutlined} from '@ant-design/icons';
+import { trialExceptionRoutes } from '../../Routes/Constants';
 type Props = {
   defaultHeader: boolean;
   hamburger: boolean;
+  trialRemaining?: string;
 };
-const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
+const SiteHeader = ({ defaultHeader, hamburger, trialRemaining }: Props) => {
   const [BurgerMenu, setBurgerMenu] = useState(false);
   const navigate = useNavigate();
   const authContext = useContext<AuthContextData | undefined>(AuthContext); 
   if (!authContext) return null;
   const { logoutUser } = authContext;
+  const showTrialBanner = !Object.values(trialExceptionRoutes).includes(location.pathname) && trialRemaining;
   return (
     <>
       {/* Navigation */}
@@ -34,6 +37,12 @@ const SiteHeader = ({ defaultHeader, hamburger }: Props) => {
           alt="Touch Logo"
           width={35}
         />
+        {showTrialBanner && (
+          <div className={styles['description']}>
+            <FieldTimeOutlined /> You have <b>{trialRemaining} </b>left in your
+            trial
+          </div>
+        )}
         <div
           className={styles['Toggler-btn']}
           onClick={() => setBurgerMenu(!BurgerMenu)}

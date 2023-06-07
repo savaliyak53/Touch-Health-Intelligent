@@ -61,7 +61,7 @@ function UserCondition() {
       });
   };
   const handleInteractionRedirect = () => {
-    const userId=context?.user;
+    const userId = context?.user ? context?.user : localStorage.getItem('userId');
     // const userId = localStorage.getItem('userId');
     getUser(userId)
       .then((response: any) => {

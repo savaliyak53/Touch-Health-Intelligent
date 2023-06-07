@@ -15,12 +15,14 @@ import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal'
 import axios, { AxiosRequestConfig } from 'axios';
 import { getTokenExpiration } from '../../utils/lib';
 import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
+import FreeTrialModal from '../../components/Modal/FreeTrial';
 
 const Home = () => {
   const navigate = useNavigate();
   const [exception, setException] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   const context = useContext<AuthContextData | undefined>(AuthContext); 
+  const [trialModal, setTrialModal] = useState<boolean>(false);
 
   const axiosConfig: any = {
     withCredentials: true,
@@ -40,7 +42,9 @@ const Home = () => {
 
   useEffect(() => {
     // const token = localStorage.getItem('token');
-    const token = context?.authTokens ? context?.authTokens : localStorage.getItem('token');
+    const token = context?.authTokens
+      ? context?.authTokens
+      : localStorage.getItem('token');
     if (token) {
       checkUserData();
     } else {
@@ -113,8 +117,8 @@ const Home = () => {
       });
   };
   const handleInitialIntake = () => {
-    // const userId = localStorage.getItem('userId');
-    const userId=context?.user;
+    const userId = context?.user ?? localStorage.getItem('userId');
+    // const userId=context?.user;
     //after successful subscription set signup_status to onboarding
     preferencesService(
       {
@@ -151,7 +155,9 @@ const Home = () => {
       });
   };
   const checkUserData = () => {
-    const userId=context?.user ? context?.user : localStorage.getItem('userId');
+    const userId = context?.user
+      ? context?.user
+      : localStorage.getItem('userId');
     // const userId = localStorage.getItem('userId');
     if (userId) {
       getUser(userId)
@@ -173,11 +179,14 @@ const Home = () => {
   const getUserSubscription = (response: any) => {
     getSubscriptionStatus()
       .then((res) => {
-        if (
+        if (moment(response?.data?.trial_end_date).isBefore(moment())) {
+          navigate('/subscription');
+        } else if (
           response.data.signup_status === 'new' &&
           res.data.isSubscribed === false
         ) {
-          navigate('/subscription');
+          setTrialModal(true);
+          setLoading(false);
         } else {
           if (response.data.signup_status === 'onboarding') {
             getInteractionServiceByType('onboarding')
@@ -226,9 +235,34 @@ const Home = () => {
         console.log('Error while getting user plan. ', error);
       });
   };
+  const handleTrialIntake = () => {
+    setTrialModal(false);
+    const zoneVal = moment()
+      .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+      .format('Z');
+    const preferenceData = {
+      timezone: zoneVal,
+    };
+    updatePreference(preferenceData)
+      .then((preferencesResponse) => {
+        handleInitialIntake();
+      })
+      .catch((error) => {
+        toast.error(
+          `${error.response?.data?.title} Something went wrong while updating preference`
+        );
+      });
+  };
   return (
     <div className="Btn-group">
       <Spin size="large" className=" Spinner" />
+      <FreeTrialModal
+        handleOk={handleTrialIntake}
+        open={trialModal}
+        title="Free Trial"
+        buttonText="Let's get started!"
+      />
+
       {exception && (
         <div>
           <ErrorInteractionModal
