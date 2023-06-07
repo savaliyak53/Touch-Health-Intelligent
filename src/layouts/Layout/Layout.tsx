@@ -61,13 +61,15 @@ const Layout = ({
   const getUserSubscription = (response: any) => {
     getSubscriptionStatus()
       .then((res) => {
-        localStorage.setItem('isSubscribed', res.data.isSubscribed.toString());
-        if (
-          res.data.isSubscribed === false &&
-          moment(response?.data?.trial_end_date).isBefore(moment())
-        ) {
-          setTrialEndDate(response.data.trial_end_date)
-          setTrialEndModal(true);
+        const isSubscribed =
+          res.data.isSubscribed ||
+          moment(response?.data?.trial_end_date).isAfter(moment());
+        localStorage.setItem('isSubscribed', isSubscribed.toString());
+        if (res.data.isSubscribed === false) {
+          if (moment(response?.data?.trial_end_date).isBefore(moment())) {
+            setTrialEndDate(response.data.trial_end_date);
+            setTrialEndModal(true);
+          }
           location.pathname !== '/subscription'
             ? navigate('/subscription')
             : null;
