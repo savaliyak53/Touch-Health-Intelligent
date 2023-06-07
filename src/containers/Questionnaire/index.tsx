@@ -73,7 +73,6 @@ function UserCondition() {
           if (userId) {
             preferencesService(preferenceData, userId)
               .then(async (preferencesResponse: any) => {
-                console.log(preferencesResponse);
                 if (preferencesResponse) {
                   navigate('/');
                 } else {
