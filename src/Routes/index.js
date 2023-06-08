@@ -29,7 +29,6 @@ import PasswordRecovery from '../containers/Auth/PasswordRecovery';
 import GoogleFitSuccess from '../containers/GoogleFitSuccess/GoogleFitSuccess';
 import Integrations from '../containers/Integeration';
 import MockQuestionnaire from '../containers/MockQuestionnaire';
-import { RequireSubscription } from '../utils/RequireSubscription';
 import ManageDevices from '../containers/ManageDevices';
 
 const AppRoutes = () => {
@@ -57,26 +56,24 @@ const AppRoutes = () => {
         {/* Protected Routes */}
         <Route path="/questionnaire-poc" element={<MockQuestionnaire />} />
         <Route element={<RequireAuth />}>
-          <Route element={<RequireSubscription />}>
-            <Route path="/dashboard" element={<DashboardNew />} />
-            <Route path="/add-goals" element={<AddGoals />} />
-            <Route path="/intro-goals" element={<IntroGoals />} />
-            <Route path="/goals/:id" element={<GoalDetails />} />
+          <Route path="/dashboard" element={<DashboardNew />} />
+          <Route path="/add-goals" element={<AddGoals />} />
+          <Route path="/intro-goals" element={<IntroGoals />} />
+          <Route path="/goals/:id" element={<GoalDetails />} />
 
-            <Route path="insights" element={<Insights />} />
-            <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
-            <Route path="/insights/guideline" element={<Timeline />} />
-            <Route path="/questionnaire" element={<UserCondition />} />
-            <Route path="/c/:reason" element={<UserCondition />} />
-            <Route
-              path="/questionnaire-submit"
-              element={<ThankyouForSubmiting />}
-            />
-            <Route path="/preferences" element={<Preferences />} />
-            <Route path="/integrations" element={<Integrations />} />
-            <Route path="/introvideo" element={<IntroVideo />} />
-            <Route path="/manage-devices" element={<ManageDevices />} />
-          </Route>
+          <Route path="insights" element={<Insights />} />
+          <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
+          <Route path="/insights/guideline" element={<Timeline />} />
+          <Route path="/questionnaire" element={<UserCondition />} />
+          <Route path="/c/:reason" element={<UserCondition />} />
+          <Route
+            path="/questionnaire-submit"
+            element={<ThankyouForSubmiting />}
+          />
+          <Route path="/preferences" element={<Preferences />} />
+          <Route path="/integrations" element={<Integrations />} />
+          <Route path="/introvideo" element={<IntroVideo />} />
+          <Route path="/manage-devices" element={<ManageDevices />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/subscription/:id" element={<Subscription />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
