@@ -392,7 +392,7 @@ const Subscription = () => {
   return (
     <Layout
       defaultHeader={true}
-      hamburger={!userSignupStatus || retry ? false : true}
+      hamburger={true}
       dashboard={false}
       setDisableAllButtons={setDisableAllButtons}
     >
