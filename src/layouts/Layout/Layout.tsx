@@ -35,7 +35,7 @@ const Layout = ({
   const location = useLocation(); 
   const context = useContext(AuthContext);
   const checkUserData = () => {
-    const userId = context?.user;
+    const userId = context?.user ?? localStorage.getItem('userId');
     // const userId = localStorage.getItem('userId');
     if (userId) {
       getUser(userId)
