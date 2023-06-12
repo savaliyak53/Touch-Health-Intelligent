@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Alert } from 'antd';
 import { useNavigate } from 'react-router';
 import Layout from '../../layouts/Layout/Layout';
 import '../ThankyouForSubmiting/index.scss';
 import { Link } from 'react-router-dom';
-const SubscriptionError = () => {
+import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
+const SubscriptionError = () => { 
+  const authContext = useContext<AuthContextData | undefined>(AuthContext); 
+  if (!authContext) return null;
+  const { logoutUser } = authContext;
+
   const navigate = useNavigate();
 
   const logoutClick = () => {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('token');
-    localStorage.clear();
+    logoutUser();
+    // localStorage.removeItem('userId');
+    // localStorage.removeItem('token');
+    // localStorage.clear();
     navigate('/login');
   };
 

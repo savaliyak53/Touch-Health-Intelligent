@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import { Button, Spin, Typography, Tag } from 'antd';
 import styles from './Subscription.module.scss';
@@ -31,6 +31,7 @@ import {
 } from '../../services/authservice';
 import moment from 'moment';
 import { ReloadOutlined } from '@ant-design/icons';
+import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
 const { Meta } = Card;
 const antIcon = <LoadingOutlined style={{ fontSize: 24, color: 'white' }} spin />;
 const Subscription = () => {
@@ -52,6 +53,8 @@ const Subscription = () => {
   const [stripeStatus, setStripeStatus] = useState<any>(null);
   const [retry, setRetry] = useState<any>(false);
   const [disableAllButtons, setDisableAllButtons] = useState<boolean>(false);
+  const authContext = useContext<AuthContextData | undefined>(AuthContext); 
+
 
   const [estimateAmount, setEstimateAmount] = useState();
   const showModal = () => {
@@ -152,7 +155,8 @@ const Subscription = () => {
       fetchPlans();
       fetchUserSubscription();
       setSpin(false);
-      const userId = localStorage.getItem('userId');
+      const userId=authContext?.user;
+      // const userId = localStorage.getItem('userId');
       getUser(userId)
         .then((response) => {
           if (response.data.signup_status === 'new') {
@@ -186,7 +190,8 @@ const Subscription = () => {
       fetchPlans();
       fetchUserSubscription();
       setSpin(false);
-      const userId = localStorage.getItem('userId');
+      const userId=authContext?.user;
+      // const userId = localStorage.getItem('userId');
       getUser(userId)
         .then((response) => {
           if (response.data.signup_status === 'new') {
@@ -230,7 +235,8 @@ const Subscription = () => {
     userCheckoutStatus();
   };
   const handleInitialIntake = () => {
-    const userId = localStorage.getItem('userId');
+    // const userId = localStorage.getItem('userId');
+    const userId=authContext?.user;
     //after successful subscription set signup_status to onboarding
     preferencesService(
       {
@@ -386,7 +392,7 @@ const Subscription = () => {
   return (
     <Layout
       defaultHeader={true}
-      hamburger={!userSignupStatus || retry ? false : true}
+      hamburger={true}
       dashboard={false}
       setDisableAllButtons={setDisableAllButtons}
     >

@@ -1,48 +1,63 @@
-import APIClient from '../utils/axios';
+// import axios from 'axios';
+import axios from '../utils/axios';
+
 
 export const getPlansService = () => {
-  return APIClient('/payments/subscription/plans', 'GET');
+  return axios.get(`/payments/list-plans`);
 };
 
 export const getUserSubscription = () => {
-  return APIClient('/payments/subscription', 'GET');
+  return axios.get(`/payments/subscription`);
 };
+
 export const getStatus = () => {
-  return APIClient('/payments/checkout/status', 'GET');
+  return axios.get(`/payments/checkout/status`);
 };
+
 export const getUserPlan = () => {
-  return APIClient('/payments/subscription/info', 'GET');
+  return axios.get(`/payments/subscription/info`);
 };
+
 export const checkoutPlan = (planId: string) => {
-  return APIClient('/payments/checkout', 'POST', {
+  return axios.post(`/payments/checkout`, {
     planId: planId,
   });
 };
+
 export const managePayment = () => {
-  return APIClient('/payments/update-details', 'GET');
+  return axios.get(`/payments/subscription/update-payment-methods`);
 };
 
 export const getSubscriptionStatus = () => {
-  return APIClient('/payments/subscription/status', 'GET');
+  return axios.get(`/payments/subscription-status`);
 };
 
 export const pauseSubscription = () => {
-  return APIClient('/payments/subscription/pause', 'POST');
+  return axios.post(`/payments/subscription/pause`);
 };
 
 export const cancelSubscription = () => {
-  return APIClient('/payments/subscription/cancel', 'POST');
+  return axios.post(`/payments/subscription/cancel`);
 };
+
 export const resumeSubscription = () => {
-  return APIClient('/payments/subscription/unpause', 'POST');
+  return axios.post(`/payments/subscription/unpause`);
 };
 
 export const updateSubscription = (planId: string) => {
-  return APIClient('/payments/subscription/update', 'POST', { planId: planId });
+  return axios.post(`/payments/subscription/update`, {
+    planId: planId,
+  });
 };
+
 export const updateUserSubscription = (planId: string) => {
-  return APIClient('/payments/subscription', 'POST', { planId: planId });
+  return axios.post(`/payments/subscription`, {
+    planId: planId,
+  });
 };
+
 export const calculateSubscriptionProration = (planId: string) => {
-  return APIClient('/payments/subscription/update/estimate', 'POST', { planId: planId });
+  return axios.post(`/payments/subscription/update/estimate`, {
+    planId: planId,
+  });
 };

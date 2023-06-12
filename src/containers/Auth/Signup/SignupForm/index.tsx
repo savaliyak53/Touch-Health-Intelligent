@@ -97,6 +97,10 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
     setChecked(!checked);
     setCheckedError(checked);
   };
+
+  useEffect(() => {
+    window.scrollTo(0,0);
+  }, [])
   return (
     <div className={styles['Auth-wrap']}>
       <form

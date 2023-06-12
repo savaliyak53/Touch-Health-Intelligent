@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Slider, Tooltip, Button, Spin, Switch } from 'antd';
 import styles from './Integeration.module.scss';
@@ -18,6 +18,7 @@ import {
   preferencesService,
   getInteractionServiceByType
 } from '../../services/authservice';
+import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
 import GoogleOAuthDisclosureModal from '../../components/Modal/GoogleOAuthDisclosureModal';
 type IFormInputs = {
   engagementLevel: number;
@@ -52,7 +53,9 @@ const Integrations = () => {
   const [loc, setLocation] = useState<LocationState>()
   const navigate = useNavigate();
   const refId = localStorage.getItem('refId')
-  const redirect = localStorage.getItem('redirect')
+  const redirect = localStorage.getItem('redirect') 
+  const context = useContext<AuthContextData | undefined>(AuthContext); 
+
 
   useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
@@ -132,7 +135,8 @@ const Integrations = () => {
     })
   }
   const handleSetUserStatus = () => {
-    const userId = localStorage.getItem('userId');
+    // const userId = localStorage.getItem('userId');
+    const userId=context?.user;
     //after successful subscription set signup_status to onboarding
     preferencesService(
       {
@@ -238,7 +242,7 @@ const Integrations = () => {
               width={50}
               className={styles['Google-fit-img']}
             />
-            <div className={styles['Container-title']}>{checked ? 'Disconnect Google Fit' : 'Connect Google Fit'}</div>
+            <div className={styles['Container-title']}>{'Use the toggle to turn Google Fit integration on or off'}</div> 
             {checked === undefined ? (
               <Spin spinning={checked === undefined ? true : false} />
             ) : (
@@ -250,14 +254,14 @@ const Integrations = () => {
 
           <div>
             {!checked && (
-                <div className={styles['Container']}>
-                  <h3
-                      className={`Description`}
-                      // style={{ color: '#A5A5A5' }}
-                  >
-                    By connecting Touch Health Assistant with Google Fit, you can integrate your fitness activity and movement data from various health apps to help you better understand your progress toward your health goals.
-                  </h3>
-                </div>
+              <div className={styles['Container']}>
+                <h3
+                  className={`Description`}
+                  // style={{ color: '#A5A5A5' }}
+                >
+                  By connecting Touch Health Assistant with Google Fit, you can integrate your fitness activity and movement data from various health apps to help you better understand your progress toward your health goals.
+                </h3>
+              </div>
             )}
             <div>
               <h3

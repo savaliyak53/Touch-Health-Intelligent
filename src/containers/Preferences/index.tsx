@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Slider, Tooltip, Button, Spin, Switch } from 'antd';
 import styles from './Preferences.module.scss';
@@ -15,6 +15,7 @@ import { Radio, Space, DatePicker } from 'antd';
 import moment from 'moment';
 import 'moment-timezone';
 import { getUser, updatePreference } from '../../services/authservice';
+import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -39,6 +40,8 @@ const Preferences = () => {
   const [spinning, setSpinning] = useState<boolean>(true);
   const [userId, setUserId] = useState<any>('')
   const navigate = useNavigate();
+  const context = useContext<AuthContextData | undefined>(AuthContext); 
+
 
   useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
@@ -62,7 +65,9 @@ const Preferences = () => {
       }
     });
 
-    const id = localStorage.getItem('userId');
+
+    // const id = localStorage.getItem('userId');
+    const id=context?.user;
     setUserId(id)
     setSpinning(true);
     setloading(true);
@@ -225,6 +230,9 @@ const Preferences = () => {
                     onChange={(e) => setUsername(e.target.value)}
                     onClick={() => setEnabled(true)}
                   />
+              </div>
+              <div>
+                <Button className={`Submit-Button ${styles['Manage-Devices-btn']}`} onClick={() => navigate('/manage-devices')}>{'Manage Devices'}</Button>
               </div>
             {enable && (
               <div className={styles.TermsBtnWrap}>

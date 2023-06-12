@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './index.scss';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Button from '../../components/Button';
@@ -15,6 +15,7 @@ import { Interaction } from '../../interfaces';
 import Layout from '../../layouts/Layout/Layout';
 import { Skeleton } from 'antd';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
+import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
 
 function UserCondition() {
   const [question, setQuestion] = useState<Interaction | any>();
@@ -26,7 +27,9 @@ function UserCondition() {
   const [isClicked, setClicked] = useState(false);
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
   const [signupStatus, setSignupStatus] = useState<string | null>();
-  const [exception, setException] = useState<boolean>(false);
+  const [exception, setException] = useState<boolean>(false); 
+  const context = useContext<AuthContextData | undefined>(AuthContext); 
+
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -58,28 +61,31 @@ function UserCondition() {
       });
   };
   const handleInteractionRedirect = () => {
-    const userId = localStorage.getItem('userId');
+    const userId = context?.user ? context?.user : localStorage.getItem('userId');
+    // const userId = localStorage.getItem('userId');
     getUser(userId)
       .then((response: any) => {
         if (response?.data.signup_status === 'onboarding') {
-          preferencesService(
-            {
-              signup_status: 'goal-selection',
-            },
-            userId
-          )
-            .then((preferencesResponse) => {
-              if (preferencesResponse) {
-                navigate('/add-goals');
-              } else {
-                console.log('navigate to dashboard');
-              }
-            })
-            .catch((error) => {
-              toast.error(
-                `${error.response?.data?.title} Please check values and try again.`
-              );
-            });
+          const preferenceData = {
+            signup_status: 'goal-characterization',
+          };
+          const userId=context?.user ?? localStorage.getItem('userId');
+          if (userId) {
+            preferencesService(preferenceData, userId)
+              .then(async (preferencesResponse: any) => {
+                if (preferencesResponse) {
+                  navigate('/');
+                } else {
+                  toast.error(`Preference status doesn't exist`);
+                  navigate('/dashboard');
+                }
+              })
+              .catch((error) => {
+                toast.error(
+                  `${error.response?.data?.title} Please check values and try again.`
+                );
+              });
+          }
         } else if (response?.data.signup_status === 'goal-characterization') {
           preferencesService(
             {
@@ -114,6 +120,7 @@ function UserCondition() {
       });
   };
   useEffect(() => {
+    window.scrollTo(0,0);
     if (location && location.pathname === '/c/checkup') {
       handleInitiateCheckupByLink();
     } else {
@@ -121,22 +128,33 @@ function UserCondition() {
     }
   }, []);
   const handleInitiateCheckupByLink = () => {
-    getInteractionServiceByType('checkup')
-      .then((response: any) => {
-        if (response) {
-          getInteraction();
-        } else {
-          toast.error(
-            `Something went wrong while Initiating Checkup Interaction.`
-          );
-          navigate('/dashboard');
-        }
-      })
-      .catch((error) => {
-        toast.error(
-          `Something went wrong while Initiating Checkup Interaction.`
-        );
-      });
+    const userId=context?.user;
+
+    getUser(userId)
+    .then((response: any) => {
+      if (response?.data.signup_status === 'done') {
+        getInteractionServiceByType('checkup')
+        .then((response: any) => {
+          if (response) {
+            getInteraction();
+          } else {
+            setException(true);
+  
+            navigate('/dashboard');
+          }
+        })
+        .catch((error) => {
+          setException(true);
+        });
+      } else {
+        navigate('/');
+      }
+    })
+    .catch((error) => {
+      toast.error(
+        `${error.response?.data?.title} Please check values and try again.`
+      );
+    });
   };
   const integrationPageRedirect = (refId: string) => {
     localStorage.setItem('refId', refId);
@@ -161,8 +179,12 @@ function UserCondition() {
       return;
     }
 
-    if(value !== undefined && value?.length < Math.min(question.min_num_selections, question.options?.length)){
-      toast(`Please select at least ${question.min_num_selections} options`)
+    if (
+      value !== undefined &&
+      value?.length <
+        Math.min(question.min_num_selections, question.options?.length)
+    ) {
+      toast(`Please select at least ${question.min_num_selections} options`);
       setClicked(false);
       return;
     }
@@ -211,14 +233,12 @@ function UserCondition() {
             setQuestion(data.question);
             setDisableNextButton(false);
           }
-        } else if(!data.question && data.type === "done") {
+        } else if (!data.question && data.type === 'done') {
           handleInteractionRedirect();
-        }
-        else if (!data || !data.question || data.question===null)
-        {
+        } else if (!data || !data.question || data.question === null) {
           toast.error('Something went wrong, question is null');
           setException(true);
-          setDisableNextButton(false)
+          setDisableNextButton(false);
         }
       })
       .catch((error) => {

@@ -11,7 +11,7 @@ const { Title } = Typography;
 const IntroVideo = () => {
   const navigate = useNavigate();
   useEffect(() => {
-  const userId = localStorage.getItem('userId');
+  // const userId = localStorage.getItem('userId');
   getInteractionServiceByType('frontend_testing')
     .then((response: any) => {
       if (response) {

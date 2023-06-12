@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import { Input, Select, Spin } from 'antd';
 import v from "../../variables.module.scss"
@@ -10,6 +10,8 @@ import { putSignUp, requestPhoneOTP } from '../../services/authservice';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { DownOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { convertLegacyProps } from 'antd/lib/button/button';
+import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
 
 const { Option } = Select;
 
@@ -19,7 +21,7 @@ const SecurityQuestions = () => {
   const [answer, setAnswer] = useState('');
   const [saveMsg, setSaveMsg] = useState<boolean>(true)
   const navigate = useNavigate();
-
+  const authContext = useContext<AuthContextData | undefined>(AuthContext); 
   const onChange = (option: any) => {
     setQuestion(option);
   };
@@ -38,28 +40,16 @@ const SecurityQuestions = () => {
       document.querySelectorAll<HTMLElement>('.Layout')[0].style.height = 'auto'
       document.querySelectorAll<HTMLElement>('.Layout')[0].style.minHeight = '100vh'
     })
-    const userId = localStorage.getItem('userId');
+    // const userId = localStorage.getItem('userId');
+    const userId=authContext?.user ? authContext?.user : localStorage.getItem('userId');
     if (!userId) {
       navigate('/signup');
     }
   }, []);
-  const sendPhoneOTP = async (phone: any) => {
-    //api call to send phone otp
-    const captchaToken = localStorage.getItem('captchaToken');
-    if (captchaToken) {
-      const phoneRequestResponse = await requestPhoneOTP(phone, captchaToken);
-      if (phoneRequestResponse?.response?.data) {
-        toast.error(phoneRequestResponse?.response?.data.details);
-        return false;
-      } else {
-        toast.success('Phone verification code sent');
-        return true;
-      }
-    }
-  };
   const handleSave = async () => {
     //const userId = localStorage.getItem('userId');
-    const userId = localStorage.getItem('userId');
+    // const userId = localStorage.getItem('userId');
+    const userId=authContext?.user ? authContext?.user : localStorage.getItem('userId');
     const securityQuestion = [{ question: question, answer: answer }];
     setLoading(true);
     if (userId) {
