@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import Layout from '../../../layouts/Layout/Layout';
 import LoginForm from './LoginForm'
 import styles from "./Login.module.scss"
 import { useNavigate } from 'react-router';
+import AuthContext, {AuthContextData} from '../../../contexts/AuthContext';
 
 type IFormInputs = {
   username: string;
@@ -18,6 +19,12 @@ const Login = () => {
     const token = refCaptcha.current.getValue();
     refCaptcha.current.reset();
   };
+  const context = useContext<AuthContextData | undefined>(AuthContext); 
+
+  useEffect(() => {
+    const token = context?.authTokens ?? localStorage.getItem('token')
+    if(token) navigate('/')
+  },[])
 
 
   return (
