@@ -572,7 +572,7 @@ const PasswordRecovery = () => {
                 >
                   Reset password
                 </Button>
-                </div>
+              </div>
               <SessionExpiryModal
                 title={'Session Expiration'}
                 open={expiryModal}
