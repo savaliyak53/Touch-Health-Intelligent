@@ -160,7 +160,7 @@ export const getUser = async (id: string | null | undefined) => {
 
 export const postResetPassword = async (data: any) => {
   const response = await axios.put('/auth/password-recovery', data);
-  return response.data;
+  return response;
 };
 
 export const getSecurityQuestions = async (

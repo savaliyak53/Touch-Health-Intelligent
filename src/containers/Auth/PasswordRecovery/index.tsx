@@ -30,6 +30,7 @@ import RecaptchaModal from '../../../components/Modal/RecaptchaModal';
 import { useTimer } from 'react-timer-hook';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
 import Verification from '../Verification';
+import SessionExpiryModal from '../../../components/Modal/SessionExpiryModal';
 // import { InfoCircleOutlined } from '@ant-design/icons';
 
 type IRecoverFormInputs = {
@@ -67,6 +68,7 @@ const PasswordRecovery = () => {
   const [enableTimer, setEnableTimer] = useState(true);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [disableSubmit, setDisableSubmit] = useState(true);
+  const [expiryModal, setExpiryModal] = useState<boolean>(false);
   const [code, setCode] = useState('');
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
@@ -200,7 +202,14 @@ const PasswordRecovery = () => {
       postResetPassword(data)
         .then((response: any) => {
           if (response && response.code === 'ERR_BAD_REQUEST') {
-            toast.error(response.response.data.details);
+            if (
+              response.response.data.details ===
+              'Verification code expired, please request a new one'
+            ) {
+              setExpiryModal(true);
+            } else {
+              toast.error(response.response.data.details);
+            }
           } else {
             toast.success('Password Recovered Successfuly');
             // loginRequest(data)
@@ -563,7 +572,15 @@ const PasswordRecovery = () => {
                 >
                   Reset password
                 </Button>
-              </div>
+                </div>
+              <SessionExpiryModal
+                title={'Session Expiration'}
+                open={expiryModal}
+                handleOk={() => {
+                  navigate('/login');
+                }}
+                className="Addgoal-Confirm-Modal"
+              />
             </div>
           </>
         )}
