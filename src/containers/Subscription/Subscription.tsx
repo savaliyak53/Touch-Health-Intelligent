@@ -53,6 +53,7 @@ const Subscription = () => {
   const [stripeStatus, setStripeStatus] = useState<any>(null);
   const [retry, setRetry] = useState<any>(false);
   const [disableAllButtons, setDisableAllButtons] = useState<boolean>(false);
+  const [onTrial, setOnTrial] = useState<boolean>(false);
   const authContext = useContext<AuthContextData | undefined>(AuthContext); 
 
 
@@ -146,6 +147,7 @@ const Subscription = () => {
   useEffect(() => {
     const checkout_status: string | null = userCheckoutStatus();
     if (checkout_status === null) {
+      checkTrial();
       userSubscriptionStatus();
       fetchPlans();
       fetchUserSubscription();
@@ -309,6 +311,20 @@ const Subscription = () => {
     }
     return false;
   };
+  const checkTrial = () => {
+    const userId = authContext?.user;
+    if (userId) {
+      getUser(userId)
+        .then((response: any) => {
+          if (moment(response?.data?.trial_end_date).isAfter(moment())) {
+            setOnTrial(true);
+          }
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
+    }
+  };
   const isNextPhase = (plan: any) => {
     if (userPlan?.nextPhase && userPlan?.nextPhase.plan?.id === plan.id) {
       return true;
@@ -392,7 +408,7 @@ const Subscription = () => {
   return (
     <Layout
       defaultHeader={true}
-      hamburger={true}
+      hamburger={userPlanStatus || onTrial}
       dashboard={false}
       setDisableAllButtons={setDisableAllButtons}
     >
