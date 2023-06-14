@@ -12,7 +12,7 @@ const ManageDevices = () => {
     const [spinning, setSpinning] = useState<boolean>(true);
     const [open, setOpen] = useState<boolean>(false);
     const [signoutDevice, setSignoutDevice] = useState<any>(null);
-
+    const [error, setError] = useState<any>();
 
     const getSessionData = () => {
         sessionsService()
@@ -22,6 +22,9 @@ const ManageDevices = () => {
                 setDevices(res.data);
             }
         })
+        .catch(err => {
+            setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."})
+        })
     }
 
     const deviceSignout = (id: string) => {
@@ -30,6 +33,9 @@ const ManageDevices = () => {
             if(res){
                 getSessionData()
             }
+        })
+        .catch(err => {
+            setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."})
         })
     }
     const handleCancel = () => {
@@ -50,6 +56,11 @@ const ManageDevices = () => {
         window.scrollTo(0,0);
         getSessionData()
     }, [])
+
+    useEffect(() => {
+        if(error) throw(error)
+      }, [error]);
+      
     return (
         <Layout defaultHeader={true} hamburger={true}>
             <Spin spinning={spinning}>

@@ -15,12 +15,12 @@ class ErrorBoundary extends React.Component<any> {
   
     componentDidCatch(error: any, errorInfo: any) {
       // Custom error handling logic
-      if(error >= 400 && error < 500) {
+      if(error.code >= 400 && error.code < 500) {
         this.setState({
             ...this.state,
             errorType: 'type1'
         })
-      } else if (error >= 500) {
+      } else if (error.code >= 500) {
         this.setState({
             ...this.state,
             errorType: 'type2'
@@ -32,10 +32,8 @@ class ErrorBoundary extends React.Component<any> {
     }
 
     componentDidUpdate(previousProps: any, previousState: any) {
-      console.log(previousState);
       if (previousState.open!==this.state.open)
           this.setState({...this.state, hasError: false});
-          console.log(this.state);
   }
 
     handleCancel = () => {
@@ -51,6 +49,7 @@ class ErrorBoundary extends React.Component<any> {
                 open={this.state.open}
                 title='Error'
                 errorType='type1'
+                error={this.state.error}
                 handleCancel={this.handleCancel}
             />
           );

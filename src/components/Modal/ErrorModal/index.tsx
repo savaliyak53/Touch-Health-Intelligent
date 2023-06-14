@@ -6,12 +6,14 @@ export type IProps = {
   open: boolean;
   title: string;
   errorType: string;
+  error?: any
   handleCancel: () => void;
 };
 const ErrorModal = ({
   open,
   title,
   errorType,
+  error,
   handleCancel
 }: IProps) => {
   const navigate = useNavigate();
@@ -52,7 +54,8 @@ const ErrorModal = ({
     >
       <div className='Description'>
         {errorType == 'type1' ? (
-            <>{`Something went wrong! Please wait a minute, then try again. If it still doesn't work, please let us know over on the support page.`}</>
+            <>{`Something went wrong! Please try refreshing your page and trying again. If it still doesn't work, please let us know over on the support page.`} <br />
+            {`Error ${error.code}: ${error.message}`}</>
 
         ) : errorType == 'type2' ? (
             <>{`Please wait a minute, then try again. If it still doesn't work, please let us know over on the support page.`}</>

@@ -32,6 +32,8 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
   const [checkedError, setCheckedError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [error, setError] = useState<any>();
+
   const navigate = useNavigate();
   const {
     register,
@@ -81,11 +83,12 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
         if (response?.id) {
           localStorage.setItem('userId', response.id);
           localStorage.setItem('token', response.token);
-          navigate(`/terms-and-conditions`);
+          // navigate(`/terms-and-conditions`);
         } else {
           setIsDisabled(false);
           setIsLoading(false);
           toast.error(response?.response?.data?.details);
+          setError({code: response.response.data.status, message: response.response.data.details ?? "Something went wrong."})
         }
       })
       .catch((error: any) => {
@@ -101,6 +104,10 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
   useEffect(() => {
     window.scrollTo(0,0);
   }, [])
+
+  useEffect(() => {
+    if(error) throw(error)
+  }, [error])
   return (
     <div className={styles['Auth-wrap']}>
       <form

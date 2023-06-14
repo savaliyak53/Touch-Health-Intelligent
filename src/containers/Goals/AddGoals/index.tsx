@@ -63,6 +63,7 @@ const AddGoals = () => {
   const [deletedGoal, setDeletedGoal] = useState<string | undefined | null>(
     null
   );
+  const [error, setError] = useState<any>();
   const authContext = useContext<AuthContextData | undefined>(AuthContext); 
   const getUserStatus = () => { 
     const userId=authContext?.user;
@@ -132,6 +133,9 @@ const AddGoals = () => {
     getGoals().then((res: any) => {
       setGoals(res.data);
       getSuggestedGoals(res.data);
+    })
+    .catch(err => {
+      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."});
     });
   };
 
@@ -143,7 +147,10 @@ const AddGoals = () => {
         );
         setSuggestion(result);
       }
-    });
+    })
+    .catch(err => {
+      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."});
+    })
   };
 
   const handleOptionSelect = (value: string, option: any) => {
@@ -164,7 +171,7 @@ const AddGoals = () => {
         getGoalsData();
       })
       .catch((error) => {
-        console.log(error);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
         toast.error('Something went wrong. Please contact support.');
       });
   };
@@ -181,6 +188,7 @@ const AddGoals = () => {
         setIsModalOpen(false);
       })
       .catch((error: any) => {
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
         toast.error(error);
       });
   };
@@ -206,6 +214,7 @@ const AddGoals = () => {
                   }
                 })
                 .catch((error) => {
+                  setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
                   toast.error(`Something went wrong. `);
                 });
             } else {
@@ -215,6 +224,7 @@ const AddGoals = () => {
           })
           .catch((error) => {
             setIsLoading(false);
+            setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
             toast.error(
               `${error.response?.data?.title} Please check values and try again.`
             );
@@ -226,6 +236,11 @@ const AddGoals = () => {
     getGoalsData();
     getUserStatus();
   }, []);
+
+  useEffect(() => {
+    if(error) throw(error);
+  }, [error]);
+
   useEffect(() => {
     if (debouncedSearchValue) {
       getGoalsSearch(debouncedSearchValue)
@@ -243,7 +258,7 @@ const AddGoals = () => {
           }
         })
         .catch((error) => {
-          console.log('error while searching ', error);
+          setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
           toast('Something went wrong. Please contact support.');
         });
     } else {
