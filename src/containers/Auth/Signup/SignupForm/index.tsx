@@ -83,7 +83,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
         if (response?.id) {
           localStorage.setItem('userId', response.id);
           localStorage.setItem('token', response.token);
-          // navigate(`/terms-and-conditions`);
+          navigate(`/terms-and-conditions`);
         } else {
           setIsDisabled(false);
           setIsLoading(false);
