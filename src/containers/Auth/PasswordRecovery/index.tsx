@@ -116,8 +116,8 @@ const PasswordRecovery = () => {
 
   const onSubmitCode = async (data: any) => {
     setIsSubmitted(true);
-    const username = localStorage.getItem('username');
-    const code = data.code ? data.code : getValues('code');
+    const username = location.state.username ?? localStorage.getItem('username');
+    const code = data.code ?? getValues('code');
     getSecurityQuestions(username, code)
       .then((response) => {
         if (response && response.code === 'ERR_BAD_REQUEST') {
