@@ -70,6 +70,8 @@ const PasswordRecovery = () => {
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [expiryModal, setExpiryModal] = useState<boolean>(false);
   const [code, setCode] = useState('');
+  const [error, setError] = useState<any>();
+
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
   const expiryTimestamp = time;
@@ -110,6 +112,10 @@ const PasswordRecovery = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (error) throw(error)
+  }, [error]);
+
   const restartTime = (time: number) => {
     const t = new Date();
     t.setSeconds(t.getSeconds() + time);
@@ -118,13 +124,11 @@ const PasswordRecovery = () => {
 
   const onSubmitCode = async (data: any) => {
     setIsSubmitted(true);
-    const username = localStorage.getItem('username');
-    const code = data.code ? data.code : getValues('code');
+    const username = location.state.username ?? localStorage.getItem('username');
+    const code = data.code ?? getValues('code');
     getSecurityQuestions(username, code)
       .then((response) => {
-        if (response && response.code === 'ERR_BAD_REQUEST') {
-          toast.error(response.response.data.details);
-        } else if (response && response.security_questions.length > 0) {
+        if (response && response.security_questions.length > 0) {
           setCodeSubmitted(true);
           setIsCodeSent(false);
           setQuestion(response.security_questions[0].question);
@@ -136,7 +140,11 @@ const PasswordRecovery = () => {
         }
       })
       .catch((error: any) => {
-        toast(error);
+        if (error.response.data.details && error.code === 'ERR_BAD_REQUEST') {
+          toast.error(error.response.data.details);
+        } else {
+          setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        }
       });
   };
 
@@ -154,13 +162,18 @@ const PasswordRecovery = () => {
       data.security_question.question = question;
     }
     checkAnswer(data).then((response) => {
-      if (response && response.code === 'ERR_BAD_REQUEST') {
-        toast.error(response.response.data.details);
-      } else {
+      if(response) {
         setChangePassword(true);
         setCodeSubmitted(false);
       }
-    });
+    })
+    .catch(err => {
+      if (err.response.data.details && err.code === 'ERR_BAD_REQUEST') {
+        toast.error(err.response.data.details);
+      } else {
+        setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."})
+      }
+    })
   };
   const getId = (token: string) => {
     const user: User = jwt(token);
@@ -210,14 +223,19 @@ const PasswordRecovery = () => {
             } else {
               toast.error(response.response.data.details);
             }
-          } else {
+          }
+          if (response) {
             toast.success('Password Recovered Successfuly');
             // loginRequest(data)
             navigate('/login');
           }
         })
         .catch((error: any) => {
-          toast('error', error);
+          if (error && error.code === 'ERR_BAD_REQUEST') {
+            toast.error(error.response.data.details);
+          } else {
+            setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+          }
         });
     } else {
       setChangePassword(false);

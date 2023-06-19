@@ -30,6 +30,7 @@ import GoogleFitSuccess from '../containers/GoogleFitSuccess/GoogleFitSuccess';
 import Integrations from '../containers/Integeration';
 import MockQuestionnaire from '../containers/MockQuestionnaire';
 import ManageDevices from '../containers/ManageDevices';
+import ExistingUser from '../containers/ExistingUser';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -51,6 +52,7 @@ const AppRoutes = () => {
         <Route path="*" element={<Home />} />
         <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />
         <Route element={<RequireSignup />}>
+          <Route path="/existing-user" element={<ExistingUser />} />
           <Route path="/verification-code" element={<Verification />} />
         </Route>
         {/* Protected Routes */}

@@ -39,6 +39,7 @@ const Verification = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [enableTimer, setEnableTimer] = useState(true);
   const [disableSubmit, setDisableSubmit] = useState(true);
+  const [error, setError] = useState<any>();
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
   const expiryTimestamp = time;
@@ -70,6 +71,10 @@ const Verification = () => {
     pageBackEvent();
     sendPhoneOTP();
   }, []);
+
+  useEffect(() => {
+    if(error) throw(error)
+  }, [error])
   const onSubmit = async (data: any) => {
     if (userId) {
       setIsVerifying(true);
@@ -86,19 +91,21 @@ const Verification = () => {
         navigate('/security');
       } else if (phoneVerificationResponse?.response?.status === 409) {
         const phone = localStorage.getItem('phone');
-        // navigate('/password-reset',{state: {
-        //   username: phone,
-        //   code: data.code
-        // }})
-        localStorage.clear();
-        toast.error('User already exists');
-        navigate('/login');
+        navigate('/existing-user',{state: {
+          username: phone,
+          code: data.code
+        }})
+        // localStorage.clear();
+        // toast.error('User already exists');
+        // navigate('/login');
         // toast.error("It seems your phone number already registered in our system. Please try to login or recover your password.");
         setIsVerifying(false);
         // logoutClick();
       } else if (phoneVerificationResponse?.response?.data) {
         toast.info(phoneVerificationResponse?.response?.data?.details);
         setIsVerifying(false);
+      } else {
+        setError({code: error.response.status, message: 'something went wrong.'})
       }
     }
   };
@@ -130,6 +137,8 @@ const Verification = () => {
           }
         setIsLoading(false);
         return false;
+      } else {
+        setError({code: error.response.status, message: 'Something went wrong.'})
       }
     }  else {
       setIsLoading(false);

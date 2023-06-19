@@ -1074,7 +1074,6 @@ input {
       font-family: $font-body;
       font-weight: 800;
       font-size: 24px;
-      line-height: 23px;
       color: $primary-color1;
     }
     .ant-modal-footer{
@@ -1093,6 +1092,9 @@ input {
   }
   .ant-modal-body {
     height: calc(100vh - 205px);
+    @media (max-width: 425px) {
+      height: calc(100vh - 228px);
+    }
    }
 
   &.ant-modal{
@@ -1528,7 +1530,7 @@ input {
 
 .Reset-Pwd-Back-Btn{
   flex-direction: row;
-  color:$primary-color1 !important;
+  color:$primary-color3 !important;
   font-size: 25px;
   font-weight: 700px;
   font-style: bold;

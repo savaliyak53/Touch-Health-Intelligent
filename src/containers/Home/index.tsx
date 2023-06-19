@@ -23,6 +23,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const context = useContext<AuthContextData | undefined>(AuthContext); 
   const [trialModal, setTrialModal] = useState<boolean>(false);
+  const [error, setError] = useState<any>();
 
   const axiosConfig: any = {
     withCredentials: true,
@@ -51,6 +52,10 @@ const Home = () => {
       navigate('/login');
     }
   }, []);
+  useEffect(() => {
+    if(error) throw(error)
+  }, [error]);
+  
   useEffect(() => {
     // const getInitialToken = async () => {
     //   console.log('auth/token called');
@@ -112,8 +117,9 @@ const Home = () => {
         }
       })
       .catch((error) => {
-        navigate('/dashboard');
-        toast.error(`Something went wrong. `);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        // navigate('/dashboard');
+        // toast.error(`Something went wrong. `);
       });
   };
   const handleInitialIntake = () => {
@@ -138,10 +144,8 @@ const Home = () => {
               }
             })
             .catch((error) => {
-              toast.error(
-                `Something went wrong. Cannot initiate interaction at the moment `
-              );
-              navigate('/dashboard');
+              setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+              // navigate('/dashboard');
             });
         } else {
           // console.log('navigate to dashboard');
@@ -149,9 +153,10 @@ const Home = () => {
         }
       })
       .catch((error) => {
-        toast.error(
-          `${error.response?.data?.title} Please check values and try again.`
-        );
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        // toast.error(
+        //   `${error.response?.data?.title} Please check values and try again.`
+        // );
       });
   };
   const checkUserData = () => {
@@ -172,15 +177,16 @@ const Home = () => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
         });
     }
   };
   const getUserSubscription = (response: any) => {
     getSubscriptionStatus()
       .then((res) => {
+        console.log(response);
         if (moment(response?.data?.trial_end_date).isBefore(moment())) {
-          navigate('/subscription');
+          // navigate('/subscription');
         } else if (
           response.data.signup_status === 'new' &&
           res.data.isSubscribed === false
@@ -194,10 +200,11 @@ const Home = () => {
                 handleRedirect(response);
               })
               .catch((error) => {
-                toast.error(
-                  `Something went wrong. Cannot initiate interaction at the moment`
-                );
-                navigate('/dashboard');
+                setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+                // toast.error(
+                //   `Something went wrong. Cannot initiate interaction at the moment`
+                // );
+                // navigate('/dashboard');
               });
           } else if (response.data.signup_status === 'goal-characterization' || response.data.signup_status === 'goal-selection') {
             getInteractionServiceByType('goal_characterization')
@@ -205,10 +212,11 @@ const Home = () => {
                 handleRedirect(response);
               })
               .catch((error) => {
-                toast.error(
-                  `Something went wrong. Cannot initiate interaction at the moment`
-                );
-                navigate('/dashboard');
+                setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+                // toast.error(
+                //   `Something went wrong. Cannot initiate interaction at the moment`
+                // );
+                // navigate('/dashboard');
               });
           } else if (response.data.signup_status === 'done') {
             getInteractionByType('checkup');
@@ -224,15 +232,17 @@ const Home = () => {
                 handleInitialIntake();
               })
               .catch((error) => {
-                toast.error(
-                  `${error.response?.data?.title} Something went wrong while updating preference`
-                );
+                setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+                // toast.error(
+                //   `${error.response?.data?.title} Something went wrong while updating preference`
+                // );
               });
           }
         }
       })
       .catch((error) => {
-        console.log('Error while getting user plan. ', error);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        // console.log('Error while getting user plan. ', error);
       });
   };
   const handleTrialIntake = () => {
@@ -248,9 +258,10 @@ const Home = () => {
         handleInitialIntake();
       })
       .catch((error) => {
-        toast.error(
-          `${error.response?.data?.title} Something went wrong while updating preference`
-        );
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        // toast.error(
+        //   `${error.response?.data?.title} Something went wrong while updating preference`
+        // );
       });
   };
   return (

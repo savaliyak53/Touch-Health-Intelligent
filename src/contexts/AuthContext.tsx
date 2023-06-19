@@ -38,6 +38,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return session ? session : null;
   });
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<any>();
 
   const navigate = useNavigate();
 
@@ -88,7 +89,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       navigate('/login');
     })
     .catch(err => {
-      console.log(err);
+      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."});
     })
   };
 
@@ -99,6 +100,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       // getToken()
     }
   }, []);
+
+  useEffect(() => {
+    if(error) throw(error);
+  }, [error])
 
   const contextData: AuthContextData = {
     user,

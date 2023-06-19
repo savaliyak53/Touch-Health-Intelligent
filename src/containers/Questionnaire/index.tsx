@@ -29,7 +29,7 @@ function UserCondition() {
   const [signupStatus, setSignupStatus] = useState<string | null>();
   const [exception, setException] = useState<boolean>(false); 
   const context = useContext<AuthContextData | undefined>(AuthContext); 
-
+  const [error, setError] = useState<any>();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -51,12 +51,13 @@ function UserCondition() {
         }
       })
       .catch((error) => {
-        toast(
-          error?.details?.message
-            ? error?.details?.message
-            : 'Cannot get question'
-        );
-        navigate('/dashboard');
+        // toast(
+        //   error?.details?.message
+        //     ? error?.details?.message
+        //     : 'Cannot get question'
+        // );
+        setError({code: error.response.status, message: error.response.data.details.message ?? "Something went wrong."})
+        // navigate('/dashboard');
         setSkeletonLoading(false);
       });
   };
@@ -81,9 +82,10 @@ function UserCondition() {
                 }
               })
               .catch((error) => {
-                toast.error(
-                  `${error.response?.data?.title} Please check values and try again.`
-                );
+                // toast.error(
+                //   `${error.response?.data?.title} Please check values and try again.`
+                // );
+                setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
               });
           }
         } else if (response?.data.signup_status === 'goal-characterization') {
@@ -103,9 +105,10 @@ function UserCondition() {
               }
             })
             .catch((error) => {
-              toast.error(
-                `${error.response?.data?.title} Please check values and try again.`
-              );
+              // toast.error(
+              //   `${error.response?.data?.title} Please check values and try again.`
+              // );
+              setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
             });
         } else if (response?.data.signup_status === 'done') {
           navigate('/dashboard');
@@ -114,9 +117,10 @@ function UserCondition() {
         }
       })
       .catch((error) => {
-        toast.error(
-          `${error.response?.data?.title} Please check values and try again.`
-        );
+        // toast.error(
+        //   `${error.response?.data?.title} Please check values and try again.`
+        // );
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
       });
   };
   useEffect(() => {
@@ -127,6 +131,11 @@ function UserCondition() {
       getInteraction();
     }
   }, []);
+
+  useEffect(() => {
+    if(error) throw(error)
+  }, [error]);
+  
   const handleInitiateCheckupByLink = () => {
     const userId=context?.user;
 
@@ -145,15 +154,17 @@ function UserCondition() {
         })
         .catch((error) => {
           setException(true);
+          setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
         });
       } else {
         navigate('/');
       }
     })
     .catch((error) => {
-      toast.error(
-        `${error.response?.data?.title} Please check values and try again.`
-      );
+      // toast.error(
+      //   `${error.response?.data?.title} Please check values and try again.`
+      // );
+      setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
     });
   };
   const integrationPageRedirect = (refId: string) => {
@@ -244,6 +255,7 @@ function UserCondition() {
       .catch((error) => {
         setLoading(false);
         setException(true);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
       });
   };
 

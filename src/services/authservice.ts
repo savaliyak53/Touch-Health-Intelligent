@@ -41,20 +41,11 @@ export const loginService = async (data: ILogin, header: string) => {
   }
 };
 export const sessionsService = async () => {
-  try {
-    const res = await axios.get(`/auth/sessions`);
-    if (res) return res;
-  } catch (err) {
-    return err;
-  }
+  return await axios.get(`/auth/sessions`);
 };
 export const deleteSessionService = async (sessionId: string) => {
-  try {
-    const res = await axios.delete(`/auth/sessions/${sessionId}`);
-    if (res) return res;
-  } catch (err) {
-    return err;
-  }
+  return await axios.delete(`/auth/sessions/${sessionId}`);
+
 };
 export const logoutService = async (sessionId: string) => {
   try {
@@ -96,12 +87,7 @@ export const requestPhoneOTP = async (phone: string, token: string) => {
 };
 
 export const putSignUp = async (data: any, userId: string) => {
-  try {
-    const res = await axios.put(`${baseURL}/users/${userId}`, data);
-    if (res) return res.data;
-  } catch (err) {
-    return err;
-  }
+    return await axios.put(`${baseURL}/users/${userId}`, data);
 };
 
 export const validateSignUp = async (id: string | undefined) => {
@@ -160,7 +146,7 @@ export const getUser = async (id: string | null | undefined) => {
 
 export const postResetPassword = async (data: any) => {
   const response = await axios.put('/auth/password-recovery', data);
-  return response;
+  return response.data ?? response;
 };
 
 export const getSecurityQuestions = async (

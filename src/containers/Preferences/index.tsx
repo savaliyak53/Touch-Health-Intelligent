@@ -7,14 +7,13 @@ import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
 import {
   getIntegrationStatus,
   getPreference,
-  preferencesService,
+  updatePreference
 } from '../../services/authservice';
 import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
 import { Radio, Space, DatePicker } from 'antd';
 import moment from 'moment';
 import 'moment-timezone';
-import { getUser, updatePreference } from '../../services/authservice';
 import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -41,7 +40,7 @@ const Preferences = () => {
   const [userId, setUserId] = useState<any>('')
   const navigate = useNavigate();
   const context = useContext<AuthContextData | undefined>(AuthContext); 
-
+  const [error, setError] = useState<any>();
 
   useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
@@ -75,6 +74,11 @@ const Preferences = () => {
     getUserInfo(userId);
   }, []);
 
+  useEffect(() => {
+    if(error) throw(error)
+  }, [error]);
+
+
   const getUserInfo = (userId: string | null | undefined) => {
     getPreference()
       .then((response: any) => {
@@ -87,8 +91,9 @@ const Preferences = () => {
         setSpinning(false);
       })
       .catch((error) => {
-        toast('Unknown error');
+        // toast('Unknown error');
         setSpinning(false);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
       });
   };
   const getIntegrationStatusService = () => {
@@ -99,23 +104,25 @@ const Preferences = () => {
         }
       })
       .catch((error) => {
-        toast('Unknown error');
+        // toast('Unknown error');
         setSpinning(false);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
       });
   };
   const handleNext = () => {
     if(username !== '') {
-      preferencesService({
-        name: username
-      }, userId)
       updatePreference({
         username : username
         })
       .then(res => {
+        console.log(res);
+        if(res.data)
         navigate('/dashboard')
       })
-      .catch(() => {
-        toast.error('Something went wrong');
+      .catch((error) => {
+        console.log(error);
+        // toast.error('Something went wrong');
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
       });
     } else {
       toast.error("Username cannot be empty!")
@@ -229,6 +236,7 @@ const Preferences = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     onClick={() => setEnabled(true)}
+                    maxLength={24}
                   />
               </div>
               <div>
