@@ -44,6 +44,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [modalText, setModalText] = useState('');
   const [showLockAccountModal, setShowLockAccountModal] = useState(false);
+  const [error, setError] = useState<any>();
   const navigate = useNavigate();
   const location: any = useLocation();
   const {
@@ -106,10 +107,17 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
       if (loginResponse?.status === 429) {
         setShowLockAccountModal(true);
         setModalText(loginResponse?.response?.data?.details);
-      } else toast.error(loginResponse?.response?.data?.details);
+      } else if (loginResponse?.status === 403) {
+        toast.error(loginResponse?.response?.data?.details);
+      } else {
+        setError({code: loginResponse?.response?.status, message: loginResponse?.response?.data.details ?? "Something went wrong."})
+      } 
     }
   };
 
+  useEffect(() => {
+    if(error) throw(error)
+  },[error])
 
   useEffect(() => {
     window.scrollTo(0,0);

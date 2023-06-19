@@ -22,6 +22,8 @@ const SecurityQuestions = () => {
   const [saveMsg, setSaveMsg] = useState<boolean>(true)
   const navigate = useNavigate();
   const authContext = useContext<AuthContextData | undefined>(AuthContext); 
+  const [error, setError] = useState<any>();
+
   const onChange = (option: any) => {
     setQuestion(option);
   };
@@ -46,6 +48,9 @@ const SecurityQuestions = () => {
       navigate('/signup');
     }
   }, []);
+  useEffect(() => {
+    if(error) throw(error)
+  }, [error]);
   const handleSave = async () => {
     //const userId = localStorage.getItem('userId');
     // const userId = localStorage.getItem('userId');
@@ -54,21 +59,17 @@ const SecurityQuestions = () => {
     setLoading(true);
     if (userId) {
       putSignUp({ security_questions: securityQuestion }, userId)
-        .then(async (response) => {
-          if (response?.id) {
+        .then(async (response: any) => {
+          if (response.data.id) {
              toast.success('Security Question saved successfully');
             setLoading(false)
             navigate('/');
-            // setSaveMsg(true);
-            // setTimeout(()=>{
-            //   setSaveMsg(false)
-            //   navigate('/');
-            // },5000)
           }
         })
         .catch((error) => {
           setLoading(false);
-          toast.error('Something went wrong while saving the Question');
+          // toast.error('Something went wrong while saving the Question');
+          setError({code: error.response.status, message: error.response.data.details ?? 'Something went wrong.'})
         });
     }
   };

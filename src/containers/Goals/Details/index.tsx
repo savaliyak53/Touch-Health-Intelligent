@@ -46,6 +46,7 @@ const GoalDetails = () => {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showLastGoalModal, setShowLastGoalModal] = useState(false);
   const [showGoalInfoModal, setShowGoalInfoModal] = useState(false);
+  const [error, setError] = useState<any>();
 
   const navigate = useNavigate();
   let data = {};
@@ -212,6 +213,7 @@ const GoalDetails = () => {
       })
       .catch((error: any) => {
         toast.error(error);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
         setIsLoading(false);
       });
   };
@@ -226,6 +228,7 @@ const GoalDetails = () => {
       })
       .catch((error: any) => {
         toast.error(error);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
         setIsLoading(false);
       });
   };
@@ -274,7 +277,7 @@ const GoalDetails = () => {
         }
       })
       .catch((error) => {
-        console.log('error is ', error);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
         toast('Something went wrong');
       });
   };
@@ -291,6 +294,11 @@ const GoalDetails = () => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if(error) throw(error)
+  }, [error]);
+
   const handleBack = () => {
     navigate('/dashboard');
   };

@@ -14,7 +14,7 @@ const DashboardNew = () => {
   const [elements, setElements] = useState<any>();
   const [elementStreak, setElementStreak] = useState<any>();
   const [streakCount, setStreakCount] = useState<any>();
-
+  const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const date = new Date();
@@ -56,12 +56,14 @@ const DashboardNew = () => {
         }
       })
       .catch((error) => {
-        console.log('error is ', error);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
         setLoading(false);
-        toast(error);
       });
   }, []);
   
+  useEffect(() => {
+    if(error) throw(error);
+  }, [error])
   
   return (
     <Layout defaultHeader={true} hamburger={true} dashboard={false}>

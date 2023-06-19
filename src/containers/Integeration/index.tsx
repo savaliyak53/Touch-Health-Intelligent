@@ -55,7 +55,7 @@ const Integrations = () => {
   const refId = localStorage.getItem('refId')
   const redirect = localStorage.getItem('redirect') 
   const context = useContext<AuthContextData | undefined>(AuthContext); 
-
+  const [error, setError] = useState<any>();
 
   useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
@@ -87,6 +87,11 @@ const Integrations = () => {
       }
     })
   }, []);
+
+  useEffect(() => {
+    if(error) throw(error)
+  }, [error]);
+  
   const getIntegrationStatusService = () => {
     getIntegrationStatus()
       .then((response: any) => {
@@ -95,9 +100,10 @@ const Integrations = () => {
         }
       })
       .catch((error) => {
-        toast('Unknown error');
+        // toast('Unknown error');
         setChecked(false);
         setSpinning(false);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
       });
   };
   const handleClick = (checked: any) => {
@@ -111,6 +117,9 @@ const Integrations = () => {
   const googleOAuthModalOk = () => {
     getGoogleCode().then((res) => {
       createAuthLink(res);
+    })
+    .catch(err => {
+      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."})
     });
   };
   const revokeCredentials = () => {
@@ -119,6 +128,9 @@ const Integrations = () => {
         setChecked(false);
         toast.success('Google fit disabled');
       }
+    })
+    .catch(err => {
+      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."})
     });
   };
   const handleDeleteModal = () => {
@@ -131,6 +143,7 @@ const Integrations = () => {
       handleSetUserStatus()
     })
     .catch(err => {
+      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."})
       toast('Unknown error');
     })
   }
@@ -156,10 +169,11 @@ const Integrations = () => {
               }
             })
             .catch((error) => {
-              toast.error(
-                `Something went wrong. Cannot initiate interaction at the moment `
-              );
-              navigate('/dashboard');
+              setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+              // toast.error(
+              //   `Something went wrong. Cannot initiate interaction at the moment `
+              // );
+              // navigate('/dashboard');
             });
         } else {
           // console.log('navigate to dashboard');
@@ -167,6 +181,7 @@ const Integrations = () => {
         }
       })
       .catch((error) => {
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
         toast.error(
           `${error.response?.data?.title}`
         );
@@ -218,6 +233,7 @@ const Integrations = () => {
       navigate('/questionnaire')
     })
     .catch(() => {
+      setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
       toast.error('Something went wrong');
     });
   }
