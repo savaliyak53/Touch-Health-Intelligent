@@ -97,15 +97,9 @@ const Layout = ({
   const pageBackEvent = () => {
     window.history.pushState(null, '', window.location.pathname);
     window.addEventListener('popstate', onBackButtonEvent);
-    return () => {
-      window.removeEventListener('popstate', onBackButtonEvent);
-    };
   };
   const pageUrlEvent = () => {
     window.addEventListener('beforeunload', handleUrlChange);
-    return () => {
-      window.removeEventListener('beforeunload', handleUrlChange);
-    };
   };
   const handleOk = () => {
     setIsOpen(false);
@@ -121,6 +115,10 @@ const Layout = ({
     }
     pageBackEvent();
     pageUrlEvent();
+    return () => {
+      window.removeEventListener('popstate', onBackButtonEvent);
+      window.removeEventListener('beforeunload', handleUrlChange);
+    }
   }, []);
   return (
     <div className={`Layout ${signupLogin}`}>
