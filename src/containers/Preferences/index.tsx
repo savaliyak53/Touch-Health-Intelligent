@@ -236,6 +236,7 @@ const Preferences = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     onClick={() => setEnabled(true)}
+                    maxLength={24}
                   />
               </div>
               <div>

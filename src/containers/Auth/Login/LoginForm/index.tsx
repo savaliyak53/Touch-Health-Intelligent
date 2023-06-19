@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Button from '../../../../components/Button';
 import InputField from '../../../../components/Input';
 // import './index.scss';
 // import '../index.scss';
+import { parsePhoneNumber } from 'react-phone-number-input';
 import styles from '../Login.module.scss';
 import Authstyles from '../../Auth.module.scss';
 import { Tooltip } from 'antd';
@@ -14,7 +15,7 @@ import { loginService } from '../../../../services/authservice';
 import { ILogin } from '../../../../interfaces';
 import jwt from 'jwt-decode';
 import { toast } from 'react-toastify';
-import { getTokenExpiration, onlyNumbers } from '../../../../utils/lib';
+import { getTokenExpiration, onlyNumbers, validateNumber } from '../../../../utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
 import AccountLockModal from '../../../../components/Modal/AccountLockModal';
 import AuthContext, { AuthContextData } from '../../../../contexts/AuthContext';
@@ -45,11 +46,13 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
   const [showLockAccountModal, setShowLockAccountModal] = useState(false);
   const [error, setError] = useState<any>();
   const navigate = useNavigate();
+  const location: any = useLocation();
   const {
     register,
     handleSubmit,
     reset,
     getValues,
+    setValue,
     control,
     formState: { errors },
   } = useForm<IFormInputs>({
@@ -115,6 +118,12 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
   useEffect(() => {
     if(error) throw(error)
   },[error])
+
+  useEffect(() => {
+    window.scrollTo(0,0);
+    if(location.state?.username) setValue('username',validateNumber(location.state.username));
+  }, [])
+  
   return (
     <div className={styles['Auth-wrap']}>
       <form

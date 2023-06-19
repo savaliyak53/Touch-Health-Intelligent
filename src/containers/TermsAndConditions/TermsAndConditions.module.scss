@@ -52,7 +52,7 @@
   .TermsBtn {
     border-radius: 100px;
     height: 100%;
-    padding: 18px 38px;
+    padding: 18px 30px;
     background-color: $primary-color1;
     color: #fff;
     font-size: 20px;
@@ -62,8 +62,11 @@
     margin: 0 auto;
     max-width: 400px;
     display: block;
-    width: 80%;
     pointer-events: auto;
+    @media screen and (min-width: 420px) {
+      width: 80%;
+      padding: 18px 38px;
+    }
   
     &:hover,
     &:focus,

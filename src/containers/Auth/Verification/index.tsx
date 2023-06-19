@@ -91,13 +91,13 @@ const Verification = () => {
         navigate('/security');
       } else if (phoneVerificationResponse?.response?.status === 409) {
         const phone = localStorage.getItem('phone');
-        // navigate('/password-reset',{state: {
-        //   username: phone,
-        //   code: data.code
-        // }})
-        localStorage.clear();
-        toast.error('User already exists');
-        navigate('/login');
+        navigate('/existing-user',{state: {
+          username: phone,
+          code: data.code
+        }})
+        // localStorage.clear();
+        // toast.error('User already exists');
+        // navigate('/login');
         // toast.error("It seems your phone number already registered in our system. Please try to login or recover your password.");
         setIsVerifying(false);
         // logoutClick();
