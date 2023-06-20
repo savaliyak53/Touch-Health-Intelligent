@@ -74,6 +74,7 @@ const Home = () => {
           //after successful subscription initiate onboarding interaction
           getInteractionServiceByType('onboarding')
             .then((response: any) => {
+              setLoading(false);
               if (response) {
                 navigate('/questionnaire');
               } else {
@@ -137,8 +138,7 @@ const Home = () => {
           response.data.signup_status === 'new' &&
           res.data.isSubscribed === false
         ) {
-          setTrialModal(true);
-          setLoading(false);
+          handleTrialIntake();
         } else {
           if (response.data.signup_status === 'onboarding') {
             getInteractionServiceByType('onboarding')
@@ -198,7 +198,6 @@ const Home = () => {
       });
   };
   const handleTrialIntake = () => {
-    setTrialModal(false);
     const zoneVal = moment()
       .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
       .format('Z');
@@ -219,13 +218,6 @@ const Home = () => {
   return (
     <div className="Btn-group">
       <Spin size="large" className=" Spinner" />
-      <FreeTrialModal
-        handleOk={handleTrialIntake}
-        open={trialModal}
-        title="Free Trial"
-        buttonText="Let's get started!"
-      />
-
       {exception && (
         <div>
           <ErrorInteractionModal
