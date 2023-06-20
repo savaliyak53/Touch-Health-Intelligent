@@ -122,7 +122,7 @@ const PasswordRecovery = () => {
 
   const onSubmitCode = async (data: any) => {
     setIsSubmitted(true);
-    const username = location.state.username ?? localStorage.getItem('username');
+    const username = location.state?.username ?? localStorage.getItem('username');
     const code = data.code ?? getValues('code');
     getSecurityQuestions(username, code)
       .then((response) => {
