@@ -59,7 +59,9 @@ export const signupFlow = (pathname: any) => {
     pathname === '/terms-and-conditions' ||
     pathname === '/security' ||
     pathname === '/verification-code' ||
-    pathname === '/password-reset'
+    pathname === '/password-reset' ||
+    pathname === '/existing-user'
+
   ) {
     return true;
   }
@@ -90,3 +92,8 @@ export const getSession = (token: string) => {
   const user: any = jwt(token);
   return user.sid;
 };
+
+export const validateNumber = (num: string) => {
+  if(num.charAt(0) !== '+') return '+' + num
+  else return num
+}

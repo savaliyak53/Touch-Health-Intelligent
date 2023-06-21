@@ -55,7 +55,7 @@ const Subscription = () => {
   const [disableAllButtons, setDisableAllButtons] = useState<boolean>(false);
   const [onTrial, setOnTrial] = useState<boolean>(false);
   const authContext = useContext<AuthContextData | undefined>(AuthContext); 
-
+  const [error, setError] = useState<any>();
 
   const [estimateAmount, setEstimateAmount] = useState();
   const showModal = () => {
@@ -72,7 +72,8 @@ const Subscription = () => {
       })
       .catch((error) => {
         setLoading(false);
-        console.log('errors are ', error);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        // console.log('errors are ', error);
       });
   };
 
@@ -95,7 +96,8 @@ const Subscription = () => {
       })
       .catch((error) => {
         setLoading(false);
-        console.log('error while getting user plan');
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        // console.log('error while getting user plan');
       });
   };
 
@@ -114,7 +116,8 @@ const Subscription = () => {
         }
       })
       .catch((error) => {
-        console.log('Error while getting user plan. ', error);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        // console.log('Error while getting user plan. ', error);
       });
   };
   const delay = (ms:any) => new Promise(
@@ -139,8 +142,9 @@ const Subscription = () => {
         }
       })
       .catch((error) => {
-        return null;
-        console.log('Error while getting user plan. ', error);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        // return null;
+        // console.log('Error while getting user plan. ', error);
       });
     return null;
   };
@@ -150,12 +154,12 @@ const Subscription = () => {
       checkTrial();
       userSubscriptionStatus();
       fetchPlans();
-      fetchUserSubscription();
+      userPlanStatus && fetchUserSubscription();
       setSpin(false);
     } else if (checkout_status === 'complete') {
       userSubscriptionStatus();
       fetchPlans();
-      fetchUserSubscription();
+      userPlanStatus && fetchUserSubscription();
       setSpin(false);
       const userId=authContext?.user;
       // const userId = localStorage.getItem('userId');
@@ -173,16 +177,18 @@ const Subscription = () => {
                 handleInitialIntake();
               })
               .catch((error) => {
-                toast.error(
-                  `${error.response?.data?.title} Something went wrong while updating preference`
-                );
+                // toast.error(
+                //   `${error.response?.data?.title} Something went wrong while updating preference`
+                // );
+                setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
               });
           } else if (response.data.signup_status == 'done') {
             setUserSignupStatus(true);
           }
         })
         .catch((error) => {
-          console.log(error);
+          setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+          // console.log(error);
         });
     }
   }, []);
@@ -190,7 +196,7 @@ const Subscription = () => {
     if (stripeStatus === 'complete') {
       userSubscriptionStatus();
       fetchPlans();
-      fetchUserSubscription();
+      userPlanStatus && fetchUserSubscription();
       setSpin(false);
       const userId=authContext?.user;
       // const userId = localStorage.getItem('userId');
@@ -208,16 +214,18 @@ const Subscription = () => {
                 handleInitialIntake();
               })
               .catch((error) => {
-                toast.error(
-                  `${error.response?.data?.title} Something went wrong while updating preference`
-                );
+                // toast.error(
+                //   `${error.response?.data?.title} Something went wrong while updating preference`
+                // );
+                setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
               });
           } else if (response.data.signup_status == 'done') {
             setUserSignupStatus(true);
           }
         })
         .catch((error) => {
-          console.log(error);
+          setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+          // console.log(error);
         });
     }
   }, [stripeStatus]);
@@ -231,6 +239,9 @@ const Subscription = () => {
       userCheckoutStatus();
     }
   }, [location]);
+  useEffect(() => {
+    if(error) throw(error);
+  }, [error]);
   const handleRetry = () => {
     setRetry(false);
     retries = 1;
@@ -345,7 +356,7 @@ const Subscription = () => {
         setLoading(false);
         setDisableButton(false);
         toast.info('Subscription Cancelled');
-        fetchUserSubscription();
+        userPlanStatus && fetchUserSubscription();
         userSubscriptionStatus();
       })
       .catch((error) => {
@@ -364,7 +375,7 @@ const Subscription = () => {
         setLoading(false);
         setDisableButton(false);
         fetchPlans();
-        fetchUserSubscription();
+        userPlanStatus && fetchUserSubscription();
       });
     }
   };
