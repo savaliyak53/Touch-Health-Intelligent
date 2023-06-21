@@ -8,9 +8,9 @@ export default function SliderComponent({
   setValue,
 }: any) {
   return (
+    <>
+    <span className={styles['Text1']}>{question.upper_qualifier}</span>
     <div className="Question-Slider-Vertical">
-      {/* <div className={styles["Slider-Vertical"]}> */}
-      <span className={styles['Text1']}>{question.lower_qualifier}</span>
       <Slider
         className="Slider"
         vertical
@@ -18,12 +18,16 @@ export default function SliderComponent({
         min={question.lower_value}
         max={question.upper_value}
         step={question.step_value}
-        tooltipVisible={question.show_values}
+        marks={question.markers}
+        included={true}
+        defaultValue={question.init_value}
+        tooltip={question.show_values}
         onChange={(value: any) => {
           setValue(value);
         }}
       />
-      <span className={styles['Text2']}>{question.upper_qualifier}</span>
     </div>
+    <span className={styles['Text2']}>{question.lower_qualifier}</span>
+    </>
   );
 }
