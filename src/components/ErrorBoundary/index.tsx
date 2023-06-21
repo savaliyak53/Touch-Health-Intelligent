@@ -15,7 +15,13 @@ class ErrorBoundary extends React.Component<any> {
   
     componentDidCatch(error: any, errorInfo: any) {
       // Custom error handling logic
-      if(error.code >= 400 && error.code < 500) {
+      if(error.message === 'Verification code expired, please request a new one') {
+        this.setState({
+            ...this.state,
+            errorType: 'type0'
+        })
+      }
+      else if(error.code >= 400 && error.code < 500) {
         this.setState({
             ...this.state,
             errorType: 'type1'
@@ -43,7 +49,18 @@ class ErrorBoundary extends React.Component<any> {
     render() {
       if (this.state.hasError) {
         // Render different error messages based on error type
-        if (this.state.errorType === 'type1') {
+        if (this.state.errorType === 'type0') {
+          return (
+            <ErrorModal
+                open={this.state.open}
+                title='Session Expiry'
+                errorType='type0'
+                error={this.state.error}
+                handleCancel={this.handleCancel}
+            />
+          );
+        }
+        else if (this.state.errorType === 'type1') {
           return (
             <ErrorModal 
                 open={this.state.open}

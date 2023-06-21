@@ -220,7 +220,7 @@ const PasswordRecovery = () => {
         })
         .catch((error: any) => {
           if (error && error.code === 'ERR_BAD_REQUEST') {
-            toast.error(error.response.data.details);
+            setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
           } else {
             setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
           }

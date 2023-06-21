@@ -23,18 +23,30 @@ const ErrorModal = ({
     navigate('/dashboard');
     handleCancel();
   };
+  const handleExpiry = () => {
+    handleCancel();
+    navigate('/login');
+  };
   return (
     <Modal
       title={title}
       className={"Delete-Modal"}
       open={open}
-      closable={errorType == 'type1' ? false : true}
+      closable={errorType == 'type1' || errorType == 'type0'  ? false : true}
       keyboard={false}
       onOk={handleOk}
       onCancel={handleCancel}
       footer={[
         <div key='submit'>
-            {errorType == 'type1' ? (
+            {errorType == 'type0' ? (
+                <Button
+                className={'Submit-Button'}
+                onClick={handleExpiry}
+              >
+                Ok
+              </Button>
+            ) :
+            errorType == 'type1' ? (
                 <Button
                 className={'Submit-Button'}
                 onClick={handleCancel}
@@ -53,7 +65,9 @@ const ErrorModal = ({
       ]}
     >
       <div className='Description'>
-        {errorType == 'type1' ? (
+        {errorType == 'type0' ? (
+            <>{`Your session has expired. Please log in to continue.`} <br /> </>
+        ) : errorType == 'type1' ? (
             <>{`Something went wrong! Please try refreshing your page and trying again. If it still doesn't work, please let us know over on the support page.`} <br />
             {`Error ${error.code}: ${error.message}`}</>
 
