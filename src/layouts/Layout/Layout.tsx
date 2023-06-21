@@ -46,7 +46,7 @@ const Layout = ({
           // const { security_questions } = response.data;
           if (response.data.security_questions) {
             getUserSubscription(response);
-            if (moment(response?.data?.trial_end_date).isAfter(moment())) {
+            if (response?.data?.trial_end_date && moment(response?.data?.trial_end_date).isAfter(moment())) {
               setTrialRemaining(response.data.trial_remaining);
             }
           } else if (response.data && !response.data.security_questions) {
@@ -65,11 +65,21 @@ const Layout = ({
     getSubscriptionStatus()
       .then((res) => { 
         if (
-          res.data.isSubscribed === false &&
-          moment(response?.data?.trial_end_date).isBefore(moment())
+          response?.data?.trial_end_date &&
+          moment(response?.data?.trial_end_date).isBefore(moment()) &&
+          res.data.isSubscribed === false 
         ) {
-          setTrialEndDate(response.data.trial_end_date)
+          setTrialEndDate(response.data.trial_end_date);
           setTrialEndModal(true);
+          location.pathname !== '/subscription'
+            ? navigate('/subscription')
+            : null;
+          return;
+        }
+        else if (
+          res.data.isSubscribed === false &&
+          typeof response?.data?.trial_end_date === 'undefined'
+        ) {
           location.pathname !== '/subscription'
             ? navigate('/subscription')
             : null;

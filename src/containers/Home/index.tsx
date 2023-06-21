@@ -130,8 +130,10 @@ const Home = () => {
   const getUserSubscription = (response: any) => {
     getSubscriptionStatus()
       .then((res) => {
-        console.log(response);
-        if (moment(response?.data?.trial_end_date).isBefore(moment())) {
+        if (
+          response?.data?.trial_end_date &&
+          moment(response?.data?.trial_end_date).isBefore(moment())
+        ) {
           navigate('/subscription');
         } else if (
           response.data.signup_status === 'new' &&
