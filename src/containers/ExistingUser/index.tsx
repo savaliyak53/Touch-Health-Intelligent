@@ -17,7 +17,7 @@ const ExistingUser = () => {
     }
     const handleResetPwd = () => {
         navigate('/password-reset',{state: {
-            username: parseInt(location.state.username),
+            username: location.state.username,
             code: location.state.code
         }})
     }
