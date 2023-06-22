@@ -721,19 +721,37 @@ input {
       }
     }
 
-    .ant-slider-rail,
+    .ant-slider-rail{
+      background-color: $ternary-color2;
+
+    }
     .ant-slider-track {
       background-color: $primary-color1;
     }
-    .ant-slider-handle {
-      width: 40px;
-      height: 40px;
+    .ant-slider-handle,.ant-slider-handle-dragging {
+      width: 20px;
+      height: 20px;
       border: 2px solid $primary-color1;
+      background-color: $primary-color1;
       margin-top: -13px;
-      margin-left: -18px;
+      margin-left: -8px;
       &:focus {
-        box-shadow: none;
+        box-shadow: 0 0 0 20px rgba(24,144,255,.12);
       }
+    }
+    .ant-slider-step{
+      .ant-slider-dot,.ant-slider-dot-active{
+        background-color: $primary-color2;
+        width: 25px;
+        border-radius: 0;
+        height: 2px;
+        border: none;
+        transform: translateY(50%) translateX(-35%) !important;
+      }
+    }
+
+    .ant-slider-mark-text,.ant-slider-mark-text-active{
+      left: 10px;
     }
   }
 }
