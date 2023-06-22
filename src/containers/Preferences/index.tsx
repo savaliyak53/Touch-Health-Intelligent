@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Slider, Tooltip, Button, Spin, Switch } from 'antd';
+import { Tooltip, Button, Spin, Input } from 'antd';
 import styles from './Preferences.module.scss';
-import { CloudDownloadOutlined } from '@ant-design/icons';
+import { CloudDownloadOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
 import {
   getIntegrationStatus,
@@ -229,16 +229,20 @@ const Preferences = () => {
                     />
                   </Tooltip>
                 </h3>
-                {/* <Button className="Pref-username-btn">{username}</Button> */}
-                <input
-                    type="text"
-                    className={styles["Pref-username-input"]}
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    onClick={() => setEnabled(true)}
-                    maxLength={24}
-                  />
+                <div className={"Pref-username-input"}>
+                  <Input
+                      type="text"
+                      status={username.length > 24 ? 'error' : ''}
+                      
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      onClick={() => setEnabled(true)}
+                    />
+                </div>
+
               </div>
+              {username.length > 24 && <span className={styles['Username-error-msg']}><InfoCircleOutlined /> Username cannot be longer than 24 characters.</span>}
+
               <div>
                 <Button className={`Submit-Button ${styles['Manage-Devices-btn']}`} onClick={() => navigate('/manage-devices')}>{'Manage Devices'}</Button>
               </div>
@@ -247,6 +251,7 @@ const Preferences = () => {
                 <Button
                   className={'Submit-Button'}
                   onClick={handleNext}
+                  disabled={username.length > 24 ? true : false}
                 >
                 Save
                 </Button>

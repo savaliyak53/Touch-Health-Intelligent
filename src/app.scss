@@ -1536,3 +1536,26 @@ input {
   font-style: bold;
   width: 100%;
 }
+
+.Pref-username-input {
+  .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input, .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover{
+    border-color: #ff7875 !important;
+  }
+
+  .ant-input{
+    border-radius: 80px;
+    height: 60px !important;
+    border: 2px solid $primary-color1;
+    color: $primary-color1;
+    font-size: 20px;
+    max-width: 150px;
+    text-align: center;
+    margin-bottom: 7px;
+    max-width: 200px;
+    width: 100%;
+    &:hover,
+    &:focus {
+        border: 2px solid $primary-color1;
+    }
+  }
+}
