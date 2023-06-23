@@ -68,7 +68,7 @@ function UserCondition() {
       .then((response: any) => {
         if (response?.data.signup_status === 'onboarding') {
           const preferenceData = {
-            signup_status: 'goal-characterization',
+            signup_status: 'done',
           };
           const userId=context?.user ?? localStorage.getItem('userId');
           if (userId) {

@@ -158,17 +158,7 @@ const Home = () => {
             response.data.signup_status === 'goal-characterization' ||
             response.data.signup_status === 'goal-selection'
           ) {
-            getInteractionServiceByType('goal_characterization')
-              .then((response: any) => {
-                handleRedirect(response);
-              })
-              .catch((error) => {
-                setError({
-                  code: error.response.status,
-                  message:
-                    error.response.data.details ?? 'Something went wrong.',
-                });
-              });
+            handleRedirect(response);
           } else if (response.data.signup_status === 'done') {
             getInteractionByType('checkup');
           } else if (response.data.signup_status === 'new') {
