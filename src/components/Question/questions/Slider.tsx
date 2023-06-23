@@ -7,6 +7,20 @@ export default function SliderComponent({
   formatter,
   setValue,
 }: any) {
+  const convertedObject: {[key: number]: string} = {};
+
+  if(question.markers){
+    const originalObject: {[key: string]: number} = {
+      "Low Value": 0.1,
+      "Middle Value": 0.5,
+      "High Value": 0.7
+    };
+    
+    for (const key in originalObject) {
+      const value = originalObject[key];
+      convertedObject[value] = key;
+    }
+  }
   return (
     <>
     <span className={styles['Text1']}>{question.upper_qualifier}</span>
@@ -18,7 +32,7 @@ export default function SliderComponent({
         min={question.lower_value}
         max={question.upper_value}
         step={question.step_value}
-        marks={question.markers}
+        marks={convertedObject}
         included={true}
         defaultValue={question.init_value}
         tooltip={question.show_values}

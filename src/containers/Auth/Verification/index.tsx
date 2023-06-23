@@ -86,8 +86,6 @@ const Verification = () => {
         setIsVerifying(false);
         toast.dismiss();
         toast.success('Verified');
-        //localStorage.setItem('token', phoneVerificationResponse.token)
-        // process.env.REACT_APP_IS_BETA == 'TRUE' ? navigate('/') : navigate('/subscription');
         navigate('/security');
       } else if (phoneVerificationResponse?.response?.status === 409) {
         const phone = localStorage.getItem('phone');
@@ -95,12 +93,7 @@ const Verification = () => {
           username: phone,
           code: data.code
         }})
-        // localStorage.clear();
-        // toast.error('User already exists');
-        // navigate('/login');
-        // toast.error("It seems your phone number already registered in our system. Please try to login or recover your password.");
         setIsVerifying(false);
-        // logoutClick();
       } else if (phoneVerificationResponse?.response?.data) {
         toast.info(phoneVerificationResponse?.response?.data?.details);
         setIsVerifying(false);
