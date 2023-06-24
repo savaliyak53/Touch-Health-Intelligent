@@ -35,9 +35,8 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [error, setError] = useState<any>();
 
-  const authContext = useContext<AuthContextData | undefined>(AuthContext); // Add the type parameter
-  if (!authContext) return null;
-  const { signupUser } = authContext;
+  const authContext = useContext<AuthContextData | undefined>(AuthContext);
+  const { signupUser } = authContext as AuthContextData;
   const navigate = useNavigate();
   const {
     register,
