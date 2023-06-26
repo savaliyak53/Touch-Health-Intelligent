@@ -35,12 +35,12 @@ const Layout = ({
   const [trialEndModal, setTrialEndModal] = useState<boolean>(false);
   const [trialEndDate, setTrialEndDate] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isSubscribed, setIsSubscribed] = useState<boolean>(true);
   const navigate = useNavigate();
   const location = useLocation(); 
   const context = useContext(AuthContext);
   const checkUserData = () => {
-    const userId = context?.user ?? localStorage.getItem('userId');
-    // const userId = localStorage.getItem('userId');
+    const userId = context?.user;
     if (userId) {
       getUser(userId)
         .then((response: any) => {
@@ -72,6 +72,7 @@ const Layout = ({
         ) {
           setTrialEndDate(response.data.trial_end_date);
           setTrialEndModal(true);
+          setIsSubscribed(false);
           location.pathname !== '/subscription'
             ? navigate('/subscription')
             : null;
@@ -81,6 +82,7 @@ const Layout = ({
           res.data.isSubscribed === false &&
           typeof response?.data?.trial_end_date === 'undefined'
         ) {
+          setIsSubscribed(false);
           location.pathname !== '/subscription'
             ? navigate('/subscription')
             : null;
@@ -100,21 +102,23 @@ const Layout = ({
     }
     window.history.pushState(null, '', window.location.pathname);
   };
-  const handleUrlChange = (e: any) => {
-    e.preventDefault();
-    e.returnValue = '';
-    window.history.pushState(null, '', window.location.pathname);
-  };
   const pageBackEvent = () => {
     window.history.pushState(null, '', window.location.pathname);
     window.addEventListener('popstate', onBackButtonEvent);
   };
-  const pageUrlEvent = () => {
-    window.addEventListener('beforeunload', handleUrlChange);
+  const getBackButtonContent = (pathname : string) => {
+    if (pathname === '/dashboard') {
+      return backButtonContent.dashboardText;
+    } else if (pathname === '/subscription' && !isSubscribed) {
+      return backButtonContent.subscriptionText;
+    } else {
+      return backButtonContent.layoutText;
+    }
   };
   const handleOk = () => {
     setIsOpen(false);
-    navigate('/dashboard');
+    if (isSubscribed) navigate('/dashboard')
+    else navigate('/subscription');
   };
   const handleCancel = () => {
     setIsOpen(false);
@@ -126,10 +130,8 @@ const Layout = ({
     }
     if (!Object.values(backButtonExceptionRoutes).includes(location.pathname)) {
       pageBackEvent();
-      pageUrlEvent();
       return () => {
         window.removeEventListener('popstate', onBackButtonEvent);
-        window.removeEventListener('beforeunload', handleUrlChange);
       };
     }
   }, []);
@@ -154,9 +156,7 @@ const Layout = ({
         className="Addgoal-Confirm-Modal"
         renderData={
           <div className="Description">
-            {location.pathname === '/dashboard'
-              ? backButtonContent.dashboardText
-              : backButtonContent.layoutText}
+          {getBackButtonContent(location.pathname)}
           </div>
         }
         />
