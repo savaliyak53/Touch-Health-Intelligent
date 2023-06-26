@@ -15,17 +15,33 @@ class ErrorBoundary extends React.Component<any> {
   
     componentDidCatch(error: any, errorInfo: any) {
       // Custom error handling logic
-      if(error.message === 'Verification code expired, please request a new one') {
-        this.setState({
+      if (error.code === 401) {
+        if (error.message === 'No session_token cookie found') {
+          this.setState({
             ...this.state,
-            errorType: 'type0'
-        })
-      }
-      else if(error.code >= 400 && error.code < 500) {
-        this.setState({
+            errorType: 'type0',
+          });
+        } else {
+          this.setState({
+            ...this.state,
+            errorType: 'type401',
+          });
+        }
+        localStorage.removeItem('userId');
+        localStorage.removeItem('token');
+        localStorage.clear();
+      } else if (error.code >= 400 && error.code < 500 && error.code !== 401) {
+        if (error.message === 'Verification code expired, please request a new one') {
+          this.setState({
+            ...this.state,
+            errorType: 'type0',
+          });
+        } else {
+          this.setState({
             ...this.state,
             errorType: 'type1'
-        })
+           })
+        }
       } else if (error.code >= 500) {
         this.setState({
             ...this.state,
@@ -55,6 +71,17 @@ class ErrorBoundary extends React.Component<any> {
                 open={this.state.open}
                 title='Session Expiry'
                 errorType='type0'
+                error={this.state.error}
+                handleCancel={this.handleCancel}
+            />
+          );
+        }
+        else if (this.state.errorType === 'type401') {
+          return (
+            <ErrorModal
+                open={this.state.open}
+                title='Unauthorized'
+                errorType='type401'
                 error={this.state.error}
                 handleCancel={this.handleCancel}
             />
