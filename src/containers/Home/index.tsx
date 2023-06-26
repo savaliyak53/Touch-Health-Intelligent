@@ -22,9 +22,7 @@ const Home = () => {
   const [error, setError] = useState<any>();
 
   useEffect(() => {
-    const token = context?.authTokens
-      ? context?.authTokens
-      : localStorage.getItem('token');
+    const token = context?.authTokens;
     if (token) {
       checkUserData();
     } else {
@@ -60,8 +58,7 @@ const Home = () => {
       });
   };
   const handleInitialIntake = () => {
-    const userId = context?.user ?? localStorage.getItem('userId');
-    // const userId=context?.user;
+    const userId = context?.user;
     //after successful subscription set signup_status to onboarding
     preferencesService(
       {
@@ -104,10 +101,7 @@ const Home = () => {
       });
   };
   const checkUserData = () => {
-    const userId = context?.user
-      ? context?.user
-      : localStorage.getItem('userId');
-    // const userId = localStorage.getItem('userId');
+    const userId = context?.user;
     if (userId) {
       getUser(userId)
         .then((response) => {

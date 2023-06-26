@@ -1,7 +1,8 @@
 import { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginService, logoutService, tokenService } from '../services/authservice';
+import { loginService, logoutService, tokenService, signUpService } from '../services/authservice';
 import { getTokenExpiration, getUser, getSession } from '../utils/lib';
+import { ISignUp } from '../interfaces';
 
 export interface AuthContextData {
   user: any;
@@ -15,6 +16,10 @@ export interface AuthContextData {
     recaptchaToken: string
   ) => any;
   logoutUser: () => void;
+  signupUser: (
+    data: ISignUp,
+    recaptchaToken: string
+  ) => any;
 }
 
 const AuthContext = createContext<AuthContextData | undefined>(undefined);
@@ -77,6 +82,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const signupUser = async (
+    data: ISignUp,
+    recaptchaToken: string
+  ) => {
+    const response = await signUpService(data, recaptchaToken);
+    if (response.token) {
+      setAuthTokens(response.token);
+      const userId = getUser(response.token);
+      setUser(userId);
+      const sessionId = getSession(response.token);
+      setSession(sessionId);
+      return response;
+    } else {
+      return response;
+    }
+  };
+
   const logoutUser = () => {
     logoutService(session)
     .then(res => {
@@ -113,6 +135,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser,
     loginUser,
     logoutUser,
+    signupUser,
   };
   return (
     // eslint-disable-next-line react/react-in-jsx-scope
