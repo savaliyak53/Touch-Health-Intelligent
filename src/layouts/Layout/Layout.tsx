@@ -12,6 +12,7 @@ import moment from 'moment';
 import FreeTrialModal from '../../components/Modal/FreeTrial';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
+import { backButtonExceptionRoutes } from '../../Routes/Constants';
 
 type Props = {
   defaultHeader: boolean;
@@ -123,11 +124,13 @@ const Layout = ({
     if (!signupFlow(location.pathname)) {
       checkUserData();
     }
-    pageBackEvent();
-    pageUrlEvent();
-    return () => {
-      window.removeEventListener('popstate', onBackButtonEvent);
-      window.removeEventListener('beforeunload', handleUrlChange);
+    if (!Object.values(backButtonExceptionRoutes).includes(location.pathname)) {
+      pageBackEvent();
+      pageUrlEvent();
+      return () => {
+        window.removeEventListener('popstate', onBackButtonEvent);
+        window.removeEventListener('beforeunload', handleUrlChange);
+      };
     }
   }, []);
   return (

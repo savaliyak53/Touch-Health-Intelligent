@@ -201,7 +201,7 @@ const AddGoals = () => {
           .then((preferencesResponse: any) => {
             setIsLoading(false);
             if (preferencesResponse) {
-              getInteractionServiceByType('goal_characterization')
+              getInteractionServiceByType('checkup')
                 .then((response: any) => {
                   if (response) {
                     navigate('/questionnaire');
