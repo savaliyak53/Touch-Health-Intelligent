@@ -51,13 +51,7 @@ function UserCondition() {
         }
       })
       .catch((error) => {
-        // toast(
-        //   error?.details?.message
-        //     ? error?.details?.message
-        //     : 'Cannot get question'
-        // );
-        setError({code: error.response.status, message: error.response.data.details.message ?? "Something went wrong."})
-        // navigate('/dashboard');
+        setError({code: error.response.status, message: error.response.data.details});
         setSkeletonLoading(false);
       });
   };
@@ -82,9 +76,6 @@ function UserCondition() {
                 }
               })
               .catch((error) => {
-                // toast.error(
-                //   `${error.response?.data?.title} Please check values and try again.`
-                // );
                 setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
               });
           }
@@ -105,9 +96,6 @@ function UserCondition() {
               }
             })
             .catch((error) => {
-              // toast.error(
-              //   `${error.response?.data?.title} Please check values and try again.`
-              // );
               setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
             });
         } else if (response?.data.signup_status === 'done') {
@@ -117,9 +105,6 @@ function UserCondition() {
         }
       })
       .catch((error) => {
-        // toast.error(
-        //   `${error.response?.data?.title} Please check values and try again.`
-        // );
         setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
       });
   };
@@ -161,9 +146,6 @@ function UserCondition() {
       }
     })
     .catch((error) => {
-      // toast.error(
-      //   `${error.response?.data?.title} Please check values and try again.`
-      // );
       setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
     });
   };

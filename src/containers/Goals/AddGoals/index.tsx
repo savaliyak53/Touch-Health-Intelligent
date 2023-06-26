@@ -75,7 +75,7 @@ const AddGoals = () => {
           : setUserSatus(false);
       })
       .catch((err) => {
-        console.log(err);
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
 
@@ -171,8 +171,7 @@ const AddGoals = () => {
         getGoalsData();
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
-        toast.error('Something went wrong. Please contact support.');
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
 
@@ -181,15 +180,12 @@ const AddGoals = () => {
       .then((res) => {
         setIsLoading(false);
         setIsDisabled(false);
-        // setDeletedGoal(selectedGoal?.name)
-        // toast("Goal deleted successfully")
         setSearchValue('');
         getGoalsData();
         setIsModalOpen(false);
       })
       .catch((error: any) => {
         setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
-        toast.error(error);
       });
   };
   const handleNext = () => {
@@ -215,20 +211,16 @@ const AddGoals = () => {
                 })
                 .catch((error) => {
                   setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
-                  toast.error(`Something went wrong. `);
                 });
             } else {
               toast.error(`Preference status doesn't exist`);
               navigate('/dashboard');
             }
           })
-          .catch((error) => {
+          .catch((error: any) => {
             setIsLoading(false);
-            setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
-            toast.error(
-              `${error.response?.data?.title} Please check values and try again.`
-            );
-          });
+            setError({code: error.response.status, message: error.response.data.details}); 
+          })
       }
     }
   };
@@ -259,7 +251,6 @@ const AddGoals = () => {
         })
         .catch((error) => {
           setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
-          toast('Something went wrong. Please contact support.');
         });
     } else {
       setIsDropdownOpen(false);

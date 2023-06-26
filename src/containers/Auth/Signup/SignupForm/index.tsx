@@ -87,12 +87,11 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
         } else {
           setIsDisabled(false);
           setIsLoading(false);
-          toast.error(response?.response?.data?.details);
-          setError({code: response.response.data.status, message: response.response.data.details ?? "Something went wrong."})
+          setError({code: response.response.status, message: response.response.data.details});
         }
       })
       .catch((error: any) => {
-        toast.error('Unknown error');
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
 
