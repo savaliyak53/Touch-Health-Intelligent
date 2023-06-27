@@ -104,9 +104,12 @@ export const verifyPhoneOTP = async (
   id: string | undefined
 ) => {
   try {
+    const config: any = {
+      withCredentials: true,
+    };
     const response = await axios.put(`${baseURL}/users/signup/${id}/verify`, {
       code: otp,
-    });
+    }, config);
     if (response) return response;
   } catch (error) {
     return error;
