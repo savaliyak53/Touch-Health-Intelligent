@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from '../Signup.module.scss';
 import Authstyles from '../../Auth.module.scss';
 import CountryCode from '../../Country/CountryCode';
@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import { signUpService } from '../../../../services/authservice';
 import { onlyNumbers } from '../../../../utils/lib';
 import  ReCAPTCHA from 'react-google-recaptcha';
+import AuthContext, {AuthContextData} from '../../../../contexts/AuthContext';
 
 type SignupFormProps = {
   onSubmit: SubmitHandler<IFormInputs>;
@@ -34,6 +35,8 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [error, setError] = useState<any>();
 
+  const authContext = useContext<AuthContextData | undefined>(AuthContext);
+  const { signupUser } = authContext as AuthContextData;
   const navigate = useNavigate();
   const {
     register,
@@ -71,7 +74,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
     refCaptcha.current.reset();
     localStorage.setItem('captchaToken', token);
     localStorage.setItem('phone', onlyNumbers(submitData.phone));
-    signUpService(
+    const signupResponse = await signupUser(
       {
         phone: onlyNumbers(submitData.phone),
         name: submitData.name,
@@ -93,6 +96,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
       .catch((error: any) => {
         setError({code: error.response.status, message: error.response.data.details});
       });
+    }
   };
 
   const handleCheck = () => {
