@@ -93,13 +93,9 @@ const AddGoals = () => {
   };
 
   const handleDeleteOk = (id: any) => {
-    // setDeletedGoal(selectedGoal?.name)
     removeGoal(id);
     setShowCancelModal(false);
     toast.success(`Your goal was successfully deleted`);
-    // setTimeout(()=>{
-    //   setDeletedGoal(null)
-    // },5000)
   };
   const handleDeleteModal = () => {
     setShowCancelModal(false);
@@ -193,39 +189,10 @@ const AddGoals = () => {
   const handleNext = () => {
     localStorage.removeItem('nextEnabled');
     setIsLoading(true);
-    if (goals.length > 0) {
-      const preferenceData = {
-        signup_status: 'goal-characterization',
-      };
-      const userId=authContext?.user;
-      // const userId = localStorage.getItem('userId');
-      if (userId) {
-        preferencesService(preferenceData, userId)
-          .then((preferencesResponse: any) => {
-            setIsLoading(false);
-            if (preferencesResponse) {
-              getInteractionServiceByType('checkup')
-                .then((response: any) => {
-                  if (response) {
-                    navigate('/questionnaire');
-                  } else {
-                    navigate('/');
-                  }
-                })
-                .catch((error) => {
-                  setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
-                });
-            } else {
-              toast.error(`Preference status doesn't exist`);
-              navigate('/dashboard');
-            }
-          })
-          .catch((error: any) => {
-            setIsLoading(false);
-            setError({code: error.response.status, message: error.response.data.details}); 
-          })
-      }
-    }
+    setTimeout(() => {
+      setIsLoading(true);
+      navigate('/dashboard');
+    }, 1000);
   };
   useEffect(() => {
     getGoalsData();
@@ -363,9 +330,6 @@ const AddGoals = () => {
               />
             </>
           ))}
-          {/* { deletedGoal ? (
-              <div className={styles['dlt-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> Your goal {deletedGoal} was successfully deleted</div>
-            ) : ''} */}
         </div>
         <div>
           <Button
@@ -374,7 +338,7 @@ const AddGoals = () => {
             onClick={handleNext}
             disabled={localStorage.getItem('nextEnabled') ? false : true}
           >
-            Next
+            Save
           </Button>
         </div>
       </div>
@@ -438,13 +402,6 @@ const AddGoals = () => {
               Pick goal
             </Button>
           )}
-          {/* <Button
-              className="Submit-Button"
-              loading={isLoading}
-              onClick={handleCancel}
-            >
-              Take me back
-            </Button> */}
         </div>
       </Modal>
     </Layout>
