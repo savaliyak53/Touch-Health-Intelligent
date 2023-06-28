@@ -103,7 +103,7 @@ const Integrations = () => {
         // toast('Unknown error');
         setChecked(false);
         setSpinning(false);
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
   const handleClick = (checked: any) => {
@@ -119,7 +119,7 @@ const Integrations = () => {
       createAuthLink(res);
     })
     .catch(err => {
-      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."})
+        setError({code: error.response.status, message: error.response.data.details});
     });
   };
   const revokeCredentials = () => {
@@ -130,7 +130,7 @@ const Integrations = () => {
       }
     })
     .catch(err => {
-      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."})
+        setError({code: error.response.status, message: error.response.data.details});
     });
   };
   const handleDeleteModal = () => {
@@ -143,8 +143,7 @@ const Integrations = () => {
       handleSetUserStatus()
     })
     .catch(err => {
-      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."})
-      toast('Unknown error');
+      setError({code: err.response.status, message: err.response.data.details})
     })
   }
   const handleSetUserStatus = () => {
@@ -169,22 +168,14 @@ const Integrations = () => {
               }
             })
             .catch((error) => {
-              setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
-              // toast.error(
-              //   `Something went wrong. Cannot initiate interaction at the moment `
-              // );
-              // navigate('/dashboard');
+              setError({code: error.response.status, message: error.response.data.details});
             });
         } else {
-          // console.log('navigate to dashboard');
           navigate('/dashboard');
         }
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
-        toast.error(
-          `${error.response?.data?.title}`
-        );
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
   const createAuthLink = (response: any) => {
@@ -233,8 +224,7 @@ const Integrations = () => {
       navigate('/questionnaire')
     })
     .catch(() => {
-      setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
-      toast.error('Something went wrong');
+        setError({code: error.response.status, message: error.response.data.details});
     });
   }
 

@@ -134,7 +134,7 @@ const PasswordRecovery = () => {
         }
       })
       .catch((error: any) => {
-        if (error.response.data.details && error.code === 'ERR_BAD_REQUEST') {
+        if (error.response.status === 422) {
           toast.error(error.response.data.details);
         } else {
           setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
@@ -162,7 +162,7 @@ const PasswordRecovery = () => {
       }
     })
     .catch(err => {
-      if (err.response.data.details && err.code === 'ERR_BAD_REQUEST') {
+      if (err.response.status === 422) {
         toast.error(err.response.data.details);
       } else {
         setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."})
@@ -192,7 +192,7 @@ const PasswordRecovery = () => {
           }
         })
         .catch((error: any) => {
-            setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+            setError({code: error.response.status, message: error.response.data.details});
         });
     } else {
       setChangePassword(false);
@@ -207,11 +207,13 @@ const PasswordRecovery = () => {
       .then((response: any) => {
         if (response.code === 'ERR_BAD_REQUEST') {
           setIsCodeSent(true);
-          // toast(response.response.data.details);
           const remaining_time = response?.response?.data.details.match(/\d+/g);
-          restartTime(parseInt(remaining_time[0]));
-          setIsLoading(false);
-          // setIsDisabled(false);
+          if(remaining_time){
+            restartTime(parseInt(remaining_time[0]));
+            setIsLoading(false);
+          } else {
+            toast(response.response.data.details);
+          }
         } else {
           setEnterNumber(false);
           setIsCodeSent(true);
@@ -223,9 +225,9 @@ const PasswordRecovery = () => {
         }
       })
       .catch((error: any) => {
-        toast(error.response);
         setIsLoading(false);
         setIsDisabled(false);
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
   const onVerify = () => {
@@ -249,7 +251,6 @@ const PasswordRecovery = () => {
           }
         }
           setIsLoading(false);
-          setIsDisabled(false);
         } else {
           setEnterNumber(false);
           setIsCodeSent(true);
@@ -261,10 +262,9 @@ const PasswordRecovery = () => {
         }
       })
       .catch((error: any) => {
-        // console.log(error);
-        toast(error.response);
         setIsLoading(false);
         setIsDisabled(false);
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
   return (

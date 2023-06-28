@@ -82,18 +82,19 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
       },
       token
     )
-    if (signupResponse?.id) {
-      localStorage.setItem('userId', signupResponse.id);
-      localStorage.setItem('token', signupResponse.token);
-      navigate(`/terms-and-conditions`);
-    } else {
-      setIsDisabled(false);
-      setIsLoading(false);
-      toast.error(signupResponse?.response?.data?.details);
-      setError({
-        code: signupResponse.response.data.status,
-        message:
-          signupResponse.response.data.details ?? 'Something went wrong.',
+      .then((response) => {
+        if (response?.id) {
+          localStorage.setItem('userId', response.id);
+          localStorage.setItem('token', response.token);
+          navigate(`/terms-and-conditions`);
+        } else {
+          setIsDisabled(false);
+          setIsLoading(false);
+          setError({code: response.response.status, message: response.response.data.details});
+        }
+      })
+      .catch((error: any) => {
+        setError({code: error.response.status, message: error.response.data.details});
       });
     }
   };

@@ -104,13 +104,13 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
     } else {
       setIsDisabled(false);
       setIsLoading(false);
-      if (loginResponse?.status === 429) {
+      if (loginResponse?.response.status === 429) {
         setShowLockAccountModal(true);
         setModalText(loginResponse?.response?.data?.details);
-      } else if (loginResponse?.status === 403) {
+      } else if (loginResponse?.response.status === 403) {
         toast.error(loginResponse?.response?.data?.details);
       } else {
-        setError({code: loginResponse?.response?.status, message: loginResponse?.response?.data.details ?? "Something went wrong."})
+        setError({code: loginResponse?.response?.status, message: loginResponse.response.data?.details})
       } 
     }
   };

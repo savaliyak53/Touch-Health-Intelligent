@@ -212,7 +212,6 @@ const GoalDetails = () => {
         setIsLoading(false);
       })
       .catch((error: any) => {
-        toast.error(error);
         setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
         setIsLoading(false);
       });
@@ -227,7 +226,6 @@ const GoalDetails = () => {
         }
       })
       .catch((error: any) => {
-        toast.error(error);
         setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
         setIsLoading(false);
       });
@@ -278,7 +276,6 @@ const GoalDetails = () => {
       })
       .catch((error) => {
         setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
-        toast('Something went wrong');
       });
   };
   useEffect(() => {
