@@ -162,6 +162,7 @@ const AddGoals = () => {
   const addGoals = (goalId?: string) => {
     addGoal({ goal_ids: [goalId] })
       .then((res) => {
+        localStorage.setItem('goalAdded', 'true')
         setIsLoading(false);
         setIsDisabled(false);
         setSearchValue('');
@@ -193,6 +194,7 @@ const AddGoals = () => {
       });
   };
   const handleNext = () => {
+    localStorage.removeItem('goalAdded');
     setIsLoading(true);
     if (goals.length > 0) {
       const preferenceData = {
@@ -375,10 +377,10 @@ const AddGoals = () => {
         </div>
         <div>
           <Button
-            className={`Submit-Button ${goals.length < 1 ? 'disabled' : ''}`}
+            className={`Submit-Button ${localStorage.getItem('goalAdded') ? 'disabled' : ''}`}
             loading={isLoading}
             onClick={handleNext}
-            disabled={goals.length < 1 ? true : false}
+            disabled={localStorage.getItem('goalAdded') ? false : true}
           >
             Next
           </Button>
