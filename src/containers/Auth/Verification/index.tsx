@@ -4,6 +4,7 @@ import React, {
   useRef,
   Dispatch,
   SetStateAction,
+  useContext
 } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +19,8 @@ import { Tooltip } from 'antd';
 import ReactCodeInput from 'react-code-input';
 import { requestPhoneOTP, verifyPhoneOTP } from '../../../services/authservice';
 import { useTimer } from 'react-timer-hook';
-import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import AuthContext , { AuthContextData }  from '../../../contexts/AuthContext';
+import { getUser, getSession } from '../../../utils/lib';
 
 type IVerificationCode = {
   code: string;
@@ -40,6 +42,8 @@ const Verification = () => {
   const [enableTimer, setEnableTimer] = useState(true);
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [error, setError] = useState<any>();
+  const authContext = useContext<AuthContextData | undefined>(AuthContext); 
+
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
   const expiryTimestamp = time;
@@ -85,6 +89,11 @@ const Verification = () => {
       if (phoneVerificationResponse?.data?.id) {
         setIsVerifying(false);
         toast.dismiss();
+        authContext?.setAuthTokens(phoneVerificationResponse.data.token);
+        authContext?.setUser(getUser(phoneVerificationResponse.data.token));
+        authContext?.setSession(getSession(phoneVerificationResponse.data.token));
+        localStorage.setItem('sessionId', getSession(phoneVerificationResponse.data.token));
+        localStorage.setItem('token', phoneVerificationResponse.data.token);
         toast.success('Verified');
         navigate('/security');
       } else if (phoneVerificationResponse?.response?.status === 409) {

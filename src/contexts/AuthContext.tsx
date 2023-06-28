@@ -10,6 +10,7 @@ export interface AuthContextData {
   setAuthTokens: (tokens: any) => void;
   session: string;
   setUser: (user: any) => void;
+  setSession: (user: any) => void;
   loginUser: (
     username: string,
     password: string,
@@ -133,6 +134,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setAuthTokens,
     session,
     setUser,
+    setSession,
     loginUser,
     logoutUser,
     signupUser,
