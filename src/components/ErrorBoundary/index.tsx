@@ -16,7 +16,7 @@ class ErrorBoundary extends React.Component<any> {
     componentDidCatch(error: any, errorInfo: any) {
       // Custom error handling logic
       if (error.code === 401) {
-        if (error.message === 'No session_token cookie found') {
+        if (error.message === 'No session_token cookie found' || error.message === 'Session is expired') {
           this.setState({
             ...this.state,
             errorType: 'type0',
