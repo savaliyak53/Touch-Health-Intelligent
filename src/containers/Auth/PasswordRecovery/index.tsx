@@ -386,7 +386,7 @@ const PasswordRecovery = () => {
                 Resend code&nbsp;
                 {enableTimer && (
                   <span>
-                    in&nbsp;{minutes}:{seconds}
+                    in&nbsp;{minutes}:{seconds < 10 ? `0${seconds}` : seconds}
                   </span>
                 )}
               </button>
