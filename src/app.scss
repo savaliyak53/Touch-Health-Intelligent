@@ -710,6 +710,7 @@ input {
     margin-left: 24px;
     margin-right: 24px;
     &:hover {
+      .ant-slider-rail,
       .ant-slider-track {
         background-color: $primary-color1;
       }
