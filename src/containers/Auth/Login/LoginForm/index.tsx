@@ -102,7 +102,6 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
       localStorage.setItem('sessionId', sessionId);
       navigate('/');
     } else {
-      setIsDisabled(false);
       setIsLoading(false);
       if (loginResponse?.response.status === 429) {
         setShowLockAccountModal(true);
