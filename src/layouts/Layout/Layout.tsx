@@ -13,6 +13,7 @@ import FreeTrialModal from '../../components/Modal/FreeTrial';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
 import { backButtonExceptionRoutes } from '../../Routes/Constants';
+import { Spin } from 'antd';
 
 type Props = {
   defaultHeader: boolean;
@@ -36,6 +37,8 @@ const Layout = ({
   const [trialEndDate, setTrialEndDate] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSubscribed, setIsSubscribed] = useState<boolean>(true);
+  const [signupStatus, setSignupStatus] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
   const location = useLocation(); 
   const context = useContext(AuthContext);
@@ -44,20 +47,25 @@ const Layout = ({
     if (userId) {
       getUser(userId)
         .then((response: any) => {
-          // const { security_questions } = response.data;
           if (response.data.security_questions) {
             getUserSubscription(response);
+            setSignupStatus(response?.data?.signup_status);
+            if (response?.data?.signup_status === 'onboarding' && location.key === 'default') {
+              navigate('/');
+            }
             if (response?.data?.trial_end_date && moment(response?.data?.trial_end_date).isAfter(moment())) {
               setTrialRemaining(response.data.trial_remaining);
             }
           } else if (response.data && !response.data.security_questions) {
+            setLoading(false);
             navigate('/security');
           } else {
+            setLoading(false);
             setException(true);
-            //show modal that something went wrong
           }
         })
         .catch((error: any) => {
+          setLoading(false);
           console.log(error);
         });
     }
@@ -65,6 +73,7 @@ const Layout = ({
   const getUserSubscription = (response: any) => {
     getSubscriptionStatus()
       .then((res) => { 
+        setLoading(false);
         if (
           response?.data?.trial_end_date &&
           moment(response?.data?.trial_end_date).isBefore(moment()) &&
@@ -109,8 +118,11 @@ const Layout = ({
   const getBackButtonContent = (pathname : string) => {
     if (pathname === '/dashboard') {
       return backButtonContent.dashboardText;
-    } else if (pathname === '/subscription' && !isSubscribed) {
-      return backButtonContent.subscriptionText;
+    } else if (
+      (pathname === '/subscription' && !isSubscribed) ||
+      (pathname === '/questionnaire' && signupStatus === 'onboarding')
+    ) {
+      return backButtonContent.preventText;
     } else {
       return backButtonContent.layoutText;
     }
@@ -118,6 +130,7 @@ const Layout = ({
   const handleOk = () => {
     setIsOpen(false);
     if (isSubscribed) navigate('/dashboard')
+    else if (signupStatus === 'onboarding') navigate('/questionnaire')
     else navigate('/subscription');
   };
   const handleCancel = () => {
@@ -127,6 +140,8 @@ const Layout = ({
   useEffect(() => {
     if (!signupFlow(location.pathname)) {
       checkUserData();
+    } else {
+      setLoading(false);
     }
     if (!Object.values(backButtonExceptionRoutes).includes(location.pathname)) {
       pageBackEvent();
@@ -142,10 +157,16 @@ const Layout = ({
           dashboard ? 'Layout-Transparent header-transp' : 'Layout-Transparent'
         }
       >
-        <SiteHeader defaultHeader={defaultHeader} hamburger={hamburger} trialRemaining={trialRemaining} />
-        <div className={defaultHeader ? 'MobileScreen' : 'MobileScreen bg'}>
-          <div className="Layout-main">{children}</div>
-        </div>
+        {loading ? (
+          <Spin size="large" className=" Spinner" />
+        ) : (
+          <>
+            <SiteHeader defaultHeader={defaultHeader} hamburger={hamburger} trialRemaining={trialRemaining} />
+            <div className={defaultHeader ? 'MobileScreen' : 'MobileScreen bg'}>
+              <div className="Layout-main">{children}</div>
+            </div>
+          </>
+        )}
       </div>
       <div className="Layout-graphics" />
       <ConfirmModal
