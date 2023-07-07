@@ -10,6 +10,10 @@ import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal'
 import AuthContext from '../../contexts/AuthContext';
 import moment from 'moment';
 import FreeTrialModal from '../../components/Modal/FreeTrial';
+import ConfirmModal from '../../components/Modal/ConfirmModal';
+import { backButtonContent } from '../../constants';
+import { backButtonExceptionRoutes } from '../../Routes/Constants';
+import { Spin } from 'antd';
 
 type Props = {
   defaultHeader: boolean;
@@ -31,29 +35,37 @@ const Layout = ({
   const [trialRemaining, setTrialRemaining] = useState<string>('');
   const [trialEndModal, setTrialEndModal] = useState<boolean>(false);
   const [trialEndDate, setTrialEndDate] = useState<string>("");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isSubscribed, setIsSubscribed] = useState<boolean>(true);
+  const [signupStatus, setSignupStatus] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
   const location = useLocation(); 
   const context = useContext(AuthContext);
   const checkUserData = () => {
-    const userId = context?.user ?? localStorage.getItem('userId');
-    // const userId = localStorage.getItem('userId');
+    const userId = context?.user;
     if (userId) {
       getUser(userId)
         .then((response: any) => {
-          // const { security_questions } = response.data;
           if (response.data.security_questions) {
             getUserSubscription(response);
-            if (moment(response?.data?.trial_end_date).isAfter(moment())) {
+            setSignupStatus(response?.data?.signup_status);
+            if (response?.data?.signup_status === 'onboarding' && location.key === 'default') {
+              navigate('/');
+            }
+            if (response?.data?.trial_end_date && moment(response?.data?.trial_end_date).isAfter(moment())) {
               setTrialRemaining(response.data.trial_remaining);
             }
           } else if (response.data && !response.data.security_questions) {
+            setLoading(false);
             navigate('/security');
           } else {
+            setLoading(false);
             setException(true);
-            //show modal that something went wrong
           }
         })
         .catch((error: any) => {
+          setLoading(false);
           console.log(error);
         });
     }
@@ -61,12 +73,25 @@ const Layout = ({
   const getUserSubscription = (response: any) => {
     getSubscriptionStatus()
       .then((res) => { 
+        setLoading(false);
         if (
-          res.data.isSubscribed === false &&
-          moment(response?.data?.trial_end_date).isBefore(moment())
+          response?.data?.trial_end_date &&
+          moment(response?.data?.trial_end_date).isBefore(moment()) &&
+          res.data.isSubscribed === false 
         ) {
-          setTrialEndDate(response.data.trial_end_date)
+          setTrialEndDate(response.data.trial_end_date);
           setTrialEndModal(true);
+          setIsSubscribed(false);
+          location.pathname !== '/subscription'
+            ? navigate('/subscription')
+            : null;
+          return;
+        }
+        else if (
+          res.data.isSubscribed === false &&
+          typeof response?.data?.trial_end_date === 'undefined'
+        ) {
+          setIsSubscribed(false);
           location.pathname !== '/subscription'
             ? navigate('/subscription')
             : null;
@@ -77,9 +102,52 @@ const Layout = ({
         console.log('Error while getting user plan. ', error);
       });
   };
+  const onBackButtonEvent = (e: any) => {
+    e.preventDefault();
+    if (!isOpen) {
+      setIsOpen(true);
+    } else {
+      window.history.pushState(null, '', window.location.pathname);
+    }
+    window.history.pushState(null, '', window.location.pathname);
+  };
+  const pageBackEvent = () => {
+    window.history.pushState(null, '', window.location.pathname);
+    window.addEventListener('popstate', onBackButtonEvent);
+  };
+  const getBackButtonContent = (pathname : string) => {
+    if (pathname === '/dashboard') {
+      return backButtonContent.dashboardText;
+    } else if (
+      (pathname === '/subscription' && !isSubscribed) ||
+      (pathname === '/questionnaire' && signupStatus === 'onboarding')
+    ) {
+      return backButtonContent.preventText;
+    } else {
+      return backButtonContent.layoutText;
+    }
+  };
+  const handleOk = () => {
+    setIsOpen(false);
+    if (isSubscribed) navigate('/dashboard')
+    else if (signupStatus === 'onboarding') navigate('/questionnaire')
+    else navigate('/subscription');
+  };
+  const handleCancel = () => {
+    setIsOpen(false);
+    pageBackEvent();
+  };
   useEffect(() => {
     if (!signupFlow(location.pathname)) {
       checkUserData();
+    } else {
+      setLoading(false);
+    }
+    if (!Object.values(backButtonExceptionRoutes).includes(location.pathname)) {
+      pageBackEvent();
+      return () => {
+        window.removeEventListener('popstate', onBackButtonEvent);
+      };
     }
   }, []);
   return (
@@ -89,12 +157,30 @@ const Layout = ({
           dashboard ? 'Layout-Transparent header-transp' : 'Layout-Transparent'
         }
       >
-        <SiteHeader defaultHeader={defaultHeader} hamburger={hamburger} trialRemaining={trialRemaining} />
-        <div className={defaultHeader ? 'MobileScreen' : 'MobileScreen bg'}>
-          <div className="Layout-main">{children}</div>
-        </div>
+        {loading ? (
+          <Spin size="large" className=" Spinner" />
+        ) : (
+          <>
+            <SiteHeader defaultHeader={defaultHeader} hamburger={hamburger} trialRemaining={trialRemaining} />
+            <div className={defaultHeader ? 'MobileScreen' : 'MobileScreen bg'}>
+              <div className="Layout-main">{children}</div>
+            </div>
+          </>
+        )}
       </div>
       <div className="Layout-graphics" />
+      <ConfirmModal
+        title={'Confirmation'}
+        open={isOpen}
+        handleCancel={handleCancel}
+        handleOk={handleOk}
+        className="Addgoal-Confirm-Modal"
+        renderData={
+          <div className="Description">
+          {getBackButtonContent(location.pathname)}
+          </div>
+        }
+        />
       <FreeTrialModal
         title="Subscription"
         handleOk={() => {

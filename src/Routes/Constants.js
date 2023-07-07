@@ -10,8 +10,16 @@ export const trialExceptionRoutes = {
   signUp: '/signup',
   verify: '/verification-code',
   resetPassword: '/reset-password',
+  passwordReset: '/password-reset',
   login: '/login',
   questionnaire: '/questionnaire',
+  security:'/security'
+};
+export const backButtonExceptionRoutes = {
+  signUp: '/signup',
+  verify: '/verification-code',
+  resetPassword: '/reset-password',
+  login: '/login',
   security:'/security'
 };
 

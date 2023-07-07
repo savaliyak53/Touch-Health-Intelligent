@@ -24,13 +24,7 @@ axiosInstance.interceptors.request.use(async (config) => {
         const newToken = response.data.token;
         localStorage.setItem('token', newToken);
         localStorage.setItem('userId', getUser(newToken));
-        // localStorage.setItem('expiration', getTokenExpiration(newToken));
         config.headers.Authorization = `Bearer ${newToken}`;
-      } else {
-        localStorage.removeItem('userId');
-        localStorage.removeItem('token');
-        localStorage.clear();
-        window.location = '/login';
       }
     } else {
       config.headers.Authorization = `Bearer ${token}`;
@@ -44,16 +38,8 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {    
-    if (error.response.status === 401) {
-      localStorage.removeItem('userId');
-      localStorage.removeItem('token');
-      localStorage.clear();
-      window.location = '/login';
       return Promise.reject(error);
-    } else {
-      return error;
     }
-  }
 );
 
 export default axiosInstance;

@@ -21,16 +21,12 @@ import ReactCodeInput from 'react-code-input';
 import {
   checkAnswer,
   getSecurityQuestions,
-  loginService,
 } from '../../../services/authservice';
-import { ILogin } from '../../../interfaces';
-import jwt from 'jwt-decode';
 import ReCAPTCHA from 'react-google-recaptcha';
 import RecaptchaModal from '../../../components/Modal/RecaptchaModal';
 import { useTimer } from 'react-timer-hook';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
 import Verification from '../Verification';
-// import { InfoCircleOutlined } from '@ant-design/icons';
 
 type IRecoverFormInputs = {
   username: string;
@@ -68,6 +64,8 @@ const PasswordRecovery = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [code, setCode] = useState('');
+  const [error, setError] = useState<any>();
+
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
   const expiryTimestamp = time;
@@ -108,6 +106,10 @@ const PasswordRecovery = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (error) throw(error)
+  }, [error]);
+
   const restartTime = (time: number) => {
     const t = new Date();
     t.setSeconds(t.getSeconds() + time);
@@ -116,13 +118,11 @@ const PasswordRecovery = () => {
 
   const onSubmitCode = async (data: any) => {
     setIsSubmitted(true);
-    const username = localStorage.getItem('username');
-    const code = data.code ? data.code : getValues('code');
+    const username = location.state?.username ?? localStorage.getItem('username');
+    const code = data.code ?? getValues('code');
     getSecurityQuestions(username, code)
       .then((response) => {
-        if (response && response.code === 'ERR_BAD_REQUEST') {
-          toast.error(response.response.data.details);
-        } else if (response && response.security_questions.length > 0) {
+        if (response && response.security_questions.length > 0) {
           setCodeSubmitted(true);
           setIsCodeSent(false);
           setQuestion(response.security_questions[0].question);
@@ -134,7 +134,11 @@ const PasswordRecovery = () => {
         }
       })
       .catch((error: any) => {
-        toast(error);
+        if (error.response.status === 422) {
+          toast.error(error.response.data.details);
+        } else {
+          setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        }
       });
   };
 
@@ -152,36 +156,18 @@ const PasswordRecovery = () => {
       data.security_question.question = question;
     }
     checkAnswer(data).then((response) => {
-      if (response && response.code === 'ERR_BAD_REQUEST') {
-        toast.error(response.response.data.details);
-      } else {
+      if(response) {
         setChangePassword(true);
         setCodeSubmitted(false);
       }
-    });
-  };
-  const getId = (token: string) => {
-    const user: User = jwt(token);
-    return user.id;
-  };
-  const loginRequest = async (data: any) => {
-    const loginRequest: ILogin = {
-      username: onlyNumbers(data.username),
-      password: data.confirmPassword,
-    };
-    const loginResponse = await loginService(loginRequest, '');
-    if (loginResponse?.token) {
-      setIsDisabled(false);
-      setIsLoading(false);
-      localStorage.setItem('token', `${loginResponse.token}`);
-      const userId = getId(loginResponse.token);
-      localStorage.setItem('userId', userId);
-      navigate('/');
-    } else {
-      setIsDisabled(false);
-      setIsLoading(false);
-      toast.error(loginResponse?.response?.data?.details);
-    }
+    })
+    .catch(err => {
+      if (err.response.status === 422) {
+        toast.error(err.response.data.details);
+      } else {
+        setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."})
+      }
+    })
   };
 
   const onSubmitRecover = async (data: any) => {
@@ -199,16 +185,14 @@ const PasswordRecovery = () => {
       }
       postResetPassword(data)
         .then((response: any) => {
-          if (response && response.code === 'ERR_BAD_REQUEST') {
-            toast.error(response.response.data.details);
-          } else {
+          if (response) {
             toast.success('Password Recovered Successfuly');
-            // loginRequest(data)
+            localStorage.clear();
             navigate('/login');
           }
         })
         .catch((error: any) => {
-          toast('error', error);
+            setError({code: error.response.status, message: error.response.data.details});
         });
     } else {
       setChangePassword(false);
@@ -223,11 +207,13 @@ const PasswordRecovery = () => {
       .then((response: any) => {
         if (response.code === 'ERR_BAD_REQUEST') {
           setIsCodeSent(true);
-          // toast(response.response.data.details);
           const remaining_time = response?.response?.data.details.match(/\d+/g);
-          restartTime(parseInt(remaining_time[0]));
-          setIsLoading(false);
-          // setIsDisabled(false);
+          if(remaining_time){
+            restartTime(parseInt(remaining_time[0]));
+            setIsLoading(false);
+          } else {
+            toast(response.response.data.details);
+          }
         } else {
           setEnterNumber(false);
           setIsCodeSent(true);
@@ -239,9 +225,9 @@ const PasswordRecovery = () => {
         }
       })
       .catch((error: any) => {
-        toast(error.response);
         setIsLoading(false);
         setIsDisabled(false);
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
   const onVerify = () => {
@@ -265,7 +251,6 @@ const PasswordRecovery = () => {
           }
         }
           setIsLoading(false);
-          setIsDisabled(false);
         } else {
           setEnterNumber(false);
           setIsCodeSent(true);
@@ -277,10 +262,9 @@ const PasswordRecovery = () => {
         }
       })
       .catch((error: any) => {
-        // console.log(error);
-        toast(error.response);
         setIsLoading(false);
         setIsDisabled(false);
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
   return (
@@ -402,7 +386,7 @@ const PasswordRecovery = () => {
                 Resend code&nbsp;
                 {enableTimer && (
                   <span>
-                    in&nbsp;{minutes}:{seconds}
+                    in&nbsp;{minutes}:{seconds < 10 ? `0${seconds}` : seconds}
                   </span>
                 )}
               </button>

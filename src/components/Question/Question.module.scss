@@ -42,21 +42,23 @@
 
 
   .Text1 {
-    width: 100px;
+    display: flex;
+    width: max(20vw, 150px);
     word-wrap: break-word;
     font-size: 17px;
     line-height: 24px;
     color: $primary-color2;
-    align-self: flex-end;
+    justify-content: right;
   }
 
   .Text2 {
-    width: 100px;
+    display: flex;
+    width: max(20vw, 150px);
     word-wrap: break-word;
     font-size: 17px;
     line-height: 24px;
     color: $primary-color2;
-    align-self: flex-start;
+    justify-content: right;
   }
   
  

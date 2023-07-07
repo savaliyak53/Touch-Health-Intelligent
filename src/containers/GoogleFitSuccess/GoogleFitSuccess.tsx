@@ -10,13 +10,7 @@ const GoogleFitSuccess = () => {
   const navigate = useNavigate();
   const { search } = useLocation();
   const [loading, setLoading] = useState(true);
-
-  // const logoutClick = () => {
-  //   localStorage.removeItem('userId');
-  //   localStorage.removeItem('token');
-  //   localStorage.clear();
-  //   navigate('/login');
-  // };
+  const [error, setError] = useState<any>();
 
   const handleBackendParams=()=>{
    
@@ -39,9 +33,7 @@ const GoogleFitSuccess = () => {
         navigate("/integrations")
       }
     }).catch((error: any) => {
-      toast.error('Something went wrong');
-      setLoading(false)
-      navigate('/integrations')
+      setError({code: error.response.status, message: error.response.data.details});  
     })
   } else {
     toast.error(`You didn't complete Google Fit Integration`);
@@ -54,6 +46,11 @@ const GoogleFitSuccess = () => {
     setLoading(true);
     handleBackendParams()
   }, []);
+
+  useEffect(() => {
+    if(error) throw(error)
+  }, [error]);
+
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <Spin spinning={loading}>

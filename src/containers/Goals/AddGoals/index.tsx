@@ -63,6 +63,7 @@ const AddGoals = () => {
   const [deletedGoal, setDeletedGoal] = useState<string | undefined | null>(
     null
   );
+  const [error, setError] = useState<any>();
   const authContext = useContext<AuthContextData | undefined>(AuthContext); 
   const getUserStatus = () => { 
     const userId=authContext?.user;
@@ -74,7 +75,7 @@ const AddGoals = () => {
           : setUserSatus(false);
       })
       .catch((err) => {
-        console.log(err);
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
 
@@ -92,13 +93,9 @@ const AddGoals = () => {
   };
 
   const handleDeleteOk = (id: any) => {
-    // setDeletedGoal(selectedGoal?.name)
     removeGoal(id);
     setShowCancelModal(false);
     toast.success(`Your goal was successfully deleted`);
-    // setTimeout(()=>{
-    //   setDeletedGoal(null)
-    // },5000)
   };
   const handleDeleteModal = () => {
     setShowCancelModal(false);
@@ -132,6 +129,9 @@ const AddGoals = () => {
     getGoals().then((res: any) => {
       setGoals(res.data);
       getSuggestedGoals(res.data);
+    })
+    .catch(err => {
+      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."});
     });
   };
 
@@ -143,7 +143,10 @@ const AddGoals = () => {
         );
         setSuggestion(result);
       }
-    });
+    })
+    .catch(err => {
+      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."});
+    })
   };
 
   const handleOptionSelect = (value: string, option: any) => {
@@ -155,6 +158,7 @@ const AddGoals = () => {
   const addGoals = (goalId?: string) => {
     addGoal({ goal_ids: [goalId] })
       .then((res) => {
+        localStorage.setItem('nextEnabled', 'true')
         setIsLoading(false);
         setIsDisabled(false);
         setSearchValue('');
@@ -164,68 +168,41 @@ const AddGoals = () => {
         getGoalsData();
       })
       .catch((error) => {
-        console.log(error);
-        toast.error('Something went wrong. Please contact support.');
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
 
   const removeGoal = (id?: string) => {
     deleteGoal(id)
       .then((res) => {
+        localStorage.setItem('nextEnabled', 'true')
         setIsLoading(false);
         setIsDisabled(false);
-        // setDeletedGoal(selectedGoal?.name)
-        // toast("Goal deleted successfully")
         setSearchValue('');
         getGoalsData();
         setIsModalOpen(false);
       })
       .catch((error: any) => {
-        toast.error(error);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
       });
   };
   const handleNext = () => {
+    localStorage.removeItem('nextEnabled');
     setIsLoading(true);
-    if (goals.length > 0) {
-      const preferenceData = {
-        signup_status: 'goal-characterization',
-      };
-      const userId=authContext?.user;
-      // const userId = localStorage.getItem('userId');
-      if (userId) {
-        preferencesService(preferenceData, userId)
-          .then((preferencesResponse: any) => {
-            setIsLoading(false);
-            if (preferencesResponse) {
-              getInteractionServiceByType('goal_characterization')
-                .then((response: any) => {
-                  if (response) {
-                    navigate('/questionnaire');
-                  } else {
-                    navigate('/');
-                  }
-                })
-                .catch((error) => {
-                  toast.error(`Something went wrong. `);
-                });
-            } else {
-              toast.error(`Preference status doesn't exist`);
-              navigate('/dashboard');
-            }
-          })
-          .catch((error) => {
-            setIsLoading(false);
-            toast.error(
-              `${error.response?.data?.title} Please check values and try again.`
-            );
-          });
-      }
-    }
+    setTimeout(() => {
+      setIsLoading(true);
+      navigate('/dashboard');
+    }, 1000);
   };
   useEffect(() => {
     getGoalsData();
     getUserStatus();
   }, []);
+
+  useEffect(() => {
+    if(error) throw(error);
+  }, [error]);
+
   useEffect(() => {
     if (debouncedSearchValue) {
       getGoalsSearch(debouncedSearchValue)
@@ -243,8 +220,7 @@ const AddGoals = () => {
           }
         })
         .catch((error) => {
-          console.log('error while searching ', error);
-          toast('Something went wrong. Please contact support.');
+          setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
         });
     } else {
       setIsDropdownOpen(false);
@@ -354,18 +330,15 @@ const AddGoals = () => {
               />
             </>
           ))}
-          {/* { deletedGoal ? (
-              <div className={styles['dlt-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> Your goal {deletedGoal} was successfully deleted</div>
-            ) : ''} */}
         </div>
         <div>
           <Button
-            className={`Submit-Button ${goals.length < 1 ? 'disabled' : ''}`}
+            className={`Submit-Button ${localStorage.getItem('nextEnabled') ? 'disabled' : ''}`}
             loading={isLoading}
             onClick={handleNext}
-            disabled={goals.length < 1 ? true : false}
+            disabled={localStorage.getItem('nextEnabled') ? false : true}
           >
-            Next
+            Save
           </Button>
         </div>
       </div>
@@ -429,13 +402,6 @@ const AddGoals = () => {
               Pick goal
             </Button>
           )}
-          {/* <Button
-              className="Submit-Button"
-              loading={isLoading}
-              onClick={handleCancel}
-            >
-              Take me back
-            </Button> */}
         </div>
       </Modal>
     </Layout>

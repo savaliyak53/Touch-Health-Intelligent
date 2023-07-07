@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from '../Signup.module.scss';
 import Authstyles from '../../Auth.module.scss';
 import CountryCode from '../../Country/CountryCode';
@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import { signUpService } from '../../../../services/authservice';
 import { onlyNumbers } from '../../../../utils/lib';
 import  ReCAPTCHA from 'react-google-recaptcha';
+import AuthContext, {AuthContextData} from '../../../../contexts/AuthContext';
 
 type SignupFormProps = {
   onSubmit: SubmitHandler<IFormInputs>;
@@ -32,6 +33,10 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
   const [checkedError, setCheckedError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [error, setError] = useState<any>();
+
+  const authContext = useContext<AuthContextData | undefined>(AuthContext);
+  const { signupUser } = authContext as AuthContextData;
   const navigate = useNavigate();
   const {
     register,
@@ -69,7 +74,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
     refCaptcha.current.reset();
     localStorage.setItem('captchaToken', token);
     localStorage.setItem('phone', onlyNumbers(submitData.phone));
-    signUpService(
+    const signupResponse = await signupUser(
       {
         phone: onlyNumbers(submitData.phone),
         name: submitData.name,
@@ -77,20 +82,20 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
       },
       token
     )
-      .then((response) => {
-        if (response?.id) {
-          localStorage.setItem('userId', response.id);
-          localStorage.setItem('token', response.token);
-          navigate(`/terms-and-conditions`);
-        } else {
-          setIsDisabled(false);
-          setIsLoading(false);
-          toast.error(response?.response?.data?.details);
-        }
-      })
-      .catch((error: any) => {
-        toast.error('Unknown error');
+    if (signupResponse?.id) {
+      localStorage.setItem('userId', signupResponse.id);
+      localStorage.setItem('token', signupResponse.token);
+      navigate(`/terms-and-conditions`);
+    } else {
+      setIsDisabled(false);
+      setIsLoading(false);
+      toast.error(signupResponse?.response?.data?.details);
+      setError({
+        code: signupResponse.response.data.status,
+        message:
+          signupResponse.response.data.details ?? 'Something went wrong.',
       });
+    }
   };
 
   const handleCheck = () => {
@@ -101,6 +106,10 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
   useEffect(() => {
     window.scrollTo(0,0);
   }, [])
+
+  useEffect(() => {
+    if(error) throw(error)
+  }, [error])
   return (
     <div className={styles['Auth-wrap']}>
       <form

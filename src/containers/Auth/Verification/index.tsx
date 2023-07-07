@@ -4,6 +4,7 @@ import React, {
   useRef,
   Dispatch,
   SetStateAction,
+  useContext
 } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +19,8 @@ import { Tooltip } from 'antd';
 import ReactCodeInput from 'react-code-input';
 import { requestPhoneOTP, verifyPhoneOTP } from '../../../services/authservice';
 import { useTimer } from 'react-timer-hook';
-import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import AuthContext , { AuthContextData }  from '../../../contexts/AuthContext';
+import { getUser, getSession } from '../../../utils/lib';
 
 type IVerificationCode = {
   code: string;
@@ -39,6 +41,9 @@ const Verification = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [enableTimer, setEnableTimer] = useState(true);
   const [disableSubmit, setDisableSubmit] = useState(true);
+  const [error, setError] = useState<any>();
+  const authContext = useContext<AuthContextData | undefined>(AuthContext); 
+
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
   const expiryTimestamp = time;
@@ -70,6 +75,10 @@ const Verification = () => {
     pageBackEvent();
     sendPhoneOTP();
   }, []);
+
+  useEffect(() => {
+    if(error) throw(error)
+  }, [error])
   const onSubmit = async (data: any) => {
     if (userId) {
       setIsVerifying(true);
@@ -80,24 +89,25 @@ const Verification = () => {
       if (phoneVerificationResponse?.data?.id) {
         setIsVerifying(false);
         toast.dismiss();
+        authContext?.setAuthTokens(phoneVerificationResponse.data.token);
+        authContext?.setUser(getUser(phoneVerificationResponse.data.token));
+        authContext?.setSession(getSession(phoneVerificationResponse.data.token));
+        localStorage.setItem('sessionId', getSession(phoneVerificationResponse.data.token));
+        localStorage.setItem('token', phoneVerificationResponse.data.token);
         toast.success('Verified');
-        //localStorage.setItem('token', phoneVerificationResponse.token)
-        // process.env.REACT_APP_IS_BETA == 'TRUE' ? navigate('/') : navigate('/subscription');
         navigate('/security');
       } else if (phoneVerificationResponse?.response?.status === 409) {
         const phone = localStorage.getItem('phone');
-        // navigate('/password-reset',{state: {
-        //   username: phone,
-        //   code: data.code
-        // }})
-        localStorage.clear();
-        toast.error('User already exists');
-        navigate('/login');
-        // toast.error("It seems your phone number already registered in our system. Please try to login or recover your password.");
+        navigate('/existing-user',{state: {
+          username: phone,
+          code: data.code
+        }})
         setIsVerifying(false);
-        // logoutClick();
-      } else if (phoneVerificationResponse?.response?.data) {
-        toast.info(phoneVerificationResponse?.response?.data?.details);
+      } else if(phoneVerificationResponse?.response?.status === 422) {
+        toast(phoneVerificationResponse.response.data.details);
+        setIsVerifying(false);
+      } else {
+        setError({code: phoneVerificationResponse.response.status, message: phoneVerificationResponse.response.data.details});
         setIsVerifying(false);
       }
     }
@@ -117,20 +127,19 @@ const Verification = () => {
     if (phone && captchaToken) {
       const phoneRequestResponse: any = await requestPhoneOTP(phone, captchaToken);
       if (phoneRequestResponse.code === 'ERR_BAD_REQUEST') {
-        if(phoneRequestResponse.response.data.details.issues){
-          toast(phoneRequestResponse.response.data.details.issues[0].message);
-      } else if (phoneRequestResponse?.response.data.details) {
-        toast(phoneRequestResponse?.response?.data.details)
-        const remaining_time =
-          phoneRequestResponse?.response?.data.details.match(/\d+/g);
+        if(phoneRequestResponse.response.status == 422){
+          toast(phoneRequestResponse?.response?.data.details)
+          const remaining_time = phoneRequestResponse?.response?.data.details.match(/\d+/g);
           if(remaining_time){
             const t = new Date();
             t.setSeconds(t.getSeconds() + parseInt(remaining_time[0]));
             restart(t);
+          } 
+        } else {
+            setError({code: phoneRequestResponse.response.status, message: phoneRequestResponse.response.data.details});
           }
         setIsLoading(false);
         return false;
-      }
     }  else {
       setIsLoading(false);
       setModalOpen(true);
@@ -217,7 +226,7 @@ const Verification = () => {
             Resend code&nbsp;
             {enableTimer && (
               <span>
-                in&nbsp;{minutes}:{seconds}
+                in&nbsp;{minutes}:{seconds < 10 ? `0${seconds}` : seconds}
               </span>
             )}
           </button>

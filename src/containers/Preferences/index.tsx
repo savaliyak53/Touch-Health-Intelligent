@@ -1,20 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Slider, Tooltip, Button, Spin, Switch } from 'antd';
+import { Tooltip, Button, Spin, Input } from 'antd';
 import styles from './Preferences.module.scss';
-import { CloudDownloadOutlined } from '@ant-design/icons';
+import { CloudDownloadOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
 import {
   getIntegrationStatus,
   getPreference,
-  preferencesService,
+  updatePreference
 } from '../../services/authservice';
 import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
 import { Radio, Space, DatePicker } from 'antd';
 import moment from 'moment';
 import 'moment-timezone';
-import { getUser, updatePreference } from '../../services/authservice';
 import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -41,7 +40,7 @@ const Preferences = () => {
   const [userId, setUserId] = useState<any>('')
   const navigate = useNavigate();
   const context = useContext<AuthContextData | undefined>(AuthContext); 
-
+  const [error, setError] = useState<any>();
 
   useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
@@ -75,6 +74,11 @@ const Preferences = () => {
     getUserInfo(userId);
   }, []);
 
+  useEffect(() => {
+    if(error) throw(error)
+  }, [error]);
+
+
   const getUserInfo = (userId: string | null | undefined) => {
     getPreference()
       .then((response: any) => {
@@ -87,8 +91,9 @@ const Preferences = () => {
         setSpinning(false);
       })
       .catch((error) => {
-        toast('Unknown error');
+        // toast('Unknown error');
         setSpinning(false);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
       });
   };
   const getIntegrationStatusService = () => {
@@ -99,23 +104,25 @@ const Preferences = () => {
         }
       })
       .catch((error) => {
-        toast('Unknown error');
+        // toast('Unknown error');
         setSpinning(false);
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
       });
   };
   const handleNext = () => {
     if(username !== '') {
-      preferencesService({
-        name: username
-      }, userId)
       updatePreference({
         username : username
         })
       .then(res => {
+        console.log(res);
+        if(res.data)
         navigate('/dashboard')
       })
-      .catch(() => {
-        toast.error('Something went wrong');
+      .catch((error) => {
+        console.log(error);
+        // toast.error('Something went wrong');
+        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
       });
     } else {
       toast.error("Username cannot be empty!")
@@ -222,15 +229,20 @@ const Preferences = () => {
                     />
                   </Tooltip>
                 </h3>
-                {/* <Button className="Pref-username-btn">{username}</Button> */}
-                <input
-                    type="text"
-                    className={styles["Pref-username-input"]}
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    onClick={() => setEnabled(true)}
-                  />
+                <div className={"Pref-username-input"}>
+                  <Input
+                      type="text"
+                      status={username.length > 24 ? 'error' : ''}
+                      
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      onClick={() => setEnabled(true)}
+                    />
+                </div>
+
               </div>
+              {username.length > 24 && <span className={styles['Username-error-msg']}><InfoCircleOutlined /> Username cannot be longer than 24 characters.</span>}
+
               <div>
                 <Button className={`Submit-Button ${styles['Manage-Devices-btn']}`} onClick={() => navigate('/manage-devices')}>{'Manage Devices'}</Button>
               </div>
@@ -239,6 +251,7 @@ const Preferences = () => {
                 <Button
                   className={'Submit-Button'}
                   onClick={handleNext}
+                  disabled={username.length > 24 ? true : false}
                 >
                 Save
                 </Button>

@@ -32,7 +32,6 @@ const FreeTrialModal = ({
       ]}
     >
       <div className="Description">
-        {trialEndDate ? (
           <>
             <Paragraph>
               Your free trial ended on{' '}
@@ -43,24 +42,6 @@ const FreeTrialModal = ({
               now to continue enjoying our services beyond the trial period!
             </Paragraph>
           </>
-        ) : (
-          <>
-            <Paragraph>Dear Valued User,</Paragraph>
-            <Text>
-              You are currently on a free trial!
-              <Text strong italic>
-                We want to assure you that there is no need to provide any
-                payment details at this moment.
-              </Text>
-            </Text>
-            <Paragraph>
-              Enjoy exploring our services without any obligation. Take this
-              opportunity to fully experience what we have to offer. We&apos;ll
-              guide you through the subscription process if you decide to
-              continue after the trial period. Enjoy your journey with us!
-            </Paragraph>
-          </>
-        )}
       </div>
     </Modal>
   );

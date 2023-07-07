@@ -41,20 +41,11 @@ export const loginService = async (data: ILogin, header: string) => {
   }
 };
 export const sessionsService = async () => {
-  try {
-    const res = await axios.get(`/auth/sessions`);
-    if (res) return res;
-  } catch (err) {
-    return err;
-  }
+  return await axios.get(`/auth/sessions`);
 };
 export const deleteSessionService = async (sessionId: string) => {
-  try {
-    const res = await axios.delete(`/auth/sessions/${sessionId}`);
-    if (res) return res;
-  } catch (err) {
-    return err;
-  }
+  return await axios.delete(`/auth/sessions/${sessionId}`);
+
 };
 export const logoutService = async (sessionId: string) => {
   try {
@@ -96,12 +87,7 @@ export const requestPhoneOTP = async (phone: string, token: string) => {
 };
 
 export const putSignUp = async (data: any, userId: string) => {
-  try {
-    const res = await axios.put(`${baseURL}/users/${userId}`, data);
-    if (res) return res.data;
-  } catch (err) {
-    return err;
-  }
+    return await axios.put(`${baseURL}/users/${userId}`, data);
 };
 
 export const validateSignUp = async (id: string | undefined) => {
@@ -118,9 +104,12 @@ export const verifyPhoneOTP = async (
   id: string | undefined
 ) => {
   try {
+    const config: any = {
+      withCredentials: true,
+    };
     const response = await axios.put(`${baseURL}/users/signup/${id}/verify`, {
       code: otp,
-    });
+    }, config);
     if (response) return response;
   } catch (error) {
     return error;
@@ -160,7 +149,7 @@ export const getUser = async (id: string | null | undefined) => {
 
 export const postResetPassword = async (data: any) => {
   const response = await axios.put('/auth/password-recovery', data);
-  return response.data;
+  return response.data ?? response;
 };
 
 export const getSecurityQuestions = async (
