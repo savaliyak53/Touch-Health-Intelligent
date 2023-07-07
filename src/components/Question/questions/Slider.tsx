@@ -10,14 +10,8 @@ export default function SliderComponent({
   const convertedObject: {[key: number]: string} = {};
 
   if(question.markers){
-    const originalObject: {[key: string]: number} = {
-      "Low Value": 0.1,
-      "Middle Value": 0.5,
-      "High Value": 0.7
-    };
-    
-    for (const key in originalObject) {
-      const value = originalObject[key];
+    for (const key in question.markers) {
+      const value = question.markers[key];
       convertedObject[value] = key;
     }
   }
@@ -28,14 +22,13 @@ export default function SliderComponent({
       <Slider
         className="Slider"
         vertical
-        tipFormatter={formatter}
         min={question.lower_value}
         max={question.upper_value}
         step={question.step_value}
         marks={convertedObject}
         included={true}
         defaultValue={question.init_value}
-        tooltip={question.show_values}
+        tooltip={{open:question.show_values, formatter: formatter}}
         onChange={(value: any) => {
           setValue(value);
         }}
