@@ -1,7 +1,11 @@
 import { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginService, logoutService, tokenService, signUpService } from '../services/authservice';
-import { getTokenExpiration, getUser, getSession } from '../utils/lib';
+import {
+  loginService,
+  logoutService,
+  signUpService,
+} from '../services/authservice';
+import { getUser, getSession } from '../utils/lib';
 import { ISignUp } from '../interfaces';
 
 export interface AuthContextData {
@@ -17,14 +21,10 @@ export interface AuthContextData {
     recaptchaToken: string
   ) => any;
   logoutUser: () => void;
-  signupUser: (
-    data: ISignUp,
-    recaptchaToken: string
-  ) => any;
+  signupUser: (data: ISignUp, recaptchaToken: string) => any;
 }
 
 const AuthContext = createContext<AuthContextData | undefined>(undefined);
-
 export default AuthContext;
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -45,26 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>();
-
   const navigate = useNavigate();
-
-  const getToken = () => {
-    const location = window.location.pathname
-    if(location !== '/login'){
-      setLoading(true);
-      tokenService()
-      .then(res => {
-        if(res.token){
-          setLoading(false);
-          setAuthTokens(res.token);
-          setUser(getUser(res.token));
-          setSession(getSession(res.token));
-
-        }
-      })
-    }
-  };
-
   const loginUser = async (
     username: string,
     password: string,
@@ -83,10 +64,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const signupUser = async (
-    data: ISignUp,
-    recaptchaToken: string
-  ) => {
+  const signupUser = async (data: ISignUp, recaptchaToken: string) => {
     const response = await signUpService(data, recaptchaToken);
     if (response.token) {
       setAuthTokens(response.token);
@@ -102,31 +80,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const logoutUser = () => {
     logoutService(session)
-    .then(res => {
-      setAuthTokens(null);
-      setUser(null);
-      setSession(null);
-      localStorage.removeItem('userId');
-      localStorage.removeItem('token');
-      localStorage.clear();
-      navigate('/login');
-    })
-    .catch(err => {
-      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."});
-    })
+      .then((res) => {
+        setAuthTokens(null);
+        setUser(null);
+        setSession(null);
+        localStorage.removeItem('userId');
+        localStorage.removeItem('token');
+        localStorage.clear();
+        navigate('/login');
+      })
+      .catch((err) => {
+        setError({
+          code: err.response.status,
+          message: err.response.data.details ?? 'Something went wrong.',
+        });
+      });
   };
 
   useEffect(() => {
     if (authTokens) {
       setUser(getUser(authTokens));
-    } else {
-      // getToken()
     }
   }, []);
 
   useEffect(() => {
-    if(error) throw(error);
-  }, [error])
+    if (error) throw error;
+  }, [error]);
 
   const contextData: AuthContextData = {
     user,

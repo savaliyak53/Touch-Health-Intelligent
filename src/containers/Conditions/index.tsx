@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../layouts/Layout/Layout';
-// import './index.scss';
 import styles from './Conditions.module.scss';
 import SwitchQuestion from '../../components/SwitchQuestion/SwitchQuestion';
 import {
@@ -16,7 +15,6 @@ import { AutoComplete, Button, Spin } from 'antd';
 import { useNavigate } from 'react-router';
 
 const ManageConditions = () => {
-  const path = location.pathname;
   const navigate = useNavigate();
   const [data, setData] = useState<any>();
   const [result, setResult] = useState<any>([]);
@@ -139,7 +137,6 @@ const ManageConditions = () => {
       defaultHeader={true}
       hamburger={location.pathname === '/conditions' ? false : true}
     >
-      {/* <div className={` "Content-wrap" ${styles["Con"]} `}> */}
       <div className="Content-wrap Con">
         <h2 className={styles["Con-title"]}>
           Problems <Spin spinning={loading} />
@@ -148,8 +145,6 @@ const ManageConditions = () => {
           These are your current concerns, they can be things like stress, pain,
           memory issues or physical symptoms and diseases
         </p>
-
-        {/* <div className={styles["Select-Wrap"]}> */}
         <div className="Select-Wrap">
           <SearchOutlined/>   
           <AutoComplete
@@ -166,7 +161,6 @@ const ManageConditions = () => {
         </div>
 
         <div className={styles["Switch-wrap"]}>
-        {/* <div className="Switch-wrap"> */}
           <h3 className={styles["Title"]}>My Conditions</h3>
           {data?.map((data: any, i: any) => (
             <SwitchQuestion

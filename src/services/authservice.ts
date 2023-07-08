@@ -4,12 +4,9 @@ import {
   IPreferencesService,
   InteractionService,
 } from '../interfaces';
-
 import axios from '../utils/axios';
-// import axios from 'axios';
 
 const baseURL = process.env.REACT_APP_API_HOST;
-
 axios.defaults.baseURL = baseURL;
 
 export const signUpService = async (data: ISignUp, header: string) => {
@@ -34,8 +31,8 @@ export const loginService = async (data: ILogin, header: string) => {
       config.headers = { 'X-Recaptcha-Token': header };
     }
     const res = await axios.post('/auth/login', data, config);
-    if(res.data) return res.data
-    else return res;  
+    if (res.data) return res.data;
+    else return res;
   } catch (err) {
     return err;
   }
@@ -45,7 +42,6 @@ export const sessionsService = async () => {
 };
 export const deleteSessionService = async (sessionId: string) => {
   return await axios.delete(`/auth/sessions/${sessionId}`);
-
 };
 export const logoutService = async (sessionId: string) => {
   try {
@@ -87,7 +83,7 @@ export const requestPhoneOTP = async (phone: string, token: string) => {
 };
 
 export const putSignUp = async (data: any, userId: string) => {
-    return await axios.put(`${baseURL}/users/${userId}`, data);
+  return await axios.put(`${baseURL}/users/${userId}`, data);
 };
 
 export const validateSignUp = async (id: string | undefined) => {
@@ -107,9 +103,13 @@ export const verifyPhoneOTP = async (
     const config: any = {
       withCredentials: true,
     };
-    const response = await axios.put(`${baseURL}/users/signup/${id}/verify`, {
-      code: otp,
-    }, config);
+    const response = await axios.put(
+      `${baseURL}/users/signup/${id}/verify`,
+      {
+        code: otp,
+      },
+      config
+    );
     if (response) return response;
   } catch (error) {
     return error;
@@ -159,15 +159,16 @@ export const getSecurityQuestions = async (
   const response = await axios.get(
     `${baseURL}/auth/password-recovery/security-questions?username=${username}&code=${code}`
   );
-  if(response.data) return response.data
-  else return response;};
+  if (response.data) return response.data;
+  else return response;
+};
 
 export const checkAnswer = async (data: any) => {
   const response = await axios.put(
     '/auth/password-recovery/security-questions',
     data
   );
-  if(response.data) return response.data
+  if (response.data) return response.data;
   else return response;
 };
 

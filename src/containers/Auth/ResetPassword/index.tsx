@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import {
-  postResetPassword,
-  requestPhoneOTP,
-} from '../../../services/authservice';
+import { requestPhoneOTP } from '../../../services/authservice';
 import { toast } from 'react-toastify';
 import Button from '../../../components/Button';
 import { AiOutlineEye } from 'react-icons/ai';
@@ -13,8 +9,6 @@ import Layout from '../../../layouts/Layout/Layout';
 import { Tooltip } from 'antd';
 import './index.scss';
 import '../index.scss';
-import InputField from '../../../components/Input';
-import CountryCode from '../Country/CountryCode';
 import { onlyNumbers } from '../../../utils/lib';
 type IRecoverFormInputs = {
   username: string;
@@ -36,10 +30,7 @@ const ResetPassword = () => {
   const [question, setQuestion] = useState('');
   const [resetResponse, setResetResponse] = useState<any>();
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
-  const [answer, setAnswer] = useState('');
-  const onChange = (option: any) => {
-    setQuestion(option);
-  };
+
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
@@ -49,7 +40,6 @@ const ResetPassword = () => {
   const {
     register,
     handleSubmit,
-    control,
     getValues,
     formState: { errors },
   } = useForm<IRecoverFormInputs>({
@@ -58,56 +48,36 @@ const ResetPassword = () => {
     shouldUnregister: false,
   });
   const onSubmitRecover = async (data: any) => {
-    // data.username = onlyNumbers(getValues('username'));
-    // if (question && question.length > 0) {
-    //   data.security_question.question = question;
-    //   data.security_question.answer;
-    // } else {
-    //   data.security_question = undefined;
-    // }
-    // data.security_question.question = question;
-    // data.security_question.answer;
-    // postResetPassword(data)
-    //   .then((response: any) => {
-    //     if (response && response.code === 'ERR_BAD_REQUEST') {
-    //       toast.error(response.response.data.details);
-    //     } else {
     toast.success('Password recovered successfuly');
     navigate('/login');
-    //   }
-    // })
-    // .catch((error: any) => {
-    //   toast('Unknown error');
-    // });
   };
   const sendCode = () => {
     setIsLoading(true);
     setIsDisabled(true);
-    const captchaToken= localStorage.getItem('captchaToken');
-    if(captchaToken){
-      requestPhoneOTP(onlyNumbers(getValues('username')),captchaToken)
-      .then((response: any) => {
-        if (response && response.security_questions) {
-          setIsCodeSent(true);
-          setResetResponse(response);
-          setQuestion(response.security_questions[0].question);
-          toast.success('Verification code sent');
+    const captchaToken = localStorage.getItem('captchaToken');
+    if (captchaToken) {
+      requestPhoneOTP(onlyNumbers(getValues('username')), captchaToken)
+        .then((response: any) => {
+          if (response && response.security_questions) {
+            setIsCodeSent(true);
+            setResetResponse(response);
+            setQuestion(response.security_questions[0].question);
+            toast.success('Verification code sent');
+            setIsLoading(false);
+            setIsDisabled(false);
+            navigate('/reset-verification-code');
+          } else if (response.code === 'ERR_BAD_REQUEST') {
+            toast(response.response.data.details);
+            setIsLoading(false);
+            setIsDisabled(false);
+          }
+        })
+        .catch((error: any) => {
+          toast('unknown error');
           setIsLoading(false);
           setIsDisabled(false);
-          navigate('/reset-verification-code');
-        } else if (response.code === 'ERR_BAD_REQUEST') {
-          toast(response.response.data.details);
-          setIsLoading(false);
-          setIsDisabled(false);
-        }
-      })
-      .catch((error: any) => {
-        toast('unknown error');
-        setIsLoading(false);
-        setIsDisabled(false);
-      });
+        });
     }
-    
   };
   return (
     <Layout defaultHeader={false} hamburger={false}>
@@ -186,9 +156,10 @@ const ResetPassword = () => {
             </Button>
           </>
         </form>
-        <div className='Links-wrap'>
+        <div className="Links-wrap">
           <div className="Auth-terms-signup">
-          For customer support, please follow this <a href="https://www.touchmedical.ca/customer-care">link</a>
+            For customer support, please follow this{' '}
+            <a href="https://www.touchmedical.ca/customer-care">link</a>
           </div>
         </div>
       </div>

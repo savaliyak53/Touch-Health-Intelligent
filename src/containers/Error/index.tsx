@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router';
 import Layout from '../../layouts/Layout/Layout';
 import '../ThankyouForSubmiting/index.scss';
 import { Link } from 'react-router-dom';
-import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
-const SubscriptionError = () => { 
-  const authContext = useContext<AuthContextData | undefined>(AuthContext); 
+import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
+const SubscriptionError = () => {
+  const authContext = useContext<AuthContextData | undefined>(AuthContext);
   if (!authContext) return null;
   const { logoutUser } = authContext;
 
@@ -14,9 +14,6 @@ const SubscriptionError = () => {
 
   const logoutClick = () => {
     logoutUser();
-    // localStorage.removeItem('userId');
-    // localStorage.removeItem('token');
-    // localStorage.clear();
     navigate('/login');
   };
 
@@ -29,9 +26,6 @@ const SubscriptionError = () => {
         <button className="submit" onClick={() => navigate('/subscription')}>
           <Link to="/subscription">Check Subscription</Link>
         </button>
-        {/* <button className="submit" onClick={() => navigate('/dashboard')}>
-          Home
-        </button> */}
         <button className="submit" onClick={logoutClick}>
           Logout
         </button>

@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import {
   postResetPassword,
   requestPhoneOTP,
-  // resetPassword,
 } from '../../../services/authservice';
 import { toast } from 'react-toastify';
 import Button from '../../../components/Button';
@@ -12,7 +11,6 @@ import { AiOutlineEye } from 'react-icons/ai';
 import Layout from '../../../layouts/Layout/Layout';
 import { Tooltip } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-// import '../index.scss';
 import styles from './PasswordRecovery.module.scss';
 import InputField from '../../../components/Input';
 import CountryCode from '../Country/CountryCode';
@@ -26,7 +24,6 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import RecaptchaModal from '../../../components/Modal/RecaptchaModal';
 import { useTimer } from 'react-timer-hook';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
-import Verification from '../Verification';
 
 type IRecoverFormInputs = {
   username: string;
@@ -39,11 +36,7 @@ type ISecurityQuestion = {
   question: string;
   answer: string;
 };
-type User = {
-  exp: string;
-  iat: string;
-  id: string;
-};
+
 const PasswordRecovery = () => {
   const navigate = useNavigate();
   const location: any = useLocation();
@@ -98,7 +91,7 @@ const PasswordRecovery = () => {
   });
 
   useEffect(() => {
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0);
     if (location.state) {
       onSubmitCode(location.state);
     } else {
@@ -107,7 +100,7 @@ const PasswordRecovery = () => {
   }, []);
 
   useEffect(() => {
-    if (error) throw(error)
+    if (error) throw error;
   }, [error]);
 
   const restartTime = (time: number) => {
@@ -118,7 +111,8 @@ const PasswordRecovery = () => {
 
   const onSubmitCode = async (data: any) => {
     setIsSubmitted(true);
-    const username = location.state?.username ?? localStorage.getItem('username');
+    const username =
+      location.state?.username ?? localStorage.getItem('username');
     const code = data.code ?? getValues('code');
     getSecurityQuestions(username, code)
       .then((response) => {
@@ -137,7 +131,10 @@ const PasswordRecovery = () => {
         if (error.response.status === 422) {
           toast.error(error.response.data.details);
         } else {
-          setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+          setError({
+            code: error.response.status,
+            message: error.response.data.details ?? 'Something went wrong.',
+          });
         }
       });
   };
@@ -155,19 +152,23 @@ const PasswordRecovery = () => {
     } else {
       data.security_question.question = question;
     }
-    checkAnswer(data).then((response) => {
-      if(response) {
-        setChangePassword(true);
-        setCodeSubmitted(false);
-      }
-    })
-    .catch(err => {
-      if (err.response.status === 422) {
-        toast.error(err.response.data.details);
-      } else {
-        setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."})
-      }
-    })
+    checkAnswer(data)
+      .then((response) => {
+        if (response) {
+          setChangePassword(true);
+          setCodeSubmitted(false);
+        }
+      })
+      .catch((err) => {
+        if (err.response.status === 422) {
+          toast.error(err.response.data.details);
+        } else {
+          setError({
+            code: err.response.status,
+            message: err.response.data.details ?? 'Something went wrong.',
+          });
+        }
+      });
   };
 
   const onSubmitRecover = async (data: any) => {
@@ -192,7 +193,10 @@ const PasswordRecovery = () => {
           }
         })
         .catch((error: any) => {
-            setError({code: error.response.status, message: error.response.data.details});
+          setError({
+            code: error.response.status,
+            message: error.response.data.details,
+          });
         });
     } else {
       setChangePassword(false);
@@ -208,7 +212,7 @@ const PasswordRecovery = () => {
         if (response.code === 'ERR_BAD_REQUEST') {
           setIsCodeSent(true);
           const remaining_time = response?.response?.data.details.match(/\d+/g);
-          if(remaining_time){
+          if (remaining_time) {
             restartTime(parseInt(remaining_time[0]));
             setIsLoading(false);
           } else {
@@ -227,7 +231,10 @@ const PasswordRecovery = () => {
       .catch((error: any) => {
         setIsLoading(false);
         setIsDisabled(false);
-        setError({code: error.response.status, message: error.response.data.details});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
   const onVerify = () => {
@@ -239,17 +246,18 @@ const PasswordRecovery = () => {
     requestPhoneOTP(onlyNumbers(getValues('username')), token)
       .then((response: any) => {
         if (response.code === 'ERR_BAD_REQUEST') {
-          if(response.response.data.details.issues){
+          if (response.response.data.details.issues) {
             toast(response.response.data.details.issues[0].message);
-        } else {
-          toast(response.response.data.details);
-          const remaining_time = response?.response?.data.details.match(/\d+/g);
-          if(remaining_time){
-            setEnterNumber(false);
-            setIsCodeSent(true);
-            restartTime(parseInt(remaining_time[0]));   
+          } else {
+            toast(response.response.data.details);
+            const remaining_time =
+              response?.response?.data.details.match(/\d+/g);
+            if (remaining_time) {
+              setEnterNumber(false);
+              setIsCodeSent(true);
+              restartTime(parseInt(remaining_time[0]));
+            }
           }
-        }
           setIsLoading(false);
         } else {
           setEnterNumber(false);
@@ -264,7 +272,10 @@ const PasswordRecovery = () => {
       .catch((error: any) => {
         setIsLoading(false);
         setIsDisabled(false);
-        setError({code: error.response.status, message: error.response.data.details});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
   return (
@@ -275,9 +286,12 @@ const PasswordRecovery = () => {
             onSubmit={handleSubmit(onVerify)}
             className={styles['Auth-form']}
           >
-          <div className={'Reset-Pwd-Back-Btn'}>
-            <ArrowLeftOutlined className={'LeftIcon'} onClick={() => navigate('/login')} />
-          </div>
+            <div className={'Reset-Pwd-Back-Btn'}>
+              <ArrowLeftOutlined
+                className={'LeftIcon'}
+                onClick={() => navigate('/login')}
+              />
+            </div>
             <h2 className={styles['Security-title']}>Reset password</h2>
             <Tooltip
               color="orange"
@@ -318,9 +332,6 @@ const PasswordRecovery = () => {
                 className={styles['Verification-form']}
               >
                 <h2 className={styles['Security-title']}>Verification code</h2>
-                {/* <div className={styles['description']}>
-               <InfoCircleOutlined /> We just sent a text to your number, confirm this is you by putting in the code you received here
-              </div> */}
                 <Controller
                   control={control}
                   name="code"
@@ -337,9 +348,7 @@ const PasswordRecovery = () => {
                       return true; // skip validation on first render
                     },
                   }}
-                  render={({
-                    field: { onChange, onBlur, value, name, ref },
-                  }) => (
+                  render={({ field: { onChange, value, name } }) => (
                     <ReactCodeInput
                       name={name}
                       inputMode="numeric"
@@ -410,15 +419,9 @@ const PasswordRecovery = () => {
             </div>
           </>
         )}
-        {/* {(    */}
-
         {codeSubmitted && question && (
           <>
-            <div
-              className={styles['Question-Auth-wrap']}
-              // className="Auth-wrap"
-            >
-              {/* <h2 className={styles["Auth-title"]}> */}
+            <div className={styles['Question-Auth-wrap']}>
               <h2 className={styles['Security-title']}>Security Question</h2>
               <p className={styles['Security-Description']}>
                 Please help us protect your account. Select a security question
@@ -430,7 +433,6 @@ const PasswordRecovery = () => {
                 {...register('security_question.question')}
                 type="text"
                 className={styles['security-Input']}
-                // className="app-Input"
                 placeholder="Question"
                 value={question}
                 disabled={true}
@@ -447,14 +449,12 @@ const PasswordRecovery = () => {
                   onChange={(event: any) => setAnswer(event.target.value)}
                 />
               </div>
-              {/* <div className="action"> */}
               <Button
                 onClick={handleSubmit(confirmAnswer)}
                 className={'Submit-Button'}
               >
                 Submit
               </Button>
-              {/* </div> */}
             </div>
           </>
         )}
@@ -474,7 +474,6 @@ const PasswordRecovery = () => {
                 open={errors.code ? true : false}
               ></Tooltip>
               <div className={styles['input-element-wrapper-password']}>
-                {/* <div className="input-element-wrapper-password"> */}
                 <Tooltip
                   color="orange"
                   placement="bottomLeft"
@@ -486,7 +485,6 @@ const PasswordRecovery = () => {
                     placeholder="Enter new password here"
                     type={passwordShown ? 'text' : 'password'}
                     className={styles['security-Input']}
-                    // className="app-Input"
                     {...register('new_password', {
                       required: 'Password is required',
                       minLength: {
@@ -500,7 +498,6 @@ const PasswordRecovery = () => {
                     })}
                   />
                 </Tooltip>
-                {/* <button className="btn" onClick={togglePassword} type="button"> */}
                 <button
                   className={styles['btn']}
                   onClick={togglePassword}

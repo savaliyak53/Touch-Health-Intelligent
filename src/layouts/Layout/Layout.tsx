@@ -4,8 +4,7 @@ import './Layout.scss';
 import { useLocation, useNavigate } from 'react-router';
 import { getUser } from '../../services/authservice';
 import { getSubscriptionStatus } from '../../services/subscriptionService';
-import { signupFlow, sleep } from '../../utils/lib';
-import { toast } from 'react-toastify';
+import { signupFlow } from '../../utils/lib';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 import AuthContext from '../../contexts/AuthContext';
 import moment from 'moment';
@@ -29,7 +28,6 @@ const Layout = ({
   hamburger,
   dashboard,
   signupLogin,
-  setDisableAllButtons,
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
   const [trialRemaining, setTrialRemaining] = useState<string>('');

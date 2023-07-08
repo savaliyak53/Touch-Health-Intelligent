@@ -11,27 +11,12 @@ import { Spin } from 'antd';
 import moment from 'moment';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
-import FreeTrialModal from '../../components/Modal/FreeTrial';
 
 const Home = () => {
   const navigate = useNavigate();
   const [exception, setException] = useState<boolean>(false);
-  const [loading, setLoading] = useState(true);
   const context = useContext<AuthContextData | undefined>(AuthContext);
-  const [trialModal, setTrialModal] = useState<boolean>(false);
   const [error, setError] = useState<any>();
-
-  useEffect(() => {
-    const token = context?.authTokens;
-    if (token) {
-      checkUserData();
-    } else {
-      navigate('/login');
-    }
-  }, []);
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
 
   const handleRedirect = (response: any) => {
     if (response) {
@@ -40,7 +25,6 @@ const Home = () => {
       navigate('/dashboard');
     }
   };
-
   const getInteractionByType = (type: string) => {
     getInteractionServiceByType(type)
       .then((response: any) => {
@@ -71,7 +55,6 @@ const Home = () => {
           //after successful subscription initiate onboarding interaction
           getInteractionServiceByType('onboarding')
             .then((response: any) => {
-              setLoading(false);
               if (response) {
                 navigate('/questionnaire');
               } else {
@@ -83,10 +66,8 @@ const Home = () => {
                 code: error.response.status,
                 message: error.response.data.details ?? 'Something went wrong.',
               });
-              // navigate('/dashboard');
             });
         } else {
-          // console.log('navigate to dashboard');
           navigate('/dashboard');
         }
       })
@@ -95,9 +76,6 @@ const Home = () => {
           code: error.response.status,
           message: error.response.data.details ?? 'Something went wrong.',
         });
-        // toast.error(
-        //   `${error.response?.data?.title} Please check values and try again.`
-        // );
       });
   };
   const checkUserData = () => {
@@ -111,7 +89,6 @@ const Home = () => {
             navigate('/security');
           } else {
             setException(true);
-            //show modal that something went wrong
           }
         })
         .catch((error) => {
@@ -201,6 +178,19 @@ const Home = () => {
         });
       });
   };
+
+  useEffect(() => {
+    const token = context?.authTokens;
+    if (token) {
+      checkUserData();
+    } else {
+      navigate('/login');
+    }
+  }, []);
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
+
   return (
     <div className="Btn-group">
       <Spin size="large" className=" Spinner" />

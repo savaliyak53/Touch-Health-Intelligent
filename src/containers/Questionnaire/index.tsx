@@ -15,7 +15,7 @@ import { Interaction } from '../../interfaces';
 import Layout from '../../layouts/Layout/Layout';
 import { Skeleton } from 'antd';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
-import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
+import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
 
 function UserCondition() {
   const [question, setQuestion] = useState<Interaction | any>();
@@ -26,9 +26,8 @@ function UserCondition() {
   const [skeletonLoading, setSkeletonLoading] = useState(true);
   const [isClicked, setClicked] = useState(false);
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
-  const [signupStatus, setSignupStatus] = useState<string | null>();
-  const [exception, setException] = useState<boolean>(false); 
-  const context = useContext<AuthContextData | undefined>(AuthContext); 
+  const [exception, setException] = useState<boolean>(false);
+  const context = useContext<AuthContextData | undefined>(AuthContext);
   const [error, setError] = useState<any>();
 
   const navigate = useNavigate();
@@ -51,20 +50,24 @@ function UserCondition() {
         }
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
         setSkeletonLoading(false);
       });
   };
   const handleInteractionRedirect = () => {
-    const userId = context?.user ? context?.user : localStorage.getItem('userId');
-    // const userId = localStorage.getItem('userId');
+    const userId = context?.user
+      ? context?.user
+      : localStorage.getItem('userId');
     getUser(userId)
       .then((response: any) => {
         if (response?.data.signup_status === 'onboarding') {
           const preferenceData = {
             signup_status: 'done',
           };
-          const userId=context?.user ?? localStorage.getItem('userId');
+          const userId = context?.user ?? localStorage.getItem('userId');
           if (userId) {
             preferencesService(preferenceData, userId)
               .then(async (preferencesResponse: any) => {
@@ -76,7 +79,11 @@ function UserCondition() {
                 }
               })
               .catch((error) => {
-                setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+                setError({
+                  code: error.response.status,
+                  message:
+                    error.response.data.details ?? 'Something went wrong.',
+                });
               });
           }
         } else if (response?.data.signup_status === 'goal-characterization') {
@@ -88,15 +95,16 @@ function UserCondition() {
           )
             .then((preferencesResponse) => {
               if (preferencesResponse) {
-                //nayab revisit this
                 navigate('/dashboard');
               } else {
                 console.log('navigate to dashboard');
-                //navigate('/dashboard');
               }
             })
             .catch((error) => {
-              setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+              setError({
+                code: error.response.status,
+                message: error.response.data.details ?? 'Something went wrong.',
+              });
             });
         } else if (response?.data.signup_status === 'done') {
           navigate('/dashboard');
@@ -105,11 +113,14 @@ function UserCondition() {
         }
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        setError({
+          code: error.response.status,
+          message: error.response.data.details ?? 'Something went wrong.',
+        });
       });
   };
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     if (location && location.pathname === '/c/checkup') {
       handleInitiateCheckupByLink();
     } else {
@@ -118,36 +129,42 @@ function UserCondition() {
   }, []);
 
   useEffect(() => {
-    if(error) throw(error)
+    if (error) throw error;
   }, [error]);
-  
+
   const handleInitiateCheckupByLink = () => {
-    const userId=context?.user;
+    const userId = context?.user;
 
     getUser(userId)
-    .then((response: any) => {
-      if (response?.data.signup_status === 'done') {
-        getInteractionServiceByType('checkup')
-        .then((response: any) => {
-          if (response) {
-            getInteraction();
-          } else {
-            setException(true);
-  
-            navigate('/dashboard');
-          }
-        })
-        .catch((error) => {
-          setException(true);
-          setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+      .then((response: any) => {
+        if (response?.data.signup_status === 'done') {
+          getInteractionServiceByType('checkup')
+            .then((response: any) => {
+              if (response) {
+                getInteraction();
+              } else {
+                setException(true);
+
+                navigate('/dashboard');
+              }
+            })
+            .catch((error) => {
+              setException(true);
+              setError({
+                code: error.response.status,
+                message: error.response.data.details ?? 'Something went wrong.',
+              });
+            });
+        } else {
+          navigate('/');
+        }
+      })
+      .catch((error) => {
+        setError({
+          code: error.response.status,
+          message: error.response.data.details ?? 'Something went wrong.',
         });
-      } else {
-        navigate('/');
-      }
-    })
-    .catch((error) => {
-      setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
-    });
+      });
   };
   const integrationPageRedirect = (refId: string) => {
     localStorage.setItem('refId', refId);
@@ -237,7 +254,10 @@ function UserCondition() {
       .catch((error) => {
         setLoading(false);
         setException(true);
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        setError({
+          code: error.response.status,
+          message: error.response.data.details ?? 'Something went wrong.',
+        });
       });
   };
 

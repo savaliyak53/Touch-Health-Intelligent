@@ -7,7 +7,6 @@ import { Tooltip, Button, Progress } from 'antd';
 import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import {
   DeleteOutlined,
-  RightOutlined,
   CaretDownOutlined,
   CaretUpOutlined,
 } from '@ant-design/icons';
@@ -93,8 +92,6 @@ const GoalDetails = () => {
       forecastTime = response?.data.forecast.times.map((item: any) => {
         return item;
       });
-
-      //setForecastData
       const forecast = response?.data.forecast.expectation;
       forecastArray = [];
       for (let i = 0; i < forecast.length; i++) {
@@ -108,7 +105,6 @@ const GoalDetails = () => {
       historicalTime = response?.data.historical.times.map((item: any) => {
         return item;
       });
-      //setHistoricalData
       const expectation = response?.data.historical.expectation;
       historicalArray = [];
       for (let i = 0; i < expectation.length; i++) {
@@ -169,7 +165,7 @@ const GoalDetails = () => {
     beforeDatasetsDraw(chart: any) {
       const {
         ctx,
-        chartArea: { top, bottom, left, right, width, height },
+        chartArea: { top, height },
         scales: { x, y },
       } = chart;
       ctx.fillStyle = 'rgba(0,0,0,0)';
@@ -212,7 +208,10 @@ const GoalDetails = () => {
         setIsLoading(false);
       })
       .catch((error: any) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details ?? 'Something went wrong.',
+        });
         setIsLoading(false);
       });
   };
@@ -226,7 +225,10 @@ const GoalDetails = () => {
         }
       })
       .catch((error: any) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details ?? 'Something went wrong.',
+        });
         setIsLoading(false);
       });
   };
@@ -275,11 +277,14 @@ const GoalDetails = () => {
         }
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details ?? 'Something went wrong.',
+        });
       });
   };
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     if (goalId) {
       getGoalDetails(goalId);
     }
@@ -293,7 +298,7 @@ const GoalDetails = () => {
   }, []);
 
   useEffect(() => {
-    if(error) throw(error)
+    if (error) throw error;
   }, [error]);
 
   const handleBack = () => {

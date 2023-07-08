@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
-
+import React, { useEffect, useState} from 'react';
 import styles from './DashboardNew.module.scss'
-import {Row, Col, Typography, Tooltip, Button, Progress } from 'antd'
-import { AiOutlineQuestionCircle, AiOutlinePlus } from 'react-icons/ai';
+import { Row, Col, Typography, Tooltip, Button, Progress } from 'antd'
+import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import Layout from '../../layouts/Layout/Layout';
 import { Spin } from 'antd';
-import { toast } from 'react-toastify';
 import { getDashboard } from '../../services/dashboardservice';
 import { useNavigate } from 'react-router-dom';
 import { timeFrom } from '../../utils/lib';
@@ -17,12 +15,10 @@ const DashboardNew = () => {
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const date = new Date();
 
   useEffect(() => {
     window.scrollTo(0,0);
     setLoading(true);
-
     getDashboard()
       .then((response) => {
         setLoading(false);
@@ -45,7 +41,6 @@ const DashboardNew = () => {
           }
          })
          setElementStreak(new_streaks)
-         //updated pattern shows check true on today or yesterday then the streak is valid, otherwise zero
          if(dates[13][2]==="orange" || dates[12][2] === "orange"){
           setStreakCount(response.data.checkup_streak)
          }
@@ -138,7 +133,6 @@ const DashboardNew = () => {
             </Tooltip>
           </Col>
         </Row>
-        {/* Goals Detail Head + Add new Goal */}
         <Row>
           <Col span={24}>
             <div className={styles.GoalsHead}>
@@ -149,7 +143,6 @@ const DashboardNew = () => {
           </Col>
         </Row>
         {elements ? elements.map((item:any)=> 
-         
          <Row key={item.id}>
          <Col span={24}>
            <div className={styles.Goal} onClick={()=>navigate(`/goals/${item.id}`)}>

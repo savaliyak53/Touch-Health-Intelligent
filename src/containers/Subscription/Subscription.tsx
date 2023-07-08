@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Layout from '../../layouts/Layout/Layout';
-import { Button, Spin, Typography, Tag } from 'antd';
+import { Button, Spin } from 'antd';
 import styles from './Subscription.module.scss';
 import { Alert } from 'antd';
 import v from '../../variables.module.scss';
@@ -22,7 +22,7 @@ import { dateFormatRenewal, sleep } from '../../utils/lib';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { ISubscriptionPlan, IUserSubscription } from './Interfaces';
 import { Link } from 'react-router-dom';
-import { LoadingOutlined , InfoCircleOutlined } from '@ant-design/icons';
+import { LoadingOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import {
   getInteractionServiceByType,
   getUser,
@@ -31,9 +31,11 @@ import {
 } from '../../services/authservice';
 import moment from 'moment';
 import { ReloadOutlined } from '@ant-design/icons';
-import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
+import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
 const { Meta } = Card;
-const antIcon = <LoadingOutlined style={{ fontSize: 24, color: 'white' }} spin />;
+const antIcon = (
+  <LoadingOutlined style={{ fontSize: 24, color: 'white' }} spin />
+);
 const Subscription = () => {
   const navigate = useNavigate();
   let retries = 0;
@@ -54,7 +56,7 @@ const Subscription = () => {
   const [retry, setRetry] = useState<any>(false);
   const [disableAllButtons, setDisableAllButtons] = useState<boolean>(false);
   const [onTrial, setOnTrial] = useState<boolean>(false);
-  const authContext = useContext<AuthContextData | undefined>(AuthContext); 
+  const authContext = useContext<AuthContextData | undefined>(AuthContext);
   const [error, setError] = useState<any>();
 
   const [estimateAmount, setEstimateAmount] = useState();
@@ -72,8 +74,10 @@ const Subscription = () => {
       })
       .catch((error) => {
         setLoading(false);
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
-        // console.log('errors are ', error);
+        setError({
+          code: error.response.status,
+          message: error.response.data.details ?? 'Something went wrong.',
+        });
       });
   };
 
@@ -96,8 +100,10 @@ const Subscription = () => {
       })
       .catch((error) => {
         setLoading(false);
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
-        // console.log('error while getting user plan');
+        setError({
+          code: error.response.status,
+          message: error.response.data.details ?? 'Something went wrong.',
+        });
       });
   };
 
@@ -116,17 +122,17 @@ const Subscription = () => {
         }
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
-        // console.log('Error while getting user plan. ', error);
+        setError({
+          code: error.response.status,
+          message: error.response.data.details ?? 'Something went wrong.',
+        });
       });
   };
-  const delay = (ms:any) => new Promise(
-    resolve => setTimeout(resolve, ms)
-  );
+  const delay = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
   const userCheckoutStatus = () => {
     setSpin(true);
     getStatus()
-      .then(async(response: any) => {
+      .then(async (response: any) => {
         setStripeStatus(response.data.status);
         setSpin(false);
         if (response.data.status === 'open') {
@@ -142,9 +148,10 @@ const Subscription = () => {
         }
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
-        // return null;
-        // console.log('Error while getting user plan. ', error);
+        setError({
+          code: error.response.status,
+          message: error.response.data.details ?? 'Something went wrong.',
+        });
       });
     return null;
   };
@@ -161,8 +168,7 @@ const Subscription = () => {
       fetchPlans();
       userPlanStatus && fetchUserSubscription();
       setSpin(false);
-      const userId=authContext?.user;
-      // const userId = localStorage.getItem('userId');
+      const userId = authContext?.user;
       getUser(userId)
         .then((response) => {
           if (response.data.signup_status === 'new') {
@@ -177,18 +183,21 @@ const Subscription = () => {
                 handleInitialIntake();
               })
               .catch((error) => {
-                // toast.error(
-                //   `${error.response?.data?.title} Something went wrong while updating preference`
-                // );
-                setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+                setError({
+                  code: error.response.status,
+                  message:
+                    error.response.data.details ?? 'Something went wrong.',
+                });
               });
           } else if (response.data.signup_status == 'done') {
             setUserSignupStatus(true);
           }
         })
         .catch((error) => {
-          setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
-          // console.log(error);
+          setError({
+            code: error.response.status,
+            message: error.response.data.details ?? 'Something went wrong.',
+          });
         });
     }
   }, []);
@@ -198,8 +207,7 @@ const Subscription = () => {
       fetchPlans();
       userPlanStatus && fetchUserSubscription();
       setSpin(false);
-      const userId=authContext?.user;
-      // const userId = localStorage.getItem('userId');
+      const userId = authContext?.user;
       getUser(userId)
         .then((response) => {
           if (response.data.signup_status === 'new') {
@@ -214,33 +222,36 @@ const Subscription = () => {
                 handleInitialIntake();
               })
               .catch((error) => {
-                // toast.error(
-                //   `${error.response?.data?.title} Something went wrong while updating preference`
-                // );
-                setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+                setError({
+                  code: error.response.status,
+                  message:
+                    error.response.data.details ?? 'Something went wrong.',
+                });
               });
           } else if (response.data.signup_status == 'done') {
             setUserSignupStatus(true);
           }
         })
         .catch((error) => {
-          setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
-          // console.log(error);
+          setError({
+            code: error.response.status,
+            message: error.response.data.details ?? 'Something went wrong.',
+          });
         });
     }
   }, [stripeStatus]);
   useEffect(() => {
     if (location.search === '?success') {
       !disableAllButtons && setDisableAllButtons(true);
-      toast.success('Subscription confirmed.', {autoClose: 3000})
+      toast.success('Subscription confirmed.', { autoClose: 3000 });
       sleep(3000).then(() => {
         navigate('/questionnaire');
-      })
+      });
       userCheckoutStatus();
     }
   }, [location]);
   useEffect(() => {
-    if(error) throw(error);
+    if (error) throw error;
   }, [error]);
   const handleRetry = () => {
     setRetry(false);
@@ -248,8 +259,7 @@ const Subscription = () => {
     userCheckoutStatus();
   };
   const handleInitialIntake = () => {
-    // const userId = localStorage.getItem('userId');
-    const userId=authContext?.user;
+    const userId = authContext?.user;
     //after successful subscription set signup_status to onboarding
     preferencesService(
       {
@@ -275,7 +285,6 @@ const Subscription = () => {
             });
         } else {
           console.log('navigate to dashboard');
-          //navigate('/dashboard');
         }
       })
       .catch((error) => {
@@ -397,25 +406,25 @@ const Subscription = () => {
       })
       .catch((error) => {
         setLoading(false);
-        console.log('error while getting user plan');
+        console.log('error while getting user plan', error);
       });
     setShowSwitchModal(true);
   };
-  const handleManagePayment = () => { 
-    setLoadingManageBtn(true)
+  const handleManagePayment = () => {
+    setLoadingManageBtn(true);
     managePayment()
-    .then((response) => {
-      setLoadingManageBtn(false);
-      setDisableButton(false);
-      window.location.assign(response.data.url);
-    })
-    .catch((error) => {
-      setLoadingManageBtn(false);
-      setDisableButton(false);
-      console.log('error while trying to redirect to manage payment ', error);
-      toast.error('Something went wrong while subscribing');
-    });
-  }
+      .then((response) => {
+        setLoadingManageBtn(false);
+        setDisableButton(false);
+        window.location.assign(response.data.url);
+      })
+      .catch((error) => {
+        setLoadingManageBtn(false);
+        setDisableButton(false);
+        console.log('error while trying to redirect to manage payment ', error);
+        toast.error('Something went wrong while subscribing');
+      });
+  };
   return (
     <Layout
       defaultHeader={true}
@@ -432,8 +441,6 @@ const Subscription = () => {
             className="submit"
             onClick={() => {
               window.location.reload();
-              // userCheckoutStatus();
-              //setStripeStatus('close');
             }}
           >
             <Link to="/subscription">Check Subsciption</Link>
@@ -450,21 +457,23 @@ const Subscription = () => {
         >
           <div className="Content-wrap Sub">
             <h2 className={styles['Sub-title']}>
-              Subscription <Spin spinning={loading} style={{marginLeft: 4}}/>
+              Subscription <Spin spinning={loading} style={{ marginLeft: 4 }} />
             </h2>
             <div> </div>
-            {userPlanStatus &&
-            <button
-              className={styles['manage-btn']}
-              onClick={handleManagePayment}
-              disabled={disableButton || disableAllButtons}
-            >
-              Manage Payment
-              <Spin spinning={loadingManageBtn} indicator={antIcon} />
-            </button>}
+            {userPlanStatus && (
+              <button
+                className={styles['manage-btn']}
+                onClick={handleManagePayment}
+                disabled={disableButton || disableAllButtons}
+              >
+                Manage Payment
+                <Spin spinning={loadingManageBtn} indicator={antIcon} />
+              </button>
+            )}
             {!loading && !userPlan && (
-                <div className={styles['description']}>
-              <InfoCircleOutlined /> You are <b>not subscribed </b> to any plan.
+              <div className={styles['description']}>
+                <InfoCircleOutlined /> You are <b>not subscribed </b> to any
+                plan.
               </div>
             )}
             <>
@@ -485,7 +494,9 @@ const Subscription = () => {
                 >
                   <Meta
                     title={
-                      <div className={styles['Question-title']}>{plan.name}</div>
+                      <div className={styles['Question-title']}>
+                        {plan.name}
+                      </div>
                     }
                     className={styles['ant-card-meta']}
                     description={
@@ -493,7 +504,6 @@ const Subscription = () => {
                         <p className={styles['Description']}>
                           {plan.description}
                         </p>
-                        {/* if userPlan has nextPhase means user downgraded the plan */}
                         {isNextPhase(plan) && (
                           <>
                             <p className={styles['subDates']}>Starts</p>
@@ -571,7 +581,6 @@ const Subscription = () => {
                         {isActivePlan(plan) && userPlanStatus ? (
                           <>
                             <div className={styles['Btn-group']}>
-                              {/* <div className="Btn-group"> */}
                               {userCancelledPlan(plan) ? (
                                 <Button
                                   className={` ${styles['Modal-cancel-btn']} ${styles['Cancelled']} ${styles['Subscribe']} `}
@@ -580,9 +589,6 @@ const Subscription = () => {
                                   Cancelled
                                 </Button>
                               ) : (
-                                // <Tag color="red">
-                                //   Plan will be cancelled automatically{' '}
-                                // </Tag>
                                 <Button
                                   className={` ${styles['Modal-cancel-btn']} ${styles['Subscribe']} `}
                                   onClick={() => showModal()}
@@ -596,9 +602,9 @@ const Subscription = () => {
                                 open={showCancelModal}
                                 handleCancel={handleCancelModal}
                                 handleOk={handleOk}
-                                className='Addgoal-Confirm-Modal'
+                                className="Addgoal-Confirm-Modal"
                                 renderData={
-                                  <div className='Description'>
+                                  <div className="Description">
                                     Your subscription will be cancelled
                                     {userPlan?.renewalDate
                                       ? ` and not renewed on ${userPlan?.renewalDate}`
@@ -607,8 +613,6 @@ const Subscription = () => {
                                           userPlan.currentPeriod.ends
                                         )}`
                                       : ''}
-                                    {/* {userPlan.trialing &&
-                                  ' You will loose your free trial.'} */}
                                   </div>
                                 }
                               />
@@ -617,7 +621,6 @@ const Subscription = () => {
                         ) : (
                           <>
                             <div className={styles['Btn-group']}>
-                              {/* <div className="Btn-group"> */}
                               {userPlan &&
                               userPlan?.plan?.id !== plan.id &&
                               userPlanStatus ? (
@@ -667,9 +670,9 @@ const Subscription = () => {
               open={showSwitchModal}
               handleCancel={handleCancelModal}
               handleOk={handleSwitch}
-              className='Addgoal-Confirm-Modal'
+              className="Addgoal-Confirm-Modal"
               renderData={
-                <div className='Description'>
+                <div className="Description">
                   {estimateAmount ? (
                     estimateAmount !== '$0.00' ? (
                       <>

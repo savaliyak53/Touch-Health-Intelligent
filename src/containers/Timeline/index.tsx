@@ -4,7 +4,6 @@ import {
   RightOutlined,
   ArrowDownOutlined,
   DownOutlined,
-  CloseOutlined,
   ArrowUpOutlined,
 } from '@ant-design/icons';
 import './index.scss';
@@ -21,7 +20,7 @@ const Timeline = () => {
   const [loader, setLoader] = useState<boolean>();
   const [insightResponse, setInsightResponse] = useState<any>();
   const selectedInsight = localStorage.getItem('selectedInsight');
-  const getSelectedInsight = async (index:any, insightResp:any) => {   
+  const getSelectedInsight = async (index: any, insightResp: any) => {
     const splitIndex = index && index.split('-');
     const insightIndex = splitIndex && splitIndex.map(Number);
     calculate(insightIndex, insightResp);
@@ -29,7 +28,11 @@ const Timeline = () => {
   const calculate = (insightArray: any, response: any) => {
     const i = insightArray[0];
     const j = insightArray[1];
-    if (response.insights && response.insights.length && response.insights[i].length) {
+    if (
+      response.insights &&
+      response.insights.length &&
+      response.insights[i].length
+    ) {
       const selectedinsight = response.insights[i][j];
       selectedInsight && setInsight(selectedInsight);
       setCategory(selectedinsight.category.name);
@@ -38,19 +41,17 @@ const Timeline = () => {
       const patterns = selectedinsight.patterns;
       setPatterns(patterns);
       setLoader(false);
-    }
-    else { 
-     setLoader(false); 
+    } else {
+      setLoader(false);
     }
   };
   const loadInsights = async (index: any) => {
     setLoader(true);
     const response = await context?.commands.loadInsights();
     setInsightResponse(response);
-    getSelectedInsight(index,response);
+    getSelectedInsight(index, response);
   };
-  // const selectedInsightIndex = localStorage.getItem('selectedInsight');
-  useEffect(() => {   
+  useEffect(() => {
     loadInsights(selectedInsight);
   }, []);
   const handleInsightsChange = () => {
@@ -80,8 +81,7 @@ const Timeline = () => {
       exactIndex = `${iIndex}-${jIndex}`;
       localStorage.setItem('selectedInsight', `${iIndex}-${jIndex}`);
     }
-    getSelectedInsight(exactIndex,insightResponse);
-    //window.location.reload();
+    getSelectedInsight(exactIndex, insightResponse);
   };
   const sortByUp = () => {
     const up = patterns.filter((item: any) => item.direction === 'up');
@@ -145,7 +145,10 @@ const Timeline = () => {
                 patterns.map((pattern: any, index: number) => (
                   <div className="Each-Relation" key={index}>
                     <div className="Text-btn">
-                      <p className="Text" dangerouslySetInnerHTML={{__html: pattern.p_str}} />
+                      <p
+                        className="Text"
+                        dangerouslySetInnerHTML={{ __html: pattern.p_str }}
+                      />
                       <div className="Arrow-btn">
                         {pattern.direction === 'up' ? (
                           <ArrowUpOutlined className="arrwo up" />

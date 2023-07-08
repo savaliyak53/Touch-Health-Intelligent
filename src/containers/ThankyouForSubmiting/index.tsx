@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import './index.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   addConditionsService,
   getConditionsSearch,
@@ -9,7 +9,7 @@ import {
   getDefaultConditions,
 } from '../../services/dashboardservice';
 import { toast } from 'react-toastify';
-import { DownOutlined, SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Divider } from 'antd';
 const index = () => {
   const navigate = useNavigate();
@@ -31,9 +31,11 @@ const index = () => {
   const getDefaultCondition = async () => {
     getDefaultConditions()
       .then((response) => {
-        setResult(response.data.map((item: any) => {
-          return { value: item.title, key: item.condition_id };
-        }));
+        setResult(
+          response.data.map((item: any) => {
+            return { value: item.title, key: item.condition_id };
+          })
+        );
       })
       .catch((error) => {
         toast('Something went wrong');
@@ -56,11 +58,9 @@ const index = () => {
           console.log('error while searching ', error);
           toast('Something went wrong. Please contact support.');
         });
+    } else {
+      getDefaultCondition();
     }
-    else {
-      getDefaultCondition()
-    }
-    
   };
   const addUpdateCondition = (conditions: any) => {
     addConditionsService({
@@ -69,8 +69,7 @@ const index = () => {
       .then((response) => {
         toast.success('Conditions updated successfully');
         setSelectedValue('');
-        // getConditions();
-        navigate('/post-conditions')
+        navigate('/post-conditions');
       })
       .catch((error) => {
         console.log('error while adding condition', error);
@@ -79,7 +78,7 @@ const index = () => {
   };
   const handleOptionSelect = (value: string, option: any) => {
     const condition = data.find((d: any) => d.condition_id === option.key);
-    setSelectedValue(value)
+    setSelectedValue(value);
     if (condition) {
       return toast('Condition already exists');
     }
@@ -88,22 +87,29 @@ const index = () => {
   useEffect(() => {
     getConditions();
     getDefaultCondition();
-  }, []);  return (
+  }, []);
+  return (
     <Layout defaultHeader={true} hamburger={true}>
       <div className="Content-wrap DayCon">
         <div className="Question">
           <h3 className="Question-title">You&apos;re done for the day!</h3>
-          <h4 className="Question-title" style={{fontSize:"22px"}}>Is there anything else you would like to do before you go?</h4>
+          <h4 className="Question-title" style={{ fontSize: '22px' }}>
+            Is there anything else you would like to do before you go?
+          </h4>
         </div>
         <div className="Divider-wrap">
           <div className="Divider">
-            <Divider style={{borderTop: "3px solid #353434", borderRadius: "10px", color:"#353434"}} />
+            <Divider
+              style={{
+                borderTop: '3px solid #353434',
+                borderRadius: '10px',
+                color: '#353434',
+              }}
+            />
           </div>
         </div>
-
-
         <div className="Select-Wrap">
-          <SearchOutlined className="search" />   
+          <SearchOutlined className="search" />
           <AutoComplete
             onSearch={handleSearch}
             placeholder="Add a concern, condition"
