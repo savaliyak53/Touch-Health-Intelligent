@@ -8,14 +8,16 @@ export type IProps = {
   handleOk: () => void;
   title: string;
   buttonText: string;
-  trialEndDate?: string;
+  trialEndDate?: Date;
+  active: boolean;
 };
 const FreeTrialModal = ({
   open,
   title,
   handleOk,
   buttonText,
-  trialEndDate = '',
+  trialEndDate,
+  active
 }: IProps) => {
   return (
     <Modal
@@ -32,6 +34,7 @@ const FreeTrialModal = ({
       ]}
     >
       <div className="Description">
+      {active ? (
           <>
             <Paragraph>
               Your free trial ended on{' '}
@@ -42,6 +45,18 @@ const FreeTrialModal = ({
               now to continue enjoying our services beyond the trial period!
             </Paragraph>
           </>
+        ) : (
+          <>
+            <Paragraph>
+              Your free trial is scheduled to end on{' '}
+              {moment(trialEndDate).format('MMMM Do, YYYY')}, giving you{' '} 
+              {moment(trialEndDate).diff(moment(), 'days')} more days to explore our services. <br />
+            </Paragraph>
+            <Paragraph>
+              Begin your subscription now to continue enjoying our services beyond the trial period!
+            </Paragraph>
+          </>
+        )}
       </div>
     </Modal>
   );

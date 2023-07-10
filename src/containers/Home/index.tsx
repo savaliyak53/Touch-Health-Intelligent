@@ -6,7 +6,7 @@ import {
   preferencesService,
   updatePreference,
 } from '../../services/authservice';
-import { getSubscriptionStatus } from '../../services/subscriptionService';
+import { getUserSubscription } from '../../services/subscriptionService';
 import { Spin } from 'antd';
 import moment from 'moment';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
@@ -106,7 +106,7 @@ const Home = () => {
       getUser(userId)
         .then((response) => {
           if (response.data.security_questions) {
-            getUserSubscription(response);
+            setUserSubscription(response);
           } else if (response.data && !response.data.security_questions) {
             navigate('/security');
           } else {
@@ -122,17 +122,16 @@ const Home = () => {
         });
     }
   };
-  const getUserSubscription = (response: any) => {
-    getSubscriptionStatus()
+  const setUserSubscription = (response: any) => {
+    getUserSubscription()
       .then((res) => {
         if (
-          response?.data?.trial_end_date &&
-          moment(response?.data?.trial_end_date).isBefore(moment())
+          res.data.state == 'trial_expired' || res.data.state == 'subscription_expired'
         ) {
           navigate('/subscription');
         } else if (
           response.data.signup_status === 'new' &&
-          res.data.isSubscribed === false
+          res.data.standing === null
         ) {
           handleTrialIntake();
         } else {
