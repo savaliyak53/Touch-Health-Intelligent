@@ -3,13 +3,13 @@ import SiteHeader from '../../components/SiteHeader/SiteHeader';
 import './Layout.scss';
 import { useLocation, useNavigate } from 'react-router';
 import { getUser } from '../../services/authservice';
-import { getSubscriptionStatus } from '../../services/subscriptionService';
+import { getUserSubscription } from '../../services/subscriptionService';
 import { signupFlow, sleep } from '../../utils/lib';
 import { toast } from 'react-toastify';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 import AuthContext from '../../contexts/AuthContext';
 import moment from 'moment';
-import FreeTrialModal from '../../components/Modal/FreeTrial';
+// import FreeTrialModal from '../../components/Modal/FreeTrial';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
 import { backButtonExceptionRoutes } from '../../Routes/Constants';
@@ -48,11 +48,12 @@ const Layout = ({
       getUser(userId)
         .then((response: any) => {
           if (response.data.security_questions) {
-            getUserSubscription(response);
+            setUserSubscription(response);
             setSignupStatus(response?.data?.signup_status);
             if (response?.data?.signup_status === 'onboarding' && location.key === 'default') {
               navigate('/');
             }
+
             if (response?.data?.trial_end_date && moment(response?.data?.trial_end_date).isAfter(moment())) {
               setTrialRemaining(response.data.trial_remaining);
             }
@@ -70,27 +71,15 @@ const Layout = ({
         });
     }
   };
-  const getUserSubscription = (response: any) => {
-    getSubscriptionStatus()
+  const setUserSubscription = (response: any) => {
+    getUserSubscription()
       .then((res) => { 
         setLoading(false);
         if (
-          response?.data?.trial_end_date &&
-          moment(response?.data?.trial_end_date).isBefore(moment()) &&
-          res.data.isSubscribed === false 
+          res.data.state == 'trial_ended' || res.data.state == 'subscription_expired'
         ) {
-          setTrialEndDate(response.data.trial_end_date);
+          setTrialEndDate(res.data.data.trialData.trialEndDate);
           setTrialEndModal(true);
-          setIsSubscribed(false);
-          location.pathname !== '/subscription'
-            ? navigate('/subscription')
-            : null;
-          return;
-        }
-        else if (
-          res.data.isSubscribed === false &&
-          typeof response?.data?.trial_end_date === 'undefined'
-        ) {
           setIsSubscribed(false);
           location.pathname !== '/subscription'
             ? navigate('/subscription')
@@ -181,7 +170,7 @@ const Layout = ({
           </div>
         }
         />
-      <FreeTrialModal
+      {/* <FreeTrialModal
         title="Subscription"
         handleOk={() => {
           setTrialEndModal(false);
@@ -189,7 +178,7 @@ const Layout = ({
         open={trialEndModal}
         buttonText="Subscribe Now!"
         trialEndDate={trialEndDate}
-      />
+      /> */}
       {exception && (
         <div>
           <ErrorInteractionModal
