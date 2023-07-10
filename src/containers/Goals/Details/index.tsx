@@ -496,7 +496,7 @@ const GoalDetails = () => {
             </div>
 
             <Tooltip
-              title="Goal Success is a measure how well you're doing with the goal. Each health goal has a proprietary formula for determining success based on all the data you have given."
+              title="Goal Success is a measure of how well you're doing with the goal. Each health goal has a proprietary formula for determining success based on all the data you have given."
               placement="bottomRight"
               overlayStyle={{ marginRight: '10px' }}
               mouseLeaveDelay={0}
