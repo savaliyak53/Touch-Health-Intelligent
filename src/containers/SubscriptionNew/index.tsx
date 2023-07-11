@@ -411,7 +411,7 @@ const SubscriptionNew = () => {
                   open={freeTrialModal}
                   buttonText="Subscribe Now!"
                   trialEndDate={userPlan?.trialData.trialEndDate}
-                  active={userPlanStatus == 'trial_Active' ? true : false}
+                  active={userPlanStatus == 'trial_expired' ? true : false}
                 />
                 <PriceModal
                   open={confirmSubscription}

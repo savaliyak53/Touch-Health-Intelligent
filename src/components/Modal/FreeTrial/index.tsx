@@ -45,6 +45,15 @@ const FreeTrialModal = ({
               now to continue enjoying our services beyond the trial period!
             </Paragraph>
           </>
+        ) : moment(trialEndDate).diff(moment(), 'days') == 0 ? (
+          <>
+            <Paragraph>
+              Your free trial is scheduled to end today!
+            </Paragraph>
+            <Paragraph>
+              Begin your subscription now to continue enjoying our services beyond the trial period!
+            </Paragraph>
+          </>
         ) : (
           <>
             <Paragraph>
