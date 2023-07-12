@@ -79,36 +79,15 @@ function MockQuestionnaire() {
         if (response?.data.signup_status === 'onboarding') {
           preferencesService(
             {
-              signup_status: 'goal-selection',
-            },
-            userId
-          )
-            .then((preferencesResponse) => {
-              if (preferencesResponse) {
-                navigate('/dashboard');
-              } else {
-                console.log('navigate to dashboard');
-              }
-            })
-            .catch((error) => {
-              toast.error(
-                `${error.response?.data?.title} Please check values and try again.`
-              );
-            });
-        } else if (response?.data.signup_status === 'goal-characterization') {
-          preferencesService(
-            {
               signup_status: 'done',
             },
             userId
           )
             .then((preferencesResponse) => {
               if (preferencesResponse) {
-                //nayab revisit this
                 navigate('/dashboard');
               } else {
                 console.log('navigate to dashboard');
-                //navigate('/dashboard');
               }
             })
             .catch((error) => {
@@ -116,7 +95,31 @@ function MockQuestionnaire() {
                 `${error.response?.data?.title} Please check values and try again.`
               );
             });
-        } else if (response?.data.signup_status === 'done') {
+        }
+        //new requirement remove goal-characterization from the flow
+        // else if (response?.data.signup_status === 'goal-characterization') {
+        //   preferencesService(
+        //     {
+        //       signup_status: 'done',
+        //     },
+        //     userId
+        //   )
+        //     .then((preferencesResponse) => {
+        //       if (preferencesResponse) {
+        //         //nayab revisit this
+        //         navigate('/dashboard');
+        //       } else {
+        //         console.log('navigate to dashboard');
+        //         //navigate('/dashboard');
+        //       }
+        //     })
+        //     .catch((error) => {
+        //       toast.error(
+        //         `${error.response?.data?.title} Please check values and try again.`
+        //       );
+        //     });
+        // }
+        else if (response?.data.signup_status === 'done') {
           navigate('/dashboard');
         } else {
           navigate('/dashboard');
