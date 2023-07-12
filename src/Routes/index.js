@@ -13,7 +13,7 @@ import DashboardNew from '../containers/DashboardNew';
 import Insights from '../containers/Insights';
 import Timeline from '../containers/Timeline/index';
 import ManageConditions from '../containers/Conditions';
-import Subscription from '../containers/Subscription/Subscription';
+import SubscriptionNew from '../containers/SubscriptionNew';
 import SecurityQuestion from '../containers/SecurityQuestion';
 import ResetPassword from '../containers/Auth/ResetPassword';
 import TermsAndCondtions from '../containers/TermsAndConditions';
@@ -76,8 +76,8 @@ const AppRoutes = () => {
           <Route path="/integrations" element={<Integrations />} />
           <Route path="/introvideo" element={<IntroVideo />} />
           <Route path="/manage-devices" element={<ManageDevices />} />
-          <Route path="/subscription" element={<Subscription />} />
-          <Route path="/subscription/:id" element={<Subscription />} />
+          <Route path="/subscription" element={<SubscriptionNew />} />
+          <Route path="/subscription/:id" element={<SubscriptionNew />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
           <Route path="/help-and-support" element={<HelpAndSupport />} />
           <Route path="/success" element={<Success />} />

@@ -287,7 +287,7 @@ const Subscription = () => {
   const handleSubscribeClick = (id: string) => {
     setLoading(true);
     setDisableButton(true);
-    checkoutPlan(id)
+    checkoutPlan()
       .then((response) => {
         setLoading(false);
         setDisableButton(false);

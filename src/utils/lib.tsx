@@ -60,7 +60,8 @@ export const signupFlow = (pathname: any) => {
     pathname === '/security' ||
     pathname === '/verification-code' ||
     pathname === '/password-reset' ||
-    pathname === '/existing-user'
+    pathname === '/existing-user'  ||
+    pathname === '/signup'
 
   ) {
     return true;
