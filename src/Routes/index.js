@@ -22,7 +22,6 @@ import HelpAndSupport from '../containers/HelpAndSupport';
 import Success from '../containers/Success';
 import Error from '../containers/Error';
 import Home from '../containers/Home';
-import AddGoals from '../containers/Goals/AddGoals';
 import IntroGoals from '../containers/Goals/IntroGoals';
 import GoalDetails from '../containers/Goals/Details/index';
 import PasswordRecovery from '../containers/Auth/PasswordRecovery';
@@ -31,6 +30,7 @@ import Integrations from '../containers/Integeration';
 import MockQuestionnaire from '../containers/MockQuestionnaire';
 import ManageDevices from '../containers/ManageDevices';
 import ExistingUser from '../containers/ExistingUser';
+import NotFound from '../containers/NotFound/NotFound';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -49,7 +49,6 @@ const AppRoutes = () => {
         <Route path="/security" element={<SecurityQuestion />} />
         <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
         <Route path="/password-reset" element={<PasswordRecovery />} />
-        <Route path="*" element={<Home />} />
         <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />
         <Route element={<RequireSignup />}>
           <Route path="/existing-user" element={<ExistingUser />} />
@@ -59,10 +58,8 @@ const AppRoutes = () => {
         <Route path="/questionnaire-poc" element={<MockQuestionnaire />} />
         <Route element={<RequireAuth />}>
           <Route path="/dashboard" element={<DashboardNew />} />
-          <Route path="/add-goals" element={<AddGoals />} />
           <Route path="/intro-goals" element={<IntroGoals />} />
           <Route path="/goals/:id" element={<GoalDetails />} />
-
           <Route path="insights" element={<Insights />} />
           <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
           <Route path="/insights/guideline" element={<Timeline />} />
@@ -82,6 +79,9 @@ const AppRoutes = () => {
           <Route path="/help-and-support" element={<HelpAndSupport />} />
           <Route path="/success" element={<Success />} />
           <Route path="/error" element={<Error />} />
+          {/* 404 Route */}
+
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </React.Suspense>
