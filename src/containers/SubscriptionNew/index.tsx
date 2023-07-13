@@ -409,7 +409,8 @@ const SubscriptionNew = () => {
                     setLoading(false);
                   }}
                   open={freeTrialModal}
-                  buttonText="Subscribe Now!"
+                  primaryButtonText="Subscribe Now!"
+                  secondaryButtonText="Maybe Later"
                   trialEndDate={userPlan?.trialData.trialEndDate}
                   active={userPlanStatus == 'trial_expired' ? true : false}
                 />

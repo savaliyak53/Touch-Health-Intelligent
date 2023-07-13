@@ -1,4 +1,5 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router';
 import { Modal, Button, Typography } from 'antd';
 import styles from './FreeTrialModal.module.scss';
 import moment from 'moment';
@@ -7,7 +8,8 @@ export type IProps = {
   open: boolean;
   handleOk: () => void;
   title: string;
-  buttonText: string;
+  primaryButtonText: string;
+  secondaryButtonText?: string;
   trialEndDate?: Date;
   active: boolean;
 };
@@ -15,23 +17,33 @@ const FreeTrialModal = ({
   open,
   title,
   handleOk,
-  buttonText,
+  primaryButtonText,
+  secondaryButtonText,
   trialEndDate,
   active
 }: IProps) => {
+  const navigate = useNavigate();
+
   return (
     <Modal
       title={title}
       open={open}
       onOk={handleOk}
       className={'FreeTrial-Modal'}
-      footer={[
+      footer={
+        <>
         <div key="submit" className={styles['Btn-group']}>
           <Button key="submit" className={'Submit-Button'} onClick={handleOk}>
-            {buttonText}
+            {primaryButtonText}
           </Button>
-        </div>,
-      ]}
+        </div>
+        {!active && (<div key="submit" className={styles['Btn-group']}>
+          <Button key="submit" className={'Secondary-Button'} onClick={() => navigate('/dashboard')}>
+            {secondaryButtonText}
+          </Button>
+        </div>)}
+        </>
+      }
     >
       <div className="Description">
       {active ? (

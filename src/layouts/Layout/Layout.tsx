@@ -76,7 +76,7 @@ const Layout = ({
       .then((res) => { 
         setLoading(false);
         if (
-          res.data.state == 'trial_ended' || res.data.state == 'subscription_expired'
+          res.data.state == 'trial_expired' || res.data.state == 'subscription_expired'
         ) {
           setTrialEndDate(res.data.data.trialData.trialEndDate);
           setTrialEndModal(true);
