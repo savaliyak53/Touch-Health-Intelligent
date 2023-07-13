@@ -44,11 +44,8 @@ function DashboardButton({
     }
   }, [context?.showButton]);
   const handleClick = () => {
-    if(isPlus){
-      navigate(`/add-goals`)
-    }
     if (!disabled) {
-      navigate(`/goals/${insight?.id}`)
+      navigate(`/goals/${insight?.id}`);
     }
   };
   return (
@@ -57,15 +54,30 @@ function DashboardButton({
         onClick={handleClick}
         key={insight?.name + Math.random().toString()}
         className={`Diamond-Btn
-        ${outerButton? `${disabled ? 'disabled' : ''}`:``} ${show ? 'show' : ''}`}
-        style={{ backgroundColor: `${color? `${hexToRgba(color, highlight)}`:'rgb(229, 235, 225, 0.3)'} `}}
+        ${outerButton ? `${disabled ? 'disabled' : ''}` : ``} ${
+          show ? 'show' : ''
+        }`}
+        style={{
+          backgroundColor: `${
+            color ? `${hexToRgba(color, highlight)}` : 'rgb(229, 235, 225, 0.3)'
+          } `,
+        }}
       >
+        {outerButton ? '.' : <span className="Btn-text">{insight?.name}</span>}
         {outerButton ? (
           '.'
+        ) : isPlus ? (
+          <img src={image} className="Btn-img" />
         ) : (
-          <span className="Btn-text">{insight?.name}</span>
+          highlight && (
+            <span
+              className="Btn-img Btn-letter"
+              style={{ color: `${highlight < 0.5 ? `#${color}` : `#fff`}` }}
+            >
+              {insight?.acronym}
+            </span>
+          )
         )}
-        {outerButton ? '.' : isPlus? <img src={image} className="Btn-img" /> : highlight && <span className="Btn-img Btn-letter" style={{color: `${highlight < 0.5? `#${color}` : `#fff`}`}}>{insight?.acronym}</span>}
       </Button>
     </>
   );

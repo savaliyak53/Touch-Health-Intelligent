@@ -126,7 +126,8 @@ const Home = () => {
     getUserSubscription()
       .then((res) => {
         if (
-          res.data.state == 'trial_expired' || res.data.state == 'subscription_expired'
+          res.data.state == 'trial_expired' ||
+          res.data.state == 'subscription_expired'
         ) {
           navigate('/subscription');
         } else if (
@@ -147,12 +148,15 @@ const Home = () => {
                     error.response.data.details ?? 'Something went wrong.',
                 });
               });
-          } else if (
-            response.data.signup_status === 'goal-characterization' ||
-            response.data.signup_status === 'goal-selection'
-          ) {
-            handleRedirect(response);
-          } else if (response.data.signup_status === 'done') {
+          }
+          //new requirement remove goal-characterization from the flow
+          // else if (
+          //   response.data.signup_status === 'goal-characterization' ||
+          //   response.data.signup_status === 'goal-selection'
+          // ) {
+          //   handleRedirect(response);
+          // }
+          else if (response.data.signup_status === 'done') {
             getInteractionByType('checkup');
           } else if (response.data.signup_status === 'new') {
             const zoneVal = moment()
