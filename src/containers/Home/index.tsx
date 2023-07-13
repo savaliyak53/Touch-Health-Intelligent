@@ -126,6 +126,7 @@ const Home = () => {
     getSubscriptionStatus()
       .then((res) => {
         if (
+          process.env.REACT_APP_IS_BETA === 'FALSE' &&
           response?.data?.trial_end_date &&
           moment(response?.data?.trial_end_date).isBefore(moment())
         ) {
