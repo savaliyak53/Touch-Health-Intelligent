@@ -75,7 +75,10 @@ const Layout = ({
     getUserSubscription()
       .then((res) => { 
         setLoading(false);
-        if (
+        if (res?.data?.data?.trialData?.trialEndDate && moment(res?.data?.data?.trialData?.trialEndDate).isAfter(moment())) {
+          setTrialRemaining(res?.data?.data?.trialData?.trialRemaining);
+        }
+        else if (
           res.data.state == 'trial_expired' || res.data.state == 'subscription_expired'
         ) {
           setTrialEndDate(res.data.data.trialData.trialEndDate);
