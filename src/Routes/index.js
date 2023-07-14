@@ -30,7 +30,6 @@ import Integrations from '../containers/Integeration';
 import MockQuestionnaire from '../containers/MockQuestionnaire';
 import ManageDevices from '../containers/ManageDevices';
 import ExistingUser from '../containers/ExistingUser';
-import NotFound from '../containers/NotFound/NotFound';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -49,6 +48,7 @@ const AppRoutes = () => {
         <Route path="/security" element={<SecurityQuestion />} />
         <Route path={ROUTES.resetPassword} element={<ResetPassword />} />
         <Route path="/password-reset" element={<PasswordRecovery />} />
+        <Route path="*" element={<Home />} />
         <Route path="/terms-and-conditions" element={<TermsAndCondtions />} />
         <Route element={<RequireSignup />}>
           <Route path="/existing-user" element={<ExistingUser />} />
@@ -79,9 +79,6 @@ const AppRoutes = () => {
           <Route path="/help-and-support" element={<HelpAndSupport />} />
           <Route path="/success" element={<Success />} />
           <Route path="/error" element={<Error />} />
-          {/* 404 Route */}
-
-          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </React.Suspense>
