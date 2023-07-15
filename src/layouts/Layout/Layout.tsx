@@ -50,12 +50,11 @@ const Layout = ({
           if (response.data.security_questions) {
             setUserSubscription(response);
             setSignupStatus(response?.data?.signup_status);
-            if (response?.data?.signup_status === 'onboarding' && location.key === 'default') {
+            if (
+              response?.data?.signup_status === 'onboarding' &&
+              location.key === 'default'
+            ) {
               navigate('/');
-            }
-
-            if (response?.data?.trial_end_date && moment(response?.data?.trial_end_date).isAfter(moment())) {
-              setTrialRemaining(response.data.trial_remaining);
             }
           } else if (response.data && !response.data.security_questions) {
             setLoading(false);
