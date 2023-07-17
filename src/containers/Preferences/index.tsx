@@ -91,7 +91,7 @@ const Preferences = () => {
       })
       .catch((error) => {
          setSpinning(false);
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        setError({code: error.response.status, message: error.response.data.details })
       });
   };
   const getIntegrationStatusService = () => {

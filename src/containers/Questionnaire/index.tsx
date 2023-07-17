@@ -85,27 +85,6 @@ function UserCondition() {
               });
           }
         }
-        //new requirement remove goal-characterization from the flow
-        // else if (response?.data.signup_status === 'goal-characterization') {
-        //   preferencesService(
-        //     {
-        //       signup_status: 'done',
-        //     },
-        //     userId
-        //   )
-        //     .then((preferencesResponse) => {
-        //       if (preferencesResponse) {
-        //         //nayab revisit this
-        //         navigate('/dashboard');
-        //       } else {
-        //         console.log('navigate to dashboard');
-        //         //navigate('/dashboard');
-        //       }
-        //     })
-        //     .catch((error) => {
-        //       setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
-        //     });
-        // }
         else if (response?.data.signup_status === 'done') {
           navigate('/dashboard');
         } else {

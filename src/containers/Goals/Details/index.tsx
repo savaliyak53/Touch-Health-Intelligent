@@ -212,7 +212,7 @@ const GoalDetails = () => {
         setIsLoading(false);
       })
       .catch((error: any) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
+        setError({code: error.response.status, message: error.response.data.details });
         setIsLoading(false);
       });
   };
@@ -226,7 +226,7 @@ const GoalDetails = () => {
         }
       })
       .catch((error: any) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
+        setError({code: error.response.status, message: error.response.data.details });
         setIsLoading(false);
       });
   };
@@ -275,7 +275,7 @@ const GoalDetails = () => {
         }
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
+        setError({code: error.response.status, message: error.response.data.details });
       });
   };
   useEffect(() => {

@@ -112,7 +112,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       navigate('/login');
     })
     .catch(err => {
-      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."});
+      setError({code: err.response.status, message: err.response.data.details });
     })
   };
 

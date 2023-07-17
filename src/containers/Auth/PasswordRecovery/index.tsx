@@ -230,7 +230,6 @@ const PasswordRecovery = () => {
     localStorage.setItem('username', username);
     requestPhoneOTP(onlyNumbers(getValues('username')), token)
       .then((response: any) => {
-        console.log(response);
         if (response.code === 'ERR_BAD_REQUEST') {
           const remaining_time = response?.response?.data.details.match(/\d+/g);
           if(remaining_time){
