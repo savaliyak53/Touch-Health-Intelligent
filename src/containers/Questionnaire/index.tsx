@@ -76,16 +76,12 @@ function UserCondition() {
                 if (preferencesResponse) {
                   navigate('/dashboard');
                 } else {
-                  toast.error(`Preference status doesn't exist`);
+                  setError({code: 400, message: `Preference status doesn't exist`})
                   navigate('/dashboard');
                 }
               })
               .catch((error) => {
-                setError({
-                  code: error.response.status,
-                  message:
-                    error.response.data.details ?? 'Something went wrong.',
-                });
+                setError({code: error.response.status, message: error.response.data.details});
               });
           }
         }
@@ -117,10 +113,7 @@ function UserCondition() {
         }
       })
       .catch((error) => {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
-        });
+        setError({code: error.response.status, message: error.response.data.details})
       });
   };
   useEffect(() => {
@@ -148,26 +141,19 @@ function UserCondition() {
                 getInteraction();
               } else {
                 setException(true);
-
                 navigate('/dashboard');
               }
             })
             .catch((error) => {
               setException(true);
-              setError({
-                code: error.response.status,
-                message: error.response.data.details ?? 'Something went wrong.',
-              });
+              setError({code: error.response.status, message: error.response.data.details})
             });
         } else {
           navigate('/');
         }
       })
       .catch((error) => {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
-        });
+        setError({code: error.response.status, message: error.response.data.details})
       });
   };
   const integrationPageRedirect = (refId: string) => {
@@ -250,7 +236,7 @@ function UserCondition() {
         } else if (!data.question && data.type === 'done') {
           handleInteractionRedirect();
         } else if (!data || !data.question || data.question === null) {
-          toast.error('Something went wrong, question is null');
+          setError({code: 400, message: 'Something went wrong, question is null'})
           setException(true);
           setDisableNextButton(false);
         }
@@ -258,10 +244,7 @@ function UserCondition() {
       .catch((error) => {
         setLoading(false);
         setException(true);
-        setError({
-          code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
-        });
+        setError({code: error.response.status, message: error.response.data.details})
       });
   };
 
