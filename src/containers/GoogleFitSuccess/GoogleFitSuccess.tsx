@@ -36,7 +36,7 @@ const GoogleFitSuccess = () => {
       setError({code: error.response.status, message: error.response.data.details});  
     })
   } else {
-    toast.error(`You didn't complete Google Fit Integration`);
+    setError({code: 400, message: `You didn't complete Google Fit Integration`});  
     setLoading(false)
     navigate('/integrations')
   }

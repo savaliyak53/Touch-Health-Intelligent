@@ -134,11 +134,7 @@ const PasswordRecovery = () => {
         }
       })
       .catch((error: any) => {
-        if (error.response.status === 422) {
-          toast.error(error.response.data.details);
-        } else {
-          setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
-        }
+        setError({code: error.response.status, message: error.response.data.details})
       });
   };
 
@@ -162,11 +158,7 @@ const PasswordRecovery = () => {
       }
     })
     .catch(err => {
-      if (err.response.status === 422) {
-        toast.error(err.response.data.details);
-      } else {
-        setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."})
-      }
+      setError({code: err.response.status, message: err.response.data.details})
     })
   };
 
@@ -212,7 +204,7 @@ const PasswordRecovery = () => {
             restartTime(parseInt(remaining_time[0]));
             setIsLoading(false);
           } else {
-            toast(response.response.data.details);
+            setError({code: error.response.status, message: error.response.data.details});
           }
         } else {
           setEnterNumber(false);
@@ -239,17 +231,12 @@ const PasswordRecovery = () => {
     requestPhoneOTP(onlyNumbers(getValues('username')), token)
       .then((response: any) => {
         if (response.code === 'ERR_BAD_REQUEST') {
-          if(response.response.data.details.issues){
-            toast(response.response.data.details.issues[0].message);
-        } else {
-          toast(response.response.data.details);
           const remaining_time = response?.response?.data.details.match(/\d+/g);
           if(remaining_time){
             setEnterNumber(false);
             setIsCodeSent(true);
             restartTime(parseInt(remaining_time[0]));   
           }
-        }
           setIsLoading(false);
         } else {
           setEnterNumber(false);

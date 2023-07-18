@@ -36,7 +36,6 @@ const Verification = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
-  const toastId = useRef<any>(null);
   const [finishStatus, setfinishStatus] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [enableTimer, setEnableTimer] = useState(true);
@@ -103,9 +102,6 @@ const Verification = () => {
           code: data.code
         }})
         setIsVerifying(false);
-      } else if(phoneVerificationResponse?.response?.status === 422) {
-        toast(phoneVerificationResponse.response.data.details);
-        setIsVerifying(false);
       } else {
         setError({code: phoneVerificationResponse.response.status, message: phoneVerificationResponse.response.data.details});
         setIsVerifying(false);
@@ -128,13 +124,14 @@ const Verification = () => {
       const phoneRequestResponse: any = await requestPhoneOTP(phone, captchaToken);
       if (phoneRequestResponse.code === 'ERR_BAD_REQUEST') {
         if(phoneRequestResponse.response.status == 422){
-          toast(phoneRequestResponse?.response?.data.details)
           const remaining_time = phoneRequestResponse?.response?.data.details.match(/\d+/g);
           if(remaining_time){
             const t = new Date();
             t.setSeconds(t.getSeconds() + parseInt(remaining_time[0]));
             restart(t);
-          } 
+          } else {
+            setError({code: phoneRequestResponse.response.status, message: phoneRequestResponse.response.data.details});
+          }
         } else {
             setError({code: phoneRequestResponse.response.status, message: phoneRequestResponse.response.data.details});
           }

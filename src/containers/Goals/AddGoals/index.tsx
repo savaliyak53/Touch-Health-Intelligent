@@ -131,7 +131,7 @@ const AddGoals = () => {
       getSuggestedGoals(res.data);
     })
     .catch(err => {
-      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."});
+      setError({code: err.response.status, message: err.response.data.details });
     });
   };
 
@@ -145,7 +145,7 @@ const AddGoals = () => {
       }
     })
     .catch(err => {
-      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."});
+      setError({code: err.response.status, message: err.response.data.details });
     })
   };
 
@@ -183,7 +183,7 @@ const AddGoals = () => {
         setIsModalOpen(false);
       })
       .catch((error: any) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
+        setError({code: error.response.status, message: error.response.data.details });
       });
   };
   const handleNext = () => {
@@ -220,7 +220,7 @@ const AddGoals = () => {
           }
         })
         .catch((error) => {
-          setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
+          setError({code: error.response.status, message: error.response.data.details });
         });
     } else {
       setIsDropdownOpen(false);

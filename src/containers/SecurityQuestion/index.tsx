@@ -68,8 +68,7 @@ const SecurityQuestions = () => {
         })
         .catch((error) => {
           setLoading(false);
-          // toast.error('Something went wrong while saving the Question');
-          setError({code: error.response.status, message: error.response.data.details ?? 'Something went wrong.'})
+          setError({code: error.response.status, message: error.response.data.details})
         });
     }
   };
