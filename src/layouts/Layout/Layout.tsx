@@ -12,7 +12,7 @@ import moment from 'moment';
 // import FreeTrialModal from '../../components/Modal/FreeTrial';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
-import { backButtonExceptionRoutes } from '../../Routes/Constants';
+import { backButtonPreventionRoutes } from '../../Routes/Constants';
 import { Spin } from 'antd';
 
 type Props = {
@@ -132,7 +132,10 @@ const Layout = ({
     } else {
       setLoading(false);
     }
-    if (!Object.values(backButtonExceptionRoutes).includes(location.pathname)) {
+    if (
+      Object.values(backButtonPreventionRoutes).includes(location.pathname) ||
+      backButtonPreventionRoutes.checkup.test(location.pathname)
+    ) {
       pageBackEvent();
       return () => {
         window.removeEventListener('popstate', onBackButtonEvent);
