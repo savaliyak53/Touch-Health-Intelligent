@@ -252,7 +252,7 @@ const SubscriptionNew = () => {
     return (
         <Layout
             defaultHeader={true}
-            hamburger={onTrial}
+            hamburger={userPlanStatus == 'trial_expired' ? false : true}
             dashboard={false}
             setDisableAllButtons={setDisableAllButtons}
         >
