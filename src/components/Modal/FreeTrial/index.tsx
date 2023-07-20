@@ -33,7 +33,7 @@ const FreeTrialModal = ({
       footer={
         <>
         <div className={styles['Btn-group']}>
-          <Button key="submit" className={'Submit-Button'} onClick={handleOk}>
+          <Button key="submit" className={'Submit-Button'} onClick={handleOk} style={{marginTop: active ? '70px' : ''}}>
             {primaryButtonText}
           </Button>
         </div>
