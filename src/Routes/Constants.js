@@ -15,12 +15,10 @@ export const trialExceptionRoutes = {
   questionnaire: '/questionnaire',
   security:'/security'
 };
-export const backButtonExceptionRoutes = {
-  signUp: '/signup',
-  verify: '/verification-code',
-  resetPassword: '/reset-password',
-  login: '/login',
-  security:'/security'
+
+export const backButtonPreventionRoutes = {
+  questionnaire: '/questionnaire',
+  checkup: /^\/c\/[^/]+$/,
 };
 
 export default ROUTES;

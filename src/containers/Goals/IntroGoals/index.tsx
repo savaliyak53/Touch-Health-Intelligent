@@ -20,7 +20,7 @@ const IntroGoals = () => {
     shouldUnregister: false,
   });
   const onSubmit = async () => {
-    navigate('/add-goals');
+    navigate('/dashboard');
   };
   return (
     <Layout defaultHeader={true} hamburger={true}>

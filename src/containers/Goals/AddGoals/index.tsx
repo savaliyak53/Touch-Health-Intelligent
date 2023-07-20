@@ -122,7 +122,7 @@ const AddGoals = () => {
       .catch((err) => {
         setError({
           code: err.response.status,
-          message: err.response.data.details ?? 'Something went wrong.',
+          message: err.response.data.details,
         });
       });
   };
@@ -140,7 +140,7 @@ const AddGoals = () => {
       .catch((err) => {
         setError({
           code: err.response.status,
-          message: err.response.data.details ?? 'Something went wrong.',
+          message: err.response.data.details,
         });
       });
   };
@@ -184,7 +184,7 @@ const AddGoals = () => {
       .catch((error: any) => {
         setError({
           code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
+          message: error.response.data.details,
         });
       });
   };
@@ -224,7 +224,7 @@ const AddGoals = () => {
         .catch((error) => {
           setError({
             code: error.response.status,
-            message: error.response.data.details ?? 'Something went wrong.',
+            message: error.response.data.details,
           });
         });
     } else {

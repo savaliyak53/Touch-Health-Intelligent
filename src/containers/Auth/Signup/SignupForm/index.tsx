@@ -7,7 +7,6 @@ import { AiOutlineEye } from 'react-icons/ai';
 import Button from '../../../../components/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { onlyNumbers } from '../../../../utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
 import AuthContext, { AuthContextData } from '../../../../contexts/AuthContext';
@@ -85,12 +84,7 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
     } else {
       setIsDisabled(false);
       setIsLoading(false);
-      toast.error(signupResponse?.response?.data?.details);
-      setError({
-        code: signupResponse.response.data.status,
-        message:
-          signupResponse.response.data.details ?? 'Something went wrong.',
-      });
+      setError({code: signupResponse.response.data.status, message: signupResponse.response.data.details});
     }
   };
 

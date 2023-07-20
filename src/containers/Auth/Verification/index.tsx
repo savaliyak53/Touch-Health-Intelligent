@@ -94,9 +94,6 @@ const Verification = () => {
           },
         });
         setIsVerifying(false);
-      } else if (phoneVerificationResponse?.response?.status === 422) {
-        toast(phoneVerificationResponse.response.data.details);
-        setIsVerifying(false);
       } else {
         setError({
           code: phoneVerificationResponse.response.status,
@@ -125,13 +122,17 @@ const Verification = () => {
       );
       if (phoneRequestResponse.code === 'ERR_BAD_REQUEST') {
         if (phoneRequestResponse.response.status == 422) {
-          toast(phoneRequestResponse?.response?.data.details);
           const remaining_time =
             phoneRequestResponse?.response?.data.details.match(/\d+/g);
           if (remaining_time) {
             const t = new Date();
             t.setSeconds(t.getSeconds() + parseInt(remaining_time[0]));
             restart(t);
+          } else {
+            setError({
+              code: phoneRequestResponse.response.status,
+              message: phoneRequestResponse.response.data.details,
+            });
           }
         } else {
           setError({
@@ -139,16 +140,21 @@ const Verification = () => {
             message: phoneRequestResponse.response.data.details,
           });
         }
-        setIsLoading(false);
-        return false;
       } else {
-        setIsLoading(false);
-        setModalOpen(true);
-        setEnableTimer(true);
-        setIsDisabled(true);
-        restart(time);
-        setIsLoading(false);
+        setError({
+          code: phoneRequestResponse.response.status,
+          message: phoneRequestResponse.response.data.details,
+        });
       }
+      setIsLoading(false);
+      return false;
+    } else {
+      setIsLoading(false);
+      setModalOpen(true);
+      setEnableTimer(true);
+      setIsDisabled(true);
+      restart(time);
+      setIsLoading(false);
     }
   };
   const pageBackEvent = () => {

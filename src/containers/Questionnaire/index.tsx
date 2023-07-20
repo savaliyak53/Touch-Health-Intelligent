@@ -26,6 +26,7 @@ function UserCondition() {
   const [skeletonLoading, setSkeletonLoading] = useState(true);
   const [isClicked, setClicked] = useState(false);
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
+  const [signupStatus, setSignupStatus] = useState<string | null>();
   const [exception, setException] = useState<boolean>(false);
   const context = useContext<AuthContextData | undefined>(AuthContext);
   const [error, setError] = useState<any>();
@@ -72,40 +73,22 @@ function UserCondition() {
             preferencesService(preferenceData, userId)
               .then(async (preferencesResponse: any) => {
                 if (preferencesResponse) {
-                  navigate('/');
+                  navigate('/dashboard');
                 } else {
-                  toast.error(`Preference status doesn't exist`);
+                  setError({
+                    code: 400,
+                    message: `Preference status doesn't exist`,
+                  });
                   navigate('/dashboard');
                 }
               })
               .catch((error) => {
                 setError({
                   code: error.response.status,
-                  message:
-                    error.response.data.details ?? 'Something went wrong.',
+                  message: error.response.data.details,
                 });
               });
           }
-        } else if (response?.data.signup_status === 'goal-characterization') {
-          preferencesService(
-            {
-              signup_status: 'done',
-            },
-            userId
-          )
-            .then((preferencesResponse) => {
-              if (preferencesResponse) {
-                navigate('/dashboard');
-              } else {
-                console.log('navigate to dashboard');
-              }
-            })
-            .catch((error) => {
-              setError({
-                code: error.response.status,
-                message: error.response.data.details ?? 'Something went wrong.',
-              });
-            });
         } else if (response?.data.signup_status === 'done') {
           navigate('/dashboard');
         } else {
@@ -115,7 +98,7 @@ function UserCondition() {
       .catch((error) => {
         setError({
           code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
+          message: error.response.data.details,
         });
       });
   };
@@ -144,7 +127,6 @@ function UserCondition() {
                 getInteraction();
               } else {
                 setException(true);
-
                 navigate('/dashboard');
               }
             })
@@ -152,7 +134,7 @@ function UserCondition() {
               setException(true);
               setError({
                 code: error.response.status,
-                message: error.response.data.details ?? 'Something went wrong.',
+                message: error.response.data.details,
               });
             });
         } else {
@@ -162,7 +144,7 @@ function UserCondition() {
       .catch((error) => {
         setError({
           code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
+          message: error.response.data.details,
         });
       });
   };
@@ -246,7 +228,10 @@ function UserCondition() {
         } else if (!data.question && data.type === 'done') {
           handleInteractionRedirect();
         } else if (!data || !data.question || data.question === null) {
-          toast.error('Something went wrong, question is null');
+          setError({
+            code: 400,
+            message: 'Something went wrong, question is null',
+          });
           setException(true);
           setDisableNextButton(false);
         }
@@ -256,7 +241,7 @@ function UserCondition() {
         setException(true);
         setError({
           code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
+          message: error.response.data.details,
         });
       });
   };

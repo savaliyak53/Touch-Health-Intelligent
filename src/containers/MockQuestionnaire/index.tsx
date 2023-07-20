@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './index.scss';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import { toast } from 'react-toastify';
 import Question from '../../components/MockQuestion';
@@ -7,8 +8,8 @@ import { Interaction } from '../../interfaces';
 import Layout from '../../layouts/Layout/Layout';
 import { Skeleton, Divider } from 'antd';
 import { Data } from '../MockScrollingChat/mockdata';
-import cloneDeep from 'lodash/cloneDeep';
 import styles from './MockQuestionnaire.module.scss';
+import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
 
 function MockQuestionnaire() {
   const [question, setQuestion] = useState<Interaction | any>(Data[0]);
@@ -24,16 +25,20 @@ function MockQuestionnaire() {
     Data[0],
   ]);
   const [toggleHistoryRecent, setToggleHistoryRecent] = useState(false);
+  const context = useContext<AuthContextData | undefined>(AuthContext);
+
   const handleToggleHistoryRecent = () => {
     setToggleHistoryRecent(!toggleHistoryRecent);
   };
+
+  const navigate = useNavigate();
   useEffect(() => {
-    //setQuestionArray(Data)
     console.log('Data ', Data);
     console.log('Index ', index);
     setQuestion(Data[index]);
     setHistoryQuestionArray(Data);
   }, []);
+
   const onSubmit = async (state?: string, skip?: boolean) => {
     console.log('questopn : ', question);
     setClicked(true);

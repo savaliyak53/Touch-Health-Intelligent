@@ -6,7 +6,7 @@ import {
   preferencesService,
   updatePreference,
 } from '../../services/authservice';
-import { getSubscriptionStatus } from '../../services/subscriptionService';
+import { getUserSubscription } from '../../services/subscriptionService';
 import { Spin } from 'antd';
 import moment from 'moment';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
@@ -35,10 +35,7 @@ const Home = () => {
         }
       })
       .catch((error) => {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
-        });
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
   const handleInitialIntake = () => {
@@ -62,20 +59,14 @@ const Home = () => {
               }
             })
             .catch((error) => {
-              setError({
-                code: error.response.status,
-                message: error.response.data.details ?? 'Something went wrong.',
-              });
+              setError({code: error.response.status, message: error.response.data.details});
             });
         } else {
           navigate('/dashboard');
         }
       })
       .catch((error) => {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
-        });
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
   const checkUserData = () => {
@@ -84,32 +75,30 @@ const Home = () => {
       getUser(userId)
         .then((response) => {
           if (response.data.security_questions) {
-            getUserSubscription(response);
+            setUserSubscription(response);
           } else if (response.data && !response.data.security_questions) {
             navigate('/security');
           } else {
             setException(true);
+            setError({code: response.status, message: response.data.details});
           }
         })
         .catch((error) => {
-          setError({
-            code: error.response.status,
-            message: error.response.data.details ?? 'Something went wrong.',
-          });
+          setError({code: error.response.status, message: error.response.data.details});
         });
     }
   };
-  const getUserSubscription = (response: any) => {
-    getSubscriptionStatus()
+  const setUserSubscription = (response: any) => {
+    getUserSubscription()
       .then((res) => {
         if (
-          response?.data?.trial_end_date &&
-          moment(response?.data?.trial_end_date).isBefore(moment())
+          res.data.state == 'trial_expired' ||
+          res.data.state == 'subscription_expired'
         ) {
           navigate('/subscription');
         } else if (
           response.data.signup_status === 'new' &&
-          res.data.isSubscribed === false
+          res.data.standing === null
         ) {
           handleTrialIntake();
         } else {
@@ -119,18 +108,17 @@ const Home = () => {
                 handleRedirect(response);
               })
               .catch((error) => {
-                setError({
-                  code: error.response.status,
-                  message:
-                    error.response.data.details ?? 'Something went wrong.',
-                });
+                setError({code: error.response.status, message: error.response.data.details});
               });
-          } else if (
-            response.data.signup_status === 'goal-characterization' ||
-            response.data.signup_status === 'goal-selection'
-          ) {
-            handleRedirect(response);
-          } else if (response.data.signup_status === 'done') {
+          }
+          //new requirement remove goal-characterization from the flow
+          // else if (
+          //   response.data.signup_status === 'goal-characterization' ||
+          //   response.data.signup_status === 'goal-selection'
+          // ) {
+          //   handleRedirect(response);
+          // }
+          else if (response.data.signup_status === 'done') {
             getInteractionByType('checkup');
           } else if (response.data.signup_status === 'new') {
             const zoneVal = moment()
@@ -144,20 +132,13 @@ const Home = () => {
                 handleInitialIntake();
               })
               .catch((error) => {
-                setError({
-                  code: error.response.status,
-                  message:
-                    error.response.data.details ?? 'Something went wrong.',
-                });
+                setError({code: error.response.status, message: error.response.data.details});
               });
           }
         }
       })
       .catch((error) => {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
-        });
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
   const handleTrialIntake = () => {
@@ -172,10 +153,7 @@ const Home = () => {
         handleInitialIntake();
       })
       .catch((error) => {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
-        });
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
 

@@ -43,6 +43,30 @@ const GoogleFitSuccess = () => {
       setLoading(false);
       navigate('/integrations');
     }
+
+    if (paramCode) {
+      postGoogleToken(body)
+        .then((response: any) => {
+          if (response.data) {
+            setLoading(false);
+            toast.success('Google Fit Integrated');
+            navigate('/integrations');
+          }
+        })
+        .catch((error: any) => {
+          setError({
+            code: error.response.status,
+            message: error.response.data.details,
+          });
+        });
+    } else {
+      setError({
+        code: 400,
+        message: `You didn't complete Google Fit Integration`,
+      });
+      setLoading(false);
+      navigate('/integrations');
+    }
   };
   useEffect(() => {
     setLoading(true);

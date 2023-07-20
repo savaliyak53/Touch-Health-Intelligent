@@ -71,10 +71,7 @@ const SecurityQuestions = () => {
         })
         .catch((error) => {
           setLoading(false);
-          setError({
-            code: error.response.status,
-            message: error.response.data.details ?? 'Something went wrong.',
-          });
+          setError({code: error.response.status, message: error.response.data.details})
         });
     }
   };

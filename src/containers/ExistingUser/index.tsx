@@ -1,15 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Button } from 'antd';
 import Layout from '../../layouts/Layout/Layout';
 import styles from './ExistingUser.module.scss';
 import { useLocation, useNavigate } from 'react-router';
+import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
 
 const ExistingUser = () => {
   const navigate = useNavigate();
   const location: any = useLocation();
+  const context = useContext<AuthContextData | undefined>(AuthContext);
 
   const handleSignin = () => {
     localStorage.clear();
+    context?.setAuthTokens(null);
+    context?.setSession(null);
+    context?.setUser(null);
     navigate('/login', {
       state: {
         username: location.state.username,
@@ -24,10 +29,6 @@ const ExistingUser = () => {
       },
     });
   };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <Layout defaultHeader={true} hamburger={false}>

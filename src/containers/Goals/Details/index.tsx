@@ -210,7 +210,7 @@ const GoalDetails = () => {
       .catch((error: any) => {
         setError({
           code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
+          message: error.response.data.details,
         });
         setIsLoading(false);
       });
@@ -227,7 +227,7 @@ const GoalDetails = () => {
       .catch((error: any) => {
         setError({
           code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
+          message: error.response.data.details,
         });
         setIsLoading(false);
       });
@@ -279,7 +279,7 @@ const GoalDetails = () => {
       .catch((error) => {
         setError({
           code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
+          message: error.response.data.details,
         });
       });
   };
@@ -312,7 +312,6 @@ const GoalDetails = () => {
       <div className={'Backflex'} onClick={handleBack}>
         <ArrowLeftOutlined className={'LeftIcon'} />
       </div>
-      {/* Top title with Delete button */}
       <div className={styles['Prevn-wrap']}>
         <Button
           className={styles['Prevn-btn']}
@@ -339,11 +338,7 @@ const GoalDetails = () => {
             setShowGoalInfoModal(true);
           }}
         >
-          <InfoCircleOutlined
-            size={30}
-            className={styles['tooltip']}
-            // style={{ color: '#204ECF', marginLeft: '6px', fontSize:"24px" }}
-          />
+          <InfoCircleOutlined size={30} className={styles['tooltip']} />
         </Button>
       </div>
       <Modal
@@ -427,7 +422,6 @@ const GoalDetails = () => {
                       <InfoCircleOutlined
                         size={30}
                         className={styles['tooltip']}
-                        // style={{ color: '#204ECF', marginLeft: '6px' }}
                       />
                     </Tooltip>
                   </span>
@@ -456,7 +450,6 @@ const GoalDetails = () => {
                     <InfoCircleOutlined
                       size={30}
                       className={styles['tooltip']}
-                      //  style={{ color: '#204ECF', marginLeft: '6px' }}
                     />
                   </Tooltip>
                 </span>
@@ -507,11 +500,7 @@ const GoalDetails = () => {
               mouseLeaveDelay={0}
               style={{ marginRight: '10px' }}
             >
-              <InfoCircleOutlined
-                size={30}
-                className={styles['tooltip']}
-                // style={{ color: '#204ECF', marginLeft: '6px' }}
-              />
+              <InfoCircleOutlined size={30} className={styles['tooltip']} />
             </Tooltip>
           </div>
           <div className={styles['chart-container']}>

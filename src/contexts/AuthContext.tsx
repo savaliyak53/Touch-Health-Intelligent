@@ -80,21 +80,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const logoutUser = () => {
     logoutService(session)
-      .then((res) => {
-        setAuthTokens(null);
-        setUser(null);
-        setSession(null);
-        localStorage.removeItem('userId');
-        localStorage.removeItem('token');
-        localStorage.clear();
-        navigate('/login');
-      })
-      .catch((err) => {
-        setError({
-          code: err.response.status,
-          message: err.response.data.details ?? 'Something went wrong.',
-        });
-      });
+    .then(res => {
+      setAuthTokens(null);
+      setUser(null);
+      setSession(null);
+      localStorage.removeItem('userId');
+      localStorage.removeItem('token');
+      localStorage.clear();
+      navigate('/login');
+    })
+    .catch(err => {
+      setError({code: err.response.status, message: err.response.data.details });
+    })
   };
 
   useEffect(() => {
