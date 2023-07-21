@@ -113,8 +113,8 @@ const Layout = ({
   };
   const handleOk = () => {
     setIsOpen(false);
-    if (isSubscribed) navigate('/dashboard')
-    else if (signupStatus === 'onboarding') navigate('/questionnaire')
+    if (signupStatus === 'onboarding') navigate('/questionnaire')
+    else if (isSubscribed) navigate('/dashboard')
     else navigate('/subscription');
   };
   const handleCancel = () => {
