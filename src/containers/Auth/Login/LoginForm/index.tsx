@@ -4,9 +4,6 @@ import { Link } from 'react-router-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Button from '../../../../components/Button';
 import InputField from '../../../../components/Input';
-// import './index.scss';
-// import '../index.scss';
-import { parsePhoneNumber } from 'react-phone-number-input';
 import styles from '../Login.module.scss';
 import Authstyles from '../../Auth.module.scss';
 import { Tooltip } from 'antd';
@@ -26,13 +23,6 @@ type LoginFormProps = {
 type IFormInputs = {
   username: string;
   password: string;
-};
-
-type User = {
-  exp: string;
-  sid: string;
-  iat: string;
-  id: string;
 };
 
 const LoginForm = ({ refCaptcha }: LoginFormProps) => {

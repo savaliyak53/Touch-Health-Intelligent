@@ -1,6 +1,4 @@
-// import axios from 'axios';
 import axios from '../utils/axios';
-
 
 export const getGoals = async () => {
   return axios.get(`/ai/goals/active`);

@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
-
 import styles from './DashboardNew.module.scss';
 import { Row, Col, Typography, Tooltip, Button, Progress } from 'antd';
-import { AiOutlineQuestionCircle, AiOutlinePlus } from 'react-icons/ai';
+import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import Layout from '../../layouts/Layout/Layout';
 import { Spin } from 'antd';
 import { getDashboard } from '../../services/dashboardservice';
@@ -20,7 +19,6 @@ const DashboardNew = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     setLoading(true);
-
     getDashboard()
       .then((response) => {
         setLoading(false);

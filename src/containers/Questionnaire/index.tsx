@@ -62,7 +62,6 @@ function UserCondition() {
     const userId = context?.user
       ? context?.user
       : localStorage.getItem('userId');
-    // const userId = localStorage.getItem('userId');
     getUser(userId)
       .then((response: any) => {
         if (response?.data.signup_status === 'onboarding') {
@@ -76,23 +75,31 @@ function UserCondition() {
                 if (preferencesResponse) {
                   navigate('/dashboard');
                 } else {
-                  setError({code: 400, message: `Preference status doesn't exist`})
+                  setError({
+                    code: 400,
+                    message: `Preference status doesn't exist`,
+                  });
                   navigate('/dashboard');
                 }
               })
               .catch((error) => {
-                setError({code: error.response.status, message: error.response.data.details});
+                setError({
+                  code: error.response.status,
+                  message: error.response.data.details,
+                });
               });
           }
-        }
-        else if (response?.data.signup_status === 'done') {
+        } else if (response?.data.signup_status === 'done') {
           navigate('/dashboard');
         } else {
           navigate('/dashboard');
         }
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details})
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
   useEffect(() => {
@@ -125,14 +132,20 @@ function UserCondition() {
             })
             .catch((error) => {
               setException(true);
-              setError({code: error.response.status, message: error.response.data.details})
+              setError({
+                code: error.response.status,
+                message: error.response.data.details,
+              });
             });
         } else {
           navigate('/');
         }
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details})
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
   const integrationPageRedirect = (refId: string) => {
@@ -215,7 +228,10 @@ function UserCondition() {
         } else if (!data.question && data.type === 'done') {
           handleInteractionRedirect();
         } else if (!data || !data.question || data.question === null) {
-          setError({code: 400, message: 'Something went wrong, question is null'})
+          setError({
+            code: 400,
+            message: 'Something went wrong, question is null',
+          });
           setException(true);
           setDisableNextButton(false);
         }
@@ -223,7 +239,10 @@ function UserCondition() {
       .catch((error) => {
         setLoading(false);
         setException(true);
-        setError({code: error.response.status, message: error.response.data.details})
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
 

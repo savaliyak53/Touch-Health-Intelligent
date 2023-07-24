@@ -18,18 +18,6 @@ const Home = () => {
   const context = useContext<AuthContextData | undefined>(AuthContext);
   const [error, setError] = useState<any>();
 
-  useEffect(() => {
-    const token = context?.authTokens;
-    if (token) {
-      checkUserData();
-    } else {
-      navigate('/login');
-    }
-  }, []);
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
-
   const handleRedirect = (response: any) => {
     if (response) {
       navigate('/questionnaire');
@@ -37,7 +25,6 @@ const Home = () => {
       navigate('/dashboard');
     }
   };
-
   const getInteractionByType = (type: string) => {
     getInteractionServiceByType(type)
       .then((response: any) => {
@@ -93,7 +80,6 @@ const Home = () => {
             navigate('/security');
           } else {
             setException(true);
-            //show modal that something went wrong
             setError({code: response.status, message: response.data.details});
           }
         })
@@ -170,6 +156,19 @@ const Home = () => {
         setError({code: error.response.status, message: error.response.data.details});
       });
   };
+
+  useEffect(() => {
+    const token = context?.authTokens;
+    if (token) {
+      checkUserData();
+    } else {
+      navigate('/login');
+    }
+  }, []);
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
+
   return (
     <div className="Btn-group">
       <Spin size="large" className=" Spinner" />

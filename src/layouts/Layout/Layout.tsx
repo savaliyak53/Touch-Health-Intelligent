@@ -4,7 +4,7 @@ import './Layout.scss';
 import { useLocation, useNavigate } from 'react-router';
 import { getUser } from '../../services/authservice';
 import { getUserSubscription } from '../../services/subscriptionService';
-import { signupFlow, sleep } from '../../utils/lib';
+import { signupFlow } from '../../utils/lib';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 import AuthContext from '../../contexts/AuthContext';
 import moment from 'moment';
@@ -27,17 +27,16 @@ const Layout = ({
   hamburger,
   dashboard,
   signupLogin,
-  setDisableAllButtons,
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
   const [trialRemaining, setTrialRemaining] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSubscribed, setIsSubscribed] = useState<boolean>(true);
-  const [signupStatus, setSignupStatus] = useState<string>("");
+  const [signupStatus, setSignupStatus] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<any>();
   const navigate = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
   const context = useContext(AuthContext);
   const checkUserData = () => {
     const userId = context?.user;
@@ -47,11 +46,17 @@ const Layout = ({
           if (response.data.security_questions) {
             setUserSubscription(response);
             setSignupStatus(response?.data?.signup_status);
-            if (response?.data?.signup_status === 'onboarding' && location.key === 'default') {
+            if (
+              response?.data?.signup_status === 'onboarding' &&
+              location.key === 'default'
+            ) {
               navigate('/');
             }
 
-            if (response?.data?.trial_end_date && moment(response?.data?.trial_end_date).isAfter(moment())) {
+            if (
+              response?.data?.trial_end_date &&
+              moment(response?.data?.trial_end_date).isAfter(moment())
+            ) {
               setTrialRemaining(response.data.trial_remaining);
             }
           } else if (response.data && !response.data.security_questions) {
@@ -64,16 +69,20 @@ const Layout = ({
         })
         .catch((error: any) => {
           setLoading(false);
-          setError({code: error.response.status, message: error.response.data.details});
+          setError({
+            code: error.response.status,
+            message: error.response.data.details,
+          });
         });
     }
   };
   const setUserSubscription = (response: any) => {
     getUserSubscription()
-      .then((res) => { 
+      .then((res) => {
         setLoading(false);
         if (
-          res.data.state == 'trial_expired' || res.data.state == 'subscription_expired'
+          res.data.state == 'trial_expired' ||
+          res.data.state == 'subscription_expired'
         ) {
           setIsSubscribed(false);
           location.pathname !== '/subscription'
@@ -83,7 +92,10 @@ const Layout = ({
         }
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
   const onBackButtonEvent = (e: any) => {
@@ -99,7 +111,7 @@ const Layout = ({
     window.history.pushState(null, '', window.location.pathname);
     window.addEventListener('popstate', onBackButtonEvent);
   };
-  const getBackButtonContent = (pathname : string) => {
+  const getBackButtonContent = (pathname: string) => {
     if (pathname === '/dashboard') {
       return backButtonContent.dashboardText;
     } else if (
@@ -113,8 +125,8 @@ const Layout = ({
   };
   const handleOk = () => {
     setIsOpen(false);
-    if (isSubscribed) navigate('/dashboard')
-    else if (signupStatus === 'onboarding') navigate('/questionnaire')
+    if (isSubscribed) navigate('/dashboard');
+    else if (signupStatus === 'onboarding') navigate('/questionnaire');
     else navigate('/subscription');
   };
   const handleCancel = () => {
@@ -153,7 +165,11 @@ const Layout = ({
           <Spin size="large" className=" Spinner" />
         ) : (
           <>
-            <SiteHeader defaultHeader={defaultHeader} hamburger={hamburger} trialRemaining={trialRemaining} />
+            <SiteHeader
+              defaultHeader={defaultHeader}
+              hamburger={hamburger}
+              trialRemaining={trialRemaining}
+            />
             <div className={defaultHeader ? 'MobileScreen' : 'MobileScreen bg'}>
               <div className="Layout-main">{children}</div>
             </div>
@@ -169,10 +185,10 @@ const Layout = ({
         className="Addgoal-Confirm-Modal"
         renderData={
           <div className="Description">
-          {getBackButtonContent(location.pathname)}
+            {getBackButtonContent(location.pathname)}
           </div>
         }
-        />
+      />
       {exception && (
         <div>
           <ErrorInteractionModal

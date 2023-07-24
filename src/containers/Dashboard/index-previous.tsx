@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import Layout from '../../layouts/Layout/Layout';
 import './index.scss';
 import styles from './Dashboard.module.scss';
@@ -12,16 +12,14 @@ const Dashboard = () => {
   const context = useContext(InsightContext);
   useEffect(() => {
     getInsights();
-    getDashboard().then((response) => {
-      console.log('dashboard', response)
-      //setLoading(false);
-      //setData([...response.data.concerns]);
-    })
-    .catch((error) => {
-      console.log('error is ', error);
-      //setLoading(false);
-      toast('Something went wrong');
-    });
+    getDashboard()
+      .then((response) => {
+        console.log('dashboard', response);
+      })
+      .catch((error) => {
+        console.log('error is ', error);
+        toast('Something went wrong');
+      });
     context?.commands.setInsightButton('');
   }, []);
 
@@ -47,10 +45,7 @@ const Dashboard = () => {
 
   const Section = (outer: number) => {
     const section: React.ReactNode[] = [];
-    //nayab added hardcodedresponse
     const insights = context?.insights?.insights;
-    //const insights = hardCodedresponse.insights;
-
     for (let i = 0; i < insights[outer]?.length; i++) {
       {
         rowNumber++;
@@ -60,7 +55,7 @@ const Dashboard = () => {
           i++;
         }
         section.push(
-          <div className={styles["btn-group"]} key={Math.random().toString()}>
+          <div className={styles['btn-group']} key={Math.random().toString()}>
             <DashboardButton
               image={`${insights[outer][i - 1]?.category?.icon}`}
               disabled={false}
@@ -92,7 +87,7 @@ const Dashboard = () => {
         }
       } else {
         section.push(
-          <div className={styles["btn-group"]} key={Math.random().toString()}>
+          <div className={styles['btn-group']} key={Math.random().toString()}>
             <DashboardButton
               image={`${insights[outer][i]?.category?.icon}`}
               disabled={true}
@@ -129,7 +124,6 @@ const Dashboard = () => {
   };
   const EmptySection = (outer: number) => {
     const emptysection: React.ReactNode[] = [];
-    //const insights = context?.insights?.insights;
     for (let i = 0; i < 1; i++) {
       {
         rowNumber++;
@@ -139,52 +133,52 @@ const Dashboard = () => {
           i++;
         }
         emptysection.push(
-          <div className={styles["btn-group"]} key="lowerButton">
-          <DashboardButton
-            key="lowerButton1"
-            image=""
-            disabled={true}
-            color={``}
-            outerButton={true}
-          />
-         
-          <DashboardButton
-            key="lowerButton3"
-            image=""
-            disabled={true}
-            color={``}
-            outerButton={true}
-          />
-        </div>
+          <div className={styles['btn-group']} key="lowerButton">
+            <DashboardButton
+              key="lowerButton1"
+              image=""
+              disabled={true}
+              color={``}
+              outerButton={true}
+            />
+
+            <DashboardButton
+              key="lowerButton3"
+              image=""
+              disabled={true}
+              color={``}
+              outerButton={true}
+            />
+          </div>
         );
         {
           itemPrinted = itemPrinted + 2;
         }
       } else {
         emptysection.push(
-          <div className={styles["btn-group"]} key="lowerButton">
-          <DashboardButton
-            key="lowerButton1"
-            image=""
-            disabled={true}
-            color={``}
-            outerButton={true}
-          />
-         <DashboardButton
-            key="lowerButton2"
-            image=""
-            disabled={true}
-            color={``}
-            outerButton={true}
-          />
-          <DashboardButton
-            key="lowerButton3"
-            image=""
-            disabled={true}
-            color={``}
-            outerButton={true}
-          />
-        </div>
+          <div className={styles['btn-group']} key="lowerButton">
+            <DashboardButton
+              key="lowerButton1"
+              image=""
+              disabled={true}
+              color={``}
+              outerButton={true}
+            />
+            <DashboardButton
+              key="lowerButton2"
+              image=""
+              disabled={true}
+              color={``}
+              outerButton={true}
+            />
+            <DashboardButton
+              key="lowerButton3"
+              image=""
+              disabled={true}
+              color={``}
+              outerButton={true}
+            />
+          </div>
         );
         {
           itemPrinted = itemPrinted + 1;
@@ -196,10 +190,7 @@ const Dashboard = () => {
   };
   const Dashboard = () => {
     const dashboard: React.ReactNode[] = [];
-    //nayab added hardcodedresponse
     const insights = context?.insights?.insights;
-    //const insights = hardCodedresponse.insights;
-
     for (let i = 0; i < insights.length; i++) {
       dashboard.push(Section(i));
     }
@@ -213,82 +204,86 @@ const Dashboard = () => {
     }
     rowNumber++;
     return emptydashboard;
-  }; 
+  };
   return (
     <>
       <Layout defaultHeader={true} hamburger={true} dashboard={true}>
-        <div className={styles["Db-wrap"]}>
-            <div className="dsgbtn-group">
-              <div className={styles["btn-group"]} key="extraUpperButton">
-                <DashboardButton
-                  key="extraUpperButton0"
-                  image={`${process.env.PUBLIC_URL}/assets/mobileassets/+.svg`}
-                  disabled={true}
-                  color={``}
-                  outerButton={false}
-                />
-              </div>
-              <div className={styles["btn-group"]} key="extraUpperButton">
-                <DashboardButton
-                  key="extraUpperButton1"
-                  image=""
-                  disabled={true}
-                  color={``}
-                  outerButton={true}
-                />
-                <DashboardButton
-                  key="extraUpperButton2"
-                  image=""
-                  disabled={true}
-                  color={``}
-                  outerButton={true}
-                />
-              </div>
-              {context && context.insights!==undefined && context?.insights?.insights?.length !== 0 && context?.insights?.insights?.length !== undefined ? Dashboard():EmptyDashboard()}
-              {/* {Dashboard()} */}
-              {rowNumber % 2 == 0 ? (
-                <div className={styles["btn-group"]} key="extraLowerButton">
-                  <DashboardButton
-                    key="extraLowerButton1"
-                    image=""
-                    disabled={true}
-                    color={``}
-                    outerButton={true}
-                  />
-                  <DashboardButton
-                    key="extraLowerButton2"
-                    image=""
-                    disabled={true}
-                    color={``}
-                    outerButton={true}
-                  />
-                </div>
-              ) : (
-                <div className={styles["btn-group"]} key="lowerButton">
-                  <DashboardButton
-                    key="lowerButton1"
-                    image=""
-                    disabled={true}
-                    color={``}
-                    outerButton={true}
-                  />
-                  <DashboardButton
-                    key="lowerButton2"
-                    image=""
-                    disabled={true}
-                    color={``}
-                    outerButton={true}
-                  />
-                  <DashboardButton
-                    key="lowerButton3"
-                    image=""
-                    disabled={true}
-                    color={``}
-                    outerButton={true}
-                  />
-                </div>
-              )}
+        <div className={styles['Db-wrap']}>
+          <div className="dsgbtn-group">
+            <div className={styles['btn-group']} key="extraUpperButton">
+              <DashboardButton
+                key="extraUpperButton0"
+                image={`${process.env.PUBLIC_URL}/assets/mobileassets/+.svg`}
+                disabled={true}
+                color={``}
+                outerButton={false}
+              />
             </div>
+            <div className={styles['btn-group']} key="extraUpperButton">
+              <DashboardButton
+                key="extraUpperButton1"
+                image=""
+                disabled={true}
+                color={``}
+                outerButton={true}
+              />
+              <DashboardButton
+                key="extraUpperButton2"
+                image=""
+                disabled={true}
+                color={``}
+                outerButton={true}
+              />
+            </div>
+            {context &&
+            context.insights !== undefined &&
+            context?.insights?.insights?.length !== 0 &&
+            context?.insights?.insights?.length !== undefined
+              ? Dashboard()
+              : EmptyDashboard()}
+            {rowNumber % 2 == 0 ? (
+              <div className={styles['btn-group']} key="extraLowerButton">
+                <DashboardButton
+                  key="extraLowerButton1"
+                  image=""
+                  disabled={true}
+                  color={``}
+                  outerButton={true}
+                />
+                <DashboardButton
+                  key="extraLowerButton2"
+                  image=""
+                  disabled={true}
+                  color={``}
+                  outerButton={true}
+                />
+              </div>
+            ) : (
+              <div className={styles['btn-group']} key="lowerButton">
+                <DashboardButton
+                  key="lowerButton1"
+                  image=""
+                  disabled={true}
+                  color={``}
+                  outerButton={true}
+                />
+                <DashboardButton
+                  key="lowerButton2"
+                  image=""
+                  disabled={true}
+                  color={``}
+                  outerButton={true}
+                />
+                <DashboardButton
+                  key="lowerButton3"
+                  image=""
+                  disabled={true}
+                  color={``}
+                  outerButton={true}
+                />
+              </div>
+            )}
+          </div>
           <Spin spinning={context?.isLoading} className="Spinner"></Spin>
         </div>
       </Layout>

@@ -16,7 +16,6 @@ const Login = () => {
   const refCaptcha = useRef<any>(null)
   const navigate= useNavigate()
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    const token = refCaptcha.current.getValue();
     refCaptcha.current.reset();
   };
   const context = useContext<AuthContextData | undefined>(AuthContext); 
@@ -37,9 +36,6 @@ const Login = () => {
           onSubmit={onSubmit}
           refCaptcha={refCaptcha}
         />)}
-        {/* <div className={styles.SignupBGShape1}></div>
-        <div className={styles.SignupBGShape2}></div>
-        <div className={styles.SignupBGShape3}></div> */}
       </div>
 
     </Layout>
