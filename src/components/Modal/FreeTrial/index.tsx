@@ -11,7 +11,7 @@ export type IProps = {
   primaryButtonText: string;
   secondaryButtonText?: string;
   trialEndDate?: Date;
-  active: boolean;
+  expired: boolean;
 };
 const FreeTrialModal = ({
   open,
@@ -20,7 +20,7 @@ const FreeTrialModal = ({
   primaryButtonText,
   secondaryButtonText,
   trialEndDate,
-  active
+  expired
 }: IProps) => {
   const navigate = useNavigate();
 
@@ -33,11 +33,11 @@ const FreeTrialModal = ({
       footer={
         <>
         <div className={styles['Btn-group']}>
-          <Button key="submit" className={'Submit-Button'} onClick={handleOk} style={{marginTop: active ? '70px' : ''}}>
+          <Button key="submit" className={'Submit-Button'} onClick={handleOk} style={{marginTop: expired ? '70px' : ''}}>
             {primaryButtonText}
           </Button>
         </div>
-        {!active && (<div className={styles['Btn-group']}>
+        {!expired && (<div className={styles['Btn-group']}>
           <Button key="submit" className={'Secondary-Button'} onClick={() => navigate('/dashboard')}>
             {secondaryButtonText}
           </Button>
@@ -46,7 +46,7 @@ const FreeTrialModal = ({
       }
     >
       <div className="Description">
-      {active ? (
+      {expired ? (
           <>
             <Paragraph>
               Your free trial ended on{' '}
