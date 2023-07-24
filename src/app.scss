@@ -1189,7 +1189,20 @@ input {
     border-radius: 20px 20px 0 0;
   }
 }
-
+.Drawer {
+  @extend .Addgoal-Confirm-Modal;
+  .ant-modal-body {
+    padding: 8px;
+  }
+  .ant-modal-content{
+  .ant-modal-title {
+    padding-top: 20px;
+    color: $primary-color1;
+    display: flex;
+    justify-content: center;
+  }
+}
+}
 .Title{
   font-family: $font-title;
   font-style: normal;
@@ -1305,6 +1318,14 @@ input {
     border: none;
     color:  $primary-color1;
   }
+}
+.Button-Drawer.ant-btn{
+  width: 90%;
+}
+.Button-Drawer-Secondary.ant-btn {
+  width: 90%;
+  background-color: $color-grey-33;
+  color: $color-black-3;
 }
 
 .Select-Button{
