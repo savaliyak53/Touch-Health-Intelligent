@@ -139,6 +139,12 @@ const DashboardNew = () => {
               </Tooltip>
             </Col>
           </Row>
+          <Button
+            className={'Submit-Button'}
+            onClick={() => navigate('/c/checkup')}
+          >
+            Daily Check-in
+          </Button>
           {/* Goals Detail Head + Add new Goal */}
           <Row>
             <Col span={24}>
@@ -148,12 +154,6 @@ const DashboardNew = () => {
                 >
                   Health Goals
                 </Typography>
-                <Button
-                  className={styles.GoalsHeadButton}
-                  onClick={() => navigate('/c/checkup')}
-                >
-                  👋
-                </Button>
               </div>
             </Col>
           </Row>
