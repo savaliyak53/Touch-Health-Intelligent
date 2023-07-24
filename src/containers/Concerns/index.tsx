@@ -10,7 +10,7 @@ import {
 } from '../../services/dashboardservice';
 import { toast } from 'react-toastify';
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
-import { AutoComplete, Button, Input, Spin } from 'antd';
+import { AutoComplete, Button, Spin } from 'antd';
 import { useNavigate } from 'react-router';
 const ManageConcerns = () => {
   const navigate = useNavigate();
@@ -143,10 +143,8 @@ const ManageConcerns = () => {
               open={isDropdownOpen}
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             ></AutoComplete>
-
             <DownOutlined onClick={() => setIsDropdownOpen(!isDropdownOpen)} />
           </div>
-
           <div className="Switch-wrap">
             <h3 className="Title">My concerns</h3>
             {data?.map((data: any, i: any) => (

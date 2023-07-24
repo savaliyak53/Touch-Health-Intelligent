@@ -12,7 +12,6 @@ const IntroGoals = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const {
-    register,
     handleSubmit,
     formState: { errors },
   } = useForm<ITerms>({

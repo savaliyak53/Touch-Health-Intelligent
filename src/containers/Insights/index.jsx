@@ -11,17 +11,14 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartData,
-  ChartOptions,
   TimeScale,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import './index.scss';
 import Layout from '../../layouts/Layout/Layout';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import 'chartjs-adapter-date-fns';
 import { InsightContext } from '../../contexts/InsightContext';
-const { Option } = Select;
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -37,7 +34,6 @@ ChartJS.register(
 const Insights = () => {
   const context = useContext(InsightContext);
   const navigate = useNavigate();
-  // const userId = localStorage.getItem('userId');
   const [insightResponse, setInsightResponse] = useState();
   const [dataset, setDataset] = useState();
   const [loader, setLoader] = useState(false);
@@ -46,7 +42,6 @@ const Insights = () => {
 
   const [category, setCategory] = useState();
   let data = {};
-  //selected Insight from localstorage is saved as (selectedInsight,i-j)
   const [insight, setInsight] = useState();
   const [type, setType] = useState('day');
   const [vmin, setVmin] = useState(0);
@@ -54,10 +49,10 @@ const Insights = () => {
 
   const dateHighlighter = {
     id: 'dateHighlighter',
-    beforeDatasetsDraw(chart, args, pluginOptions) {
+    beforeDatasetsDraw(chart) {
       const {
         ctx,
-        chartArea: { top, bottom, left, right, width, height },
+        chartArea: { top, height },
         scales: { x, y },
       } = chart;
       ctx.fillStyle = 'rgba(0,0,0,0.2)';
@@ -74,7 +69,7 @@ const Insights = () => {
   };
   const legendMargin = {
     id: 'legendMargin',
-    beforeInit(chart, legend, options) {
+    beforeInit(chart) {
       const fitValue = chart.legend.fit;
       chart.legend.fit = function fit() {
         fitValue.bind(chart.legend)();
@@ -111,28 +106,31 @@ const Insights = () => {
       },
     },
   };
-  //const selectedInsightIndex = localStorage.getItem('selectedInsight');
   const selectedInsight = context.selectedInsight;
   const loadInsights = async (index) => {
     setLoader(true);
     const response = await context.commands.loadInsights();
     setInsightResponse(response);
-    getSelectedInsight(index,response);
+    getSelectedInsight(index, response);
   };
-  const getSelectedInsight = async (index, insightResp) => {   
+  const getSelectedInsight = async (index, insightResp) => {
     const splitIndex = index && index.split('-');
     const insightIndex = splitIndex && splitIndex.map(Number);
     calculate(insightIndex, insightResp);
   };
   const selectedInsightIndex = localStorage.getItem('selectedInsight');
-  useEffect(() => {   
+  useEffect(() => {
     loadInsights(selectedInsightIndex);
   }, []);
 
   const calculate = (insightArray, response) => {
     const i = insightArray[0];
     const j = insightArray[1];
-    if (response.insights && response.insights.length && response.insights[i].length) {
+    if (
+      response.insights &&
+      response.insights.length &&
+      response.insights[i].length
+    ) {
       const selectedinsight = response.insights[i][j];
       selectedInsight && setInsight(selectedInsight);
       setYAxis(selectedinsight);
@@ -145,7 +143,6 @@ const Insights = () => {
       const historicalTime = selectedinsight.historical.times.map((item) => {
         return item;
       });
-      //setHistoricalData
       const expectation = selectedinsight.historical.expectation;
       const historicalArray = [];
       for (let i = 0; i < expectation.length; i++) {
@@ -154,7 +151,7 @@ const Insights = () => {
         dataArray.push(expectation[i]);
         historicalArray.push(dataArray);
       }
-      //setForecastData
+
       const forecast = selectedinsight.forecast.expectation;
       const forecastArray = [];
       for (let i = 0; i < forecast.length; i++) {
@@ -191,7 +188,6 @@ const Insights = () => {
       };
       setDataset(data);
       setLoader(false);
-      
     } else {
       setCategory('');
       setDataset({ datasets: [] });
@@ -226,8 +222,7 @@ const Insights = () => {
       exactIndex = `${iIndex}-${jIndex}`;
       localStorage.setItem('selectedInsight', `${iIndex}-${jIndex}`);
     }
-    getSelectedInsight(exactIndex,insightResponse);
-    //window.location.reload();
+    getSelectedInsight(exactIndex, insightResponse);
   };
   const setYAxis = (selectedinsight) => {
     setVmin(selectedinsight.historical.vmin);
@@ -239,7 +234,7 @@ const Insights = () => {
   return (
     <>
       <Layout defaultHeader={true} hamburger={true} dashboard={false}>
-      <Spin spinning={loader}>
+        <Spin spinning={loader}>
           <div className="Content-wrap Analytic">
             <div className="Insite-btn" onClick={handleTimelineChange}>
               <Button>
@@ -266,11 +261,7 @@ const Insights = () => {
               </div>
             )}
           </div>
-          {/* <To-do-Nayab> Please take tooltip data from oracle</To-do-Nayab>
-          <div className="tooltip">
-            <span className="link-text">?</span>
-          </div> */}
-          </Spin>
+        </Spin>
       </Layout>
     </>
   );

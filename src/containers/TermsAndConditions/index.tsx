@@ -3,7 +3,7 @@ import styles from './TermsAndConditions.module.scss';
 import v from '../../variables.module.scss';
 import { Typography } from 'antd';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import Layout from '../../layouts/Layout/Layout';
 import Button from '../../components/Button';
 type ITerms = {
@@ -11,12 +11,10 @@ type ITerms = {
 };
 function TermsAndCondtions() {
   const navigate = useNavigate();
-  const [termsAndConditions, setTermAndConditions] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [disabled, setDisabled] = useState(true)
   const { Title, Paragraph,Link  } = Typography;
   const {
-    register,
     handleSubmit,
     formState: { errors },
   } = useForm<ITerms>({

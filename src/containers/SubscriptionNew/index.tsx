@@ -77,11 +77,11 @@ const SubscriptionNew = () => {
             setUserPlanStatus(response.data.state);
             setUserAccountState(response.data.standing);
             if(response.data.data.subscriptionData.endDate) setSubscriiptionEndDate(response.data.data.subscriptionData.endDate)
-            if(response.data.standing){
-                setOnTrial(false);
-            } else {
+            if(response.data.state == 'trial_active' || response.data.state == 'trial_expired'){
                 setOnTrial(true);
                 setFreeTrialModal(true);
+            } else {
+                setOnTrial(false);
             }
             if (response.data.data.subscriptionData.renewalDate) {
                 const renewalDate = dateFormatRenewal(
@@ -319,7 +319,7 @@ const SubscriptionNew = () => {
                             </p>
 
                             {/* if Plan is Active and was cancelled by user but the cancellation date is in future */}
-                            {userPlanStatus == 'subscription_cancelled' && (new Date(subscriptionEndDate) < new Date()) && (
+                            {userPlanStatus == 'subscription_expired' && (
                             <>
                                 <p className={styles['subDates']}>Ended On</p>
                                 <p className={styles['otherDates']}>
@@ -327,7 +327,7 @@ const SubscriptionNew = () => {
                                 </p>
                             </>
                             )}
-                            {userPlanStatus == 'subscription_cancelled' && (new Date(subscriptionEndDate) > new Date()) && (
+                            {userPlanStatus == 'subscription_cancelled' && (
                             <>
                                 <p className={styles['subDates']}>Ends On</p>
                                 <p className={styles['otherDates']}>
@@ -348,7 +348,6 @@ const SubscriptionNew = () => {
                     />
 
                   <div className={styles['Btn-group']}>
-                    {/* <div className="Btn-group"> */}
                     { userPlanStatus == 'subscription_active' ? (
                       <>
                           <Button
@@ -361,7 +360,6 @@ const SubscriptionNew = () => {
                     ) : userPlanStatus == 'subscription_cancelled' ? (
                       <Button
                         className={'Submit-Button'}
-                      //   onClick={() => handleSubscribeClick(plan.id)}
                         disabled={true}
                       >
                         Cancelled
@@ -405,7 +403,7 @@ const SubscriptionNew = () => {
                   primaryButtonText="Subscribe Now!"
                   secondaryButtonText="Maybe Later"
                   trialEndDate={userPlan?.trialData.trialEndDate}
-                  active={userPlanStatus == 'trial_expired' ? true : false}
+                  expired={userPlanStatus == 'trial_expired' ? true : false}
                 />
                 <PriceModal
                   open={confirmSubscription}
