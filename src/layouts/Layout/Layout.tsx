@@ -52,13 +52,6 @@ const Layout = ({
             ) {
               navigate('/');
             }
-
-            if (
-              response?.data?.trial_end_date &&
-              moment(response?.data?.trial_end_date).isAfter(moment())
-            ) {
-              setTrialRemaining(response.data.trial_remaining);
-            }
           } else if (response.data && !response.data.security_questions) {
             setLoading(false);
             navigate('/security');
@@ -80,9 +73,11 @@ const Layout = ({
     getUserSubscription()
       .then((res) => {
         setLoading(false);
-        if (
-          res.data.state == 'trial_expired' ||
-          res.data.state == 'subscription_expired'
+        if (res?.data?.data?.trialData?.trialEndDate && moment(res?.data?.data?.trialData?.trialEndDate).isAfter(moment())) {
+          setTrialRemaining(res?.data?.data?.trialData?.trialRemaining);
+        }
+        else if (
+          res.data.state == 'trial_expired' || res.data.state == 'subscription_expired'
         ) {
           setIsSubscribed(false);
           location.pathname !== '/subscription'
