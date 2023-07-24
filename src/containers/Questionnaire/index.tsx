@@ -76,40 +76,15 @@ function UserCondition() {
                 if (preferencesResponse) {
                   navigate('/dashboard');
                 } else {
-                  toast.error(`Preference status doesn't exist`);
+                  setError({code: 400, message: `Preference status doesn't exist`})
                   navigate('/dashboard');
                 }
               })
               .catch((error) => {
-                setError({
-                  code: error.response.status,
-                  message:
-                    error.response.data.details ?? 'Something went wrong.',
-                });
+                setError({code: error.response.status, message: error.response.data.details});
               });
           }
         }
-        //new requirement remove goal-characterization from the flow
-        // else if (response?.data.signup_status === 'goal-characterization') {
-        //   preferencesService(
-        //     {
-        //       signup_status: 'done',
-        //     },
-        //     userId
-        //   )
-        //     .then((preferencesResponse) => {
-        //       if (preferencesResponse) {
-        //         //nayab revisit this
-        //         navigate('/dashboard');
-        //       } else {
-        //         console.log('navigate to dashboard');
-        //         //navigate('/dashboard');
-        //       }
-        //     })
-        //     .catch((error) => {
-        //       setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
-        //     });
-        // }
         else if (response?.data.signup_status === 'done') {
           navigate('/dashboard');
         } else {
@@ -117,10 +92,7 @@ function UserCondition() {
         }
       })
       .catch((error) => {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
-        });
+        setError({code: error.response.status, message: error.response.data.details})
       });
   };
   useEffect(() => {
@@ -148,26 +120,19 @@ function UserCondition() {
                 getInteraction();
               } else {
                 setException(true);
-
                 navigate('/dashboard');
               }
             })
             .catch((error) => {
               setException(true);
-              setError({
-                code: error.response.status,
-                message: error.response.data.details ?? 'Something went wrong.',
-              });
+              setError({code: error.response.status, message: error.response.data.details})
             });
         } else {
           navigate('/');
         }
       })
       .catch((error) => {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
-        });
+        setError({code: error.response.status, message: error.response.data.details})
       });
   };
   const integrationPageRedirect = (refId: string) => {
@@ -250,7 +215,7 @@ function UserCondition() {
         } else if (!data.question && data.type === 'done') {
           handleInteractionRedirect();
         } else if (!data || !data.question || data.question === null) {
-          toast.error('Something went wrong, question is null');
+          setError({code: 400, message: 'Something went wrong, question is null'})
           setException(true);
           setDisableNextButton(false);
         }
@@ -258,10 +223,7 @@ function UserCondition() {
       .catch((error) => {
         setLoading(false);
         setException(true);
-        setError({
-          code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
-        });
+        setError({code: error.response.status, message: error.response.data.details})
       });
   };
 

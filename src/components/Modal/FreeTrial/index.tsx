@@ -32,12 +32,12 @@ const FreeTrialModal = ({
       className={'FreeTrial-Modal'}
       footer={
         <>
-        <div key="submit" className={styles['Btn-group']}>
-          <Button key="submit" className={'Submit-Button'} onClick={handleOk}>
+        <div className={styles['Btn-group']}>
+          <Button key="submit" className={'Submit-Button'} onClick={handleOk} style={{marginTop: active ? '70px' : ''}}>
             {primaryButtonText}
           </Button>
         </div>
-        {!active && (<div key="submit" className={styles['Btn-group']}>
+        {!active && (<div className={styles['Btn-group']}>
           <Button key="submit" className={'Secondary-Button'} onClick={() => navigate('/dashboard')}>
             {secondaryButtonText}
           </Button>

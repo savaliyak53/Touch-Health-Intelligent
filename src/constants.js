@@ -26,6 +26,6 @@ export const tooltipContent = {
 }
 export const backButtonContent = {
   dashboardText: 'Going back won\'t take you to the previous page but stay on the dashboard.',
-  layoutText: 'Going back will take you to the dashboard. Are you sure you want to go there?',
+  layoutText: 'Going back won\'t take you to the previous page but to your dashboard page. Are you sure you want to go there?',
   preventText: 'You cannot go back from here.'
 }

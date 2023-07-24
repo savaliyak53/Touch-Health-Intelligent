@@ -11,14 +11,11 @@ import { Spin } from 'antd';
 import moment from 'moment';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
-import FreeTrialModal from '../../components/Modal/FreeTrial';
 
 const Home = () => {
   const navigate = useNavigate();
   const [exception, setException] = useState<boolean>(false);
-  const [loading, setLoading] = useState(true);
   const context = useContext<AuthContextData | undefined>(AuthContext);
-  const [trialModal, setTrialModal] = useState<boolean>(false);
   const [error, setError] = useState<any>();
 
   useEffect(() => {
@@ -51,10 +48,7 @@ const Home = () => {
         }
       })
       .catch((error) => {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
-        });
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
   const handleInitialIntake = () => {
@@ -71,7 +65,6 @@ const Home = () => {
           //after successful subscription initiate onboarding interaction
           getInteractionServiceByType('onboarding')
             .then((response: any) => {
-              setLoading(false);
               if (response) {
                 navigate('/questionnaire');
               } else {
@@ -79,25 +72,14 @@ const Home = () => {
               }
             })
             .catch((error) => {
-              setError({
-                code: error.response.status,
-                message: error.response.data.details ?? 'Something went wrong.',
-              });
-              // navigate('/dashboard');
+              setError({code: error.response.status, message: error.response.data.details});
             });
         } else {
-          // console.log('navigate to dashboard');
           navigate('/dashboard');
         }
       })
       .catch((error) => {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
-        });
-        // toast.error(
-        //   `${error.response?.data?.title} Please check values and try again.`
-        // );
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
   const checkUserData = () => {
@@ -112,13 +94,11 @@ const Home = () => {
           } else {
             setException(true);
             //show modal that something went wrong
+            setError({code: response.status, message: response.data.details});
           }
         })
         .catch((error) => {
-          setError({
-            code: error.response.status,
-            message: error.response.data.details ?? 'Something went wrong.',
-          });
+          setError({code: error.response.status, message: error.response.data.details});
         });
     }
   };
@@ -142,11 +122,7 @@ const Home = () => {
                 handleRedirect(response);
               })
               .catch((error) => {
-                setError({
-                  code: error.response.status,
-                  message:
-                    error.response.data.details ?? 'Something went wrong.',
-                });
+                setError({code: error.response.status, message: error.response.data.details});
               });
           }
           //new requirement remove goal-characterization from the flow
@@ -170,20 +146,13 @@ const Home = () => {
                 handleInitialIntake();
               })
               .catch((error) => {
-                setError({
-                  code: error.response.status,
-                  message:
-                    error.response.data.details ?? 'Something went wrong.',
-                });
+                setError({code: error.response.status, message: error.response.data.details});
               });
           }
         }
       })
       .catch((error) => {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
-        });
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
   const handleTrialIntake = () => {
@@ -198,10 +167,7 @@ const Home = () => {
         handleInitialIntake();
       })
       .catch((error) => {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
-        });
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
   return (

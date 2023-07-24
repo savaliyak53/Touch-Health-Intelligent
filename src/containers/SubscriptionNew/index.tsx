@@ -64,7 +64,7 @@ const SubscriptionNew = () => {
             }
             })
             .catch((error) => {
-            setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
+              setError({code: error.response.status, message: error.response.data.details});
             });
         return null;
     };
@@ -100,7 +100,7 @@ const SubscriptionNew = () => {
             })
             .catch((error) => {
             setLoading(false);
-            setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+            setError({code: error.response.status, message: error.response.data.details});
             });
     };
 
@@ -115,8 +115,7 @@ const SubscriptionNew = () => {
         .catch((error) => {
             setLoadingManageBtn(false);
             setDisableButton(false);
-            console.log('error while trying to redirect to manage payment ', error);
-            toast.error('Something went wrong while subscribing');
+            setError({code: error.response.status, message: error.response.data.details});
         });
     }
     const handleRetry = () => {
@@ -145,15 +144,11 @@ const SubscriptionNew = () => {
                   }
                 })
                 .catch((error) => {
-                  toast.error(
-                    `Something went wrong. Cannot initiate interaction at the moment `
-                  );
+                  setError({code: error.response.status, message: error.response.data.details});
                 });
           })
           .catch((error) => {
-            toast.error(
-              `${error.response?.data?.title} Please check values and try again.`
-            );
+            setError({code: error.response.status, message: error.response.data.details});
           });
     };
 
@@ -170,8 +165,7 @@ const SubscriptionNew = () => {
         .catch((error) => {
           setLoading(false);
           setDisableButton(false);
-          console.log('error while subscribing ', error);
-          toast.error('Something went wrong while subscribing');
+          setError({code: error.response.status, message: error.response.data.details});
         });
     };
 
@@ -192,8 +186,7 @@ const SubscriptionNew = () => {
         .catch((error) => {
           setLoading(false);
           setDisableButton(false);
-          console.log('error while subscribing ', error);
-          toast.error('Something went wrong while subscribing');
+          setError({code: error.response.status, message: error.response.data.details});
         });
     };
 
@@ -231,12 +224,12 @@ const SubscriptionNew = () => {
                     handleInitialIntake();
                   })
                   .catch((error) => {
-                    setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+                    setError({code: error.response.status, message: error.response.data.details});
                   });
               }
             })
             .catch((error) => {
-              setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+              setError({code: error.response.status, message: error.response.data.details});
             });
         }
       }, []);
@@ -259,7 +252,7 @@ const SubscriptionNew = () => {
     return (
         <Layout
             defaultHeader={true}
-            hamburger={onTrial}
+            hamburger={userPlanStatus == 'trial_expired' ? false : true}
             dashboard={false}
             setDisableAllButtons={setDisableAllButtons}
         >

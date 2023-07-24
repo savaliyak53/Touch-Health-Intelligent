@@ -23,7 +23,7 @@ const ManageDevices = () => {
             }
         })
         .catch(err => {
-            setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."})
+            setError({code: err.response.status, message: err.response.data.details })
         })
     }
 
@@ -35,7 +35,7 @@ const ManageDevices = () => {
             }
         })
         .catch(err => {
-            setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."})
+            setError({code: err.response.status, message: err.response.data.details })
         })
     }
     const handleCancel = () => {

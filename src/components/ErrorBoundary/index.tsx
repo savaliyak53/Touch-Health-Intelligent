@@ -59,7 +59,12 @@ class ErrorBoundary extends React.Component<any> {
   }
 
     handleCancel = () => {
-      this.setState({...this.state, open: false})
+      this.setState({
+        hasError: false,
+        error: null,
+        errorType: '',
+        open: true
+      })
     }
   
     render() {

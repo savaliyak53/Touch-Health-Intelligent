@@ -5,14 +5,12 @@ import { useLocation, useNavigate } from 'react-router';
 import { getUser } from '../../services/authservice';
 import { getUserSubscription } from '../../services/subscriptionService';
 import { signupFlow, sleep } from '../../utils/lib';
-import { toast } from 'react-toastify';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 import AuthContext from '../../contexts/AuthContext';
 import moment from 'moment';
-// import FreeTrialModal from '../../components/Modal/FreeTrial';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
-import { backButtonExceptionRoutes } from '../../Routes/Constants';
+import { backButtonPreventionRoutes } from '../../Routes/Constants';
 import { Spin } from 'antd';
 
 type Props = {
@@ -33,12 +31,11 @@ const Layout = ({
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
   const [trialRemaining, setTrialRemaining] = useState<string>('');
-  const [trialEndModal, setTrialEndModal] = useState<boolean>(false);
-  const [trialEndDate, setTrialEndDate] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSubscribed, setIsSubscribed] = useState<boolean>(true);
   const [signupStatus, setSignupStatus] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<any>();
   const navigate = useNavigate();
   const location = useLocation(); 
   const context = useContext(AuthContext);
@@ -66,7 +63,7 @@ const Layout = ({
         })
         .catch((error: any) => {
           setLoading(false);
-          console.log(error);
+          setError({code: error.response.status, message: error.response.data.details});
         });
     }
   };
@@ -80,8 +77,6 @@ const Layout = ({
         else if (
           res.data.state == 'trial_expired' || res.data.state == 'subscription_expired'
         ) {
-          setTrialEndDate(res.data.data.trialData.trialEndDate);
-          setTrialEndModal(true);
           setIsSubscribed(false);
           location.pathname !== '/subscription'
             ? navigate('/subscription')
@@ -90,7 +85,7 @@ const Layout = ({
         }
       })
       .catch((error) => {
-        console.log('Error while getting user plan. ', error);
+        setError({code: error.response.status, message: error.response.data.details});
       });
   };
   const onBackButtonEvent = (e: any) => {
@@ -134,13 +129,21 @@ const Layout = ({
     } else {
       setLoading(false);
     }
-    if (!Object.values(backButtonExceptionRoutes).includes(location.pathname)) {
+    if (
+      Object.values(backButtonPreventionRoutes).includes(location.pathname) ||
+      backButtonPreventionRoutes.checkup.test(location.pathname)
+    ) {
       pageBackEvent();
       return () => {
         window.removeEventListener('popstate', onBackButtonEvent);
       };
     }
   }, []);
+
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
+
   return (
     <div className={`Layout ${signupLogin}`}>
       <div
@@ -172,15 +175,6 @@ const Layout = ({
           </div>
         }
         />
-      {/* <FreeTrialModal
-        title="Subscription"
-        handleOk={() => {
-          setTrialEndModal(false);
-        }}
-        open={trialEndModal}
-        buttonText="Subscribe Now!"
-        trialEndDate={trialEndDate}
-      /> */}
       {exception && (
         <div>
           <ErrorInteractionModal

@@ -100,7 +100,6 @@ const Integrations = () => {
         }
       })
       .catch((error) => {
-        // toast('Unknown error');
         setChecked(false);
         setSpinning(false);
         setError({code: error.response.status, message: error.response.data.details});

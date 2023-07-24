@@ -9,7 +9,6 @@ import {
   getPreference,
   updatePreference
 } from '../../services/authservice';
-import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
 import { Radio, Space, DatePicker } from 'antd';
 import moment from 'moment';
@@ -91,9 +90,8 @@ const Preferences = () => {
         setSpinning(false);
       })
       .catch((error) => {
-        // toast('Unknown error');
-        setSpinning(false);
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+         setSpinning(false);
+        setError({code: error.response.status, message: error.response.data.details })
       });
   };
   const getIntegrationStatusService = () => {
@@ -104,9 +102,8 @@ const Preferences = () => {
         }
       })
       .catch((error) => {
-        // toast('Unknown error');
         setSpinning(false);
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        setError({code: error.response.status, message: error.response.data.details})
       });
   };
   const handleNext = () => {
@@ -115,17 +112,14 @@ const Preferences = () => {
         username : username
         })
       .then(res => {
-        console.log(res);
         if(res.data)
         navigate('/dashboard')
       })
       .catch((error) => {
-        console.log(error);
-        // toast.error('Something went wrong');
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."})
+        setError({code: error.response.status, message: error.response.data.details})
       });
     } else {
-      toast.error("Username cannot be empty!")
+      setError({code: 400, message: "Username cannot be empty!"})
     }
   }
   return (
