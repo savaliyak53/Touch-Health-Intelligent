@@ -1,15 +1,8 @@
-import React, {
-  createContext,
-  ReactElement,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
-import { toast } from 'react-toastify';
+import React, { createContext, ReactElement, useState } from 'react';
 import { getInsightsService } from '../services/dashboardservice';
 export interface InsightContextModel {
   insights?: any;
-  isLoading?:boolean;
+  isLoading?: boolean;
   selectedInsight?: any;
   selectedInsightIndex?: [];
   showButton?: string | undefined;
@@ -39,21 +32,18 @@ const InsightContextProvider = ({ children, brandId }: Props) => {
   const [showButton, setShowButton] = useState<string | undefined>();
 
   const loadInsights = async () => {
-    //setIsReady(false)
-     setLoading(true);
-     try{
-      const response= await getInsightsService();
-      if(response.data){
+    setLoading(true);
+    try {
+      const response = await getInsightsService();
+      if (response.data) {
         setInsights(response.data);
         setLoading(false);
         return response.data;
       }
-     }
-     catch(e){
-        setLoading(false);
-        console.log('error',e);
-     }
-     
+    } catch (e) {
+      setLoading(false);
+      console.log('error', e);
+    }
   };
   const loadSelectedInsight = async (selectedData: any) => {
     setSelectedInsight(selectedData);
@@ -64,7 +54,6 @@ const InsightContextProvider = ({ children, brandId }: Props) => {
   };
   const setInsightButton = async (index: string) => {
     setShowButton(index);
-    //localStorage.setItem('selectedInsight', selectedData);
   };
   return (
     <InsightContext.Provider
@@ -73,7 +62,7 @@ const InsightContextProvider = ({ children, brandId }: Props) => {
         selectedInsight,
         selectedInsightIndex,
         showButton,
-        isLoading:loading,
+        isLoading: loading,
         commands: {
           loadInsights,
           loadSelectedInsight,

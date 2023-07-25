@@ -3,17 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { Tooltip, Button, Spin, Input } from 'antd';
 import styles from './Preferences.module.scss';
 import { CloudDownloadOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
+import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import {
   getIntegrationStatus,
   getPreference,
-  updatePreference
+  updatePreference,
 } from '../../services/authservice';
 import Layout from '../../layouts/Layout/Layout';
-import { Radio, Space, DatePicker } from 'antd';
 import moment from 'moment';
 import 'moment-timezone';
-import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
+import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -36,9 +35,9 @@ const Preferences = () => {
   const [yob, setYob] = useState<any>('');
   const [sex, setSex] = useState<any>('');
   const [spinning, setSpinning] = useState<boolean>(true);
-  const [userId, setUserId] = useState<any>('')
+  const [userId, setUserId] = useState<any>('');
   const navigate = useNavigate();
-  const context = useContext<AuthContextData | undefined>(AuthContext); 
+  const context = useContext<AuthContextData | undefined>(AuthContext);
   const [error, setError] = useState<any>();
 
   useEffect(() => {
@@ -62,11 +61,8 @@ const Preferences = () => {
         }
       }
     });
-
-
-    // const id = localStorage.getItem('userId');
-    const id=context?.user;
-    setUserId(id)
+    const id = context?.user;
+    setUserId(id);
     setSpinning(true);
     setloading(true);
     getIntegrationStatusService();
@@ -74,9 +70,8 @@ const Preferences = () => {
   }, []);
 
   useEffect(() => {
-    if(error) throw(error)
+    if (error) throw error;
   }, [error]);
-
 
   const getUserInfo = (userId: string | null | undefined) => {
     getPreference()
@@ -84,7 +79,7 @@ const Preferences = () => {
         if (response?.data) {
           setYob(response.data.yob);
           setSex(response.data.sex);
-          setUsername(response.data.username)
+          setUsername(response.data.username);
           setloading(false);
         }
         setSpinning(false);
@@ -107,7 +102,7 @@ const Preferences = () => {
       });
   };
   const handleNext = () => {
-    if(username !== '') {
+    if (username !== '') {
       updatePreference({
         username : username
         })
@@ -121,7 +116,7 @@ const Preferences = () => {
     } else {
       setError({code: 400, message: "Username cannot be empty!"})
     }
-  }
+  };
   return (
     <Layout defaultHeader={true} hamburger={true}>
       <Spin spinning={spinning}>
@@ -205,41 +200,49 @@ const Preferences = () => {
                 </Button>
               </div>
             )}
-              <div>
+            <div>
               <h3 className={'Heading Heading-color1'}>
-                  Username
+                Username
                 <Tooltip
-                    title={
-                      'This is your username. You can set it to anything you want to be called, like "JazzyCat99 💃😽".'
-                    }
-                    placement="bottomRight"
-                    overlayStyle={{ marginRight: '10px' }}
-                    mouseLeaveDelay={0}
-                  >
-                    <AiOutlineQuestionCircle
-                      size={30}
-                      className="question-help"
-                      style={{ marginLeft: '10px' }}
-                    />
-                  </Tooltip>
-                </h3>
-                <div className={"Pref-username-input"}>
-                  <Input
-                      type="text"
-                      status={username.length > 24 ? 'error' : ''}
-                      
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      onClick={() => setEnabled(true)}
-                    />
-                </div>
-
+                  title={
+                    'This is your username. You can set it to anything you want to be called, like "JazzyCat99 💃😽".'
+                  }
+                  placement="bottomRight"
+                  overlayStyle={{ marginRight: '10px' }}
+                  mouseLeaveDelay={0}
+                >
+                  <AiOutlineQuestionCircle
+                    size={30}
+                    className="question-help"
+                    style={{ marginLeft: '10px' }}
+                  />
+                </Tooltip>
+              </h3>
+              <div className={'Pref-username-input'}>
+                <Input
+                  type="text"
+                  status={username.length > 24 ? 'error' : ''}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  onClick={() => setEnabled(true)}
+                />
               </div>
-              {username.length > 24 && <span className={styles['Username-error-msg']}><InfoCircleOutlined /> Username cannot be longer than 24 characters.</span>}
+            </div>
+            {username.length > 24 && (
+              <span className={styles['Username-error-msg']}>
+                <InfoCircleOutlined /> Username cannot be longer than 24
+                characters.
+              </span>
+            )}
 
-              <div>
-                <Button className={`Submit-Button ${styles['Manage-Devices-btn']}`} onClick={() => navigate('/manage-devices')}>{'Manage Devices'}</Button>
-              </div>
+            <div>
+              <Button
+                className={`Submit-Button ${styles['Manage-Devices-btn']}`}
+                onClick={() => navigate('/manage-devices')}
+              >
+                {'Manage Devices'}
+              </Button>
+            </div>
             {enable && (
               <div className={styles.TermsBtnWrap}>
                 <Button
@@ -247,7 +250,7 @@ const Preferences = () => {
                   onClick={handleNext}
                   disabled={username.length > 24 ? true : false}
                 >
-                Save
+                  Save
                 </Button>
               </div>
             )}

@@ -1,6 +1,4 @@
-// import axios from 'axios';
 import axios from '../utils/axios';
-
 
 export const getPlansService = () => {
   return axios.get(`/payments/list-plans`);
