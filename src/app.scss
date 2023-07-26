@@ -1124,8 +1124,6 @@ input {
     margin: 0 auto;
     bottom: 0;
     top: auto;
-    // left: 0;
-    // right: 0;
     padding: 0;
     border-radius: 20px 20px 0 0;
   }
@@ -1189,7 +1187,66 @@ input {
     border-radius: 20px 20px 0 0;
   }
 }
+.Drawer {
+  .ant-modal-body {
+    padding: 18px 25px 43px 25px;
+  }
+  .ant-modal{
+    border-radius: 20px;
+  }
+  &.ant-modal{
+    min-width: 100vw !important;
+    position: absolute;
+    margin: 0 auto;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    right: 0;
+    padding: 0;
+    border-radius: 20px 20px 0 0;
+  }
+  @media (min-width: 992px )  {
+    &.ant-modal {
+      min-width: 50% !important;
+      width: 49.5% !important;
+      right: 50.5%;
+    }
+  }
 
+  .ant-modal-content{
+    border-radius: 20px 20px 0 0;
+    .ant-modal-close-x {
+      font-size: 21px !important;
+    }
+    .ant-modal-header{
+      border: none;
+      border-radius: 5px 5px 0 0;
+      padding: 25px 0px 0px 0px;
+    }
+    .ant-modal-title{
+      padding-top: 0;
+      font-family: $font-title;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 36px;
+      color: $primary-color1;
+      display: flex;
+      justify-content: center;
+    }
+    .ant-modal-footer{
+      border: none;
+    }
+    .ant-modal-close-x{
+      color: $primary-color3;
+      font-size: 30px;
+      &.ant-modal-close-icon{
+        font-weight: 900;
+      }
+    }
+  } 
+
+}
 .Title{
   font-family: $font-title;
   font-style: normal;
@@ -1304,6 +1361,53 @@ input {
     background-color: rgba(#3a3a3a, 0.2);
     border: none;
     color:  $primary-color1;
+  }
+}
+.Button-Drawer.ant-btn{
+  width: 341px;
+  height: 50px;
+  margin: 7px auto 0px;
+  padding: 19px 42px;
+  border-radius: 100px;
+  background-color: $primary-color1;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 14px;
+  border: none;
+  display: flex;
+  justify-content: center;  
+  white-space: pre-line !important;
+  
+    &:hover,
+    &:focus,
+    &:active {
+      &:not([disabled]){
+        background-image: $secondary-color2 !important;
+        color: #fff !important;
+        border: none
+      }
+  
+    }
+    &:disabled, &:disabled:hover {
+      background-color: rgba(#3a3a3a, 0.2);
+      border: none;
+      color:  $primary-color1;
+    }
+
+}
+.Button-Drawer-Secondary.ant-btn {
+  width: 341px;
+  background-color: $color-grey-33;
+  color: $primary-color2;
+  @extend .Button-Drawer;
+}
+@media (max-width: 400px) {
+  .Button-Drawer.ant-btn {
+   width: 100%;
+  }
+  .Button-Drawer-Secondary.ant-btn{
+    width: 100%;
   }
 }
 
@@ -1437,10 +1541,6 @@ input {
     &:not(:first-child):before {
       display: none !important;
     }
-
-    // &:hover {
-    //   color: $primary-color2;
-    // }
   }
   
   .ant-space {
