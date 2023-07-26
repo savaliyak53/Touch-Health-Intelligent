@@ -225,7 +225,7 @@ const DashboardNew = () => {
           renderOptions={
             <>
               <Button
-                className={'Submit-Button Button-Drawer'}
+                className={'Button-Drawer'}
                 onClick={() => {
                   navigate('/c/checkup');
                 }}
@@ -233,7 +233,7 @@ const DashboardNew = () => {
                 Daily Questions
               </Button>
               <Button
-                className={'Submit-Button Button-Drawer'}
+                className={'Button-Drawer'}
                 onClick={() => {
                   console.log('2');
                 }}
@@ -241,7 +241,7 @@ const DashboardNew = () => {
                 Update my conditions
               </Button>
               <Button
-                className={'Submit-Button Button-Drawer-Secondary'}
+                className={'Button-Drawer-Secondary'}
                 onClick={() => {
                   console.log('3');
                 }}
