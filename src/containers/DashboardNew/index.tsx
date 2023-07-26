@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './DashboardNew.module.scss';
 import { Row, Col, Typography, Tooltip, Button, Progress } from 'antd';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
@@ -8,12 +8,14 @@ import { getDashboard } from '../../services/dashboardservice';
 import { useNavigate } from 'react-router-dom';
 import { timeFrom } from '../../utils/lib';
 import { tooltipContent } from '../../constants';
+import Drawer from '../../components/Modal/Drawer';
 const DashboardNew = () => {
   const [elements, setElements] = useState<any>();
   const [elementStreak, setElementStreak] = useState<any>();
   const [streakCount, setStreakCount] = useState<any>();
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -141,7 +143,7 @@ const DashboardNew = () => {
           </Row>
           <Button
             className={'Submit-Button'}
-            onClick={() => navigate('/c/checkup')}
+            onClick={() => setDrawerOpen(true)}
           >
             Daily Check-in
           </Button>
@@ -216,6 +218,39 @@ const DashboardNew = () => {
             </Row>
           )}
         </div>
+        <Drawer
+          title="Daily check-in"
+          open={drawerOpen}
+          handleCancel={() => setDrawerOpen(false)}
+          renderOptions={
+            <>
+              <Button
+                className={'Button-Drawer'}
+                onClick={() => {
+                  navigate('/c/checkup');
+                }}
+              >
+                Daily Questions
+              </Button>
+              <Button
+                className={'Button-Drawer'}
+                onClick={() => {
+                  console.log('2');
+                }}
+              >
+                Update my conditions
+              </Button>
+              <Button
+                className={'Button-Drawer-Secondary'}
+                onClick={() => {
+                  console.log('3');
+                }}
+              >
+                Explore my data
+              </Button>
+            </>
+          }
+        />
       </Spin>
     </Layout>
   );
