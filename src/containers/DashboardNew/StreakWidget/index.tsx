@@ -12,9 +12,7 @@ const StreakWidget = ({ streakCount, elementStreak }: IProps) => {
       <Row className={styles.StreakInfo}>
         <Col>
           <Row>
-            <div className={`Heading ${styles.StreakTitle}`}>
-              {streakCount && streakCount > 0 ? `Streak` : 'No current streak'}
-            </div>
+            <div className={`Heading ${styles.StreakTitle}`}>Streak</div>
             <Tooltip
               title={tooltipContent.streakText}
               placement="bottomRight"
