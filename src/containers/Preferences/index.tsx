@@ -166,7 +166,7 @@ const Preferences = () => {
                       'This is your sex assigned at birth, and may not align with your current sex and gender identify.'
                     }
                     placement="bottomRight"
-                    overlayStyle={{ marginRight: '10px' }}
+                    // overlayStyle={{ marginRight: '10px' }}
                     mouseLeaveDelay={0}
                   >
                     <AiOutlineQuestionCircle
@@ -190,7 +190,7 @@ const Preferences = () => {
                       'This is your approximate age. Since we do not collect your date of birth, this may not align with your actual age.'
                     }
                     placement="bottomRight"
-                    overlayStyle={{ marginRight: '10px' }}
+                    // overlayStyle={{ marginRight: '10px' }}
                     mouseLeaveDelay={0}
                   >
                     <AiOutlineQuestionCircle
