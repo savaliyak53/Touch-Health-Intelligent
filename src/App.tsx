@@ -7,8 +7,7 @@ import 'antd/dist/antd.min.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import {io} from "socket.io-client";
 
-const baseURL = process.env.REACT_APP_API_HOST;
-const ENDPOINT = baseURL + "/ai/socket";
+const ENDPOINT = '' + process.env.REACT_APP_API_HOST + process.env.SOCKET_ENDPOINT;
 
 const version = 'v.0.0.5';
 console.log(version);
@@ -21,7 +20,6 @@ socket.on('response', (data:any) => {
   setData(data)
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Application = () => {
   return (
     <ErrorBoundary>
