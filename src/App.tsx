@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AppRoutes from './Routes/index';
@@ -7,20 +7,26 @@ import 'antd/dist/antd.min.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import {io} from "socket.io-client";
 
-const ENDPOINT = '' + process.env.REACT_APP_API_HOST + process.env.SOCKET_ENDPOINT;
+const ENDPOINT = '' + process.env.REACT_APP_SOCKET_HOST;
 
 const version = 'v.0.0.5';
 console.log(version);
 
-const [data, setData] = useState();
-
-const socket = io(ENDPOINT);
-
-socket.on('response', (data:any) => {
-  setData(data)
-});
-
 const Application = () => {
+
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    const socket = io(ENDPOINT, {
+      path: "/socket.io", forceNew: true, reconnectionAttempts: 3, timeout: 2000, withCredentials: true
+    });
+  
+    socket.on('serverMessage', (data:any) => {
+      setData(data)
+    });
+
+  }, [])
+
   return (
     <ErrorBoundary>
       <AppRoutes />
