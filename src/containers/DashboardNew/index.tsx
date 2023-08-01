@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { timeFrom } from '../../utils/lib';
 import StreakWidget from './StreakWidget';
 import Drawer from '../../components/Modal/Drawer';
+import { GoalsComp } from '../../components/Goals-comp';
 const DashboardNew = () => {
   const [elements, setElements] = useState<any>();
   const [elementStreak, setElementStreak] = useState<any>();
@@ -97,46 +98,48 @@ const DashboardNew = () => {
             </Col>
           </Row>
           {elements ? (
-            elements.map((item: any) => (
-              <Row key={item.id}>
-                <Col span={24}>
-                  <div
-                    className={styles.Goal}
-                    onClick={() => navigate(`/goals/${item.id}`)}
-                  >
-                    <div className={styles.GoalHeadWrap}>
-                      <Typography className={styles.GoalTitle}>
-                        {item.name}
-                      </Typography>
-                      <Typography className={styles.GoalCount}>
-                        {item.success_score}
-                      </Typography>
-                    </div>
-                    <div className={styles.GoalBarWrap}>
-                      <Typography className={styles.GoalLetter}>
-                        Goal
-                      </Typography>
-                      <Progress
-                        percent={item.success_score}
-                        strokeColor="#204ECF"
-                        strokeWidth={15}
-                        showInfo={false}
-                      />
-                    </div>
-                    <div className={styles.GoalBarWrap}>
-                      <Typography className={styles.GoalLetter}>
-                        Data
-                      </Typography>
-                      <Progress
-                        percent={item.data_score}
-                        strokeColor="#F26749"
-                        strokeWidth={15}
-                        showInfo={false}
-                      />
-                    </div>
-                  </div>
-                </Col>
-              </Row>
+            elements.map((item: any , key:any) => (
+
+              <GoalsComp key={item.id} />
+              // <Row key={item.id}>
+              //   <Col span={24}>
+              //     <div
+              //       className={styles.Goal}
+              //       onClick={() => navigate(`/goals/${item.id}`)}
+              //     >
+              //       <div className={styles.GoalHeadWrap}>
+              //         <Typography className={styles.GoalTitle}>
+              //           {item.name}
+              //         </Typography>
+              //         <Typography className={styles.GoalCount}>
+              //           {item.success_score}
+              //         </Typography>
+              //       </div>
+              //       <div className={styles.GoalBarWrap}>
+              //         <Typography className={styles.GoalLetter}>
+              //           Goal
+              //         </Typography>
+              //         <Progress
+              //           percent={item.success_score}
+              //           strokeColor="green"
+              //           strokeWidth={15}
+              //           showInfo={false}
+              //         />
+              //       </div>
+              //       <div className={styles.GoalBarWrap}>
+              //         <Typography className={styles.GoalLetter}>
+              //           Data
+              //         </Typography>
+              //         <Progress
+              //           percent={item.data_score}
+              //           strokeColor="#F26749"
+              //           strokeWidth={15}
+              //           showInfo={false}
+              //         />
+              //       </div>
+              //     </div>
+              //   </Col>
+              // </Row>
             ))
           ) : (
             <Row key="#nodata">
