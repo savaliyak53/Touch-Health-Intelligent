@@ -73,7 +73,10 @@ const DashboardNew = () => {
               <div className={`Title`}>Your Dashboard</div>
             </Col>
           </Row>
-          <StreakWidget streakCount={streakCount} elementStreak={elementStreak} />
+          <StreakWidget
+            streakCount={streakCount}
+            elementStreak={elementStreak}
+          />
           <Col span={1}></Col>
           <Button
             className={'Submit-Button'}

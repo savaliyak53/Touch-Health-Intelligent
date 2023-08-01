@@ -45,7 +45,7 @@ const StreakWidget = ({ streakCount, elementStreak }: IProps) => {
                 if (item[2] === 'purple') {
                   return (
                     <div className={styles.Tag} key={index}>
-                      <div className={styles.StreakPeach}></div>
+                      <div className={styles.StreakBlue}></div>
                       <div className={styles.StreakDay}>{item[1]}</div>
                     </div>
                   );
