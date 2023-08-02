@@ -88,58 +88,19 @@ const DashboardNew = () => {
           {/* Goals Detail Head + Add new Goal */}
           <Row>
             <Col span={24}>
-              <div className={styles.GoalsHead}>
-                <Typography
-                  className={`Heading Heading-color1 ${styles.GoalsHeadTitle}`}
-                >
-                  Health Goals
-                </Typography>
+              <div className={styles.GoalsTitleContainer}>
+              <p className={styles.HeadingStyle}>Health Goals</p>
+              <img src="/assets/icons/info-icon.svg" />
               </div>
             </Col>
           </Row>
           {elements ? (
-            elements.map((item: any , key:any) => (
-
-              <GoalsComp key={item.id} />
-              // <Row key={item.id}>
-              //   <Col span={24}>
-              //     <div
-              //       className={styles.Goal}
-              //       onClick={() => navigate(`/goals/${item.id}`)}
-              //     >
-              //       <div className={styles.GoalHeadWrap}>
-              //         <Typography className={styles.GoalTitle}>
-              //           {item.name}
-              //         </Typography>
-              //         <Typography className={styles.GoalCount}>
-              //           {item.success_score}
-              //         </Typography>
-              //       </div>
-              //       <div className={styles.GoalBarWrap}>
-              //         <Typography className={styles.GoalLetter}>
-              //           Goal
-              //         </Typography>
-              //         <Progress
-              //           percent={item.success_score}
-              //           strokeColor="green"
-              //           strokeWidth={15}
-              //           showInfo={false}
-              //         />
-              //       </div>
-              //       <div className={styles.GoalBarWrap}>
-              //         <Typography className={styles.GoalLetter}>
-              //           Data
-              //         </Typography>
-              //         <Progress
-              //           percent={item.data_score}
-              //           strokeColor="#F26749"
-              //           strokeWidth={15}
-              //           showInfo={false}
-              //         />
-              //       </div>
-              //     </div>
-              //   </Col>
-              // </Row>
+            elements.map((item: any, key: any) => (
+              <GoalsComp
+                key={item.id}
+                name={item.name}
+                score={item.success_score}
+              />
             ))
           ) : (
             <Row key="#nodata">

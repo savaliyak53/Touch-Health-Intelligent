@@ -9,13 +9,16 @@
   font-weight: 400;
   align-items: center;
 }
+
 .StreakTitle {
   margin-right: 11px;
 }
+
 .StreakInfo {
   justify-content: space-between;
   margin-bottom: 7px;
 }
+
 .StreakCount {
   font-size: 14px;
   font-family: $font-title;
@@ -23,6 +26,7 @@
   line-height: 36px;
   text-align: right;
 }
+
 .Days {
   line-height: 36px;
   font-size: 12px;
@@ -30,17 +34,20 @@
   font-family: $font-body;
   margin-left: 5px;
 }
+
 .TagWrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .TitleToolTip {
   margin-bottom: auto;
   margin-top: auto;
   margin-left: 5px;
   color: $primary-color1;
 }
+
 .Tag {
   display: flex;
   flex-direction: column;
@@ -51,30 +58,36 @@
   max-width: 20px;
   width: 100%;
 }
+
 .Tag:first-child {
   margin-left: 0;
 }
+
 .Tag:last-child {
   margin-right: 0;
 }
+
 .StreakPeach {
   background-color: $primary-color3;
   border-radius: 10px;
   width: 100%;
   height: 40px;
 }
+
 .StreakGrey {
   background-color: var(--nimbus, #f0ece7);
   border-radius: 10px;
   width: 100%;
   height: 40px;
 }
+
 .StreakBlue {
   background-color: $primary-color1;
   border-radius: 10px;
   width: 100%;
   height: 40px;
 }
+
 .StreakDay {
   color: #e2e2e2;
   font-size: 12px;
@@ -82,39 +95,11 @@
   margin-top: 4px;
   font-weight: 600;
 }
+
 .Tooltip {
   color: $primary-color1;
 }
-.GoalsHead {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 32px;
-  .GoalsHeadButton {
-    font-size: 28px;
-    line-height: 1;
-    font-weight: 700;
-    color: $primary-color1;
-    border: 2px solid $primary-color1;
-    outline: none;
-    background-color: #fff;
-    border-radius: 100px;
-    padding: 20px 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &:focus {
-      background-image: $secondary-color2;
-      border: none !important;
-      color: #fff !important;
-    }
-    &:hover {
-      background-image: $secondary-color2;
-      border: none !important;
-      color: #fff !important;
-    }
-  }
-}
+
 .GoalsHeadTitle {
   font-size: 22px;
   line-height: 1;
@@ -129,11 +114,13 @@
   border-radius: 10px;
   margin-top: 20px;
 }
+
 .GoalHeadWrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .GoalTitle {
   font-family: $font-body;
   color: $primary-color2 !important;
@@ -141,24 +128,18 @@
   font-size: 20px;
   line-height: 110%;
 }
-.GoalCount {
-  font-size: 24px;
-  line-height: 110%;
-  font-family: $font-body;
-  color: $primary-color2 !important;
-  font-weight: 800;
+.HeadingStyle {
+  color: #080815;
+  font-family: Tilt Warp;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 400;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-right: 10px;
 }
-.GoalBarWrap {
-  display: flex;
-  align-items: center;
-  margin-top: 4px;
-}
-.GoalLetter {
-  font-family: $font-body;
-  color: $primary-color1 !important;
-  font-weight: 800;
-  font-size: 20px;
-  line-height: 110%;
-  margin-right: 12px;
-  word-break: initial !important;
+.GoalsTitleContainer{
+     display: flex;
+     justify-content: start;
+     margin-top: 12px;
 }
