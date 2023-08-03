@@ -26,7 +26,6 @@ function UserCondition() {
   const [skeletonLoading, setSkeletonLoading] = useState(true);
   const [isClicked, setClicked] = useState(false);
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
-  const [signupStatus, setSignupStatus] = useState<string | null>();
   const [exception, setException] = useState<boolean>(false);
   const context = useContext<AuthContextData | undefined>(AuthContext);
   const [error, setError] = useState<any>();
@@ -269,6 +268,7 @@ function UserCondition() {
           {question && (
             <>
               <Question
+                key={refId}
                 selectedValue={value}
                 question={question}
                 items={items}
