@@ -25,16 +25,14 @@ const DashboardNew = () => {
         setLoading(false);
         if (response.data) {
           setElements(response.data.elements);
-          const dates = timeFrom(14).sort((a: any, b: any) =>
-            a[0].localeCompare(b[0])
-          );
+          const dates = timeFrom(14);
           const new_streaks = dates.map((item, index) => {
             const this_date = response.data.checkup_pattern.find(
               (checkup: any) => checkup[0] === item[0]
             );
-            if (!this_date && index === 13) {
+            if (!this_date && index === 0) {
               return (dates[index] = [...dates[index], 'purple']);
-            } else if (this_date && this_date[1] === false && index === 13) {
+            } else if (this_date && this_date[1] === false && index === 0) {
               return (dates[index] = [...dates[index], 'purple']);
             } else if (this_date && this_date[1] === true) {
               return (dates[index] = [...dates[index], 'orange']);
@@ -44,7 +42,7 @@ const DashboardNew = () => {
           });
           setElementStreak(new_streaks);
           //updated pattern shows check true on today or yesterday then the streak is valid, otherwise zero
-          if (dates[13][2] === 'orange' || dates[12][2] === 'orange') {
+          if (dates[0][2] === 'orange' || dates[1][2] === 'orange') {
             setStreakCount(response.data.checkup_streak);
           } else {
             setStreakCount(0);
