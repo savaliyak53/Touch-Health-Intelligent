@@ -2,40 +2,40 @@
   width: 100%;
   height: auto;
   border-radius: 0.3125rem;
-  background: #2c4dc7;
+  background: #8AA4EC;
   box-shadow: 0px 4px 0px 0px #f0ece7;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5px 13px 20px 13px;
+  padding: 10px 16px 20px;
   margin-top: 10px;
   position: relative;
+  overflow: hidden;
+  z-index: 1;
 
   &:before {
-    content: '';
+    content: "";
     width: 100%;
     height: 100%;
     position: absolute;
     top: 0;
     left: 0;
-    background: linear-gradient(
-      to top right,
-      transparent 55%,
-      transparent 10%,
-      white 109%
-    );
-    z-index: 1;
+    background: #8AA4EC;
+    z-index: -1;
   }
 
   &:after {
-    content: '';
-    width: 100%;
-    height: 100%;
+    content: "";
+    width: 345.336px;
+    height: 278.555px;
     position: absolute;
-    top: 0;
-    left: 0;
-    background: linear-gradient(to bottom right, transparent 55%, white 119%);
-    z-index: 1;
+    top: -90px;
+    left: -80px;
+    background: url(../../../public/assets/icons/gradient-blob.svg);
+    z-index: -1;
+    transform: rotate(-19.355deg);
+    background-repeat: no-repeat;
+    background-size: 345.336px 278.555px;
   }
 }
 .goalsLevel {
