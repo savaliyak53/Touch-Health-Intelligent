@@ -29,10 +29,14 @@ const StreakWidget = ({ streakCount, elementStreak }: IProps) => {
             {streakCount && streakCount > 0 ? (
               <>
                 <div className={`${styles.StreakCount}`}>{streakCount}</div>
-                <div className={styles.Days}>days</div>
+                <div className={styles.Days}>
+                  {streakCount === 1 ? 'day' : 'days'}
+                </div>
               </>
             ) : (
-              <div className="Heading">No current streak</div>
+              <div className={`Heading ${styles.StreakTitle}`}>
+                No current streak
+              </div>
             )}
           </Row>
         </Col>
@@ -60,7 +64,9 @@ const StreakWidget = ({ streakCount, elementStreak }: IProps) => {
                   return (
                     <div className={styles.Tag} key={index}>
                       <div className={styles.StreakPeach}></div>
-                      <div className={styles.StreakDay}>{item[1]}</div>
+                      <div className={styles.StreakDayHighlighted}>
+                        {item[1]}
+                      </div>
                     </div>
                   );
                 }
