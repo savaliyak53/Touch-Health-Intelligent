@@ -25,14 +25,16 @@ const DashboardNew = () => {
         setLoading(false);
         if (response.data) {
           setElements(response.data.elements);
-          const dates = timeFrom(14);
+          const dates = timeFrom(14).sort((a: any, b: any) =>
+            a[0].localeCompare(b[0])
+          );
           const new_streaks = dates.map((item, index) => {
             const this_date = response.data.checkup_pattern.find(
               (checkup: any) => checkup[0] === item[0]
             );
-            if (!this_date && index === 0) {
+            if (!this_date && index === 13) {
               return (dates[index] = [...dates[index], 'purple']);
-            } else if (this_date && this_date[1] === false && index === 0) {
+            } else if (this_date && this_date[1] === false && index === 13) {
               return (dates[index] = [...dates[index], 'purple']);
             } else if (this_date && this_date[1] === true) {
               return (dates[index] = [...dates[index], 'orange']);
