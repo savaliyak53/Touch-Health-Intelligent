@@ -2,7 +2,7 @@
   width: 100%;
   height: auto;
   border-radius: 0.3125rem;
-  background: #8AA4EC;
+  background: #8aa4ec;
   box-shadow: 0px 4px 0px 0px #f0ece7;
   display: flex;
   flex-direction: column;
@@ -14,18 +14,18 @@
   z-index: 1;
 
   &:before {
-    content: "";
+    content: '';
     width: 100%;
     height: 100%;
     position: absolute;
     top: 0;
     left: 0;
-    background: #8AA4EC;
+    background: #8aa4ec;
     z-index: -1;
   }
 
   &:after {
-    content: "";
+    content: '';
     width: 345.336px;
     height: 278.555px;
     position: absolute;
@@ -38,6 +38,16 @@
     background-size: 345.336px 278.555px;
   }
 }
+
+.goalsBar {
+}
+
+@media only screen and (min-width: 551px) {
+  .goalsBar {
+    padding: 0 20%;
+  }
+}
+
 .goalsLevel {
   width: 100%;
   color: #fff;
