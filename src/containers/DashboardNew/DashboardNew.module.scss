@@ -144,5 +144,10 @@
   display: flex;
   justify-content: start;
   margin-top: 32px;
-  padding-left: 20%;
+}
+
+@media only screen and (min-width: 551px) {
+  .GoalsTitleContainer {
+    padding-left: 20%;
+  }
 }

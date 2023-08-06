@@ -71,7 +71,7 @@ const DashboardNew = () => {
         <div>
           <Row>
             <Col span={21}>
-              <div className={`Title`}>Your Dashboard</div>
+              <div className={`Title DashboardTitle`}>Your Dashboard</div>
             </Col>
           </Row>
           <StreakWidget
@@ -89,8 +89,8 @@ const DashboardNew = () => {
           <Row>
             <Col span={24}>
               <div className={styles.GoalsTitleContainer}>
-              <p className={styles.HeadingStyle}>Health Goals</p>
-              <img src="/assets/icons/info-icon.svg" />
+                <p className={styles.HeadingStyle}>Health Goals</p>
+                <img src="/assets/icons/info-icon.svg" />
               </div>
             </Col>
           </Row>
