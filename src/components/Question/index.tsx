@@ -1,15 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Tooltip } from 'antd';
 import type { SliderMarks } from 'antd/lib/slider';
 import { SearchOutlined } from '@ant-design/icons';
 import { Select } from 'antd';
 const { Option } = Select;
-// import './index.scss';
 import styles from './Question.module.scss';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import moment from 'moment';
-import Time from './questions/Time';
 import Date from './questions/Date';
 import YesNo from './questions/YesNo';
 import SelectOne from './questions/SelectOne';
@@ -48,7 +45,6 @@ const Question = ({
 }: Props) => {
   const [maxNum, setMaxNum] = useState(0);
   const [defaultLength, setDefaultLength] = useState(0);
-  const navigate = useNavigate();
 
   const labelRef = React.useRef<HTMLLabelElement>(null);
   let radioOptions: any[] = [];
@@ -119,8 +115,9 @@ const Question = ({
     (document.querySelector('#yesbtn') as HTMLButtonElement).disabled = true;
     (document.querySelector('#nobtn') as HTMLButtonElement).disabled = true;
   };
+
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     if (question.type === 'slider') {
       const marks: SliderMarks = {};
 
@@ -135,6 +132,7 @@ const Question = ({
       setItems([...defaults]);
     }
   }, [question]);
+
   useEffect(() => {
     setMaxNum(Math.min(question.max_num_selections, question.options?.length));
     if (question?.type === 'multi_select') {
@@ -142,21 +140,26 @@ const Question = ({
         question.defaults &&
         question.defaults.length > question.max_num_selections
       ) {
-        setDefaultLength(Math.min(question.max_num_selections, question.options.length));
+        setDefaultLength(
+          Math.min(question.max_num_selections, question.options.length)
+        );
       } else {
         setDefaultLength(question.defaults.length);
       }
     }
   }, [selectedValue]);
+
   const disableBtn = () => {
     setDisableNextButton(true);
   };
+
   useEffect(() => {
     if (disable) {
       onSubmit(value);
       handleButtonClick();
     }
   }, [disable]);
+
   const InputField = useCallback(() => {
     switch (question?.type) {
       case 'time':
@@ -222,6 +225,7 @@ const Question = ({
         return <h2></h2>;
     }
   }, [question?.q_str, question?.type, question?.options, question?.defaults]);
+
   return (
     <>
       <div className={` ${styles['Question']} ${styles['Question-grp']} `}>
