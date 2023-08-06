@@ -223,7 +223,6 @@ input {
     background-color: rgba(#3a3a3a, 0.2);
     border: none !important;
     color: $primary-color1;
-    color: $primary-color1;
   }
   &.Guidance-active-btn,
   &.Inactive-Guidance-active-btn,
@@ -457,7 +456,6 @@ input {
   .anticon {
     position: absolute;
     color: $primary-color1;
-    color: $primary-color1;
     top: 50%;
     transform: translateY(-50%);
     z-index: 1;
@@ -629,7 +627,6 @@ input {
 }
 .Date-Select .ant-picker-input input::placeholder {
   color: $primary-color1; /* replace with the desired color */
-  color: $primary-color1; /* replace with the desired color */
 }
 .Date-Select .ant-picker-suffix svg {
   fill: $primary-color1; /* replace with the desired color */
@@ -725,7 +722,6 @@ input {
     }
 
     .ant-slider-rail {
-    .ant-slider-rail {
       background-color: $ternary-color2;
     }
     .ant-slider-track {
@@ -741,12 +737,8 @@ input {
       margin-left: -8px;
       &:focus {
         box-shadow: 0 0 0 20px rgba(24, 144, 255, 0.12);
-        box-shadow: 0 0 0 20px rgba(24, 144, 255, 0.12);
       }
     }
-    .ant-slider-step {
-      .ant-slider-dot,
-      .ant-slider-dot-active {
     .ant-slider-step {
       .ant-slider-dot,
       .ant-slider-dot-active {
@@ -759,8 +751,6 @@ input {
       }
     }
 
-    .ant-slider-mark-text,
-    .ant-slider-mark-text-active {
     .ant-slider-mark-text,
     .ant-slider-mark-text-active {
       left: 10px;
@@ -792,7 +782,6 @@ input {
 }
 .ant-input.NumberInput::placeholder {
   color: $primary-color1;
-}
 }
 
 .Question-Options {
@@ -875,25 +864,11 @@ input {
     background-color: $primary-color2;
     border-color: $primary-color2;
     color: #fff;
-    background-color: $primary-color2;
-    border-color: $primary-color2;
-    color: #fff;
 
     // &:focus-within {
     //   box-shadow: none;
     // }
-    // &:focus-within {
-    //   box-shadow: none;
-    // }
 
-    // &:hover {
-    //   background-color: black;
-    //   border-color: black;
-    //   color: #fff;
-    // }
-    &.ant-radio-button-wrapper:first-child {
-      border-color: $primary-color2;
-    }
     // &:hover {
     //   background-color: black;
     //   border-color: black;
@@ -1022,7 +997,6 @@ input {
     height: 28px;
     min-width: 70px;
     .ant-switch-inner {
-    .ant-switch-inner {
       font-size: 17px;
     }
     // border: 2px solid $primary-color2;
@@ -1056,11 +1030,8 @@ input {
 }
 
 .exceptionStyle .ant-modal-content {
-.exceptionStyle .ant-modal-content {
   border-radius: 28px;
 }
-.Delete-Modal {
-  .ant-modal-content {
 .Delete-Modal {
   .ant-modal-content {
     border-radius: 20px 20px 0 0;
@@ -1068,8 +1039,6 @@ input {
       border: none;
       border-radius: 20px 20px 0 0;
     }
-
-    .ant-modal-title {
 
     .ant-modal-title {
       padding-top: 50px;
@@ -1080,25 +1049,20 @@ input {
       color: $primary-color1;
     }
     .ant-modal-footer {
-    .ant-modal-footer {
       border: none;
     }
     .ant-modal-close-x {
-    .ant-modal-close-x {
       color: $primary-color3;
       font-size: 30px;
-      &.ant-modal-close-icon {
       &.ant-modal-close-icon {
         font-weight: 900;
       }
     }
   }
   .ant-modal {
-  .ant-modal {
     border-radius: 20px;
   }
 
-  &.ant-modal {
   &.ant-modal {
     max-width: 100vw !important;
     position: absolute;
@@ -1111,27 +1075,21 @@ input {
     border-radius: 20px 20px 0 0;
   }
   .ant-modal-footer {
-  .ant-modal-footer {
     border: none;
   }
-  .ant-modal-footer .ant-btn + .ant-btn:not(.ant-dropdown-trigger) {
   .ant-modal-footer .ant-btn + .ant-btn:not(.ant-dropdown-trigger) {
     margin-left: auto;
   }
 }
 .FreeTrial-Modal {
-.FreeTrial-Modal {
   width: 100vw !important;
-  .ant-modal-content {
   .ant-modal-content {
     border-radius: 0;
     height: 100vh;
     .ant-modal-header {
-    .ant-modal-header {
       border: none;
       border-radius: 20px 20px 0 0;
     }
-    .ant-modal-title {
     .ant-modal-title {
       padding-top: 50px;
       font-family: $font-body;
@@ -1140,16 +1098,12 @@ input {
       color: $primary-color1;
     }
     .ant-modal-footer {
-    .ant-modal-footer {
       border: none;
     }
     .ant-modal-close-x {
       display: none;
-    .ant-modal-close-x {
-      display: none;
     }
   }
-  .ant-modal {
   .ant-modal {
     border-radius: 20px;
     height: 100vh;
@@ -1163,9 +1117,7 @@ input {
       height: calc(100vh - 398px);
     }
   }
-  }
 
-  &.ant-modal {
   &.ant-modal {
     max-width: 100vw !important;
     max-height: 100%;
@@ -1178,20 +1130,16 @@ input {
     border-radius: 20px 20px 0 0;
   }
   .ant-modal-footer {
-  .ant-modal-footer {
     border: none;
   }
-  .ant-modal-footer .ant-btn + .ant-btn:not(.ant-dropdown-trigger) {
   .ant-modal-footer .ant-btn + .ant-btn:not(.ant-dropdown-trigger) {
     margin-left: auto;
   }
 }
 .Goals-Modal {
-.Goals-Modal {
   margin: 0 !important;
   top: 0 !important;
   left: 0;
-  &.ant-modal {
   &.ant-modal {
     max-width: 100vw !important;
     position: absolute !important;
@@ -1200,16 +1148,11 @@ input {
 }
 .Addgoal-Confirm-Modal {
   .ant-modal-content {
-.Addgoal-Confirm-Modal {
-  .ant-modal-content {
     border-radius: 20px 20px 0 0;
-    .ant-modal-header {
     .ant-modal-header {
       border: none;
       border-radius: 20px 20px 0 0;
     }
-
-    .ant-modal-title {
 
     .ant-modal-title {
       padding-top: 50px;
@@ -1220,25 +1163,20 @@ input {
       color: $primary-color1;
     }
     .ant-modal-footer {
-    .ant-modal-footer {
       border: none;
     }
     .ant-modal-close-x {
-    .ant-modal-close-x {
       color: $primary-color3;
       font-size: 30px;
-      &.ant-modal-close-icon {
       &.ant-modal-close-icon {
         font-weight: 900;
       }
     }
   }
   .ant-modal {
-  .ant-modal {
     border-radius: 20px;
   }
 
-  &.ant-modal {
   &.ant-modal {
     max-width: 100vw !important;
     position: absolute;
@@ -1256,10 +1194,8 @@ input {
     padding: 18px 25px 43px 25px;
   }
   .ant-modal {
-  .ant-modal {
     border-radius: 20px;
   }
-  &.ant-modal {
   &.ant-modal {
     min-width: 100vw !important;
     position: absolute;
@@ -1272,7 +1208,6 @@ input {
     border-radius: 20px 20px 0 0;
   }
   @media (min-width: 992px) {
-  @media (min-width: 992px) {
     &.ant-modal {
       min-width: 50% !important;
       width: 49.5% !important;
@@ -1281,18 +1216,15 @@ input {
   }
 
   .ant-modal-content {
-  .ant-modal-content {
     border-radius: 20px 20px 0 0;
     .ant-modal-close-x {
       font-size: 21px !important;
     }
     .ant-modal-header {
-    .ant-modal-header {
       border: none;
       border-radius: 5px 5px 0 0;
       padding: 25px 0px 0px 0px;
     }
-    .ant-modal-title {
     .ant-modal-title {
       padding-top: 0;
       font-family: $font-title;
@@ -1305,22 +1237,17 @@ input {
       justify-content: center;
     }
     .ant-modal-footer {
-    .ant-modal-footer {
       border: none;
     }
     .ant-modal-close-x {
-    .ant-modal-close-x {
       color: $primary-color3;
       font-size: 30px;
-      &.ant-modal-close-icon {
       &.ant-modal-close-icon {
         font-weight: 900;
       }
     }
   }
-  }
 }
-.Title {
 .Title {
   font-family: $font-title;
   font-style: normal;
@@ -1339,6 +1266,7 @@ input {
     padding: 0 20%;
   }
 }
+
 .Questionnaire-Submit-Button.ant-btn {
   border-radius: 100px;
   height: auto;
@@ -1352,17 +1280,14 @@ input {
   margin: 20px auto 0;
   display: flex;
   justify-content: center;
-  justify-content: center;
   width: 65%;
 
   &:hover,
   &:focus,
   &:active {
     &:not([disabled]) {
-    &:not([disabled]) {
       background-color: $primary-color1 !important;
       color: #fff !important;
-      border: none;
       border: none;
     }
   }
@@ -1370,20 +1295,15 @@ input {
     background-image: $secondary-color2 !important;
     color: #fff !important;
     border: none;
-    border: none;
   }
-  &:disabled,
-  &:disabled:hover {
   &:disabled,
   &:disabled:hover {
     background-color: rgba(#3a3a3a, 0.2);
     border: none;
     color: $primary-color1;
-    color: $primary-color1;
   }
 }
 
-.Submit-Button.ant-btn {
 .Submit-Button.ant-btn {
   border-radius: 100px;
   height: auto;
@@ -1397,7 +1317,6 @@ input {
   margin: 20px auto 0px;
   display: flex;
   justify-content: center;
-  justify-content: center;
   width: 65%;
   white-space: pre-line !important;
 
@@ -1405,25 +1324,19 @@ input {
   &:focus,
   &:active {
     &:not([disabled]) {
-    &:not([disabled]) {
       background-image: $secondary-color2 !important;
       color: #fff !important;
-      border: none;
       border: none;
     }
   }
   &:disabled,
   &:disabled:hover {
-  &:disabled,
-  &:disabled:hover {
     background-color: rgba(#3a3a3a, 0.2);
     border: none;
-    color: $primary-color1;
     color: $primary-color1;
   }
 }
 
-.Secondary-Button.ant-btn {
 .Secondary-Button.ant-btn {
   border-radius: 100px;
   height: auto;
@@ -1437,7 +1350,6 @@ input {
   margin: 20px auto 0px;
   display: flex;
   justify-content: center;
-  justify-content: center;
   width: 65%;
   white-space: pre-line !important;
 
@@ -1445,24 +1357,18 @@ input {
   &:focus,
   &:active {
     &:not([disabled]) {
-    &:not([disabled]) {
       background-image: $secondary-color2 !important;
       color: #fff !important;
-      border: none;
       border: none;
     }
   }
   &:disabled,
   &:disabled:hover {
-  &:disabled,
-  &:disabled:hover {
     background-color: rgba(#3a3a3a, 0.2);
     border: none;
     color: $primary-color1;
-    color: $primary-color1;
   }
 }
-.Button-Drawer.ant-btn {
 .Button-Drawer.ant-btn {
   width: 341px;
   height: 50px;
@@ -1477,24 +1383,7 @@ input {
   border: none;
   display: flex;
   justify-content: center;
-  justify-content: center;
   white-space: pre-line !important;
-
-  &:hover,
-  &:focus,
-  &:active {
-    &:not([disabled]) {
-      background-image: $secondary-color2 !important;
-      color: #fff !important;
-      border: none;
-    }
-  }
-  &:disabled,
-  &:disabled:hover {
-    background-color: rgba(#3a3a3a, 0.2);
-    border: none;
-    color: $primary-color1;
-  }
 
   &:hover,
   &:focus,
@@ -1521,15 +1410,12 @@ input {
 @media (max-width: 400px) {
   .Button-Drawer.ant-btn {
     width: 100%;
-    width: 100%;
   }
-  .Button-Drawer-Secondary.ant-btn {
   .Button-Drawer-Secondary.ant-btn {
     width: 100%;
   }
 }
 
-.Select-Button {
 .Select-Button {
   width: 100%;
   display: flex;
@@ -1550,7 +1436,6 @@ input {
     background-color: #fff;
     color: $primary-color1;
     span {
-    span {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1565,10 +1450,8 @@ input {
     }
   }
   .ant-radio-button-disabled {
-  .ant-radio-button-disabled {
     background-color: rgba(#3a3a3a, 0.2) !important;
   }
-
 
   .ant-space {
     flex-wrap: wrap;
@@ -1596,7 +1479,6 @@ input {
 }
 
 .Select-Options {
-.Select-Options {
   .ant-radio-group {
     display: flex !important;
     flex-direction: column;
@@ -1604,14 +1486,12 @@ input {
   }
 }
 .Description {
-.Description {
   font-family: $font-body;
   font-weight: 400;
   font-size: 18px;
   line-height: 23px;
   color: $primary-color2;
   text-align: left;
-  h1 {
   h1 {
     font-weight: 800 !important;
     font-size: 24px;
@@ -1621,13 +1501,7 @@ input {
   ul {
     margin-left: 20px;
   }
-  }
-  ol,
-  ul {
-    margin-left: 20px;
-  }
 }
-.Heading {
 .Heading {
   font-family: $font-title;
   font-weight: 400;
@@ -1635,18 +1509,17 @@ input {
   line-height: 36px;
   text-align: left;
 }
+
 .Heading-color1 {
   h1 {
     color: $primary-color1;
   }
 }
 .Heading-color2 {
-.Heading-color2 {
   h1 {
     color: $primary-color2;
   }
 }
-.Yes-No-Button {
 .Yes-No-Button {
   width: 250px;
   display: flex;
@@ -1667,7 +1540,6 @@ input {
     background-color: $primary-color1;
     color: #fff;
     span {
-    span {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1677,7 +1549,6 @@ input {
       display: none !important;
     }
   }
-
 
   .ant-space {
     flex-wrap: wrap;
@@ -1720,30 +1591,11 @@ input {
 .Backflex {
   flex-direction: row;
   color: $primary-color3 !important;
-  color: $primary-color3 !important;
   font-size: 25px;
   font-weight: 700px;
   font-style: bold;
 }
 
-.Markdown-Desc {
-  font-family: $font-body;
-  text-align: left;
-  margin-top: 15px;
-  font-size: 18px;
-  line-height: 1.2;
-  font-weight: 400;
-  margin-bottom: 10px;
-  color: $primary-color2;
-  padding: 4px 0;
-  h1,
-  h2,
-  h3,
-  strong {
-    font-family: $font-body;
-    color: $primary-color1;
-    font-weight: 700 !important;
-  }
 .Markdown-Desc {
   font-family: $font-body;
   text-align: left;
@@ -1768,8 +1620,6 @@ input {
   height: 50vh;
   display: flex;
   justify-content: center;
-  @media (max-height: 680px) {
-    height: 30vh;
   @media (max-height: 680px) {
     height: 30vh;
   }
@@ -1843,9 +1693,7 @@ input {
 }
 
 .Reset-Pwd-Back-Btn {
-.Reset-Pwd-Back-Btn {
   flex-direction: row;
-  color: $primary-color3 !important;
   color: $primary-color3 !important;
   font-size: 25px;
   font-weight: 700px;
@@ -1856,12 +1704,9 @@ input {
 .Pref-username-input {
   .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
   .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover {
-  .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
-  .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover {
     border-color: #ff7875 !important;
   }
 
-  .ant-input {
   .ant-input {
     border-radius: 80px;
     height: 60px !important;
@@ -1875,7 +1720,6 @@ input {
     width: 100%;
     &:hover,
     &:focus {
-      border: 2px solid $primary-color1;
       border: 2px solid $primary-color1;
     }
   }
