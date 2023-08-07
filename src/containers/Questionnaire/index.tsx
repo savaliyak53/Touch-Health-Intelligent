@@ -26,6 +26,8 @@ function UserCondition() {
   const [skeletonLoading, setSkeletonLoading] = useState(true);
   const [isClicked, setClicked] = useState(false);
   const [disableNextButton, setDisableNextButton] = useState<boolean>(false);
+  const [disableYesNoButton, setDisableYesNoButton] = useState<boolean>(false);
+  const [signupStatus, setSignupStatus] = useState<string | null>();
   const [exception, setException] = useState<boolean>(false);
   const context = useContext<AuthContextData | undefined>(AuthContext);
   const [error, setError] = useState<any>();
@@ -153,6 +155,7 @@ function UserCondition() {
     navigate('/integrations');
   };
   const onSubmit = async (state?: string, skip?: boolean) => {
+    setDisableYesNoButton(true);
     setClicked(true);
     if (
       question.type !== 'select_many' &&
@@ -234,6 +237,7 @@ function UserCondition() {
           setException(true);
           setDisableNextButton(false);
         }
+         setDisableYesNoButton(false)
       })
       .catch((error) => {
         setLoading(false);
@@ -278,6 +282,8 @@ function UserCondition() {
                 setDisableNextButton={setDisableNextButton}
                 disable={disableNextButton}
                 value={value}
+                disableYesNoButton={disableYesNoButton}
+                // setDisableYesNoButton={setDisableYesNoButton}
               />
               {question?.type !== 'yes_no' &&
                 question?.type !== 'dialog_select_one' &&
@@ -291,6 +297,7 @@ function UserCondition() {
                       onClick={() => {
                         setClicked(true);
                         onSubmit();
+                        console.log('CLicked the button');
                       }}
                       loading={loading}
                       disabled={

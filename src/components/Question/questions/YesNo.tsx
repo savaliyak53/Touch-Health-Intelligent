@@ -8,10 +8,10 @@ interface Props {
 }
 
 const YesNo = ({ setValue, onSubmit }: Props) => {
-  const [selectedValue, setSelectedValue] = useState<string | null>(null);
+  const [disable, setDisable] = useState<any>(false);
   const handleRadioChange = (e: any) => {
+    setDisable(true);
     const value = e.target.value;
-    setSelectedValue(value);
     setValue(value);
     onSubmit(value);
   };
@@ -23,13 +23,21 @@ const YesNo = ({ setValue, onSubmit }: Props) => {
         }}
       >
         <div className={`Yes-No-Button`} key={`yes`}>
-          <Radio.Button value={'true'} onClick={handleRadioChange} disabled={selectedValue === 'false'}>
+          <Radio.Button
+            value={'true'}
+            onClick={(e: any) => handleRadioChange(e)}
+            disabled={disable}
+          >
             Yes
           </Radio.Button>
         </div>
         <br />
         <div className={`Yes-No-Button`} key={`no`}>
-          <Radio.Button value={'false'} onClick={handleRadioChange} disabled={selectedValue === 'true'}>
+          <Radio.Button
+            value={'false'}
+            onClick={handleRadioChange}
+            disabled={disable}
+          >
             No
           </Radio.Button>
         </div>
