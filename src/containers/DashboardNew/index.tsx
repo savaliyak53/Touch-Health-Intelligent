@@ -77,7 +77,7 @@ const DashboardNew = () => {
           />
           <Col span={1}></Col>
           <Button
-            className={'Submit-Button'}
+            className={'Daily-Checkin-Btn'}
             onClick={() => setDrawerOpen(true)}
           >
             Daily Check-in
