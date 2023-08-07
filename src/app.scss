@@ -1312,8 +1312,11 @@ input {
   color: #fff;
   font-size: 19px;
   line-height: 24px;
+  font-weight: 400;
   border: none;
   margin: 20px auto 0px;
+  display: flex;
+  justify-content: center;
   width: 65%;
   white-space: pre-line !important;
 

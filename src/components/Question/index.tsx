@@ -30,9 +30,6 @@ interface Props {
   setDisableNextButton: any;
   disable: boolean;
   value: any;
-
-  disableYesNoButton:any
-
 }
 
 const Question = ({
@@ -45,8 +42,6 @@ const Question = ({
   setItems,
   disable,
   value,
-  disableYesNoButton,
-  // setDisableYesNoButton
 }: Props) => {
   const [maxNum, setMaxNum] = useState(0);
   const [defaultLength, setDefaultLength] = useState(0);
@@ -162,7 +157,6 @@ const Question = ({
     if (disable) {
       onSubmit(value);
       handleButtonClick();
-     
     }
   }, [disable]);
 
@@ -173,7 +167,7 @@ const Question = ({
       case 'date':
         return <Date setValue={setValue} setDisableDate={setDisableDate} />;
       case 'yes_no':
-        return <YesNo setValue={setValue} onSubmit={onSubmit}  />;
+        return <YesNo setValue={setValue} onSubmit={onSubmit} />;
       case 'select_one':
         return <SelectOne question={question} setValue={setValue} />;
       case 'dialog_select_one':
