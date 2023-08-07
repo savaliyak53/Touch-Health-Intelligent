@@ -1572,6 +1572,13 @@ input {
         border-color: $primary-color2;
       }
     }
+
+    &.ant-radio-button-wrapper-disabled{
+      background-image: $secondary-color2;
+      border: none !important;
+      color: #fff !important;
+    }
+
   }
 }
 .TextArea.ant-input {
