@@ -103,9 +103,11 @@ const Home = () => {
   const setUserSubscription = (response: any) => {
     getUserSubscription()
       .then((res) => {
+        //Need to have a discussion with nate around this
         if (
-          //Hamza said to keep process.env.REACT_APP_IS_BETA as is for now on test
-          process.env.REACT_APP_IS_BETA === 'FALSE' ||
+          // (process.env.REACT_APP_IS_BETA === 'FALSE' &&
+          //   response?.data?.trial_end_date &&
+          //   moment(response?.data?.trial_end_date).isBefore(moment()) &&
           res.data.state == 'trial_expired' ||
           res.data.state == 'subscription_expired'
         ) {
@@ -127,15 +129,7 @@ const Home = () => {
                   message: error.response.data.details,
                 });
               });
-          }
-          //new requirement remove goal-characterization from the flow
-          // else if (
-          //   response.data.signup_status === 'goal-characterization' ||
-          //   response.data.signup_status === 'goal-selection'
-          // ) {
-          //   handleRedirect(response);
-          // }
-          else if (response.data.signup_status === 'done') {
+          } else if (response.data.signup_status === 'done') {
             getInteractionByType('checkup');
           } else if (response.data.signup_status === 'new') {
             const zoneVal = moment()
