@@ -1259,6 +1259,13 @@ input {
   line-height: 37px;
   color: $primary-color2;
 }
+.DashboardTitle {
+}
+@media only screen and (min-width: 551px) {
+  .DashboardTitle {
+    padding: 0 20%;
+  }
+}
 
 .Questionnaire-Submit-Button.ant-btn {
   border-radius: 100px;
