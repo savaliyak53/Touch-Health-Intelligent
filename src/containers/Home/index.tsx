@@ -35,7 +35,10 @@ const Home = () => {
         }
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
   const handleInitialIntake = () => {
@@ -59,14 +62,20 @@ const Home = () => {
               }
             })
             .catch((error) => {
-              setError({code: error.response.status, message: error.response.data.details});
+              setError({
+                code: error.response.status,
+                message: error.response.data.details,
+              });
             });
         } else {
           navigate('/dashboard');
         }
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
   const checkUserData = () => {
@@ -80,11 +89,14 @@ const Home = () => {
             navigate('/security');
           } else {
             setException(true);
-            setError({code: response.status, message: response.data.details});
+            setError({ code: response.status, message: response.data.details });
           }
         })
         .catch((error) => {
-          setError({code: error.response.status, message: error.response.data.details});
+          setError({
+            code: error.response.status,
+            message: error.response.data.details,
+          });
         });
     }
   };
@@ -92,6 +104,8 @@ const Home = () => {
     getUserSubscription()
       .then((res) => {
         if (
+          //Hamza said to keep process.env.REACT_APP_IS_BETA as is for now on test
+          process.env.REACT_APP_IS_BETA === 'FALSE' ||
           res.data.state == 'trial_expired' ||
           res.data.state == 'subscription_expired'
         ) {
@@ -108,7 +122,10 @@ const Home = () => {
                 handleRedirect(response);
               })
               .catch((error) => {
-                setError({code: error.response.status, message: error.response.data.details});
+                setError({
+                  code: error.response.status,
+                  message: error.response.data.details,
+                });
               });
           }
           //new requirement remove goal-characterization from the flow
@@ -132,13 +149,19 @@ const Home = () => {
                 handleInitialIntake();
               })
               .catch((error) => {
-                setError({code: error.response.status, message: error.response.data.details});
+                setError({
+                  code: error.response.status,
+                  message: error.response.data.details,
+                });
               });
           }
         }
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
   const handleTrialIntake = () => {
@@ -153,7 +176,10 @@ const Home = () => {
         handleInitialIntake();
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
 
