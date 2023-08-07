@@ -1,4 +1,5 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router';
 import { Modal, Button, Typography } from 'antd';
 import styles from './FreeTrialModal.module.scss';
 import moment from 'moment';
@@ -7,31 +8,45 @@ export type IProps = {
   open: boolean;
   handleOk: () => void;
   title: string;
-  buttonText: string;
-  trialEndDate?: string;
+  primaryButtonText: string;
+  secondaryButtonText?: string;
+  trialEndDate?: Date;
+  expired: boolean;
 };
 const FreeTrialModal = ({
   open,
   title,
   handleOk,
-  buttonText,
-  trialEndDate = '',
+  primaryButtonText,
+  secondaryButtonText,
+  trialEndDate,
+  expired
 }: IProps) => {
+  const navigate = useNavigate();
+
   return (
     <Modal
       title={title}
       open={open}
       onOk={handleOk}
       className={'FreeTrial-Modal'}
-      footer={[
-        <div key="submit" className={styles['Btn-group']}>
-          <Button key="submit" className={'Submit-Button'} onClick={handleOk}>
-            {buttonText}
+      footer={
+        <>
+        <div className={styles['Btn-group']}>
+          <Button key="submit" className={'Submit-Button'} onClick={handleOk} style={{marginTop: expired ? '70px' : ''}}>
+            {primaryButtonText}
           </Button>
-        </div>,
-      ]}
+        </div>
+        {!expired && (<div className={styles['Btn-group']}>
+          <Button key="submit" className={'Secondary-Button'} onClick={() => navigate('/dashboard')}>
+            {secondaryButtonText}
+          </Button>
+        </div>)}
+        </>
+      }
     >
       <div className="Description">
+      {expired ? (
           <>
             <Paragraph>
               Your free trial ended on{' '}
@@ -42,6 +57,27 @@ const FreeTrialModal = ({
               now to continue enjoying our services beyond the trial period!
             </Paragraph>
           </>
+        ) : moment(trialEndDate).diff(moment(), 'days') == 0 ? (
+          <>
+            <Paragraph>
+              Your free trial is scheduled to end today!
+            </Paragraph>
+            <Paragraph>
+              Begin your subscription now to continue enjoying our services beyond the trial period!
+            </Paragraph>
+          </>
+        ) : (
+          <>
+            <Paragraph>
+              Your free trial is scheduled to end on{' '}
+              {moment(trialEndDate).format('MMMM Do, YYYY')}, giving you{' '} 
+              {moment(trialEndDate).diff(moment(), 'days')} more days to explore our services. <br />
+            </Paragraph>
+            <Paragraph>
+              Begin your subscription now to continue enjoying our services beyond the trial period!
+            </Paragraph>
+          </>
+        )}
       </div>
     </Modal>
   );

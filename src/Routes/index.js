@@ -8,12 +8,11 @@ import UserCondition from '../containers/Questionnaire';
 import { RequireAuth, RequireSignup } from '../utils/RequireAuth';
 import ThankyouForSubmiting from '../containers/ThankyouForSubmiting';
 import IntroVideo from '../containers/Introvideo';
-import Dashboard from '../containers/Dashboard';
 import DashboardNew from '../containers/DashboardNew';
 import Insights from '../containers/Insights';
 import Timeline from '../containers/Timeline/index';
 import ManageConditions from '../containers/Conditions';
-import Subscription from '../containers/Subscription/Subscription';
+import SubscriptionNew from '../containers/SubscriptionNew';
 import SecurityQuestion from '../containers/SecurityQuestion';
 import ResetPassword from '../containers/Auth/ResetPassword';
 import TermsAndCondtions from '../containers/TermsAndConditions';
@@ -22,7 +21,6 @@ import HelpAndSupport from '../containers/HelpAndSupport';
 import Success from '../containers/Success';
 import Error from '../containers/Error';
 import Home from '../containers/Home';
-import AddGoals from '../containers/Goals/AddGoals';
 import IntroGoals from '../containers/Goals/IntroGoals';
 import GoalDetails from '../containers/Goals/Details/index';
 import PasswordRecovery from '../containers/Auth/PasswordRecovery';
@@ -59,10 +57,8 @@ const AppRoutes = () => {
         <Route path="/questionnaire-poc" element={<MockQuestionnaire />} />
         <Route element={<RequireAuth />}>
           <Route path="/dashboard" element={<DashboardNew />} />
-          <Route path="/add-goals" element={<AddGoals />} />
           <Route path="/intro-goals" element={<IntroGoals />} />
           <Route path="/goals/:id" element={<GoalDetails />} />
-
           <Route path="insights" element={<Insights />} />
           <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
           <Route path="/insights/guideline" element={<Timeline />} />
@@ -76,8 +72,8 @@ const AppRoutes = () => {
           <Route path="/integrations" element={<Integrations />} />
           <Route path="/introvideo" element={<IntroVideo />} />
           <Route path="/manage-devices" element={<ManageDevices />} />
-          <Route path="/subscription" element={<Subscription />} />
-          <Route path="/subscription/:id" element={<Subscription />} />
+          <Route path="/subscription" element={<SubscriptionNew />} />
+          <Route path="/subscription/:id" element={<SubscriptionNew />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
           <Route path="/help-and-support" element={<HelpAndSupport />} />
           <Route path="/success" element={<Success />} />

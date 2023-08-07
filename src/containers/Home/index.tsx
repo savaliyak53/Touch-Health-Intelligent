@@ -6,32 +6,17 @@ import {
   preferencesService,
   updatePreference,
 } from '../../services/authservice';
-import { getSubscriptionStatus } from '../../services/subscriptionService';
+import { getUserSubscription } from '../../services/subscriptionService';
 import { Spin } from 'antd';
 import moment from 'moment';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
-import FreeTrialModal from '../../components/Modal/FreeTrial';
 
 const Home = () => {
   const navigate = useNavigate();
   const [exception, setException] = useState<boolean>(false);
-  const [loading, setLoading] = useState(true);
   const context = useContext<AuthContextData | undefined>(AuthContext);
-  const [trialModal, setTrialModal] = useState<boolean>(false);
   const [error, setError] = useState<any>();
-
-  useEffect(() => {
-    const token = context?.authTokens;
-    if (token) {
-      checkUserData();
-    } else {
-      navigate('/login');
-    }
-  }, []);
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
 
   const handleRedirect = (response: any) => {
     if (response) {
@@ -40,7 +25,6 @@ const Home = () => {
       navigate('/dashboard');
     }
   };
-
   const getInteractionByType = (type: string) => {
     getInteractionServiceByType(type)
       .then((response: any) => {
@@ -53,7 +37,7 @@ const Home = () => {
       .catch((error) => {
         setError({
           code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
+          message: error.response.data.details,
         });
       });
   };
@@ -71,7 +55,6 @@ const Home = () => {
           //after successful subscription initiate onboarding interaction
           getInteractionServiceByType('onboarding')
             .then((response: any) => {
-              setLoading(false);
               if (response) {
                 navigate('/questionnaire');
               } else {
@@ -81,23 +64,18 @@ const Home = () => {
             .catch((error) => {
               setError({
                 code: error.response.status,
-                message: error.response.data.details ?? 'Something went wrong.',
+                message: error.response.data.details,
               });
-              // navigate('/dashboard');
             });
         } else {
-          // console.log('navigate to dashboard');
           navigate('/dashboard');
         }
       })
       .catch((error) => {
         setError({
           code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
+          message: error.response.data.details,
         });
-        // toast.error(
-        //   `${error.response?.data?.title} Please check values and try again.`
-        // );
       });
   };
   const checkUserData = () => {
@@ -106,34 +84,35 @@ const Home = () => {
       getUser(userId)
         .then((response) => {
           if (response.data.security_questions) {
-            getUserSubscription(response);
+            setUserSubscription(response);
           } else if (response.data && !response.data.security_questions) {
             navigate('/security');
           } else {
             setException(true);
-            //show modal that something went wrong
+            setError({ code: response.status, message: response.data.details });
           }
         })
         .catch((error) => {
           setError({
             code: error.response.status,
-            message: error.response.data.details ?? 'Something went wrong.',
+            message: error.response.data.details,
           });
         });
     }
   };
-  const getUserSubscription = (response: any) => {
-    getSubscriptionStatus()
+  const setUserSubscription = (response: any) => {
+    getUserSubscription()
       .then((res) => {
         if (
-          process.env.REACT_APP_IS_BETA === 'FALSE' &&
-          response?.data?.trial_end_date &&
-          moment(response?.data?.trial_end_date).isBefore(moment())
+          //Hamza said to keep process.env.REACT_APP_IS_BETA as is for now on test
+          process.env.REACT_APP_IS_BETA === 'FALSE' ||
+          res.data.state == 'trial_expired' ||
+          res.data.state == 'subscription_expired'
         ) {
           navigate('/subscription');
         } else if (
           response.data.signup_status === 'new' &&
-          res.data.isSubscribed === false
+          res.data.standing === null
         ) {
           handleTrialIntake();
         } else {
@@ -145,16 +124,18 @@ const Home = () => {
               .catch((error) => {
                 setError({
                   code: error.response.status,
-                  message:
-                    error.response.data.details ?? 'Something went wrong.',
+                  message: error.response.data.details,
                 });
               });
-          } else if (
-            response.data.signup_status === 'goal-characterization' ||
-            response.data.signup_status === 'goal-selection'
-          ) {
-            handleRedirect(response);
-          } else if (response.data.signup_status === 'done') {
+          }
+          //new requirement remove goal-characterization from the flow
+          // else if (
+          //   response.data.signup_status === 'goal-characterization' ||
+          //   response.data.signup_status === 'goal-selection'
+          // ) {
+          //   handleRedirect(response);
+          // }
+          else if (response.data.signup_status === 'done') {
             getInteractionByType('checkup');
           } else if (response.data.signup_status === 'new') {
             const zoneVal = moment()
@@ -170,8 +151,7 @@ const Home = () => {
               .catch((error) => {
                 setError({
                   code: error.response.status,
-                  message:
-                    error.response.data.details ?? 'Something went wrong.',
+                  message: error.response.data.details,
                 });
               });
           }
@@ -180,7 +160,7 @@ const Home = () => {
       .catch((error) => {
         setError({
           code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
+          message: error.response.data.details,
         });
       });
   };
@@ -198,10 +178,23 @@ const Home = () => {
       .catch((error) => {
         setError({
           code: error.response.status,
-          message: error.response.data.details ?? 'Something went wrong.',
+          message: error.response.data.details,
         });
       });
   };
+
+  useEffect(() => {
+    const token = context?.authTokens;
+    if (token) {
+      checkUserData();
+    } else {
+      navigate('/login');
+    }
+  }, []);
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
+
   return (
     <div className="Btn-group">
       <Spin size="large" className=" Spinner" />

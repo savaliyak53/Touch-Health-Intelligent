@@ -1,13 +1,11 @@
 import { Tooltip } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 import { Controller } from 'react-hook-form';
 import Authstyles from "../Auth.module.scss"
 import PhoneInput, {
   isValidPhoneNumber,
-  formatPhoneNumberIntl,
 } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
-import { onlyNumbers } from '../../../utils/lib';
 import './index.scss';
 interface IProps {
   errors?: any;

@@ -7,7 +7,6 @@ import { Tooltip, Button, Progress } from 'antd';
 import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import {
   DeleteOutlined,
-  RightOutlined,
   CaretDownOutlined,
   CaretUpOutlined,
 } from '@ant-design/icons';
@@ -93,8 +92,6 @@ const GoalDetails = () => {
       forecastTime = response?.data.forecast.times.map((item: any) => {
         return item;
       });
-
-      //setForecastData
       const forecast = response?.data.forecast.expectation;
       forecastArray = [];
       for (let i = 0; i < forecast.length; i++) {
@@ -108,7 +105,6 @@ const GoalDetails = () => {
       historicalTime = response?.data.historical.times.map((item: any) => {
         return item;
       });
-      //setHistoricalData
       const expectation = response?.data.historical.expectation;
       historicalArray = [];
       for (let i = 0; i < expectation.length; i++) {
@@ -169,7 +165,7 @@ const GoalDetails = () => {
     beforeDatasetsDraw(chart: any) {
       const {
         ctx,
-        chartArea: { top, bottom, left, right, width, height },
+        chartArea: { top, height },
         scales: { x, y },
       } = chart;
       ctx.fillStyle = 'rgba(0,0,0,0)';
@@ -212,7 +208,10 @@ const GoalDetails = () => {
         setIsLoading(false);
       })
       .catch((error: any) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
         setIsLoading(false);
       });
   };
@@ -226,7 +225,10 @@ const GoalDetails = () => {
         }
       })
       .catch((error: any) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
         setIsLoading(false);
       });
   };
@@ -275,11 +277,14 @@ const GoalDetails = () => {
         }
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     if (goalId) {
       getGoalDetails(goalId);
     }
@@ -293,7 +298,7 @@ const GoalDetails = () => {
   }, []);
 
   useEffect(() => {
-    if(error) throw(error)
+    if (error) throw error;
   }, [error]);
 
   const handleBack = () => {
@@ -307,7 +312,6 @@ const GoalDetails = () => {
       <div className={'Backflex'} onClick={handleBack}>
         <ArrowLeftOutlined className={'LeftIcon'} />
       </div>
-      {/* Top title with Delete button */}
       <div className={styles['Prevn-wrap']}>
         <Button
           className={styles['Prevn-btn']}
@@ -334,11 +338,7 @@ const GoalDetails = () => {
             setShowGoalInfoModal(true);
           }}
         >
-          <InfoCircleOutlined
-            size={30}
-            className={styles['tooltip']}
-            // style={{ color: '#204ECF', marginLeft: '6px', fontSize:"24px" }}
-          />
+          <InfoCircleOutlined size={30} className={styles['tooltip']} />
         </Button>
       </div>
       <Modal
@@ -422,7 +422,6 @@ const GoalDetails = () => {
                       <InfoCircleOutlined
                         size={30}
                         className={styles['tooltip']}
-                        // style={{ color: '#204ECF', marginLeft: '6px' }}
                       />
                     </Tooltip>
                   </span>
@@ -451,7 +450,6 @@ const GoalDetails = () => {
                     <InfoCircleOutlined
                       size={30}
                       className={styles['tooltip']}
-                      //  style={{ color: '#204ECF', marginLeft: '6px' }}
                     />
                   </Tooltip>
                 </span>
@@ -502,11 +500,7 @@ const GoalDetails = () => {
               mouseLeaveDelay={0}
               style={{ marginRight: '10px' }}
             >
-              <InfoCircleOutlined
-                size={30}
-                className={styles['tooltip']}
-                // style={{ color: '#204ECF', marginLeft: '6px' }}
-              />
+              <InfoCircleOutlined size={30} className={styles['tooltip']} />
             </Tooltip>
           </div>
           <div className={styles['chart-container']}>

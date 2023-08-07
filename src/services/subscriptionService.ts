@@ -1,6 +1,4 @@
-// import axios from 'axios';
 import axios from '../utils/axios';
-
 
 export const getPlansService = () => {
   return axios.get(`/payments/list-plans`);
@@ -11,17 +9,15 @@ export const getUserSubscription = () => {
 };
 
 export const getStatus = () => {
-  return axios.get(`/payments/checkout/status`);
+  return axios.post(`/payments/checkout/status`);
 };
 
 export const getUserPlan = () => {
   return axios.get(`/payments/subscription/info`);
 };
 
-export const checkoutPlan = (planId: string) => {
-  return axios.post(`/payments/checkout`, {
-    planId: planId,
-  });
+export const checkoutPlan = () => {
+  return axios.post(`/payments/checkout`);
 };
 
 export const managePayment = () => {

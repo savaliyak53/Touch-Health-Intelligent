@@ -2,13 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import styles from './AddGoals.module.scss';
 import v from '../../../variables.module.scss';
 import Layout from '../../../layouts/Layout/Layout';
-import { ArrowLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import {
-  DownOutlined,
-  SearchOutlined,
-  RightOutlined,
-  CloseOutlined,
-} from '@ant-design/icons';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { AutoComplete } from 'antd';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
@@ -22,16 +17,12 @@ import {
 } from '../../../services/goalsService';
 import { toast } from 'react-toastify';
 import ReactMarkdown from 'react-markdown';
-import {
-  getInteractionServiceByType,
-  preferencesService,
-  getUser,
-} from '../../../services/authservice';
+import { getUser } from '../../../services/authservice';
 import rehypeRaw from 'rehype-raw';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
 import LastGoalModal from '../../../components/Modal/LastGoalModal';
 import ListItem from '../../../components/ListItem/ListItem';
-import AuthContext, {AuthContextData} from '../../../contexts/AuthContext';
+import AuthContext, { AuthContextData } from '../../../contexts/AuthContext';
 
 type ITerms = {
   termsAndConditions: boolean;
@@ -60,14 +51,10 @@ const AddGoals = () => {
   const [active, setActive] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showLastGoalModal, setShowLastGoalModal] = useState(false);
-  const [deletedGoal, setDeletedGoal] = useState<string | undefined | null>(
-    null
-  );
   const [error, setError] = useState<any>();
-  const authContext = useContext<AuthContextData | undefined>(AuthContext); 
-  const getUserStatus = () => { 
-    const userId=authContext?.user;
-    // const userId = localStorage.getItem('userId');
+  const authContext = useContext<AuthContextData | undefined>(AuthContext);
+  const getUserStatus = () => {
+    const userId = authContext?.user;
     getUser(userId)
       .then((res) => {
         res?.data?.signup_status == 'done'
@@ -75,7 +62,10 @@ const AddGoals = () => {
           : setUserSatus(false);
       })
       .catch((err) => {
-        setError({code: error.response.status, message: error.response.data.details});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
 
@@ -101,8 +91,6 @@ const AddGoals = () => {
     setShowCancelModal(false);
   };
   const {
-    register,
-    handleSubmit,
     formState: { errors },
   } = useForm<ITerms>({
     mode: 'onSubmit',
@@ -126,27 +114,35 @@ const AddGoals = () => {
   const debouncedSearchValue = useDebounce(searchValue, 500);
 
   const getGoalsData = () => {
-    getGoals().then((res: any) => {
-      setGoals(res.data);
-      getSuggestedGoals(res.data);
-    })
-    .catch(err => {
-      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."});
-    });
+    getGoals()
+      .then((res: any) => {
+        setGoals(res.data);
+        getSuggestedGoals(res.data);
+      })
+      .catch((err) => {
+        setError({
+          code: err.response.status,
+          message: err.response.data.details,
+        });
+      });
   };
 
   const getSuggestedGoals = (goals: any) => {
-    getGoalsSuggestion().then((res: any) => {
-      if (res?.data) {
-        const result = res.data.filter(
-          (item: any) => !goals.some((goal: any) => goal.id === item.id)
-        );
-        setSuggestion(result);
-      }
-    })
-    .catch(err => {
-      setError({code: err.response.status, message: err.response.data.details ?? "Something went wrong."});
-    })
+    getGoalsSuggestion()
+      .then((res: any) => {
+        if (res?.data) {
+          const result = res.data.filter(
+            (item: any) => !goals.some((goal: any) => goal.id === item.id)
+          );
+          setSuggestion(result);
+        }
+      })
+      .catch((err) => {
+        setError({
+          code: err.response.status,
+          message: err.response.data.details,
+        });
+      });
   };
 
   const handleOptionSelect = (value: string, option: any) => {
@@ -158,7 +154,7 @@ const AddGoals = () => {
   const addGoals = (goalId?: string) => {
     addGoal({ goal_ids: [goalId] })
       .then((res) => {
-        localStorage.setItem('nextEnabled', 'true')
+        localStorage.setItem('nextEnabled', 'true');
         setIsLoading(false);
         setIsDisabled(false);
         setSearchValue('');
@@ -168,14 +164,17 @@ const AddGoals = () => {
         getGoalsData();
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
 
   const removeGoal = (id?: string) => {
     deleteGoal(id)
       .then((res) => {
-        localStorage.setItem('nextEnabled', 'true')
+        localStorage.setItem('nextEnabled', 'true');
         setIsLoading(false);
         setIsDisabled(false);
         setSearchValue('');
@@ -183,7 +182,10 @@ const AddGoals = () => {
         setIsModalOpen(false);
       })
       .catch((error: any) => {
-        setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
   const handleNext = () => {
@@ -200,7 +202,7 @@ const AddGoals = () => {
   }, []);
 
   useEffect(() => {
-    if(error) throw(error);
+    if (error) throw error;
   }, [error]);
 
   useEffect(() => {
@@ -220,7 +222,10 @@ const AddGoals = () => {
           }
         })
         .catch((error) => {
-          setError({code: error.response.status, message: error.response.data.details ?? "Something went wrong."});
+          setError({
+            code: error.response.status,
+            message: error.response.data.details,
+          });
         });
     } else {
       setIsDropdownOpen(false);
@@ -333,7 +338,9 @@ const AddGoals = () => {
         </div>
         <div>
           <Button
-            className={`Submit-Button ${localStorage.getItem('nextEnabled') ? 'disabled' : ''}`}
+            className={`Submit-Button ${
+              localStorage.getItem('nextEnabled') ? 'disabled' : ''
+            }`}
             loading={isLoading}
             onClick={handleNext}
             disabled={localStorage.getItem('nextEnabled') ? false : true}

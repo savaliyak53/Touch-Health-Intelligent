@@ -1,57 +1,41 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  Dispatch,
-  SetStateAction,
-  useContext
-} from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import styles from './Verification.module.scss';
 import { toast } from 'react-toastify';
 import Button from '../../../components/Button';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
 import Layout from '../../../layouts/Layout/Layout';
 import { Tooltip } from 'antd';
-// import './index.scss';
 import ReactCodeInput from 'react-code-input';
 import { requestPhoneOTP, verifyPhoneOTP } from '../../../services/authservice';
 import { useTimer } from 'react-timer-hook';
-import AuthContext , { AuthContextData }  from '../../../contexts/AuthContext';
+import AuthContext, { AuthContextData } from '../../../contexts/AuthContext';
 import { getUser, getSession } from '../../../utils/lib';
 
 type IVerificationCode = {
   code: string;
 };
-type VerificationProps = {
-  isResetPassword?: boolean;
-  onSubmitResetPassword?: (code: any) => void;
-  setCode: Dispatch<SetStateAction<string>>;
-};
+
 const Verification = () => {
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
-  const toastId = useRef<any>(null);
   const [finishStatus, setfinishStatus] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [enableTimer, setEnableTimer] = useState(true);
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [error, setError] = useState<any>();
-  const authContext = useContext<AuthContextData | undefined>(AuthContext); 
+  const authContext = useContext<AuthContextData | undefined>(AuthContext);
 
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
   const expiryTimestamp = time;
   const {
-    register,
     handleSubmit,
     control,
-    getValues,
     formState: { errors },
   } = useForm<IVerificationCode>({
     mode: 'onSubmit',
@@ -77,8 +61,8 @@ const Verification = () => {
   }, []);
 
   useEffect(() => {
-    if(error) throw(error)
-  }, [error])
+    if (error) throw error;
+  }, [error]);
   const onSubmit = async (data: any) => {
     if (userId) {
       setIsVerifying(true);
@@ -91,23 +75,30 @@ const Verification = () => {
         toast.dismiss();
         authContext?.setAuthTokens(phoneVerificationResponse.data.token);
         authContext?.setUser(getUser(phoneVerificationResponse.data.token));
-        authContext?.setSession(getSession(phoneVerificationResponse.data.token));
-        localStorage.setItem('sessionId', getSession(phoneVerificationResponse.data.token));
+        authContext?.setSession(
+          getSession(phoneVerificationResponse.data.token)
+        );
+        localStorage.setItem(
+          'sessionId',
+          getSession(phoneVerificationResponse.data.token)
+        );
         localStorage.setItem('token', phoneVerificationResponse.data.token);
         toast.success('Verified');
         navigate('/security');
       } else if (phoneVerificationResponse?.response?.status === 409) {
         const phone = localStorage.getItem('phone');
-        navigate('/existing-user',{state: {
-          username: phone,
-          code: data.code
-        }})
-        setIsVerifying(false);
-      } else if(phoneVerificationResponse?.response?.status === 422) {
-        toast(phoneVerificationResponse.response.data.details);
+        navigate('/existing-user', {
+          state: {
+            username: phone,
+            code: data.code,
+          },
+        });
         setIsVerifying(false);
       } else {
-        setError({code: phoneVerificationResponse.response.status, message: phoneVerificationResponse.response.data.details});
+        setError({
+          code: phoneVerificationResponse.response.status,
+          message: phoneVerificationResponse.response.data.details,
+        });
         setIsVerifying(false);
       }
     }
@@ -125,29 +116,45 @@ const Verification = () => {
     const captchaToken = localStorage.getItem('captchaToken');
     setIsLoading(true);
     if (phone && captchaToken) {
-      const phoneRequestResponse: any = await requestPhoneOTP(phone, captchaToken);
+      const phoneRequestResponse: any = await requestPhoneOTP(
+        phone,
+        captchaToken
+      );
       if (phoneRequestResponse.code === 'ERR_BAD_REQUEST') {
-        if(phoneRequestResponse.response.status == 422){
-          toast(phoneRequestResponse?.response?.data.details)
-          const remaining_time = phoneRequestResponse?.response?.data.details.match(/\d+/g);
-          if(remaining_time){
+        if (phoneRequestResponse.response.status == 422) {
+          const remaining_time =
+            phoneRequestResponse?.response?.data.details.match(/\d+/g);
+          if (remaining_time) {
             const t = new Date();
             t.setSeconds(t.getSeconds() + parseInt(remaining_time[0]));
             restart(t);
-          } 
-        } else {
-            setError({code: phoneRequestResponse.response.status, message: phoneRequestResponse.response.data.details});
+          } else {
+            setError({
+              code: phoneRequestResponse.response.status,
+              message: phoneRequestResponse.response.data.details,
+            });
           }
-        setIsLoading(false);
-        return false;
-    }  else {
+        } else {
+          setError({
+            code: phoneRequestResponse.response.status,
+            message: phoneRequestResponse.response.data.details,
+          });
+        }
+      } else {
+        setError({
+          code: phoneRequestResponse.response.status,
+          message: phoneRequestResponse.response.data.details,
+        });
+      }
+      setIsLoading(false);
+      return false;
+    } else {
       setIsLoading(false);
       setModalOpen(true);
       setEnableTimer(true);
       setIsDisabled(true);
       restart(time);
       setIsLoading(false);
-    }
     }
   };
   const pageBackEvent = () => {
@@ -186,7 +193,7 @@ const Verification = () => {
                   : 'Invalid verification code';
               },
             }}
-            render={({ field: { onChange, onBlur, value, name, ref } }) => (
+            render={({ field: { onChange, value, name } }) => (
               <ReactCodeInput
                 // className={styles["box"]}
                 name={name}
@@ -201,7 +208,6 @@ const Verification = () => {
               />
             )}
           />
-          {/* {errors.code?.message? <div className={styles['error-msg']}>&nbsp;&nbsp;&nbsp;<InfoCircleOutlined/> {errors.code?.message}</div>: null} */}
           <Tooltip
             color="orange"
             placement="bottom"
@@ -216,7 +222,6 @@ const Verification = () => {
           >
             Verify
           </Button>
-
           <button
             onClick={sendPhoneOTP}
             className={isDisabled ? styles['grey'] : styles['resend']}

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Slider, Tooltip, Button, Spin, Switch } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { Tooltip, Button, Spin, Switch } from 'antd';
 import styles from './Integeration.module.scss';
-import { AiFillQuestionCircle, AiOutlineQuestionCircle } from 'react-icons/ai';
+import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import {
   getGoogleCode,
   revokeGoogleFit,
@@ -16,15 +16,10 @@ import { deleteAllData } from '../../services/goalsService';
 import {
   postInteractionService,
   preferencesService,
-  getInteractionServiceByType
+  getInteractionServiceByType,
 } from '../../services/authservice';
-import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
+import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
 import GoogleOAuthDisclosureModal from '../../components/Modal/GoogleOAuthDisclosureModal';
-type IFormInputs = {
-  engagementLevel: number;
-  yob: number;
-  sex: string;
-};
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
   readonly userChoice: Promise<{
@@ -40,21 +35,20 @@ declare global {
 }
 interface LocationState {
   state: {
-    refId: string,
+    refId: string;
     redirect: boolean;
   };
 }
 const Integrations = () => {
-  
-  const [checked, setChecked] = useState<boolean|any>(undefined);
+  const [checked, setChecked] = useState<boolean | any>(undefined);
   const [spinning, setSpinning] = useState<boolean>(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showGoogleOAuthModal, setShowGoogleOAuthModal] = useState(false);
-  const [loc, setLocation] = useState<LocationState>()
+  const [loc, setLocation] = useState<LocationState>();
   const navigate = useNavigate();
-  const refId = localStorage.getItem('refId')
-  const redirect = localStorage.getItem('redirect') 
-  const context = useContext<AuthContextData | undefined>(AuthContext); 
+  const refId = localStorage.getItem('refId');
+  const redirect = localStorage.getItem('redirect');
+  const context = useContext<AuthContextData | undefined>(AuthContext);
   const [error, setError] = useState<any>();
 
   useEffect(() => {
@@ -80,18 +74,19 @@ const Integrations = () => {
     });
 
     getIntegrationStatusService();
-    if(refId && redirect) setLocation({
-      state: {
-        refId: refId,
-        redirect: redirect == 'true' ? true : false
-      }
-    })
+    if (refId && redirect)
+      setLocation({
+        state: {
+          refId: refId,
+          redirect: redirect == 'true' ? true : false,
+        },
+      });
   }, []);
 
   useEffect(() => {
-    if(error) throw(error)
+    if (error) throw error;
   }, [error]);
-  
+
   const getIntegrationStatusService = () => {
     getIntegrationStatus()
       .then((response: any) => {
@@ -100,10 +95,12 @@ const Integrations = () => {
         }
       })
       .catch((error) => {
-        // toast('Unknown error');
         setChecked(false);
         setSpinning(false);
-        setError({code: error.response.status, message: error.response.data.details});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
   const handleClick = (checked: any) => {
@@ -115,41 +112,50 @@ const Integrations = () => {
     }
   };
   const googleOAuthModalOk = () => {
-    getGoogleCode().then((res) => {
-      createAuthLink(res);
-    })
-    .catch(err => {
-        setError({code: error.response.status, message: error.response.data.details});
-    });
+    getGoogleCode()
+      .then((res) => {
+        createAuthLink(res);
+      })
+      .catch((error) => {
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
+      });
   };
   const revokeCredentials = () => {
-    revokeGoogleFit().then((res) => {
-      if (res.data.message) {
-        setChecked(false);
-        toast.success('Google fit disabled');
-      }
-    })
-    .catch(err => {
-        setError({code: error.response.status, message: error.response.data.details});
-    });
+    revokeGoogleFit()
+      .then((res) => {
+        if (res.data.message) {
+          setChecked(false);
+          toast.success('Google fit disabled');
+        }
+      })
+      .catch((error) => {
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
+      });
   };
   const handleDeleteModal = () => {
     setShowCancelModal(false);
   };
   const removeUserData = () => {
     deleteAllData()
-    .then(res => {
-      toast('User data deleted')
-      handleSetUserStatus()
-    })
-    .catch(err => {
-      setError({code: err.response.status, message: err.response.data.details})
-    })
-  }
+      .then((res) => {
+        toast('User data deleted');
+        handleSetUserStatus();
+      })
+      .catch((err) => {
+        setError({
+          code: err.response.status,
+          message: err.response.data.details,
+        });
+      });
+  };
   const handleSetUserStatus = () => {
-    // const userId = localStorage.getItem('userId');
-    const userId=context?.user;
-    //after successful subscription set signup_status to onboarding
+    const userId = context?.user;
     preferencesService(
       {
         signup_status: 'onboarding',
@@ -168,14 +174,20 @@ const Integrations = () => {
               }
             })
             .catch((error) => {
-              setError({code: error.response.status, message: error.response.data.details});
+              setError({
+                code: error.response.status,
+                message: error.response.data.details,
+              });
             });
         } else {
           navigate('/dashboard');
         }
       })
       .catch((error) => {
-        setError({code: error.response.status, message: error.response.data.details});
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
       });
   };
   const createAuthLink = (response: any) => {
@@ -185,9 +197,7 @@ const Integrations = () => {
       client_id: `${process.env.REACT_APP_GOOGLE_CLIENT_ID}`,
       redirect_uri: redirect_uri,
       response_type: 'code',
-      scope: [
-        'https://www.googleapis.com/auth/fitness.activity.read',
-      ]
+      scope: ['https://www.googleapis.com/auth/fitness.activity.read']
         .join(' ')
         .trim(),
       access_type: 'offline',
@@ -207,29 +217,34 @@ const Integrations = () => {
   const visitLink = (url: any) => {
     window.location.href = url;
   };
-  // const text = <span>prompt text</span>;
 
   const handleNext = () => {
     postInteractionService({
-      type : "question",
-      ref_id : loc?.state.refId ? loc?.state.refId : '',
-      question_response : {
-        type: "integration_page_redirect",
-        value: true
-        }
-      })
-    .then(res => {
-      localStorage.removeItem('refId')
-      localStorage.removeItem('redirect')
-      navigate('/questionnaire')
+      type: 'question',
+      ref_id: loc?.state.refId ? loc?.state.refId : '',
+      question_response: {
+        type: 'integration_page_redirect',
+        value: true,
+      },
     })
-    .catch(() => {
-        setError({code: error.response.status, message: error.response.data.details});
-    });
-  }
+      .then((res) => {
+        localStorage.removeItem('refId');
+        localStorage.removeItem('redirect');
+        navigate('/questionnaire');
+      })
+      .catch(() => {
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
+      });
+  };
 
   return (
-    <Layout defaultHeader={true} hamburger={loc?.state?.redirect ? false : true}>
+    <Layout
+      defaultHeader={true}
+      hamburger={loc?.state?.redirect ? false : true}
+    >
       <Spin spinning={spinning}>
         <div className={`${styles['Integration-wrap']}`}>
           <h2 className={'Title'}>Integrations</h2>
@@ -238,7 +253,6 @@ const Integrations = () => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              // fontSize: '25px',
               marginBottom: '24px',
             }}
           >
@@ -248,12 +262,19 @@ const Integrations = () => {
               width={50}
               className={styles['Google-fit-img']}
             />
-            <div className={styles['Container-title']}>{'Use the toggle to turn Google Fit integration on or off'}</div> 
+            <div className={styles['Container-title']}>
+              {'Use the toggle to turn Google Fit integration on or off'}
+            </div>
             {checked === undefined ? (
               <Spin spinning={checked === undefined ? true : false} />
             ) : (
               <div className="Switch-btn-with-text">
-                <Switch checked={checked} onChange={handleClick} checkedChildren="On" unCheckedChildren="Off" />
+                <Switch
+                  checked={checked}
+                  onChange={handleClick}
+                  checkedChildren="On"
+                  unCheckedChildren="Off"
+                />
               </div>
             )}
           </div>
@@ -261,11 +282,11 @@ const Integrations = () => {
           <div>
             {!checked && (
               <div className={styles['Container']}>
-                <h3
-                  className={`Description`}
-                  // style={{ color: '#A5A5A5' }}
-                >
-                  By connecting Touch Health Assistant with Google Fit, you can integrate your fitness activity and movement data from various health apps to help you better understand your progress toward your health goals.
+                <h3 className={`Description`}>
+                  By connecting Touch Health Assistant with Google Fit, you can
+                  integrate your fitness activity and movement data from various
+                  health apps to help you better understand your progress toward
+                  your health goals.
                 </h3>
               </div>
             )}
@@ -277,7 +298,9 @@ const Integrations = () => {
                 Data Use
                 <Tooltip
                   className={styles['TooltipIcon']}
-                  title={'This deletes all your data, setting your entire health profile in the Touch Health Assistant back to 0. We will retain your basic account information but all your data with the app so far will be deleted.'}
+                  title={
+                    'This deletes all your data, setting your entire health profile in the Touch Health Assistant back to 0. We will retain your basic account information but all your data with the app so far will be deleted.'
+                  }
                   placement="bottomRight"
                   overlayStyle={{ marginRight: '10px' }}
                   mouseLeaveDelay={0}
@@ -289,7 +312,9 @@ const Integrations = () => {
                 </Tooltip>
               </h3>
               <Button
-                className={`Pref-post-btn ${loc?.state.redirect ? 'Pref-post-btn-disabled' : ''} ${styles['Data-dlt-btn']}`}
+                className={`Pref-post-btn ${
+                  loc?.state.redirect ? 'Pref-post-btn-disabled' : ''
+                } ${styles['Data-dlt-btn']}`}
                 onClick={() => setShowCancelModal(true)}
                 disabled={loc?.state.redirect}
               >
@@ -300,7 +325,15 @@ const Integrations = () => {
                 open={showCancelModal}
                 handleCancel={handleDeleteModal}
                 handleOk={() => removeUserData()}
-                renderData={<div>By deleting your data, your entire health profile in the Touch Health Assistant will cease to exist. No data will be retained, and you will be sent back to the beginning as if you just started. This is irreversible, proceed with caution.</div>}
+                renderData={
+                  <div>
+                    By deleting your data, your entire health profile in the
+                    Touch Health Assistant will cease to exist. No data will be
+                    retained, and you will be sent back to the beginning as if
+                    you just started. This is irreversible, proceed with
+                    caution.
+                  </div>
+                }
               />
               <GoogleOAuthDisclosureModal
                 title={''}
@@ -310,21 +343,26 @@ const Integrations = () => {
                   setChecked(false);
                 }}
                 handleOk={googleOAuthModalOk}
-                renderData={<div>Touch Health Assistant&apos;s use and transfer to any other app of information received from Google APIs will adhere to <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</div>}
+                renderData={
+                  <div>
+                    Touch Health Assistant&apos;s use and transfer to any other
+                    app of information received from Google APIs will adhere to{' '}
+                    <a href="https://developers.google.com/terms/api-services-user-data-policy">
+                      Google API Services User Data Policy
+                    </a>
+                    , including the Limited Use requirements.
+                  </div>
+                }
               />
             </div>
           </div>
           {loc?.state?.redirect == true && (
             <div className={styles.TermsBtnWrap}>
-              <Button
-                className={'Submit-Button'}
-                onClick={handleNext}
-              >
-              Next
+              <Button className={'Submit-Button'} onClick={handleNext}>
+                Next
               </Button>
             </div>
           )}
-
         </div>
       </Spin>
     </Layout>

@@ -3,10 +3,8 @@ import { Alert } from 'antd';
 import { useNavigate } from 'react-router';
 import Layout from '../../layouts/Layout/Layout';
 import '../ThankyouForSubmiting/index.scss';
-import { Link } from 'react-router-dom';
 const SubscriptionSuccess = () => {
   const navigate = useNavigate();
-
   const logoutClick = () => {
     localStorage.removeItem('userId');
     localStorage.removeItem('token');

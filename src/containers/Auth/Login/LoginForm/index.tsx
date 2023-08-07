@@ -4,17 +4,11 @@ import { Link } from 'react-router-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Button from '../../../../components/Button';
 import InputField from '../../../../components/Input';
-// import './index.scss';
-// import '../index.scss';
-import { parsePhoneNumber } from 'react-phone-number-input';
 import styles from '../Login.module.scss';
 import Authstyles from '../../Auth.module.scss';
 import { Tooltip } from 'antd';
 import CountryCode from '../../Country/CountryCode';
-import { loginService } from '../../../../services/authservice';
 import { ILogin } from '../../../../interfaces';
-import jwt from 'jwt-decode';
-import { toast } from 'react-toastify';
 import { getTokenExpiration, onlyNumbers, validateNumber } from '../../../../utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
 import AccountLockModal from '../../../../components/Modal/AccountLockModal';
@@ -29,13 +23,6 @@ type LoginFormProps = {
 type IFormInputs = {
   username: string;
   password: string;
-};
-
-type User = {
-  exp: string;
-  sid: string;
-  iat: string;
-  id: string;
 };
 
 const LoginForm = ({ refCaptcha }: LoginFormProps) => {
@@ -106,8 +93,6 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
       if (loginResponse?.response.status === 429) {
         setShowLockAccountModal(true);
         setModalText(loginResponse?.response?.data?.details);
-      } else if (loginResponse?.response.status === 403) {
-        toast.error(loginResponse?.response?.data?.details);
       } else {
         setError({code: loginResponse?.response?.status, message: loginResponse.response.data?.details})
       } 

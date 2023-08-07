@@ -2,22 +2,19 @@ import React, { useState, useEffect, useContext } from 'react';
 import styles from '../Signup.module.scss';
 import Authstyles from '../../Auth.module.scss';
 import CountryCode from '../../Country/CountryCode';
-import { Checkbox, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 import { AiOutlineEye } from 'react-icons/ai';
 import Button from '../../../../components/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { toast } from 'react-toastify';
-import { signUpService } from '../../../../services/authservice';
 import { onlyNumbers } from '../../../../utils/lib';
-import  ReCAPTCHA from 'react-google-recaptcha';
-import AuthContext, {AuthContextData} from '../../../../contexts/AuthContext';
+import ReCAPTCHA from 'react-google-recaptcha';
+import AuthContext, { AuthContextData } from '../../../../contexts/AuthContext';
 
 type SignupFormProps = {
   onSubmit: SubmitHandler<IFormInputs>;
   refCaptcha: any;
 };
-
 type IFormInputs = {
   name: string;
   phone: string;
@@ -26,15 +23,13 @@ type IFormInputs = {
   confirmPassword: string;
 };
 
-const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
+const SignupForm = ({ refCaptcha }: SignupFormProps) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
-  const [checked, setChecked] = useState(false);
   const [checkedError, setCheckedError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [error, setError] = useState<any>();
-
   const authContext = useContext<AuthContextData | undefined>(AuthContext);
   const { signupUser } = authContext as AuthContextData;
   const navigate = useNavigate();
@@ -81,7 +76,7 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
         password: submitData.password,
       },
       token
-    )
+    );
     if (signupResponse?.id) {
       localStorage.setItem('userId', signupResponse.id);
       localStorage.setItem('token', signupResponse.token);
@@ -89,27 +84,17 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
     } else {
       setIsDisabled(false);
       setIsLoading(false);
-      toast.error(signupResponse?.response?.data?.details);
-      setError({
-        code: signupResponse.response.data.status,
-        message:
-          signupResponse.response.data.details ?? 'Something went wrong.',
-      });
+      setError({code: signupResponse.response.data.status, message: signupResponse.response.data.details});
     }
   };
 
-  const handleCheck = () => {
-    setChecked(!checked);
-    setCheckedError(checked);
-  };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
-    window.scrollTo(0,0);
-  }, [])
-
-  useEffect(() => {
-    if(error) throw(error)
-  }, [error])
+    if (error) throw error;
+  }, [error]);
   return (
     <div className={styles['Auth-wrap']}>
       <form
@@ -117,7 +102,9 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
         onSubmit={handleSubmit(onVerify)}
         className={styles['Auth-form']}
       >
-        <h2 className={`Title ${styles['Auth-title']} `}>Find your path to health</h2>
+        <h2 className={`Title ${styles['Auth-title']} `}>
+          Find your path to health
+        </h2>
         <div className={Authstyles['input-element-wrapper']}>
           <Tooltip
             color="orange"
@@ -217,11 +204,12 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
           </button>
         </div>
         <ReCAPTCHA
-          className={Authstyles["recaptcha"]}
+          className={Authstyles['recaptcha']}
           ref={refCaptcha}
-          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
-          onChange={()=>{
-          setIsDisabled(false) } } 
+          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
+          onChange={() => {
+            setIsDisabled(false);
+          }}
         />
         <Tooltip
           color="orange"
@@ -233,9 +221,6 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
           <Link to="/login">Already have an account?</Link>
         </div>
         <Button
-          // className={`${styles['Auth-submit']} ${
-          //   isDisabled ? Authstyles['disabled'] : ''
-          // }`}
           onClick={handleSubmit(onVerify)}
           loading={isLoading}
           disabled={isDisabled}
@@ -244,7 +229,6 @@ const SignupForm = ({ onSubmit, refCaptcha }: SignupFormProps) => {
           Register
         </Button>
       </form>
-     
       <div className={Authstyles['Customer-support']}>
         Problems? Contact{' '}
         <a href="https://www.touchmedical.ca/customer-care">customer support</a>

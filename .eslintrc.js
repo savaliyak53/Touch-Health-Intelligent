@@ -19,5 +19,7 @@ module.exports = {
     plugins: ['react', '@typescript-eslint'],
     rules:  {
         "no-mixed-spaces-and-tabs": 0, // disable rule
+        // "no-unused-vars": "error", 
+        // "import/no-unused-modules": "error"
       },
 }
