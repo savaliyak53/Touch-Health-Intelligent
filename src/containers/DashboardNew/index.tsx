@@ -45,7 +45,7 @@ const DashboardNew = () => {
           });
           setElementStreak(new_streaks);
           //updated pattern shows check true on today or yesterday then the streak is valid, otherwise zero
-          if (dates[0][2] === 'orange' || dates[1][2] === 'orange') {
+          if (dates[13][2] === 'orange' || dates[12][2] === 'orange') {
             setStreakCount(response.data.checkup_streak);
           } else {
             setStreakCount(0);
