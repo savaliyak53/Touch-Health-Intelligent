@@ -1,152 +1,164 @@
 @import '../../../variables.module.scss';
 
-.Auth-wrap {
+.SignupBGWrap {
+  position: relative;
+  height: 100vh;
+  overflow: hidden auto;
+  background-image: url('../../../../public/assets/images/background-mobile-auth.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  @media (min-width: 576px ) {
+    background-image: url('../../../../public/assets/images/background-desktop-auth.png');
+    background-repeat: no-repeat;
+    background-position: 100% center;
+    background-size: cover;
+  }
+}
+
+.LoginView {
+  padding: 35px 12px 29px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   height: 100%;
+  max-width: 390px;
+  margin: 0 auto;
+
+  @media (min-width: 576px) {
+    padding-top: 130px;
+    justify-content: flex-start;
+  }
 }
 
-.Auth-form {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
+.LogoDesktoop {
+  display: none;
+
+  @media (min-width: 576px) {
+    display: block;
+    margin-bottom: 70px;
+  }
+}
+
+.LogoMobile {
+  display: block;
+
+  @media (min-width: 576px) {
+    display: none;
+  }
+}
+
+.Title {
+  color:  #204ECF;
+  font-family: Tilt Warp;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 36px;
+  opacity: 0.8;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.Login {
   width: 100%;
 }
 
-.Auth-title {
-  // font-family: 'DM Serif Display', serif;
-  // color: #6A2C70;
-  // font-size: 40px;
-  // line-height: 1.1;
-  // font-weight: 400;
-  margin-left: 12px;
-  margin-bottom: 15px;
-  margin-top: clamp(0px, 7.5vh, 96px);
+.FormWrap {
+  border-radius: 5px;
+  background: #FFF;
+  box-shadow: 0px -4px 0px 0px #F0ECE7;
+  width: 100%;
+  padding: 52px 16px 84px;
+
+  @media (max-height:720px) {
+    padding: 24px 16px;
+  }
 }
-  
-  .Auth-forgot-wrap {
-    width: 100%;
+
+.Form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.PasswordInput {
+  background: #FDFCFB;
+  border-radius: 5px;
+  box-shadow: 0px 4px 0px 0px #F0ECE7;
+  padding: 20px 50px 20px 16px;
+  width: 100%;
+  color: #080815;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 14px;
+
+  &::placeholder {
+    opacity: 0.5;
+    color: #080815;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 14px;
   }
-  
-  .Auth-forgot {
-    font-size: 20px;
-    line-height: 24px;
-    color: #fff;
-    text-decoration: none;
-    margin-left: 20px;
-    font-weight: bold;
-    &:hover {
-      color: #fff;
-      opacity: 0.8;
-    }
+}
+
+.LoginButton {
+  border-radius: 100px;
+  background:  #080815;
+  color:  #F0ECE7;
+  text-align: center;
+  font-family: Tilt Warp;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 14px;
+  width: 100%;
+  padding: 16px 32px;
+  display: block;
+  height: 100%;
+  margin-top: 32px;
+}
+
+.ToSignup {
+  color: #080815E5;
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 14px;
+  margin-top: 20px;
+
+  .Link{
+    text-decoration-line: underline;
+    color: #080815E5;
   }
-  
-  input {
-    background-color: transparent !important;
-    &:hover,
-    &:focus,
-    &:active {
-      outline: none;
-      border: none;
-    }
-    &::placeholder {
-      background-color: transparent !important;
-    }
+}
+
+.LinksWrap {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+
+  @media (min-width: 576px) {
+    margin-top: 21px;
+    margin-bottom: 40px;
   }
-  .app-Input {
-    width: 100%;
-    border-radius: 100px;
-    margin-bottom: 14px;
-    padding: 18px 20px;
-    display: flex;
-    flex-direction: row;
-    font-size: 20px;
-    line-height: 24px;
-    border: 2px solid #6A2C70;
-    background-color: rgba(#fff,0.6);
-    color: #6A2C70;
-    font-size: 20px;
-    line-height: 24px;
-  
-    &:hover,
-    &:focus {
-      border: 2px solid #6A2C70;
-      background-color: #e3e3e3;
-      color: #6A2C70;
-    }
-  
-    &::placeholder {
-      color: rgba(#6A2C70, 0.8);
-    }
-  }
-  
-  .input-element-wrapper {
-    width: 100%;
-  }
-  .flag {
-    padding: 0.2rem;
-    position: absolute;
-    font-size: 20px;
-    outline: none;
-    border: none;
-    background-color: transparent;
-    margin-right: -2.76rem;
-    margin-top: 19px;
-    margin-left: 4px;
-  }
-  .Input-flag {
-    max-width: 15px;
-    height: 14px;
-  }
-  .phone {
-    padding-left: 3rem;
-  }
-  .input-element-wrapper-password {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    &btn {
-      margin-bottom: 4px;
-    }
-  }
-  .btn {
-    margin-bottom: 16px;
-  }
-  .SignupBGWrap {
-    position: relative;
-    height: 100%;
-    .SignupBGShape1 {
-      position: absolute;
-      background-color: rgba(#F08A5D, 0.15);
-      top: -170px;
-      right: -150px;
-      width: 250px;
-      height: 250px;
-      border-radius: 100%;
-      z-index: -1
-    }
-    .SignupBGShape2 {
-      position: absolute;
-      background-color: rgba(#B83B5E, 0.15);
-      top: 0;
-      left: -200px;
-      width: 300px;
-      height: 300px;
-      border-radius: 100%;
-      z-index: -1
-    }
-    .SignupBGShape3 {
-      position: absolute;
-      background-color: rgba(#6A2C70, 0.32);
-      top: 90%;
-      right: 50%;
-      transform: translateX(50%);
-      width: 250px;
-      height: 250px;
-      border-radius: 100%;
-      z-index: -1
-    }
-  }
+}
+
+.OtherLink {
+  color:  #FDFCFB;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 14px;
+  text-decoration-line: underline;
+  margin: 0 8px ;
+}

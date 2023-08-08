@@ -18,27 +18,36 @@ const Login = () => {
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     refCaptcha.current.reset();
   };
-  const context = useContext<AuthContextData | undefined>(AuthContext); 
+  const context = useContext<AuthContextData | undefined>(AuthContext);
   const [showLoginForm, setShowLoginForm] = useState(false);
 
   useEffect(() => {
     const token = context?.authTokens ?? localStorage.getItem('token')
-    if(token) navigate('/') 
+    if(token) navigate('/')
     else setShowLoginForm(true)
   },[])
 
 
   return (
-    <Layout defaultHeader={false} hamburger={false} signupLogin="Login-bg">
+    // <Layout defaultHeader={false} hamburger={false} signupLogin="Login-bg">
       <div className={styles.SignupBGWrap}>
-      {showLoginForm && (
-        <LoginForm 
-          onSubmit={onSubmit}
-          refCaptcha={refCaptcha}
-        />)}
+        <div className={styles.LoginView}>
+          <div className={styles.LogoWrap}>
+            <img src={`${process.env.PUBLIC_URL}/assets/logo/auth/cur8-health-desktop-logo.svg`} className={styles.LogoDesktoop} alt="App Logo" />
+            <img src={`${process.env.PUBLIC_URL}/assets/logo/auth/cur8-health-mobile-logo.svg`} className={styles.LogoMobile} alt="App Logo" />
+          </div>
+
+          {showLoginForm && (
+            <LoginForm
+              onSubmit={onSubmit}
+              refCaptcha={refCaptcha}
+            />)}
+
+            <img src={`${process.env.PUBLIC_URL}/assets/logo/auth/touch-powered-logo.svg`} className={styles.LogoMobile} alt="Powered by Touch" />
+        </div>
       </div>
 
-    </Layout>
+    // </Layout>
   );
 };
 

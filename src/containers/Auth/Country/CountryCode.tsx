@@ -6,7 +6,6 @@ import PhoneInput, {
   isValidPhoneNumber,
 } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
-import './index.scss';
 interface IProps {
   errors?: any;
   control?: any;

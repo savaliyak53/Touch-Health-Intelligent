@@ -107,87 +107,83 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
     window.scrollTo(0,0);
     if(location.state?.username) setValue('username',validateNumber(location.state.username));
   }, [])
-  
+
   return (
-    <div className={styles['Auth-wrap']}>
-      <form
-        role="login-form"
-        onSubmit={handleSubmit(onSubmit)}
-        className={styles['Auth-form']}
-      >
-        {/* <h2 className={`${styles["Auth-title"]} ${Authstyles["Auth-title"]}`}>Find your path to health</h2> */}
-        <h2 className={`Title ${styles['Auth-title']} `}>
-          Find your path to health
-        </h2>
-
-        <CountryCode
-          errors={errors.username}
-          control={control}
-          fieldName="username"
-        />
-        <Tooltip
-          color="orange"
-          placement="bottomLeft"
-          title={errors.password?.message}
-          open={errors.password ? true : false}
+    <div className={styles.Login}>
+      <div className={styles.FormWrap}>
+        <form
+          role="login-form"
+          onSubmit={handleSubmit(onSubmit)}
+          className={styles.Form}
         >
-          <InputField
-            id="password"
-            data-testid="pwd"
-            {...register('password', {
-              required: 'Password is required',
-            })}
-            placeholder="Password"
-            type={passwordShown ? 'text' : 'password'}
-            className={Authstyles['app-Input']}
-            isEye={true}
-            togglePassword={togglePassword}
+        <h1 className={styles.Title}>Log in</h1>
+          <CountryCode
+            errors={errors.username}
+            control={control}
+            fieldName="username"
           />
-        </Tooltip>
-        <AccountLockModal
-          title={'Too many retries'}
-          open={showLockAccountModal}
-          handleCancel={handleCancelModal}
-          handleOk={handleCancelModal}
-          renderData={<div>{modalText}</div>}
-        />
-        <ReCAPTCHA
-          className={Authstyles['recaptcha']}
-          ref={refCaptcha}
-          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
-          onChange={() => {
-            setIsDisabled(false);
-          }}
-        />
-        <Button
-          className={'Submit-Button'}
-          onClick={handleSubmit(onSubmit)}
-          loading={isLoading}
-          disabled={isDisabled}
-          data-testid="submit"
-        >
-          Login
-        </Button>
-      </form>
+          <Tooltip
+            color="orange"
+            placement="bottomLeft"
+            title={errors.password?.message}
+            open={errors.password ? true : false}
+          >
+            <InputField
+              id="password"
+              data-testid="pwd"
+              {...register('password', {
+                required: 'Password is required',
+              })}
+              placeholder="Password"
+              type={passwordShown ? 'text' : 'password'}
+              className={styles.PasswordInput}
+              isEye={true}
+              togglePassword={togglePassword}
+            />
+          </Tooltip>
+          <AccountLockModal
+            title={'Too many retries'}
+            open={showLockAccountModal}
+            handleCancel={handleCancelModal}
+            handleOk={handleCancelModal}
+            renderData={<div>{modalText}</div>}
+          />
+          <ReCAPTCHA
+            className={Authstyles['recaptcha']}
+            ref={refCaptcha}
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
+            onChange={() => {
+              setIsDisabled(false);
+            }}
+          />
+          <Button
+            className={styles.LoginButton}
+            onClick={handleSubmit(onSubmit)}
+            loading={isLoading}
+            disabled={isDisabled}
+            data-testid="submit"
+          >
+            Log in
+          </Button>
 
-      <div className={Authstyles['Links-wrap']}>
-        <div className={Authstyles['Auth-terms-signup']}>
-          For customer support, please follow this{' '}
-          <a href="https://www.touchmedical.ca/customer-care">link</a>
-        </div>
-
-        <div className={Authstyles['Auth-terms-signup']}>
-          <Link to="/password-reset" className={Authstyles['Auth-signup']}>
-            Reset password
-          </Link>
-        </div>
-
-        <div className={Authstyles['Auth-terms-signup']}>
-          <Link to="/signup" className={Authstyles['Auth-signup']}>
-            Create an Account?
-          </Link>
-        </div>
+          <div className={styles.ToSignup}>
+            <span>Don’t have an account? </span>
+            <Link to="/signup" className={styles.Link}>
+              Sign up
+            </Link>
+          </div>
+        </form>
+    </div>
+    <div className={styles.LinksWrap}>
+        <Link to="https://www.touchmedical.ca/customer-care" className={styles.OtherLink}>Customer care</Link>
+        <Link to="/password-reset" className={styles.OtherLink}>Forgot password</Link>
+    </div>
+    {/* <div className={Authstyles['Auth-terms-signup']}>
+        For customer support, please follow this{' '}
       </div>
+
+      <div className={Authstyles['Auth-terms-signup']}>
+      </div> */}
     </div>
   );
 };

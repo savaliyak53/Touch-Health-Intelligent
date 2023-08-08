@@ -84,15 +84,7 @@
     opacity: 0.8;
   }
 }
-input {
-  background-color: transparent;
-  &:hover,
-  &:focus,
-  &:active {
-    outline: none;
-    border: none;
-  }
-}
+
 .app-Input {
   width: 100%;
   border-radius: 100px;
