@@ -9,7 +9,11 @@ import Authstyles from '../../Auth.module.scss';
 import { Tooltip } from 'antd';
 import CountryCode from '../../Country/CountryCode';
 import { ILogin } from '../../../../interfaces';
-import { getTokenExpiration, onlyNumbers, validateNumber } from '../../../../utils/lib';
+import {
+  getTokenExpiration,
+  onlyNumbers,
+  validateNumber,
+} from '../../../../utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
 import AccountLockModal from '../../../../components/Modal/AccountLockModal';
 import AuthContext, { AuthContextData } from '../../../../contexts/AuthContext';
@@ -32,6 +36,8 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
   const [modalText, setModalText] = useState('');
   const [showLockAccountModal, setShowLockAccountModal] = useState(false);
   const [error, setError] = useState<any>();
+  const [isEye, setIsEye] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
   const location: any = useLocation();
   const {
@@ -49,14 +55,23 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
     shouldUnregister: false,
   });
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
   const handleCancelModal = () => {
     setShowLockAccountModal(false);
   };
+
   const authContext = useContext<AuthContextData | undefined>(AuthContext); // Add the type parameter
   if (!authContext) return null;
+
   const { loginUser } = authContext;
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     setIsLoading(true);
@@ -94,19 +109,30 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
         setShowLockAccountModal(true);
         setModalText(loginResponse?.response?.data?.details);
       } else {
-        setError({code: loginResponse?.response?.status, message: loginResponse.response.data?.details})
-      } 
+        console.log('Coming to this block');
+        setError({
+          code: loginResponse?.response?.status,
+          message: loginResponse.response.data?.details,
+        });
+      }
     }
   };
+  useEffect(() => {
+    if (errors.password?.message) {
+      setIsEye(false);
+    } else {
+      setIsEye(true);
+    }
+  });
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
 
   useEffect(() => {
-    if(error) throw(error)
-  },[error])
-
-  useEffect(() => {
-    window.scrollTo(0,0);
-    if(location.state?.username) setValue('username',validateNumber(location.state.username));
-  }, [])
+    window.scrollTo(0, 0);
+    if (location.state?.username)
+      setValue('username', validateNumber(location.state.username));
+  }, []);
 
   return (
     <div className={styles.Login}>
@@ -116,7 +142,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
           onSubmit={handleSubmit(onSubmit)}
           className={styles.Form}
         >
-        <h1 className={styles.Title}>Log in</h1>
+          <h1 className={styles.Title}>Log in</h1>
           <CountryCode
             errors={errors.username}
             control={control}
@@ -126,7 +152,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
             color="orange"
             placement="bottomLeft"
             title={errors.password?.message}
-            open={errors.password ? true : false}
+            open={isHovered == true ? true : false}
           >
             <InputField
               id="password"
@@ -136,8 +162,12 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
               })}
               placeholder="Password"
               type={passwordShown ? 'text' : 'password'}
-              className={styles.PasswordInput}
-              isEye={true}
+              className={
+                isEye ? styles.PasswordInput : styles.PasswordInputIvalid
+              }
+              isEye={isEye}
+              handleMouseEnter={handleMouseEnter}
+              handleMouseLeave={handleMouseLeave}
               togglePassword={togglePassword}
             />
           </Tooltip>
@@ -173,12 +203,19 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
             </Link>
           </div>
         </form>
-    </div>
-    <div className={styles.LinksWrap}>
-        <Link to="https://www.touchmedical.ca/customer-care" className={styles.OtherLink}>Customer care</Link>
-        <Link to="/password-reset" className={styles.OtherLink}>Forgot password</Link>
-    </div>
-    {/* <div className={Authstyles['Auth-terms-signup']}>
+      </div>
+      <div className={styles.LinksWrap}>
+        <Link
+          to="https://www.touchmedical.ca/customer-care"
+          className={styles.OtherLink}
+        >
+          Customer care
+        </Link>
+        <Link to="/password-reset" className={styles.OtherLink}>
+          Forgot password
+        </Link>
+      </div>
+      {/* <div className={Authstyles['Auth-terms-signup']}>
         For customer support, please follow this{' '}
       </div>
 

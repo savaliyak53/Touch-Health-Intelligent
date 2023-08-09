@@ -1,11 +1,11 @@
 import { Tooltip } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
-import Authstyles from "../Auth.module.scss"
-import PhoneInput, {
-  isValidPhoneNumber,
-} from 'react-phone-number-input';
+import Authstyles from '../Auth.module.scss';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
+import SVGERROR from '../../../utils';
+
 interface IProps {
   errors?: any;
   control?: any;
@@ -37,15 +37,22 @@ const CountryCode = ({
     'US',
     'GB',
   ];
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <div className="input-element-wrapper">
       <Tooltip
         color="orange"
         placement="bottomLeft"
         title={errors?.message ?? 'Invalid Phone number'}
-        open={
-          fieldName === 'confirmPhone' ? isConfirmPhone : errors ? true : false
-        }
+        open={isHovered == true ? true : false}
       >
         <Controller
           name={fieldName ? fieldName : 'phone'}
@@ -63,21 +70,46 @@ const CountryCode = ({
             },
           }}
           render={({ field: { onChange, value } }) => (
-            <PhoneInput
-              disabled={disabled}
-              placeholder={
-                fieldName === 'phone' || fieldName === 'username'
-                  ? 'Mobile phone number'
-                  : 'Confirm phone number'
-              }
-              countries={whitelist}
-              className={Authstyles["app-Input"]}
-              value={value}
-              onChange={onChange}
-              defaultCountry="CA"
-              id={fieldName}
-              addInternationalOption={false}
-            />
+            <>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                }}
+              >
+                <PhoneInput
+                  disabled={disabled}
+                  placeholder={
+                    fieldName === 'phone' || fieldName === 'username'
+                      ? 'Mobile phone number'
+                      : 'Confirm phone number'
+                  }
+                  countries={whitelist}
+                  className={
+                    errors
+                      ? Authstyles['new-Input-error']
+                      : Authstyles['app-Input']
+                  }
+                  value={value}
+                  onChange={onChange}
+                  defaultCountry="CA"
+                  id={fieldName}
+                  addInternationalOption={false}
+                />
+                {errors && (
+                  <SVGERROR
+                    handleMouseEnter={handleMouseEnter}
+                    handleMouseLeave={handleMouseLeave}
+                    style={{
+                      position: 'absolute',
+                      marginRight: '26px',
+                      marginBottom: '7px',
+                    }}
+                  />
+                )}
+              </div>
+            </>
           )}
         />
       </Tooltip>
