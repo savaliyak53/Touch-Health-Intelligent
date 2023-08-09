@@ -21,7 +21,7 @@ const Application = () => {
       path: "/socket.io", forceNew: true, reconnectionAttempts: 3, timeout: 2000, withCredentials: true
     });
   
-    socket.on('serverMessage', (data:any) => {
+    socket.on('message', (data:any) => {
       setData(data)
     });
 
