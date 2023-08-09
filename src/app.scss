@@ -1725,7 +1725,7 @@ input {
   padding: 19px 42px;
   border-radius: 100px;
   background-color: $primary-color1;
-  color: #fff;
+  color: $ternary-color3;
   font-size: 14px;
   font-weight: 500;
   line-height: 14px;
@@ -1733,6 +1733,10 @@ input {
   display: flex;
   justify-content: center;
   white-space: pre-line !important;
+
+  .Checkin-Text{
+    opacity: 0.9;
+  }
 
   &:hover,
   &:focus,
@@ -1750,10 +1754,8 @@ input {
     color: $primary-color1;
   }
   @media (max-width: 510px) {
-    // .Submit-Button.ant-btn {
       width: 165px;
       height: 40px;
       padding: 12px;
-    // }
   }
 }
