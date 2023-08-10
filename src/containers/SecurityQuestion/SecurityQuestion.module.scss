@@ -126,14 +126,13 @@
 }
 
 .Security-Btn{
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
+ display: flex;
+ align-items: flex-end;
+ height: auto;
+ 
   @media (min-width: 700px){
     position: relative;
-    margin-top: 30vh;
+    margin-top: 20vh;
   }
 }
 

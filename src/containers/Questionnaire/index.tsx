@@ -269,6 +269,7 @@ function UserCondition() {
           {question && (
             <>
               <Question
+                key={refId}
                 selectedValue={value}
                 question={question}
                 items={items}

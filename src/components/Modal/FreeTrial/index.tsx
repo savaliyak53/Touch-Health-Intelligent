@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Modal, Button, Typography } from 'antd';
 import styles from './FreeTrialModal.module.scss';
 import moment from 'moment';
+import AuthContext , { AuthContextData }  from '../../../contexts/AuthContext';
 const { Paragraph, Text } = Typography;
 export type IProps = {
   open: boolean;
@@ -11,7 +12,8 @@ export type IProps = {
   primaryButtonText: string;
   secondaryButtonText?: string;
   trialEndDate?: Date;
-  expired: boolean;
+  trialExpired: boolean;
+  subscriptionExpired: boolean;
 };
 const FreeTrialModal = ({
   open,
@@ -20,9 +22,13 @@ const FreeTrialModal = ({
   primaryButtonText,
   secondaryButtonText,
   trialEndDate,
-  expired
+  trialExpired,
+  subscriptionExpired
 }: IProps) => {
   const navigate = useNavigate();
+  const authContext = useContext<AuthContextData | undefined>(AuthContext); 
+  if (!authContext) return null;
+  const { logoutUser } = authContext;
 
   return (
     <Modal
@@ -33,20 +39,30 @@ const FreeTrialModal = ({
       footer={
         <>
         <div className={styles['Btn-group']}>
-          <Button key="submit" className={'Submit-Button'} onClick={handleOk} style={{marginTop: expired ? '70px' : ''}}>
+          <Button key="submit" className={'Submit-Button'} onClick={handleOk} style={{marginTop: trialExpired || subscriptionExpired ? '70px' : ''}}>
             {primaryButtonText}
           </Button>
         </div>
-        {!expired && (<div className={styles['Btn-group']}>
+        {!trialExpired && (<div className={styles['Btn-group']}>
           <Button key="submit" className={'Secondary-Button'} onClick={() => navigate('/dashboard')}>
             {secondaryButtonText}
+          </Button>
+        </div>)}
+        {!subscriptionExpired && (<div className={styles['Btn-group']}>
+          <Button key="submit" className={'Secondary-Button'}               
+            onClick={() => {
+                logoutUser();
+                (window as any).Intercom('shutdown');
+                navigate('/login');
+              }}>
+            {'Sign Out'}
           </Button>
         </div>)}
         </>
       }
     >
       <div className="Description">
-      {expired ? (
+      {trialExpired ? (
           <>
             <Paragraph>
               Your free trial ended on{' '}

@@ -403,7 +403,8 @@ const SubscriptionNew = () => {
                   primaryButtonText="Subscribe Now!"
                   secondaryButtonText="Maybe Later"
                   trialEndDate={userPlan?.trialData.trialEndDate}
-                  expired={userPlanStatus == 'trial_expired' ? true : false}
+                  trialExpired={userPlanStatus == 'trial_expired' ? true : false}
+                  subscriptionExpired={userPlanStatus == 'subscription_expired' ? true : false}
                 />
                 <PriceModal
                   open={confirmSubscription}
