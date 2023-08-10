@@ -38,13 +38,28 @@ const CountryCode = ({
     'GB',
   ];
   const [isHovered, setIsHovered] = useState(false);
-
+  const [isValid, setIsValid] = useState(false);
+  const [activeClass, setActiveClass] = useState('app-Input');
+  const [val, setVal] = useState('');
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+
+
+  useEffect(() => {
+    const debounceId = setTimeout(() => {
+      setActiveClass('app-Input'); 
+    }, 500);
+    setActiveClass('new-Input-change');
+    return () => {
+      setActiveClass('app-Input');
+      clearTimeout(debounceId);
+    };
+    
+  }, [val]);
 
   return (
     <div className="input-element-wrapper">
@@ -66,11 +81,16 @@ const CountryCode = ({
               if (fieldName === 'confirmPhone') {
                 return value === phone || 'Phone numbers do not match';
               }
+              setIsValid(isValidPhoneNumber(value));
               return isValidPhoneNumber(value) || 'Invalid Phone Number';
             },
           }}
           render={({ field: { onChange, value } }) => (
             <>
+              {
+                // calling method on change accorind to this library
+                setVal(value)
+              }
               <div
                 style={{
                   display: 'flex',
@@ -87,9 +107,11 @@ const CountryCode = ({
                   }
                   countries={whitelist}
                   className={
-                    errors
+                    errors && isValid == false
                       ? Authstyles['new-Input-error']
-                      : Authstyles['app-Input']
+                      : errors || isValid == true
+                      ? Authstyles['new-Input-valid']
+                      : Authstyles[activeClass]
                   }
                   value={value}
                   onChange={onChange}

@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, forwardRef } from 'react';
+import React, { CSSProperties, FC, forwardRef, useEffect, useState } from 'react';
 import { AiOutlineEye } from 'react-icons/ai';
 import './index.scss';
 import SVGERROR from '../../utils';
@@ -11,7 +11,7 @@ interface InputProps {
   className?: string;
   style?: CSSProperties;
   isEye?: boolean;
-  value?: string;
+  value?: any;
   togglePassword?: any;
   defaultValue?: any;
   onChange?: any;

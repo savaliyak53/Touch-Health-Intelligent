@@ -37,6 +37,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
   const [showLockAccountModal, setShowLockAccountModal] = useState(false);
   const [error, setError] = useState<any>();
   const [isEye, setIsEye] = useState(true);
+  const [activeClass, setActiveClass] = useState(styles.PasswordInput);
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
   const location: any = useLocation();
@@ -46,6 +47,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
     reset,
     getValues,
     setValue,
+    watch,
     control,
     formState: { errors },
   } = useForm<IFormInputs>({
@@ -68,10 +70,8 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
   const handleCancelModal = () => {
     setShowLockAccountModal(false);
   };
-
   const authContext = useContext<AuthContextData | undefined>(AuthContext); // Add the type parameter
   if (!authContext) return null;
-
   const { loginUser } = authContext;
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     setIsLoading(true);
@@ -109,7 +109,6 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
         setShowLockAccountModal(true);
         setModalText(loginResponse?.response?.data?.details);
       } else {
-        console.log('Coming to this block');
         setError({
           code: loginResponse?.response?.status,
           message: loginResponse.response.data?.details,
@@ -117,13 +116,25 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
       }
     }
   };
+  const watchedValues = watch();
   useEffect(() => {
+    const debounceId = setTimeout(() => {
+      setActiveClass(styles.PasswordInput);
+    }, 500);
+    setActiveClass(styles.PasswordInputChange);
+    return () => {
+      clearTimeout(debounceId);
+    };
+  },[watchedValues.password]);
+
+  useEffect(()=>{
     if (errors.password?.message) {
       setIsEye(false);
     } else {
       setIsEye(true);
     }
-  });
+  })
+
   useEffect(() => {
     if (error) throw error;
   }, [error]);
@@ -162,9 +173,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
               })}
               placeholder="Password"
               type={passwordShown ? 'text' : 'password'}
-              className={
-                isEye ? styles.PasswordInput : styles.PasswordInputIvalid
-              }
+              className={isEye ? activeClass : styles.PasswordInputIvalid}
               isEye={isEye}
               handleMouseEnter={handleMouseEnter}
               handleMouseLeave={handleMouseLeave}

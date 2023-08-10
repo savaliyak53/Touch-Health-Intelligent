@@ -89,6 +89,16 @@
   @extend .app-Input;
   box-shadow: 0px 4px 0px 0px #f26749;
 }
+
+.new-Input-valid {
+  @extend .app-Input;
+  box-shadow: 0px 4px 0px 0px #b3ffd1;
+}
+.new-Input-change {
+  @extend .app-Input;
+  box-shadow: 0px 4px 0px 0px #204ECF;
+}
+
 .input-element-wrapper {
   width: 100%;
 }

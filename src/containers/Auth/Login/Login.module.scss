@@ -110,6 +110,10 @@
   @extend .PasswordInput;
   box-shadow: 0px 4px 0px 0px #f26749;
 }
+.PasswordInputChange {
+  @extend .PasswordInput;
+  box-shadow: 0px 4px 0px 0px #204ECF;
+}
 
 
 .LoginButton {
