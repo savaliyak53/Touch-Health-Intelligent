@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styles from './DashboardNew.module.scss';
 import { Row, Col, Typography, Tooltip, Button, Progress } from 'antd';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { timeFrom } from '../../utils/lib';
 import { tooltipContent } from '../../constants';
 import Drawer from '../../components/Modal/Drawer';
+import SocketContext from '../../contexts/SocketContext';
+
 const DashboardNew = () => {
   const [elements, setElements] = useState<any>();
   const [elementStreak, setElementStreak] = useState<any>();
@@ -16,7 +18,9 @@ const DashboardNew = () => {
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [dashboardNotification, setDashboardNotification] = useState();
   const navigate = useNavigate();
+  const socketContext = useContext(SocketContext); 
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -64,6 +68,9 @@ const DashboardNew = () => {
   useEffect(() => {
     if (error) throw error;
   }, [error]);
+  useEffect(() => {
+    setDashboardNotification(socketContext.dashboardNotification.payload);
+  }, [socketContext]);
 
   return (
     <Layout defaultHeader={true} hamburger={true} dashboard={false}>
