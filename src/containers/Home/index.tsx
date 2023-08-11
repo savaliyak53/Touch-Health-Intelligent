@@ -26,20 +26,21 @@ const Home = () => {
     }
   };
   const getInteractionByType = (type: string) => {
-    getInteractionServiceByType(type)
-      .then((response: any) => {
-        if (response.data) {
-          navigate('/questionnaire');
-        } else {
-          navigate('/dashboard');
-        }
-      })
-      .catch((error) => {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details,
-        });
-      });
+    navigate('/dashboard');
+    // getInteractionServiceByType(type)
+    //   .then((response: any) => {
+    //     if (response.data) {
+    //       navigate('/questionnaire');
+    //     } else {
+    //       navigate('/dashboard');
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     setError({
+    //       code: error.response.status,
+    //       message: error.response.data.details,
+    //     });
+    //   });
   };
   const handleInitialIntake = () => {
     const userId = context?.user;
@@ -53,20 +54,21 @@ const Home = () => {
       .then((preferencesResponse) => {
         if (preferencesResponse) {
           //after successful subscription initiate onboarding interaction
-          getInteractionServiceByType('onboarding')
-            .then((response: any) => {
-              if (response) {
-                navigate('/questionnaire');
-              } else {
-                navigate('/');
-              }
-            })
-            .catch((error) => {
-              setError({
-                code: error.response.status,
-                message: error.response.data.details,
-              });
-            });
+          navigate('/dashboard');
+          // getInteractionServiceByType('onboarding')
+          //   .then((response: any) => {
+          //     if (response) {
+          //       navigate('/questionnaire');
+          //     } else {
+          //       navigate('/');
+          //     }
+          //   })
+          //   .catch((error) => {
+          //     setError({
+          //       code: error.response.status,
+          //       message: error.response.data.details,
+          //     });
+          //   });
         } else {
           navigate('/dashboard');
         }
@@ -119,16 +121,17 @@ const Home = () => {
           handleTrialIntake();
         } else {
           if (response.data.signup_status === 'onboarding') {
-            getInteractionServiceByType('onboarding')
-              .then((response: any) => {
-                handleRedirect(response);
-              })
-              .catch((error) => {
-                setError({
-                  code: error.response.status,
-                  message: error.response.data.details,
-                });
-              });
+            navigate('/dashboard');
+            // getInteractionServiceByType('onboarding')
+            //   .then((response: any) => {
+            //     handleRedirect(response);
+            //   })
+            //   .catch((error) => {
+            //     setError({
+            //       code: error.response.status,
+            //       message: error.response.data.details,
+            //     });
+            //   });
           } else if (response.data.signup_status === 'done') {
             getInteractionByType('checkup');
           } else if (response.data.signup_status === 'new') {
