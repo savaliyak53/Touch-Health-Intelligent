@@ -5,6 +5,7 @@ import Authstyles from '../Auth.module.scss';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import SVGERROR from '../../../utils';
+import './index.scss';
 
 interface IProps {
   errors?: any;
@@ -48,17 +49,15 @@ const CountryCode = ({
     setIsHovered(false);
   };
 
-
   useEffect(() => {
     const debounceId = setTimeout(() => {
-      setActiveClass('app-Input'); 
+      setActiveClass('app-Input');
     }, 500);
     setActiveClass('new-Input-change');
     return () => {
       setActiveClass('app-Input');
       clearTimeout(debounceId);
     };
-    
   }, [val]);
 
   return (
@@ -67,7 +66,7 @@ const CountryCode = ({
         color="orange"
         placement="bottomLeft"
         title={errors?.message ?? 'Invalid Phone number'}
-        open={isHovered == true ? true : false}
+        open={isHovered ? true : false}
       >
         <Controller
           name={fieldName ? fieldName : 'phone'}
@@ -88,16 +87,10 @@ const CountryCode = ({
           render={({ field: { onChange, value } }) => (
             <>
               {
-                // calling method on change accorind to this library
+                // calling method on change according to this library
                 setVal(value)
               }
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  alignItems: 'center',
-                }}
-              >
+              <div className="phoneInputContainer">
                 <PhoneInput
                   disabled={disabled}
                   placeholder={

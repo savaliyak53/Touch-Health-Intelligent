@@ -29,7 +29,6 @@ const Login = () => {
 
 
   return (
-    // <Layout defaultHeader={false} hamburger={false} signupLogin="Login-bg">
       <div className={styles.SignupBGWrap}>
         <div className={styles.LoginView}>
           <div className={styles.LogoWrap}>
@@ -46,8 +45,6 @@ const Login = () => {
             <img src={`${process.env.PUBLIC_URL}/assets/logo/auth/touch-powered-logo.svg`} className={styles.LogoMobile} alt="Powered by Touch" />
         </div>
       </div>
-
-    // </Layout>
   );
 };
 
