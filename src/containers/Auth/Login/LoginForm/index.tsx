@@ -121,19 +121,23 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
     const debounceId = setTimeout(() => {
       setActiveClass(styles.PasswordInput);
     }, 500);
-    setActiveClass(styles.PasswordInputChange);
+    if (
+      watchedValues.password != undefined &&
+      watchedValues.password.length !== 0
+    )
+      setActiveClass(styles.PasswordInputChange);
     return () => {
       clearTimeout(debounceId);
     };
-  },[watchedValues.password]);
+  }, [watchedValues.password]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (errors.password?.message) {
       setIsEye(false);
     } else {
       setIsEye(true);
     }
-  })
+  });
 
   useEffect(() => {
     if (error) throw error;

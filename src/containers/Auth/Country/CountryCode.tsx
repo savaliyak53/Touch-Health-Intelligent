@@ -52,8 +52,10 @@ const CountryCode = ({
   useEffect(() => {
     const debounceId = setTimeout(() => {
       setActiveClass('app-Input');
-    }, 500);
-    setActiveClass('new-Input-change');
+    }, 1000);
+    if (val !== undefined && val?.length !== 0) {
+      setActiveClass('new-Input-change');
+    }
     return () => {
       setActiveClass('app-Input');
       clearTimeout(debounceId);
