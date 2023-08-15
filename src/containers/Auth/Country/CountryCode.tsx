@@ -4,7 +4,7 @@ import { Controller } from 'react-hook-form';
 import Authstyles from '../Auth.module.scss';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
-import SVGERROR from '../../../utils';
+import SVGERROR from '../../../components/ErrorSvg/index';
 import './index.scss';
 
 interface IProps {
@@ -80,6 +80,7 @@ const CountryCode = ({
             },
             validate: (value: any) => {
               if (fieldName === 'confirmPhone') {
+                setIsValid(value === phone)
                 return value === phone || 'Phone numbers do not match';
               }
               setIsValid(isValidPhoneNumber(value));

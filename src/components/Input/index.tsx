@@ -2,7 +2,7 @@ import React, { CSSProperties, FC, forwardRef } from 'react';
 import './index.scss';
 import PassWordEye from './passwordEye';
 
-import SVGERROR from '../../utils';
+import SVGERROR from '../../components/ErrorSvg/index';
 interface InputProps {
   id?: string;
   name?: string;
@@ -19,6 +19,7 @@ interface InputProps {
   disabled?: boolean;
   handleMouseEnter?: any;
   handleMouseLeave?: any;
+  userName?: boolean;
 }
 const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   (
@@ -36,6 +37,7 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
       disabled,
       handleMouseEnter,
       handleMouseLeave,
+      userName,
       ...rest
     },
     ref
@@ -57,7 +59,7 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
         />
         {isEye ? (
           <PassWordEye togglePassword={togglePassword} />
-        ) : (
+        ) : userName ? null : (
           <SVGERROR
             handleMouseEnter={handleMouseEnter}
             handleMouseLeave={handleMouseLeave}

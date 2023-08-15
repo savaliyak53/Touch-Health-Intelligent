@@ -167,7 +167,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
             color="orange"
             placement="bottomLeft"
             title={errors.password?.message}
-            open={isHovered == true ? true : false}
+            open={isHovered ? true : false}
           >
             <InputField
               id="password"
