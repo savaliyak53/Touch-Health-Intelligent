@@ -18,6 +18,7 @@ interface InputProps {
   disabled?: boolean;
   handleMouseEnter?: any;
   handleMouseLeave?: any;
+  withErrIcon?: boolean;
 }
 const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   (
@@ -35,6 +36,7 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
       disabled,
       handleMouseEnter,
       handleMouseLeave,
+      withErrIcon = true,
       ...rest
     },
     ref
@@ -87,8 +89,7 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
               </defs>
             </svg>
           </button>
-        ) : (
-          <SVGERROR
+        ) : withErrIcon && (<SVGERROR
             handleMouseEnter={handleMouseEnter}
             handleMouseLeave={handleMouseLeave}
             style={{
@@ -96,8 +97,8 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
               right: 25,
               marginTop: '10px',
             }}
-          />
-        )}
+          />)
+        }
       </div>
     );
   }

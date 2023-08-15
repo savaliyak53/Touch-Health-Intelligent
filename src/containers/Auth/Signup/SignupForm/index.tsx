@@ -95,6 +95,7 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
   useEffect(() => {
     if (error) throw error;
   }, [error]);
+
   return (
     <div className={styles['Auth-wrap']}>
       <form
