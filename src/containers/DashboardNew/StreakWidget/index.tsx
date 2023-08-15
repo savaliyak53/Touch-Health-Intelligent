@@ -34,9 +34,10 @@ const StreakWidget = ({ streakCount, elementStreak }: IProps) => {
                 </div>
               </>
             ) : (
-              <div className={`Heading ${styles.StreakTitle}`}>
-                No current streak
-              </div>
+              <>
+                <div className={`${styles.StreakCount}`}>0</div>
+                <div className={styles.Days}>days</div>
+              </>
             )}
           </Row>
         </Col>

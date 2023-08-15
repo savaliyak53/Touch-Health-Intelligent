@@ -23,6 +23,23 @@ const ErrorModal = ({
     navigate('/dashboard');
     handleCancel();
   };
+
+  const handleClose = () => {
+    const userId: string | null = localStorage.getItem('userId');
+    const expiration: string | null = localStorage.getItem('expiration');
+    const now: number = Math.floor(Date.now() / 1000);
+
+    if (userId && expiration && parseInt(expiration) > now) {
+      navigate('/dashboard');
+      handleCancel();
+      return;
+    }
+    localStorage.removeItem('token');
+    handleCancel();
+    window.location.assign('/login');
+  };
+
+
   const handleUnauthorized = () => {
     handleCancel();
     window.location.assign('/login');
@@ -60,9 +77,9 @@ const ErrorModal = ({
             errorType == 'type1' ? (
                 <Button
                 className={'Submit-Button'}
-                onClick={handleCancel}
+                onClick={handleClose}
               >
-                Close
+                Go to dashboard
               </Button>
             ) : (
                 <Button
