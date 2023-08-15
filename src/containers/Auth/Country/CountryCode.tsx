@@ -67,7 +67,7 @@ const CountryCode = ({
               disabled={disabled}
               placeholder={
                 fieldName === 'phone' || fieldName === 'username'
-                  ? 'Mobile phone number'
+                  ? 'Phone number'
                   : 'Confirm phone number'
               }
               countries={whitelist}

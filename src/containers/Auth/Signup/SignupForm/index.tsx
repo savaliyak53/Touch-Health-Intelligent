@@ -96,142 +96,170 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
     if (error) throw error;
   }, [error]);
   return (
-    <div className={styles['Auth-wrap']}>
-      <form
-        role="signup-form"
-        onSubmit={handleSubmit(onVerify)}
-        className={styles['Auth-form']}
-      >
-        <h2 className={`Title ${styles['Auth-title']} `}>
-          Find your path to health
-        </h2>
-        <div className={Authstyles['input-element-wrapper']}>
-          <Tooltip
-            color="orange"
-            placement="bottomLeft"
-            title={errors.name?.message}
-            open={errors.name ? true : false}
-          >
-            <input
-              id="name"
-              {...register('name', {
-                required: 'Username is required.',
-                maxLength: {
-                  value: 50,
-                  message: 'Username can have maximum 50 characters.',
-                },
-              })}
-              placeholder="Username e.g. 🚀cosmic potato"
-              type="text"
-              className={Authstyles['app-Input']}
-            />
-          </Tooltip>
-        </div>
-        <CountryCode
-          errors={errors.phone}
-          control={control}
-          fieldName="phone"
-          phone={watch('phone')}
-        />
-        <CountryCode
-          errors={errors.confirmPhone}
-          control={control}
-          fieldName="confirmPhone"
-          isConfirmPhone={isConfirmPhone}
-          phone={getValues('phone')}
-        />
-        <div className={Authstyles['input-element-wrapper-password']}>
-          <Tooltip
-            color="orange"
-            placement="bottomLeft"
-            title={errors.password?.message}
-            open={errors.password ? true : false}
-          >
-            <input
-              id="password"
-              placeholder="Enter password here"
-              type={passwordShown ? 'text' : 'password'}
-              className={Authstyles['app-Input']}
-              {...register('password', {
-                required: 'Password is required',
-                minLength: {
-                  value: 8,
-                  message: 'Password should be of at least 8 characters.',
-                },
-                pattern: {
-                  value: /^(?=.*?[#?!@$%^&*-])/,
-                  message: 'Need a special character.',
-                },
-              })}
-            />
-          </Tooltip>
-          <button
-            className={Authstyles['btn']}
-            onClick={togglePassword}
-            type="button"
-          >
-            <AiOutlineEye />
-          </button>
-        </div>
-        <div className={Authstyles['input-element-wrapper-password']}>
-          <Tooltip
-            color="orange"
-            placement="bottomLeft"
-            title={errors.confirmPassword?.message}
-            open={errors.confirmPassword ? true : false}
-          >
-            <input
-              id="confirmPassword"
-              placeholder="Confirm password here"
-              type={confirmPasswordShown ? 'text' : 'password'}
-              className={Authstyles['app-Input']}
-              {...register('confirmPassword', {
-                required: 'Confirm password is required',
-                validate: (value: string) => {
-                  return (
-                    value === getValues('password') || 'Passwords do not match.'
-                  );
-                },
-              })}
-            />
-          </Tooltip>
-          <button
-            className={Authstyles['btn']}
-            onClick={toggleConfirmPassword}
-            type="button"
-          >
-            <AiOutlineEye />
-          </button>
-        </div>
-        <ReCAPTCHA
-          className={Authstyles['recaptcha']}
-          ref={refCaptcha}
-          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
-          onChange={() => {
-            setIsDisabled(false);
-          }}
-        />
-        <Tooltip
-          color="orange"
-          placement="bottom"
-          title={'Please check the terms and conditions checkbox to proceed'}
-          open={checkedError}
-        ></Tooltip>
-        <div className={Authstyles['Auth-terms-signup']}>
-          <Link to="/login">Already have an account?</Link>
-        </div>
-        <Button
-          onClick={handleSubmit(onVerify)}
-          loading={isLoading}
-          disabled={isDisabled}
-          className={'Submit-Button'}
+    <div className={styles.Signup}>
+      <div className={styles.FormWrap}>
+        <form
+          role="signup-form"
+          onSubmit={handleSubmit(onVerify)}
+          className={styles.Form}
         >
-          Register
-        </Button>
-      </form>
-      <div className={Authstyles['Customer-support']}>
-        Problems? Contact{' '}
-        <a href="https://www.touchmedical.ca/customer-care">customer support</a>
+          <h1 className={styles.Title}>Create an account</h1>
+          <div className={Authstyles['input-element-wrapper']}>
+            <Tooltip
+              color="orange"
+              placement="bottomLeft"
+              title={errors.name?.message}
+              open={errors.name ? true : false}
+            >
+              <input
+                id="name"
+                {...register('name', {
+                  required: 'Username is required.',
+                  maxLength: {
+                    value: 50,
+                    message: 'Username can have maximum 50 characters.',
+                  },
+                })}
+                placeholder="Username"
+                type="text"
+                className={`${Authstyles['app-Input']} ${styles.PasswordInput}`}
+              />
+            </Tooltip>
+          </div>
+          <CountryCode
+            errors={errors.phone}
+            control={control}
+            fieldName="phone"
+            phone={watch('phone')}
+          />
+          <CountryCode
+            errors={errors.confirmPhone}
+            control={control}
+            fieldName="confirmPhone"
+            isConfirmPhone={isConfirmPhone}
+            phone={getValues('phone')}
+          />
+          <div className={Authstyles['input-element-wrapper-password']}>
+            <Tooltip
+              color="orange"
+              placement="bottomLeft"
+              title={errors.password?.message}
+              open={errors.password ? true : false}
+            >
+              <input
+                id="password"
+                placeholder="Passwords"
+                type={passwordShown ? 'text' : 'password'}
+                className={`${Authstyles['app-Input']} ${styles.PasswordInput}`}
+                {...register('password', {
+                  required: 'Password is required',
+                  minLength: {
+                    value: 8,
+                    message: 'Password should be of at least 8 characters.',
+                  },
+                  pattern: {
+                    value: /^(?=.*?[#?!@$%^&*-])/,
+                    message: 'Need a special character.',
+                  },
+                })}
+              />
+            </Tooltip>
+            <button
+              className={Authstyles['btn']}
+              onClick={togglePassword}
+              type="button"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <g clipPath="url(#clip0_1113_1414)">
+                <path d="M9 13.898C6.97588 13.898 4.79742 13.1064 2.70016 11.6087C1.13235 10.4891 0.164673 9.37995 0.124238 9.3332C-0.0414125 9.14194 -0.0414125 8.85804 0.124238 8.66674C0.164673 8.62007 1.13231 7.51081 2.70016 6.39124C4.79746 4.89367 6.97592 4.10199 9 4.10199C11.0241 4.10199 13.2026 4.89363 15.2998 6.39124C16.8676 7.51081 17.8353 8.62003 17.8758 8.66674C18.0414 8.858 18.0414 9.1419 17.8758 9.3332C17.8353 9.37987 16.8677 10.4891 15.2998 11.6087C13.2026 13.1063 11.0242 13.898 9 13.898ZM1.20687 9.00003C1.59819 9.39905 2.33673 10.1007 3.31186 10.7946C4.64871 11.7459 6.72072 12.88 9 12.88C11.2793 12.88 13.3513 11.7459 14.6881 10.7946C15.6631 10.1008 16.4017 9.39909 16.7931 9.00003C16.4018 8.60101 15.6633 7.89936 14.6881 7.20545C13.3513 6.25414 11.2793 5.12008 9 5.12008C6.72072 5.12008 4.64871 6.25414 3.31186 7.20545C2.33686 7.89924 1.59827 8.60089 1.20687 9.00003Z" fill="#080815" fillOpacity="0.5"/>
+                <path d="M9.00006 12.1559C7.25992 12.1559 5.84424 10.7401 5.84424 9.00003C5.84424 7.25993 7.25992 5.84421 9.00006 5.84421C9.76536 5.84421 10.5036 6.12168 11.0788 6.62555C11.2902 6.81079 11.3115 7.13235 11.1262 7.34381C10.941 7.55527 10.6194 7.57649 10.408 7.39129C10.0185 7.0501 9.51847 6.86222 9.00002 6.86222C7.82121 6.86222 6.8622 7.82126 6.8622 9.00003C6.8622 10.1788 7.82121 11.1378 9.00002 11.1378C10.1789 11.1378 11.1378 10.1788 11.1378 9.00003C11.1378 8.71894 11.3657 8.49103 11.6468 8.49103C11.9279 8.49103 12.1558 8.71894 12.1558 9.00003C12.1559 10.7401 10.7402 12.1559 9.00006 12.1559Z" fill="#080815" fillOpacity="0.5"/>
+                <path d="M8.99994 10.018C8.43861 10.018 7.98193 9.56136 7.98193 9.00003C7.98193 8.4387 8.43861 7.98203 8.99994 7.98203C9.56131 7.98203 10.0179 8.4387 10.0179 9.00003C10.0179 9.56136 9.56131 10.018 8.99994 10.018Z" fill="#080815" fillOpacity="0.5"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1113_1414">
+                <rect width="18" height="18" fill="white"/>
+                </clipPath>
+                </defs>
+              </svg>
+            </button>
+          </div>
+          <div className={Authstyles['input-element-wrapper-password']}>
+            <Tooltip
+              color="orange"
+              placement="bottomLeft"
+              title={errors.confirmPassword?.message}
+              open={errors.confirmPassword ? true : false}
+            >
+              <input
+                id="confirmPassword"
+                placeholder="Repeat password"
+                type={confirmPasswordShown ? 'text' : 'password'}
+                className={`${Authstyles['app-Input']} ${styles.PasswordInput}`}
+                {...register('confirmPassword', {
+                  required: 'Confirm password is required',
+                  validate: (value: string) => {
+                    return (
+                      value === getValues('password') || 'Passwords do not match.'
+                    );
+                  },
+                })}
+              />
+            </Tooltip>
+            <button
+              className={Authstyles['btn']}
+              onClick={toggleConfirmPassword}
+              type="button"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <g clipPath="url(#clip0_1113_1414)">
+                <path d="M9 13.898C6.97588 13.898 4.79742 13.1064 2.70016 11.6087C1.13235 10.4891 0.164673 9.37995 0.124238 9.3332C-0.0414125 9.14194 -0.0414125 8.85804 0.124238 8.66674C0.164673 8.62007 1.13231 7.51081 2.70016 6.39124C4.79746 4.89367 6.97592 4.10199 9 4.10199C11.0241 4.10199 13.2026 4.89363 15.2998 6.39124C16.8676 7.51081 17.8353 8.62003 17.8758 8.66674C18.0414 8.858 18.0414 9.1419 17.8758 9.3332C17.8353 9.37987 16.8677 10.4891 15.2998 11.6087C13.2026 13.1063 11.0242 13.898 9 13.898ZM1.20687 9.00003C1.59819 9.39905 2.33673 10.1007 3.31186 10.7946C4.64871 11.7459 6.72072 12.88 9 12.88C11.2793 12.88 13.3513 11.7459 14.6881 10.7946C15.6631 10.1008 16.4017 9.39909 16.7931 9.00003C16.4018 8.60101 15.6633 7.89936 14.6881 7.20545C13.3513 6.25414 11.2793 5.12008 9 5.12008C6.72072 5.12008 4.64871 6.25414 3.31186 7.20545C2.33686 7.89924 1.59827 8.60089 1.20687 9.00003Z" fill="#080815" fillOpacity="0.5"/>
+                <path d="M9.00006 12.1559C7.25992 12.1559 5.84424 10.7401 5.84424 9.00003C5.84424 7.25993 7.25992 5.84421 9.00006 5.84421C9.76536 5.84421 10.5036 6.12168 11.0788 6.62555C11.2902 6.81079 11.3115 7.13235 11.1262 7.34381C10.941 7.55527 10.6194 7.57649 10.408 7.39129C10.0185 7.0501 9.51847 6.86222 9.00002 6.86222C7.82121 6.86222 6.8622 7.82126 6.8622 9.00003C6.8622 10.1788 7.82121 11.1378 9.00002 11.1378C10.1789 11.1378 11.1378 10.1788 11.1378 9.00003C11.1378 8.71894 11.3657 8.49103 11.6468 8.49103C11.9279 8.49103 12.1558 8.71894 12.1558 9.00003C12.1559 10.7401 10.7402 12.1559 9.00006 12.1559Z" fill="#080815" fillOpacity="0.5"/>
+                <path d="M8.99994 10.018C8.43861 10.018 7.98193 9.56136 7.98193 9.00003C7.98193 8.4387 8.43861 7.98203 8.99994 7.98203C9.56131 7.98203 10.0179 8.4387 10.0179 9.00003C10.0179 9.56136 9.56131 10.018 8.99994 10.018Z" fill="#080815" fillOpacity="0.5"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1113_1414">
+                <rect width="18" height="18" fill="white"/>
+                </clipPath>
+                </defs>
+              </svg>
+            </button>
+          </div>
+          <ReCAPTCHA
+            className={Authstyles['recaptcha']}
+            ref={refCaptcha}
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
+            onChange={() => {
+              setIsDisabled(false);
+            }}
+          />
+          <Tooltip
+            color="orange"
+            placement="bottom"
+            title={'Please check the terms and conditions checkbox to proceed'}
+            open={checkedError}
+          ></Tooltip>
+          {/* <div className={Authstyles['Auth-terms-signup']}>
+            <Link to="/login">Already have an account?</Link>
+          </div> */}
+          <Button
+            onClick={handleSubmit(onVerify)}
+            loading={isLoading}
+            disabled={isDisabled}
+            className={styles.SignupButton}
+          >
+            Create an account
+          </Button>
+        </form>
+        <div className={styles.ToLogin}>
+          <span>Already have an account? </span>
+          <Link to="/login" className={styles.Link}>
+            Log in
+          </Link>
+        </div>
+        {/* <div className={Authstyles['Customer-support']}>
+          Problems? Contact{' '}
+          <a href="https://www.touchmedical.ca/customer-care">customer support</a>
+        </div> */}
       </div>
     </div>
   );
