@@ -34,7 +34,6 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
   const [isEyeConfirm, setIsEyeConfirm] = useState(true);
   const [isUserNameValid, setIsUserNameValid] = useState(true);
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
-  const [checkedError, setCheckedError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [error, setError] = useState<any>();
@@ -169,11 +168,8 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
     const debounceId = setTimeout(() => {
       setUserName(styles.PasswordInput);
     }, 500);
-    if (
-      watchedValues.name != undefined &&
-      watchedValues.name.length !== 0
-    )
-    setUserName(styles.PasswordInputChange);
+    if (watchedValues.name != undefined && watchedValues.name.length !== 0)
+      setUserName(styles.PasswordInputChange);
     return () => {
       clearTimeout(debounceId);
     };
@@ -205,7 +201,11 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
                 })}
                 placeholder="Username"
                 type="text"
-                className={ isUserNameValid ? `${Authstyles['app-Input']} ${userName}` : `${Authstyles['app-Input']} ${styles.PasswordInputIvalid}` }
+                className={
+                  isUserNameValid
+                    ? `${Authstyles['app-Input']} ${userName}`
+                    : `${Authstyles['app-Input']} ${styles.PasswordInputIvalid}`
+                }
                 userName={isUserNameValid}
                 handleMouseEnter={handleMouseEnterUser}
                 handleMouseLeave={handleMouseLeaveUser}
@@ -298,12 +298,6 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
               setIsDisabled(false);
             }}
           />
-          <Tooltip
-            color="orange"
-            placement="bottom"
-            title={'Please check the terms and conditions checkbox to proceed'}
-            open={checkedError}
-          ></Tooltip>
           <Button
             onClick={handleSubmit(onVerify)}
             loading={isLoading}
