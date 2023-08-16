@@ -23,15 +23,6 @@
     color: #272424;
   }
 }
-input {
-  background-color: transparent !important;
-  &:hover,
-  &:focus,
-  &:active {
-    outline: none;
-    border: none;
-  }
-}
 .app-Input {
   width: 100%;
   border-radius: 100px;
