@@ -1,8 +1,14 @@
-import React, { CSSProperties, FC, forwardRef } from 'react';
+import React, {
+  CSSProperties,
+  FC,
+  forwardRef,
+  ChangeEventHandler,
+} from 'react';
 import './index.scss';
 import PassWordEye from './passwordEye';
 
 import SVGERROR from '../../components/ErrorSvg/index';
+
 interface InputProps {
   id?: string;
   name?: string;
@@ -13,14 +19,15 @@ interface InputProps {
   style?: CSSProperties;
   isEye?: boolean;
   value?: string;
-  togglePassword?: any;
-  defaultValue?: any;
-  onChange?: any;
+  togglePassword?: () => void;
+  defaultValue?: string;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   disabled?: boolean;
-  handleMouseEnter?: any;
-  handleMouseLeave?: any;
+  handleMouseEnter?: () => void;
+  handleMouseLeave?: () => void;
   userName?: boolean;
 }
+
 const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   (
     {
@@ -74,5 +81,7 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
+
 InputField.displayName = 'InputField';
+
 export default InputField;
