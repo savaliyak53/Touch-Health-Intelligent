@@ -121,19 +121,24 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
     const debounceId = setTimeout(() => {
       setActiveClass(styles.PasswordInput);
     }, 500);
-    setActiveClass(styles.PasswordInputChange);
+    
+    if (
+      watchedValues.password != undefined &&
+      watchedValues.password.length !== 0
+    )
+      setActiveClass(styles.PasswordInputChange);
     return () => {
       clearTimeout(debounceId);
     };
-  },[watchedValues.password]);
+  }, [watchedValues.password]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (errors.password?.message) {
       setIsEye(false);
     } else {
       setIsEye(true);
     }
-  })
+  });
 
   useEffect(() => {
     if (error) throw error;
@@ -163,7 +168,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
             color="orange"
             placement="bottomLeft"
             title={errors.password?.message}
-            open={isHovered == true ? true : false}
+            open={isHovered ? true : false}
           >
             <InputField
               id="password"
@@ -212,6 +217,19 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
             </Link>
           </div>
         </form>
+
+      </div>
+      <div className={styles.LinksWrap}>
+        <Link
+          to="https://www.touchmedical.ca/customer-care"
+          className={styles.OtherLink}
+        >
+          Customer care
+        </Link>
+        <Link to="/password-reset" className={styles.OtherLink}>
+          Forgot password
+        </Link>
+
       </div>
       <div className={styles.LinksWrap}>
         <Link

@@ -114,7 +114,10 @@
   @extend .PasswordInput;
   box-shadow: 0px 4px 0px 0px #204ECF;
 }
-
+.PasswordInputChange {
+  @extend .PasswordInput;
+  box-shadow: 0px 4px 0px 0px #204ECF;
+}
 
 .LoginButton {
   border-radius: 100px !important;
@@ -174,3 +177,4 @@
 .mb-14 {
   margin-bottom: 14px;
 }
+

@@ -4,7 +4,7 @@ import { Controller } from 'react-hook-form';
 import Authstyles from '../Auth.module.scss';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
-import SVGERROR from '../../../utils';
+import SVGERROR from '../../../components/ErrorSvg/index';
 import './index.scss';
 
 interface IProps {
@@ -21,7 +21,6 @@ const CountryCode = ({
   errors,
   control,
   fieldName,
-  isConfirmPhone,
   phone,
   disabled,
 }: IProps) => {
@@ -41,7 +40,7 @@ const CountryCode = ({
   const [isHovered, setIsHovered] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [activeClass, setActiveClass] = useState('app-Input');
-  const [val, setVal] = useState('');
+  const [phoneValue, setPhoneValue] = useState('');
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -52,13 +51,15 @@ const CountryCode = ({
   useEffect(() => {
     const debounceId = setTimeout(() => {
       setActiveClass('app-Input');
-    }, 500);
-    setActiveClass('new-Input-change');
+    }, 1000);
+    if (phoneValue !== undefined && phoneValue?.length !== 0) {
+      setActiveClass('new-Input-change');
+    }
     return () => {
       setActiveClass('app-Input');
       clearTimeout(debounceId);
     };
-  }, [val]);
+  }, [phoneValue]);
 
   return (
     <div className="input-element-wrapper">
@@ -78,6 +79,7 @@ const CountryCode = ({
             },
             validate: (value: any) => {
               if (fieldName === 'confirmPhone') {
+                setIsValid(value === phone);
                 return value === phone || 'Phone numbers do not match';
               }
               setIsValid(isValidPhoneNumber(value));
@@ -88,7 +90,7 @@ const CountryCode = ({
             <>
               {
                 // calling method on change according to this library
-                setVal(value)
+                setPhoneValue(value)
               }
               <div className="phoneInputContainer">
                 <PhoneInput
