@@ -19,7 +19,6 @@ import { Line } from 'react-chartjs-2';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 import rehypeRaw from 'rehype-raw';
-import { guidanceStatus } from '../../../services/authservice';
 import moment from 'moment';
 import { timeFrom } from '../../../utils/lib';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
@@ -34,10 +33,7 @@ const GoalDetails = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [type, setType] = useState<string>();
   const [guidanceData, setGuidanceDate] = useState<any>();
-  const [followUpData, setFollowUpData] = useState<any>();
   const [followUpPattern, setFollowUpPattern] = useState<any>();
-  const [loading, setLoading] = useState(false);
-  const [loading2, setLoading2] = useState(false);
   const [dataset, setDataset] = useState<any>();
   const [startDate, setForecastStartDate] = useState<any>();
   const [lastDate, setForecastLastDate] = useState<any>();
@@ -237,7 +233,6 @@ const GoalDetails = () => {
     setOpen(true);
     setType(type);
     setGuidanceDate(info);
-    setFollowUpData(data);
     //calculate followUpPattern
     const dates = timeFrom(14).sort((a: any, b: any) =>
       a[0].localeCompare(b[0])
@@ -263,34 +258,12 @@ const GoalDetails = () => {
     setGuidanceDate(undefined);
     setOpen(false);
   };
-  const handleGuidanceStatus = (status: string) => {
-    //activate-inactivate guidance
-    guidanceStatus(guidanceData.id, { status: status })
-      .then((response: any) => {
-        if (response.data) {
-          if (goalId) {
-            getGoalDetails(goalId);
-          }
-          setLoading(false);
-          setLoading2(false);
-          setOpen(false);
-        }
-      })
-      .catch((error) => {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details,
-        });
-      });
-  };
   useEffect(() => {
     window.scrollTo(0, 0);
     if (goalId) {
       getGoalDetails(goalId);
     }
-    setLoading(true);
     getDashboard().then((response) => {
-      setLoading(false);
       if (response.data) {
         setElements(response.data.elements);
       }
@@ -594,11 +567,6 @@ const GoalDetails = () => {
           followUpPattern={followUpPattern}
           type={type}
           guidanceData={guidanceData}
-          handleGuidanceStatus={handleGuidanceStatus}
-          setLoading={setLoading}
-          loading={loading}
-          setLoading2={setLoading2}
-          loading2={loading2}
         />
       </>
     </Layout>

@@ -13,11 +13,6 @@ export type IProps = {
   followUpPattern: any;
   type: string | undefined;
   guidanceData: any;
-  handleGuidanceStatus: any;
-  setLoading: any;
-  loading: boolean;
-  setLoading2: any;
-  loading2: boolean;
   renderData?: any;
   className?: string;
   title?: string;
@@ -27,12 +22,7 @@ const GuidanceModal = ({
   handleClose,
   followUpPattern,
   type,
-  guidanceData,
-  handleGuidanceStatus,
-  setLoading,
-  loading,
-  setLoading2,
-  loading2,
+  guidanceData
 }: IProps) => {
   return (
     <Modal
@@ -122,59 +112,6 @@ const GuidanceModal = ({
           <ReactMarkdown rehypePlugins={[rehypeRaw]}>
             {guidanceData?.description_md ? guidanceData?.description_md : ''}
           </ReactMarkdown>
-        </div>
-      )}
-
-      {type === 'active' && (
-        <div className={styles.GuidanceBtnWrap}>
-          <Button
-            className={'Submit-Button'}
-            onClick={() => {
-              handleGuidanceStatus('inactive');
-              setLoading(true);
-            }}
-            loading={loading}
-          >
-            Deactivate guidance
-          </Button>
-        </div>
-      )}
-      {type === 'new' && (
-        <div className={styles.GuidanceBtnActiveWrap}>
-          <Button
-            className={'Submit-Button'}
-            onClick={() => {
-              handleGuidanceStatus('inactive');
-              setLoading2(true);
-            }}
-            loading={loading2}
-          >
-            Not For me
-          </Button>
-          <Button
-            className={'Submit-Button'}
-            onClick={() => {
-              handleGuidanceStatus('active');
-              setLoading(true);
-            }}
-            loading={loading}
-          >
-            Activate
-          </Button>
-        </div>
-      )}
-      {type === 'inactive' && (
-        <div className={styles.GuidanceBtnActiveWrap}>
-          <Button
-            className={`Submit-Button`}
-            onClick={() => {
-              handleGuidanceStatus('active');
-              setLoading(true);
-            }}
-            loading={loading}
-          >
-            Activate
-          </Button>
         </div>
       )}
     </Modal>
