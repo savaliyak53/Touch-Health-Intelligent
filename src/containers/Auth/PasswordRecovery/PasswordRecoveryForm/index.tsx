@@ -24,8 +24,8 @@ const PasswordRecovery: React.FC = () => {
   const [disableSubmit, setDisableSubmit] = useState(true);
 
   const [isCodeSent, setIsCodeSent] = useState(false);
-  const [codeSubmitted, setCodeSubmitted] = useState(true);
-  const [enterNumber, setEnterNumber] = useState(false);
+  const [codeSubmitted, setCodeSubmitted] = useState(false);
+  const [enterNumber, setEnterNumber] = useState(true);
   const [changePassword, setChangePassword] = useState(false);
 
   const [username, setUsername] = useState<string | undefined>('');
@@ -48,8 +48,6 @@ const PasswordRecovery: React.FC = () => {
     setQuestion(sessionStorage.getItem('answer') || '');
     setAnswer(sessionStorage.getItem('question') || '');
     window.addEventListener('beforeunload', handleBeforeUnload);
-    setChangePassword(true);
-    setCodeSubmitted(false);
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
