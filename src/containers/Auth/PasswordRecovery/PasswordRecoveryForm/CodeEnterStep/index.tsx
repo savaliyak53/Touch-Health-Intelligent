@@ -17,7 +17,7 @@ import ConfirmModal from '../../../../../components/Modal/ConfirmModal';
 
 interface IProps {
   code: string | undefined;
-  setCode: Dispatch<SetStateAction<string | undefined>>;
+  setCode: Dispatch<SetStateAction<string>>;
   onSubmitCode: () => void;
   setDisableSubmit: (boolean: boolean) => void;
   handleOTPRequest: (boolean: boolean) => void;
@@ -81,12 +81,12 @@ const CodeEnterStep: React.FC<IProps> = ({
     handleOTPRequest(true);
     setEnableTimer(true);
     setIsDisabled(true);
-    restartTime(10);
+    restartTime(60);
     setOpenRecaptcha(false);
   };
 
   useEffect(() => {
-    restartTime(10);
+    restartTime(60);
   }, []);
 
   const handleOnChange = (value: string) => {
@@ -102,9 +102,6 @@ const CodeEnterStep: React.FC<IProps> = ({
       setError(true);
     }
   };
-
-  // ? 'Verification code is required'
-  // : 'Invalid verification code';
 
   return (
     <>

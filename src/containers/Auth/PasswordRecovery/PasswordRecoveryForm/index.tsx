@@ -28,8 +28,8 @@ const PasswordRecovery: React.FC = () => {
   const [enterNumber, setEnterNumber] = useState(true);
   const [changePassword, setChangePassword] = useState(false);
 
-  const [username, setUsername] = useState<string | undefined>('');
-  const [code, setCode] = useState<string | undefined>('');
+  const [username, setUsername] = useState<string>('');
+  const [code, setCode] = useState<string>('');
   const [question, setQuestion] = useState<string>('');
   const [answer, setAnswer] = useState<string>('');
 
@@ -44,9 +44,6 @@ const PasswordRecovery: React.FC = () => {
 
   useEffect(() => {
     setUsername(sessionStorage.getItem('username') || '');
-    setCode(sessionStorage.getItem('code') || '');
-    setQuestion(sessionStorage.getItem('answer') || '');
-    setAnswer(sessionStorage.getItem('question') || '');
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
@@ -54,17 +51,12 @@ const PasswordRecovery: React.FC = () => {
   }, []);
 
   const onSubmitCode = async () => {
-    getSecurityQuestions(username || '', code || '')
+    getSecurityQuestions(onlyNumbers(username), code)
       .then((response) => {
         if (response && response.security_questions.length > 0) {
           setCodeSubmitted(true);
           setIsCodeSent(false);
           setQuestion(response.security_questions[0].question);
-          sessionStorage.setItem('code', code || '');
-          sessionStorage.setItem(
-            'question',
-            response.security_questions[0].question || ''
-          );
         } else {
           setQuestion('');
           setIsCodeSent(false);
@@ -78,18 +70,17 @@ const PasswordRecovery: React.FC = () => {
 
   const confirmAnswer = async () => {
     checkAnswer({
-      username,
-      code,
+      username: onlyNumbers(username),
+      code: code,
       security_question: {
-        question,
-        answer,
+        question: question,
+        answer: answer,
       },
     })
       .then((response) => {
         if (response) {
           setChangePassword(true);
           setCodeSubmitted(false);
-          sessionStorage.setItem('answer', answer || '');
         }
       })
       .catch((err) => {
@@ -100,12 +91,12 @@ const PasswordRecovery: React.FC = () => {
   const onSubmitRecover = async (password: string) => {
     if (changePassword) {
       postResetPassword({
-        username,
-        code,
+        username: onlyNumbers(username),
+        code: code,
         new_password: password,
         security_question: {
-          question,
-          answer,
+          question: question,
+          answer: answer,
         },
       })
         .then((response: any) => {
@@ -130,15 +121,18 @@ const PasswordRecovery: React.FC = () => {
     const token = isResendOTP
       ? sessionStorage.getItem('recaptcha-token')
       : refCaptcha?.current?.getValue();
-    if (!onlyNumbers(username || '')) {
+
+    if (!onlyNumbers(username)) {
       setIsLoading(false);
       setIsDisabled(false);
       return;
     }
+
     if (!isResendOTP) {
-      sessionStorage.setItem('username', username || '');
+      sessionStorage.setItem('username', username);
     }
-    requestPhoneOTP(onlyNumbers(username || ''), token)
+
+    requestPhoneOTP(onlyNumbers(username), token)
       .then((res: any) => {
         if (res && res.status === 200) {
           setEnterNumber(false);
@@ -150,7 +144,7 @@ const PasswordRecovery: React.FC = () => {
             res.response.data &&
             res.response.data.title
           ) {
-            toast.error(res.response.data.title || 'Error');
+            toast.error(res.response.data.details || 'Error');
           } else {
             toast.error('Something whent wrong, try later.');
           }

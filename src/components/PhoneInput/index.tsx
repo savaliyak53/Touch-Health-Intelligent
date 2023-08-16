@@ -1,9 +1,6 @@
 import { Tooltip } from 'antd';
 import React, {
-  Dispatch,
-  SetStateAction,
   useState,
-  useEffect,
 } from 'react';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import ExclamationPointIcon from '../Icons/ExclamationPointIcon';
@@ -13,16 +10,11 @@ import '../TouchInput/index.scss';
 interface IProps {
   disabled?: boolean;
   value: string | undefined;
-  onChange: Dispatch<SetStateAction<string | undefined>>;
+  onChange: (value: string) => void;
   placeholder: string;
 }
 
-const TelephoneInput = ({
-  disabled,
-  value,
-  onChange,
-  placeholder
-}: IProps) => {
+const TelephoneInput = ({ disabled, value, onChange, placeholder }: IProps) => {
   const whitelist: any = [
     'AU',
     'CA',
@@ -58,13 +50,6 @@ const TelephoneInput = ({
     setActiveClass('input-container_username');
   };
 
-  useEffect(() => {
-    const debounceId = setTimeout(() => {
-      setShow(true);
-    }, 500);
-    return () => clearTimeout(debounceId);
-  }, []);
-
   return (
     <div className={`input-container ${activeClass}`}>
       <Tooltip
@@ -73,20 +58,18 @@ const TelephoneInput = ({
         title={'Invalid Phone number'}
         open={isHovered}
       >
-        {show && (
-          <PhoneInput
-            id={'phone-input'}
-            disabled={disabled}
-            placeholder={placeholder}
-            countries={whitelist}
-            value={value}
-            onBlur={handleOnBlur}
-            onFocus={handleOnFocuse}
-            onChange={onChange}
-            defaultCountry="CA"
-            addInternationalOption={false}
-          />
-        )}
+        <PhoneInput
+          id={'phone-input'}
+          disabled={disabled}
+          placeholder={placeholder}
+          countries={whitelist}
+          value={value}
+          onBlur={handleOnBlur}
+          onFocus={handleOnFocuse}
+          onChange={onChange}
+          defaultCountry="CA"
+          addInternationalOption={false}
+        />
         {error && (
           <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <ExclamationPointIcon className="info-icon" />

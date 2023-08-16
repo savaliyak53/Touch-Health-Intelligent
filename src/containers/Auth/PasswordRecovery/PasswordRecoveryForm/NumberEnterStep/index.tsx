@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { isValidPhoneNumber } from 'react-phone-number-input';
@@ -13,8 +13,8 @@ interface IProps {
   isLoading: boolean;
   isDisabled: boolean;
   refCaptcha: React.MutableRefObject<any>;
-  username: string | undefined;
-  onChange: Dispatch<SetStateAction<string | undefined>>;
+  username: string;
+  onChange: (value: string) => void;
 }
 
 const NumberEnterStep: React.FC<IProps> = ({

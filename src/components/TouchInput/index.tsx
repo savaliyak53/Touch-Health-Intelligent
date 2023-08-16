@@ -132,7 +132,7 @@ const TouchInput: FC<InputProps> = ({
       )}
       {type === 'password' && (
         <span className="toggle-icon" onClick={handleTogglePasswordVisibility}>
-          {isPasswordVisible ? <EyeIcon /> : <CloseEyeIcon />}
+          {isPasswordVisible ? <CloseEyeIcon /> : <EyeIcon />}
         </span>
       )}
       <Tooltip
