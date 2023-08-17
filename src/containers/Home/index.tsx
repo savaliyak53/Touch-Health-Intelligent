@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  getInteractionServiceByType,
+  invokeInteractionServiceByType,
   getUser,
   preferencesService,
   updatePreference,
@@ -13,9 +13,12 @@ import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal'
 import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
 
 const Home = () => {
-  const navigate = useNavigate();
-  const [exception, setException] = useState<boolean>(false);
   const context = useContext<AuthContextData | undefined>(AuthContext);
+
+  const navigate = useNavigate();
+  const userId = context?.user;
+
+  const [exception, setException] = useState<boolean>(false);
   const [error, setError] = useState<any>();
 
   const handleRedirect = (response: any) => {
@@ -25,22 +28,23 @@ const Home = () => {
       navigate('/dashboard');
     }
   };
+
   const getInteractionByType = (type: string) => {
     navigate('/dashboard');
-    // getInteractionServiceByType(type)
-    //   .then((response: any) => {
-    //     if (response.data) {
-    //       navigate('/questionnaire');
-    //     } else {
-    //       navigate('/dashboard');
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     setError({
-    //       code: error.response.status,
-    //       message: error.response.data.details,
-    //     });
-    //   });
+    invokeInteractionServiceByType(type)
+      .then((response: any) => {
+        if (response.data) {
+          navigate('/questionnaire');
+        } else {
+          navigate('/dashboard');
+        }
+      })
+      .catch((error) => {
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
+      });
   };
   const handleInitialIntake = () => {
     const userId = context?.user;
@@ -105,11 +109,7 @@ const Home = () => {
   const setUserSubscription = (response: any) => {
     getUserSubscription()
       .then((res) => {
-        //Need to have a discussion with nate around this
         if (
-          // (process.env.REACT_APP_IS_BETA === 'FALSE' &&
-          //   response?.data?.trial_end_date &&
-          //   moment(response?.data?.trial_end_date).isBefore(moment()) &&
           res.data.state == 'trial_expired' ||
           res.data.state == 'subscription_expired'
         ) {
@@ -122,18 +122,18 @@ const Home = () => {
         } else {
           if (response.data.signup_status === 'onboarding') {
             navigate('/dashboard');
-            // getInteractionServiceByType('onboarding')
-            //   .then((response: any) => {
-            //     handleRedirect(response);
-            //   })
-            //   .catch((error) => {
-            //     setError({
-            //       code: error.response.status,
-            //       message: error.response.data.details,
-            //     });
-            //   });
+            invokeInteractionServiceByType('onboarding')
+              .then((response: any) => {
+                handleRedirect(response);
+              })
+              .catch((error) => {
+                setError({
+                  code: error.response.status,
+                  message: error.response.data.details,
+                });
+              });
           } else if (response.data.signup_status === 'done') {
-            getInteractionByType('checkup');
+            getInteractionByType('answer_questions');
           } else if (response.data.signup_status === 'new') {
             const zoneVal = moment()
               .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)

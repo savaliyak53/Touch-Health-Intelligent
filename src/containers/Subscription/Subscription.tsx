@@ -24,8 +24,8 @@ import { ISubscriptionPlan, IUserSubscription } from './Interfaces';
 import { Link } from 'react-router-dom';
 import { LoadingOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import {
-  getInteractionServiceByType,
   getUser,
+  invokeInteractionServiceByType,
   preferencesService,
   updatePreference,
 } from '../../services/authservice';
@@ -270,7 +270,7 @@ const Subscription = () => {
       .then((preferencesResponse) => {
         if (preferencesResponse) {
           //after successful subscription initiate onboarding interaction
-          getInteractionServiceByType('onboarding')
+          invokeInteractionServiceByType('onboarding')
             .then((response: any) => {
               if (response) {
                 navigate('/questionnaire');
@@ -278,7 +278,7 @@ const Subscription = () => {
                 navigate('/');
               }
             })
-            .catch((error) => {
+            .catch(() => {
               toast.error(
                 `Something went wrong. Cannot initiate interaction at the moment `
               );
