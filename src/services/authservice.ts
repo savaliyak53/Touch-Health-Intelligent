@@ -181,3 +181,11 @@ export const revokeGoogleFit = async () => {
 export const getIntegrationStatus = async () => {
   return await axios.get(`${baseURL}/user/integration/status`);
 };
+
+export const invokeInteractionServiceByType = async (type: string) => {
+  return await axios.post(`${baseURL}/ai/interaction-flow`, {
+    meta: {
+      type,
+    },
+  });
+};
