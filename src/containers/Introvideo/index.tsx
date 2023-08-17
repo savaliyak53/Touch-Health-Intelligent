@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styles from './Introvideo.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { getInteractionServiceByType } from '../../services/authservice';
+import { invokeInteractionServiceByType } from '../../services/authservice';
 import { toast } from 'react-toastify';
 import Layout from '../../layouts/Layout/Layout';
 const IntroVideo = () => {
   const navigate = useNavigate();
   useEffect(() => {
     // const userId = localStorage.getItem('userId');
-    getInteractionServiceByType('frontend_testing')
+    invokeInteractionServiceByType('frontend_testing')
       .then((response: any) => {
         if (response) {
           navigate('/questionnaire');

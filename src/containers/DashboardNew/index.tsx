@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './DashboardNew.module.scss';
-import { Row, Col, Typography, Button, Progress } from 'antd';
+import { Row, Col, Typography, Button } from 'antd';
 import Layout from '../../layouts/Layout/Layout';
 import { Spin } from 'antd';
 import { getDashboard } from '../../services/dashboardservice';
@@ -9,6 +9,7 @@ import { timeFrom } from '../../utils/lib';
 import StreakWidget from './StreakWidget';
 import Drawer from '../../components/Modal/Drawer';
 import { GoalsComp } from '../../components/Goals-comp';
+import { invokeInteractionServiceByType } from '../../services/authservice';
 
 const DashboardNew = () => {
   const [elements, setElements] = useState<any>();
@@ -65,6 +66,23 @@ const DashboardNew = () => {
       });
   }, []);
 
+  const getInteractionByType = (type: string) => {
+    invokeInteractionServiceByType(type)
+      .then((response: any) => {
+        if (response.data) {
+          navigate('/questionnaire');
+        } else {
+          navigate('/dashboard');
+        }
+      })
+      .catch((error) => {
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
+      });
+  };
+
   useEffect(() => {
     if (error) throw error;
   }, [error]);
@@ -87,7 +105,7 @@ const DashboardNew = () => {
             className={'Daily-Checkin-Btn'}
             onClick={() => setDrawerOpen(true)}
           >
-            <span className='Checkin-Text'>Daily Check-in</span>
+            <span className="Checkin-Text">Daily Check-in</span>
           </Button>
           {/* Goals Detail Head + Add new Goal */}
           <Row>
@@ -139,17 +157,13 @@ const DashboardNew = () => {
               </Button>
               <Button
                 className={'Button-Drawer'}
-                onClick={() => {
-                  console.log('2');
-                }}
+                onClick={() => getInteractionByType('update_conditions')}
               >
                 Update my conditions
               </Button>
               <Button
                 className={'Button-Drawer-Secondary'}
-                onClick={() => {
-                  console.log('3');
-                }}
+                onClick={() => getInteractionByType('explore_data')}
               >
                 Explore my data
               </Button>
