@@ -9,7 +9,6 @@ import { timeFrom } from '../../utils/lib';
 import StreakWidget from './StreakWidget';
 import Drawer from '../../components/Modal/Drawer';
 import { GoalsComp } from '../../components/Goals-comp';
-import DataPointWidget from './DataPointWidget';
 import { invokeInteractionServiceByType } from '../../services/authservice';
 
 const DashboardNew = () => {
@@ -97,7 +96,6 @@ const DashboardNew = () => {
               <div className={`Title DashboardTitle`}>Your Dashboard</div>
             </Col>
           </Row>
-          <DataPointWidget />
           <StreakWidget
             streakCount={streakCount}
             elementStreak={elementStreak}
