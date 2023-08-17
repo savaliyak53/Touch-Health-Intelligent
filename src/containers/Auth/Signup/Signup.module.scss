@@ -7,13 +7,17 @@
   background-image: url('../../../../public/assets/images/background-mobile-auth.png');
   background-repeat: no-repeat;
   background-size: cover;
-
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   @media (min-width: 576px) {
     background-image: url('../../../../public/assets/images/background-desktop-auth.png');
     background-repeat: no-repeat;
     background-position: 100% center;
     background-size: cover;
   }
+}
+.SignupBGWrap::-webkit-scrollbar {
+  display: none;
 }
 
 .SignupView {
@@ -129,6 +133,12 @@
   padding: 16px 32px;
   height: 100%;
   margin-top: 32px;
+  text-align: center;
+  font-family: 'Tilt Warp';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 14px;
 }
 
 .ToLogin {
