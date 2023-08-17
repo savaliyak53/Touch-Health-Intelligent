@@ -133,12 +133,6 @@ export const getInteractionService = async () => {
   return await axios.get(`${baseURL}/ai/interaction`);
 };
 
-export const getInteractionServiceByType = async (flow_id: string) => {
-  return await axios.post(`${baseURL}/ai/interaction-flow`, {
-    flow_id,
-  });
-};
-
 export const postInteractionService = async (data: InteractionService) => {
   return await axios.post(`${baseURL}/ai/interaction`, data);
 };

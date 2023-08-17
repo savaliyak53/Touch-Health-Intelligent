@@ -1,6 +1,14 @@
-import React, { CSSProperties, FC, forwardRef } from 'react';
-import { AiOutlineEye } from 'react-icons/ai';
+import React, {
+  CSSProperties,
+  FC,
+  forwardRef,
+  ChangeEventHandler,
+} from 'react';
 import './index.scss';
+import PassWordEye from './passwordEye';
+
+import SVGERROR from '../../components/ErrorSvg/index';
+
 interface InputProps {
   id?: string;
   name?: string;
@@ -11,11 +19,15 @@ interface InputProps {
   style?: CSSProperties;
   isEye?: boolean;
   value?: string;
-  togglePassword?: any;
-  defaultValue?: any;
-  onChange?: any;
+  togglePassword?: () => void;
+  defaultValue?: string;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   disabled?: boolean;
+  handleMouseEnter?: () => void;
+  handleMouseLeave?: () => void;
+  userName?: boolean;
 }
+
 const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   (
     {
@@ -30,16 +42,15 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
       togglePassword,
       onChange,
       disabled,
+      handleMouseEnter,
+      handleMouseLeave,
+      userName,
       ...rest
     },
     ref
   ) => {
     return (
-      <div
-        className={
-          isEye ? 'input-element-wrapper-password' : 'input-element-wrapper'
-        }
-      >
+      <div className={'input-element-wrapper-password'}>
         <input
           type={type}
           name={name}
@@ -54,13 +65,23 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
           disabled={disabled}
         />
         {isEye ? (
-          <button className="btn" onClick={togglePassword} type="button">
-            <AiOutlineEye />
-          </button>
-        ) : null}
+          <PassWordEye togglePassword={togglePassword} />
+        ) : userName ? null : (
+          <SVGERROR
+            handleMouseEnter={handleMouseEnter}
+            handleMouseLeave={handleMouseLeave}
+            style={{
+              position: 'absolute',
+              right: 25,
+              marginTop: '10px',
+            }}
+          />
+        )}
       </div>
     );
   }
 );
+
 InputField.displayName = 'InputField';
+
 export default InputField;
