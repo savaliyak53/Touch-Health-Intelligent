@@ -9,7 +9,6 @@ import { timeFrom } from '../../utils/lib';
 import StreakWidget from './StreakWidget';
 import Drawer from '../../components/Modal/Drawer';
 import { GoalsComp } from '../../components/Goals-comp';
-import DataPointWidget from './DataPointWidget';
 
 const DashboardNew = () => {
   const [elements, setElements] = useState<any>();
@@ -79,7 +78,6 @@ const DashboardNew = () => {
               <div className={`Title DashboardTitle`}>Your Dashboard</div>
             </Col>
           </Row>
-          <DataPointWidget />
           <StreakWidget
             streakCount={streakCount}
             elementStreak={elementStreak}
