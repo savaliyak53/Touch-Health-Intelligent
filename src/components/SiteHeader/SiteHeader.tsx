@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Button } from 'antd';
-import { CloseOutlined, MenuOutlined } from '@ant-design/icons';
+import { CloseOutlined } from '@ant-design/icons';
 import styles from './SiteHeader.module.scss';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -8,18 +8,21 @@ import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
 import { FieldTimeOutlined } from '@ant-design/icons';
 import { trialExceptionRoutes } from '../../Routes/Constants';
 import ArrowIcon from '../Icons/ArrowIcon';
+import BurgerIcon from '../Icons/BurgerIcon';
 
 type Props = {
   defaultHeader: boolean;
   hamburger: boolean;
   trialRemaining?: string;
   title?: string;
+  whitBackArrow?: boolean;
 };
 const SiteHeader = ({
   defaultHeader,
   hamburger,
   trialRemaining,
   title = '',
+  whitBackArrow = false,
 }: Props) => {
   const [BurgerMenu, setBurgerMenu] = useState(false);
   const navigate = useNavigate();
@@ -35,9 +38,11 @@ const SiteHeader = ({
       {defaultHeader && (
         <header className="absolute top-0 w-full h-[90px] flex flex-col justify-end">
           <span className="text-xs text-left font-normal leading-none ml-[21px] text-primary-watermelons-dark font-roboto">
-            <span className="mr-4">
+            {whitBackArrow &&
+              <span className="mr-4">
               <ArrowIcon className="inline mr-2" /> Back
-            </span>
+              </span>
+            }
             {showTrialBanner && (
               <span className="font-normal text-xs text-primary-watermelons-dark font-roboto">
                 <FieldTimeOutlined /> You have <b>{trialRemaining} </b>left in
@@ -58,11 +63,7 @@ const SiteHeader = ({
                   hamburger ? styles['d-block'] : styles['d-none']
                 }`}
               >
-                <MenuOutlined className={styles['menu']} />
-                {/* <img
-                  src={`${process.env.PUBLIC_URL}/assets/mobileassets/nav.svg`}
-                  alt='Touch Logo'
-                /> */}
+                <BurgerIcon  />
               </Button>
             </div>
           </div>
