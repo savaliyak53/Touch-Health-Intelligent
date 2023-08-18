@@ -9,8 +9,6 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { Button, Modal } from 'antd';
 import {
-  getGoals,
-  getGoalsSuggestion,
   getGoalsSearch,
   addGoal,
   deleteGoal,
@@ -113,38 +111,6 @@ const AddGoals = () => {
   };
   const debouncedSearchValue = useDebounce(searchValue, 500);
 
-  const getGoalsData = () => {
-    getGoals()
-      .then((res: any) => {
-        setGoals(res.data);
-        getSuggestedGoals(res.data);
-      })
-      .catch((err) => {
-        setError({
-          code: err.response.status,
-          message: err.response.data.details,
-        });
-      });
-  };
-
-  const getSuggestedGoals = (goals: any) => {
-    getGoalsSuggestion()
-      .then((res: any) => {
-        if (res?.data) {
-          const result = res.data.filter(
-            (item: any) => !goals.some((goal: any) => goal.id === item.id)
-          );
-          setSuggestion(result);
-        }
-      })
-      .catch((err) => {
-        setError({
-          code: err.response.status,
-          message: err.response.data.details,
-        });
-      });
-  };
-
   const handleOptionSelect = (value: string, option: any) => {
     setSelectedGoal(option.item);
     setIsModalOpen(true);
@@ -161,7 +127,6 @@ const AddGoals = () => {
         toast.success('Goal added successfully');
         setIsModalOpen(false);
         setOptions(null);
-        getGoalsData();
       })
       .catch((error) => {
         setError({
@@ -178,7 +143,6 @@ const AddGoals = () => {
         setIsLoading(false);
         setIsDisabled(false);
         setSearchValue('');
-        getGoalsData();
         setIsModalOpen(false);
       })
       .catch((error: any) => {
@@ -197,7 +161,6 @@ const AddGoals = () => {
     }, 1000);
   };
   useEffect(() => {
-    getGoalsData();
     getUserStatus();
   }, []);
 

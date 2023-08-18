@@ -1,13 +1,5 @@
 import axios from '../utils/axios';
 
-export const getGoals = async () => {
-  return axios.get(`/ai/goals/active`);
-};
-
-export const getGoalsSuggestion = async () => {
-  return axios.get(`/ai/goals/suggested`);
-};
-
 export const getGoalsSearch = async (search: string) => {
   return axios.get(`/ai/goals/search?q=${search}`);
 };
