@@ -55,8 +55,6 @@ const AppRoutes = () => {
         <Route path="/questionnaire-poc" element={<MockQuestionnaire />} />
         <Route element={<RequireAuth />}>
           <Route path="/dashboard" element={<DashboardNew />} />
-          {/*<Route path="/intro-goals" element={<IntroGoals />} />*/}
-          {/*<Route path="/goals/:id" element={<GoalDetails />} />*/}
           <Route path="insights" element={<Insights />} />
           <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
           <Route path="/insights/guideline" element={<Timeline />} />
