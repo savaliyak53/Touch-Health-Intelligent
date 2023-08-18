@@ -136,6 +136,7 @@ const ManageConditions = () => {
     <Layout
       defaultHeader={true}
       hamburger={location.pathname === '/conditions' ? false : true}
+      title='conditions'
     >
       <div className="Content-wrap Con">
         <h2 className={styles["Con-title"]}>

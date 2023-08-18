@@ -78,7 +78,7 @@ const GoogleFitSuccess = () => {
   }, [error]);
 
   return (
-    <Layout defaultHeader={true} hamburger={true}>
+    <Layout defaultHeader={true} hamburger={true} title={'Google fit'}>
       <Spin spinning={loading}>
         <div className="Content-wrap DayCon">
           <div className="Question">

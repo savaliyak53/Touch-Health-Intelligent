@@ -196,7 +196,7 @@ const Dashboard = () => {
   };
   return (
     <>
-      <Layout defaultHeader={true} hamburger={true} dashboard={true}>
+      <Layout defaultHeader={true} hamburger={true} dashboard={true} title={'Dashboard'}>
         <div className={styles['Db-wrap']}>
           <div className="dsgbtn-group">
             <div className={styles['btn-group']}>
