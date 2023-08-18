@@ -16,6 +16,7 @@ type Props = {
   trialRemaining?: string;
   title?: string;
   whitBackArrow?: boolean;
+  steps?: string;
 };
 const SiteHeader = ({
   defaultHeader,
@@ -23,6 +24,7 @@ const SiteHeader = ({
   trialRemaining,
   title = '',
   whitBackArrow = false,
+  steps = ''
 }: Props) => {
   const [BurgerMenu, setBurgerMenu] = useState(false);
   const navigate = useNavigate();
@@ -51,8 +53,8 @@ const SiteHeader = ({
             )}
           </span>
           <div className="flex justify-between mt-2 mx-[21px]">
-            <div className="font-tilt-warp text-primary-delft-dark font-normal text-[22px] leading-[36px]">
-              {title}
+            <div className="flex items-center font-tilt-warp text-primary-delft-dark font-normal text-[22px] leading-[36px]">
+              {title} {steps && <span className={'ml-2 text-primary-watermelons-dark font-roboto text-xs font-normal leading-none'}>{steps}</span>}
             </div>
             <div
               className={styles['Toggler-btn']}
