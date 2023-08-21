@@ -77,7 +77,7 @@ const SecurityQuestions = () => {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={false}>
+    <Layout defaultHeader={true} hamburger={false} title={'Security Question'}>
       <div className={styles['Security-wrap']}>
         <h2 id="header" className={styles['Con-title']}>
           Security question <Spin spinning={loading} />

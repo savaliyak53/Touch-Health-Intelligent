@@ -9,7 +9,6 @@ import { RequireAuth, RequireSignup } from '../utils/RequireAuth';
 import ThankyouForSubmiting from '../containers/ThankyouForSubmiting';
 import IntroVideo from '../containers/Introvideo';
 import DashboardNew from '../containers/DashboardNew';
-import Status from '../containers/Status';
 import Insights from '../containers/Insights';
 import Timeline from '../containers/Timeline/index';
 import ManageConditions from '../containers/Conditions';
@@ -22,8 +21,6 @@ import HelpAndSupport from '../containers/HelpAndSupport';
 import Success from '../containers/Success';
 import Error from '../containers/Error';
 import Home from '../containers/Home';
-import IntroGoals from '../containers/Goals/IntroGoals';
-import GoalDetails from '../containers/Goals/Details/index';
 import PasswordRecovery from '../containers/Auth/PasswordRecovery';
 import GoogleFitSuccess from '../containers/GoogleFitSuccess/GoogleFitSuccess';
 import Integrations from '../containers/Integeration';
@@ -58,9 +55,6 @@ const AppRoutes = () => {
         <Route path="/questionnaire-poc" element={<MockQuestionnaire />} />
         <Route element={<RequireAuth />}>
           <Route path="/dashboard" element={<DashboardNew />} />
-          <Route path="/status" element={<Status />} />
-          <Route path="/intro-goals" element={<IntroGoals />} />
-          <Route path="/goals/:id" element={<GoalDetails />} />
           <Route path="insights" element={<Insights />} />
           <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
           <Route path="/insights/guideline" element={<Timeline />} />

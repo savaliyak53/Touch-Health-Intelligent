@@ -88,7 +88,7 @@ const DashboardNew = () => {
   }, [error]);
 
   return (
-    <Layout defaultHeader={true} hamburger={true} dashboard={false}>
+    <Layout defaultHeader={true} hamburger={true} dashboard={false} title={'Dashboard'}>
       <Spin spinning={loading}>
         <div>
           <Row>

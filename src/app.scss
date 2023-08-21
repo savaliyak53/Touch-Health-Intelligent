@@ -1,4 +1,20 @@
 @import './variables.module.scss';
+
+.main-layout-background {
+  width: 100%;
+  background-image: url('../public/assets/images/background-average.svg');
+  background-position: right;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  @media screen and (max-width: 992px) {
+    background-image: url('../public/assets/images/background-small.svg');
+  }
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+
 .ApplicationLayout {
   width: 100%;
   min-height: 100%;

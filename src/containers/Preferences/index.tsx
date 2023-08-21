@@ -118,7 +118,7 @@ const Preferences = () => {
     }
   };
   return (
-    <Layout defaultHeader={true} hamburger={true}>
+    <Layout defaultHeader={true} hamburger={true} title={'Preferences'}>
       <Spin spinning={spinning}>
         <div className={`${styles['Pref-wrap']}`}>
           <h2 className={`Title`}>Preferences</h2>

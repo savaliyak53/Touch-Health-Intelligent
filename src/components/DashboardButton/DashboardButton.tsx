@@ -45,7 +45,8 @@ function DashboardButton({
   }, [context?.showButton]);
   const handleClick = () => {
     if (!disabled) {
-      navigate(`/goals/${insight?.id}`);
+      // we haven`t new drawer component for that goal
+      // navigate(`/goals/${insight?.id}`);
     }
   };
   return (

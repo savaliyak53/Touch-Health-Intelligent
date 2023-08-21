@@ -13,7 +13,7 @@ const SubscriptionSuccess = () => {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={true}>
+    <Layout defaultHeader={true} hamburger={true} title={'Success'}>
       <div className="Content-wrap DayCon">
         <div className="Question">
           <Alert message="Subscription successful" type="success" />

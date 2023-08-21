@@ -233,7 +233,7 @@ const Insights = () => {
   };
   return (
     <>
-      <Layout defaultHeader={true} hamburger={true} dashboard={false}>
+      <Layout defaultHeader={true} hamburger={true} dashboard={false} title={'Insights'}>
         <Spin spinning={loader}>
           <div className="Content-wrap Analytic">
             <div className="Insite-btn" onClick={handleTimelineChange}>

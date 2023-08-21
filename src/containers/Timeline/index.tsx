@@ -117,7 +117,7 @@ const Timeline = () => {
   );
   return (
     <>
-      <Layout defaultHeader={true} hamburger={true} dashboard={false}>
+      <Layout defaultHeader={true} hamburger={true} dashboard={false} title={'Time line'}>
         <Spin spinning={loader}>
           <div className="Content-wrap Corr">
             <div className="Insite-btn" onClick={handleInsightsChange}>

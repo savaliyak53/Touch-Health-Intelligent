@@ -6,14 +6,16 @@ type Props = {
     defaultHeader: boolean
     hamburger: boolean
     children?: React.ReactChild | React.ReactChild[]
+    title?: string;
 }
-const Layout = ({ children, defaultHeader, hamburger }: Props) => {
+const Layout = ({ children, defaultHeader, hamburger, title }: Props) => {
     return (
         <div className="Layout">
             <div className="Layout-Transparent">
                 <SiteHeader
                     defaultHeader={defaultHeader}
                     hamburger={hamburger}
+                    title={title}
                 />
                 <div
                     className={
