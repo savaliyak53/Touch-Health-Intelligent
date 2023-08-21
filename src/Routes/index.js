@@ -9,6 +9,7 @@ import { RequireAuth, RequireSignup } from '../utils/RequireAuth';
 import ThankyouForSubmiting from '../containers/ThankyouForSubmiting';
 import IntroVideo from '../containers/Introvideo';
 import DashboardNew from '../containers/DashboardNew';
+import Status from '../containers/Status';
 import Insights from '../containers/Insights';
 import Timeline from '../containers/Timeline/index';
 import ManageConditions from '../containers/Conditions';
@@ -57,6 +58,7 @@ const AppRoutes = () => {
         <Route path="/questionnaire-poc" element={<MockQuestionnaire />} />
         <Route element={<RequireAuth />}>
           <Route path="/dashboard" element={<DashboardNew />} />
+          <Route path="/status" element={<Status />} />
           <Route path="/intro-goals" element={<IntroGoals />} />
           <Route path="/goals/:id" element={<GoalDetails />} />
           <Route path="insights" element={<Insights />} />
