@@ -166,7 +166,7 @@ const Layout = ({
               trialRemaining={trialRemaining}
               title={title}
             />
-            <div className="max-w-full w-full h-full pt-13 pb-5 mx-[20%]">
+            <div className="max-w-full w-full h-full pt-13 pb-5 mx-6 md:mx-[20%]">
               <div className="h-[90px] z-0" />
               <LogoSmal className={`inline ${dashboard ? 'mt-10' : 'mt-14'}`} />
               <div className="flex flex-col h-full">{children}</div>
