@@ -154,25 +154,27 @@ const Layout = ({
     if (error) throw error;
   }, [error]);
   return (
-    <div className="w-full flex overflow-hidden relative min-h-screen">
+    <div className="w-full max-w-[100%] flex overflow-hidden relative min-h-screen">
       {loading ? (
         <Spin size="large" className=" Spinner" />
       ) : (
         <>
-          <div className="w-full relative max-w-full flex text-center items-center justify-center">
-            <SiteHeader
-              defaultHeader={defaultHeader}
-              hamburger={hamburger}
-              trialRemaining={trialRemaining}
-              title={title}
-            />
-            <div className="max-w-full w-full h-full pt-13 pb-5 mx-6 md:mx-[20%]">
-              <div className="h-[90px] z-0" />
-              <LogoSmal className={`inline ${dashboard ? 'mt-10' : 'mt-14'}`} />
-              <div className="flex flex-col h-full">{children}</div>
+          <div className="w-full max-w-full lg:max-w-[50%] relative max-w-full flex text-center items-center justify-center">
+            <div className="sm:mx-[20%] w-full max-w-[520px]">
+              <SiteHeader
+                defaultHeader={defaultHeader}
+                hamburger={hamburger}
+                trialRemaining={trialRemaining}
+                title={title}
+              />
+              <div className="max-w-full w-full h-full pt-13 pb-5 ">
+                <div className="h-[90px] z-0" />
+                <LogoSmal className={`inline ${dashboard ? 'mt-10' : 'mt-14'}`} />
+                <div className="flex flex-col h-full">{children}</div>
+              </div>
             </div>
           </div>
-          <div className="w-full bg-right bg-cover bg-no-repeat main-layout-background">
+          <div className="w-full max-w-[50%] bg-right bg-cover bg-no-repeat main-layout-background">
             <LogoDesktop className="float-right mr-12 mt-10" />
           </div>
         </>

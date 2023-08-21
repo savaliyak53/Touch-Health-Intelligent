@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import Layout from '../../layouts/Layout/Layout';
 
 const DashboardNew = () => {
   return (
-    <Layout defaultHeader={true} hamburger={true} dashboard={false}>
+    <>
       <div className="flex flex-col justify-center items-center mb-8">
         <div className="flex justify-center items-center">
           <img
@@ -301,7 +300,7 @@ const DashboardNew = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

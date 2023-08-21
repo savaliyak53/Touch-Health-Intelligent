@@ -38,7 +38,7 @@ const SiteHeader = ({
   return (
     <>
       {defaultHeader && (
-        <header className="absolute top-0 w-full h-[90px] flex flex-col justify-end">
+        <header className="absolute top-0 w-full h-[90px] max-w-[520px] flex flex-col justify-end">
           <span className="text-xs text-left font-normal leading-none ml-[21px] text-primary-watermelons-dark font-roboto">
             {whitBackArrow &&
               <span className="mr-4">
@@ -52,7 +52,7 @@ const SiteHeader = ({
               </span>
             )}
           </span>
-          <div className="flex justify-between mt-2 mx-[21px]">
+          <div className="flex justify-between mt-2 px-[20px]">
             <div className="flex items-center font-tilt-warp text-primary-delft-dark font-normal text-[22px] leading-[36px]">
               {title} {steps && <span className={'ml-2 text-primary-watermelons-dark font-roboto text-xs font-normal leading-none'}>{steps}</span>}
             </div>
