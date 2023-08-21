@@ -168,8 +168,14 @@ const Layout = ({
                 title={title}
               />
               <div className="max-w-full w-full h-full pt-13 pb-5 ">
-                <div className="h-[90px] z-0" />
-                <LogoSmal className={`inline ${dashboard ? 'mt-10' : 'mt-14'}`} />
+                {dashboard ? (
+                  <></>
+                ) : (
+                  <>
+                    <div className="h-[90px] z-0" />
+                    <LogoSmal className={`inline  'mt-14`} />
+                  </>
+                )}
                 <div className="flex flex-col h-full">{children}</div>
               </div>
             </div>

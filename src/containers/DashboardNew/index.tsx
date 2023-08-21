@@ -55,7 +55,7 @@ const DashboardNew = () => {
     <Layout
       defaultHeader={true}
       hamburger={true}
-      dashboard={false}
+      dashboard={true}
       title={'Dashboard'}
     >
       <Spin spinning={loading}>
