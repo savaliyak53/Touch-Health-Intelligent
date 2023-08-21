@@ -10,6 +10,7 @@ import StreakWidget from './StreakWidget';
 import Drawer from '../../components/Modal/Drawer';
 import { GoalsComp } from '../../components/Goals-comp';
 import { invokeInteractionServiceByType } from '../../services/authservice';
+import EntityListWidget from '../../components/Widgets/EntityListWidget';
 
 const DashboardNew = () => {
   const [elements, setElements] = useState<any>();
@@ -107,7 +108,13 @@ const DashboardNew = () => {
           >
             <span className="Checkin-Text">Daily Check-in</span>
           </Button>
-          {/* Goals Detail Head + Add new Goal */}
+
+          {/* Conditions widget */}
+          <EntityListWidget type={'conditions'}/>
+          {/* Influencers widget */}
+          <EntityListWidget type={'influencers'}/>
+
+           {/*Goals Detail Head + Add new Goal */}
           <Row>
             <Col span={24}>
               <div className={styles.GoalsTitleContainer}>

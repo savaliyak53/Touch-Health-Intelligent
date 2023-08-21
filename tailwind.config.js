@@ -67,9 +67,10 @@ module.exports = {
         },
         rae: "#FCDED6",
         nimbus: "#F0ECE7",
-        dentist: "#FEFEFE",
+        dentist: "#FDFCFB",
         white: "#fff",
         black: "#000",
+        isabelLine: '#F6F3F0'
       },
       fontSize: {
         subtitle1: [
@@ -135,7 +136,7 @@ module.exports = {
       fontFamily: {
         'roboto': ['Roboto', 'sans-serif'],
         'tilt-warp': ['Tilt Warp', 'cursive']
-      },
+      }
     },
   },
   plugins: [
