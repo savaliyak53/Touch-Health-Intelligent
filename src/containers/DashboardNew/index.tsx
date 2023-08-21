@@ -58,8 +58,8 @@ const DashboardNew = () => {
       dashboard={true}
       title={'Dashboard'}
     >
-      <Spin spinning={loading}>
         <Status />
+      <Spin spinning={loading}>
         <Drawer
           title="Daily check-in"
           open={drawerOpen}

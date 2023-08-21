@@ -159,8 +159,8 @@ const Layout = ({
         <Spin size="large" className=" Spinner" />
       ) : (
         <>
-          <div className="w-full max-w-full lg:max-w-[50%] relative max-w-full flex text-center items-center justify-center">
-            <div className="sm:mx-[20%] w-full max-w-[520px]">
+          <div className="w-full max-w-full lg:max-w-[50%] relative max-w-full flex text-center">
+            <div className="mx-auto w-full max-w-[390px]">
               <SiteHeader
                 defaultHeader={defaultHeader}
                 hamburger={hamburger}

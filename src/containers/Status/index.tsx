@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const DashboardNew = () => {
   return (
     <>
-      <div className="flex flex-col justify-center items-center mb-8">
+      <div className="flex flex-col justify-center items-center mb-8 mt-[96px]">
         <div className="flex justify-center items-center">
           <img
             src={`${process.env.PUBLIC_URL}/assets/icons/cur8-status-widget.svg`}
