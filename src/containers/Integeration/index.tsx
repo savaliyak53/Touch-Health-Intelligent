@@ -244,6 +244,7 @@ const Integrations = () => {
     <Layout
       defaultHeader={true}
       hamburger={loc?.state?.redirect ? false : true}
+      title={'Integration'}
     >
       <Spin spinning={spinning}>
         <div className={`${styles['Integration-wrap']}`}>

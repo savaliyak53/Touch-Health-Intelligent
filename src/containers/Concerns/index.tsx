@@ -118,6 +118,7 @@ const ManageConcerns = () => {
       <Layout
         defaultHeader={true}
         hamburger={location.pathname === '/concerns' ? false : true}
+        title='Concerns'
       >
         <div
           className="Content-wrap Concerns"

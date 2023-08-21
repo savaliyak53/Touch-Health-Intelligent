@@ -132,6 +132,10 @@ module.exports = {
       boxShadow: {
         primary: '0px 4px 0px 0px #F0ECE7'
       },
+      fontFamily: {
+        'roboto': ['Roboto', 'sans-serif'],
+        'tilt-warp': ['Tilt Warp', 'cursive']
+      },
     },
   },
   plugins: [

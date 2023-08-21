@@ -247,7 +247,7 @@ function UserCondition() {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={false}>
+    <Layout defaultHeader={true} hamburger={false} title={'Questionnaire'}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
       {question?.type === 'error' || exception ? (
         <div>

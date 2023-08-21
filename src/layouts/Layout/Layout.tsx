@@ -1,17 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Spin } from 'antd';
+import moment from 'moment';
 import SiteHeader from '../../components/SiteHeader/SiteHeader';
-import './Layout.scss';
 import { useLocation, useNavigate } from 'react-router';
 import { getUser } from '../../services/authservice';
 import { getUserSubscription } from '../../services/subscriptionService';
 import { signupFlow } from '../../utils/lib';
 import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
 import AuthContext from '../../contexts/AuthContext';
-import moment from 'moment';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
 import { backButtonPreventionRoutes } from '../../Routes/Constants';
-import { Spin } from 'antd';
+import LogoDesktop from '../../components/Icons/LogoDesktop';
+import LogoSmal from '../../components/Icons/LogoSmal';
 
 type Props = {
   defaultHeader: boolean;
@@ -19,6 +20,7 @@ type Props = {
   setDisableAllButtons?: React.Dispatch<React.SetStateAction<boolean>>;
   dashboard?: boolean;
   signupLogin?: string;
+  title?: string;
   children?: React.ReactChild | React.ReactChild[];
 };
 const Layout = ({
@@ -26,7 +28,7 @@ const Layout = ({
   defaultHeader,
   hamburger,
   dashboard,
-  signupLogin,
+  title,
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
   const [trialRemaining, setTrialRemaining] = useState<string>('');
@@ -73,11 +75,14 @@ const Layout = ({
     getUserSubscription()
       .then((res) => {
         setLoading(false);
-        if (res?.data?.data?.trialData?.trialEndDate && moment(res?.data?.data?.trialData?.trialEndDate).isAfter(moment())) {
+        if (
+          res?.data?.data?.trialData?.trialEndDate &&
+          moment(res?.data?.data?.trialData?.trialEndDate).isAfter(moment())
+        ) {
           setTrialRemaining(res?.data?.data?.trialData?.trialRemaining);
-        }
-        else if (
-          res.data.state == 'trial_expired' || res.data.state == 'subscription_expired'
+        } else if (
+          res.data.state == 'trial_expired' ||
+          res.data.state == 'subscription_expired'
         ) {
           setIsSubscribed(false);
           location.pathname !== '/subscription'
@@ -120,8 +125,8 @@ const Layout = ({
   };
   const handleOk = () => {
     setIsOpen(false);
-    if (signupStatus === 'onboarding') navigate('/questionnaire')
-    else if (isSubscribed) navigate('/dashboard')
+    if (signupStatus === 'onboarding') navigate('/questionnaire');
+    else if (isSubscribed) navigate('/dashboard');
     else navigate('/subscription');
   };
   const handleCancel = () => {
@@ -148,30 +153,30 @@ const Layout = ({
   useEffect(() => {
     if (error) throw error;
   }, [error]);
-
   return (
-    <div className={`Layout ${signupLogin}`}>
-      <div
-        className={
-          dashboard ? 'Layout-Transparent header-transp' : 'Layout-Transparent'
-        }
-      >
-        {loading ? (
-          <Spin size="large" className=" Spinner" />
-        ) : (
-          <>
+    <div className="w-full flex overflow-hidden relative min-h-screen">
+      {loading ? (
+        <Spin size="large" className=" Spinner" />
+      ) : (
+        <>
+          <div className="w-full relative max-w-full flex text-center items-center justify-center">
             <SiteHeader
               defaultHeader={defaultHeader}
               hamburger={hamburger}
               trialRemaining={trialRemaining}
+              title={title}
             />
-            <div className={defaultHeader ? 'MobileScreen' : 'MobileScreen bg'}>
-              <div className="Layout-main">{children}</div>
+            <div className="max-w-full w-full h-full pt-13 pb-5 mx-[20%]">
+              <div className="h-[90px] z-0" />
+              <LogoSmal className={`inline ${dashboard ? 'mt-10' : 'mt-14'}`} />
+              <div className="flex flex-col h-full">{children}</div>
             </div>
-          </>
-        )}
-      </div>
-      <div className="Layout-graphics" />
+          </div>
+          <div className="w-full bg-right bg-cover bg-no-repeat main-layout-background">
+            <LogoDesktop className="float-right mr-12 mt-10" />
+          </div>
+        </>
+      )}
       <ConfirmModal
         title={'Confirmation'}
         open={isOpen}

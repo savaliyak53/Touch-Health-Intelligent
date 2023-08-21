@@ -21,7 +21,7 @@ const IntroVideo = () => {
       });
   }, []);
   return (
-    <Layout defaultHeader={true} hamburger={false}>
+    <Layout defaultHeader={true} hamburger={false} title={'Into video'}>
       <div className={styles['intro-video']}>
         <div>
           This screen is a test screen to initiate frontend_testing Interaction
