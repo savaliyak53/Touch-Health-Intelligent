@@ -1,8 +1,8 @@
 import React from 'react';
 import { Row, Modal, Col, Tooltip, Button } from 'antd';
 import styles from '../GoalDetails.module.scss';
-import streakStyles from '../../../DashboardNew/DashboardNew.module.scss';
-import v from '../../../../variables.module.scss';
+import streakStyles from '../../../containers/DashboardNew/DashboardNew.module.scss';
+import v from '../../../variables.module.scss';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import ReactMarkdown from 'react-markdown';
@@ -13,11 +13,6 @@ export type IProps = {
   followUpPattern: any;
   type: string | undefined;
   guidanceData: any;
-  handleGuidanceStatus: any;
-  setLoading: any;
-  loading: boolean;
-  setLoading2: any;
-  loading2: boolean;
   renderData?: any;
   className?: string;
   title?: string;
@@ -27,12 +22,7 @@ const GuidanceModal = ({
   handleClose,
   followUpPattern,
   type,
-  guidanceData,
-  handleGuidanceStatus,
-  setLoading,
-  loading,
-  setLoading2,
-  loading2,
+  guidanceData
 }: IProps) => {
   return (
     <Modal
@@ -106,75 +96,22 @@ const GuidanceModal = ({
             overlayStyle={{ marginRight: '10px', zIndex: '100000' }}
             mouseLeaveDelay={0}
           >
-            <AiOutlineQuestionCircle size={30} className={styles['tooltip']} />
+            <AiOutlineQuestionCircle size={30} className={'ml-1.5 text-xl text-primary-delft-dark'} />
           </Tooltip>
         </Col>
       </Row>
       {type && type === 'inactive' && (
-        <p className={styles['Modal-subtitle']}>Deactive</p>
+        <p className={'text-lg font-normal italic text-primary-cornflower-dark'}>Deactive</p>
       )}
       {type && type === 'active' && (
-        <p className={styles['Modal-subtitle']}>Active</p>
+        <p className={'text-lg font-normal italic text-primary-cornflower-dark'}>Active</p>
       )}
       {type && <h2 className={`Title`}>{guidanceData?.name}</h2>}
       {guidanceData && (
-        <div className={styles.guidancedetail}>
+        <div className={'font-body font-normal text-lg leading-[23px] text-black mb-[60px]'}>
           <ReactMarkdown rehypePlugins={[rehypeRaw]}>
             {guidanceData?.description_md ? guidanceData?.description_md : ''}
           </ReactMarkdown>
-        </div>
-      )}
-
-      {type === 'active' && (
-        <div className={styles.GuidanceBtnWrap}>
-          <Button
-            className={'Submit-Button'}
-            onClick={() => {
-              handleGuidanceStatus('inactive');
-              setLoading(true);
-            }}
-            loading={loading}
-          >
-            Deactivate guidance
-          </Button>
-        </div>
-      )}
-      {type === 'new' && (
-        <div className={styles.GuidanceBtnActiveWrap}>
-          <Button
-            className={'Submit-Button'}
-            onClick={() => {
-              handleGuidanceStatus('inactive');
-              setLoading2(true);
-            }}
-            loading={loading2}
-          >
-            Not For me
-          </Button>
-          <Button
-            className={'Submit-Button'}
-            onClick={() => {
-              handleGuidanceStatus('active');
-              setLoading(true);
-            }}
-            loading={loading}
-          >
-            Activate
-          </Button>
-        </div>
-      )}
-      {type === 'inactive' && (
-        <div className={styles.GuidanceBtnActiveWrap}>
-          <Button
-            className={`Submit-Button`}
-            onClick={() => {
-              handleGuidanceStatus('active');
-              setLoading(true);
-            }}
-            loading={loading}
-          >
-            Activate
-          </Button>
         </div>
       )}
     </Modal>

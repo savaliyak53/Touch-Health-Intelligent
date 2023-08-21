@@ -232,12 +232,13 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
 
       </div>
       <div className={styles.LinksWrap}>
-        <Link
-          to="https://www.touchmedical.ca/customer-care"
+        <a
+          href="https://www.touchmedical.ca/customer-care"
           className={styles.OtherLink}
+          target='blank'
         >
           Customer care
-        </Link>
+        </a>
         <Link to="/password-reset" className={styles.OtherLink}>
           Forgot password
         </Link>

@@ -18,7 +18,7 @@ const SubscriptionError = () => {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={false}>
+    <Layout defaultHeader={true} hamburger={false} title={'Error'}>
       <div className="Content-wrap DayCon">
         <div className="Question">
           <Alert message="Failed to subscribe to a plan" type="error" />

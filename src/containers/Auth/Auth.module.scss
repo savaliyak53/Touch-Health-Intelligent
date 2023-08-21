@@ -24,6 +24,10 @@
     pointer-events: none;
   }
 }
+.Auth-submit-wrapper {
+  width: 100%;
+  height: 100%;
+}
 .recaptcha {
   margin: 20px auto 0px;
   margin-top: 25px;
@@ -74,6 +78,7 @@
       font-weight: 500;
       line-height: 14px;
       opacity: 0.5;
+      font-weight:500
     }
     &:-webkit-autofill {
       background-color: transparent !important;
@@ -96,177 +101,7 @@
 }
 .new-Input-change {
   @extend .app-Input;
-  box-shadow: 0px 4px 0px 0px #204ECF;
-}
-
-.input-element-wrapper {
-  width: 100%;
-}
-.flag {
-  padding: 0.2rem;
-  position: absolute;
-  font-size: 20px;
-  outline: none;
-  border: none;
-  background-color: transparent;
-  margin-right: -2.76rem;
-  margin-top: 19px;
-  margin-left: 4px;
-}
-.Input-flag {
-  max-width: 15px;
-  height: 14px;
-}
-.phone {
-  padding-left: 3rem;
-}
-.input-element-wrapper-password {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  &btn {
-    margin-bottom: 4px;
-  }
-}
-.btn {
-  padding: 0.6rem;
-  font-size: 1.2rem;
-  outline: none;
-  border: none;
-  background-color: transparent;
-  margin-left: -2.76rem;
-  cursor: pointer;
-  margin-bottom: 16px;
-  color: $primary-color2;
-}
-
-.Auth-terms {
-  text-align: center;
-  font-size: 16px;
-  line-height: 19px;
-  color: #6a2c70;
-  padding: 7px 30px;
-  border-radius: 100px;
-  background-color: #fff;
-  margin-bottom: 52px;
-}
-.Auth-submit-div {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-@media screen and (min-height: 360px) {
-  .Auth-form {
-    width: 100%;
-  }
-
-  .Auth-title {
-    line-height: 36px;
-    font-weight: 300;
-    margin-bottom: 32px;
-    margin-top: clamp(0px, 7.5vh, 96px);
-  }
-  .ant-btn.Auth-submit {
-    width: 100%;
-    border-radius: 10px;
-    padding: 16px 32px;
-    font-size: 24px;
-    line-height: 29px;
-    height: 60%;
-    margin-top: clamp(0px, 5.5vh, 62px);
-    background-color: #6a2c70;
-    border: 1px solid #6a2c70;
-    color: #fff;
-    &:hover,
-    &:focus,
-    &:active {
-      background-color: rgba(#6a2c70, 0.7);
-      color: #fff;
-    }
-    &:disabled {
-      background-color: rgba(#6a2c70, 0.57);
-      color: #fff;
-    }
-  }
-
-  .Auth-submit-wrapper{
-    width: 100%;
-    height: 100%;
-  }
-.recaptcha {
-  margin: 20px auto 0px;
-  margin-top: 25px;
-}
-.Auth-submit-wrapper {
-  width: 100%;
-  height: 100%;
-}
-
-.app-Input {
-  width: 100%;
-  margin-bottom: 14px;
-  padding: 18px 20px;
-  display: flex;
-  flex-direction: row;
-  border-radius: 5px;
-  background: #fdfcfb;
-  box-shadow: 0px 4px 0px 0px #f0ece7;
-
-  &:hover,
-  &:focus {
-    border: none;
-  }
-
-  Select {
-    option {
-      color: #080815;
-      font-family: Roboto;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 14px;
-    }
-  }
-
-  Input {
-    color: #080815;
-    font-family: Roboto;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 14px;
-    &::placeholder {
-      color: #080815;
-      font-family: Roboto;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 14px;
-      opacity: 0.5;
-    }
-    &:-webkit-autofill {
-      background-color: transparent !important;
-      -webkit-box-shadow: 0 0 0px 1000px transparent inset;
-    }
-    &:focus {
-      background-color: transparent;
-    }
-  }
-}
-
-.new-Input-error {
-  @extend .app-Input;
-  box-shadow: 0px 4px 0px 0px #f26749;
-}
-
-.new-Input-valid {
-  @extend .app-Input;
-  box-shadow: 0px 4px 0px 0px #b3ffd1;
-}
-.new-Input-change {
-  @extend .app-Input;
-  box-shadow: 0px 4px 0px 0px #204ECF;
+  box-shadow: 0px 4px 0px 0px #204ecf;
 }
 
 .input-element-wrapper {

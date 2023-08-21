@@ -44,7 +44,3 @@ export const getInsightsService = async () => {
 export const getDashboard = async () => {
   return await axios.get(`/ai/dashboard`);
 };
-
-export const getDashboardDataPoints = async () => {
-  return await axios.get(`/ai/data-points`);
-};

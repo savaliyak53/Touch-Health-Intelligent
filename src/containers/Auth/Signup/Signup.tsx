@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import Layout from '../../../layouts/Layout/Layout';
 import SignupForm from './SignupForm';
 import styles from './Signup.module.scss';
 type IFormInputs = {

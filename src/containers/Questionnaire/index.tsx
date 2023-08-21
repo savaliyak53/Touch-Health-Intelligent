@@ -6,8 +6,8 @@ import { toast } from 'react-toastify';
 import Question from '../../components/Question';
 import {
   getInteractionService,
-  getInteractionServiceByType,
   getUser,
+  invokeInteractionServiceByType,
   postInteractionService,
   preferencesService,
 } from '../../services/authservice';
@@ -121,7 +121,7 @@ function UserCondition() {
     getUser(userId)
       .then((response: any) => {
         if (response?.data.signup_status === 'done') {
-          getInteractionServiceByType('checkup')
+          invokeInteractionServiceByType('answer_questions')
             .then((response: any) => {
               if (response) {
                 getInteraction();
@@ -247,7 +247,7 @@ function UserCondition() {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={false}>
+    <Layout defaultHeader={true} hamburger={false} title={'Questionnaire'}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
       {question?.type === 'error' || exception ? (
         <div>

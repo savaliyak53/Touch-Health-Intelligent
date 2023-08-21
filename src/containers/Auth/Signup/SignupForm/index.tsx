@@ -234,7 +234,7 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
             >
               <InputField
                 id="password"
-                placeholder="Passwords"
+                placeholder="Password"
                 type={passwordShown ? 'text' : 'password'}
                 className={
                   isEye
@@ -268,7 +268,7 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
             >
               <InputField
                 id="confirmPassword"
-                placeholder="Repeat password"
+                placeholder="Confirm password"
                 type={confirmPasswordShown ? 'text' : 'password'}
                 className={
                   isEyeConfirm

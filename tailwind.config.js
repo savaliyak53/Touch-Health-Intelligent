@@ -18,6 +18,10 @@ module.exports = {
       screens: screens,
       width: screens,
       backgroundImage: {
+        'auth_bg_desktop':
+          "url('/public/assets/images/background-desktop-auth.png')",
+        'auth_bg_mobile':
+          "url('/public/assets/images/background-mobile-auth.png')",
         'gradient1':
           'linear-gradient(135deg, #83A5F2 0%, #204ECF 58.85%)',
         'gradient2':

@@ -16,7 +16,7 @@ import { deleteAllData } from '../../services/goalsService';
 import {
   postInteractionService,
   preferencesService,
-  getInteractionServiceByType,
+  invokeInteractionServiceByType,
 } from '../../services/authservice';
 import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
 import GoogleOAuthDisclosureModal from '../../components/Modal/GoogleOAuthDisclosureModal';
@@ -165,7 +165,7 @@ const Integrations = () => {
       .then((preferencesResponse) => {
         if (preferencesResponse) {
           //after successful subscription initiate onboarding interaction
-          getInteractionServiceByType('onboarding')
+          invokeInteractionServiceByType('onboarding')
             .then((response: any) => {
               if (response) {
                 navigate('/questionnaire');
@@ -244,6 +244,7 @@ const Integrations = () => {
     <Layout
       defaultHeader={true}
       hamburger={loc?.state?.redirect ? false : true}
+      title={'Integration'}
     >
       <Spin spinning={spinning}>
         <div className={`${styles['Integration-wrap']}`}>
