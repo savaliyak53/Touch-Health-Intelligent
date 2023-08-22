@@ -70,6 +70,7 @@ module.exports = {
         dentist: "#FEFEFE",
         white: "#fff",
         black: "#000",
+        inputWhite: '#fdfcfb'
       },
       fontSize: {
         subtitle1: [

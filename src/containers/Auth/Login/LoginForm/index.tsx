@@ -230,12 +230,6 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
           Forgot password
         </Link>
       </div>
-      {/* <div className={Authstyles['Auth-terms-signup']}>
-        For customer support, please follow this{' '}
-      </div>
-
-      <div className={Authstyles['Auth-terms-signup']}>
-      </div> */}
     </div>
   );
 };

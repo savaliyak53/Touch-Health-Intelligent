@@ -1,6 +1,5 @@
 import React, { FC, Fragment, useEffect, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import './index.scss';
 import ArrowDownIcon from '../Icons/ArrowDownIcon';
 
 interface InputProps {
@@ -37,7 +36,7 @@ const TouchDropdown: FC<InputProps> = ({
   }
 
   return (
-    <Menu as="div" className="dropdown-container mt-10">
+    <Menu as="div" className="relative w-full h-14 mb-3.5 leading-3.5 rounded-md bg-inputWhite shadow-primary  mt-10">
       <div className="w-full">
         <Menu.Button className="inline-flex w-full h-16 items-center gap-x-1.5 rounded-md px-3 bg-none">
           <span className="font-roboto font-medium leading-3 flex-1">
