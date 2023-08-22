@@ -69,6 +69,7 @@ module.exports = {
         nimbus: "#F0ECE7",
         dentist: "#FEFEFE",
         white: "#fff",
+        glass: "rgba(255, 255, 255, 0.50)",
         black: "#000",
         inputWhite: '#fdfcfb'
       },

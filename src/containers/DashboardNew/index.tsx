@@ -10,6 +10,7 @@ import StreakWidget from './StreakWidget';
 import Drawer from '../../components/Modal/Drawer';
 import { GoalsComp } from '../../components/Goals-comp';
 import { invokeInteractionServiceByType } from '../../services/authservice';
+import PredictionGraph from '../../components/PredictionGraph';
 
 const DashboardNew = () => {
   const [elements, setElements] = useState<any>();
@@ -88,90 +89,91 @@ const DashboardNew = () => {
   }, [error]);
 
   return (
-    <Layout defaultHeader={true} hamburger={true} dashboard={false} title={'Dashboard'}>
-      <Spin spinning={loading}>
-        <div>
-          <Row>
-            <Col span={21}>
-              <div className={`Title DashboardTitle`}>Your Dashboard</div>
-            </Col>
-          </Row>
-          <StreakWidget
-            streakCount={streakCount}
-            elementStreak={elementStreak}
-          />
-          <Col span={1}></Col>
-          <Button
-            className={'Daily-Checkin-Btn'}
-            onClick={() => setDrawerOpen(true)}
-          >
-            <span className="Checkin-Text">Daily Check-in</span>
-          </Button>
-          {/* Goals Detail Head + Add new Goal */}
-          <Row>
-            <Col span={24}>
-              <div className={styles.GoalsTitleContainer}>
-                <p className={styles.HeadingStyle}>Health Goals</p>
-                <img src="/assets/icons/info-icon.svg" />
-              </div>
-            </Col>
-          </Row>
-          {elements ? (
-            elements.map((item: any, key: any) => (
-              <GoalsComp
-                key={item.id}
-                name={item.name}
-                score={item.success_score}
-              />
-            ))
-          ) : (
-            <Row key="#nodata">
-              <Col span={24}>
-                <div className={styles.Goal}>
-                  <div className={styles.GoalHeadWrap}>
-                    <Typography
-                      className={styles.GoalTitle}
-                      style={{ color: '#6A2C70', alignItems: 'center' }}
-                    >
-                      No Data to Show
-                    </Typography>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          )}
-        </div>
-        <Drawer
-          title="Daily check-in"
-          open={drawerOpen}
-          handleCancel={() => setDrawerOpen(false)}
-          renderOptions={
-            <>
-              <Button
-                className={'Button-Drawer'}
-                onClick={() => {
-                  navigate('/c/checkup');
-                }}
-              >
-                Daily Questions
-              </Button>
-              <Button
-                className={'Button-Drawer'}
-                onClick={() => getInteractionByType('update_conditions')}
-              >
-                Update my conditions
-              </Button>
-              <Button
-                className={'Button-Drawer-Secondary'}
-                onClick={() => getInteractionByType('explore_data')}
-              >
-                Explore my data
-              </Button>
-            </>
-          }
-        />
-      </Spin>
-    </Layout>
+    <PredictionGraph />
+    // <Layout defaultHeader={true} hamburger={true} dashboard={false} title={'Dashboard'}>
+    //   <Spin spinning={loading}>
+    //     <div>
+    //       <Row>
+    //         <Col span={21}>
+    //           <div className={`Title DashboardTitle`}>Your Dashboard</div>
+    //         </Col>
+    //       </Row>
+    //       <StreakWidget
+    //         streakCount={streakCount}
+    //         elementStreak={elementStreak}
+    //       />
+    //       <Col span={1}></Col>
+    //       <Button
+    //         className={'Daily-Checkin-Btn'}
+    //         onClick={() => setDrawerOpen(true)}
+    //       >
+    //         <span className="Checkin-Text">Daily Check-in</span>
+    //       </Button>
+    //       {/* Goals Detail Head + Add new Goal */}
+    //       <Row>
+    //         <Col span={24}>
+    //           <div className={styles.GoalsTitleContainer}>
+    //             <p className={styles.HeadingStyle}>Health Goals</p>
+    //             <img src="/assets/icons/info-icon.svg" />
+    //           </div>
+    //         </Col>
+    //       </Row>
+    //       {elements ? (
+    //         elements.map((item: any, key: any) => (
+    //           <GoalsComp
+    //             key={item.id}
+    //             name={item.name}
+    //             score={item.success_score}
+    //           />
+    //         ))
+    //       ) : (
+    //         <Row key="#nodata">
+    //           <Col span={24}>
+    //             <div className={styles.Goal}>
+    //               <div className={styles.GoalHeadWrap}>
+    //                 <Typography
+    //                   className={styles.GoalTitle}
+    //                   style={{ color: '#6A2C70', alignItems: 'center' }}
+    //                 >
+    //                   No Data to Show
+    //                 </Typography>
+    //               </div>
+    //             </div>
+    //           </Col>
+    //         </Row>
+    //       )}
+    //     </div>
+    //     <Drawer
+    //       title="Daily check-in"
+    //       open={drawerOpen}
+    //       handleCancel={() => setDrawerOpen(false)}
+    //       renderOptions={
+    //         <>
+    //           <Button
+    //             className={'Button-Drawer'}
+    //             onClick={() => {
+    //               navigate('/c/checkup');
+    //             }}
+    //           >
+    //             Daily Questions
+    //           </Button>
+    //           <Button
+    //             className={'Button-Drawer'}
+    //             onClick={() => getInteractionByType('update_conditions')}
+    //           >
+    //             Update my conditions
+    //           </Button>
+    //           <Button
+    //             className={'Button-Drawer-Secondary'}
+    //             onClick={() => getInteractionByType('explore_data')}
+    //           >
+    //             Explore my data
+    //           </Button>
+    //         </>
+    //       }
+    //     />
+    //   </Spin>
+    // </Layout>
   );
 };
 
