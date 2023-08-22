@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from './DashboardNew.module.scss';
 import { Row, Col, Typography, Button } from 'antd';
 import Layout from '../../layouts/Layout/Layout';
@@ -9,7 +9,8 @@ import { timeFrom } from '../../utils/lib';
 import StreakWidget from './StreakWidget';
 import Drawer from '../../components/Modal/Drawer';
 import { GoalsComp } from '../../components/Goals-comp';
-import { invokeInteractionServiceByType } from '../../services/authservice';
+import { invokeInteractionServiceByType } from 'services/authservice';
+import AuthContext from 'contexts/AuthContext';
 
 const DashboardNew = () => {
   const [elements, setElements] = useState<any>();
@@ -18,9 +19,11 @@ const DashboardNew = () => {
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const context = useContext(AuthContext)
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('context', context);
     window.scrollTo(0, 0);
     setLoading(true);
     getDashboard()
@@ -88,7 +91,7 @@ const DashboardNew = () => {
   }, [error]);
 
   return (
-    <Layout defaultHeader={true} hamburger={true} dashboard={false} title={'Dashboard'}>
+    <Layout defaultHeader={true} hamburger={true} dashboard={false} title={'Good morning'}>
       <Spin spinning={loading}>
         <div>
           <Row>

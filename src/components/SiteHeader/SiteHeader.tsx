@@ -17,6 +17,7 @@ type Props = {
   title?: string;
   whitBackArrow?: boolean;
   steps?: string;
+  className?: string;
 };
 const SiteHeader = ({
   defaultHeader,
@@ -24,7 +25,8 @@ const SiteHeader = ({
   trialRemaining,
   title = '',
   whitBackArrow = false,
-  steps = ''
+  steps = '',
+  className = ''
 }: Props) => {
   const [BurgerMenu, setBurgerMenu] = useState(false);
   const navigate = useNavigate();
@@ -38,13 +40,13 @@ const SiteHeader = ({
   return (
     <>
       {defaultHeader && (
-        <header className="absolute top-0 w-full h-[90px] flex flex-col justify-end">
+        <header className={`absolute top-0 w-full h-[90px] flex flex-col justify-end ${className}`}>
           <span className="text-xs text-left font-normal leading-none ml-[21px] text-primary-watermelons-dark font-roboto">
-            {whitBackArrow &&
+            {whitBackArrow && (
               <span className="mr-4">
-              <ArrowIcon className="inline mr-2" /> Back
+                <ArrowIcon className="inline mr-2" /> Back
               </span>
-            }
+            )}
             {showTrialBanner && (
               <span className="font-normal text-xs text-primary-watermelons-dark font-roboto">
                 <FieldTimeOutlined /> You have <b>{trialRemaining} </b>left in
@@ -54,7 +56,16 @@ const SiteHeader = ({
           </span>
           <div className="flex justify-between mt-2 mx-[21px]">
             <div className="flex items-center font-tilt-warp text-primary-delft-dark font-normal text-[22px] leading-[36px]">
-              {title} {steps && <span className={'ml-2 text-primary-watermelons-dark font-roboto text-xs font-normal leading-none'}>{steps}</span>}
+              {title}{' '}
+              {steps && (
+                <span
+                  className={
+                    'ml-2 text-primary-watermelons-dark font-roboto text-xs font-normal leading-none'
+                  }
+                >
+                  {steps}
+                </span>
+              )}
             </div>
             <div
               className={styles['Toggler-btn']}
@@ -65,7 +76,7 @@ const SiteHeader = ({
                   hamburger ? styles['d-block'] : styles['d-none']
                 }`}
               >
-                <BurgerIcon  />
+                <BurgerIcon />
               </Button>
             </div>
           </div>
