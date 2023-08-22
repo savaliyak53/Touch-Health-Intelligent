@@ -65,12 +65,11 @@ module.exports = {
           medium: "rgba(8, 8, 21, 0.90)",
           light: "rgba(8, 8, 21, 0.50)"
         },
-        rae: "#FCDED6",
+        rae: "#F6F3F0",
         nimbus: "#F0ECE7",
         dentist: "#FDFCFB",
         white: "#fff",
-        black: "#000",
-        isabelLine: '#F6F3F0'
+        black: "#000"
       },
       fontSize: {
         subtitle1: [

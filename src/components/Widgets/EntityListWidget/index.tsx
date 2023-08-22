@@ -121,8 +121,8 @@ const EntityListWidget: FC<IProps> = ({ type }) => {
       {data && data.length > 0 && !loading && (
         <ul role="list">
           {data.map((item, index) => (
-            <li onClick={handlerOnClick} key={item.id} className="cursor-pointer hover:bg-isabelLine">
-              <hr className='border-isabelLine mx-4' />
+            <li onClick={handlerOnClick} key={item.id} className="cursor-pointer hover:bg-rae">
+              <hr className='border-rae mx-4' />
               <div  className="flex px-4 justify-between gap-x-6 py-2">
                 <div className="flex w-full items-center">
                   <div className="flex-1 text-left font-roboto font-medium leading-[14px] text-base">
@@ -144,7 +144,7 @@ const EntityListWidget: FC<IProps> = ({ type }) => {
                           <span
                             className={`${
                               prediction.score ? '' : 'text-primary-delft-dark'
-                            } w-6 h-6 rounded-[50%] bg-isabelLine flex items-center justify-center text-[14px]`}
+                            } w-6 h-6 rounded-[50%] bg-rae flex items-center justify-center text-[14px]`}
                           >
                             {prediction.emoji}
                           </span>
@@ -168,7 +168,7 @@ const EntityListWidget: FC<IProps> = ({ type }) => {
         <>
           {type === 'conditions' && (
             <>
-              <hr className='border-isabelLine mx-4' />
+              <hr className='border-rae mx-4' />
               <div className="py-3 text-center">
               <span className="cursor-pointer text-primary-delft-dark text-xs text-medium leading-[14px]">
                 ADD A CONDITION
