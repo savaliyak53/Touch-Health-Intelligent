@@ -130,7 +130,7 @@ function UserCondition() {
                 navigate('/dashboard');
               }
             })
-            .catch((error: any) => {
+            .catch((error) => {
               setException(true);
               setError({
                 code: error.response.status,

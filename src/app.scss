@@ -1473,13 +1473,13 @@
   }
   .ant-radio-button-wrapper-checked {
     &:not(.ant-radio-button-wrapper-disabled) {
-      background: rgba(179, 255, 209, 1);
+      background: $secondary-color3;
       border: none !important;
       color: #668271 !important;
       box-shadow: 2px 2px 0px 0px #9DD7B4;
 
       &:hover {
-        background: rgba(179, 255, 209, 1);
+        background: r$secondary-color3;
         border: none !important;
         color: #668271 !important;
         box-shadow: 2px 2px 0px 0px #9DD7B4;

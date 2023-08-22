@@ -240,22 +240,6 @@ const Question = ({
                 >
                   {question.q_str}
                 </div>
-                {/* {question.h_str && (
-                  <div className={styles['Question-Tooltip']}>
-                    <Tooltip
-                      title={question?.h_str}
-                      placement="bottomRight"
-                      overlayStyle={{ marginRight: '20px' }}
-                      color="blue"
-                      mouseLeaveDelay={0}
-                    >
-                      <AiOutlineQuestionCircle
-                        size={30}
-                        className="question-help"
-                      />
-                    </Tooltip>
-                  </div>
-                )} */}
               </div>
             </h3>
             
