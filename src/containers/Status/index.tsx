@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
 
 const DashboardNew = () => {
   return (
@@ -30,6 +32,7 @@ const DashboardNew = () => {
       {/* Days Scroll */}
       <div className="flex overflow-auto px-4 no-scrollbar">
         {/* Day */}
+        <Carousel className='Dashboard-Carousel' width={350}>
         <div className="bg-primary-delft-dark p-4 rounded-[10px] shadow-[0_4px_0_0_#8AA4EC;] w-[350px] min-w-[350px] mb-1 mr-3">
           <div className="flex justify-between items-center">
             <div className="flex items-center">
@@ -299,6 +302,7 @@ const DashboardNew = () => {
             </div>
           </div>
         </div>
+        </Carousel>
       </div>
     </>
   );
