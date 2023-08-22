@@ -217,19 +217,6 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
             </Link>
           </div>
         </form>
-
-      </div>
-      <div className={styles.LinksWrap}>
-        <Link
-          to="https://www.touchmedical.ca/customer-care"
-          className={styles.OtherLink}
-        >
-          Customer care
-        </Link>
-        <Link to="/password-reset" className={styles.OtherLink}>
-          Forgot password
-        </Link>
-
       </div>
       <div className={styles.LinksWrap}>
         <a
