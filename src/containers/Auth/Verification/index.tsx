@@ -141,22 +141,23 @@ const Verification = () => {
           });
         }
       } else {
-        setError({
-          code: phoneRequestResponse.response.status,
-          message: phoneRequestResponse.response.data.details,
-        });
+        onResendCode();
       }
       setIsLoading(false);
       return false;
     } else {
-      setIsLoading(false);
-      setModalOpen(true);
-      setEnableTimer(true);
-      setIsDisabled(true);
-      restart(time);
-      setIsLoading(false);
+      onResendCode();
     }
   };
+
+  const onResendCode = () => {
+    setIsLoading(false);
+    setModalOpen(true);
+    setEnableTimer(true);
+    setIsDisabled(true);
+    restart(time);
+  };
+
   const pageBackEvent = () => {
     window.history.pushState(null, '', window.location.pathname);
     window.addEventListener('popstate', onBackButtonEvent);

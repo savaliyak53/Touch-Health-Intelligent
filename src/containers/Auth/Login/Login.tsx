@@ -23,7 +23,7 @@ const Login = () => {
   const [isVisited, setVisited] = useLocalStorage("isVisited");
 
   useEffect(() => {
-    const token = context?.authTokens ?? localStorage.getItem('token')
+    const token = context?.session ?? localStorage.getItem('sessionId')
     if(token) navigate('/')
     else setShowLoginForm(true)
   },[])
