@@ -127,6 +127,7 @@
   padding: 16px 32px;
   height: 100%;
   margin-top: 32px;
+  min-height: 56px;
   text-align: center;
   font-family: 'Tilt Warp';
   font-size: 14px;
@@ -144,9 +145,14 @@
   line-height: 14px;
   margin-top: 20px;
 
+  span,
   .Link {
     text-decoration-line: underline;
     color: #080815e5;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 }
 
@@ -173,3 +179,8 @@
   text-decoration-line: underline;
   margin: 0 8px;
 }
+
+.mb-14 {
+  margin-bottom: 14px;
+}
+

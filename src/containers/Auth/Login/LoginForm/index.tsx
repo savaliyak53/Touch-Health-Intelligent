@@ -121,6 +121,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
     const debounceId = setTimeout(() => {
       setActiveClass(styles.PasswordInput);
     }, 500);
+    
     if (
       watchedValues.password != undefined &&
       watchedValues.password.length !== 0
