@@ -41,7 +41,7 @@ function UserCondition() {
           if (response?.data?.question.type == 'integration_page_redirect') {
             integrationPageRedirect(response.data.ref_id);
           } else {
-            setQuestion(response?.data?.question);
+            setQuestion({...response?.data?.question, flow_index: response?.data?.flow_index, flow_length: response?.data?.flow_length});
             setRefId(response.data.ref_id);
           }
         } else if (response?.data?.type === 'done') {
@@ -130,7 +130,7 @@ function UserCondition() {
                 navigate('/dashboard');
               }
             })
-            .catch((error) => {
+            .catch((error: any) => {
               setException(true);
               setError({
                 code: error.response.status,
@@ -222,7 +222,7 @@ function UserCondition() {
           if (data.question.type == 'integration_page_redirect') {
             integrationPageRedirect(data.ref_id);
           } else {
-            setQuestion(data.question);
+            setQuestion({...data.question, flow_index: data.flow_index, flow_length: data.flow_length});
             setDisableNextButton(false);
           }
         } else if (!data.question && data.type === 'done') {
@@ -247,7 +247,7 @@ function UserCondition() {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={false} title={'Questionnaire'}>
+    <Layout defaultHeader={true} hamburger={false} title={'Onboarding'}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
       {question?.type === 'error' || exception ? (
         <div>
@@ -268,6 +268,9 @@ function UserCondition() {
         <div className="Content-wrap Pain">
           {question && (
             <>
+              {/* <div>
+                <div className="text-[22px] text-primary-delft-dark font-['tilt_warp']">Onboarding <span className='pl-[9px] text-[12px] text-[#F26749] relative bottom-[2px]'>{question?.flow_index >= question?.flow_length && `${question?.flow_index}/${question?.flow_length}`}</span></div>
+              </div> */}
               <Question
                 key={refId}
                 selectedValue={value}

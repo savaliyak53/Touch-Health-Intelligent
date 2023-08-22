@@ -1283,11 +1283,11 @@
 .Questionnaire-Submit-Button.ant-btn {
   border-radius: 100px;
   height: auto;
-  padding: 18px 54px;
+  padding: 18px 18px;
   background-color: $primary-color1;
   color: #fff;
-  font-size: 20px;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 14px;
   font-weight: 400;
   border: none;
   margin: 20px auto 0;
@@ -1437,17 +1437,18 @@
   .ant-radio-button-wrapper,
   .ant-radio-button-wrapper:first-child,
   .ant-radio-button-wrapper:last-child {
-    width: 75%;
+    width: 65%;
     margin: 10px 10px 10px 0 !important;
-    border: 2px solid $primary-color1 !important;
-    padding: 18px 54px !important;
+    border: none !important;
+    padding: 18px 18px !important;
     border-radius: 100px !important;
     height: 100% !important;
-    font-size: 20px !important;
-    line-height: 24px !important;
-    font-weight: 400 !important;
-    background-color: #fff;
-    color: $primary-color1;
+    font-size: 14px !important;
+    line-height: 17px !important;
+    font-weight: 500 !important;
+    background-color: #F6F3F0;
+    color: #000;
+    text-align: center;
     span {
       display: flex;
       align-items: center;
@@ -1459,7 +1460,8 @@
     }
 
     &:hover {
-      color: $primary-color1;
+      color: #000;
+      box-shadow: 2px 2px 0px 0px #bdc5c0;
     }
   }
   .ant-radio-button-disabled {
@@ -1471,18 +1473,16 @@
   }
   .ant-radio-button-wrapper-checked {
     &:not(.ant-radio-button-wrapper-disabled) {
-      background-image: $secondary-color2;
+      background: rgba(179, 255, 209, 1);
       border: none !important;
-      color: #fff !important;
-
-      &:focus-within {
-        box-shadow: none;
-      }
+      color: #668271 !important;
+      box-shadow: 2px 2px 0px 0px #9DD7B4;
 
       &:hover {
-        background-image: $secondary-color2;
+        background: rgba(179, 255, 209, 1);
         border: none !important;
-        color: #fff !important;
+        color: #668271 !important;
+        box-shadow: 2px 2px 0px 0px #9DD7B4;
       }
       &.ant-radio-button-wrapper:first-child {
         border-color: $primary-color2;
@@ -1492,6 +1492,7 @@
 }
 
 .Select-Options {
+  margin-top: 35px;
   .ant-radio-group {
     display: flex !important;
     flex-direction: column;
@@ -1534,7 +1535,7 @@
   }
 }
 .Yes-No-Button {
-  width: 250px;
+  width: 340px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1542,16 +1543,17 @@
   .ant-radio-button-wrapper:first-child,
   .ant-radio-button-wrapper:last-child {
     width: 100%;
-    margin: 10px 10px 10px 0 !important;
+    margin: 6px 10px 8px 0 !important;
     border: 2px solid $primary-color1 !important;
     padding: 18px 54px !important;
     border-radius: 100px !important;
     height: 100% !important;
-    font-size: 20px !important;
-    line-height: 24px !important;
+    font-size: 14px !important;
+    line-height: 16px !important;
     font-weight: 400 !important;
     background-color: $primary-color1;
     color: #fff;
+    text-align: center;
     span {
       display: flex;
       align-items: center;
@@ -1619,20 +1621,40 @@
 .Markdown-Desc {
   font-family: $font-body;
   text-align: left;
-  margin-top: 15px;
   font-size: 18px;
   line-height: 1.2;
   font-weight: 400;
   margin-bottom: 10px;
   color: $primary-color2;
   padding: 4px 0;
+  max-width: 360px;
+  margin: 0 auto;
   h1,
   h2,
   h3,
   strong {
-    font-family: $font-body;
     color: $primary-color1;
-    font-weight: 700 !important;
+    font-weight: 500 !important;
+    line-height: 21px;
+    display: flex;
+    gap: 5px;
+    justify-content: center;    
+    font-size: 18px;
+    font-family: Tilt Warp;
+  }
+  p {
+    text-align: center;
+    font-family: Roboto;
+    line-height: 17px;
+    color: #362A2F;
+  }
+}
+.Markdown-Desc-md {
+  p {
+    color: #204ecf !important;
+    font-size: 18px !important;
+    font-family: Tilt Warp;
+    line-height: 21px;
   }
 }
 //scrollable time
