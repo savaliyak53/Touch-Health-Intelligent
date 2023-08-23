@@ -41,6 +41,10 @@ export const getInsightsService = async () => {
   return axios.get(`/insights/`);
 };
 
+export const getDimensions = async () => {
+  return await axios.get(`/ai/dimensions`);
+};
+
 export const getDashboard = async () => {
   return await axios.get(`/ai/dashboard`);
 };

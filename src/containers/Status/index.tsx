@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
+import { getDimensions } from '../../services/dashboardservice';
+import { Button } from 'antd';
+import Drawer from '../../components/Modal/Drawer';
 
 type Props = {
   direction: string;
@@ -43,79 +46,113 @@ const CustomNextArrow = ({ direction, onClick }: Props) => {
   );
 };
 
-const DashboardNew = () => {
-  const days = [
-    {
-      title: 'Sleep',
-      bg: '/assets/images/cur8-sleep.svg',
-      btnColor: 'F0ECE7',
-      subtitle1: 'Bedtime',
-      value1: '11:15 pm',
-      subtitle2: 'Wake up',
-      value2: '6:00 am',
-      subtitle3: 'Hours of sleep',
-      value3: '7',
-      subtitleColor: 'FEFBF1',
-      valueColor: 'EFB7A8',
-      shadow: '0px 4px 0px 0px #8AA4EC',
-    },
-    {
-      title: "Movement",
-      bg: '/assets/images/cur8-movement.svg',
-      btnColor: 'F0ECE7',
-      subtitle1: 'Movement',
-      value1: '85 min',
-      subtitle2: 'Low intensity',
-      value2: '01:56',
-      subtitle3: 'High intensity',
-      value3: '00:30',
-      subtitleColor: 'FEFBF1',
-      valueColor: '204ECF',
-      shadow: '0px 4px 0px 0px #204ECF',
-    },
-    {
-      title: "Mental wellbeing",
-      bg: '/assets/images/cur8-mental-wellbeing.svg',
-      btnColor: '204ECF',
-      subtitle1: 'Meals',
-      value1: '3',
-      subtitle2: 'Nutrition score',
-      value2: '7',
-      subtitle3: 'Hours of sleep',
-      value3: '7',
-      subtitleColor: '83A5F2',
-      valueColor: '204ECF',
-      shadow: '0px 4px 0px 0px #F9A197'
-    },
-    {
-      title: "Nutrition",
-      bg: '/assets/images/cur8-nutrition.svg',
-      btnColor: 'EA9836',
-      subtitle1: 'Movement',
-      value1: '85 min',
-      subtitle2: 'Low intensity',
-      value2: '01:56',
-      subtitle3: 'High intensity',
-      value3: '00:30',
-      subtitleColor: 'F9A197',
-      valueColor: 'EA9836',
-      shadow: '0px 4px 0px 0px #EA9836'
-    },
-    {
-      title: "Productivity",
-      bg: '/assets/images/cur8-poductivity.svg',
-      btnColor: '204ECF',
-      subtitle1: 'Workhours',
-      value1: '8',
-      subtitle2: 'Productivity',
-      value2: '78%',
-      subtitle3: 'Quality',
-      value3: 'High',
-      subtitleColor: '204ecfb3',
-      valueColor: '204ECF',
-      shadow: '0px 4px 0px 0px #9DD7B4'
-    },
-  ];
+const Status = () => {
+  const [dimensions, setDimensions] = useState<any>();
+  const [days, setDays] = useState<any>([]);
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [drawerTitle, setDrawerTitle] = useState("");
+
+  const getUserDimensions = () => {
+    getDimensions()
+    .then(res => {
+      setDimensions(res.data)
+      const daysArray: any = []
+      res.data.dimensions_list.forEach((element: any) => {
+        const daysObj = {
+          title: element.name,
+          bg: '/assets/images/cur8-sleep.svg',
+          btnColor: 'F0ECE7',
+          subtitle1: element.data_value_list[0].name,
+          value1: element.data_value_list[0].value,
+          subtitle2: element.data_value_list[1].name,
+          value2: element.data_value_list[1].value,
+          subtitle3: element.data_value_list[2].name,
+          value3: element.data_value_list[2].value,
+          subtitleColor: 'FEFBF1',
+          valueColor: 'EFB7A8',
+          shadow: '0px 4px 0px 0px #8AA4EC',
+        }
+        daysArray.push(daysObj)
+      });
+      setDays(daysArray)
+    })
+  }
+  useEffect(() => {
+    getUserDimensions()
+  }, [])
+
+  // const days = [
+  //   {
+  //     title: 'Sleep',
+  //     bg: '/assets/images/cur8-sleep.svg',
+  //     btnColor: 'F0ECE7',
+  //     subtitle1: 'Bedtime',
+  //     value1: '11:15 pm',
+  //     subtitle2: 'Wake up',
+  //     value2: '6:00 am',
+  //     subtitle3: 'Hours of sleep',
+  //     value3: '7',
+  //     subtitleColor: 'FEFBF1',
+  //     valueColor: 'EFB7A8',
+  //     shadow: '0px 4px 0px 0px #8AA4EC',
+  //   },
+  //   {
+  //     title: "Movement",
+  //     bg: '/assets/images/cur8-movement.svg',
+  //     btnColor: 'F0ECE7',
+  //     subtitle1: 'Movement',
+  //     value1: '85 min',
+  //     subtitle2: 'Low intensity',
+  //     value2: '01:56',
+  //     subtitle3: 'High intensity',
+  //     value3: '00:30',
+  //     subtitleColor: 'FEFBF1',
+  //     valueColor: '204ECF',
+  //     shadow: '0px 4px 0px 0px #204ECF',
+  //   },
+  //   {
+  //     title: "Mental wellbeing",
+  //     bg: '/assets/images/cur8-mental-wellbeing.svg',
+  //     btnColor: '204ECF',
+  //     subtitle1: 'Meals',
+  //     value1: '3',
+  //     subtitle2: 'Nutrition score',
+  //     value2: '7',
+  //     subtitle3: 'Hours of sleep',
+  //     value3: '7',
+  //     subtitleColor: '83A5F2',
+  //     valueColor: '204ECF',
+  //     shadow: '0px 4px 0px 0px #F9A197'
+  //   },
+  //   {
+  //     title: "Nutrition",
+  //     bg: '/assets/images/cur8-nutrition.svg',
+  //     btnColor: 'EA9836',
+  //     subtitle1: 'Movement',
+  //     value1: '85 min',
+  //     subtitle2: 'Low intensity',
+  //     value2: '01:56',
+  //     subtitle3: 'High intensity',
+  //     value3: '00:30',
+  //     subtitleColor: 'F9A197',
+  //     valueColor: 'EA9836',
+  //     shadow: '0px 4px 0px 0px #EA9836'
+  //   },
+  //   {
+  //     title: "Productivity",
+  //     bg: '/assets/images/cur8-poductivity.svg',
+  //     btnColor: '204ECF',
+  //     subtitle1: 'Workhours',
+  //     value1: '8',
+  //     subtitle2: 'Productivity',
+  //     value2: '78%',
+  //     subtitle3: 'Quality',
+  //     value3: 'High',
+  //     subtitleColor: '204ecfb3',
+  //     valueColor: '204ECF',
+  //     shadow: '0px 4px 0px 0px #9DD7B4'
+  //   },
+  // ];
   return (
     <>
       <div className="flex flex-col justify-center items-center mb-8 mt-[96px]">
@@ -174,7 +211,7 @@ const DashboardNew = () => {
                       </span>
                     </div>
 
-                    <button className="w-5 h-3 flex items-center">
+                    <button onClick={() => {setDrawerTitle(day.title); setDrawerOpen(true)}} className="w-5 h-3 flex items-center">
                       <span className="w-[5px] h-[5px] block rounded-full" style={{backgroundColor: `#${day.btnColor}`}}></span>
                       <span className="w-[5px] h-[5px] block rounded-full mx-0.5" style={{backgroundColor: `#${day.btnColor}`}}></span>
                       <span className="w-[5px] h-[5px] block rounded-full" style={{backgroundColor: `#${day.btnColor}`}}></span>
@@ -216,8 +253,27 @@ const DashboardNew = () => {
             ))}
         </Carousel>
       </div>
+      <Drawer
+          title={drawerTitle}
+          open={drawerOpen}
+          handleCancel={() => setDrawerOpen(false)}
+          renderOptions={
+            <>
+              <Button
+                className={'Button-Drawer'}
+              >
+                Add data about {drawerTitle}
+              </Button>
+              <Button
+                className={'Button-Drawer'}
+              >
+                View guidance
+              </Button>
+            </>
+          }
+        />
     </>
   );
 };
 
-export default DashboardNew;
+export default Status;
