@@ -9,7 +9,10 @@ import { timeFrom } from '../../utils/lib';
 import StreakWidget from './StreakWidget';
 import Drawer from '../../components/Modal/Drawer';
 import { GoalsComp } from '../../components/Goals-comp';
-import { invokeInteractionServiceByType } from '../../services/authservice';
+import {getPreference, invokeInteractionServiceByType} from '../../services/authservice';
+import {response} from 'msw';
+import dashboard from '../Dashboard';
+import {getPartOfDay} from '../../helpers/time';
 
 const DashboardNew = () => {
   const [elements, setElements] = useState<any>();
@@ -18,21 +21,25 @@ const DashboardNew = () => {
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>('');
   const navigate = useNavigate();
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setLoading(true);
-    getDashboard()
-      .then((response) => {
-        setLoading(false);
-        if (response.data) {
-          setElements(response.data.elements);
+    Promise.all([getDashboard(), getPreference()])
+      .then(([dashboardData, userData]) => {
+        if (userData?.data && userData.data.username) {
+          setUsername(userData.data.username);
+        }
+        if (dashboardData.data) {
+          setElements(dashboardData.data.elements);
           const dates = timeFrom(14).sort((a: any, b: any) =>
             a[0].localeCompare(b[0])
           );
           const new_streaks = dates.map((item, index) => {
-            const this_date = response.data.checkup_pattern.find(
+            const this_date = dashboardData.data.checkup_pattern.find(
               (checkup: any) => checkup[0] === item[0]
             );
             if (!this_date && index === 13) {
@@ -51,7 +58,7 @@ const DashboardNew = () => {
             dates[13][2] === 'orange' ||
             (dates[12][2] === 'orange' && dates[13][2] === 'orange')
           ) {
-            setStreakCount(response.data.checkup_streak);
+            setStreakCount(dashboardData.data.checkup_streak);
           } else {
             setStreakCount(0);
           }
@@ -61,9 +68,9 @@ const DashboardNew = () => {
         setError({
           code: error.response.status,
           message: error.response.data.details ?? 'Something went wrong.',
-        });
-        setLoading(false);
-      });
+        })
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const getInteractionByType = (type: string) => {
@@ -88,7 +95,7 @@ const DashboardNew = () => {
   }, [error]);
 
   return (
-    <Layout defaultHeader={true} hamburger={true} dashboard={false} title={'Good morning'}>
+    <Layout defaultHeader={true} hamburger={true} dashboard={false} title={`Good ${getPartOfDay()}${username ? `, ${username}`: ''}`}>
       <Spin spinning={loading}>
         <div>
           <Row>
