@@ -22,8 +22,8 @@ export default function MarkdownSelectOne({
     <div className={goal_styles['IntroGoals']}>
       {question.title && (
         <h2 className={goal_styles['Title']}>{question.title}</h2>
-      )}
-      <div className={`Description Heading-color1 Markdown-Desc text-center`}>
+      )} 
+      <div className={`${question.body_md ? "Markdown-Desc-md " : " Markdown-Desc"} text-center leading-9 text-[18px] text-primary-delft-dark Description Heading-color1 Markdown-Desc`}>
         <ReactMarkdown rehypePlugins={[rehypeRaw]}>
           {question.body_md}
         </ReactMarkdown>
@@ -33,7 +33,7 @@ export default function MarkdownSelectOne({
           onChange={handleRadioChange}
         >
           {question.options.map((item: any, index: number) => (
-            <div className={`Yes-No-Button`} key={index}>
+            <div className={`w-[351px] Yes-No-Button`} key={index}>
               <Radio.Button 
                  value={item}
                  key={index}
