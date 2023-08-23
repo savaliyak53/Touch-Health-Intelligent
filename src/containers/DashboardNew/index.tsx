@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './DashboardNew.module.scss';
 import { Row, Col, Typography, Button } from 'antd';
 import Layout from '../../layouts/Layout/Layout';
@@ -10,8 +10,6 @@ import StreakWidget from './StreakWidget';
 import Drawer from '../../components/Modal/Drawer';
 import { GoalsComp } from '../../components/Goals-comp';
 import {getPreference, invokeInteractionServiceByType} from '../../services/authservice';
-import {response} from 'msw';
-import dashboard from '../Dashboard';
 import {getPartOfDay} from '../../helpers/time';
 import EntityListWidget from '../../components/Widgets/EntityListWidget';
 
