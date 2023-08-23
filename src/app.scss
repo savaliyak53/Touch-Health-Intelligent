@@ -1293,7 +1293,7 @@
   margin: 20px auto 0;
   display: flex;
   justify-content: center;
-  width: 65%;
+  width: 100%;
 
   &:hover,
   &:focus,
@@ -1437,7 +1437,7 @@
   .ant-radio-button-wrapper,
   .ant-radio-button-wrapper:first-child,
   .ant-radio-button-wrapper:last-child {
-    width: 65%;
+    width: 100%;
     margin: 10px 10px 10px 0 !important;
     border: none !important;
     padding: 18px 18px !important;
