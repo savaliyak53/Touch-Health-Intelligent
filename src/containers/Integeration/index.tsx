@@ -248,29 +248,23 @@ const Integrations = () => {
     >
       <Spin spinning={spinning}>
         <div className={`${styles['Integration-wrap']}`}>
-          <h2 className={'Title'}>Integrations</h2>
           <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '24px',
-            }}
+            className='mt-12 flex justify-between items-end mb-6'
           >
             <img
               src={'assets/icons/GoogleFit_Icon_Color_RGB.png'}
               height={50}
               width={50}
-              className={styles['Google-fit-img']}
             />
-            <div className='flex flex-row text-left relative font-body font-normal font-bold text-2xl leading-[110%] tracking-tighter mt-2.5 mb-6 mr-5'>
+            <div className='font-tilt-warp text-left relative font-body font-normal font-bold text-xl md:text-2xl leading-[110%] tracking-tighter'>
               {'Use the toggle to turn Google Fit integration on or off'}
             </div>
             {checked === undefined ? (
               <Spin spinning={checked === undefined ? true : false} />
             ) : (
-              <div className="Switch-btn-with-text">
+              <div>
                 <Switch
+                  className='bg-[#bfbfbf]'
                   checked={checked}
                   onChange={handleClick}
                   checkedChildren="On"

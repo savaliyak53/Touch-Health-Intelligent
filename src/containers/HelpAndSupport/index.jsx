@@ -17,10 +17,7 @@ const HelpAndSupport = () => {
   }, []);
   return (
     <Layout defaultHeader={true} hamburger={true} title={'Get in Touch!'}>
-      <div className="Content-wrPArCon">
-        <h2 className={'Title'}>
-          Get in Touch! 
-        </h2>
+      <div className="Content-wrPArCon mt-12">
         <div className='Description'>
           <Paragraph>We are here to help.</Paragraph>
           <Space/>

@@ -120,8 +120,7 @@ const Preferences = () => {
   return (
     <Layout defaultHeader={true} hamburger={true} title={'Preferences'}>
       <Spin spinning={spinning}>
-        <div className={`${styles['Pref-wrap']}`}>
-          <h2 className='font-tilt-warp font-normal text-3xl text-left mb-4 mt-6 leading-9'>Preferences</h2>
+        <div className={`${styles['Pref-wrap']} mt-12`}>
           <div
             style={{
               display: 'flex',
