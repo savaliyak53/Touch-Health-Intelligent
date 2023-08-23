@@ -119,7 +119,7 @@ const PasswordRecovery: React.FC = () => {
     setIsLoading(true);
     setIsDisabled(true);
     const token = isResendOTP
-      ? sessionStorage.getItem('recaptcha-token')
+      ? localStorage.getItem('recaptcha-token')
       : refCaptcha?.current?.getValue();
 
     if (!onlyNumbers(username)) {
@@ -155,7 +155,7 @@ const PasswordRecovery: React.FC = () => {
       })
       .finally(() => {
         setIsLoading(false);
-        refCaptcha.current.reset();
+        refCaptcha?.current?.reset();
       });
   };
 
