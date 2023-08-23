@@ -38,7 +38,7 @@ const SiteHeader = ({
   return (
     <>
       {defaultHeader && (
-        <header className="absolute top-0 w-full h-[90px] max-w-[390px] flex flex-col justify-end">
+        <header className="absolute top-0 left-0 w-full h-[90px] flex flex-col justify-end">
           <span className="text-xs text-left font-normal leading-none ml-[21px] text-primary-watermelons-dark font-roboto">
             {whitBackArrow &&
               <span className="mr-4">
