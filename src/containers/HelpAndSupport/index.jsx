@@ -16,11 +16,8 @@ const HelpAndSupport = () => {
     window.Intercom("update", {hide_default_launcher: false, last_request_at: parseInt((new Date()).getTime()/1000)})
   }, []);
   return (
-    <Layout defaultHeader={true} hamburger={true} title={'Help and support'}>
-      <div className="Content-wrPArCon">
-        <h2 className={'Title'}>
-          Get in Touch! 
-        </h2>
+    <Layout defaultHeader={true} hamburger={true} title={'Get in Touch!'}>
+      <div className="Content-wrPArCon mt-12">
         <div className='Description'>
           <Paragraph>We are here to help.</Paragraph>
           <Space/>

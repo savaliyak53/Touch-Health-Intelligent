@@ -69,7 +69,8 @@ module.exports = {
         nimbus: "#F0ECE7",
         dentist: "#FDFCFB",
         white: "#fff",
-        black: "#000"
+        black: "#000",
+        inputWhite: '#fdfcfb'
       },
       fontSize: {
         subtitle1: [
