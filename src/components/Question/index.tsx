@@ -231,36 +231,21 @@ const Question = ({
       <div className={` ${styles['Question']} ${styles['Question-grp']} `}>
         {question && (
           <>
-            <h3 className={`Description`}>
+            <h3 className="Description">
               <div
-                className={`${question.h_str ? styles['Text-wrapper'] : ''}`}
+                className="Text-wrapper"
               >
                 <div
-                  className={`${
-                    question.h_str ? styles['Question-Description'] : ''
-                  }`}
+                  className="text-[18px] text-primary-delft-dark leading-[26px] font-['tilt_warp'] text-center max-w-[381px] m-auto"
                 >
                   {question.q_str}
                 </div>
-                {question.h_str && (
-                  <div className={styles['Question-Tooltip']}>
-                    <Tooltip
-                      title={question?.h_str}
-                      placement="bottomRight"
-                      overlayStyle={{ marginRight: '20px' }}
-                      color="blue"
-                      mouseLeaveDelay={0}
-                    >
-                      <AiOutlineQuestionCircle
-                        size={30}
-                        className="question-help"
-                      />
-                    </Tooltip>
-                  </div>
-                )}
               </div>
             </h3>
-            <br />
+            
+            <div className="Question-Description text-center max-w-[316px] m-auto text-[14px] mt-1">
+              {question.h_str}
+            </div>
             {question.type === 'multi_select' ? (
               <div className="Select-Wrap">
                 <SearchOutlined className="search" />
