@@ -12,7 +12,6 @@ import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
 import { backButtonPreventionRoutes } from '../../Routes/Constants';
 import LogoDesktop from '../../components/Icons/LogoDesktop';
-import LogoSmal from '../../components/Icons/LogoSmal';
 
 type Props = {
   defaultHeader: boolean;
@@ -22,6 +21,7 @@ type Props = {
   signupLogin?: string;
   title?: string;
   children?: React.ReactChild | React.ReactChild[];
+  withoutMargin?: boolean;
 };
 const Layout = ({
   children,
@@ -29,6 +29,7 @@ const Layout = ({
   hamburger,
   dashboard,
   title,
+  withoutMargin = false,
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
   const [trialRemaining, setTrialRemaining] = useState<string>('');
@@ -159,20 +160,21 @@ const Layout = ({
         <Spin size="large" className=" Spinner" />
       ) : (
         <>
-          <div className="w-full relative max-w-full flex text-center items-center justify-center">
-            <SiteHeader
-              defaultHeader={defaultHeader}
-              hamburger={hamburger}
-              trialRemaining={trialRemaining}
-              title={title}
-            />
-            <div className="max-w-full w-full h-full pt-13 pb-5 mx-6 md:mx-[20%]">
-              <div className="h-[90px] z-0" />
-              <LogoSmal className={`inline ${dashboard ? 'mt-10' : 'mt-14'}`} />
-              <div className="flex flex-col h-full">{children}</div>
+          <div className='w-full h-full flex-1 flex items-center justify-center'>
+            <div className={`w-full mx-6 ${withoutMargin ? '' : 'md:mx-[20%]'} relative max-w-full flex text-center `}>
+              <SiteHeader
+                defaultHeader={defaultHeader}
+                hamburger={hamburger}
+                trialRemaining={trialRemaining}
+                title={title}
+              />
+              <div className={`max-w-full w-full h-full pt-13 pb-5`}>
+                <div className="h-[90px] z-0" />
+                <div className="flex flex-col h-full">{children}</div>
+              </div>
             </div>
           </div>
-          <div className="w-full bg-right bg-cover bg-no-repeat main-layout-background">
+          <div className="w-full flex-1 bg-right bg-cover bg-no-repeat main-layout-background">
             <LogoDesktop className="float-right mr-12 mt-10" />
           </div>
         </>

@@ -1,7 +1,7 @@
 import React, { useRef  } from 'react';
 import { Modal } from 'antd';
 import styles from './Modals.module.scss';
-import  ReCAPTCHA  from 'react-google-recaptcha';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 export type IProps = {
   open: boolean;
