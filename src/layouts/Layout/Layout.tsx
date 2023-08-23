@@ -160,7 +160,7 @@ const Layout = ({
         <Spin size="large" className=" Spinner" />
       ) : (
         <>
-          <div className='w-full flex-1 flex items-center justify-center'>
+          <div className='w-full h-full flex-1 flex items-center justify-center'>
             <div className={`w-full mx-6 ${withoutMargin ? '' : 'md:mx-[20%]'} relative max-w-full flex text-center `}>
               <SiteHeader
                 defaultHeader={defaultHeader}

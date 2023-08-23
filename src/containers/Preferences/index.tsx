@@ -121,7 +121,7 @@ const Preferences = () => {
     <Layout defaultHeader={true} hamburger={true} title={'Preferences'}>
       <Spin spinning={spinning}>
         <div className={`${styles['Pref-wrap']}`}>
-          <h2 className={`Title`}>Preferences</h2>
+          <h2 className='font-tilt-warp font-normal text-3xl text-left mb-4 mt-6 leading-9'>Preferences</h2>
           <div
             style={{
               display: 'flex',
@@ -154,7 +154,7 @@ const Preferences = () => {
           <div>
             {sex && (
               <div>
-                <h3 className={'Heading Heading-color1'}>
+                <h3 className={'Heading Heading-color1 flex flex-row items-start'}>
                   Biological Sex
                   <Tooltip
                     title={
@@ -166,8 +166,7 @@ const Preferences = () => {
                   >
                     <AiOutlineQuestionCircle
                       size={30}
-                      className="question-help"
-                      style={{ marginLeft: '10px' }}
+                      className="question-help ml-2 mb-2"
                     />
                   </Tooltip>
                 </h3>
@@ -178,7 +177,7 @@ const Preferences = () => {
             )}
             {yob && (
               <div>
-                <h3 className={'Heading Heading-color1'}>
+                <h3 className={'Heading Heading-color1 flex flex-row items-start'}>
                   Approximate Age
                   <Tooltip
                     title={
@@ -190,8 +189,7 @@ const Preferences = () => {
                   >
                     <AiOutlineQuestionCircle
                       size={30}
-                      className="question-help"
-                      style={{ marginLeft: '10px' }}
+                      className="question-help ml-2 mb-2"
                     />
                   </Tooltip>
                 </h3>
@@ -201,7 +199,7 @@ const Preferences = () => {
               </div>
             )}
             <div>
-              <h3 className={'Heading Heading-color1'}>
+              <h3 className={'Heading Heading-color1 flex flex-row items-start'}>
                 Username
                 <Tooltip
                   title={
@@ -213,12 +211,11 @@ const Preferences = () => {
                 >
                   <AiOutlineQuestionCircle
                     size={30}
-                    className="question-help"
-                    style={{ marginLeft: '10px' }}
+                    className="question-help ml-2 mb-2"
                   />
                 </Tooltip>
               </h3>
-              <div className={'Pref-username-input'}>
+              <div className={'Pref-username-input text-left'}>
                 <Input
                   type="text"
                   status={username.length > 24 ? 'error' : ''}
@@ -237,7 +234,7 @@ const Preferences = () => {
 
             <div>
               <Button
-                className={`Submit-Button ${styles['Manage-Devices-btn']}`}
+                className={`rounded-full h-auto p-5 pl-14 pr-14 bg-primary-delft-dark text-white text-lg leading-6 font-normal border-none m-auto mt-5 flex justify-center whitespace-pre-line w-full hover:bg-buttongradient hover:text-white`}
                 onClick={() => navigate('/manage-devices')}
               >
                 {'Manage Devices'}
@@ -248,7 +245,7 @@ const Preferences = () => {
                 <Button
                   className={'Submit-Button'}
                   onClick={handleNext}
-                  disabled={username.length > 24 ? true : false}
+                  disabled={username.length > 24}
                 >
                   Save
                 </Button>

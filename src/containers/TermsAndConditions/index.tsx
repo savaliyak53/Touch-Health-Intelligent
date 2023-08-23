@@ -37,8 +37,8 @@ useEffect(() => {
   return (
     <Layout defaultHeader={true} hamburger={false} withoutMargin={true}>
       <div  className={styles.Container}>
-        <Title level={2} className={styles.TermsTitle1} >Terms and Conditions</Title>
-        <form className='text-left' onSubmit={handleSubmit(onSubmit)} onScroll={handleScroll} style={{maxHeight: 1000, overflow: 'auto', marginTop: 100, marginBottom: 50}}>
+        <h2 className={`text-left font-tilt-warp text-3xl md:text-4xl tracking-wide pt-20 text-normal pb-12 z-50 fixed bg-white w-full top-0 md:max-w-[48vw]`} >Terms and Conditions</h2>
+        <form className='text-left' onSubmit={handleSubmit(onSubmit)} onScroll={handleScroll} style={{maxHeight: 1000, overflow: 'auto', marginTop: 50, marginBottom: 50}}>
           <Paragraph className={styles.TermsText}>
            {`These terms and conditions (“Agreement”) set forth the general terms and conditions of your use of the touchmedical.ca website (“Website”), “Touch Health Assistant - THA” mobile application (“Mobile Application”) and any of their related products and services (collectively, “Services”). This Agreement is legally binding between you (“User”, “you” or “your”) and Touch Medical Intelligence Inc. (“Touch Medical Intelligence Inc.”, “we”, “us” or “our”). If you are entering into this agreement on behalf of a business or other legal entity, you represent that you have the authority to bind such entity to this agreement, in which case the terms “User”, “you” or “your” shall refer to such entity. If you do not have such authority, or if you do not agree with the terms of this agreement, you must not accept this agreement and may not access and use the Services. By accessing and using the Services, you acknowledge that you have read, understood, and agree to be bound by the terms of this Agreement. You acknowledge that this Agreement is a contract between you and Touch Medical Intelligence Inc., even though it is electronic and is not physically signed by you, and it governs your use of the Services.
            \n\n`}</Paragraph>

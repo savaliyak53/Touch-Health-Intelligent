@@ -243,8 +243,8 @@ const Integrations = () => {
   return (
     <Layout
       defaultHeader={true}
-      hamburger={loc?.state?.redirect ? false : true}
-      title={'Integration'}
+      hamburger={!loc?.state?.redirect}
+      title={'Integrations'}
     >
       <Spin spinning={spinning}>
         <div className={`${styles['Integration-wrap']}`}>
@@ -263,7 +263,7 @@ const Integrations = () => {
               width={50}
               className={styles['Google-fit-img']}
             />
-            <div className={styles['Container-title']}>
+            <div className='flex flex-row text-left relative font-body font-normal font-bold text-2xl leading-[110%] tracking-tighter mt-2.5 mb-6 mr-5'>
               {'Use the toggle to turn Google Fit integration on or off'}
             </div>
             {checked === undefined ? (
