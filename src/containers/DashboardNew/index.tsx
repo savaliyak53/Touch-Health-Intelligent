@@ -1,6 +1,5 @@
 
 import React, { useContext, useEffect, useState } from 'react';
-import { Button } from 'antd';
 import styles from './DashboardNew.module.scss';
 import { Row, Col, Typography, Button } from 'antd';
 import Layout from '../../layouts/Layout/Layout';
@@ -8,9 +7,8 @@ import { Spin } from 'antd';
 import { getDashboard } from '../../services/dashboardservice';
 import { useNavigate } from 'react-router-dom';
 import Drawer from '../../components/Modal/Drawer';
-import { invokeInteractionServiceByType } from '../../services/authservice';
 import Status from '../Status';
-
+import { timeFrom } from '../../utils/lib';
 import { GoalsComp } from '../../components/Goals-comp';
 import {getPreference, invokeInteractionServiceByType} from '../../services/authservice';
 import {response} from 'msw';
@@ -23,14 +21,13 @@ const DashboardNew = () => {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [username, setUsername] = useState<string>('');
   const navigate = useNavigate();
-
+  const [elements, setElements] = useState<any>();
+  const [elementStreak, setElementStreak] = useState<any>();
+  const [streakCount, setStreakCount] = useState<number | undefined>();
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setLoading(true);
-    getDashboard()
-      .then((response) => {
-        setLoading(false);
 
     Promise.all([getDashboard(), getPreference()])
       .then(([dashboardData, userData]) => {
@@ -42,7 +39,7 @@ const DashboardNew = () => {
           const dates = timeFrom(14).sort((a: any, b: any) =>
             a[0].localeCompare(b[0])
           );
-          const new_streaks = dates.map((item, index) => {
+          const new_streaks = dates.map((item: any, index: any) => {
             const this_date = dashboardData.data.checkup_pattern.find(
               (checkup: any) => checkup[0] === item[0]
             );

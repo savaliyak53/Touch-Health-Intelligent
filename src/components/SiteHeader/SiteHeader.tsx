@@ -42,7 +42,7 @@ const SiteHeader = ({
       {defaultHeader && (
         <header className="absolute top-0 left-0 w-full h-[90px] flex flex-col justify-end">
           <span className="text-xs text-left font-normal leading-none ml-[21px] text-primary-watermelons-dark font-roboto">
-            {whitBackArrow &&
+            {whitBackArrow && (
               <span className="mr-4">
               <ArrowIcon className="inline mr-2" /> Back
 
