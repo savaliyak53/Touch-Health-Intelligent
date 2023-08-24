@@ -175,7 +175,7 @@ const Layout = ({
                 ) : (
                   <>
                     <div className="h-[90px] z-0" />
-                    <LogoSmal className={`inline  'mt-14`} />
+                    <LogoSmal className='inline  mt-14' />
                   </>
                 )}
 
