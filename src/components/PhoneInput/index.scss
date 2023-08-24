@@ -1,0 +1,20 @@
+@import '../../variables.module';
+
+.PhoneInputInput {
+  border: 0ch;
+  &:hover,
+  &:focus {
+    background-color: #e3e3e3;
+    color: $primary-color1;
+  }
+
+  &::placeholder {
+    color: $primary-color1;
+  }
+}
+
+.phoneInputContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

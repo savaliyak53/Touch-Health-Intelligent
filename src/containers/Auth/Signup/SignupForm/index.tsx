@@ -174,6 +174,7 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
       clearTimeout(debounceId);
     };
   }, [watchedValues.name]);
+
   return (
     <div className={styles.Signup}>
       <div className={styles.FormWrap}>

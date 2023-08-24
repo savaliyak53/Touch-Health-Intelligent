@@ -75,12 +75,15 @@ const ErrorModal = ({
               </Button>
             ) :
             errorType == 'type1' ? (
-                <Button
-                className={'Submit-Button'}
-                onClick={handleClose}
-              >
-                Go to dashboard
-              </Button>
+              error.message === 'Daily SMS limit reached' || error.message === 'Invalid username or password.' ? (
+                <Button className={'Submit-Button'} onClick={handleUnauthorized}>
+                  Close
+                </Button>
+              ) : (
+                <Button className={'Submit-Button'} onClick={handleClose}>
+                  Go to dashboard
+                </Button>
+              )
             ) : (
                 <Button
                 className={'Submit-Button'}

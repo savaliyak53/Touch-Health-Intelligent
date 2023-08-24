@@ -12,7 +12,6 @@ import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
 import { backButtonPreventionRoutes } from '../../Routes/Constants';
 import LogoDesktop from '../../components/Icons/LogoDesktop';
-import LogoSmal from '../../components/Icons/LogoSmal';
 
 type Props = {
   defaultHeader: boolean;
@@ -22,6 +21,7 @@ type Props = {
   signupLogin?: string;
   title?: string;
   children?: React.ReactChild | React.ReactChild[];
+  withoutMargin?: boolean;
 };
 const Layout = ({
   children,
@@ -29,6 +29,7 @@ const Layout = ({
   hamburger,
   dashboard,
   title,
+  withoutMargin = false,
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
   const [trialRemaining, setTrialRemaining] = useState<string>('');
@@ -159,8 +160,8 @@ const Layout = ({
         <Spin size="large" className=" Spinner" />
       ) : (
         <>
-          <div className="w-full max-w-full lg:max-w-[50%] relative max-w-full flex text-center bg-cover" style={{backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`}}>
-            <div className="mx-auto w-full max-w-[390px]">
+          <div className='w-full h-full flex-1 flex items-center justify-center bg-cover' tyle={{backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`}}>
+            <div className={`w-full mx-6 ${withoutMargin ? '' : 'md:mx-[20%]'} relative max-w-full flex text-center `}>
               <SiteHeader
                 defaultHeader={defaultHeader}
                 hamburger={hamburger}
@@ -176,11 +177,13 @@ const Layout = ({
                     <LogoSmal className={`inline  'mt-14`} />
                   </>
                 )}
+
                 <div className="flex flex-col h-full">{children}</div>
               </div>
             </div>
           </div>
           <div className="w-full max-w-[50%] bg-right bg-fit bg-no-repeat main-layout-background">
+
             <LogoDesktop className="float-right mr-12 mt-10" />
           </div>
         </>

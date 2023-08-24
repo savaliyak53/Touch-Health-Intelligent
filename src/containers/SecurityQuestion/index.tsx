@@ -82,7 +82,7 @@ const SecurityQuestions = () => {
         <h2 id="header" className={styles['Con-title']}>
           Security question <Spin spinning={loading} />
         </h2>
-        <div className={styles['Switch-wrap']} style={{ overflow: 'hidden' }}>
+        <div className={styles['Switch-wrap']}>
           <p className={styles['Con-Description']}>
             Please help us protect your account. Select a security question and
             input answer. You can use this to get back access to your account.
