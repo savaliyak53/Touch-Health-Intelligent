@@ -74,7 +74,7 @@ export interface Interaction {
 
 export interface IPredictionGraphList {
   date: string;
-  score: number;
+  score: number | null;
   emoji: string;
   value?: string;
 }
