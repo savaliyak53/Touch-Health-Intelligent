@@ -42,7 +42,7 @@ const TouchDropdown: FC<InputProps> = ({
           <span className="font-roboto font-medium leading-3 flex-1">
             {value}
           </span>
-          <ArrowDownIcon className="h-5 w-5 mr-2" />
+          {options && options.length > 1 && <ArrowDownIcon className="h-5 w-5 mr-2" />}
         </Menu.Button>
       </div>
       {options &&

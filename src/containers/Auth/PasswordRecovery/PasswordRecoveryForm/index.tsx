@@ -19,7 +19,6 @@ import NewPasswordEnterStep from './NewPasswordEnterStep';
 const PasswordRecovery: React.FC = () => {
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [disableSubmit, setDisableSubmit] = useState(true);
 
@@ -35,19 +34,8 @@ const PasswordRecovery: React.FC = () => {
 
   const refCaptcha = useRef<any>(null);
 
-  const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-    if (!changePassword) {
-      event.preventDefault();
-      event.returnValue = '';
-    }
-  };
-
   useEffect(() => {
     setUsername(sessionStorage.getItem('username') || '');
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
   }, []);
 
   const onSubmitCode = async () => {
@@ -116,14 +104,12 @@ const PasswordRecovery: React.FC = () => {
   };
 
   const handleOTPRequest = (isResendOTP = false): void => {
-    setIsLoading(true);
     setIsDisabled(true);
     const token = isResendOTP
       ? localStorage.getItem('recaptcha-token')
       : refCaptcha?.current?.getValue();
 
     if (!onlyNumbers(username)) {
-      setIsLoading(false);
       setIsDisabled(false);
       return;
     }
@@ -154,7 +140,6 @@ const PasswordRecovery: React.FC = () => {
         toast.error(error?.response?.data?.details || 'Error');
       })
       .finally(() => {
-        setIsLoading(false);
         refCaptcha?.current?.reset();
       });
   };
@@ -167,7 +152,6 @@ const PasswordRecovery: React.FC = () => {
           <NumberEnterStep
             onVerify={handleOTPRequest}
             setIsDisabled={setIsDisabled}
-            isLoading={isLoading}
             isDisabled={isDisabled}
             refCaptcha={refCaptcha}
             onChange={setUsername}
@@ -183,7 +167,6 @@ const PasswordRecovery: React.FC = () => {
             onSubmitCode={onSubmitCode}
             setDisableSubmit={setDisableSubmit}
             handleOTPRequest={handleOTPRequest}
-            isLoading={isLoading}
             disableSubmit={disableSubmit}
             refCaptcha={refCaptcha}
           />
