@@ -100,6 +100,7 @@ const EntityListWidget: FC<IProps> = ({type}) => {
                               prediction.score ? '' : 'text-primary-delft-dark'
                             } w-6 h-6 rounded-[50%] bg-rae flex items-center justify-center text-[14px]`}
                           >
+
                             {prediction.emoji}
                           </span>
                           </p>
