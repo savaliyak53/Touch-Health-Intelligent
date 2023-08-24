@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-import { getDimensions } from '../../services/dashboardservice';
+import { getDimensions, getOverview } from '../../services/dashboardservice';
 import { Button } from 'antd';
 import Drawer from '../../components/Modal/Drawer';
+import { invokeInteractionServiceByType} from '../../services/authservice';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   direction: string;
@@ -47,10 +49,14 @@ const CustomNextArrow = ({ direction, onClick }: Props) => {
 };
 
 const Status = () => {
+  const [error, setError] = useState<any>();
   const [dimensions, setDimensions] = useState<any>();
   const [days, setDays] = useState<any>([]);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [drawerOpen2, setDrawerOpen2] = useState<boolean>(false);
   const [drawerTitle, setDrawerTitle] = useState("");
+  const [overview, setOverview] = useState<any>();
+  const navigate = useNavigate();
 
   const getUserDimensions = () => {
     getDimensions()
@@ -134,9 +140,41 @@ const Status = () => {
       setDays(daysArray)
     })
   }
+
+  const getOverviewData = () => {
+    getOverview()
+    .then(res => {
+      if(res.data){
+        setOverview(res.data)
+      }
+    })
+  }
+
+  const getInteractionByType = (type: string) => {
+    invokeInteractionServiceByType(type)
+      .then((response: any) => {
+        if (response.data) {
+          navigate('/questionnaire');
+        } else {
+          navigate('/dashboard');
+        }
+      })
+      .catch((error) => {
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
+      });
+  };
+
   useEffect(() => {
-    getUserDimensions()
-  }, [])
+    getUserDimensions();
+    getOverviewData();
+  }, []);
+
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
 
   return (
     <>
@@ -149,18 +187,17 @@ const Status = () => {
           />
         </div>
         <div className="bg-[#EAEDF9] text-[10px] font-normal leading-[14px] py-[5px] px-3 mt-[-36px] rounded-[30px]">
-          <span className="text-primary-delft-dark">2136/5000</span>
+          <span className="text-primary-delft-dark">{`${overview?.cumulative_datapoints}/${overview?.max_datapoints}`}</span>
         </div>
         <div className="text-center max-w-[328px] mx-auto mt-3 mb-4">
           <h2 className="text-primary-delft-dark subtitle7 leading-[18px] font-['tilt_warp']">
-            We’ve locked onto 1 new prediction
+            {overview?.status_title}
           </h2>
           <p className="text-xs leading-[14px] font-normal mt-2 text-[#362A2F]">
-            Keep adding data for at least <b>7 more days</b> to get predictive
-            insights about your health and lifestyle.
+            {overview?.status_text}
           </p>
         </div>
-        <button className="bg-primary-delft-dark max-w-[156px] w-full rounded-[30px] text-sm leading-[14px] font-medium text-[#F6F3F0] py-[13px] mx-auto">
+        <button onClick={() => {setDrawerOpen2(true)}} className="bg-primary-delft-dark max-w-[156px] w-full rounded-[30px] text-sm leading-[14px] font-medium text-[#F6F3F0] py-[13px] mx-auto">
           Earn data points
         </button>
       </div>
@@ -253,6 +290,35 @@ const Status = () => {
                 className={'Button-Drawer'}
               >
                 View guidance
+              </Button>
+            </>
+          }
+        />
+        <Drawer
+          title="Earn data points"
+          open={drawerOpen2}
+          handleCancel={() => setDrawerOpen2(false)}
+          renderOptions={
+            <>
+              <Button
+                className={'Button-Drawer'}
+                onClick={() => {
+                  navigate('/c/checkup');
+                }}
+              >
+                Daily Questions
+              </Button>
+              <Button
+                className={'Button-Drawer'}
+                onClick={() => getInteractionByType('update_conditions')}
+              >
+                Update my conditions
+              </Button>
+              <Button
+                className={'Button-Drawer-Secondary'}
+                onClick={() => getInteractionByType('explore_data')}
+              >
+                Explore my data
               </Button>
             </>
           }

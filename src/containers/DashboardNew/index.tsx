@@ -96,7 +96,7 @@ const DashboardNew = () => {
   }, [error]);
 
   return (
-    <Layout defaultHeader={true} hamburger={true} dashboard={false} title={`Good ${getPartOfDay()}${username ? `, ${username}`: ''}`}>
+    <Layout defaultHeader={true} hamburger={true} dashboard={true} title={`Good ${getPartOfDay()}${username ? `, ${username}`: ''}`}>
 
         <Status />
 
