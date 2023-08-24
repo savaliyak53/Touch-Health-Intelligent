@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from 'react';
 import styles from './DashboardNew.module.scss';
 import { Row, Col, Typography, Button } from 'antd';
@@ -5,9 +6,9 @@ import Layout from '../../layouts/Layout/Layout';
 import { Spin } from 'antd';
 import { getDashboard } from '../../services/dashboardservice';
 import { useNavigate } from 'react-router-dom';
-import { timeFrom } from '../../utils/lib';
-import StreakWidget from './StreakWidget';
 import Drawer from '../../components/Modal/Drawer';
+import Status from '../Status';
+import { timeFrom } from '../../utils/lib';
 import { GoalsComp } from '../../components/Goals-comp';
 import {getPreference, invokeInteractionServiceByType} from '../../services/authservice';
 import {response} from 'msw';
@@ -15,19 +16,19 @@ import dashboard from '../Dashboard';
 import {getPartOfDay} from '../../helpers/time';
 
 const DashboardNew = () => {
-  const [elements, setElements] = useState<any>();
-  const [elementStreak, setElementStreak] = useState<any>();
-  const [streakCount, setStreakCount] = useState<number | undefined>();
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [username, setUsername] = useState<string>('');
   const navigate = useNavigate();
-
+  const [elements, setElements] = useState<any>();
+  const [elementStreak, setElementStreak] = useState<any>();
+  const [streakCount, setStreakCount] = useState<number | undefined>();
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setLoading(true);
+
     Promise.all([getDashboard(), getPreference()])
       .then(([dashboardData, userData]) => {
         if (userData?.data && userData.data.username) {
@@ -38,7 +39,7 @@ const DashboardNew = () => {
           const dates = timeFrom(14).sort((a: any, b: any) =>
             a[0].localeCompare(b[0])
           );
-          const new_streaks = dates.map((item, index) => {
+          const new_streaks = dates.map((item: any, index: any) => {
             const this_date = dashboardData.data.checkup_pattern.find(
               (checkup: any) => checkup[0] === item[0]
             );
@@ -96,58 +97,10 @@ const DashboardNew = () => {
 
   return (
     <Layout defaultHeader={true} hamburger={true} dashboard={false} title={`Good ${getPartOfDay()}${username ? `, ${username}`: ''}`}>
+
+        <Status />
+
       <Spin spinning={loading}>
-        <div>
-          <Row>
-            <Col span={21}>
-              <div className={`Title DashboardTitle`}>Your Dashboard</div>
-            </Col>
-          </Row>
-          <StreakWidget
-            streakCount={streakCount}
-            elementStreak={elementStreak}
-          />
-          <Col span={1}></Col>
-          <Button
-            className={'Daily-Checkin-Btn'}
-            onClick={() => setDrawerOpen(true)}
-          >
-            <span className="Checkin-Text">Daily Check-in</span>
-          </Button>
-          {/* Goals Detail Head + Add new Goal */}
-          <Row>
-            <Col span={24}>
-              <div className={styles.GoalsTitleContainer}>
-                <p className={styles.HeadingStyle}>Health Goals</p>
-                <img src="/assets/icons/info-icon.svg" />
-              </div>
-            </Col>
-          </Row>
-          {elements ? (
-            elements.map((item: any, key: any) => (
-              <GoalsComp
-                key={item.id}
-                name={item.name}
-                score={item.success_score}
-              />
-            ))
-          ) : (
-            <Row key="#nodata">
-              <Col span={24}>
-                <div className={styles.Goal}>
-                  <div className={styles.GoalHeadWrap}>
-                    <Typography
-                      className={styles.GoalTitle}
-                      style={{ color: '#6A2C70', alignItems: 'center' }}
-                    >
-                      No Data to Show
-                    </Typography>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          )}
-        </div>
         <Drawer
           title="Daily check-in"
           open={drawerOpen}
