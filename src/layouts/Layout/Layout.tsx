@@ -159,7 +159,7 @@ const Layout = ({
         <Spin size="large" className=" Spinner" />
       ) : (
         <>
-          <div className="w-full max-w-full lg:max-w-[50%] relative max-w-full flex text-center">
+          <div className="w-full max-w-full lg:max-w-[50%] relative max-w-full flex text-center bg-cover" style={{backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`}}>
             <div className="mx-auto w-full max-w-[390px]">
               <SiteHeader
                 defaultHeader={defaultHeader}
@@ -180,7 +180,7 @@ const Layout = ({
               </div>
             </div>
           </div>
-          <div className="w-full max-w-[50%] bg-right bg-cover bg-no-repeat main-layout-background">
+          <div className="w-full max-w-[50%] bg-right bg-fit bg-no-repeat main-layout-background">
             <LogoDesktop className="float-right mr-12 mt-10" />
           </div>
         </>
