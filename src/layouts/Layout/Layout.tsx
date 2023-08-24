@@ -161,8 +161,8 @@ const Layout = ({
         <Spin size="large" className=" Spinner" />
       ) : (
         <>
-          <div className='w-full h-full flex-1 flex items-center justify-center bg-cover' style={{backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`}}>
-            <div className={`w-full mx-6 ${withoutMargin ? '' : 'md:mx-[20%]'} relative max-w-full flex text-center `}>
+          <div className='w-full max-w-full lg:max-w-[50%] relative max-w-full flex text-center bg-cover bg-no-repeat' style={{backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`}}>
+            <div className="mx-auto w-full max-w-[390px]">
               <SiteHeader
                 defaultHeader={defaultHeader}
                 hamburger={hamburger}

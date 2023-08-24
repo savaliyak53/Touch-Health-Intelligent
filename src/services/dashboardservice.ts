@@ -48,3 +48,9 @@ export const getDimensions = async () => {
 export const getDashboard = async () => {
   return await axios.get(`/ai/dashboard`);
 };
+
+export const getOverview = async () => {
+  return await axios.get(`/ai/overview`);
+};
+
+
