@@ -203,77 +203,78 @@ const Status = () => {
       </div>
       {/* Days Scroll */}
       <div className="flex overflow-visible px-0 mx-auto no-scrollbar">
-        <Carousel
-          renderArrowPrev={(onClickHandler, hasPrev) =>
-            hasPrev && (
-              <CustomPrevArrow direction="prev" onClick={onClickHandler} />
-            )
-          }
-          renderArrowNext={(onClickHandler, hasNext) =>
-            hasNext && (
-              <CustomNextArrow direction="next" onClick={onClickHandler} />
-            )
-          }
-          className='Dashboard-Carousel dashboard-slider overflow-y-visible mb-4' width={370}>
-          {days.map((day: any, index: number) => (
-              <>
-                {/* Day */}
-                <div key={index} className="bg-primary-delft-  p-4 rounded-[10px] w-[350px] min-w-[350px] mb-1 mx-[10px]" style={{boxShadow: `${day.shadow}`, backgroundImage: `url(${process.env.PUBLIC_URL}${day.bg})`}}>
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center">
-                      <div className="w-[24px] h-[24px] flex justify-center items-center rounded-full bg-white">
-                        <img
-                          src={`${process.env.PUBLIC_URL}/assets/images/cur8-day-icon.png`}
-                          className="max-w-[16px] max-h-[16px]"
-                          alt="image"
-                        />
-                      </div>
-                      <span className="text-[10px] font-medium leading-[14px] text-dentist ml-2">
-                        {day.title}
-                      </span>
-                    </div>
+        {/*<Carousel*/}
+        {/*  renderArrowPrev={(onClickHandler, hasPrev) =>*/}
+        {/*    hasPrev && (*/}
+        {/*      <CustomPrevArrow direction="prev" onClick={onClickHandler} />*/}
+        {/*    )*/}
+        {/*  }*/}
+        {/*  renderArrowNext={(onClickHandler, hasNext) =>*/}
+        {/*    hasNext && (*/}
+        {/*      <CustomNextArrow direction="next" onClick={onClickHandler} />*/}
+        {/*    )*/}
+        {/*  }*/}
+        {/*  className='Dashboard-Carousel dashboard-slider overflow-y-visible mb-4' width={370}>*/}
+        {/*  {days.map((day: any, index: number) => (*/}
+        {/*      <>*/}
+        {/*        /!* Day *!/*/}
+        {/*        /!*bg-primary-delft- not completed*!/*/}
+        {/*        <div key={index} className="bg-primary-delft-  p-4 rounded-[10px] w-[350px] min-w-[350px] mb-1 mx-[10px]" style={{boxShadow: `${day.shadow}`, backgroundImage: `url(${process.env.PUBLIC_URL}${day.bg})`}}>*/}
+        {/*          <div className="flex justify-between items-center">*/}
+        {/*            <div className="flex items-center">*/}
+        {/*              <div className="w-[24px] h-[24px] flex justify-center items-center rounded-full bg-white">*/}
+        {/*                <img*/}
+        {/*                  src={`${process.env.PUBLIC_URL}/assets/images/cur8-day-icon.png`}*/}
+        {/*                  className="max-w-[16px] max-h-[16px]"*/}
+        {/*                  alt="image"*/}
+        {/*                />*/}
+        {/*              </div>*/}
+        {/*              <span className="text-[10px] font-medium leading-[14px] text-dentist ml-2">*/}
+        {/*                {day.title}*/}
+        {/*              </span>*/}
+        {/*            </div>*/}
 
-                    <button onClick={() => {setDrawerTitle(day.title); setDrawerOpen(true)}} className="w-5 h-3 flex items-center">
-                      <span className="w-[5px] h-[5px] block rounded-full" style={{backgroundColor: `#${day.btnColor}`}}></span>
-                      <span className="w-[5px] h-[5px] block rounded-full mx-0.5" style={{backgroundColor: `#${day.btnColor}`}}></span>
-                      <span className="w-[5px] h-[5px] block rounded-full" style={{backgroundColor: `#${day.btnColor}`}}></span>
-                    </button>
-                  </div>
+        {/*            <button onClick={() => {setDrawerTitle(day.title); setDrawerOpen(true)}} className="w-5 h-3 flex items-center">*/}
+        {/*              <span className="w-[5px] h-[5px] block rounded-full" style={{backgroundColor: `#${day.btnColor}`}}></span>*/}
+        {/*              <span className="w-[5px] h-[5px] block rounded-full mx-0.5" style={{backgroundColor: `#${day.btnColor}`}}></span>*/}
+        {/*              <span className="w-[5px] h-[5px] block rounded-full" style={{backgroundColor: `#${day.btnColor}`}}></span>*/}
+        {/*            </button>*/}
+        {/*          </div>*/}
+        {/*          /!*we can use font-tilt-warp from Tailwind config instead font-['tilt_warp']*!/*/}
+        {/*          <h2 className="subtitle8 leading-9 font-normal font-tilt-warp mb-2 text-white text-left">*/}
+        {/*            Today*/}
+        {/*          </h2>*/}
 
-                  <h2 className="subtitle8 leading-9 font-normal font-['tilt_warp'] mb-2 text-white text-left">
-                    Today
-                  </h2>
-
-                  <div className="flex justify-between">
-                    <div className="flex flex-col mr-4">
-                      <span className="text-xs leading-3 font-normal mb-2 text-left" style={{color: `#${day.subtitleColor}`}}>
-                      {day.subtitle1}
-                      </span>
-                      <span className="text-[22px] leading-[14px] font-normal font-['tilt_warp'] text-left" style={{color: `#${day.valueColor}`}}>
-                      {day.value1}
-                      </span>
-                    </div>
-                    <div className="flex flex-col mr-4">
-                      <span className="text-xs leading-3 font-normal mb-2 text-left" style={{color: `#${day.subtitleColor}`}}>
-                      {day.subtitle2}
-                      </span>
-                      <span className="text-[22px] leading-[14px] font-normal font-['tilt_warp'] text-left" style={{color: `#${day.valueColor}`}}>
-                      {day.value2}
-                      </span>
-                    </div>
-                    <div className="flex flex-col mr-4">
-                      <span className="text-xs leading-3 font-normal mb-2 text-left" style={{color: `#${day.subtitleColor}`}}>
-                      {day.subtitle3}
-                      </span>
-                      <span className="text-[22px] leading-[14px] font-normal font-['tilt_warp'] text-left" style={{color: `#${day.valueColor}`}}>
-                      {day.value3}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </>
-            ))}
-        </Carousel>
+        {/*          <div className="flex justify-between">*/}
+        {/*            <div className="flex flex-col mr-4">*/}
+        {/*              <span className="text-xs leading-3 font-normal mb-2 text-left" style={{color: `#${day.subtitleColor}`}}>*/}
+        {/*              {day.subtitle1}*/}
+        {/*              </span>*/}
+        {/*              <span className="text-[22px] leading-[14px] font-normal font-['tilt_warp'] text-left" style={{color: `#${day.valueColor}`}}>*/}
+        {/*              {day.value1}*/}
+        {/*              </span>*/}
+        {/*            </div>*/}
+        {/*            <div className="flex flex-col mr-4">*/}
+        {/*              <span className="text-xs leading-3 font-normal mb-2 text-left" style={{color: `#${day.subtitleColor}`}}>*/}
+        {/*              {day.subtitle2}*/}
+        {/*              </span>*/}
+        {/*              <span className="text-[22px] leading-[14px] font-normal font-['tilt_warp'] text-left" style={{color: `#${day.valueColor}`}}>*/}
+        {/*              {day.value2}*/}
+        {/*              </span>*/}
+        {/*            </div>*/}
+        {/*            <div className="flex flex-col mr-4">*/}
+        {/*              <span className="text-xs leading-3 font-normal mb-2 text-left" style={{color: `#${day.subtitleColor}`}}>*/}
+        {/*              {day.subtitle3}*/}
+        {/*              </span>*/}
+        {/*              <span className="text-[22px] leading-[14px] font-normal font-['tilt_warp'] text-left" style={{color: `#${day.valueColor}`}}>*/}
+        {/*              {day.value3}*/}
+        {/*              </span>*/}
+        {/*            </div>*/}
+        {/*          </div>*/}
+        {/*        </div>*/}
+        {/*      </>*/}
+        {/*    ))}*/}
+        {/*</Carousel>*/}
       </div>
       <Drawer
           title={drawerTitle}

@@ -15,6 +15,13 @@
   }
 }
 
+.terms-title {
+  max-width: calc(50% - 3rem);
+  @media screen and (max-width: 768px) {
+    max-width: 100%;
+  }
+}
+
 .ApplicationLayout {
   width: 100%;
   min-height: 100%;
