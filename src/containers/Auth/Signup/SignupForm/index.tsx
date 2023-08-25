@@ -196,8 +196,8 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
                 {...register('name', {
                   required: 'Username is required.',
                   maxLength: {
-                    value: 50,
-                    message: 'Username can have maximum 50 characters.',
+                    value: 24,
+                    message: 'Username can have maximum 24 characters.',
                   },
                 })}
                 placeholder="Username"

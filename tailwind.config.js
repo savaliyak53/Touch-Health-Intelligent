@@ -65,9 +65,9 @@ module.exports = {
           medium: "rgba(8, 8, 21, 0.90)",
           light: "rgba(8, 8, 21, 0.50)"
         },
-        rae: "#FCDED6",
+        rae: "#F6F3F0",
         nimbus: "#F0ECE7",
-        dentist: "#FEFEFE",
+        dentist: "#FDFCFB",
         white: "#fff",
         glass: "rgba(255, 255, 255, 0.50)",
         black: "#000",
@@ -137,7 +137,7 @@ module.exports = {
       fontFamily: {
         'roboto': ['Roboto', 'sans-serif'],
         'tilt-warp': ['Tilt Warp', 'cursive']
-      },
+      }
     },
   },
   plugins: [
