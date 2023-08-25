@@ -1,67 +1,35 @@
 
 import React, { useEffect, useState } from 'react';
-import styles from './DashboardNew.module.scss';
-import { Row, Col, Typography, Button } from 'antd';
+import { Button } from 'antd';
 import Layout from '../../layouts/Layout/Layout';
 import { Spin } from 'antd';
-import { getDashboard } from '../../services/dashboardservice';
+import {getOverview} from '../../services/dashboardservice';
 import { useNavigate } from 'react-router-dom';
 import Drawer from '../../components/Modal/Drawer';
 import Status from '../Status';
-import { timeFrom } from '../../utils/lib';
-import { GoalsComp } from '../../components/Goals-comp';
 import {getPreference, invokeInteractionServiceByType} from '../../services/authservice';
 import {getPartOfDay} from '../../helpers/time';
 import EntityListWidget from '../../components/Widgets/EntityListWidget';
+import {IOverview} from '../../interfaces';
 
 const DashboardNew = () => {
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [username, setUsername] = useState<string>('');
+  const [overview, setOverview] = useState<IOverview>();
   const navigate = useNavigate();
-  const [elements, setElements] = useState<any>();
-  const [elementStreak, setElementStreak] = useState<any>();
-  const [streakCount, setStreakCount] = useState<number | undefined>();
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setLoading(true);
-
-    Promise.all([getDashboard(), getPreference()])
-      .then(([dashboardData, userData]) => {
-        if (userData?.data && userData.data.username) {
+    Promise.all([getOverview(), getPreference()])
+      .then(([overviewData, userData]) => {
+        if (userData?.status === 200 && userData.data && userData.data.username) {
           setUsername(userData.data.username);
         }
-        if (dashboardData.data) {
-          setElements(dashboardData.data.elements);
-          const dates = timeFrom(14).sort((a: any, b: any) =>
-            a[0].localeCompare(b[0])
-          );
-          const new_streaks = dates.map((item: any, index: any) => {
-            const this_date = dashboardData.data.checkup_pattern.find(
-              (checkup: any) => checkup[0] === item[0]
-            );
-            if (!this_date && index === 13) {
-              return (dates[index] = [...dates[index], 'purple']);
-            } else if (this_date && this_date[1] === false && index === 13) {
-              return (dates[index] = [...dates[index], 'purple']);
-            } else if (this_date && this_date[1] === true) {
-              return (dates[index] = [...dates[index], 'orange']);
-            } else {
-              return (dates[index] = [...dates[index], 'grey']);
-            }
-          });
-          setElementStreak(new_streaks);
-          //updated pattern shows check true on today or yesterday then the streak is valid, otherwise zero
-          if (
-            dates[13][2] === 'orange' ||
-            (dates[12][2] === 'orange' && dates[13][2] === 'orange')
-          ) {
-            setStreakCount(dashboardData.data.checkup_streak);
-          } else {
-            setStreakCount(0);
-          }
+        if (overviewData?.status === 200 && overviewData.data) {
+          setOverview(overviewData.data)
         }
       })
       .catch((error) => {
@@ -95,9 +63,10 @@ const DashboardNew = () => {
   }, [error]);
 
   return (
-    <Layout defaultHeader={true} hamburger={true} dashboard={true} title={`Good ${getPartOfDay()}${username ? `, ${username}`: ''}`}>
+    <Layout streak={overview?.streak || 0} defaultHeader={true} hamburger={true} dashboard={true} title={`Good ${getPartOfDay()}${username ? `, ${username}`: ''}`}>
 
-        <Status />
+      <Status overview={overview} />
+
       {/* Conditions widget */}
       <EntityListWidget type={'conditions'}/>
       {/* Influencers widget */}

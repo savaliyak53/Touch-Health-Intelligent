@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, FC} from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import { getDimensions, getOverview } from '../../services/dashboardservice';
@@ -6,6 +6,7 @@ import { Button } from 'antd';
 import Drawer from '../../components/Modal/Drawer';
 import { invokeInteractionServiceByType} from '../../services/authservice';
 import { useNavigate } from 'react-router-dom';
+import {IOverview} from '../../interfaces';
 
 type Props = {
   direction: string;
@@ -48,14 +49,17 @@ const CustomNextArrow = ({ direction, onClick }: Props) => {
   );
 };
 
-const Status = () => {
+interface IProps {
+  overview: IOverview | undefined;
+}
+
+const Status: FC<IProps> = ({overview}) => {
   const [error, setError] = useState<any>();
   const [dimensions, setDimensions] = useState<any>();
   const [days, setDays] = useState<any>([]);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [drawerOpen2, setDrawerOpen2] = useState<boolean>(false);
   const [drawerTitle, setDrawerTitle] = useState("");
-  const [overview, setOverview] = useState<any>();
   const navigate = useNavigate();
 
   const getUserDimensions = () => {
@@ -141,15 +145,6 @@ const Status = () => {
     })
   }
 
-  const getOverviewData = () => {
-    getOverview()
-    .then(res => {
-      if(res.data){
-        setOverview(res.data)
-      }
-    })
-  }
-
   const getInteractionByType = (type: string) => {
     invokeInteractionServiceByType(type)
       .then((response: any) => {
@@ -169,7 +164,6 @@ const Status = () => {
 
   useEffect(() => {
     getUserDimensions();
-    getOverviewData();
   }, []);
 
   useEffect(() => {

@@ -17,6 +17,7 @@ type Props = {
   title?: string;
   whitBackArrow?: boolean;
   steps?: string;
+  streak?: number;
   onBack?: () => void;
 };
 const SiteHeader = ({
@@ -26,6 +27,7 @@ const SiteHeader = ({
     title = '',
     whitBackArrow = false,
     steps = '',
+    streak,
     onBack
   }: Props) => {
   const [BurgerMenu, setBurgerMenu] = useState(false);
@@ -57,8 +59,13 @@ const SiteHeader = ({
           </span>
           <div className="flex justify-between mt-2 px-[20px]">
             <div className="flex items-center font-tilt-warp text-primary-delft-dark font-normal text-[22px] leading-[36px]">
-              {title} {steps && <span className={'ml-2 text-primary-watermelons-dark font-roboto text-xs font-normal leading-none'}>{steps}</span>}
-
+              {title}
+              {steps && <span className={'ml-2 text-primary-watermelons-dark font-roboto text-xs font-normal leading-none'}>
+                {steps}
+              </span>}
+              {streak && <span className={'ml-2 text-primary-delft-dark w-14 opacity-90 h-8 bg-white rounded-[100px] font-roboto text-xs font-medium leading-none flex justify-center items-center'}>
+                  <span className='mr-1 text-lg'>🚀</span>{streak}
+              </span>}
             </div>
             <div
               className={styles['Toggler-btn']}

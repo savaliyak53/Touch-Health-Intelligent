@@ -70,6 +70,18 @@ export interface Interaction {
 // }
 
 /**
+* Overview section
+ */
+
+export interface IOverview {
+  cumulative_datapoints: number;
+  max_datapoints: number;
+  status_text: string;
+  status_title: string;
+  streak: number;
+}
+
+/**
 * Emoji section
  */
 
