@@ -23,6 +23,7 @@ type Props = {
   title?: string;
   children?: React.ReactChild | React.ReactChild[];
   withoutMargin?: boolean;
+  isLogo?: boolean;
 };
 const Layout = ({
   children,
@@ -31,6 +32,7 @@ const Layout = ({
   dashboard,
   title,
   withoutMargin = false,
+  isLogo = true,
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
   const [trialRemaining, setTrialRemaining] = useState<string>('');
@@ -161,7 +163,7 @@ const Layout = ({
         <Spin size="large" className=" Spinner" />
       ) : (
         <>
-          <div className='w-full max-w-full lg:max-w-[50%] relative max-w-full flex text-center bg-cover bg-no-repeat' style={{backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`}}>
+          <div className='w-full max-w-full lg:max-w-[50%] relative flex text-center bg-cover bg-no-repeat' style={{backgroundImage: dashboard ? `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`: ''}}>
             <div className="mx-auto w-full max-w-[390px]">
               <SiteHeader
                 defaultHeader={defaultHeader}
@@ -169,8 +171,8 @@ const Layout = ({
                 trialRemaining={trialRemaining}
                 title={title}
               />
-              <div className="max-w-full w-full h-full pt-13 pb-5 ">
-                {dashboard ? (
+              <div className="max-w-full w-full h-full pt-13">
+                {dashboard || !isLogo ? (
                   <></>
                 ) : (
                   <>
