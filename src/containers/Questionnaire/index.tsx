@@ -73,7 +73,7 @@ function UserCondition() {
             preferencesService(preferenceData, userId)
               .then(async (preferencesResponse: any) => {
                 if (preferencesResponse) {
-                  navigate('/dashboard');
+                  navigate('/questionnaire');
                 } else {
                   setError({
                     code: 400,
@@ -89,8 +89,6 @@ function UserCondition() {
                 });
               });
           }
-        } else if (response?.data.signup_status === 'done') {
-          navigate('/dashboard');
         } else {
           navigate('/dashboard');
         }
