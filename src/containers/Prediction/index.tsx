@@ -71,7 +71,7 @@ const Prediction = () => {
   }, [error]);
 
   return (
-    <Layout defaultHeader={false} hamburger={false} isLogo={false} withoutMargin={true}>
+    <Layout defaultHeader={false} hamburger={false} withoutMargin={true}>
       <section className='h-screen'>
         <section className='pt-[100px] pb-[100px] bg-primary-delft-dark relative'>
           <div className='h-6 w-6 bg-[#ffffff80] rounded-full m-auto'>

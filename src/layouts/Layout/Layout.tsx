@@ -23,7 +23,6 @@ type Props = {
   title?: string;
   children?: React.ReactChild | React.ReactChild[];
   withoutMargin?: boolean;
-  isLogo?: boolean;
 };
 const Layout = ({
   children,
@@ -32,7 +31,6 @@ const Layout = ({
   dashboard,
   title,
   withoutMargin = false,
-  isLogo = true,
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
   const [trialRemaining, setTrialRemaining] = useState<string>('');
@@ -165,7 +163,7 @@ const Layout = ({
         <>
           <div className='w-full h-full flex-1 flex items-center justify-center' >
             <div className='bg-cover bg-no-repeat h-[100vh] z-0 absolute top-0 left-0 right-0 md:right-[50%]' style={{backgroundImage: `${withoutMargin ? '' : `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`}`}}/>
-            <div className={`w-full mx-5 ${withoutMargin ? '' : 'md:mx-[20%]'} relative max-w-full flex text-center `}>
+            <div className={`w-full mx-5 ${withoutMargin ? '' : 'max-w-[390px]'} relative flex text-center `}>
               <SiteHeader
                 defaultHeader={defaultHeader}
                 hamburger={hamburger}
@@ -173,7 +171,7 @@ const Layout = ({
                 title={title}
               />
               <div className="max-w-full w-full h-full pt-13">
-                {dashboard || withoutMargin  || !isLogo ? (
+                {dashboard || withoutMargin ? (
                   <></>
                 ) : (
                   <>
