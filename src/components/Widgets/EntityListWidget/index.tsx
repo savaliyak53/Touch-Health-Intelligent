@@ -3,6 +3,7 @@ import React, {FC, useEffect, useState} from 'react';
 import {getConditions, getInfluencers} from '../../../services/widgets';
 import {Spin} from 'antd';
 import {getDayOfWeekByDate} from '../../../helpers/time';
+import {useNavigate} from 'react-router';
 
 interface IProps {
   type: 'conditions' | 'influencers';
@@ -25,7 +26,7 @@ interface ITest {
 const EntityListWidget: FC<IProps> = ({type}) => {
   const [data, setData] = useState<ITest[] | []>([]);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -55,12 +56,12 @@ const EntityListWidget: FC<IProps> = ({type}) => {
   }, []);
 
   const handlerOnClick = (item: ITest) => {
-    console.log('click', item);
+    navigate(`/prediction/${item.id}`);
   }
 
   return (
     <div
-      className="bg-dentist w-full border border-solid border-nimbus rounded-lg mt-4 mb-5 pt-3 flex-col shadow-primary">
+      className={`bg-dentist w-full border border-solid border-nimbus rounded-lg mt-4 ${type === 'conditions' ? 'mb-5' : 'mb-10'} pt-3 flex-col shadow-primary`}>
       {/*Header*/}
       <div
         className="mb-2 px-4 text-roboto text-left text-primary-delft-light text-[10px] opacity-90 font-medium leading-[14px] uppercase">
@@ -121,20 +122,20 @@ const EntityListWidget: FC<IProps> = ({type}) => {
 		  <div className="h-12 text-center font-medium leading-[14px] pt-4 text-piano-light">
 			  Nothing not found...</div>}
       {/*Footer*/}
-      {data && data.length > 0 && !loading && (
-        <>
-          {type === 'conditions' && (
-            <>
-              <hr className="border-rae mx-4"/>
-              <div className="py-3 text-center">
-                <span className="cursor-pointer text-primary-delft-dark text-[10px] font-medium leading-[14px]">
-                  ADD A CONDITION
-                </span>
-              </div>
-            </>
-          )}
-        </>
-      )}
+      {/*{data && data.length > 0 && !loading && (*/}
+      {/*  <>*/}
+      {/*    {type === 'conditions' && (*/}
+      {/*      <>*/}
+      {/*        <hr className="border-rae mx-4"/>*/}
+      {/*        <div className="py-3 text-center">*/}
+      {/*          <span className="cursor-pointer text-primary-delft-dark text-[10px] font-medium leading-[14px]">*/}
+      {/*            ADD A CONDITION*/}
+      {/*          </span>*/}
+      {/*        </div>*/}
+      {/*      </>*/}
+      {/*    )}*/}
+      {/*  </>*/}
+      {/*)}*/}
     </div>
   );
 };
