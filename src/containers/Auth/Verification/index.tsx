@@ -175,9 +175,8 @@ const Verification = () => {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={false}>
+    <Layout defaultHeader={true} hamburger={false} title={'Verification code'}>
       <div className={styles['Verification-wrap']}>
-        <h2 className={styles['Verification-title']}>Verification code</h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className={styles['Verification-form']}
