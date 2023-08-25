@@ -161,9 +161,22 @@ const Layout = ({
         <Spin size="large" className=" Spinner" />
       ) : (
         <>
-          <div className='w-full h-full flex-1 flex items-center justify-center' >
-            <div className='bg-cover bg-no-repeat h-[100vh] z-0 absolute top-0 left-0 right-0 md:right-[50%]' style={{backgroundImage: `${withoutMargin ? '' : `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`}`}}/>
-            <div className={`w-full mx-5 ${withoutMargin ? '' : 'max-w-[390px]'} relative flex text-center `}>
+          <div className="w-full h-full flex-1 flex items-center justify-center px-4">
+            <div
+              className="bg-cover bg-no-repeat h-[100vh] z-0 absolute top-0 left-0 right-0 md:right-[50%]"
+              style={{
+                backgroundImage: `${
+                  withoutMargin
+                    ? ''
+                    : `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`
+                }`,
+              }}
+            />
+            <div
+              className={`w-full mx-5  ${
+                withoutMargin ? '' : 'max-w-[390px]'
+              } relative flex text-center `}
+            >
               <SiteHeader
                 defaultHeader={defaultHeader}
                 hamburger={hamburger}
