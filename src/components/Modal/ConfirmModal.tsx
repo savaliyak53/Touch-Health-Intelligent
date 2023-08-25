@@ -27,7 +27,7 @@ const ConfirmModal = ({
       footer={[
         <div  key="submit" className={styles["Btn-group"]}>
           <Button key="submit" className={'Submit-Button'} onClick={handleOk}>
-           Confirm
+            {title === 'Error' ? 'Try again' : 'Confirm'}
           </Button>
         </div>
       ]
