@@ -27,6 +27,7 @@ import Integrations from '../containers/Integeration';
 import MockQuestionnaire from '../containers/MockQuestionnaire';
 import ManageDevices from '../containers/ManageDevices';
 import ExistingUser from '../containers/ExistingUser';
+import Prediction from '../containers/Prediction';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -72,6 +73,7 @@ const AppRoutes = () => {
           <Route path="/subscription/:id" element={<SubscriptionNew />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
           <Route path="/help-and-support" element={<HelpAndSupport />} />
+          <Route path="/prediction/:id" element={<Prediction />} />
           <Route path="/success" element={<Success />} />
           <Route path="/error" element={<Error />} />
         </Route>
