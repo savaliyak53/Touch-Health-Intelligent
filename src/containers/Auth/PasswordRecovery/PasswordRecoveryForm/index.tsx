@@ -113,7 +113,6 @@ const PasswordRecovery: React.FC = () => {
       setIsDisabled(false);
       return;
     }
-
     if (!isResendOTP) {
       sessionStorage.setItem('username', username);
     }
