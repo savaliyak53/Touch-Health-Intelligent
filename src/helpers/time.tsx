@@ -13,3 +13,9 @@ export const getPartOfDay = (): string => {
     return "evening";
   }
 }
+
+export const getDayOfWeekByDate = (date: string): string => {
+  const days: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const parsedDate = new Date(date);
+  return days[parsedDate.getDay()];
+}

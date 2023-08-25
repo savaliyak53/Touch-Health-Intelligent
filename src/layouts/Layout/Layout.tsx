@@ -23,6 +23,7 @@ type Props = {
   title?: string;
   children?: React.ReactChild | React.ReactChild[];
   withoutMargin?: boolean;
+  isLogo?: boolean;
 };
 const Layout = ({
   children,
@@ -31,6 +32,7 @@ const Layout = ({
   dashboard,
   title,
   withoutMargin = false,
+  isLogo = true,
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
   const [trialRemaining, setTrialRemaining] = useState<string>('');
@@ -170,8 +172,8 @@ const Layout = ({
                 trialRemaining={trialRemaining}
                 title={title}
               />
-              <div className="max-w-full w-full h-full pt-13 pb-5 ">
-                {dashboard || withoutMargin ? (
+              <div className="max-w-full w-full h-full pt-13">
+                {dashboard || withoutMargin  || !isLogo ? (
                   <></>
                 ) : (
                   <>

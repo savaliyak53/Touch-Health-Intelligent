@@ -1,5 +1,5 @@
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './DashboardNew.module.scss';
 import { Row, Col, Typography, Button } from 'antd';
 import Layout from '../../layouts/Layout/Layout';
@@ -11,9 +11,8 @@ import Status from '../Status';
 import { timeFrom } from '../../utils/lib';
 import { GoalsComp } from '../../components/Goals-comp';
 import {getPreference, invokeInteractionServiceByType} from '../../services/authservice';
-import {response} from 'msw';
-import dashboard from '../Dashboard';
 import {getPartOfDay} from '../../helpers/time';
+import EntityListWidget from '../../components/Widgets/EntityListWidget';
 
 const DashboardNew = () => {
   const [error, setError] = useState<any>();
@@ -99,6 +98,10 @@ const DashboardNew = () => {
     <Layout defaultHeader={true} hamburger={true} dashboard={true} title={`Good ${getPartOfDay()}${username ? `, ${username}`: ''}`}>
 
         <Status />
+      {/* Conditions widget */}
+      <EntityListWidget type={'conditions'}/>
+      {/* Influencers widget */}
+      <EntityListWidget type={'influencers'}/>
 
       <Spin spinning={loading}>
         <Drawer

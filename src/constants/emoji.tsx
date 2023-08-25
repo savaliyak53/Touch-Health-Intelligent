@@ -1,0 +1,81 @@
+import { EmojiMapping } from '../interfaces';
+
+export const emojis: EmojiMapping = {
+  'Daytime alertness': {
+    veryLow: '🌑',
+    low: '🌒',
+    neutral: '🌓',
+    high: '🌔',
+    critical: '🌕',
+  },
+  Hunger: {
+    veryLow: '🍽',
+    low: '🍏',
+    neutral: '🥪',
+    high: '🍔',
+    critical: '🍕',
+  },
+  Fatigue: {
+    veryLow: '💯',
+    low: '😊',
+    neutral: '😴',
+    high: '🛏',
+    critical: '🌙',
+  },
+  Stiffness: {
+    veryLow: '🕺',
+    low: '🌒',
+    neutral: '🌓',
+    high: '🌔',
+    critical: '🌕',
+  },
+  'Body image': {
+    veryLow: '🍽',
+    low: '🌒',
+    neutral: '🌓',
+    high: '🌔',
+    critical: '🌕',
+  },
+  Anxiety: {
+    veryLow: '🍽',
+    low: '🌒',
+    neutral: '🌓',
+    high: '🌔',
+    critical: '🌕',
+  },
+  Memory: {
+    veryLow: '🍽',
+    low: '🌒',
+    neutral: '🌓',
+    high: '🌔',
+    critical: '🌕',
+  },
+  Happiness: {
+    veryLow: '🍽',
+    low: '🌒',
+    neutral: '🌓',
+    high: '🌔',
+    critical: '🌕',
+  },
+  Paranoia: {
+    veryLow: '🍽',
+    low: '🌒',
+    neutral: '🌓',
+    high: '🌔',
+    critical: '🌕',
+  },
+  Loneliness: {
+    veryLow: '🍽',
+    low: '🌒',
+    neutral: '🌓',
+    high: '🌔',
+    critical: '🌕',
+  },
+  'Clinical signs': {
+    veryLow: '🍽',
+    low: '🌒',
+    neutral: '🌓',
+    high: '🌔',
+    critical: '🌕',
+  },
+};

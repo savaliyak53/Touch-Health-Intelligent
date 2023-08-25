@@ -9,10 +9,6 @@ import { useTimer } from 'react-timer-hook';
 import ReCAPTCHA from 'react-google-recaptcha';
 import ReactCodeInput from 'react-code-input';
 import { Tooltip } from 'antd';
-import Button from '../../../../../components/Button';
-import styles from '../../../Login/Login.module.scss';
-import Authstyles from '../../../Auth.module.scss';
-import passwordStyles from '../../PasswordRecovery.module.scss';
 import ConfirmModal from '../../../../../components/Modal/ConfirmModal';
 
 interface IProps {
@@ -21,7 +17,6 @@ interface IProps {
   onSubmitCode: () => void;
   setDisableSubmit: (boolean: boolean) => void;
   handleOTPRequest: (boolean: boolean) => void;
-  isLoading: boolean;
   disableSubmit: boolean;
   refCaptcha: React.MutableRefObject<any>;
 }
@@ -47,7 +42,6 @@ const CodeEnterStep: React.FC<IProps> = ({
   code,
   setDisableSubmit,
   handleOTPRequest,
-  isLoading,
   disableSubmit,
   refCaptcha,
 }) => {
@@ -105,10 +99,10 @@ const CodeEnterStep: React.FC<IProps> = ({
 
   return (
     <>
-      <form onSubmit={onSubmitCode} className={styles.Form}>
-        <h1 className={styles.Title}>Verification code</h1>
+      <form onSubmit={onSubmitCode} className='flex flex-col items-center justify-center'>
+        <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>Verification code</h1>
         <ReactCodeInput
-          className={passwordStyles.CodeInputWrap}
+          className='!flex justify-between flex-wrap w-full'
           inputStyle={codInputStyle}
           name={'code'}
           inputMode="numeric"
@@ -127,17 +121,16 @@ const CodeEnterStep: React.FC<IProps> = ({
           }
           open={error}
         />
-        <Button
+        <button
           onClick={handleOnSubmit}
-          className={styles.LoginButton}
-          loading={isLoading}
+          className='rounded-full bg-high-dark text-nimbus w-full p-4 h-full mt-8 text-center font-tilt-warp text-sm font-medium leading-none disabled:cursor-not-allowed'
           disabled={disableSubmit}
         >
           Verify
-        </Button>
+        </button>
         {openRecaptcha && (
           <ReCAPTCHA
-            className={Authstyles['recaptcha']}
+            className='mx-auto mt-6 mb-0'
             ref={refCaptcha}
             sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
             onChange={onReCAPTCHA}
@@ -145,7 +138,7 @@ const CodeEnterStep: React.FC<IProps> = ({
         )}
         <button
           onClick={() => setOpenRecaptcha(true)}
-          className={styles.ToSignup}
+          className='text-high-dark underline font-roboto text-xs font-normal leading-4 mt-5 disabled:cursor-not-allowed'
           type="button"
           disabled={isDisabled}
         >

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import './index.scss';
 import InformIcon from '../Icons/InformIcon';
 import ExclamationPointIcon from '../Icons/ExclamationPointIcon';
@@ -6,13 +6,6 @@ import EyeIcon from '../Icons/EyeIcon';
 import CloseEyeIcon from '../Icons/CloseEyeIcon';
 import { Tooltip } from 'antd';
 
-type InputDesigns =
-  | 'username'
-  | 'password'
-  | 'answer'
-  | 'default'
-  | 'email'
-  | 'error';
 
 interface InputProps {
   type: 'text' | 'number' | 'password';
@@ -23,34 +16,16 @@ interface InputProps {
   checkError?: (str: string) => void;
   onBlure?: () => void;
   placeholder?: string;
-  design: InputDesigns;
   className?: string;
   errorMessage?: string;
   isDisabled?: boolean;
   isRequired?: boolean;
-
   [key: string]: any;
 }
-
-const getActiveClassById = <T extends InputDesigns>(type: T): string => {
-  switch (type) {
-    case 'username':
-      return 'input-container_username';
-    case 'password':
-      return 'input-container_default';
-    case 'email':
-      return 'input-container_email';
-    case 'error':
-      return 'input-container_error';
-    default:
-      return 'input-container_default';
-  }
-};
 
 const TouchInput: FC<InputProps> = ({
   type = 'text',
   value,
-  design,
   onChange,
   resetError,
   checkError,
@@ -62,18 +37,23 @@ const TouchInput: FC<InputProps> = ({
 }) => {
 
   const [isPasswordVisible, setPasswordVisibility] = useState(false);
-  const [isFocusedOrFilled, setFocusOrFilled] = useState(false);
-  const [activeClass, setActiveClass] = useState('default');
+  const [activeClass, setActiveClass] = useState('shadow-primary');
   const [isHovered, setIsHovered] = useState(false);
   const inputType = type === 'password' && isPasswordVisible ? 'text' : type;
+
+  useEffect(() => {
+    if (errorMessage) {
+      setActiveClass('shadow-error');
+    }
+
+  }, [errorMessage])
 
   const handleTogglePasswordVisibility = () => {
     setPasswordVisibility((prev) => !prev);
   };
 
   const onFocus = () => {
-    setFocusOrFilled(true);
-    setActiveClass(getActiveClassById(design));
+    setActiveClass('shadow-active');
     if (resetError) {
       resetError('');
     }
@@ -81,8 +61,7 @@ const TouchInput: FC<InputProps> = ({
 
   const onBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val = event.target.value;
-    setFocusOrFilled(!!val);
-    setActiveClass(getActiveClassById('default'));
+    setActiveClass('shadow-primary');
     if (checkError) {
       checkError(val);
     }
@@ -95,52 +74,39 @@ const TouchInput: FC<InputProps> = ({
     setIsHovered(false);
   };
 
-  const showLabel = (): boolean => {
-    if (design === 'password') {
-      return !value;
-    }
-    return true;
-  };
-
   return (
-    <div className={`input-container ${activeClass} ${className}`}>
-      {showLabel() && (
-        <label
-          className={`floating-label ${isFocusedOrFilled ? 'focused' : ''}`}
-        >
-          {placeholder}
-        </label>
-      )}
-      <input
-        {...rest}
-        type={inputType}
-        value={value}
-        onChange={onChange}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        disabled={isDisabled}
-        className={`touch-input ${isFocusedOrFilled ? 'focused' : ''}`}
-      />
-
-      {errorMessage && !isDisabled && (
-        <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-          <ExclamationPointIcon className={`info-icon ${type === 'password' ? 'mr-3' : ''}`} />
-        </span>
-      )}
-      {isDisabled && type !== 'password' && (
-        <InformIcon className="info-icon" />
-      )}
-      {type === 'password' && (
-        <span className="toggle-icon" onClick={handleTogglePasswordVisibility}>
-          {isPasswordVisible ? <CloseEyeIcon /> : <EyeIcon />}
-        </span>
-      )}
+    <div className={`relative w-full h-[60px] px-5 py-[18px] leading-4 bg-inputWhite rounded-md ${activeClass} ${className}`}>
       <Tooltip
         title={errorMessage}
         placement="bottomRight"
         color="blue"
-        open={!!errorMessage && isHovered}
-      />
+        open={!!errorMessage && isHovered}>
+        <input
+          {...rest}
+          type={inputType}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          disabled={isDisabled}
+          className='font-medium w-full disabled:cursor-default'
+        />
+
+        {errorMessage && !isDisabled && (
+          <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <ExclamationPointIcon className={`absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer ${type === 'password' ? 'mr-3' : ''}`} />
+        </span>
+        )}
+        {isDisabled && type !== 'password' && (
+          <InformIcon className="absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer" />
+        )}
+        {type === 'password' && (
+          <span className="absolute right-[10px] top-1/2 transform -translate-y-1/2 cursor-pointer" onClick={handleTogglePasswordVisibility}>
+          <EyeIcon color={isPasswordVisible ? 'blue' : '#080815'}/>
+        </span>
+        )}
+      </Tooltip>
     </div>
   );
 };

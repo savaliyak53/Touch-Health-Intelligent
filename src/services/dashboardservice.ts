@@ -49,8 +49,14 @@ export const getDashboard = async () => {
   return await axios.get(`/ai/dashboard`);
 };
 
+export const getInfluencer = async (influencer_id: string) => {
+  return await axios.get(`/ai/influencer/${influencer_id}`);
+};
+
+export const getGuidance = async (guidance_id: string) => {
+  return await axios.get(`/ai/guidance/${guidance_id}`);
+};
+
 export const getOverview = async () => {
   return await axios.get(`/ai/overview`);
 };
-
-
