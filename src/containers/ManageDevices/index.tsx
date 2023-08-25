@@ -71,9 +71,8 @@ const ManageDevices = () => {
   }, [error]);
 
   return (
-    <Layout defaultHeader={true} hamburger={true}>
+    <Layout defaultHeader={true} hamburger={true} title={'Manage Devices'}>
       <Spin spinning={spinning}>
-        <div className="Title">Manage Devices</div>
         <div>
           {devices &&
             devices.map((device: any, key: any) => (

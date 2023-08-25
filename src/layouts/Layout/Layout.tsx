@@ -161,7 +161,8 @@ const Layout = ({
         <Spin size="large" className=" Spinner" />
       ) : (
         <>
-          <div className='w-full h-full flex-1 flex items-center justify-center bg-cover' style={{backgroundImage: `${withoutMargin ? '' : `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`}`}}>
+          <div className='w-full h-full flex-1 flex items-center justify-center' >
+            <div className='bg-cover bg-no-repeat h-[100vh] z-0 absolute top-0 left-0 right-0 md:right-[50%]' style={{backgroundImage: `${withoutMargin ? '' : `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`}`}}/>
             <div className={`w-full mx-5 ${withoutMargin ? '' : 'md:mx-[20%]'} relative max-w-full flex text-center `}>
               <SiteHeader
                 defaultHeader={defaultHeader}
@@ -174,8 +175,8 @@ const Layout = ({
                   <></>
                 ) : (
                   <>
-                    <div className="h-[90px] z-0" />
-                    <LogoSmal className='inline  mt-14' />
+                    <div className="h-[90px] z-0 mt-5" />
+                    {/*<LogoSmal className='inline  mt-14' />*/}
                   </>
                 )}
 
