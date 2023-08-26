@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './index.scss';
 import { useNavigate } from 'react-router-dom';
-import Button from '../../components/Button';
+import Button from 'components/Button';
 import { toast } from 'react-toastify';
-import Question from '../../components/MockQuestion';
+import Question from 'components/MockQuestion';
 import { Interaction } from '../../interfaces';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import { Skeleton, Divider } from 'antd';
 import { Data } from '../MockScrollingChat/mockdata';
 import styles from './MockQuestionnaire.module.scss';

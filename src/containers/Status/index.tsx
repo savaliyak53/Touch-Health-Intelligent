@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-import { getDimensions, getOverview } from '../../services/dashboardservice';
+import { getDimensions, getOverview } from 'services/dashboardservice';
 import { Button } from 'antd';
-import Drawer from '../../components/Modal/Drawer';
-import { invokeInteractionServiceByType} from '../../services/authservice';
+import Drawer from 'components/Modal/Drawer';
+import { invokeInteractionServiceByType} from 'services/authservice';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {

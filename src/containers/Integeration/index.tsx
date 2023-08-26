@@ -7,19 +7,19 @@ import {
   getGoogleCode,
   revokeGoogleFit,
   getIntegrationStatus,
-} from '../../services/authservice';
+} from 'services/authservice';
 import { toast } from 'react-toastify';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import 'moment-timezone';
-import DeleteModal from '../../components/Modal/DeleteDataModal';
-import { deleteAllData } from '../../services/goalsService';
+import DeleteModal from 'components/Modal/DeleteDataModal';
+import { deleteAllData } from 'services/goalsService';
 import {
   postInteractionService,
   preferencesService,
   invokeInteractionServiceByType,
-} from '../../services/authservice';
-import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
-import GoogleOAuthDisclosureModal from '../../components/Modal/GoogleOAuthDisclosureModal';
+} from 'services/authservice';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
+import GoogleOAuthDisclosureModal from 'components/Modal/GoogleOAuthDisclosureModal';
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
   readonly userChoice: Promise<{

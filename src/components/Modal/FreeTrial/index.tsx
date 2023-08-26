@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { Modal, Button, Typography } from 'antd';
 import styles from './FreeTrialModal.module.scss';
 import moment from 'moment';
-import AuthContext , { AuthContextData }  from '../../../contexts/AuthContext';
+import AuthContext , { AuthContextData }  from 'contexts/AuthContext';
 const { Paragraph, Text } = Typography;
 export type IProps = {
   open: boolean;
