@@ -16,13 +16,13 @@ const CustomPrevArrow = ({ direction, onClick }: Props) => {
   return (
     <>
       <button
-        className="absolute bottom-0 left-[-8px] top-0 z-[1] flex w-[32px] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-100 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-100 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
+        className="absolute bottom-0 left-[-12px] top-0 z-[1] flex w-[32px] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-100 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-100 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
         type="button"
         data-te-target="#carouselExampleCaptions"
         data-te-slide="prev"
         onClick={onClick}
       >
-        <span className="inline-block h-8 w-8 flex items-center justify-center rounded-full bg-[#FFF]">
+        <span className="inline-block h-8 w-8 flex items-center justify-center rounded-full bg-[#FFF] shadow-[2px_2px_0px_0px_#F1EEE9]">
           <svg
             width="12px"
             height="12px"
@@ -53,13 +53,13 @@ const CustomNextArrow = ({ direction, onClick }: Props) => {
   return (
     <>
       <button
-        className="absolute bottom-0 right-[-8px] top-0 z-[1] flex w-[32px] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-100 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-100 focus:outline-none motion-reduce:transition-none"
+        className="absolute bottom-0 right-0 top-0 z-[1] flex w-[32px] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-100 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-100 focus:outline-none motion-reduce:transition-none"
         type="button"
         data-te-target="#carouselExampleCaptions"
         data-te-slide="next"
         onClick={onClick}
       >
-        <span className="inline-block h-8 w-8 flex items-center justify-center rounded-full bg-[#FFF]">
+        <span className="inline-block h-8 w-8 flex items-center justify-center rounded-full bg-[#FFF] shadow-[2px_2px_0_0_#83A5F2]">
           <svg
             width="12px"
             height="12px"
@@ -105,6 +105,7 @@ const Status = () => {
         element.name == 'Sleep'
           ? (daysObj = {
               title: element.name,
+              icon: '/assets/images/cur8-sleep-icon.png',
               bg: '/assets/images/cur8-sleep.svg',
               btnColor: 'F0ECE7',
               subtitle1: element.data_value_list[0].name,
@@ -120,6 +121,7 @@ const Status = () => {
           : element.name == 'Movement'
           ? (daysObj = {
               title: element.name,
+              icon: '/assets/images/cur8-movement-icon.png',
               bg: '/assets/images/cur8-movement.svg',
               btnColor: 'F0ECE7',
               subtitle1: element.data_value_list[0].name,
@@ -135,6 +137,7 @@ const Status = () => {
           : element.name == 'Mental well-being'
           ? (daysObj = {
               title: element.name,
+              icon: '/assets/images/cur8-mental-wellbeing-icon.png',
               bg: '/assets/images/cur8-mental-wellbeing.svg',
               btnColor: '204ECF',
               subtitle1: element.data_value_list[0].name,
@@ -150,6 +153,7 @@ const Status = () => {
           : element.name == 'Nutrition'
           ? (daysObj = {
               title: element.name,
+              icon: '/assets/images/cur8-nutrition-icon.png',
               bg: '/assets/images/cur8-nutrition.svg',
               btnColor: 'EA9836',
               subtitle1: element.data_value_list[0].name,
@@ -164,6 +168,7 @@ const Status = () => {
             })
           : (daysObj = {
               title: element.name,
+              icon: '/assets/images/cur8-productivity-icon.png',
               bg: '/assets/images/cur8-poductivity.svg',
               btnColor: '204ECF',
               subtitle1: element.data_value_list[0].name,
@@ -269,7 +274,7 @@ const Status = () => {
             <>
               <div
                 key={index}
-                className="p-4 rounded-[10px] w-[335px] min-w-[335px] mb-1 mx-[4px]"
+                className="pt-[14px] px-[18px] pb-[32px] rounded-[10px] w-[357px] min-w-[357px] mb-1 ml-auto mr-3 sm:mx-auto bg-cover"
                 style={{
                   boxShadow: `${day.shadow}`,
                   backgroundImage: `url(${process.env.PUBLIC_URL}${day.bg})`,
@@ -278,9 +283,9 @@ const Status = () => {
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
                     <div className="w-[24px] h-[24px] flex justify-center items-center rounded-full bg-white">
-                      {day.emoji}
+                      <img src={`${process.env.PUBLIC_URL}${day.icon}`} style={{width:'auto', height: 'auto'}} alt="icon" />
                     </div>
-                    <span className="text-[10px] font-medium leading-[14px] text-dentist ml-2">
+                    <span className="text-[12px] font-medium leading-[14px] text-dentist ml-2">
                       {day.title}
                     </span>
                   </div>
@@ -292,23 +297,23 @@ const Status = () => {
                     className="w-5 h-3 flex items-center"
                   >
                     <span
-                      className="w-[5px] h-[5px] block rounded-full"
+                      className="w-[4px] h-[4px] block rounded-full"
                       style={{ backgroundColor: `#${day.btnColor}` }}
                     ></span>
                     <span
-                      className="w-[5px] h-[5px] block rounded-full mx-0.5"
+                      className="w-[4px] h-[4px] block rounded-full mx-0.5"
                       style={{ backgroundColor: `#${day.btnColor}` }}
                     ></span>
                     <span
-                      className="w-[5px] h-[5px] block rounded-full"
+                      className="w-[4px] h-[4px] block rounded-full"
                       style={{ backgroundColor: `#${day.btnColor}` }}
                     ></span>
                   </button>
                 </div>
-                <h2 className="subtitle8 leading-9 font-normal font-tilt-warp mb-2 text-white text-left">
+                <h2 className="subtitle8 leading-9 font-normal font-tilt-warp text-white text-left mt-[2px] mx-1 mb-2">
                   Today
                 </h2>
-                <div className="flex justify-between">
+                <div className="flex justify-between ml-1">
                   <div className="flex flex-col mr-4">
                     <span
                       className="text-xs leading-3 font-normal mb-2 text-left"

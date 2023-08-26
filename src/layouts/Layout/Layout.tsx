@@ -163,7 +163,7 @@ const Layout = ({
         <>
           <div className="w-full h-full flex-1 flex items-center justify-center px-4">
             <div
-              className="bg-cover bg-no-repeat h-[100vh] z-0 absolute top-0 left-0 right-0 md:right-[50%]"
+              className="bg-cover bg-no-repeat h-[100%] bg-[#F6F3F0] z-0 absolute top-0 left-0 right-0 md:right-[50%]"
               style={{
                 backgroundImage: `${
                   withoutMargin
