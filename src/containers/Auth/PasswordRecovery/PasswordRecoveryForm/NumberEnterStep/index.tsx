@@ -45,6 +45,7 @@ const NumberEnterStep: React.FC<IProps> = ({
       <button
         onClick={handleOnVerify}
         disabled={isDisabled}
+        type='button'
         className='rounded-full bg-high-dark text-nimbus w-full p-4 h-full mt-8 text-center font-tilt-warp text-sm font-medium leading-none disabled:cursor-not-allowed'
       >
         Send code
