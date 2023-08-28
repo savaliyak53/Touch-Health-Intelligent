@@ -7,12 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import Drawer from 'components/Modal/Drawer';
 import Status from '../Status';
 import { timeFrom } from '../../utils/lib';
-import {
-  getPreference,
-  invokeInteractionServiceByType,
-} from '../../services/authservice';
-import { getPartOfDay } from '../../helpers/time';
-import EntityListWidget from '../../components/Widgets/EntityListWidget';
+import {getPreference, invokeInteractionServiceByType} from '../../services/authservice';
+import {getPartOfDay} from '../../helpers/time';
+import EntityListWidget from 'components/Widgets/EntityListWidget';
 
 const DashboardNew = () => {
   const [error, setError] = useState<any>();
