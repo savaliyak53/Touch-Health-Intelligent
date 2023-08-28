@@ -4,7 +4,7 @@ import {
   loginService,
   logoutService,
   signUpService,
-} from '../services/authservice';
+} from 'services/authservice';
 import { getUser, getSession } from '../utils/lib';
 import { ISignUp } from '../interfaces';
 

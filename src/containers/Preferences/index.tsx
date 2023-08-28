@@ -8,11 +8,11 @@ import {
   getIntegrationStatus,
   getPreference,
   updatePreference,
-} from '../../services/authservice';
-import Layout from '../../layouts/Layout/Layout';
+} from 'services/authservice';
+import Layout from 'layouts/Layout/Layout';
 import moment from 'moment';
 import 'moment-timezone';
-import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -119,37 +119,36 @@ const Preferences = () => {
   };
   return (
     <Layout defaultHeader={true} hamburger={true} title={'Preferences'}>
-      <Spin spinning={spinning}>
-        <div className={`${styles['Pref-wrap']} mt-12`}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'start',
-              marginBottom: '10px',
-            }}
-          >
-            <button
-              style={{ border: 'none', background: 'none', display: 'none' }}
-              id="installApp"
-            >
-              <h5 style={{ float: 'left', cursor: 'pointer' }}>
-                You can also install this app
-              </h5>
-              &nbsp;
-              <CloudDownloadOutlined
-                className="Download-icon"
-                style={{
-                  color: '#3a4a7e',
-                  float: 'right',
-                  fontSize: '20px',
-                  marginLeft: '3px',
-                  cursor: 'pointer',
-                }}
-              />
-            </button>
-          </div>
-          <br />
+      {spinning ? <Spin spinning={spinning} className='mt-5' /> : (
+        <div className={`${styles['Pref-wrap']} mt-5`}>
+          {/*<div*/}
+          {/*  style={{*/}
+          {/*    alignItems: 'center',*/}
+          {/*    justifyContent: 'start',*/}
+          {/*    marginBottom: '10px',*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  <button*/}
+          {/*    style={{ border: 'none', background: 'none', display: 'none' }}*/}
+          {/*    id="installApp"*/}
+          {/*  >*/}
+          {/*    <h5 style={{ float: 'left', cursor: 'pointer' }}>*/}
+          {/*      You can also install this app*/}
+          {/*    </h5>*/}
+          {/*    &nbsp;*/}
+          {/*    <CloudDownloadOutlined*/}
+          {/*      className="Download-icon"*/}
+          {/*      style={{*/}
+          {/*        color: '#3a4a7e',*/}
+          {/*        float: 'right',*/}
+          {/*        fontSize: '20px',*/}
+          {/*        marginLeft: '3px',*/}
+          {/*        cursor: 'pointer',*/}
+          {/*      }}*/}
+          {/*    />*/}
+          {/*  </button>*/}
+          {/*</div>*/}
+          {/*<br />*/}
           <div>
             {sex && (
               <div>
@@ -252,7 +251,7 @@ const Preferences = () => {
             )}
           </div>
         </div>
-      </Spin>
+      )}
     </Layout>
   );
 };

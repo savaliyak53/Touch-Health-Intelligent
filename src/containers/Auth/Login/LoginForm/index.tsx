@@ -2,22 +2,22 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Button from '../../../../components/Button';
-import InputField from '../../../../components/Input';
+import Button from 'components/Button';
+import InputField from 'components/Input';
 import styles from '../Login.module.scss';
 import Authstyles from '../../Auth.module.scss';
 import { Tooltip } from 'antd';
 import CountryCode from '../../Country/CountryCode';
-import { ILogin } from '../../../../interfaces';
+import { ILogin } from 'interfaces';
 import {
   getTokenExpiration,
   onlyNumbers,
   validateNumber,
-} from '../../../../utils/lib';
+} from 'utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
-import AccountLockModal from '../../../../components/Modal/AccountLockModal';
-import AuthContext, { AuthContextData } from '../../../../contexts/AuthContext';
-import { getSession, getUser } from '../../../../utils/lib';
+import AccountLockModal from 'components/Modal/AccountLockModal';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
+import { getSession, getUser } from 'utils/lib';
 
 type LoginFormProps = {
   onSubmit: SubmitHandler<IFormInputs>;
@@ -105,7 +105,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
       navigate('/');
     } else {
       setIsLoading(false);
-      if (loginResponse?.response.status === 429) {
+      if (loginResponse?.response?.status === 429) {
         setShowLockAccountModal(true);
         setModalText(loginResponse?.response?.data?.details);
       } else {

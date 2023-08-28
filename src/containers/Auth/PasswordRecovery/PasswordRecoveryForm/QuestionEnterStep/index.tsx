@@ -1,13 +1,14 @@
 import React, { ChangeEvent, useState } from 'react';
-import TouchInput from '../../../../../components/TouchInput';
-import { Tooltip } from 'antd';
-import TouchDropdown from '../../../../../components/TouchDropdown';
+import TouchInput from 'components/TouchInput';
+import TouchDropdown from 'components/TouchDropdown';
 
 interface IProps {
   confirmAnswer: () => void;
   question: string;
   setAnswer: (string: string) => void;
+  setWrongAnswer: (bool: boolean) => void;
   answer: string;
+  wrongAnswer: boolean;
 }
 
 const QuestionEnterStep: React.FC<IProps> = ({
@@ -15,20 +16,36 @@ const QuestionEnterStep: React.FC<IProps> = ({
   question,
   setAnswer,
   answer,
+  wrongAnswer,
+  setWrongAnswer
 }) => {
 
-  const [isReuired, setIsReuired] = useState(false);
+  const [isRequired, setIsRequired] = useState(false);
 
   const handlerOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     setAnswer(event.target.value)
-    setIsReuired(false);
+    setIsRequired(false);
   }
   const handlerOnSubmit = () => {
     if (answer) {
       confirmAnswer();
     } else {
-      setIsReuired(true)
+      setIsRequired(true)
     }
+  }
+
+  const getErrorMessage = (): string => {
+    if (isRequired) {
+      return 'Answer is required';
+    } else if (wrongAnswer) {
+      return 'Wrong answer to security question';
+    }
+    return '';
+  }
+
+  const handlerResetError = () => {
+    setIsRequired(false)
+    setWrongAnswer(false);
   }
 
   return (
@@ -43,12 +60,13 @@ const QuestionEnterStep: React.FC<IProps> = ({
         value={answer}
         placeholder="Answer"
         type="text"
-        errorMessage={isReuired ? 'Answer is required' : ''}
-        resetError={() => setIsReuired(false)}
+        errorMessage={getErrorMessage()}
+        resetError={handlerResetError}
         onChange={handlerOnChange}
       />
       <button
         onClick={handlerOnSubmit}
+        type='button'
         className='rounded-full bg-high-dark text-nimbus w-full p-4 h-full mt-8 text-center font-tilt-warp text-sm font-medium leading-none disabled:cursor-not-allowed'
       >
         Submit

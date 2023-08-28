@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert } from 'antd';
 import { useNavigate } from 'react-router';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import '../ThankyouForSubmiting/index.scss';
 const SubscriptionSuccess = () => {
   const navigate = useNavigate();

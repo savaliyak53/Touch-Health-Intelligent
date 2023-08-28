@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { isValidPhoneNumber } from 'react-phone-number-input';
-import PhoneInput from '../../../../../components/PhoneInput';
+import PhoneInput from 'components/PhoneInput';
 
 interface IProps {
   onVerify: (boolean: boolean) => void;
@@ -45,6 +45,7 @@ const NumberEnterStep: React.FC<IProps> = ({
       <button
         onClick={handleOnVerify}
         disabled={isDisabled}
+        type='button'
         className='rounded-full bg-high-dark text-nimbus w-full p-4 h-full mt-8 text-center font-tilt-warp text-sm font-medium leading-none disabled:cursor-not-allowed'
       >
         Send code

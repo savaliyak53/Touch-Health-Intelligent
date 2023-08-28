@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import {
   postResetPassword,
   requestPhoneOTP,
-} from '../../../../services/authservice';
+} from 'services/authservice';
 import { toast } from 'react-toastify';
 import styles from '../../Login/Login.module.scss';
-import { onlyNumbers } from '../../../../utils/lib';
+import { onlyNumbers } from 'utils/lib';
 import {
   checkAnswer,
   getSecurityQuestions,
-} from '../../../../services/authservice';
+} from 'services/authservice';
 import NumberEnterStep from './NumberEnterStep';
 import CodeEnterStep from './CodeEnterStep';
 import QuestionEnterStep from './QuestionEnterStep';
@@ -26,6 +26,7 @@ const PasswordRecovery: React.FC = () => {
   const [codeSubmitted, setCodeSubmitted] = useState(false);
   const [enterNumber, setEnterNumber] = useState(true);
   const [changePassword, setChangePassword] = useState(false);
+  const [wrongAnswer, setWrongAnswer] = useState(false);
 
   const [username, setUsername] = useState<string>('');
   const [code, setCode] = useState<string>('');
@@ -34,8 +35,19 @@ const PasswordRecovery: React.FC = () => {
 
   const refCaptcha = useRef<any>(null);
 
+  const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+    if (!changePassword) {
+      event.preventDefault();
+      event.returnValue = '';
+    }
+  };
+
   useEffect(() => {
     setUsername(sessionStorage.getItem('username') || '');
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, []);
 
   const onSubmitCode = async () => {
@@ -72,6 +84,9 @@ const PasswordRecovery: React.FC = () => {
         }
       })
       .catch((err) => {
+        if ('Wrong answer to security question' === err.response.data.details ) {
+          setWrongAnswer(true);
+        }
         toast.error(err.response.data.details || 'Error');
       });
   };
@@ -177,6 +192,8 @@ const PasswordRecovery: React.FC = () => {
             question={question}
             answer={answer}
             setAnswer={setAnswer}
+            setWrongAnswer={setWrongAnswer}
+            wrongAnswer={wrongAnswer}
           />
         )}
         {/*fourth step*/}

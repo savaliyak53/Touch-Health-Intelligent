@@ -68,6 +68,16 @@ export interface Interaction {
 //         statistic_str: string
 //     }
 // }
+/**
+ * Prediction graph section
+ */
+
+export interface IPredictionGraphList {
+  date: string;
+  score: number | null;
+  emoji: string;
+  value?: string;
+}
 
 /**
 * Overview section
@@ -122,3 +132,4 @@ export interface EmojiMapping {
   'Clinical signs': EmojiLevels;
   [key: string]: EmojiLevels;
 }
+

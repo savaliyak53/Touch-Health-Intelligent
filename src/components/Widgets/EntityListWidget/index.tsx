@@ -1,8 +1,8 @@
 import React, {FC, useEffect, useState} from 'react';
 // import { getEmoji, getNextDays } from '../../../helpers/entityWidgetHelper';
-import {getConditions, getInfluencers} from '../../../services/widgets';
+import {getConditions, getInfluencers} from 'services/widgets';
 import {Spin} from 'antd';
-import {getDayOfWeekByDate} from '../../../helpers/time';
+import {getDayOfWeekByDate} from 'helpers/time';
 import {useNavigate} from 'react-router';
 
 interface IProps {
@@ -34,7 +34,7 @@ const EntityListWidget: FC<IProps> = ({type}) => {
     if (type === 'conditions') {
       getConditions()
         .then((resp) => {
-          if (resp && resp.status === 200 && resp.data && resp.data.conditions_list) {
+          if (resp && resp?.status === 200 && resp.data && resp.data.conditions_list) {
             setData(resp.data.conditions_list);
           }
         })

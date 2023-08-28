@@ -1,5 +1,5 @@
 import React from 'react'
-import SiteHeader from '../../components/SiteHeader/SiteHeader'
+import SiteHeader from 'components/SiteHeader/SiteHeader'
 import './Layout.scss'
 
 type Props = {

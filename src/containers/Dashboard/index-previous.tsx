@@ -1,12 +1,12 @@
 import React, { useEffect, useContext } from 'react';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import './index.scss';
 import styles from './Dashboard.module.scss';
-import DashboardButton from '../../components/DashboardButton/DashboardButton';
-import { InsightContext } from '../../contexts/InsightContext';
+import DashboardButton from 'components/DashboardButton/DashboardButton';
+import { InsightContext } from 'contexts/InsightContext';
 import { Spin } from 'antd';
 import { toast } from 'react-toastify';
-import { getDashboard } from '../../services/dashboardservice';
+import { getDashboard } from 'services/dashboardservice';
 
 const Dashboard = () => {
   const context = useContext(InsightContext);

@@ -9,7 +9,7 @@ import { useTimer } from 'react-timer-hook';
 import ReCAPTCHA from 'react-google-recaptcha';
 import ReactCodeInput from 'react-code-input';
 import { Tooltip } from 'antd';
-import ConfirmModal from '../../../../../components/Modal/ConfirmModal';
+import ConfirmModal from 'components/Modal/ConfirmModal';
 
 interface IProps {
   code: string | undefined;
@@ -123,6 +123,7 @@ const CodeEnterStep: React.FC<IProps> = ({
         />
         <button
           onClick={handleOnSubmit}
+          type='button'
           className='rounded-full bg-high-dark text-nimbus w-full p-4 h-full mt-8 text-center font-tilt-warp text-sm font-medium leading-none disabled:cursor-not-allowed'
           disabled={disableSubmit}
         >
@@ -139,7 +140,7 @@ const CodeEnterStep: React.FC<IProps> = ({
         <button
           onClick={() => setOpenRecaptcha(true)}
           className='text-high-dark underline font-roboto text-xs font-normal leading-4 mt-5 disabled:cursor-not-allowed'
-          type="button"
+          type='button'
           disabled={isDisabled}
         >
           <span>Resend code&nbsp;</span>

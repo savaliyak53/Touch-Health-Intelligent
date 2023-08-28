@@ -1,16 +1,15 @@
-
 import React, { useEffect, useState } from 'react';
 import { Button } from 'antd';
 import Layout from '../../layouts/Layout/Layout';
 import { Spin } from 'antd';
-import {getOverview} from '../../services/dashboardservice';
+import { getDashboard } from 'services/dashboardservice';
 import { useNavigate } from 'react-router-dom';
-import Drawer from '../../components/Modal/Drawer';
+import Drawer from 'components/Modal/Drawer';
 import Status from '../Status';
 import {getPreference, invokeInteractionServiceByType} from '../../services/authservice';
 import {getPartOfDay} from '../../helpers/time';
-import EntityListWidget from '../../components/Widgets/EntityListWidget';
 import {IOverview} from '../../interfaces';
+import EntityListWidget from 'components/Widgets/EntityListWidget';
 
 const DashboardNew = () => {
   const [error, setError] = useState<any>();
@@ -36,7 +35,7 @@ const DashboardNew = () => {
         setError({
           code: error.response.status,
           message: error.response.data.details ?? 'Something went wrong.',
-        })
+        });
       })
       .finally(() => setLoading(false));
   }, []);
@@ -66,11 +65,10 @@ const DashboardNew = () => {
     <Layout streak={overview?.streak || 0} defaultHeader={true} hamburger={true} dashboard={true} title={`Good ${getPartOfDay()}${username ? `, ${username}`: ''}`}>
 
       <Status overview={overview} />
-
       {/* Conditions widget */}
-      <EntityListWidget type={'conditions'}/>
+      <EntityListWidget type={'conditions'} />
       {/* Influencers widget */}
-      <EntityListWidget type={'influencers'}/>
+      <EntityListWidget type={'influencers'} />
 
       <Spin spinning={loading}>
         <Drawer
