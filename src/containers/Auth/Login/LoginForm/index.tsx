@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, set } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Button from 'components/Button';
@@ -15,9 +15,11 @@ import {
   validateNumber,
 } from 'utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
-import AccountLockModal from 'components/Modal/AccountLockModal';
-import AuthContext, { AuthContextData } from 'contexts/AuthContext';
-import { getSession, getUser } from 'utils/lib';
+import AccountLockModal from '../../../../components/Modal/AccountLockModal';
+import AuthContext, { AuthContextData } from '../../../../contexts/AuthContext';
+import { getSession, getUser } from '../../../../utils/lib';
+import ConfirmModal from '../../../../components/Modal/ConfirmModal';
+
 
 type LoginFormProps = {
   onSubmit: SubmitHandler<IFormInputs>;
@@ -41,6 +43,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
   const location: any = useLocation();
+  const [wrongCredentialsModal, setWrongCredentialsModal] = useState(false);
   const {
     register,
     handleSubmit,
@@ -113,6 +116,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
           code: loginResponse?.response?.status,
           message: loginResponse.response.data?.details,
         });
+        setWrongCredentialsModal(true);
       }
     }
   };
@@ -121,7 +125,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
     const debounceId = setTimeout(() => {
       setActiveClass(styles.PasswordInput);
     }, 500);
-    
+
     if (
       watchedValues.password != undefined &&
       watchedValues.password.length !== 0
@@ -140,9 +144,9 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
     }
   });
 
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
+  // useEffect(() => {
+  //    if (error) throw error;
+  // }, [error]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -191,6 +195,18 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
             handleCancel={handleCancelModal}
             handleOk={handleCancelModal}
             renderData={<div>{modalText}</div>}
+          />
+          <ConfirmModal
+            title={'Error'}
+            open={wrongCredentialsModal}
+            handleCancel={() => setWrongCredentialsModal(false)}
+            handleOk={() => setWrongCredentialsModal(false)}
+            className="Delete-Modal"
+            renderData={
+              <div className="Description">
+                <div>{error?.message}</div>
+              </div>
+            }
           />
           <ReCAPTCHA
             className={Authstyles['recaptcha']}
