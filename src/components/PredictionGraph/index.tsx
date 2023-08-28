@@ -16,115 +16,115 @@ const PredictionGraph: FC<IProps> = ({data}) => {
   // const [backData, setBackData] = useState<number[] | []>([]);
 
 
-  const list: IPredictionGraphList[] = [
-    {
-      date: 'Today',
-      score: 45,
-      emoji: '🌓',
-    },
-    {
-      date: 'Thu',
-      score: 61,
-      emoji: '🌓',
-    },
-    {
-      date: 'Fri',
-      score: 66,
-      emoji: '🌓',
-    },
-    {
-      date: 'Sat',
-      score: 30,
-      emoji: '🌓',
-    },
-    {
-      date: 'Sun',
-      score: 74,
-      emoji: '🌓',
-    },
-    {
-      date: 'Mon',
-      score: 45,
-      emoji: '🌓',
-    },
-    {
-      date: 'Thu',
-      score: 61,
-      emoji: '🌓',
-    },
-    {
-      date: 'Fri',
-      score: 66,
-      emoji: '🌓'
-    },
-    {
-      date: 'Sat',
-      score: 30,
-      emoji: '🌓'
-    },
-    {
-      date: 'Sun',
-      score: 74,
-      emoji: '🌓'
-    },
-    {
-      date: 'Mon',
-      score: 45,
-      emoji: '🌓'
-    },
-    {
-      date: 'Thu',
-      score: 61,
-      emoji: '🌓'
-    },
-    {
-      date: 'Fri',
-      score: 66,
-      emoji: '🌓'
-    },
-    {
-      date: 'Sat',
-      score: 30,
-      emoji: '🌓'
-    },
-    {
-      date: 'Sun',
-      score: 74,
-      emoji: '🌓'
-    },
-    {
-      date: 'Mon',
-      score: 45,
-      emoji: '🌓'
-    },
-    {
-      date: 'Tue',
-      score: 45,
-      emoji: '🌓'
-    },
-    {
-      date: 'Wed',
-      score: 45,
-      emoji: '🌓'
-    },
-    {
-      date: 'Wed',
-      score: 45,
-      emoji: '🌓'
-    },
-    {
-      date: 'Wed',
-      score: null,
-      emoji: '🌓'
-    },
-  ];
+  // const list: IPredictionGraphList[] = [
+  //   {
+  //     date: 'Today',
+  //     score: 45,
+  //     emoji: '🌓',
+  //   },
+  //   {
+  //     date: 'Thu',
+  //     score: 61,
+  //     emoji: '🌓',
+  //   },
+  //   {
+  //     date: 'Fri',
+  //     score: 66,
+  //     emoji: '🌓',
+  //   },
+  //   {
+  //     date: 'Sat',
+  //     score: 30,
+  //     emoji: '🌓',
+  //   },
+  //   {
+  //     date: 'Sun',
+  //     score: 74,
+  //     emoji: '🌓',
+  //   },
+  //   {
+  //     date: 'Mon',
+  //     score: 45,
+  //     emoji: '🌓',
+  //   },
+  //   {
+  //     date: 'Thu',
+  //     score: 61,
+  //     emoji: '🌓',
+  //   },
+  //   {
+  //     date: 'Fri',
+  //     score: 66,
+  //     emoji: '🌓'
+  //   },
+  //   {
+  //     date: 'Sat',
+  //     score: 30,
+  //     emoji: '🌓'
+  //   },
+  //   {
+  //     date: 'Sun',
+  //     score: 74,
+  //     emoji: '🌓'
+  //   },
+  //   {
+  //     date: 'Mon',
+  //     score: 45,
+  //     emoji: '🌓'
+  //   },
+  //   {
+  //     date: 'Thu',
+  //     score: 61,
+  //     emoji: '🌓'
+  //   },
+  //   {
+  //     date: 'Fri',
+  //     score: 66,
+  //     emoji: '🌓'
+  //   },
+  //   {
+  //     date: 'Sat',
+  //     score: 30,
+  //     emoji: '🌓'
+  //   },
+  //   {
+  //     date: 'Sun',
+  //     score: 74,
+  //     emoji: '🌓'
+  //   },
+  //   {
+  //     date: 'Mon',
+  //     score: 45,
+  //     emoji: '🌓'
+  //   },
+  //   {
+  //     date: 'Tue',
+  //     score: 45,
+  //     emoji: '🌓'
+  //   },
+  //   {
+  //     date: 'Wed',
+  //     score: 45,
+  //     emoji: '🌓'
+  //   },
+  //   {
+  //     date: 'Wed',
+  //     score: 45,
+  //     emoji: '🌓'
+  //   },
+  //   {
+  //     date: 'Wed',
+  //     score: null,
+  //     emoji: '🌓'
+  //   },
+  // ];
 
   useEffect(() => {
     // const values: number[] = [];
-    const state: IPredictionGraphList[] = [...list];
+    const state: IPredictionGraphList[] = [...data];
     state.forEach(({ date, score, emoji }, index) => {
       const day = index === 0 ? 'Today' : getDayOfWeekByDate(date);
-      state[index].value = `${date}_${score}_${emoji}`;
+      state[index].value = `${day}_${score}_${emoji}`;
       // if (score) {
       //   values.push(score);
       // }
