@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-
 import Layout from '../../layouts/Layout/Layout';
 import { getInfluencer } from '../../services/dashboardservice';
 import { dateFormatted } from '../../utils/lib';
@@ -106,7 +105,7 @@ const Prediction = () => {
           </div>
           <div className='mt-6 mb-6 bg-[#FDFCFB] shadow-[0_4px_0_0_#F0ECE7] rounded-[10px] pl-[21px] pr-[18px] max-w-md m-auto'>
             <div className='uppercase text-[12px] text-left leading-[16px] text-primary-delft-dark opacity-70 pt-[9px] pb-[6px] border-b-[1px] border-[#F0ECE7]'>your guidance</div>
-            <div className='h-[300px] overflow-y-scroll'>
+            <div>
               {influencerData?.guidances_list?.length &&
                 influencerData?.guidances_list?.map((guidance) => (
                   <div key={guidance?.guidance_id} className='flex justify-between py-[20px] border-b-[1px] border-[#F0ECE7] pl-1'>

@@ -7,7 +7,7 @@ import {
   ArrowUpOutlined,
 } from '@ant-design/icons';
 import './index.scss';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import { InsightContext } from '../../contexts/InsightContext';
 import { useNavigate } from 'react-router-dom';
 const Timeline = () => {

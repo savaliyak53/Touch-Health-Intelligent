@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'antd';
 import Layout from '../../layouts/Layout/Layout';
 import { Spin } from 'antd';
-import { getDashboard } from '../../services/dashboardservice';
+import { getDashboard } from 'services/dashboardservice';
 import { useNavigate } from 'react-router-dom';
-import Drawer from '../../components/Modal/Drawer';
+import Drawer from 'components/Modal/Drawer';
 import Status from '../Status';
 import { timeFrom } from '../../utils/lib';
 import {getPreference, invokeInteractionServiceByType} from '../../services/authservice';
 import {getPartOfDay} from '../../helpers/time';
-import EntityListWidget from '../../components/Widgets/EntityListWidget';
+import EntityListWidget from 'components/Widgets/EntityListWidget';
 
 const DashboardNew = () => {
   const [error, setError] = useState<any>();
