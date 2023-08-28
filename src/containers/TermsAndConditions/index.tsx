@@ -4,8 +4,8 @@ import v from '../../variables.module.scss';
 import { Typography } from 'antd';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
-import Layout from '../../layouts/Layout/Layout';
-import Button from '../../components/Button';
+import Layout from 'layouts/Layout/Layout';
+import Button from 'components/Button';
 type ITerms = {
   termsAndConditions: boolean;
 };

@@ -4,9 +4,9 @@ import {CloseOutlined} from '@ant-design/icons';
 import styles from './SiteHeader.module.scss';
 import {useNavigate} from 'react-router';
 import {Link} from 'react-router-dom';
-import AuthContext, {AuthContextData} from '../../contexts/AuthContext';
+import AuthContext, {AuthContextData} from 'contexts/AuthContext';
 import {FieldTimeOutlined} from '@ant-design/icons';
-import {trialExceptionRoutes} from '../../Routes/Constants';
+import {trialExceptionRoutes} from 'Routes/Constants';
 import ArrowIcon from '../Icons/ArrowIcon';
 import BurgerIcon from '../Icons/BurgerIcon';
 

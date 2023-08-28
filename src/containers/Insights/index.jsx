@@ -15,7 +15,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import './index.scss';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import { useNavigate } from 'react-router-dom';
 import 'chartjs-adapter-date-fns';
 import { InsightContext } from '../../contexts/InsightContext';

@@ -9,7 +9,7 @@ import { useTimer } from 'react-timer-hook';
 import ReCAPTCHA from 'react-google-recaptcha';
 import ReactCodeInput from 'react-code-input';
 import { Tooltip } from 'antd';
-import ConfirmModal from '../../../../../components/Modal/ConfirmModal';
+import ConfirmModal from 'components/Modal/ConfirmModal';
 
 interface IProps {
   code: string | undefined;

@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Spin } from 'antd';
 import moment from 'moment';
-import SiteHeader from '../../components/SiteHeader/SiteHeader';
+import SiteHeader from 'components/SiteHeader/SiteHeader';
 import { useLocation, useNavigate } from 'react-router';
-import { getUser } from '../../services/authservice';
-import { getUserSubscription } from '../../services/subscriptionService';
-import { signupFlow } from '../../utils/lib';
-import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
-import AuthContext from '../../contexts/AuthContext';
-import ConfirmModal from '../../components/Modal/ConfirmModal';
+import { getUser } from 'services/authservice';
+import { getUserSubscription } from 'services/subscriptionService';
+import { signupFlow } from 'utils/lib';
+import ErrorInteractionModal from 'components/Modal/ErrorInteractionModal';
+import AuthContext from 'contexts/AuthContext';
+import ConfirmModal from 'components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
-import { backButtonPreventionRoutes } from '../../Routes/Constants';
-import LogoDesktop from '../../components/Icons/LogoDesktop';
-import LogoSmal from '../../components/Icons/LogoSmal';
+import { backButtonPreventionRoutes } from 'Routes/Constants';
+import LogoDesktop from 'components/Icons/LogoDesktop';
+import LogoSmal from 'components/Icons/LogoSmal';
 
 type Props = {
   defaultHeader: boolean;

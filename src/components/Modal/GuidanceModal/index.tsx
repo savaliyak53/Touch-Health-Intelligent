@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Modal, Col, Tooltip, Button } from 'antd';
 import styles from '../GoalDetails.module.scss';
-import streakStyles from '../../../containers/DashboardNew/DashboardNew.module.scss';
+import streakStyles from 'containers/DashboardNew/DashboardNew.module.scss';
 import v from '../../../variables.module.scss';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
