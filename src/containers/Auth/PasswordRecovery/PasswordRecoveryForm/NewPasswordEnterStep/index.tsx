@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import TouchInput from '../../../../../components/TouchInput';
+import TouchInput from 'components/TouchInput';
 
 interface IProps {
   onSubmitRecover: (password: string) => Promise<void>;

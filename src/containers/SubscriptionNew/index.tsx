@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import { Button, Spin, Alert, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -12,23 +12,23 @@ import {
   managePayment,
   cancelSubscription,
   checkoutPlan,
-} from '../../services/subscriptionService';
+} from 'services/subscriptionService';
 import {
   getUser,
   invokeInteractionServiceByType,
   preferencesService,
   updatePreference,
-} from '../../services/authservice';
+} from 'services/authservice';
 import { ISubscriptionStateDataResponse } from './Interfaces';
-import ConfirmModal from '../../components/Modal/ConfirmModal';
-import FreeTrialModal from '../../components/Modal/FreeTrial';
-import PriceModal from '../../components/Modal/PriceModal';
+import ConfirmModal from 'components/Modal/ConfirmModal';
+import FreeTrialModal from 'components/Modal/FreeTrial';
+import PriceModal from 'components/Modal/PriceModal';
 import {
   LoadingOutlined,
   InfoCircleOutlined,
   ReloadOutlined,
 } from '@ant-design/icons';
-import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import moment from 'moment';
 
 const SubscriptionNew = () => {
@@ -298,6 +298,7 @@ const SubscriptionNew = () => {
       hamburger={userPlanStatus == 'trial_expired' ? false : true}
       dashboard={false}
       setDisableAllButtons={setDisableAllButtons}
+      title={'Subscription'}
     >
       {retry ? (
         <div className="Content-wrap DayCon">
@@ -323,9 +324,6 @@ const SubscriptionNew = () => {
           tip={'Please wait, we are trying to verify your subscription'}
         >
           <div className="Content-wrap Sub">
-            <h2 className={styles['Sub-title']}>
-              Subscription <Spin spinning={loading} style={{ marginLeft: 4 }} />
-            </h2>
             {userPlanStatus == 'subscription_active' ||
             (userPlanStatus == 'subscription_expired' &&
               userAccountState == 'past_due') ||
@@ -343,7 +341,7 @@ const SubscriptionNew = () => {
               ''
             )}
             {!loading && onTrial && (
-              <div className={styles['description']}>
+              <div className='font-normal text-primary-watermelons-dark text-xs leading-[130%] mt-5'>
                 <InfoCircleOutlined /> You are <b>not subscribed </b> to any
                 plan.
               </div>

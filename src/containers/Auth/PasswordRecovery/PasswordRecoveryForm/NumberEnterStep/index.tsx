@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { isValidPhoneNumber } from 'react-phone-number-input';
-import PhoneInput from '../../../../../components/PhoneInput';
+import PhoneInput from 'components/PhoneInput';
 
 interface IProps {
   onVerify: (boolean: boolean) => void;

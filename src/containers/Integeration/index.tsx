@@ -7,19 +7,19 @@ import {
   getGoogleCode,
   revokeGoogleFit,
   getIntegrationStatus,
-} from '../../services/authservice';
+} from 'services/authservice';
 import { toast } from 'react-toastify';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import 'moment-timezone';
-import DeleteModal from '../../components/Modal/DeleteDataModal';
-import { deleteAllData } from '../../services/goalsService';
+import DeleteModal from 'components/Modal/DeleteDataModal';
+import { deleteAllData } from 'services/goalsService';
 import {
   postInteractionService,
   preferencesService,
   invokeInteractionServiceByType,
-} from '../../services/authservice';
-import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
-import GoogleOAuthDisclosureModal from '../../components/Modal/GoogleOAuthDisclosureModal';
+} from 'services/authservice';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
+import GoogleOAuthDisclosureModal from 'components/Modal/GoogleOAuthDisclosureModal';
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
   readonly userChoice: Promise<{
@@ -249,7 +249,7 @@ const Integrations = () => {
       <Spin spinning={spinning}>
         <div className={`${styles['Integration-wrap']}`}>
           <div
-            className='mt-12 flex justify-between items-end mb-6'
+            className='mt-5 flex justify-between items-end mb-6'
           >
             <img
               src={'assets/icons/GoogleFit_Icon_Color_RGB.png'}
@@ -277,7 +277,7 @@ const Integrations = () => {
           <div>
             {!checked && (
               <div className={styles['Container']}>
-                <h3 className={`Description`}>
+                <h3 className='text-base font-normal leading-7 text-justify'>
                   By connecting Touch Health Assistant with Google Fit, you can
                   integrate your fitness activity and movement data from various
                   health apps to help you better understand your progress toward

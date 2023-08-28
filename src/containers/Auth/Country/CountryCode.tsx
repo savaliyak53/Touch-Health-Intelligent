@@ -4,7 +4,7 @@ import { Controller } from 'react-hook-form';
 import Authstyles from '../Auth.module.scss';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
-import SVGERROR from '../../../components/ErrorSvg/index';
+import SVGERROR from 'components/ErrorSvg/index';
 import './index.scss';
 
 interface IProps {

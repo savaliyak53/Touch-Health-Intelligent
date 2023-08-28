@@ -5,12 +5,12 @@ import {
   getUser,
   preferencesService,
   updatePreference,
-} from '../../services/authservice';
-import { getUserSubscription } from '../../services/subscriptionService';
+} from 'services/authservice';
+import { getUserSubscription } from 'services/subscriptionService';
 import { Spin } from 'antd';
 import moment from 'moment';
-import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
-import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
+import ErrorInteractionModal from 'components/Modal/ErrorInteractionModal';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 
 const Home = () => {
   const context = useContext<AuthContextData | undefined>(AuthContext);
@@ -30,7 +30,6 @@ const Home = () => {
   };
 
   const getInteractionByType = (type: string) => {
-    navigate('/dashboard');
     invokeInteractionServiceByType(type)
       .then((response: any) => {
         if (response.data) {
@@ -58,21 +57,20 @@ const Home = () => {
       .then((preferencesResponse) => {
         if (preferencesResponse) {
           //after successful subscription initiate onboarding interaction
-          navigate('/dashboard');
-          // getInteractionServiceByType('onboarding')
-          //   .then((response: any) => {
-          //     if (response) {
-          //       navigate('/questionnaire');
-          //     } else {
-          //       navigate('/');
-          //     }
-          //   })
-          //   .catch((error) => {
-          //     setError({
-          //       code: error.response.status,
-          //       message: error.response.data.details,
-          //     });
-          //   });
+          invokeInteractionServiceByType('onboarding')
+            .then((response: any) => {
+              if (response) {
+                navigate('/questionnaire');
+              } else {
+                navigate('/');
+              }
+            })
+            .catch((error) => {
+              setError({
+                code: error.response.status,
+                message: error.response.data.details,
+              });
+            });
         } else {
           navigate('/dashboard');
         }
@@ -121,7 +119,6 @@ const Home = () => {
           handleTrialIntake();
         } else {
           if (response.data.signup_status === 'onboarding') {
-            navigate('/dashboard');
             invokeInteractionServiceByType('onboarding')
               .then((response: any) => {
                 handleRedirect(response);

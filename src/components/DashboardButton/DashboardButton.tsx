@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import { ArrowUpOutlined } from '@ant-design/icons';
 import './DashboardButton.scss';
 import { useNavigate } from 'react-router-dom';
-import { InsightContext } from '../../contexts/InsightContext';
+import { InsightContext } from 'contexts/InsightContext';
 import { Buffer } from 'buffer';
 import hexToRgba from 'hex-to-rgba';
 

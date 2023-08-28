@@ -1,21 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './index.scss';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Button from '../../components/Button';
+import Button from 'components/Button';
 import { toast } from 'react-toastify';
-import Question from '../../components/Question';
+import Question from 'components/Question';
 import {
   getInteractionService,
   getUser,
   invokeInteractionServiceByType,
   postInteractionService,
   preferencesService,
-} from '../../services/authservice';
+} from 'services/authservice';
 import { Interaction } from '../../interfaces';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import { Skeleton } from 'antd';
-import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
-import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
+import ErrorInteractionModal from 'components/Modal/ErrorInteractionModal';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 
 function UserCondition() {
   const [question, setQuestion] = useState<Interaction | any>();
@@ -73,7 +73,7 @@ function UserCondition() {
             preferencesService(preferenceData, userId)
               .then(async (preferencesResponse: any) => {
                 if (preferencesResponse) {
-                  navigate('/dashboard');
+                  navigate('/questionnaire');
                 } else {
                   setError({
                     code: 400,
@@ -89,8 +89,6 @@ function UserCondition() {
                 });
               });
           }
-        } else if (response?.data.signup_status === 'done') {
-          navigate('/dashboard');
         } else {
           navigate('/dashboard');
         }
