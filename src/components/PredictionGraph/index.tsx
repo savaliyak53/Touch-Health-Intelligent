@@ -163,7 +163,7 @@ const PredictionGraph: FC<IProps> = ({data}) => {
         </ResponsiveContainer>
       )}
       {/*<Gradient/>*/}
-      {/*<BackgraundGraph data={backData} />*/}
+      {/*<BackgroundGraph data={backData} />*/}
     </div>
   );
 };
