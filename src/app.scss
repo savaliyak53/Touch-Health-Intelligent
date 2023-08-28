@@ -10,8 +10,16 @@
   @media screen and (max-width: 992px) {
     background-image: url('../public/assets/images/background-small.svg');
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 812px) {
     display: none;
+  }
+}
+
+.main-layout-dashboard-background {
+  right: 50%;
+
+  @media screen and (max-width: 812px) {
+    right: 0;
   }
 }
 
