@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import Layout from '../../layouts/Layout/Layout';
 import { getInfluencer } from '../../services/dashboardservice';
 import { dateFormatted } from '../../utils/lib';
@@ -24,6 +24,7 @@ type influencerDataTypes = {
 
 const Prediction = () => {
   const {id} = useParams();
+  const navigate = useNavigate();
 	const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [startY,setStartY] = useState<number>(0);
   const [influencerData, setInfluencerData] = useState<influencerDataTypes | null>(null);
@@ -75,6 +76,9 @@ const Prediction = () => {
     <Layout defaultHeader={false} hamburger={false} withoutMargin={true}>
       <section className='h-screen'>
         <section className='pt-[100px] pb-[40px] bg-primary-delft-dark relative'>
+          <div className='absolute top-4 left-3 z-10'>
+            <img src="/assets/icons/blue-arrow-left.svg" alt='back' className='h-[22px] cursor-pointer grayscale invert' onClick={() => navigate("/dashboard")}/>
+          </div>
           <div className='h-6 w-6 bg-[#ffffff80] rounded-full m-auto'>
             <span className='text-[12px] flex justify-center items-center h-full'>{influencerData?.prediction_ordered_list?.find((prediction) => prediction?.date === dateFormatted(new Date()))?.emoji || null}</span>
           </div>
@@ -86,7 +90,7 @@ const Prediction = () => {
           {influencerData?.prediction_ordered_list &&  <PredictionGraph data={influencerData.prediction_ordered_list} />}
           <TemporaryBackground />
         </section>
-        <section onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} className={`bg-white px-5 rounded-[10px] relative z-10 -top-3 ease-in-out duration-200 ${isDrawerOpen ? '-translate-y-[292px]' : '-translate-y-[0px]'}`}>
+        <section onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} className={`bg-white px-5 h-full rounded-t-lg relative z-10 -top-3 ease-in-out duration-200 ${isDrawerOpen ? '-translate-y-[435px]' : '-translate-y-[0px]'}`}>
           <div className='absolute -top-3 m-auto left-0 right-0'>
             <img src="/assets/icons/collapse-arrow-white.svg" alt='collapse' className={`m-auto cursor-pointer ${isDrawerOpen && "rotate-180"}`} onClick={() => setIsDrawerOpen(!isDrawerOpen)}/>
           </div>
@@ -110,7 +114,7 @@ const Prediction = () => {
                 influencerData?.guidances_list?.map((guidance) => (
                   <div key={guidance?.guidance_id} className='flex justify-between py-[20px] border-b-[1px] border-[#F0ECE7] pl-1'>
                     <div className='text-[12px]'><span className='font-["tilt_warp"] text-[14px] text-primary-delft-dark'>{guidance?.name}</span> {guidance?.health_dimension}</div>
-                    <img src="/assets/icons/right-indicate-icon.svg" alt='arrow' className='cursor-pointer'/>
+                    {/* <img src="/assets/icons/right-indicate-icon.svg" alt='arrow' className='cursor-pointer'/> */}
                   </div>
                 ))
               }
