@@ -10,6 +10,7 @@ import { onlyNumbers } from 'utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import InputField from 'components/Input';
+import FloatLabel from 'components/FloatLabel';
 
 type SignupFormProps = {
   onSubmit: SubmitHandler<IFormInputs>;
@@ -174,7 +175,6 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
       clearTimeout(debounceId);
     };
   }, [watchedValues.name]);
-
   return (
     <div className={styles.Signup}>
       <div className={styles.FormWrap}>
@@ -191,40 +191,48 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
               title={errors.name?.message}
               open={isHoveredUserName ? true : false}
             >
-              <InputField
-                id="name"
-                {...register('name', {
-                  required: 'Username is required.',
-                  maxLength: {
-                    value: 24,
-                    message: 'Username can have maximum 24 characters.',
-                  },
-                })}
-                placeholder="Username"
-                type="text"
-                className={
-                  isUserNameValid
-                    ? `${Authstyles['app-Input']} ${userName}`
-                    : `${Authstyles['app-Input']} ${styles.PasswordInputIvalid}`
-                }
-                userName={isUserNameValid}
-                handleMouseEnter={handleMouseEnterUser}
-                handleMouseLeave={handleMouseLeaveUser}
-              />
+              <FloatLabel isUsername={false} label="Username" name="username" value={getValues('name')}>
+                <InputField
+                  id="name"
+                  {...register('name', {
+                    required: 'Username is required.',
+                    maxLength: {
+                      value: 24,
+                      message: 'Username can have maximum 24 characters.',
+                    },
+                  })}
+                  // placeholder="Username"
+                  type="text"
+                  className={
+                    isUserNameValid
+                      ? `${Authstyles['app-Input']} ${userName}`
+                      : `${Authstyles['app-Input']} ${styles.PasswordInputIvalid}`
+                  }
+                  userName={isUserNameValid}
+                  handleMouseEnter={handleMouseEnterUser}
+                  handleMouseLeave={handleMouseLeaveUser}
+                />
+              </FloatLabel>
+
             </Tooltip>
           </div>
-          <CountryCode
-            errors={errors.phone}
-            control={control}
-            fieldName="phone"
-            phone={watch('phone')}
-          />
-          <CountryCode
-            errors={errors.confirmPhone}
-            control={control}
-            fieldName="confirmPhone"
-            phone={getValues('phone')}
-          />
+          <FloatLabel isUsername={true} label="Mobile phone number" name="phone" value={getValues('phone')}>
+            <CountryCode
+              errors={errors.phone}
+              control={control}
+              fieldName="phone"
+              phone={watch('phone')}
+            />
+          </FloatLabel>
+          <FloatLabel isUsername={true} label="Confirm phone number" name="confirmPhone" value={getValues('confirmPhone')}>
+            <CountryCode
+              errors={errors.confirmPhone}
+              control={control}
+              fieldName="confirmPhone"
+              phone={getValues('phone')}
+            />
+          </FloatLabel>
+
           <div className={Authstyles['input-element-wrapper-password']}>
             <Tooltip
               color="orange"
@@ -232,9 +240,10 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
               title={errors.password?.message}
               open={isHovered ? true : false}
             >
+            <FloatLabel isUsername={false} label="Password" name="password" value={getValues('password')}>
               <InputField
                 id="password"
-                placeholder="Password"
+                // placeholder="Password"
                 type={passwordShown ? 'text' : 'password'}
                 className={
                   isEye
@@ -257,6 +266,7 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
                 handleMouseLeave={handleMouseLeave}
                 togglePassword={togglePassword}
               />
+            </FloatLabel>
             </Tooltip>
           </div>
           <div className={Authstyles['input-element-wrapper-password']}>
@@ -266,9 +276,10 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
               title={errors.confirmPassword?.message}
               open={isHoveredConfirm ? true : false}
             >
+            <FloatLabel isUsername={false} label="Confirm password" name="confirmPassword" value={getValues('confirmPassword')}>
               <InputField
                 id="confirmPassword"
-                placeholder="Confirm password"
+                // placeholder="Confirm password"
                 type={confirmPasswordShown ? 'text' : 'password'}
                 className={
                   isEyeConfirm
@@ -289,6 +300,7 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
                 handleMouseLeave={handleMouseLeaveConfirm}
                 togglePassword={toggleConfirmPassword}
               />
+            </FloatLabel>
             </Tooltip>
           </div>
           <ReCAPTCHA
