@@ -17,8 +17,8 @@ const HelpAndSupport = () => {
   }, []);
   return (
     <Layout defaultHeader={true} hamburger={true} title={'Get in Touch!'}>
-      <div className="Content-wrPArCon mt-12">
-        <div className='Description'>
+      <div className="Content-wrPArCon mt-5">
+        <div className='text-base font-normal leading-7 text-justify'>
           <Paragraph>We are here to help.</Paragraph>
           <Space/>
           <Paragraph>If you have any questions, ask us!</Paragraph>
