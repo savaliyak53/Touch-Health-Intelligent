@@ -2,15 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { isValidPhoneNumber } from 'react-phone-number-input';
-import Button from '../../../../../components/Button';
-import styles from '../../../Login/Login.module.scss';
-import Authstyles from '../../../Auth.module.scss';
-import PhoneInput from '../../../../../components/PhoneInput';
+import PhoneInput from 'components/PhoneInput';
 
 interface IProps {
   onVerify: (boolean: boolean) => void;
   setIsDisabled: (boolean: boolean) => void;
-  isLoading: boolean;
   isDisabled: boolean;
   refCaptcha: React.MutableRefObject<any>;
   username: string;
@@ -22,7 +18,6 @@ const NumberEnterStep: React.FC<IProps> = ({
   username,
   onChange,
   setIsDisabled,
-  isLoading,
   isDisabled,
   refCaptcha,
 }) => {
@@ -34,30 +29,30 @@ const NumberEnterStep: React.FC<IProps> = ({
   };
 
   return (
-    <form onSubmit={handleOnVerify} className={styles.Form}>
-      <h1 className={styles.Title}>Reset password</h1>
+    <form onSubmit={handleOnVerify} className='flex flex-col items-center justify-center'>
+      <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>Reset password</h1>
       <PhoneInput
         onChange={onChange}
         placeholder="Mobile phone number"
         value={username}
       />
       <ReCAPTCHA
-        className={Authstyles['recaptcha']}
+        className={'mx-auto mt-6 mb-0'}
         ref={refCaptcha}
         sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
         onChange={() => setIsDisabled(false)}
       />
-      <Button
+      <button
         onClick={handleOnVerify}
-        loading={isLoading}
         disabled={isDisabled}
-        className={styles.LoginButton}
+        type='button'
+        className='rounded-full bg-high-dark text-nimbus w-full p-4 h-full mt-8 text-center font-tilt-warp text-sm font-medium leading-none disabled:cursor-not-allowed'
       >
         Send code
-      </Button>
-      <div className={styles.ToSignup}>
+      </button>
+      <div className={'text-high-dark underline font-roboto text-xs font-normal leading-4 mt-5'}>
         <span>Go back? </span>
-        <Link to="/login" className={styles.Link}>
+        <Link to="/login" className='hover:text-high-dark hover:underline'>
           Log in
         </Link>
       </div>

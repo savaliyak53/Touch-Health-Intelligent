@@ -1,7 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import Button from '../../../../../components/Button';
-import styles from '../../../Login/Login.module.scss';
-import TouchInput from '../../../../../components/TouchInput';
+import TouchInput from 'components/TouchInput';
 
 interface IProps {
   onSubmitRecover: (password: string) => Promise<void>;
@@ -49,10 +47,9 @@ const NewPasswordEnterStep: React.FC<IProps> = ({
   }
 
   return (
-    <div className={styles.Form}>
-      <h1 className={styles.Title}>Enter New Password</h1>
+    <div className='flex flex-col items-center justify-center'>
+      <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>Enter New Password</h1>
       <TouchInput
-        design="password"
         errorMessage={errPassword}
         value={newPassword}
         onChange={handleOnChangePassword}
@@ -64,7 +61,6 @@ const NewPasswordEnterStep: React.FC<IProps> = ({
       />
       <TouchInput
         id="confirmPassword"
-        design="password"
         value={confirmPassword}
         onChange={handleOnChangeConfirm}
         resetError={setErrConfirm}
@@ -72,9 +68,12 @@ const NewPasswordEnterStep: React.FC<IProps> = ({
         placeholder="Confirm password here"
         type="password"
       />
-      <Button onClick={handleOnSubmit} className={`${styles.LoginButton} tilt-warp`}>
-        <span className={'tilt-warp font-normal'}>Reset password</span>
-      </Button>
+      <button
+        onClick={handleOnSubmit}
+        type='button'
+        className='rounded-full bg-high-dark text-nimbus w-full p-4 h-full mt-8 text-center font-tilt-warp text-sm font-medium leading-none disabled:cursor-not-allowed'>
+        Reset password
+      </button>
     </div>
   );
 };

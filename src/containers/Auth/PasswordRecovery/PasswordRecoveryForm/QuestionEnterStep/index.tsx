@@ -1,16 +1,14 @@
 import React, { ChangeEvent, useState } from 'react';
-import Button from '../../../../../components/Button';
-import styles from '../../../Login/Login.module.scss';
-import passwordStyles from '../../PasswordRecovery.module.scss';
-import TouchInput from '../../../../../components/TouchInput';
-import { Tooltip } from 'antd';
-import TouchDropdown from '../../../../../components/TouchDropdown';
+import TouchInput from 'components/TouchInput';
+import TouchDropdown from 'components/TouchDropdown';
 
 interface IProps {
   confirmAnswer: () => void;
   question: string;
   setAnswer: (string: string) => void;
+  setWrongAnswer: (bool: boolean) => void;
   answer: string;
+  wrongAnswer: boolean;
 }
 
 const QuestionEnterStep: React.FC<IProps> = ({
@@ -18,49 +16,61 @@ const QuestionEnterStep: React.FC<IProps> = ({
   question,
   setAnswer,
   answer,
+  wrongAnswer,
+  setWrongAnswer
 }) => {
 
-  const [isReuired, setIsReuired] = useState(false);
+  const [isRequired, setIsRequired] = useState(false);
 
   const handlerOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     setAnswer(event.target.value)
-    setIsReuired(false);
+    setIsRequired(false);
   }
   const handlerOnSubmit = () => {
     if (answer) {
       confirmAnswer();
     } else {
-      setIsReuired(true)
+      setIsRequired(true)
     }
   }
 
+  const getErrorMessage = (): string => {
+    if (isRequired) {
+      return 'Answer is required';
+    } else if (wrongAnswer) {
+      return 'Wrong answer to security question';
+    }
+    return '';
+  }
+
+  const handlerResetError = () => {
+    setIsRequired(false)
+    setWrongAnswer(false);
+  }
+
   return (
-    <div className={styles.Form}>
-      <h1 className={styles.Title}>Security Question</h1>
-      <p className={passwordStyles['Security-Description']}>
+    <div className='flex flex-col items-center justify-center'>
+      <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>Security Question</h1>
+      <p className='font-normal font-roboto text-base mb-2.5 text-justify'>
         Please help us protect your account. Select a security question and
         input answer. You can use this to get back access to your account.
       </p>
       <TouchDropdown placeholder={question}/>
       <TouchInput
         value={answer}
-        design="answer"
         placeholder="Answer"
         type="text"
+        errorMessage={getErrorMessage()}
+        resetError={handlerResetError}
         onChange={handlerOnChange}
       />
-      <Button
+      <button
         onClick={handlerOnSubmit}
-        className={styles.LoginButton}
+        type='button'
+        className='rounded-full bg-high-dark text-nimbus w-full p-4 h-full mt-8 text-center font-tilt-warp text-sm font-medium leading-none disabled:cursor-not-allowed'
       >
         Submit
-      </Button>
-      <Tooltip
-        color="orange"
-        placement="bottom"
-        title={isReuired ? 'Answer is required' : ''}
-        open={isReuired}
-      />
+      </button>
     </div>
   );
 };

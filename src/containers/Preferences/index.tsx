@@ -8,11 +8,11 @@ import {
   getIntegrationStatus,
   getPreference,
   updatePreference,
-} from '../../services/authservice';
-import Layout from '../../layouts/Layout/Layout';
+} from 'services/authservice';
+import Layout from 'layouts/Layout/Layout';
 import moment from 'moment';
 import 'moment-timezone';
-import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -119,42 +119,40 @@ const Preferences = () => {
   };
   return (
     <Layout defaultHeader={true} hamburger={true} title={'Preferences'}>
-      <Spin spinning={spinning}>
-        <div className={`${styles['Pref-wrap']}`}>
-          <h2 className={`Title`}>Preferences</h2>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'start',
-              marginBottom: '10px',
-            }}
-          >
-            <button
-              style={{ border: 'none', background: 'none', display: 'none' }}
-              id="installApp"
-            >
-              <h5 style={{ float: 'left', cursor: 'pointer' }}>
-                You can also install this app
-              </h5>
-              &nbsp;
-              <CloudDownloadOutlined
-                className="Download-icon"
-                style={{
-                  color: '#3a4a7e',
-                  float: 'right',
-                  fontSize: '20px',
-                  marginLeft: '3px',
-                  cursor: 'pointer',
-                }}
-              />
-            </button>
-          </div>
-          <br />
+      {spinning ? <Spin spinning={spinning} className='mt-5' /> : (
+        <div className={`${styles['Pref-wrap']} mt-5`}>
+          {/*<div*/}
+          {/*  style={{*/}
+          {/*    alignItems: 'center',*/}
+          {/*    justifyContent: 'start',*/}
+          {/*    marginBottom: '10px',*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  <button*/}
+          {/*    style={{ border: 'none', background: 'none', display: 'none' }}*/}
+          {/*    id="installApp"*/}
+          {/*  >*/}
+          {/*    <h5 style={{ float: 'left', cursor: 'pointer' }}>*/}
+          {/*      You can also install this app*/}
+          {/*    </h5>*/}
+          {/*    &nbsp;*/}
+          {/*    <CloudDownloadOutlined*/}
+          {/*      className="Download-icon"*/}
+          {/*      style={{*/}
+          {/*        color: '#3a4a7e',*/}
+          {/*        float: 'right',*/}
+          {/*        fontSize: '20px',*/}
+          {/*        marginLeft: '3px',*/}
+          {/*        cursor: 'pointer',*/}
+          {/*      }}*/}
+          {/*    />*/}
+          {/*  </button>*/}
+          {/*</div>*/}
+          {/*<br />*/}
           <div>
             {sex && (
               <div>
-                <h3 className={'Heading Heading-color1'}>
+                <h3 className={'Heading Heading-color1 flex flex-row items-start'}>
                   Biological Sex
                   <Tooltip
                     title={
@@ -166,8 +164,7 @@ const Preferences = () => {
                   >
                     <AiOutlineQuestionCircle
                       size={30}
-                      className="question-help"
-                      style={{ marginLeft: '10px' }}
+                      className="question-help ml-2 mb-2"
                     />
                   </Tooltip>
                 </h3>
@@ -178,7 +175,7 @@ const Preferences = () => {
             )}
             {yob && (
               <div>
-                <h3 className={'Heading Heading-color1'}>
+                <h3 className={'Heading Heading-color1 flex flex-row items-start'}>
                   Approximate Age
                   <Tooltip
                     title={
@@ -190,8 +187,7 @@ const Preferences = () => {
                   >
                     <AiOutlineQuestionCircle
                       size={30}
-                      className="question-help"
-                      style={{ marginLeft: '10px' }}
+                      className="question-help ml-2 mb-2"
                     />
                   </Tooltip>
                 </h3>
@@ -201,7 +197,7 @@ const Preferences = () => {
               </div>
             )}
             <div>
-              <h3 className={'Heading Heading-color1'}>
+              <h3 className={'Heading Heading-color1 flex flex-row items-start'}>
                 Username
                 <Tooltip
                   title={
@@ -213,12 +209,11 @@ const Preferences = () => {
                 >
                   <AiOutlineQuestionCircle
                     size={30}
-                    className="question-help"
-                    style={{ marginLeft: '10px' }}
+                    className="question-help ml-2 mb-2"
                   />
                 </Tooltip>
               </h3>
-              <div className={'Pref-username-input'}>
+              <div className={'Pref-username-input text-left'}>
                 <Input
                   type="text"
                   status={username.length > 24 ? 'error' : ''}
@@ -237,7 +232,7 @@ const Preferences = () => {
 
             <div>
               <Button
-                className={`Submit-Button ${styles['Manage-Devices-btn']}`}
+                className={`rounded-full h-auto p-5 pl-14 pr-14 bg-primary-delft-dark text-white text-lg leading-6 font-normal border-none m-auto mt-5 flex justify-center whitespace-pre-line w-full hover:bg-buttongradient hover:text-white`}
                 onClick={() => navigate('/manage-devices')}
               >
                 {'Manage Devices'}
@@ -248,7 +243,7 @@ const Preferences = () => {
                 <Button
                   className={'Submit-Button'}
                   onClick={handleNext}
-                  disabled={username.length > 24 ? true : false}
+                  disabled={username.length > 24}
                 >
                   Save
                 </Button>
@@ -256,7 +251,7 @@ const Preferences = () => {
             )}
           </div>
         </div>
-      </Spin>
+      )}
     </Layout>
   );
 };

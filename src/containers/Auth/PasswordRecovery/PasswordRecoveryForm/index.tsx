@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import {
   postResetPassword,
   requestPhoneOTP,
-} from '../../../../services/authservice';
+} from 'services/authservice';
 import { toast } from 'react-toastify';
 import styles from '../../Login/Login.module.scss';
-import { onlyNumbers } from '../../../../utils/lib';
+import { onlyNumbers } from 'utils/lib';
 import {
   checkAnswer,
   getSecurityQuestions,
-} from '../../../../services/authservice';
+} from 'services/authservice';
 import NumberEnterStep from './NumberEnterStep';
 import CodeEnterStep from './CodeEnterStep';
 import QuestionEnterStep from './QuestionEnterStep';
@@ -19,7 +19,6 @@ import NewPasswordEnterStep from './NewPasswordEnterStep';
 const PasswordRecovery: React.FC = () => {
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [disableSubmit, setDisableSubmit] = useState(true);
 
@@ -27,6 +26,7 @@ const PasswordRecovery: React.FC = () => {
   const [codeSubmitted, setCodeSubmitted] = useState(false);
   const [enterNumber, setEnterNumber] = useState(true);
   const [changePassword, setChangePassword] = useState(false);
+  const [wrongAnswer, setWrongAnswer] = useState(false);
 
   const [username, setUsername] = useState<string>('');
   const [code, setCode] = useState<string>('');
@@ -84,6 +84,9 @@ const PasswordRecovery: React.FC = () => {
         }
       })
       .catch((err) => {
+        if ('Wrong answer to security question' === err.response.data.details ) {
+          setWrongAnswer(true);
+        }
         toast.error(err.response.data.details || 'Error');
       });
   };
@@ -116,18 +119,15 @@ const PasswordRecovery: React.FC = () => {
   };
 
   const handleOTPRequest = (isResendOTP = false): void => {
-    setIsLoading(true);
     setIsDisabled(true);
     const token = isResendOTP
-      ? sessionStorage.getItem('recaptcha-token')
+      ? localStorage.getItem('recaptcha-token')
       : refCaptcha?.current?.getValue();
 
     if (!onlyNumbers(username)) {
-      setIsLoading(false);
       setIsDisabled(false);
       return;
     }
-
     if (!isResendOTP) {
       sessionStorage.setItem('username', username);
     }
@@ -154,8 +154,7 @@ const PasswordRecovery: React.FC = () => {
         toast.error(error?.response?.data?.details || 'Error');
       })
       .finally(() => {
-        setIsLoading(false);
-        refCaptcha.current.reset();
+        refCaptcha?.current?.reset();
       });
   };
 
@@ -167,7 +166,6 @@ const PasswordRecovery: React.FC = () => {
           <NumberEnterStep
             onVerify={handleOTPRequest}
             setIsDisabled={setIsDisabled}
-            isLoading={isLoading}
             isDisabled={isDisabled}
             refCaptcha={refCaptcha}
             onChange={setUsername}
@@ -183,7 +181,6 @@ const PasswordRecovery: React.FC = () => {
             onSubmitCode={onSubmitCode}
             setDisableSubmit={setDisableSubmit}
             handleOTPRequest={handleOTPRequest}
-            isLoading={isLoading}
             disableSubmit={disableSubmit}
             refCaptcha={refCaptcha}
           />
@@ -195,6 +192,8 @@ const PasswordRecovery: React.FC = () => {
             question={question}
             answer={answer}
             setAnswer={setAnswer}
+            setWrongAnswer={setWrongAnswer}
+            wrongAnswer={wrongAnswer}
           />
         )}
         {/*fourth step*/}

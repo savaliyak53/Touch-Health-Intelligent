@@ -1,5 +1,6 @@
 import { Tooltip } from 'antd';
 import React, {
+  useEffect,
   useState,
 } from 'react';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
@@ -29,9 +30,16 @@ const TelephoneInput = ({ disabled, value, onChange, placeholder }: IProps) => {
     'GB',
   ];
   const [isHovered, setIsHovered] = useState(false);
-  const [activeClass, setActiveClass] = useState('input-container_default');
+  const [activeClass, setActiveClass] = useState('shadow-primary');
   const [error, setError] = useState(false);
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (error) {
+      setActiveClass('shadow-error');
+    }
+
+  }, [error])
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -42,16 +50,16 @@ const TelephoneInput = ({ disabled, value, onChange, placeholder }: IProps) => {
 
   const handleOnBlur = () => {
     setError(!isValidPhoneNumber(value || ''));
-    setActiveClass('input-container_default');
+    setActiveClass('shadow-primary');
   };
 
   const handleOnFocuse = () => {
     setError(false);
-    setActiveClass('input-container_username');
+    setActiveClass('shadow-active');
   };
 
   return (
-    <div className={`input-container ${activeClass}`}>
+    <div className={`relative w-full h-[60px] px-5 py-[18px] leading-4 bg-inputWhite rounded-md ${activeClass}`}>
       <Tooltip
         color="orange"
         placement="bottomLeft"
@@ -72,7 +80,7 @@ const TelephoneInput = ({ disabled, value, onChange, placeholder }: IProps) => {
         />
         {error && (
           <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <ExclamationPointIcon className="info-icon" />
+            <ExclamationPointIcon className="absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer" />
           </span>
         )}
       </Tooltip>

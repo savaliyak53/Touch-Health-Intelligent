@@ -3,13 +3,13 @@ import styles from '../Signup.module.scss';
 import Authstyles from '../../Auth.module.scss';
 import CountryCode from '../../Country/CountryCode';
 import { Tooltip } from 'antd';
-import Button from '../../../../components/Button';
+import Button from 'components/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { onlyNumbers } from '../../../../utils/lib';
+import { onlyNumbers } from 'utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
-import AuthContext, { AuthContextData } from '../../../../contexts/AuthContext';
-import InputField from '../../../../components/Input';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
+import InputField from 'components/Input';
 
 type SignupFormProps = {
   onSubmit: SubmitHandler<IFormInputs>;
@@ -196,8 +196,8 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
                 {...register('name', {
                   required: 'Username is required.',
                   maxLength: {
-                    value: 50,
-                    message: 'Username can have maximum 50 characters.',
+                    value: 24,
+                    message: 'Username can have maximum 24 characters.',
                   },
                 })}
                 placeholder="Username"

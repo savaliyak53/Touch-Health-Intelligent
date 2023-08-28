@@ -68,3 +68,68 @@ export interface Interaction {
 //         statistic_str: string
 //     }
 // }
+/**
+ * Prediction graph section
+ */
+
+export interface IPredictionGraphList {
+  date: string;
+  score: number | null;
+  emoji: string;
+  value?: string;
+}
+
+/**
+* Overview section
+ */
+
+export interface IOverview {
+  cumulative_datapoints: number;
+  max_datapoints: number;
+  status_text: string;
+  status_title: string;
+  streak: number;
+}
+
+/**
+* Emoji section
+ */
+
+// export type ConditionKeys =
+//   'Daytime alertness' |
+//   'Hunger' |
+//   'Fatigue' |
+//   'Stiffness' |
+//   'Body image' |
+//   'Anxiety' |
+//   'Memory' |
+//   'Happiness' |
+//   'Paranoia' |
+//   'Loneliness' |
+//   'Clinical signs ';
+
+export type EmojiLevelTypes = 'veryLow' | 'low' | 'neutral' | 'high' | 'critical';
+
+export interface EmojiLevels {
+  veryLow: string;
+  low: string;
+  neutral: string;
+  high: string;
+  critical: string;
+}
+
+export interface EmojiMapping {
+  'Daytime alertness': EmojiLevels;
+  Hunger: EmojiLevels;
+  Fatigue: EmojiLevels;
+  Stiffness: EmojiLevels;
+  'Body image': EmojiLevels;
+  Anxiety: EmojiLevels;
+  Memory: EmojiLevels;
+  Happiness: EmojiLevels;
+  Paranoia: EmojiLevels;
+  Loneliness: EmojiLevels;
+  'Clinical signs': EmojiLevels;
+  [key: string]: EmojiLevels;
+}
+

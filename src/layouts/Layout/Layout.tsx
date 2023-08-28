@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Spin } from 'antd';
 import moment from 'moment';
-import SiteHeader from '../../components/SiteHeader/SiteHeader';
+import SiteHeader from 'components/SiteHeader/SiteHeader';
 import { useLocation, useNavigate } from 'react-router';
-import { getUser } from '../../services/authservice';
-import { getUserSubscription } from '../../services/subscriptionService';
-import { signupFlow } from '../../utils/lib';
-import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
-import AuthContext from '../../contexts/AuthContext';
-import ConfirmModal from '../../components/Modal/ConfirmModal';
+import { getUser } from 'services/authservice';
+import { getUserSubscription } from 'services/subscriptionService';
+import { signupFlow } from 'utils/lib';
+import ErrorInteractionModal from 'components/Modal/ErrorInteractionModal';
+import AuthContext from 'contexts/AuthContext';
+import ConfirmModal from 'components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
-import { backButtonPreventionRoutes } from '../../Routes/Constants';
-import LogoDesktop from '../../components/Icons/LogoDesktop';
-import LogoSmal from '../../components/Icons/LogoSmal';
+import { backButtonPreventionRoutes } from 'Routes/Constants';
+import LogoDesktop from 'components/Icons/LogoDesktop';
+import LogoSmal from 'components/Icons/LogoSmal';
 
 type Props = {
   defaultHeader: boolean;
@@ -22,6 +22,8 @@ type Props = {
   signupLogin?: string;
   title?: string;
   children?: React.ReactChild | React.ReactChild[];
+  withoutMargin?: boolean;
+  streak?: number;
 };
 const Layout = ({
   children,
@@ -29,6 +31,8 @@ const Layout = ({
   hamburger,
   dashboard,
   title,
+  withoutMargin = false,
+  streak
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
   const [trialRemaining, setTrialRemaining] = useState<string>('');
@@ -154,25 +158,49 @@ const Layout = ({
     if (error) throw error;
   }, [error]);
   return (
-    <div className="w-full flex overflow-hidden relative min-h-screen">
+    <div className="w-full max-w-[100%] flex overflow-hidden relative min-h-screen">
       {loading ? (
         <Spin size="large" className=" Spinner" />
       ) : (
         <>
-          <div className="w-full relative max-w-full flex text-center items-center justify-center">
-            <SiteHeader
-              defaultHeader={defaultHeader}
-              hamburger={hamburger}
-              trialRemaining={trialRemaining}
-              title={title}
+          <div className={`w-full h-full flex-1 flex items-center justify-center ${withoutMargin ? '' : 'px-4'}`}>
+            <div
+              className="bg-cover bg-no-repeat h-[100%] bg-[#F6F3F0] z-0 absolute top-0 left-0 main-layout-dashboard-background"
+              style={{
+                backgroundImage: `${
+                  withoutMargin
+                    ? ''
+                    : `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`
+                }`,
+              }}
             />
-            <div className="max-w-full w-full h-full pt-13 pb-5 mx-6 md:mx-[20%]">
-              <div className="h-[90px] z-0" />
-              <LogoSmal className={`inline ${dashboard ? 'mt-10' : 'mt-14'}`} />
-              <div className="flex flex-col h-full">{children}</div>
+            <div
+              className={`w-full ${
+                withoutMargin ? '' : 'max-w-[390px]'
+              } relative flex text-center `}
+            >
+              <SiteHeader
+                defaultHeader={defaultHeader}
+                hamburger={hamburger}
+                trialRemaining={trialRemaining}
+                title={title}
+                streak={streak}
+              />
+              <div className="max-w-full w-full h-full pt-13">
+                {dashboard || withoutMargin ? (
+                  <></>
+                ) : (
+                  <>
+                    <div className="h-[90px] z-0 mt-5" />
+                    {/*<LogoSmal className='inline  mt-14' />*/}
+                  </>
+                )}
+
+                <div className="flex flex-col h-full">{children}</div>
+              </div>
             </div>
           </div>
-          <div className="w-full bg-right bg-cover bg-no-repeat main-layout-background">
+          <div className="w-full max-w-[50%] bg-right bg-fit bg-no-repeat main-layout-background">
             <LogoDesktop className="float-right mr-12 mt-10" />
           </div>
         </>

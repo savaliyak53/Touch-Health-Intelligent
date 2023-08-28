@@ -7,19 +7,19 @@ import {
   getGoogleCode,
   revokeGoogleFit,
   getIntegrationStatus,
-} from '../../services/authservice';
+} from 'services/authservice';
 import { toast } from 'react-toastify';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import 'moment-timezone';
-import DeleteModal from '../../components/Modal/DeleteDataModal';
-import { deleteAllData } from '../../services/goalsService';
+import DeleteModal from 'components/Modal/DeleteDataModal';
+import { deleteAllData } from 'services/goalsService';
 import {
   postInteractionService,
   preferencesService,
   invokeInteractionServiceByType,
-} from '../../services/authservice';
-import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
-import GoogleOAuthDisclosureModal from '../../components/Modal/GoogleOAuthDisclosureModal';
+} from 'services/authservice';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
+import GoogleOAuthDisclosureModal from 'components/Modal/GoogleOAuthDisclosureModal';
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
   readonly userChoice: Promise<{
@@ -243,34 +243,28 @@ const Integrations = () => {
   return (
     <Layout
       defaultHeader={true}
-      hamburger={loc?.state?.redirect ? false : true}
-      title={'Integration'}
+      hamburger={!loc?.state?.redirect}
+      title={'Integrations'}
     >
       <Spin spinning={spinning}>
         <div className={`${styles['Integration-wrap']}`}>
-          <h2 className={'Title'}>Integrations</h2>
           <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '24px',
-            }}
+            className='mt-5 flex justify-between items-end mb-6'
           >
             <img
               src={'assets/icons/GoogleFit_Icon_Color_RGB.png'}
               height={50}
               width={50}
-              className={styles['Google-fit-img']}
             />
-            <div className={styles['Container-title']}>
+            <div className='font-tilt-warp text-left relative font-body font-normal font-bold text-xl md:text-2xl leading-[110%] tracking-tighter'>
               {'Use the toggle to turn Google Fit integration on or off'}
             </div>
             {checked === undefined ? (
               <Spin spinning={checked === undefined ? true : false} />
             ) : (
-              <div className="Switch-btn-with-text">
+              <div>
                 <Switch
+                  className='bg-[#bfbfbf]'
                   checked={checked}
                   onChange={handleClick}
                   checkedChildren="On"
@@ -283,7 +277,7 @@ const Integrations = () => {
           <div>
             {!checked && (
               <div className={styles['Container']}>
-                <h3 className={`Description`}>
+                <h3 className='text-base font-normal leading-7 text-justify'>
                   By connecting Touch Health Assistant with Google Fit, you can
                   integrate your fitness activity and movement data from various
                   health apps to help you better understand your progress toward

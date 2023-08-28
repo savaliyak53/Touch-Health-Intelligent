@@ -10,8 +10,27 @@
   @media screen and (max-width: 992px) {
     background-image: url('../public/assets/images/background-small.svg');
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 812px) {
     display: none;
+  }
+}
+
+.recharts-surface {
+  overflow: visible !important;
+}
+  
+.main-layout-dashboard-background {
+  right: 50%;
+
+  @media screen and (max-width: 812px) {
+    right: 0;
+  }
+}
+
+.terms-title {
+  max-width: calc(50% - 3rem);
+  @media screen and (max-width: 768px) {
+    max-width: 100%;
   }
 }
 
@@ -104,7 +123,6 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 25px;
-  margin-top: 25px;
 }
 
 .Btn-group {
@@ -1804,5 +1822,49 @@
       width: 165px;
       height: 40px;
       padding: 12px;
+  }
+}
+
+.dashboard-slider {
+  .carousel {
+    overflow: visible;
+
+    .thumbs-wrapper {
+      margin: 0;
+
+      @media (max-width: 768px) {
+        margin: 0 0 20px;
+      }
+    }
+
+    &.carousel-slider {
+      overflow: visible;
+    }
+
+    .carousel-status {
+      display: none;
+    }
+
+    .control-dots {
+      bottom: -20px;
+      margin: 0;
+
+      @media (max-width: 768px) {
+        display: none;
+      }
+
+
+      .dot {
+        background-color:#83A5F2;
+        margin: 0 3px;
+        box-shadow: none;
+
+        &.selected {
+          background-color:#204ECF;
+          width: 17px;
+          border-radius: 4px;
+        }
+      }
+    }
   }
 }

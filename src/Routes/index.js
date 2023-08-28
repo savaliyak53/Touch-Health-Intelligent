@@ -1,32 +1,33 @@
 import React, { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import LoadingLayout from '../layouts/loading-layout/LoadingLayout';
+import LoadingLayout from 'layouts/loading-layout/LoadingLayout';
 import { SignUp, Login } from './Lazycontainers';
-import Preferences from '../containers/Preferences';
+import Preferences from 'containers/Preferences';
 import ROUTES from './Constants';
-import UserCondition from '../containers/Questionnaire';
+import UserCondition from 'containers/Questionnaire';
 import { RequireAuth, RequireSignup } from '../utils/RequireAuth';
-import ThankyouForSubmiting from '../containers/ThankyouForSubmiting';
-import IntroVideo from '../containers/Introvideo';
-import DashboardNew from '../containers/DashboardNew';
-import Insights from '../containers/Insights';
-import Timeline from '../containers/Timeline/index';
-import ManageConditions from '../containers/Conditions';
-import SubscriptionNew from '../containers/SubscriptionNew';
-import SecurityQuestion from '../containers/SecurityQuestion';
-import ResetPassword from '../containers/Auth/ResetPassword';
-import TermsAndCondtions from '../containers/TermsAndConditions';
-import Verification from '../containers/Auth/Verification';
-import HelpAndSupport from '../containers/HelpAndSupport';
-import Success from '../containers/Success';
-import Error from '../containers/Error';
-import Home from '../containers/Home';
-import PasswordRecovery from '../containers/Auth/PasswordRecovery';
-import GoogleFitSuccess from '../containers/GoogleFitSuccess/GoogleFitSuccess';
-import Integrations from '../containers/Integeration';
-import MockQuestionnaire from '../containers/MockQuestionnaire';
-import ManageDevices from '../containers/ManageDevices';
-import ExistingUser from '../containers/ExistingUser';
+import ThankyouForSubmiting from 'containers/ThankyouForSubmiting';
+import IntroVideo from 'containers/Introvideo';
+import DashboardNew from 'containers/DashboardNew';
+import Insights from 'containers/Insights';
+import Timeline from 'containers/Timeline/index';
+import ManageConditions from 'containers/Conditions';
+import SubscriptionNew from 'containers/SubscriptionNew';
+import SecurityQuestion from 'containers/SecurityQuestion';
+import ResetPassword from 'containers/Auth/ResetPassword';
+import TermsAndCondtions from 'containers/TermsAndConditions';
+import Verification from 'containers/Auth/Verification';
+import HelpAndSupport from 'containers/HelpAndSupport';
+import Success from 'containers/Success';
+import Error from 'containers/Error';
+import Home from 'containers/Home';
+import PasswordRecovery from 'containers/Auth/PasswordRecovery';
+import GoogleFitSuccess from 'containers/GoogleFitSuccess/GoogleFitSuccess';
+import Integrations from 'containers/Integeration';
+import MockQuestionnaire from 'containers/MockQuestionnaire';
+import ManageDevices from 'containers/ManageDevices';
+import ExistingUser from 'containers/ExistingUser';
+import Prediction from 'containers/Prediction';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -72,6 +73,7 @@ const AppRoutes = () => {
           <Route path="/subscription/:id" element={<SubscriptionNew />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
           <Route path="/help-and-support" element={<HelpAndSupport />} />
+          <Route path="/prediction/:id" element={<Prediction />} />
           <Route path="/success" element={<Success />} />
           <Route path="/error" element={<Error />} />
         </Route>

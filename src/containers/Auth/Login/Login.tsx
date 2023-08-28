@@ -3,9 +3,9 @@ import { SubmitHandler } from 'react-hook-form';
 import LoginForm from './LoginForm';
 import styles from './Login.module.scss';
 import { useNavigate } from 'react-router';
-import AuthContext, { AuthContextData } from '../../../contexts/AuthContext';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import SplashScreen from './SplashScreen';
-import useLocalStorage from '../../../hooks/useLocalStorage';
+import useLocalStorage from 'hooks/useLocalStorage';
 
 type IFormInputs = {
   username: string;
