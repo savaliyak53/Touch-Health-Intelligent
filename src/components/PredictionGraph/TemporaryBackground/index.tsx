@@ -3,8 +3,8 @@ import React, { FC } from "react";
 const TemporaryBackground: FC = () => {
 
   return (
-    <div className='flex items-center absolute top-[100px] z-1 w-full'>
-      <svg className='mr-[-245px]' xmlns="http://www.w3.org/2000/svg" width="378" height="408" fill="none">
+    <div className='flex items-center absolute top-[20%] xl:top-0 z-1 w-full'>
+      <svg className='mr-[-245px] w-full' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 378 408" fill="none">
         <g filter="url(#a)" opacity=".5">
           <path fill="url(#b)"
                 d="M49.807 317.346C-80.27 295.927-189.461 247.855-194.08 209.975c-4.619-37.88-42.794-214.275 221.244-78.33 130.077 21.419 337.583 10.416 249.804 155.895 4.619 37.88-97.085 51.225-227.161 29.806Z" />
@@ -23,7 +23,7 @@ const TemporaryBackground: FC = () => {
           </filter>
         </defs>
       </svg>
-      <svg xmlns="http://www.w3.org/2000/svg" width="258" height="298" fill="none">
+      <svg className='w-full' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 258 298" fill="none">
         <g filter="url(#c)">
           <path fill="url(#d)" fillOpacity=".6"
                 d="M343.12 90.772c95.066 133.221-89.557 128.082-150.953 149.574-61.397 21.491-158.6-9.819-138.795-67.511-3.254-66.919 79.278-65.641 140.675-87.133C293.8 33.97 324.121 42.145 343.12 90.773Z" />
