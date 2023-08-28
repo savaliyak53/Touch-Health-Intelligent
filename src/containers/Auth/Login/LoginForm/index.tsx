@@ -19,6 +19,7 @@ import AccountLockModal from '../../../../components/Modal/AccountLockModal';
 import AuthContext, { AuthContextData } from '../../../../contexts/AuthContext';
 import { getSession, getUser } from '../../../../utils/lib';
 import ConfirmModal from '../../../../components/Modal/ConfirmModal';
+import FloatLabel from 'components/FloatLabel';
 
 
 type LoginFormProps = {
@@ -153,7 +154,6 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
     if (location.state?.username)
       setValue('username', validateNumber(location.state.username));
   }, []);
-
   return (
     <div className={styles.Login}>
       <div className={styles.FormWrap}>
@@ -162,18 +162,25 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
           onSubmit={handleSubmit(onSubmit)}
           className={styles.Form}
         >
-          <h1 className={styles.Title}>Log in</h1>
-          <CountryCode
+                    <h1 className={styles.Title}>Log in</h1>
+
+          <FloatLabel isUsername={true} label="Mobile phone number" name="username" value={getValues('username')}>    
+                  
+            <CountryCode
             errors={errors.username}
             control={control}
             fieldName="username"
-          />
+            />
+          </FloatLabel>
+
           <Tooltip
             color="orange"
             placement="bottomLeft"
             title={errors.password?.message}
             open={isHovered ? true : false}
           >
+          <FloatLabel isUsername={false} label="Password" name="password" value={getValues('password')}>    
+
             <InputField
               id="password"
               data-testid="pwd"
@@ -188,6 +195,8 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
               handleMouseLeave={handleMouseLeave}
               togglePassword={togglePassword}
             />
+          </FloatLabel>
+
           </Tooltip>
           <AccountLockModal
             title={'Too many retries'}

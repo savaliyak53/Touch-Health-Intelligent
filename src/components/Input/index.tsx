@@ -50,12 +50,12 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
     ref
   ) => {
     return (
-      <div className={'input-element-wrapper-password'}>
+      <div className={`input-element-wrapper-password ${type == 'text' ? 'password-eye' : ''}`}>
         <input
           type={type}
           name={name}
           className={className}
-          placeholder={placeholder}
+          // placeholder={placeholder}
           ref={ref}
           value={value}
           style={style}
