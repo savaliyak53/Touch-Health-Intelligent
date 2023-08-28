@@ -17,33 +17,16 @@ const ErrorModal = ({
   handleCancel
 }: IProps) => {
   const navigate = useNavigate();
-
   const handleOk = () => {
-    console.log('click');
     navigate('/dashboard');
     handleCancel();
   };
-
-  const handleClose = () => {
-    const userId: string | null = localStorage.getItem('userId');
-    const expiration: string | null = localStorage.getItem('expiration');
-    const now: number = Math.floor(Date.now() / 1000);
-
-    if (userId && expiration && parseInt(expiration) > now) {
-      navigate('/dashboard');
-      handleCancel();
-      return;
-    }
-    localStorage.removeItem('token');
-    handleCancel();
-    window.location.assign('/login');
-  };
-
 
   const handleUnauthorized = () => {
     handleCancel();
     window.location.assign('/login');
   };
+
   return (
     <Modal
       title={title}
@@ -80,7 +63,7 @@ const ErrorModal = ({
                   Close
                 </Button>
               ) : (
-                <Button className={'Submit-Button'} onClick={handleClose}>
+                <Button className={'Submit-Button'} onClick={handleOk}>
                   Go to dashboard
                 </Button>
               )
