@@ -163,7 +163,7 @@ const Layout = ({
         <Spin size="large" className=" Spinner" />
       ) : (
         <>
-          <div className="w-full h-full flex-1 flex items-center justify-center px-4">
+          <div className={`w-full h-full flex-1 flex items-center justify-center ${withoutMargin ? '' : 'px-4'}`}>
             <div
               className="bg-cover bg-no-repeat h-[100%] bg-[#F6F3F0] z-0 absolute top-0 left-0 main-layout-dashboard-background"
               style={{
