@@ -2,17 +2,18 @@ import React, { FC, useEffect, useState } from 'react';
 import { LineChart, XAxis, YAxis, Line, ResponsiveContainer } from 'recharts';
 import CustomizedAxisTick from './CustomizedAxisTick';
 import { IPredictionGraphList } from '../../interfaces';
-import BackgraundGraph from './BackgraundGraph';
-import Gradient from './BackgraundGraph/Gradient1';
+// import BackgraundGraph from './BackgraundGraph';
+// import Gradient from './BackgraundGraph/Gradient1';
+import { getDayOfWeekByDate } from '../../helpers/time';
 
 interface IProps {
-  list?: IPredictionGraphList[];
+  data: IPredictionGraphList[];
 }
 
-const PredictionGraph: FC<IProps> = () => {
+const PredictionGraph: FC<IProps> = ({data}) => {
   const [range, setRange] = useState<string[]>(['auto', 'auto']);
-  const [data, setData] = useState<IPredictionGraphList[] | []>([]);
-  const [backData, setBackData] = useState<number[] | []>([]);
+  const [graphData, setGraphData] = useState<IPredictionGraphList[] | []>([]);
+  // const [backData, setBackData] = useState<number[] | []>([]);
 
 
   const list: IPredictionGraphList[] = [
@@ -119,29 +120,31 @@ const PredictionGraph: FC<IProps> = () => {
   ];
 
   useEffect(() => {
-    const values: number[] = [];
-    list.forEach(({ date, score, emoji }, index) => {
-      list[index].value = `${date}_${score}_${emoji}`;
-      if (score) {
-        values.push(score);
-      }
+    // const values: number[] = [];
+    const state: IPredictionGraphList[] = [...list];
+    state.forEach(({ date, score, emoji }, index) => {
+      const day = index === 0 ? 'Today' : getDayOfWeekByDate(date);
+      state[index].value = `${date}_${score}_${emoji}`;
+      // if (score) {
+      //   values.push(score);
+      // }
     });
-    setBackData(values);
-    setData(list);
+    setGraphData(state);
+    // setBackData(values);
     setTimeout(() => {
       setRange(['dataMin', 'dataMax']);
     }, 1000);
   }, []);
 // 190
   return (
-    <div className="flex justify-start items-center w-full bg-primary-delft-dark h-full scrolling-x-auto overflow-x-scroll">
-      {data && data.length && (
+    <div className='scrolling-x-auto overflow-x-auto h-[160px] z-10 mt-10 pr-10 relative'>
+      {graphData && (
         <ResponsiveContainer
           className="mt-4 w-full"
-          width={60 * list.length}
+          width={60 * graphData.length}
           maxHeight={100}
         >
-          <LineChart data={data}>
+          <LineChart data={graphData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
             <XAxis
               tick={<CustomizedAxisTick />}
               tickLine={false}
@@ -160,7 +163,7 @@ const PredictionGraph: FC<IProps> = () => {
         </ResponsiveContainer>
       )}
       {/*<Gradient/>*/}
-      <BackgraundGraph data={backData} />
+      {/*<BackgraundGraph data={backData} />*/}
     </div>
   );
 };

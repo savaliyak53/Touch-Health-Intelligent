@@ -4,6 +4,8 @@ import { useParams } from 'react-router';
 import Layout from '../../layouts/Layout/Layout';
 import { getInfluencer } from '../../services/dashboardservice';
 import { dateFormatted } from '../../utils/lib';
+import PredictionGraph from "../../components/PredictionGraph";
+import TemporaryBackground from "../../components/PredictionGraph/TemporaryBackground";
 
 type influencerDataTypes = {
   name: string;
@@ -73,7 +75,7 @@ const Prediction = () => {
   return (
     <Layout defaultHeader={false} hamburger={false} isLogo={false} withoutMargin={true}>
       <section className='h-screen'>
-        <section className='pt-[100px] pb-[100px] bg-primary-delft-dark relative'>
+        <section className='pt-[100px] pb-[40px] bg-primary-delft-dark relative'>
           <div className='h-6 w-6 bg-[#ffffff80] rounded-full m-auto'>
             <span className='text-[12px] flex justify-center items-center h-full'>{influencerData?.prediction_ordered_list?.find((prediction) => prediction?.date === dateFormatted(new Date()))?.emoji || null}</span>
           </div>
@@ -82,8 +84,10 @@ const Prediction = () => {
           <div className='font-["tilt_warp"] text-white text-[60px] pt-8 text-center'>
             {influencerData?.prediction_ordered_list?.find((prediction) => prediction?.date === dateFormatted(new Date()))?.score}
           </div>
+          {influencerData?.prediction_ordered_list &&  <PredictionGraph data={influencerData.prediction_ordered_list} />}
+          <TemporaryBackground />
         </section>
-        <section onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} className={`bg-white px-5 rounded-[10px] relative -top-3 ease-in-out duration-200 ${isDrawerOpen ? '-translate-y-[292px]' : '-translate-y-[0px]'}`}>
+        <section onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} className={`bg-white px-5 rounded-[10px] relative z-10 -top-3 ease-in-out duration-200 ${isDrawerOpen ? '-translate-y-[292px]' : '-translate-y-[0px]'}`}>
           <div className='absolute -top-3 m-auto left-0 right-0'>
             <img src="/assets/icons/collapse-arrow-white.svg" alt='collapse' className={`m-auto cursor-pointer ${isDrawerOpen && "rotate-180"}`} onClick={() => setIsDrawerOpen(!isDrawerOpen)}/>
           </div>

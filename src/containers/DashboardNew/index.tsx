@@ -1,7 +1,5 @@
-
 import React, { useEffect, useState } from 'react';
-import styles from './DashboardNew.module.scss';
-import { Row, Col, Typography, Button } from 'antd';
+import { Button } from 'antd';
 import Layout from '../../layouts/Layout/Layout';
 import { Spin } from 'antd';
 import { getDashboard } from '../../services/dashboardservice';
@@ -9,11 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import Drawer from '../../components/Modal/Drawer';
 import Status from '../Status';
 import { timeFrom } from '../../utils/lib';
-import { GoalsComp } from '../../components/Goals-comp';
 import {getPreference, invokeInteractionServiceByType} from '../../services/authservice';
 import {getPartOfDay} from '../../helpers/time';
 import EntityListWidget from '../../components/Widgets/EntityListWidget';
-import PredictionGraph from '../../components/PredictionGraph';
 
 const DashboardNew = () => {
   const [error, setError] = useState<any>();
@@ -96,47 +92,46 @@ const DashboardNew = () => {
   }, [error]);
 
   return (
-    <PredictionGraph />
-    // <Layout defaultHeader={true} hamburger={true} dashboard={true} title={`Good ${getPartOfDay()}${username ? `, ${username}`: ''}`}>
-    //
-    //     <Status />
-    //   {/* Conditions widget */}
-    //   <EntityListWidget type={'conditions'}/>
-    //   {/* Influencers widget */}
-    //   <EntityListWidget type={'influencers'}/>
-    //
-    //   <Spin spinning={loading}>
-    //     <Drawer
-    //       title="Daily check-in"
-    //       open={drawerOpen}
-    //       handleCancel={() => setDrawerOpen(false)}
-    //       renderOptions={
-    //         <>
-    //           <Button
-    //             className={'Button-Drawer'}
-    //             onClick={() => {
-    //               navigate('/c/checkup');
-    //             }}
-    //           >
-    //             Daily Questions
-    //           </Button>
-    //           <Button
-    //             className={'Button-Drawer'}
-    //             onClick={() => getInteractionByType('update_conditions')}
-    //           >
-    //             Update my conditions
-    //           </Button>
-    //           <Button
-    //             className={'Button-Drawer-Secondary'}
-    //             onClick={() => getInteractionByType('explore_data')}
-    //           >
-    //             Explore my data
-    //           </Button>
-    //         </>
-    //       }
-    //     />
-    //   </Spin>
-    // </Layout>
+    <Layout defaultHeader={true} hamburger={true} dashboard={true} title={`Good ${getPartOfDay()}${username ? `, ${username}`: ''}`}>
+
+        <Status />
+      {/* Conditions widget */}
+      <EntityListWidget type={'conditions'}/>
+      {/* Influencers widget */}
+      <EntityListWidget type={'influencers'}/>
+
+      <Spin spinning={loading}>
+        <Drawer
+          title="Daily check-in"
+          open={drawerOpen}
+          handleCancel={() => setDrawerOpen(false)}
+          renderOptions={
+            <>
+              <Button
+                className={'Button-Drawer'}
+                onClick={() => {
+                  navigate('/c/checkup');
+                }}
+              >
+                Daily Questions
+              </Button>
+              <Button
+                className={'Button-Drawer'}
+                onClick={() => getInteractionByType('update_conditions')}
+              >
+                Update my conditions
+              </Button>
+              <Button
+                className={'Button-Drawer-Secondary'}
+                onClick={() => getInteractionByType('explore_data')}
+              >
+                Explore my data
+              </Button>
+            </>
+          }
+        />
+      </Spin>
+    </Layout>
   );
 };
 
