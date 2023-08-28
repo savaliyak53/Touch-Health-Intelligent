@@ -2,8 +2,8 @@ import React, { FC, useEffect, useState } from 'react';
 import { LineChart, XAxis, YAxis, Line, ResponsiveContainer } from 'recharts';
 import CustomizedAxisTick from './CustomizedAxisTick';
 import { IPredictionGraphList } from '../../interfaces';
-// import BackgraundGraph from './BackgraundGraph';
-// import Gradient from './BackgraundGraph/Gradient1';
+// import BackgroundGraph from './BackgroundGraph';
+// import Gradient from './BackgroundGraph/Gradient1';
 import { getDayOfWeekByDate } from '../../helpers/time';
 
 interface IProps {
