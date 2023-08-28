@@ -3,7 +3,7 @@ import React, { FC } from "react";
 const TemporaryBackground: FC = () => {
 
   return (
-    <div className='flex items-center absolute top-[20%] xl:top-0 z-1 w-full'>
+    <div className='flex items-center absolute top-[30%] sm:top-[20%] xl:top-0 z-1 w-full'>
       <svg className='mr-[-245px] w-full' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 378 408" fill="none">
         <g filter="url(#a)" opacity=".5">
           <path fill="url(#b)"
