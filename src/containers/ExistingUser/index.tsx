@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { Button } from 'antd';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import styles from './ExistingUser.module.scss';
 import { useLocation, useNavigate } from 'react-router';
 import AuthContext, { AuthContextData } from '../../contexts/AuthContext';

@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import { Select, Spin } from 'antd';
 import v from '../../variables.module.scss';
 import styles from './SecurityQuestion.module.scss';
-import Button from '../../components/Button';
-import InputField from '../../components/Input';
+import Button from 'components/Button';
+import InputField from 'components/Input';
 import { securityQuestions } from '../../constants';
-import { putSignUp } from '../../services/authservice';
+import { putSignUp } from 'services/authservice';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { DownOutlined } from '@ant-design/icons';
-import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 
 const { Option } = Select;
 

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import { Button, Spin, Alert, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -12,23 +12,23 @@ import {
   managePayment,
   cancelSubscription,
   checkoutPlan,
-} from '../../services/subscriptionService';
+} from 'services/subscriptionService';
 import {
   getUser,
   invokeInteractionServiceByType,
   preferencesService,
   updatePreference,
-} from '../../services/authservice';
+} from 'services/authservice';
 import { ISubscriptionStateDataResponse } from './Interfaces';
-import ConfirmModal from '../../components/Modal/ConfirmModal';
-import FreeTrialModal from '../../components/Modal/FreeTrial';
-import PriceModal from '../../components/Modal/PriceModal';
+import ConfirmModal from 'components/Modal/ConfirmModal';
+import FreeTrialModal from 'components/Modal/FreeTrial';
+import PriceModal from 'components/Modal/PriceModal';
 import {
   LoadingOutlined,
   InfoCircleOutlined,
   ReloadOutlined,
 } from '@ant-design/icons';
-import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import moment from 'moment';
 
 const SubscriptionNew = () => {

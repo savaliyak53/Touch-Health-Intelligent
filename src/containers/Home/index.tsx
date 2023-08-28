@@ -5,12 +5,12 @@ import {
   getUser,
   preferencesService,
   updatePreference,
-} from '../../services/authservice';
-import { getUserSubscription } from '../../services/subscriptionService';
+} from 'services/authservice';
+import { getUserSubscription } from 'services/subscriptionService';
 import { Spin } from 'antd';
 import moment from 'moment';
-import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
-import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
+import ErrorInteractionModal from 'components/Modal/ErrorInteractionModal';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 
 const Home = () => {
   const context = useContext<AuthContextData | undefined>(AuthContext);

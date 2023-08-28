@@ -8,11 +8,11 @@ import {
   getIntegrationStatus,
   getPreference,
   updatePreference,
-} from '../../services/authservice';
-import Layout from '../../layouts/Layout/Layout';
+} from 'services/authservice';
+import Layout from 'layouts/Layout/Layout';
 import moment from 'moment';
 import 'moment-timezone';
-import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;

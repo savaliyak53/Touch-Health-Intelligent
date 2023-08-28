@@ -7,7 +7,7 @@ import React, {
 import './index.scss';
 import PassWordEye from './passwordEye';
 
-import SVGERROR from '../../components/ErrorSvg/index';
+import SVGERROR from 'components/ErrorSvg/index';
 
 interface InputProps {
   id?: string;

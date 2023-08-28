@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import {
   postResetPassword,
   requestPhoneOTP,
-} from '../../../../services/authservice';
+} from 'services/authservice';
 import { toast } from 'react-toastify';
 import styles from '../../Login/Login.module.scss';
-import { onlyNumbers } from '../../../../utils/lib';
+import { onlyNumbers } from 'utils/lib';
 import {
   checkAnswer,
   getSecurityQuestions,
-} from '../../../../services/authservice';
+} from 'services/authservice';
 import NumberEnterStep from './NumberEnterStep';
 import CodeEnterStep from './CodeEnterStep';
 import QuestionEnterStep from './QuestionEnterStep';
