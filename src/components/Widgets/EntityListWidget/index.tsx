@@ -24,6 +24,7 @@ interface ITest {
 // const days = getNextDays();
 
 const EntityListWidget: FC<IProps> = ({type}) => {
+  const [error, setError] = useState<any>();
   const [data, setData] = useState<ITest[] | []>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -38,7 +39,10 @@ const EntityListWidget: FC<IProps> = ({type}) => {
           }
         })
         .catch((err) => {
-          throw err;
+          setError({
+            code: err.response.status,
+            message: err.response.data.details ?? 'Something went wrong.',
+          })
         })
         .finally(() => setLoading(false));
     } else {
@@ -49,7 +53,10 @@ const EntityListWidget: FC<IProps> = ({type}) => {
           }
         })
         .catch((err) => {
-          throw err;
+          setError({
+            code: err.response.status,
+            message: err.response.data.details ?? 'Something went wrong.',
+          })
         })
         .finally(() => setLoading(false));
     }
@@ -58,6 +65,10 @@ const EntityListWidget: FC<IProps> = ({type}) => {
   const handlerOnClick = (item: ITest) => {
     navigate(`/prediction/${item.id}`);
   }
+
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
 
   return (
     <div
