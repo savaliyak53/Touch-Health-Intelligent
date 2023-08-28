@@ -4,6 +4,7 @@ import {getConditions, getInfluencers} from 'services/widgets';
 import {Spin} from 'antd';
 import {getDayOfWeekByDate} from 'helpers/time';
 import {useNavigate} from 'react-router';
+import { invokeInteractionServiceByType } from 'services/authservice';
 
 interface IProps {
   type: 'conditions' | 'influencers';
@@ -24,9 +25,27 @@ interface ITest {
 // const days = getNextDays();
 
 const EntityListWidget: FC<IProps> = ({type}) => {
+  const [error, setError] = useState<any>();
   const [data, setData] = useState<ITest[] | []>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  const getInteractionByType = (type: string) => {
+    invokeInteractionServiceByType(type)
+      .then((response: any) => {
+        if (response.data) {
+          navigate('/questionnaire');
+        } else {
+          navigate('/dashboard');
+        }
+      })
+      .catch((error) => {
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
+      });
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -58,6 +77,10 @@ const EntityListWidget: FC<IProps> = ({type}) => {
   const handlerOnClick = (item: ITest) => {
     navigate(`/prediction/${item.id}`);
   }
+
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
 
   return (
     <div
@@ -122,20 +145,22 @@ const EntityListWidget: FC<IProps> = ({type}) => {
 		  <div className="h-12 text-center font-medium leading-[14px] pt-4 text-piano-light">
 			  Nothing not found...</div>}
       {/*Footer*/}
-      {/*{data && data.length > 0 && !loading && (*/}
-      {/*  <>*/}
-      {/*    {type === 'conditions' && (*/}
-      {/*      <>*/}
-      {/*        <hr className="border-rae mx-4"/>*/}
-      {/*        <div className="py-3 text-center">*/}
-      {/*          <span className="cursor-pointer text-primary-delft-dark text-[10px] font-medium leading-[14px]">*/}
-      {/*            ADD A CONDITION*/}
-      {/*          </span>*/}
-      {/*        </div>*/}
-      {/*      </>*/}
-      {/*    )}*/}
-      {/*  </>*/}
-      {/*)}*/}
+      {data && data.length > 0 && !loading && (
+        <>
+          {type === 'conditions' && (
+            <>
+              <hr className="border-rae mx-4"/>
+              <div className="py-3 text-center">
+                <span
+                  onClick={() => getInteractionByType('update_conditions')}
+                  className="cursor-pointer text-primary-delft-dark text-[10px] font-medium leading-[14px]">
+                  ADD A CONDITION
+                </span>
+              </div>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 };
