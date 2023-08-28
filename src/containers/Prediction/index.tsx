@@ -86,7 +86,7 @@ const Prediction = () => {
           {influencerData?.prediction_ordered_list &&  <PredictionGraph data={influencerData.prediction_ordered_list} />}
           <TemporaryBackground />
         </section>
-        <section onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} className={`bg-white px-5 rounded-[10px] relative z-10 -top-3 ease-in-out duration-200 ${isDrawerOpen ? '-translate-y-[292px]' : '-translate-y-[0px]'}`}>
+        <section onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} className={`bg-white px-5 h-full rounded-t-lg relative z-10 -top-3 ease-in-out duration-200 ${isDrawerOpen ? '-translate-y-[435px]' : '-translate-y-[0px]'}`}>
           <div className='absolute -top-3 m-auto left-0 right-0'>
             <img src="/assets/icons/collapse-arrow-white.svg" alt='collapse' className={`m-auto cursor-pointer ${isDrawerOpen && "rotate-180"}`} onClick={() => setIsDrawerOpen(!isDrawerOpen)}/>
           </div>
@@ -110,7 +110,7 @@ const Prediction = () => {
                 influencerData?.guidances_list?.map((guidance) => (
                   <div key={guidance?.guidance_id} className='flex justify-between py-[20px] border-b-[1px] border-[#F0ECE7] pl-1'>
                     <div className='text-[12px]'><span className='font-["tilt_warp"] text-[14px] text-primary-delft-dark'>{guidance?.name}</span> {guidance?.health_dimension}</div>
-                    <img src="/assets/icons/right-indicate-icon.svg" alt='arrow' className='cursor-pointer'/>
+                    {/* <img src="/assets/icons/right-indicate-icon.svg" alt='arrow' className='cursor-pointer'/> */}
                   </div>
                 ))
               }
