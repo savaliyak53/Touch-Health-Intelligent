@@ -38,11 +38,11 @@ const TouchDropdown: FC<InputProps> = ({
   return (
     <Menu as="div" className="relative w-full h-14 mb-3.5 leading-3.5 rounded-md bg-inputWhite shadow-primary  mt-10">
       <div className="w-full">
-        <Menu.Button className="inline-flex w-full h-16 items-center gap-x-1.5 rounded-md px-3 bg-none">
-          <span className="font-roboto font-medium leading-3 flex-1">
+        <Menu.Button className="inline-flex w-full text-left h-16 items-center gap-x-1.5 rounded-md px-3 bg-none">
+          <span className="font-roboto text-left font-medium leading-3 flex-1">
             {value}
           </span>
-          <ArrowDownIcon className="h-5 w-5 mr-2" />
+          {options && options.length > 1 && <ArrowDownIcon className="h-5 w-5 mr-2" />}
         </Menu.Button>
       </div>
       {options &&

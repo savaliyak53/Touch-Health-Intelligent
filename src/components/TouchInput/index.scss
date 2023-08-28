@@ -1,32 +1,5 @@
 @import '../../variables.module.scss';
 
-.input-container {
-  position: relative;
-  width: 100%;
-  height: 60px;
-  padding: 18px 20px;
-  line-height: 14px;
-  border-radius: 5px;
-  background: #fdfcfb;
-  box-shadow: 0 4px 0 0 #f0ece7;
-}
-
-.input-container_default {
-  box-shadow: 0 4px 0 0 #f0ece7;
-}
-
-.input-container_username {
-  box-shadow: 0 4px 0 0 rgba(50, 83, 202, 1);
-}
-
-.input-container_email  {
-  box-shadow: 0 4px 0 0 rgba(179, 255, 209, 1);
-}
-
-.input-container_error {
-  box-shadow: 0 4px 0 0 rgba(242, 103, 73, 1);
-}
-
 .touch-input {
   padding-top: 10px;
   font-family: 'Roboto', sans-serif;
@@ -36,25 +9,6 @@
   &:disabled {
     cursor: default;
   }
-}
-
-.floating-label {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-  text-align: left;
-  line-height: 14px;
-  position: absolute;
-  left: 20px;
-  top: 25px;
-  color: rgba(8, 8, 21, 0.5);
-  transition: 0.3s ease;
-  pointer-events: none;
-}
-
-.floating-label.focused {
-  transform: translateY(-12px);
-  font-size: 10px;
-  color: rgba(8, 8, 21, 0.5);
 }
 
 .info-icon {
@@ -99,8 +53,4 @@
     opacity: 0.5;
     font-size: 14px;
   }
-}
-
-.mb-20 {
-  margin-bottom: 20px;
 }

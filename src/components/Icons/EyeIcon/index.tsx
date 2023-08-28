@@ -19,7 +19,7 @@ const EyeIcon: React.FC<CustomSVGIconProps> = ({
     </g>
     <defs>
       <clipPath id='a'>
-        <path fill='#fff' d='M0 0h18v18H0z' />
+        <path fill={color} d='M0 0h18v18H0z' />
       </clipPath>
     </defs>
   </svg>
