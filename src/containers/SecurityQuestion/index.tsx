@@ -78,12 +78,10 @@ const SecurityQuestions = () => {
 
   return (
     <Layout defaultHeader={true} hamburger={false} title={'Security Question'}>
-      <div className={styles['Security-wrap']}>
-        <h2 id="header" className={styles['Con-title']}>
-          Security question <Spin spinning={loading} />
-        </h2>
+      <div className={`mt-5 ${styles['Security-wrap']}`}>
+        <Spin spinning={loading} />
         <div className={styles['Switch-wrap']}>
-          <p className={styles['Con-Description']}>
+          <p className='text-base font-normal leading-7 text-center mb-5'>
             Please help us protect your account. Select a security question and
             input answer. You can use this to get back access to your account.
           </p>

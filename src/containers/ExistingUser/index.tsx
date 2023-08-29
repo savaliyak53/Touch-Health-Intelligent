@@ -31,9 +31,8 @@ const ExistingUser = () => {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={false}>
-      <div className="Title">{`An account with your number already exists, would you like to...`}</div>
-      <div className={styles['Device-Container']}>
+    <Layout defaultHeader={true} hamburger={false} title='An account with your number already exists, would you like to...'>
+      <div className={`mt-5 ${styles['Device-Container']}`}>
         <Button className="Submit-Button" onClick={handleSignin}>
           Sign in
         </Button>
