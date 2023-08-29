@@ -22,18 +22,20 @@
 }
 
 .LoginView {
-  padding: 35px 12px 29px;
+  padding: 0 12px;
   display: flex;
+  gap: 25px;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   height: 100%;
   max-width: 390px;
   margin: 0 auto;
-
+  
   @media (min-width: 576px) {
-    padding-top: 130px;
-    justify-content: flex-start;
+    justify-content: center;
+    gap: 30px;
+    height: 100%;
   }
 }
 
@@ -42,7 +44,7 @@
 
   @media (min-width: 576px) {
     display: block;
-    margin-bottom: 70px;
+    height: 70px;
   }
 }
 
@@ -112,7 +114,6 @@
   }
   &:focus,:hover{
     box-shadow: 0px 4px 0px 0px #204ecf;
-
   }
 }
 .PasswordInputIvalid {
@@ -165,12 +166,7 @@
   width: 100%;
   align-items: center;
   justify-content: center;
-  margin-top: 16px;
-
-  @media (min-width: 576px) {
-    margin-top: 21px;
-    margin-bottom: 40px;
-  }
+  margin-top: 24px;
 }
 
 .OtherLink {

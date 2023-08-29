@@ -162,14 +162,13 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
           onSubmit={handleSubmit(onSubmit)}
           className={styles.Form}
         >
-                    <h1 className={styles.Title}>Log in</h1>
+          <h1 className={styles.Title}>Log in</h1>
 
-          <FloatLabel isUsername={true} label="Mobile phone number" name="username" value={getValues('username')}>    
-                  
+          <FloatLabel isUsername={true} label="Mobile phone number" name="username" value={getValues('username')}>
             <CountryCode
-            errors={errors.username}
-            control={control}
-            fieldName="username"
+              errors={errors.username}
+              control={control}
+              fieldName="username"
             />
           </FloatLabel>
 
