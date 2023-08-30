@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import TouchInput from 'components/TouchInput';
 import TouchDropdown from 'components/TouchDropdown';
+import TouchButton from 'components/TouchButton';
 
 interface IProps {
   confirmAnswer: () => void;
@@ -8,6 +9,7 @@ interface IProps {
   setAnswer: (string: string) => void;
   setWrongAnswer: (bool: boolean) => void;
   answer: string;
+  isLoading: boolean;
   wrongAnswer: boolean;
 }
 
@@ -17,7 +19,8 @@ const QuestionEnterStep: React.FC<IProps> = ({
   setAnswer,
   answer,
   wrongAnswer,
-  setWrongAnswer
+  setWrongAnswer,
+  isLoading
 }) => {
 
   const [isRequired, setIsRequired] = useState(false);
@@ -64,13 +67,14 @@ const QuestionEnterStep: React.FC<IProps> = ({
         resetError={handlerResetError}
         onChange={handlerOnChange}
       />
-      <button
+      <TouchButton
+        className='mt-8'
+        type='auth'
         onClick={handlerOnSubmit}
-        type='button'
-        className='rounded-full bg-high-dark text-nimbus w-full p-4 h-full mt-8 text-center font-tilt-warp text-sm font-medium leading-none disabled:cursor-not-allowed'
+        isLoading={isLoading}
       >
         Submit
-      </button>
+      </TouchButton>
     </div>
   );
 };

@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import PhoneInput from 'components/PhoneInput';
+import TouchButton from "../../../../../components/TouchButton";
 
 interface IProps {
   onVerify: (boolean: boolean) => void;
   setIsDisabled: (boolean: boolean) => void;
   isDisabled: boolean;
+  isLoading: boolean;
   refCaptcha: React.MutableRefObject<any>;
   username: string;
   onChange: (value: string) => void;
@@ -19,6 +21,7 @@ const NumberEnterStep: React.FC<IProps> = ({
   onChange,
   setIsDisabled,
   isDisabled,
+  isLoading,
   refCaptcha,
 }) => {
 
@@ -42,17 +45,18 @@ const NumberEnterStep: React.FC<IProps> = ({
         sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
         onChange={() => setIsDisabled(false)}
       />
-      <button
+      <TouchButton
+        className='mt-8'
+        type='auth'
         onClick={handleOnVerify}
-        disabled={isDisabled}
-        type='button'
-        className='rounded-full bg-high-dark text-nimbus w-full p-4 h-full mt-8 text-center font-tilt-warp text-sm font-medium leading-none disabled:cursor-not-allowed'
+        isDisabled={isDisabled}
+        isLoading={isLoading}
       >
         Send code
-      </button>
-      <div className={'text-high-dark underline font-roboto text-xs font-normal leading-4 mt-5'}>
+      </TouchButton>
+      <div className={'text-high-dark font-roboto text-xs font-normal leading-4 mt-5'}>
         <span>Go back? </span>
-        <Link to="/login" className='hover:text-high-dark hover:underline'>
+        <Link to='/login' className='underline hover:text-high-dark hover:underline'>
           Log in
         </Link>
       </div>

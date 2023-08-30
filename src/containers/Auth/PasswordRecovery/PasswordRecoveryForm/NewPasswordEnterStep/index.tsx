@@ -1,12 +1,15 @@
 import React, { ChangeEvent, useState } from 'react';
 import TouchInput from 'components/TouchInput';
+import TouchButton from 'components/TouchButton';
 
 interface IProps {
   onSubmitRecover: (password: string) => Promise<void>;
+  isLoading: boolean;
 }
 
 const NewPasswordEnterStep: React.FC<IProps> = ({
   onSubmitRecover,
+  isLoading
 }) => {
 
   const [newPassword, setNewPassword] = useState<string>('');
@@ -21,6 +24,7 @@ const NewPasswordEnterStep: React.FC<IProps> = ({
 
   const handleOnChangeConfirm = (e: ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value);
+    checkPassword(newPassword);
   }
 
   const handleOnSubmit = (): void => {
@@ -55,25 +59,28 @@ const NewPasswordEnterStep: React.FC<IProps> = ({
         onChange={handleOnChangePassword}
         resetError={setErrPassword}
         checkError={checkPassword}
-        placeholder="Enter new password here"
-        type="password"
+        placeholder='Enter new password here'
+        type='password'
+        isVerified={isPasswordVerified && newPassword === confirmPassword}
         className={'mb-4'}
       />
       <TouchInput
-        id="confirmPassword"
+        id='confirmPassword'
         value={confirmPassword}
         onChange={handleOnChangeConfirm}
         resetError={setErrConfirm}
         errorMessage={errConfirm}
-        placeholder="Confirm password here"
-        type="password"
+        placeholder='Confirm password here'
+        type='password'
       />
-      <button
+      <TouchButton
+        className='mt-8'
+        type='auth'
         onClick={handleOnSubmit}
-        type='button'
-        className='rounded-full bg-high-dark text-nimbus w-full p-4 h-full mt-8 text-center font-tilt-warp text-sm font-medium leading-none disabled:cursor-not-allowed'>
+        isLoading={isLoading}
+      >
         Reset password
-      </button>
+      </TouchButton>
     </div>
   );
 };
