@@ -73,7 +73,7 @@ const AppRoutes = () => {
           <Route path="/subscription/:id" element={<SubscriptionNew />} />
           <Route path="/post-conditions" element={<ManageConditions />} />
           <Route path="/help-and-support" element={<HelpAndSupport />} />
-          <Route path="/prediction/:id" element={<Prediction />} />
+          <Route path="/prediction" element={<Prediction />} />
           <Route path="/success" element={<Success />} />
           <Route path="/error" element={<Error />} />
         </Route>

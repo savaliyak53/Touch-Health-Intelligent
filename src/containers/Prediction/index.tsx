@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import Layout from '../../layouts/Layout/Layout';
-import { getInfluencer } from '../../services/dashboardservice';
+import { getConditionById, getInfluencer } from '../../services/dashboardservice';
 import { dateFormatted } from '../../utils/lib';
 import PredictionGraph from "../../components/PredictionGraph";
 import TemporaryBackground from "../../components/PredictionGraph/TemporaryBackground";
+import { useSearchParams } from 'react-router-dom';
 
 type influencerDataTypes = {
   name: string;
@@ -23,27 +24,37 @@ type influencerDataTypes = {
 }
 
 const Prediction = () => {
-  const {id} = useParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 	const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [startY,setStartY] = useState<number>(0);
   const [influencerData, setInfluencerData] = useState<influencerDataTypes | null>(null);
   const [error, setError] = useState<any>();
 
-  const getInfluencerData = () => {
-    if(id){
-      getInfluencer(id).then((response: any) => {
-        if (response.data) {
-          setInfluencerData(response.data);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
+  const id = searchParams.get('id');
+  const predictionType = searchParams.get('type');
+
+  const getInfluencerData = async () => {
+    if (!id) {
+      return;
+    }
+    try {
+      let response;
+      if (predictionType === "conditions") {
+        response = await getConditionById(id);
+      } else if (predictionType === "influencers") {
+        response = await getInfluencer(id);
+      }
+      if (response?.data) {
+        setInfluencerData(response.data);
+      }
+    } catch (error: any) {
+      if (error.response) {
         setError({
-            code: error.response.status,
-            message: error.response.data.details,
-          });
-      });
+          code: error.response.status,
+          message: error.response.data.details,
+        });
+      }
     }
   };
 

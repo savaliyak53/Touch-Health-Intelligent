@@ -81,7 +81,7 @@ const EntityListWidget: FC<IProps> = ({type}) => {
   }, []);
 
   const handlerOnClick = (item: ITest) => {
-    navigate(`/prediction/${item.id}`);
+    navigate(`/prediction?type=${type}&id=${item.id}`);
   }
 
   useEffect(() => {
