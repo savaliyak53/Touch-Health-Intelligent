@@ -134,7 +134,7 @@ module.exports = {
       boxShadow: {
         primary: '0px 4px 0px 0px #F0ECE7',
         active: '0 4px 0 0 rgba(50, 83, 202, 1)',
-        verificate: '0 4px 0 0 rgba(179, 255, 209, 1)',
+        verified: '0 4px 0 0 rgba(179, 255, 209, 1)',
         error: '0 4px 0 0 rgba(242, 103, 73, 1)'
       },
       fontFamily: {

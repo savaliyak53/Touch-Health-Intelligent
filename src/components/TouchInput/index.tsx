@@ -47,7 +47,7 @@ const TouchInput: FC<InputProps> = ({
   }, [errorMessage]);
 
   useEffect(() => {
-    setActiveClass(isVerified ? 'shadow-verificate' : 'shadow-primary');
+    setActiveClass(isVerified ? 'shadow-verified' : 'shadow-primary');
   }, [isVerified]);
 
   const handleTogglePasswordVisibility = () => {
@@ -65,7 +65,7 @@ const TouchInput: FC<InputProps> = ({
   const onBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val = event.target.value;
     setFocusOrFilled(!!val);
-    setActiveClass(isVerified ? 'shadow-verificate' : 'shadow-primary');
+    setActiveClass(isVerified ? 'shadow-verified' : 'shadow-primary');
     if (checkError) {
       checkError(val);
     }

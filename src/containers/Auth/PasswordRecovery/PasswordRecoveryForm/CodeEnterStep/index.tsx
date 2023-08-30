@@ -127,11 +127,7 @@ const CodeEnterStep: React.FC<IProps> = ({
         <Tooltip
           color="orange"
           placement="bottom"
-          title={
-            error
-              ? 'Incorrect verification code'
-              : 'Invalid verification code'
-          }
+          title='Incorrect verification code'
           open={error}
         />
         <TouchButton

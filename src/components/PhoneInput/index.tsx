@@ -42,7 +42,7 @@ const TelephoneInput = ({ disabled, value, onChange, placeholder }: IProps) => {
 
   useEffect(() => {
     setFocusOrFilled(!!value)
-    setActiveClass(!isValidPhoneNumber(value || '') ? 'shadow-primary' : 'shadow-verificate');
+    setActiveClass(!isValidPhoneNumber(value || '') ? 'shadow-primary' : 'shadow-verified');
   }, [value])
 
   const handleMouseEnter = () => {
@@ -55,7 +55,7 @@ const TelephoneInput = ({ disabled, value, onChange, placeholder }: IProps) => {
   const handleOnBlur = () => {
     setFocusOrFilled(!!value)
     setError(!isValidPhoneNumber(value || ''));
-    setActiveClass('shadow-verificate');
+    setActiveClass('shadow-verified');
   };
 
   const handleOnFocuse = () => {
