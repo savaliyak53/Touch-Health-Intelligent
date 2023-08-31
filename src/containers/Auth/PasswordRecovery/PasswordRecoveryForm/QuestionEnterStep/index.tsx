@@ -58,7 +58,7 @@ const QuestionEnterStep: React.FC<IProps> = ({
         Please help us protect your account. Select a security question and
         input answer. You can use this to get back access to your account.
       </p>
-      <TouchDropdown placeholder={question}/>
+      <TouchDropdown value={question}/>
       <TouchInput
         value={answer}
         placeholder="Answer"
