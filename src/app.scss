@@ -1113,7 +1113,7 @@
   }
 }
 .FreeTrial-Modal {
-  width: 100vw !important;
+  width: 50vw !important;
   .ant-modal-content {
     border-radius: 0;
     height: 100vh;
@@ -1165,6 +1165,9 @@
   }
   .ant-modal-footer .ant-btn + .ant-btn:not(.ant-dropdown-trigger) {
     margin-left: auto;
+  }
+  @media (max-width: 812px) {
+    width: 100vw !important;
   }
 }
 .Goals-Modal {
@@ -1338,7 +1341,7 @@
 .Submit-Button.ant-btn {
   border-radius: 100px;
   height: auto;
-  padding: 18px 54px;
+  padding: 18px;
   background-color: $primary-color1;
   color: #fff;
   font-size: 19px;
@@ -1366,12 +1369,15 @@
     border: none;
     color: $primary-color1;
   }
+  @media (max-width: 812px) {
+    width: 100% !important;
+  }
 }
 
 .Secondary-Button.ant-btn {
   border-radius: 100px;
   height: auto;
-  padding: 18px 54px;
+  padding: 16px;
   background-color: #fff;
   color: $primary-color1;
   font-size: 20px;
@@ -1398,6 +1404,9 @@
     background-color: rgba(#3a3a3a, 0.2);
     border: none;
     color: $primary-color1;
+  }
+  @media (max-width: 812px) {
+    width: 100% !important;
   }
 }
 .Button-Drawer.ant-btn {
