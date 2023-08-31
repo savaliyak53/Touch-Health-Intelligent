@@ -1874,3 +1874,19 @@
     color: #204ECF
   }
 }
+
+@keyframes antRotate {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.button-loader {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  border-top-color: currentColor;
+  animation: antRotate 1s linear infinite;
+}

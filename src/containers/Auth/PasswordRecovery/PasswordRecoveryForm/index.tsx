@@ -5,7 +5,6 @@ import {
   requestPhoneOTP,
 } from 'services/authservice';
 import { toast } from 'react-toastify';
-import styles from '../../Login/Login.module.scss';
 import { onlyNumbers } from 'utils/lib';
 import {
   checkAnswer,
@@ -20,6 +19,7 @@ const PasswordRecovery: React.FC = () => {
   const navigate = useNavigate();
 
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [disableSubmit, setDisableSubmit] = useState(true);
 
   const [isCodeSent, setIsCodeSent] = useState(false);
@@ -51,6 +51,7 @@ const PasswordRecovery: React.FC = () => {
   }, []);
 
   const onSubmitCode = async () => {
+    setIsLoading(true);
     getSecurityQuestions(onlyNumbers(username), code)
       .then((response) => {
         if (response && response.security_questions.length > 0) {
@@ -65,10 +66,11 @@ const PasswordRecovery: React.FC = () => {
       })
       .catch((error: any) => {
         toast.error(error.response.data.details || 'Error');
-      });
+      }).finally(() => setIsLoading(false));
   };
 
   const confirmAnswer = async () => {
+    setIsLoading(true);
     checkAnswer({
       username: onlyNumbers(username),
       code: code,
@@ -88,11 +90,12 @@ const PasswordRecovery: React.FC = () => {
           setWrongAnswer(true);
         }
         toast.error(err.response.data.details || 'Error');
-      });
+      }).finally(() => setIsLoading(false));
   };
 
   const onSubmitRecover = async (password: string) => {
     if (changePassword) {
+      setIsLoading(true);
       postResetPassword({
         username: onlyNumbers(username),
         code: code,
@@ -111,7 +114,7 @@ const PasswordRecovery: React.FC = () => {
         })
         .catch((error: any) => {
           toast.error(error.response.data.details || 'Error');
-        });
+        }).finally(() =>  setIsLoading(false));
     } else {
       setChangePassword(false);
       setEnterNumber(true);
@@ -120,12 +123,14 @@ const PasswordRecovery: React.FC = () => {
 
   const handleOTPRequest = (isResendOTP = false): void => {
     setIsDisabled(true);
+    setIsLoading(true);
     const token = isResendOTP
       ? localStorage.getItem('recaptcha-token')
       : refCaptcha?.current?.getValue();
 
     if (!onlyNumbers(username)) {
       setIsDisabled(false);
+      setIsLoading(false);
       return;
     }
     if (!isResendOTP) {
@@ -154,19 +159,21 @@ const PasswordRecovery: React.FC = () => {
         toast.error(error?.response?.data?.details || 'Error');
       })
       .finally(() => {
+        setIsLoading(false);
         refCaptcha?.current?.reset();
       });
   };
 
   return (
-    <div className={styles.Login}>
-      <div className={styles.FormWrap}>
+    <div className='w-full'>
+      <div className='rounded-[5px] bg-white shadow-primary w-full px-[16px] pt-[52px] pb-[84px] md:py-24'>
         {/*first step*/}
         {enterNumber && (
           <NumberEnterStep
             onVerify={handleOTPRequest}
             setIsDisabled={setIsDisabled}
             isDisabled={isDisabled}
+            isLoading={isLoading}
             refCaptcha={refCaptcha}
             onChange={setUsername}
             username={username}
@@ -179,6 +186,7 @@ const PasswordRecovery: React.FC = () => {
             code={code}
             setCode={setCode}
             onSubmitCode={onSubmitCode}
+            isLoading={isLoading}
             setDisableSubmit={setDisableSubmit}
             handleOTPRequest={handleOTPRequest}
             disableSubmit={disableSubmit}
@@ -191,6 +199,7 @@ const PasswordRecovery: React.FC = () => {
             confirmAnswer={confirmAnswer}
             question={question}
             answer={answer}
+            isLoading={isLoading}
             setAnswer={setAnswer}
             setWrongAnswer={setWrongAnswer}
             wrongAnswer={wrongAnswer}
@@ -198,7 +207,7 @@ const PasswordRecovery: React.FC = () => {
         )}
         {/*fourth step*/}
         {changePassword && (
-          <NewPasswordEnterStep onSubmitRecover={onSubmitRecover} />
+          <NewPasswordEnterStep onSubmitRecover={onSubmitRecover} isLoading={isLoading}/>
         )}
       </div>
     </div>

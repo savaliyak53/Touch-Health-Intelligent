@@ -1,0 +1,19 @@
+@import '../../variables.module';
+
+#phone-input {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  width: 100%;
+  color: #000;
+  background: none;
+
+  &::placeholder {
+    color: #000;
+    opacity: 0.5;
+    font-size: 14px;
+  }
+}
+
+#touch-input-wrapper .PhoneInput {
+  padding-top: 6px !important;
+}

@@ -3,13 +3,14 @@ import React, {
   Dispatch,
   SetStateAction,
   useEffect,
-  useState,
+  useState
 } from 'react';
 import { useTimer } from 'react-timer-hook';
 import ReCAPTCHA from 'react-google-recaptcha';
 import ReactCodeInput from 'react-code-input';
 import { Tooltip } from 'antd';
 import ConfirmModal from 'components/Modal/ConfirmModal';
+import TouchButton from 'components/TouchButton';
 
 interface IProps {
   code: string | undefined;
@@ -18,6 +19,7 @@ interface IProps {
   setDisableSubmit: (boolean: boolean) => void;
   handleOTPRequest: (boolean: boolean) => void;
   disableSubmit: boolean;
+  isLoading: boolean;
   refCaptcha: React.MutableRefObject<any>;
 }
 
@@ -44,12 +46,15 @@ const CodeEnterStep: React.FC<IProps> = ({
   handleOTPRequest,
   disableSubmit,
   refCaptcha,
+  isLoading
 }) => {
   const [modalOpen, setModalOpen] = useState(true);
   const [enableTimer, setEnableTimer] = useState(true);
   const [openRecaptcha, setOpenRecaptcha] = useState(false);
   const [error, setError] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
+  const fieldsCount = 6;
+  const inputs = document.querySelectorAll<HTMLInputElement>('.react-code-input input');
 
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
@@ -87,6 +92,7 @@ const CodeEnterStep: React.FC<IProps> = ({
     setCode(value);
     setDisableSubmit(false);
     setError(false);
+    inputs.forEach((input, index) => input.style.boxShadow = 'rgba(0, 0, 0, 0.1) 0px 0px 10px 0px');
   };
 
   const handleOnSubmit = (): void => {
@@ -94,6 +100,13 @@ const CodeEnterStep: React.FC<IProps> = ({
       onSubmitCode();
     } else {
       setError(true);
+      inputs.forEach((input, index) => {
+        if (!input.value) {
+          input.style.boxShadow = 'rgba(245, 39, 39, 0.5) 0px 0px 10px 0px';
+        } else {
+          input.style.boxShadow = 'rgba(0, 0, 0, 0.1) 0px 0px 10px 0px';
+        }
+      });
     }
   };
 
@@ -102,11 +115,11 @@ const CodeEnterStep: React.FC<IProps> = ({
       <form onSubmit={onSubmitCode} className='flex flex-col items-center justify-center'>
         <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>Verification code</h1>
         <ReactCodeInput
-          className='!flex justify-between flex-wrap w-full'
+          className='!flex justify-between flex-wrap w-full react-code-input'
           inputStyle={codInputStyle}
           name={'code'}
           inputMode="numeric"
-          fields={6}
+          fields={fieldsCount}
           type="number"
           onChange={handleOnChange}
           value={code}
@@ -114,21 +127,18 @@ const CodeEnterStep: React.FC<IProps> = ({
         <Tooltip
           color="orange"
           placement="bottom"
-          title={
-            error
-              ? 'Verification code is required'
-              : 'Invalid verification code'
-          }
+          title='Incorrect verification code'
           open={error}
         />
-        <button
+        <TouchButton
+          className='mt-8'
+          type='auth'
           onClick={handleOnSubmit}
-          type='button'
-          className='rounded-full bg-high-dark text-nimbus w-full p-4 h-full mt-8 text-center font-tilt-warp text-sm font-medium leading-none disabled:cursor-not-allowed'
-          disabled={disableSubmit}
+          isDisabled={disableSubmit}
+          isLoading={isLoading}
         >
           Verify
-        </button>
+        </TouchButton>
         {openRecaptcha && (
           <ReCAPTCHA
             className='mx-auto mt-6 mb-0'

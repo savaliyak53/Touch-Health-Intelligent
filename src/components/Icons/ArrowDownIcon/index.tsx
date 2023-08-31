@@ -1,18 +1,15 @@
 import React from 'react';
 
 interface CustomSVGIconProps {
-  color?: string;
-  size?: number;
   className?: string;
 }
 
 const ArrowDownIcon: React.FC<CustomSVGIconProps> = ({
-  color = '#080815',
-  size = 24,
-  className = '',
-}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" className={className} width={size} height={size}>
-    <path fill={color} d="M12 17.414 3.293 8.707l1.414-1.414L12 14.586l7.293-7.293 1.414 1.414L12 17.414z" />
+   className = ''
+ }) => (
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="10" height="15" fill="none">
+    <path fill="#204ECF"
+          d="M9.605 10.552A.801.801 0 1 0 8.53 9.364l-2.434 2.202V.843a.843.843 0 1 0-1.685 0V11.59L1.964 9.378a.792.792 0 1 0-1.062 1.174l3.68 3.33a1 1 0 0 0 1.342 0l3.68-3.33Z" />
   </svg>
 );
 
