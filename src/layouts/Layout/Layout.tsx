@@ -170,7 +170,7 @@ const Layout = ({
                 backgroundImage: `${
                   withoutMargin
                     ? ''
-                    : `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`
+                    : dashboard && `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`
                 }`,
               }}
             />
