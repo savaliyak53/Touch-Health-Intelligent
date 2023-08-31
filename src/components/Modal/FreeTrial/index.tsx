@@ -48,7 +48,7 @@ const FreeTrialModal = ({
             {secondaryButtonText}
           </Button>
         </div>)}
-        {!subscriptionExpired && (<div className={styles['Btn-group']}>
+        {(trialExpired && !subscriptionExpired) && (<div className={styles['Btn-group']}>
           <Button key="submit" className={'Secondary-Button'}               
             onClick={() => {
                 logoutUser();
