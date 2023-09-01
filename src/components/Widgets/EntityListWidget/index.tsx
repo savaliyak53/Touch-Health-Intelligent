@@ -109,7 +109,7 @@ const EntityListWidget: FC<IProps> = ({type}) => {
               <hr className="border-rae mx-4"/>
               <div className="flex px-4 justify-between gap-x-6 py-2">
                 <div className="flex w-full items-center">
-                  <div className={`${index === 0 && "relative top-[12px]"} flex-1 text-left font-roboto font-medium leading-[14px] text-[14px]`}>
+                  <div className={`flex-1 text-left font-roboto font-medium leading-[14px] text-[14px]`}>
                     {item.name}
                   </div>
                   <div className="flex-1 flex justify-between min-w-0">

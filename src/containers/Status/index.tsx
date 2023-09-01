@@ -366,7 +366,6 @@ const Status: FC<IProps> = ({overview}) => {
             <Button className={'Button-Drawer'}>
               Add data about {drawerTitle}
             </Button>
-            <Button className={'Button-Drawer'}>View guidance</Button>
           </>
         }
       />

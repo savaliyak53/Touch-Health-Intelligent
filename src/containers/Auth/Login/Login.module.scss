@@ -9,12 +9,12 @@
   background-size: cover;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-  @media (min-width: 576px) {
-    background-image: url('../../../../public/assets/images/background-desktop-auth.png');
-    background-repeat: no-repeat;
-    background-position: 100% center;
-    background-size: cover;
-  }
+  // @media (min-width: 576px) {
+  //   background-image: url('../../../../public/assets/images/background-desktop-auth.png');
+  //   background-repeat: no-repeat;
+  //   background-position: 100% center;
+  //   background-size: cover;
+  // }
 }
 
 .SignupBGWrap::-webkit-scrollbar {
@@ -42,18 +42,18 @@
 .LogoDesktoop {
   display: none;
 
-  @media (min-width: 576px) {
-    display: block;
-    height: 70px;
-  }
+  // @media (min-width: 576px) {
+  //   display: block;
+  //   height: 70px;
+  // }
 }
 
 .LogoMobile {
   display: block;
 
-  @media (min-width: 576px) {
-    display: none;
-  }
+  // @media (min-width: 576px) {
+  //   display: none;
+  // }
 }
 
 .Title {
@@ -129,16 +129,16 @@
   background: #080815 !important;
   color: #f0ece7 !important;
   width: 100%;
-  padding: 16px 32px;
-  height: 100%;
+  padding: 16px 32px !important;
+  height: 100% !important;
   margin-top: 32px;
-  min-height: 56px;
+  min-height: 50px;
   text-align: center;
-  font-family: 'Tilt Warp';
+  font-family: 'Tilt Warp' !important;
   font-size: 14px;
   font-style: normal;
-  font-weight: 800;
-  line-height: 14px;
+  font-weight: 800 !important;
+  line-height: 14px !important;
 }
 
 .ToSignup {

@@ -38,7 +38,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [modalText, setModalText] = useState('');
   const [showLockAccountModal, setShowLockAccountModal] = useState(false);
-  const [error, setError] = useState<any>();
+  const [error, setAuthError] = useState<any>();
   const [isEye, setIsEye] = useState(true);
   const [activeClass, setActiveClass] = useState(styles.PasswordInput);
   const [isHovered, setIsHovered] = useState(false);
@@ -53,6 +53,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
     setValue,
     watch,
     control,
+    setError,
     formState: { errors },
   } = useForm<IFormInputs>({
     mode: 'onSubmit',
@@ -112,8 +113,11 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
       if (loginResponse?.response?.status === 429) {
         setShowLockAccountModal(true);
         setModalText(loginResponse?.response?.data?.details);
+      } else if(loginResponse?.response?.status === 403) {
+        setError('username', {type: "validate", message: loginResponse.response.data?.details})
+        setError('password', {type: "validate", message: loginResponse.response.data?.details})
       } else {
-        setError({
+        setAuthError({
           code: loginResponse?.response?.status,
           message: loginResponse.response.data?.details,
         });
