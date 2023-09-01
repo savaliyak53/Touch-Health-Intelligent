@@ -263,12 +263,12 @@ function UserCondition() {
           />
         </div>
       ) : (
-        <div className="Content-wrap Pain">
+        <div className="Content-wrap Pain relative">
           {question && (
             <>
-              {/* <div>
-                <div className="text-[22px] text-primary-delft-dark font-['tilt_warp']">Onboarding <span className='pl-[9px] text-[12px] text-[#F26749] relative bottom-[2px]'>{question?.flow_index >= question?.flow_length && `${question?.flow_index}/${question?.flow_length}`}</span></div>
-              </div> */}
+              {question?.flow_length &&
+                <div className="text-[22px] text-primary-delft-dark font-['tilt_warp'] absolute top-[-47px] left-[121px]"><span className='pl-[9px] text-[12px] text-[#F26749] relative bottom-[2px]'>{question?.flow_index <= question?.flow_length && `${question?.flow_index}/${question?.flow_length}`}</span></div>
+              }
               <Question
                 key={refId}
                 selectedValue={value}
