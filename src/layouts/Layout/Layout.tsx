@@ -12,7 +12,6 @@ import ConfirmModal from 'components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
 import { backButtonPreventionRoutes } from 'Routes/Constants';
 import LogoDesktop from 'components/Icons/LogoDesktop';
-import LogoSmal from 'components/Icons/LogoSmal';
 
 type Props = {
   defaultHeader: boolean;
@@ -24,6 +23,7 @@ type Props = {
   children?: React.ReactChild | React.ReactChild[];
   withoutMargin?: boolean;
   streak?: number;
+  addPadding?: boolean;
 };
 const Layout = ({
   children,
@@ -32,7 +32,8 @@ const Layout = ({
   dashboard,
   title,
   withoutMargin = false,
-  streak
+  streak,
+  addPadding
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
   const [trialRemaining, setTrialRemaining] = useState<string>('');
@@ -176,7 +177,7 @@ const Layout = ({
             />
             <div
               className={`w-full ${
-                withoutMargin ? '' : 'max-w-[390px]'
+                withoutMargin || addPadding ? '' : 'max-w-[390px]'
               } relative flex text-center `}
             >
               <SiteHeader
@@ -194,6 +195,7 @@ const Layout = ({
                     <div className="h-[90px] z-0 mt-5" />
                     <LogoSmal className='inline  mt-14' />
                   </>
+
                 )}
 
                 <div className="flex flex-col h-full">{children}</div>

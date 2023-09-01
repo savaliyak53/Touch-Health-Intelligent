@@ -1,47 +1,5 @@
 @import '../../variables.module.scss';
 
-.Container {
-  position: relative;
-  // .error-message {
-  //   color: red;
-  // }
-  .TermsTitle1 {
-    text-align: left;
-    font-family: $font-title;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 34px;
-    line-height: 110%;
-    letter-spacing: -0.01em;
-    color: $primary-color2;
-    padding-top: 50px;
-    padding-bottom: 10px;
-    position: fixed;
-    background-color: #fff;
-    width: 100%;
-  }
-  @media screen and (min-width: 992px) {
-    .TermsTitle1 {
-      max-width: 46vw;
-    }
-  }
-  .TermsTitle3 {
-    font-family: $font-body;
-    font-size: 24px;
-    line-height: 1.1;
-    font-weight: 700;
-    color: $primary-color1;
-    margin-top: 50px;
-  }
-  .TermsText {
-    font-family: $font-body;
-    font-size: 16px;
-    line-height: 2;
-    font-weight: 400;
-    color: $primary-color2;
-    margin-top: 30px;
-  }
-}
 .TermsBtnWrap {
   background-image: linear-gradient(transparent, white);
   margin: 0 auto;

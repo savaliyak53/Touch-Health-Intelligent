@@ -31,7 +31,8 @@ module.exports = {
         'gradient4': 'linear-gradient(135deg, #204ECF 0%, #F26749 0.01%, #F9A187 100%)',
         'gradient5':
           'linear-gradient(135deg, #83A5F2 0%, #EA9836 90.85%)',
-        "buttongradient": "linear-gradient(233deg, #204ECF 0%, #F9A197 100%)"
+        "buttongradient": "linear-gradient(272deg, #204ECF 10.29%, #F9A197 92.77%)",
+        "buttongradientBlack": "linear-gradient(272deg, #080815 10.29%, rgba(8, 8, 21, 0.50) 92.77%)",
       },
       colors: {
         primary: {
@@ -135,7 +136,9 @@ module.exports = {
         primary: '0px 4px 0px 0px #F0ECE7',
         active: '0 4px 0 0 rgba(50, 83, 202, 1)',
         verified: '0 4px 0 0 rgba(179, 255, 209, 1)',
-        error: '0 4px 0 0 rgba(242, 103, 73, 1)'
+        error: '0 4px 0 0 rgba(242, 103, 73, 1)',
+        button: '2px 2px 0px 0px #83A5F2',
+        buttonBlack: '2px 2px 0px 0px rgba(8, 8, 21, 0.50)',
       },
       fontFamily: {
         'roboto': ['Roboto', 'sans-serif'],
