@@ -65,7 +65,7 @@ const TelephoneInput = ({ disabled, value, onChange, placeholder }: IProps) => {
   };
 
   return (
-    <div id='touch-input-wrapper' className={`relative w-full h-[60px] px-5 py-[18px] leading-4 bg-inputWhite rounded-md ${activeClass}`}>
+    <div id='touch-input-wrapper' className={`relative w-full h-[60px] px-5 py-[18px] leading-4 bg-dentist rounded-md ${activeClass}`}>
       <Tooltip
         color="orange"
         placement="bottomLeft"

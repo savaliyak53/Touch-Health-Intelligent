@@ -197,6 +197,7 @@ const Layout = ({
                 <div className="flex flex-col h-full">{children}</div>
               </div>
             </div>
+            {/*<CongratulationModal type={'data-points'} setClose={setClose} isOpen={openModal} value={16} />*/}
           </div>
           <div className="w-full max-w-[50%] bg-right bg-fit bg-no-repeat main-layout-background">
             <LogoDesktop className="float-right mr-12 mt-10" />

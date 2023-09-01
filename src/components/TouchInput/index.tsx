@@ -93,7 +93,7 @@ const TouchInput: FC<InputProps> = ({
   };
 
   return (
-    <div className={`relative w-full h-[60px] px-5 py-[18px] leading-4 bg-inputWhite rounded-md ${activeClass} ${className}`}>
+    <div className={`relative w-full h-[60px] px-5 py-[18px] leading-4 bg-dentist rounded-md ${activeClass} ${className}`}>
       <Tooltip
         title={errorMessage}
         placement="bottomRight"

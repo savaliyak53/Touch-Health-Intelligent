@@ -5,7 +5,8 @@ const screens = {
   lg: '992px', // tablet rotated / small desktop
   xl: '1200px', // big desktop
   xxl: '1400px',
-  '3xl': '1800px'
+  '3xl': '1800px',
+  dd: '812px' // hide right side for main layout
 }
 
 /** @type {import('tailwindcss').Config} */
@@ -72,7 +73,8 @@ module.exports = {
         white: "#fff",
         glass: "rgba(255, 255, 255, 0.50)",
         black: "#000",
-        inputWhite: '#fdfcfb'
+        oldBurgundy: '#362A2F',
+        carrot: '#EA9836'
       },
       fontSize: {
         subtitle1: [
