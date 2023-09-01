@@ -118,9 +118,6 @@ const SiteHeader = ({
                 <li>
                   <Link to="/preferences">Preferences</Link>
                 </li>
-                <li>
-                  <Link to="/integrations">Integrations</Link>
-                </li>
                 {process.env.REACT_APP_IS_BETA !== 'TRUE' && (
                   <li>
                     <Link to="/subscription">Subscription</Link>
