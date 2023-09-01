@@ -57,7 +57,7 @@ const TermsAndCondtions: FC = () => {
 
   return (
     <Layout defaultHeader={true} hamburger={false} addPadding={true} title={'Terms and Conditions'}>
-      <div className='max-h-[80vh] flex flex-col items-center justify-between'>
+      <div className=' flex flex-col items-center justify-between'>
         <div className='overflow-y-auto'>
           <p className='text-left text-[16px] leading-[2]'>
             {`These terms and conditions (“Agreement”) set forth the general terms and conditions of your use of the touchmedical.ca website (“Website”), “Touch Health Assistant - THA” mobile application (“Mobile Application”) and any of their related products and services (collectively, “Services”). This Agreement is legally binding between you (“User”, “you” or “your”) and Touch Medical Intelligence Inc. (“Touch Medical Intelligence Inc.”, “we”, “us” or “our”). If you are entering into this agreement on behalf of a business or other legal entity, you represent that you have the authority to bind such entity to this agreement, in which case the terms “User”, “you” or “your” shall refer to such entity. If you do not have such authority, or if you do not agree with the terms of this agreement, you must not accept this agreement and may not access and use the Services. By accessing and using the Services, you acknowledge that you have read, understood, and agree to be bound by the terms of this Agreement. You acknowledge that this Agreement is a contract between you and Touch Medical Intelligence Inc., even though it is electronic and is not physically signed by you, and it governs your use of the Services.
