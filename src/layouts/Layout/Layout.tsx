@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import SiteHeader from '../../components/SiteHeader/SiteHeader';
-import './Layout.scss';
-import { useLocation, useNavigate } from 'react-router';
-import { getUser } from '../../services/authservice';
-import { getUserSubscription } from '../../services/subscriptionService';
-import { signupFlow } from '../../utils/lib';
-import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
-import AuthContext from '../../contexts/AuthContext';
-import moment from 'moment';
-import ConfirmModal from '../../components/Modal/ConfirmModal';
-import { backButtonContent } from '../../constants';
-import { backButtonPreventionRoutes } from '../../Routes/Constants';
 import { Spin } from 'antd';
+import moment from 'moment';
+import SiteHeader from 'components/SiteHeader/SiteHeader';
+import { useLocation, useNavigate } from 'react-router';
+import { getUser } from 'services/authservice';
+import { getUserSubscription } from 'services/subscriptionService';
+import { signupFlow } from 'utils/lib';
+import ErrorInteractionModal from 'components/Modal/ErrorInteractionModal';
+import AuthContext from 'contexts/AuthContext';
+import ConfirmModal from 'components/Modal/ConfirmModal';
+import { backButtonContent } from '../../constants';
+import { backButtonPreventionRoutes } from 'Routes/Constants';
+import LogoDesktop from 'components/Icons/LogoDesktop';
 
 type Props = {
   defaultHeader: boolean;
@@ -19,14 +19,21 @@ type Props = {
   setDisableAllButtons?: React.Dispatch<React.SetStateAction<boolean>>;
   dashboard?: boolean;
   signupLogin?: string;
+  title?: string;
   children?: React.ReactChild | React.ReactChild[];
+  withoutMargin?: boolean;
+  streak?: number;
+  addPadding?: boolean;
 };
 const Layout = ({
   children,
   defaultHeader,
   hamburger,
   dashboard,
-  signupLogin,
+  title,
+  withoutMargin = false,
+  streak,
+  addPadding
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
   const [trialRemaining, setTrialRemaining] = useState<string>('');
@@ -73,11 +80,14 @@ const Layout = ({
     getUserSubscription()
       .then((res) => {
         setLoading(false);
-        if (res?.data?.data?.trialData?.trialEndDate && moment(res?.data?.data?.trialData?.trialEndDate).isAfter(moment())) {
+        if (
+          res?.data?.data?.trialData?.trialEndDate &&
+          moment(res?.data?.data?.trialData?.trialEndDate).isAfter(moment())
+        ) {
           setTrialRemaining(res?.data?.data?.trialData?.trialRemaining);
-        }
-        else if (
-          res.data.state == 'trial_expired' || res.data.state == 'subscription_expired'
+        } else if (
+          res.data.state == 'trial_expired' ||
+          res.data.state == 'subscription_expired'
         ) {
           setIsSubscribed(false);
           location.pathname !== '/subscription'
@@ -120,8 +130,8 @@ const Layout = ({
   };
   const handleOk = () => {
     setIsOpen(false);
-    if (signupStatus === 'onboarding') navigate('/questionnaire')
-    else if (isSubscribed) navigate('/dashboard')
+    if (signupStatus === 'onboarding') navigate('/questionnaire');
+    else if (isSubscribed) navigate('/dashboard');
     else navigate('/subscription');
   };
   const handleCancel = () => {
@@ -148,30 +158,51 @@ const Layout = ({
   useEffect(() => {
     if (error) throw error;
   }, [error]);
-
   return (
-    <div className={`Layout ${signupLogin}`}>
-      <div
-        className={
-          dashboard ? 'Layout-Transparent header-transp' : 'Layout-Transparent'
-        }
-      >
-        {loading ? (
-          <Spin size="large" className=" Spinner" />
-        ) : (
-          <>
-            <SiteHeader
-              defaultHeader={defaultHeader}
-              hamburger={hamburger}
-              trialRemaining={trialRemaining}
+    <div className="w-full max-w-[100%] flex overflow-hidden relative min-h-screen">
+      {loading ? (
+        <Spin size="large" className=" Spinner" />
+      ) : (
+        <>
+          <div className={`w-full h-full flex-1 flex items-center justify-center ${withoutMargin ? '' : 'px-4'}`}>
+            <div
+              className={`${dashboard ? "bg-[#F6F3F0]" : "bg-white"} bg-cover bg-no-repeat h-[100%] z-0 absolute top-0 left-0 main-layout-dashboard-background`}
+              style={{
+                backgroundImage: `${
+                  withoutMargin
+                    ? ''
+                    : dashboard && `url(${process.env.PUBLIC_URL}/assets/images/background-status-overview.svg)`
+                }`,
+              }}
             />
-            <div className={defaultHeader ? 'MobileScreen' : 'MobileScreen bg'}>
-              <div className="Layout-main">{children}</div>
+            <div
+              className={`w-full ${
+                withoutMargin || addPadding ? '' : 'max-w-[390px]'
+              } relative flex text-center `}
+            >
+              <SiteHeader
+                defaultHeader={defaultHeader}
+                hamburger={hamburger}
+                trialRemaining={trialRemaining}
+                title={title}
+                streak={streak}
+              />
+              <div className="max-w-full w-full h-full pt-13">
+                {dashboard || withoutMargin ? (
+                  <></>
+                ) : (
+                    <div className="h-[90px] z-0 mt-5" />
+                )}
+
+                <div className="flex flex-col h-full">{children}</div>
+              </div>
             </div>
-          </>
-        )}
-      </div>
-      <div className="Layout-graphics" />
+          </div>
+          <div className="w-full max-w-[50%] bg-right bg-fit bg-no-repeat main-layout-background">
+            <LogoDesktop className="float-right mr-12 mt-10" />
+          </div>
+        </>
+      )}
       <ConfirmModal
         title={'Confirmation'}
         open={isOpen}

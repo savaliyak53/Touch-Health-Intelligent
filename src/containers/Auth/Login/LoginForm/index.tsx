@@ -1,19 +1,26 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, set } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Button from '../../../../components/Button';
-import InputField from '../../../../components/Input';
+import Button from 'components/Button';
+import InputField from 'components/Input';
 import styles from '../Login.module.scss';
 import Authstyles from '../../Auth.module.scss';
 import { Tooltip } from 'antd';
 import CountryCode from '../../Country/CountryCode';
-import { ILogin } from '../../../../interfaces';
-import { getTokenExpiration, onlyNumbers, validateNumber } from '../../../../utils/lib';
+import { ILogin } from 'interfaces';
+import {
+  getTokenExpiration,
+  onlyNumbers,
+  validateNumber,
+} from 'utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
 import AccountLockModal from '../../../../components/Modal/AccountLockModal';
 import AuthContext, { AuthContextData } from '../../../../contexts/AuthContext';
 import { getSession, getUser } from '../../../../utils/lib';
+import ConfirmModal from '../../../../components/Modal/ConfirmModal';
+import FloatLabel from 'components/FloatLabel';
+
 
 type LoginFormProps = {
   onSubmit: SubmitHandler<IFormInputs>;
@@ -32,14 +39,19 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
   const [modalText, setModalText] = useState('');
   const [showLockAccountModal, setShowLockAccountModal] = useState(false);
   const [error, setError] = useState<any>();
+  const [isEye, setIsEye] = useState(true);
+  const [activeClass, setActiveClass] = useState(styles.PasswordInput);
+  const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
   const location: any = useLocation();
+  const [wrongCredentialsModal, setWrongCredentialsModal] = useState(false);
   const {
     register,
     handleSubmit,
     reset,
     getValues,
     setValue,
+    watch,
     control,
     formState: { errors },
   } = useForm<IFormInputs>({
@@ -48,6 +60,13 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
     shouldFocusError: true,
     shouldUnregister: false,
   });
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
@@ -90,103 +109,150 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
       navigate('/');
     } else {
       setIsLoading(false);
-      if (loginResponse?.response.status === 429) {
+      if (loginResponse?.response?.status === 429) {
         setShowLockAccountModal(true);
         setModalText(loginResponse?.response?.data?.details);
       } else {
-        setError({code: loginResponse?.response?.status, message: loginResponse.response.data?.details})
-      } 
+        setError({
+          code: loginResponse?.response?.status,
+          message: loginResponse.response.data?.details,
+        });
+        setWrongCredentialsModal(true);
+      }
     }
   };
+  const watchedValues = watch();
+  useEffect(() => {
+    const debounceId = setTimeout(() => {
+      setActiveClass(styles.PasswordInput);
+    }, 500);
+
+    if (
+      watchedValues.password != undefined &&
+      watchedValues.password.length !== 0
+    )
+      setActiveClass(styles.PasswordInputChange);
+    return () => {
+      clearTimeout(debounceId);
+    };
+  }, [watchedValues.password]);
 
   useEffect(() => {
-    if(error) throw(error)
-  },[error])
+    if (errors.password?.message) {
+      setIsEye(false);
+    } else {
+      setIsEye(true);
+    }
+  });
+
+  // useEffect(() => {
+  //    if (error) throw error;
+  // }, [error]);
 
   useEffect(() => {
-    window.scrollTo(0,0);
-    if(location.state?.username) setValue('username',validateNumber(location.state.username));
-  }, [])
-  
+    window.scrollTo(0, 0);
+    if (location.state?.username)
+      setValue('username', validateNumber(location.state.username));
+  }, []);
   return (
-    <div className={styles['Auth-wrap']}>
-      <form
-        role="login-form"
-        onSubmit={handleSubmit(onSubmit)}
-        className={styles['Auth-form']}
-      >
-        {/* <h2 className={`${styles["Auth-title"]} ${Authstyles["Auth-title"]}`}>Find your path to health</h2> */}
-        <h2 className={`Title ${styles['Auth-title']} `}>
-          Find your path to health
-        </h2>
-
-        <CountryCode
-          errors={errors.username}
-          control={control}
-          fieldName="username"
-        />
-        <Tooltip
-          color="orange"
-          placement="bottomLeft"
-          title={errors.password?.message}
-          open={errors.password ? true : false}
+    <div className={styles.Login}>
+      <div className={styles.FormWrap}>
+        <form
+          role="login-form"
+          onSubmit={handleSubmit(onSubmit)}
+          className={styles.Form}
         >
-          <InputField
-            id="password"
-            data-testid="pwd"
-            {...register('password', {
-              required: 'Password is required',
-            })}
-            placeholder="Password"
-            type={passwordShown ? 'text' : 'password'}
-            className={Authstyles['app-Input']}
-            isEye={true}
-            togglePassword={togglePassword}
+          <h1 className={styles.Title}>Log in</h1>
+
+          <FloatLabel isUsername={true} label="Mobile phone number" name="username" value={getValues('username')}>
+            <CountryCode
+              errors={errors.username}
+              control={control}
+              fieldName="username"
+            />
+          </FloatLabel>
+
+          <Tooltip
+            color="orange"
+            placement="bottomLeft"
+            title={errors.password?.message}
+            open={isHovered ? true : false}
+          >
+          <FloatLabel isUsername={false} label="Password" name="password" value={getValues('password')}>    
+
+            <InputField
+              id="password"
+              data-testid="pwd"
+              {...register('password', {
+                required: 'Password is required',
+              })}
+              placeholder="Password"
+              type={passwordShown ? 'text' : 'password'}
+              className={isEye ? activeClass : styles.PasswordInputIvalid}
+              isEye={isEye}
+              handleMouseEnter={handleMouseEnter}
+              handleMouseLeave={handleMouseLeave}
+              togglePassword={togglePassword}
+            />
+          </FloatLabel>
+
+          </Tooltip>
+          <AccountLockModal
+            title={'Too many retries'}
+            open={showLockAccountModal}
+            handleCancel={handleCancelModal}
+            handleOk={handleCancelModal}
+            renderData={<div>{modalText}</div>}
           />
-        </Tooltip>
-        <AccountLockModal
-          title={'Too many retries'}
-          open={showLockAccountModal}
-          handleCancel={handleCancelModal}
-          handleOk={handleCancelModal}
-          renderData={<div>{modalText}</div>}
-        />
-        <ReCAPTCHA
-          className={Authstyles['recaptcha']}
-          ref={refCaptcha}
-          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
-          onChange={() => {
-            setIsDisabled(false);
-          }}
-        />
-        <Button
-          className={'Submit-Button'}
-          onClick={handleSubmit(onSubmit)}
-          loading={isLoading}
-          disabled={isDisabled}
-          data-testid="submit"
+          <ConfirmModal
+            title={'Error'}
+            open={wrongCredentialsModal}
+            handleCancel={() => setWrongCredentialsModal(false)}
+            handleOk={() => setWrongCredentialsModal(false)}
+            className="Delete-Modal"
+            renderData={
+              <div className="Description">
+                <div>{error?.message}</div>
+              </div>
+            }
+          />
+          <ReCAPTCHA
+            className={Authstyles['recaptcha']}
+            ref={refCaptcha}
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
+            onChange={() => {
+              setIsDisabled(false);
+            }}
+          />
+          <Button
+            className={styles.LoginButton}
+            onClick={handleSubmit(onSubmit)}
+            loading={isLoading}
+            disabled={isDisabled}
+            data-testid="submit"
+          >
+            Log in
+          </Button>
+
+          <div className={styles.ToSignup}>
+            <span>Don’t have an account? </span>
+            <Link to="/signup" className={styles.Link}>
+              Sign up
+            </Link>
+          </div>
+        </form>
+      </div>
+      <div className={styles.LinksWrap}>
+        <a
+          href="https://www.touchmedical.ca/customer-care"
+          className={styles.OtherLink}
+          target='blank'
         >
-          Login
-        </Button>
-      </form>
-
-      <div className={Authstyles['Links-wrap']}>
-        <div className={Authstyles['Auth-terms-signup']}>
-          For customer support, please follow this{' '}
-          <a href="https://www.touchmedical.ca/customer-care">link</a>
-        </div>
-
-        <div className={Authstyles['Auth-terms-signup']}>
-          <Link to="/password-reset" className={Authstyles['Auth-signup']}>
-            Reset password
-          </Link>
-        </div>
-
-        <div className={Authstyles['Auth-terms-signup']}>
-          <Link to="/signup" className={Authstyles['Auth-signup']}>
-            Create an Account?
-          </Link>
-        </div>
+          Customer care
+        </a>
+        <Link to="/password-reset" className={styles.OtherLink}>
+          Forgot password
+        </Link>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { createContext, ReactElement, useState } from 'react';
-import { getInsightsService } from '../services/dashboardservice';
+import { getInsightsService } from 'services/dashboardservice';
 export interface InsightContextModel {
   insights?: any;
   isLoading?: boolean;

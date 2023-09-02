@@ -7,7 +7,7 @@ import {
   ArrowUpOutlined,
 } from '@ant-design/icons';
 import './index.scss';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import { InsightContext } from '../../contexts/InsightContext';
 import { useNavigate } from 'react-router-dom';
 const Timeline = () => {
@@ -117,7 +117,7 @@ const Timeline = () => {
   );
   return (
     <>
-      <Layout defaultHeader={true} hamburger={true} dashboard={false}>
+      <Layout defaultHeader={true} hamburger={true} dashboard={false} title={'Time line'}>
         <Spin spinning={loader}>
           <div className="Content-wrap Corr">
             <div className="Insite-btn" onClick={handleInsightsChange}>

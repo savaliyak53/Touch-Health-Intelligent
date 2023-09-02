@@ -4,7 +4,7 @@ import {
   loginService,
   logoutService,
   signUpService,
-} from '../services/authservice';
+} from 'services/authservice';
 import { getUser, getSession } from '../utils/lib';
 import { ISignUp } from '../interfaces';
 
@@ -86,7 +86,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setSession(null);
       localStorage.removeItem('userId');
       localStorage.removeItem('token');
-      localStorage.clear();
+      localStorage.removeItem('sessionId');
+      localStorage.removeItem('expiration');
       navigate('/login');
     })
     .catch(err => {

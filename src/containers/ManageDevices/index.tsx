@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import {
   sessionsService,
   deleteSessionService,
-} from '../../services/authservice';
+} from 'services/authservice';
 import { Button, Spin } from 'antd';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import styles from './ManageDevices.module.scss';
-import DeleteSessionModal from '../../components/Modal/DeleteSessionModal';
+import DeleteSessionModal from 'components/Modal/DeleteSessionModal';
 import parser from 'ua-parser-js';
 
 const ManageDevices = () => {
@@ -71,9 +71,8 @@ const ManageDevices = () => {
   }, [error]);
 
   return (
-    <Layout defaultHeader={true} hamburger={true}>
+    <Layout defaultHeader={true} hamburger={true} title={'Manage Devices'}>
       <Spin spinning={spinning}>
-        <div className="Title">Manage Devices</div>
         <div>
           {devices &&
             devices.map((device: any, key: any) => (

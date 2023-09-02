@@ -30,12 +30,6 @@
     }
   }
 }
-.menu{
-  color:$primary-color3 !important;
-  font-size: 25px;
-  font-weight: 700px;
-  font-style: bold;
-}
 
 .Burger-menu {
   background-color: #fff;
@@ -316,8 +310,8 @@
   }
 }
 .Burger-menu-wrapper {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(#3a3a3a, 0.5);
   z-index: 999999;
   position: absolute;
@@ -329,11 +323,4 @@
 }
 .Layout-logo {
   background-color: #ccc;
-}
-.description{
-  color:$primary-color3;
-  font-family: $font-body;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 130%;
 }

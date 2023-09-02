@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert } from 'antd';
 import { useNavigate } from 'react-router';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import '../ThankyouForSubmiting/index.scss';
 const SubscriptionSuccess = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const SubscriptionSuccess = () => {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={true}>
+    <Layout defaultHeader={true} hamburger={true} title={'Success'}>
       <div className="Content-wrap DayCon">
         <div className="Question">
           <Alert message="Subscription successful" type="success" />

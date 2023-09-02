@@ -133,12 +133,6 @@ export const getInteractionService = async () => {
   return await axios.get(`${baseURL}/ai/interaction`);
 };
 
-export const getInteractionServiceByType = async (flow_id: string) => {
-  return await axios.post(`${baseURL}/ai/interaction-flow`, {
-    flow_id,
-  });
-};
-
 export const postInteractionService = async (data: InteractionService) => {
   return await axios.post(`${baseURL}/ai/interaction`, data);
 };
@@ -188,6 +182,10 @@ export const getIntegrationStatus = async () => {
   return await axios.get(`${baseURL}/user/integration/status`);
 };
 
-export const guidanceStatus = async (id: string, body: any) => {
-  return await axios.put(`${baseURL}/ai/guidances/${id}`, body);
+export const invokeInteractionServiceByType = async (type: string) => {
+  return await axios.post(`${baseURL}/ai/interaction-flow`, {
+    meta: {
+      type,
+    },
+  });
 };

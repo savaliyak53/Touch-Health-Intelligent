@@ -15,7 +15,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import './index.scss';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import { useNavigate } from 'react-router-dom';
 import 'chartjs-adapter-date-fns';
 import { InsightContext } from '../../contexts/InsightContext';
@@ -233,7 +233,7 @@ const Insights = () => {
   };
   return (
     <>
-      <Layout defaultHeader={true} hamburger={true} dashboard={false}>
+      <Layout defaultHeader={true} hamburger={true} dashboard={false} title={'Insights'}>
         <Spin spinning={loader}>
           <div className="Content-wrap Analytic">
             <div className="Insite-btn" onClick={handleTimelineChange}>

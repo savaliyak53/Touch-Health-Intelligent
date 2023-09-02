@@ -3,15 +3,15 @@ import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styles from './Verification.module.scss';
 import { toast } from 'react-toastify';
-import Button from '../../../components/Button';
-import ConfirmModal from '../../../components/Modal/ConfirmModal';
-import Layout from '../../../layouts/Layout/Layout';
+import Button from 'components/Button';
+import ConfirmModal from 'components/Modal/ConfirmModal';
+import Layout from 'layouts/Layout/Layout';
 import { Tooltip } from 'antd';
 import ReactCodeInput from 'react-code-input';
-import { requestPhoneOTP, verifyPhoneOTP } from '../../../services/authservice';
+import { requestPhoneOTP, verifyPhoneOTP } from 'services/authservice';
 import { useTimer } from 'react-timer-hook';
-import AuthContext, { AuthContextData } from '../../../contexts/AuthContext';
-import { getUser, getSession } from '../../../utils/lib';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
+import { getUser, getSession } from 'utils/lib';
 
 type IVerificationCode = {
   code: string;
@@ -141,22 +141,23 @@ const Verification = () => {
           });
         }
       } else {
-        setError({
-          code: phoneRequestResponse.response.status,
-          message: phoneRequestResponse.response.data.details,
-        });
+        onResendCode();
       }
       setIsLoading(false);
       return false;
     } else {
-      setIsLoading(false);
-      setModalOpen(true);
-      setEnableTimer(true);
-      setIsDisabled(true);
-      restart(time);
-      setIsLoading(false);
+      onResendCode();
     }
   };
+
+  const onResendCode = () => {
+    setIsLoading(false);
+    setModalOpen(true);
+    setEnableTimer(true);
+    setIsDisabled(true);
+    restart(time);
+  };
+
   const pageBackEvent = () => {
     window.history.pushState(null, '', window.location.pathname);
     window.addEventListener('popstate', onBackButtonEvent);
@@ -174,9 +175,8 @@ const Verification = () => {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={false}>
+    <Layout defaultHeader={true} hamburger={false} title={'Verification code'}>
       <div className={styles['Verification-wrap']}>
-        <h2 className={styles['Verification-title']}>Verification code</h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className={styles['Verification-form']}

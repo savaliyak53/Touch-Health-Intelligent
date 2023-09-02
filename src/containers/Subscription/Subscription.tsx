@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import { Button, Spin } from 'antd';
 import styles from './Subscription.module.scss';
 import { Alert } from 'antd';
@@ -14,24 +14,24 @@ import {
   calculateSubscriptionProration,
   getStatus,
   managePayment,
-} from '../../services/subscriptionService';
+} from 'services/subscriptionService';
 import { Card } from 'antd';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router';
-import { dateFormatRenewal, sleep } from '../../utils/lib';
-import ConfirmModal from '../../components/Modal/ConfirmModal';
+import { dateFormatRenewal, sleep } from 'utils/lib';
+import ConfirmModal from 'components/Modal/ConfirmModal';
 import { ISubscriptionPlan, IUserSubscription } from './Interfaces';
 import { Link } from 'react-router-dom';
 import { LoadingOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import {
-  getInteractionServiceByType,
   getUser,
+  invokeInteractionServiceByType,
   preferencesService,
   updatePreference,
-} from '../../services/authservice';
+} from 'services/authservice';
 import moment from 'moment';
 import { ReloadOutlined } from '@ant-design/icons';
-import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 const { Meta } = Card;
 const antIcon = (
   <LoadingOutlined style={{ fontSize: 24, color: 'white' }} spin />
@@ -270,7 +270,7 @@ const Subscription = () => {
       .then((preferencesResponse) => {
         if (preferencesResponse) {
           //after successful subscription initiate onboarding interaction
-          getInteractionServiceByType('onboarding')
+          invokeInteractionServiceByType('onboarding')
             .then((response: any) => {
               if (response) {
                 navigate('/questionnaire');
@@ -278,7 +278,7 @@ const Subscription = () => {
                 navigate('/');
               }
             })
-            .catch((error) => {
+            .catch(() => {
               toast.error(
                 `Something went wrong. Cannot initiate interaction at the moment `
               );

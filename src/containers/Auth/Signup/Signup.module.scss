@@ -1,115 +1,173 @@
 @import '../../../variables.module.scss';
 
-.Auth-submit {
-  width: 100%;
-  border-radius: 10px !important;
-  padding: 16px 32px !important;
-  font-size: 24px !important;
-  line-height: 29px !important;
-  height: 60% !important;
-  background-color: #6A2C70 !important;
-  border: 1px solid #6A2C70 !important;
-  color: #fff !important;
-  &:hover,
-  &:focus,
-  &:active {
-    background-color: rgba(#6A2C70,0.7) !important;
-    color: #fff;
-  }
-
-  &:disabled {
-    background-color: rgba(#6A2C70,0.7) !important;
-    color: #fff;
-    pointer-events: none;
+.SignupBGWrap {
+  position: relative;
+  height: 100vh;
+  overflow: hidden auto;
+  background-image: url('../../../../public/assets/images/background-mobile-auth.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  @media (min-width: 576px) {
+    background-image: url('../../../../public/assets/images/background-desktop-auth.png');
+    background-repeat: no-repeat;
+    background-position: 100% center;
+    background-size: cover;
   }
 }
+.SignupBGWrap::-webkit-scrollbar {
+  display: none;
+}
 
-.Auth-wrap {
+.SignupView {
+  padding: 35px 12px 29px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  height: 100%;
+  justify-content: center;
+  max-width: 390px;
+  margin: 0 auto;
+
+  @media (min-width: 576px) {
+    justify-content: center;
+  }
 }
 
-.Auth-form {
+.LogoDesktoop {
+  display: none;
+
+  @media (min-width: 576px) {
+    display: block;
+    height: 70px;
+  }
+}
+
+.LogoMobile {
+  display: block;
+
+  @media (min-width: 576px) {
+    display: none;
+  }
+}
+
+.Title {
+  color: #204ecf;
+  font-family: Tilt Warp;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 36px;
+  opacity: 0.8;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.Signup {
+  width: 100%;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.FormWrap {
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0px -4px 0px 0px #f0ece7;
+  width: 100%;
+  padding: 24px 16px;
+
+  @media (min-width: 576px) {
+    margin-bottom: 24px;
+  }
+
+  @media (max-height: 720px) {
+    padding: 24px 16px;
+  }
+}
+
+.Form {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
+  justify-content: center;
+}
+
+.PasswordInput {
+  background: #fdfcfb;
+  border-radius: 5px;
+  box-shadow: 0px 4px 0px 0px #f0ece7;
+  padding: 20px 50px 20px 16px;
   width: 100%;
-}
+  color: #080815;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 14px;
 
-.Auth-title {
-  // font-family: 'DM Serif Display', serif;
-  // color: #6A2C70;
-  // font-size: 40px;
-  // line-height: 1.1;
-  // font-weight: 400;
-  margin-bottom: 15px;
-  margin-left: 10px;
-  margin-top: clamp(0px, 7.5vh, 96px);
-}
-
-.Auth-forgot-wrap {
-  width: 100%;
-}
-
-.Auth-forgot {
-  font-size: 20px;
-  line-height: 20px;
-  color: #fff;
-  text-decoration: none;
-  margin-left: 20px;
-  font-weight: bold;
-  &:hover {
-    color: #fff;
-    opacity: 0.8;
+  &::placeholder {
+    opacity: 0.5;
+    color: #080815;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 14px;
   }
 }
-
-.Auth-terms {
-  text-align: center;
-  font-size: 16px;
-  line-height: 15px;
-  color: #6A2C70;
-  padding: 7px 30px;
-  border-radius: 100px;
-  background-color: #fff;
-  // margin-bottom: 20px;
-  //margin-top: 10rem;
+.PasswordInputIvalid {
+  @extend .PasswordInput;
+  box-shadow: 0px 4px 0px 0px #f26749;
 }
-.SignupBGWrap {
-  position: relative;
+.PasswordInputChange {
+  @extend .PasswordInput;
+  box-shadow: 0px 4px 0px 0px #204ecf;
+}
+.SignupButton {
+  border-radius: 100px !important;
+  background: #080815 !important;
+  color: #f0ece7 !important;
+  width: 100%;
+  padding: 16px 32px;
   height: 100%;
-  .SignupBGShape1 {
-    position: absolute;
-    background-color: rgba(#F08A5D, 0.15);
-    top: -170px;
-    right: -150px;
-    width: 250px;
-    height: 250px;
-    border-radius: 100%;
-    z-index: -1
+  margin-top: 32px;
+  text-align: center;
+  font-family: 'Tilt Warp';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 14px;
+}
+
+.ToLogin {
+  color: #080815e5;
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 14px;
+  margin-top: 20px;
+  text-align: center;
+
+  .Link {
+    text-decoration-line: underline;
+    color: #080815e5;
   }
-  .SignupBGShape2 {
-    position: absolute;
-    background-color: rgba(#B83B5E, 0.15);
-    top: 0;
-    left: -200px;
-    width: 300px;
-    height: 300px;
-    border-radius: 100%;
-    z-index: -1
-  }
-  .SignupBGShape3 {
-    position: absolute;
-    background-color: rgba(#6A2C70, 0.32);
-    top: 90%;
-    right: 50%;
-    transform: translateX(50%);
-    width: 250px;
-    height: 250px;
-    border-radius: 100%;
-    z-index: -1
-  }
+}
+
+.LinksWrap {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.OtherLink {
+  color: #fdfcfb;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 14px;
+  text-decoration-line: underline;
+  margin: 0 8px;
 }

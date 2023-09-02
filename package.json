@@ -8,16 +8,8 @@
     "dependencies": {
         "@emotion/react": "^11.9.0",
         "@emotion/styled": "^11.8.1",
+        "@headlessui/react": "^1.7.16",
         "@hookform/resolvers": "^2.9.0",
-        "@testing-library/jest-dom": "^5.16.4",
-        "@testing-library/react": "^13.1.1",
-        "@types/jest": "^27.4.1",
-        "@types/moment-timezone": "^0.5.30",
-        "@types/node": "^16.11.27",
-        "@types/react-text-mask": "^5.4.11",
-        "@types/ua-parser-js": "^0.7.36",
-        "@types/uuid": "^8.3.4",
-        "@types/yup": "^0.29.14",
         "antd": "^4.24.8",
         "axios": "^0.27.1",
         "buffer": "^6.0.3",
@@ -48,6 +40,7 @@
         "react-otp-input": "^2.4.0",
         "react-phone-number-input": "^3.2.7",
         "react-recaptcha": "^2.3.10",
+        "react-responsive-carousel": "^3.2.23",
         "react-router": "^6.3.0",
         "react-router-dom": "^6.3.0",
         "react-scripts": "^5.0.1",
@@ -72,6 +65,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
+        "analizeBundle": "react-app-rewired build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
@@ -88,18 +82,33 @@
         ]
     },
     "devDependencies": {
+        "@tailwindcss/aspect-ratio": "^0.4.2",
+        "@tailwindcss/typography": "^0.5.9",
+        "@testing-library/jest-dom": "^5.16.4",
+        "@testing-library/react": "^13.1.1",
+        "@types/jest": "^27.4.1",
+        "@types/moment-timezone": "^0.5.30",
+        "@types/node": "^16.11.27",
         "@types/react": "^18.0.14",
         "@types/react-dom": "^18.0.5",
         "@types/react-google-recaptcha": "^2.1.5",
         "@types/react-input-mask": "^3.0.1",
+        "@types/react-text-mask": "^5.4.11",
         "@types/react-toastify": "^4.1.0",
+        "@types/recharts": "^1.8.24",
+        "@types/ua-parser-js": "^0.7.36",
+        "@types/uuid": "^8.3.4",
+        "@types/yup": "^0.29.14",
         "@typescript-eslint/eslint-plugin": "^5.20.0",
         "@typescript-eslint/parser": "^5.20.0",
         "eslint": "^8.13.0",
-        "eslint-plugin-react": "^7.29.4"
+        "eslint-plugin-react": "^7.29.4",
+        "react-app-rewired": "^2.2.1",
+        "tailwindcss": "^3.3.3",
+        "webpack-bundle-analyzer": "^4.9.1"
     },
     "resolutions": {
-        "@types/react": "17.0.2",
-        "@types/react-dom": "17.0.2"
+        "@types/react": "^18.0.14",
+        "@types/react-dom": "^18.0.5"
     }
 }

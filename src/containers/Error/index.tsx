@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Alert } from 'antd';
 import { useNavigate } from 'react-router';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import '../ThankyouForSubmiting/index.scss';
 import { Link } from 'react-router-dom';
 import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
@@ -18,7 +18,7 @@ const SubscriptionError = () => {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={false}>
+    <Layout defaultHeader={true} hamburger={false} title={'Error'}>
       <div className="Content-wrap DayCon">
         <div className="Question">
           <Alert message="Failed to subscribe to a plan" type="error" />

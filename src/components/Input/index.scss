@@ -30,7 +30,12 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    &btn {
-        margin-bottom: 4px;
+    position: relative;
+    .btn {
+        position: absolute;
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
+        display: flex;
     }
 }

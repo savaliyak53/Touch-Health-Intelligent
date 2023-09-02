@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import { Space, Typography } from 'antd';
 import AuthContext from '../../contexts/AuthContext';
 import AuthContextData from '../../contexts/AuthContext';
@@ -16,12 +16,9 @@ const HelpAndSupport = () => {
     window.Intercom("update", {hide_default_launcher: false, last_request_at: parseInt((new Date()).getTime()/1000)})
   }, []);
   return (
-    <Layout defaultHeader={true} hamburger={true}>
-      <div className="Content-wrPArCon">
-        <h2 className={'Title'}>
-          Get in Touch! 
-        </h2>
-        <div className='Description'>
+    <Layout defaultHeader={true} hamburger={true} title={'Get in Touch!'}>
+      <div className="Content-wrPArCon mt-5">
+        <div className='text-base font-normal leading-7 text-justify'>
           <Paragraph>We are here to help.</Paragraph>
           <Space/>
           <Paragraph>If you have any questions, ask us!</Paragraph>

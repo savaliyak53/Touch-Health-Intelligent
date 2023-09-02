@@ -1,13 +1,45 @@
 @import './variables.module.scss';
+
+.main-layout-background {
+  width: 100%;
+  background-image: url('../public/assets/images/background-average.svg');
+  background-position: right;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  @media screen and (max-width: 992px) {
+    background-image: url('../public/assets/images/background-small.svg');
+  }
+  @media screen and (max-width: 812px) {
+    display: none;
+  }
+}
+
+.recharts-surface {
+  overflow: visible !important;
+}
+  
+.main-layout-dashboard-background {
+  right: 50%;
+
+  @media screen and (max-width: 812px) {
+    right: 0;
+  }
+}
+
+.terms-title {
+  max-width: calc(50% - 3rem);
+  @media screen and (max-width: 768px) {
+    max-width: 100%;
+  }
+}
+
 .ApplicationLayout {
   width: 100%;
   min-height: 100%;
   display: grid;
   // grid-template-rows: $header-height auto;
   grid-template-columns: 1fr;
-}
-input {
-  background-color: transparent;
 }
 .ant-input.Input {
   border-radius: 100px;
@@ -91,7 +123,6 @@ input {
   display: flex;
   flex-direction: column;
   margin-bottom: 25px;
-  margin-top: 25px;
 }
 
 .Btn-group {
@@ -1082,7 +1113,7 @@ input {
   }
 }
 .FreeTrial-Modal {
-  width: 100vw !important;
+  width: 50vw !important;
   .ant-modal-content {
     border-radius: 0;
     height: 100vh;
@@ -1134,6 +1165,9 @@ input {
   }
   .ant-modal-footer .ant-btn + .ant-btn:not(.ant-dropdown-trigger) {
     margin-left: auto;
+  }
+  @media (max-width: 812px) {
+    width: 100vw !important;
   }
 }
 .Goals-Modal {
@@ -1270,17 +1304,17 @@ input {
 .Questionnaire-Submit-Button.ant-btn {
   border-radius: 100px;
   height: auto;
-  padding: 18px 54px;
+  padding: 18px 18px;
   background-color: $primary-color1;
   color: #fff;
-  font-size: 20px;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 14px;
   font-weight: 400;
   border: none;
   margin: 20px auto 0;
   display: flex;
   justify-content: center;
-  width: 65%;
+  width: 100%;
 
   &:hover,
   &:focus,
@@ -1307,7 +1341,7 @@ input {
 .Submit-Button.ant-btn {
   border-radius: 100px;
   height: auto;
-  padding: 18px 54px;
+  padding: 18px;
   background-color: $primary-color1;
   color: #fff;
   font-size: 19px;
@@ -1335,12 +1369,15 @@ input {
     border: none;
     color: $primary-color1;
   }
+  @media (max-width: 812px) {
+    width: 100% !important;
+  }
 }
 
 .Secondary-Button.ant-btn {
   border-radius: 100px;
   height: auto;
-  padding: 18px 54px;
+  padding: 16px;
   background-color: #fff;
   color: $primary-color1;
   font-size: 20px;
@@ -1367,6 +1404,9 @@ input {
     background-color: rgba(#3a3a3a, 0.2);
     border: none;
     color: $primary-color1;
+  }
+  @media (max-width: 812px) {
+    width: 100% !important;
   }
 }
 .Button-Drawer.ant-btn {
@@ -1424,17 +1464,18 @@ input {
   .ant-radio-button-wrapper,
   .ant-radio-button-wrapper:first-child,
   .ant-radio-button-wrapper:last-child {
-    width: 75%;
+    width: 100%;
     margin: 10px 10px 10px 0 !important;
-    border: 2px solid $primary-color1 !important;
-    padding: 18px 54px !important;
+    border: none !important;
+    padding: 18px 18px !important;
     border-radius: 100px !important;
     height: 100% !important;
-    font-size: 20px !important;
-    line-height: 24px !important;
-    font-weight: 400 !important;
-    background-color: #fff;
-    color: $primary-color1;
+    font-size: 14px !important;
+    line-height: 17px !important;
+    font-weight: 500 !important;
+    background-color: #F6F3F0;
+    color: #000;
+    text-align: center;
     span {
       display: flex;
       align-items: center;
@@ -1446,7 +1487,8 @@ input {
     }
 
     &:hover {
-      color: $primary-color1;
+      color: #000;
+      box-shadow: 2px 2px 0px 0px #bdc5c0;
     }
   }
   .ant-radio-button-disabled {
@@ -1458,18 +1500,16 @@ input {
   }
   .ant-radio-button-wrapper-checked {
     &:not(.ant-radio-button-wrapper-disabled) {
-      background-image: $secondary-color2;
+      background: $secondary-color3;
       border: none !important;
-      color: #fff !important;
-
-      &:focus-within {
-        box-shadow: none;
-      }
+      color: #668271 !important;
+      box-shadow: 2px 2px 0px 0px #9DD7B4;
 
       &:hover {
-        background-image: $secondary-color2;
+        background: r$secondary-color3;
         border: none !important;
-        color: #fff !important;
+        color: #668271 !important;
+        box-shadow: 2px 2px 0px 0px #9DD7B4;
       }
       &.ant-radio-button-wrapper:first-child {
         border-color: $primary-color2;
@@ -1479,6 +1519,7 @@ input {
 }
 
 .Select-Options {
+  margin-top: 35px;
   .ant-radio-group {
     display: flex !important;
     flex-direction: column;
@@ -1521,7 +1562,7 @@ input {
   }
 }
 .Yes-No-Button {
-  width: 250px;
+  width: 340px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1529,16 +1570,17 @@ input {
   .ant-radio-button-wrapper:first-child,
   .ant-radio-button-wrapper:last-child {
     width: 100%;
-    margin: 10px 10px 10px 0 !important;
+    margin: 6px 10px 8px 0 !important;
     border: 2px solid $primary-color1 !important;
     padding: 18px 54px !important;
     border-radius: 100px !important;
     height: 100% !important;
-    font-size: 20px !important;
-    line-height: 24px !important;
+    font-size: 14px !important;
+    line-height: 16px !important;
     font-weight: 400 !important;
     background-color: $primary-color1;
     color: #fff;
+    text-align: center;
     span {
       display: flex;
       align-items: center;
@@ -1606,20 +1648,40 @@ input {
 .Markdown-Desc {
   font-family: $font-body;
   text-align: left;
-  margin-top: 15px;
   font-size: 18px;
   line-height: 1.2;
   font-weight: 400;
   margin-bottom: 10px;
   color: $primary-color2;
   padding: 4px 0;
+  max-width: 360px;
+  margin: 0 auto;
   h1,
   h2,
   h3,
   strong {
-    font-family: $font-body;
     color: $primary-color1;
-    font-weight: 700 !important;
+    font-weight: 500 !important;
+    line-height: 21px;
+    display: flex;
+    gap: 5px;
+    justify-content: center;    
+    font-size: 18px;
+    font-family: Tilt Warp;
+  }
+  p {
+    text-align: center;
+    font-family: Roboto;
+    line-height: 17px;
+    color: #362A2F;
+  }
+}
+.Markdown-Desc-md {
+  p {
+    color: #204ecf !important;
+    font-size: 18px !important;
+    font-family: Tilt Warp;
+    line-height: 21px;
   }
 }
 //scrollable time
@@ -1728,4 +1790,112 @@ input {
       border: 2px solid $primary-color1;
     }
   }
+}
+
+.Daily-Checkin-Btn.ant-btn{
+  width: 341px;
+  height: 50px;
+  margin: 7px auto 0px;
+  padding: 19px 42px;
+  border-radius: 100px;
+  background-color: $primary-color1;
+  color: $ternary-color3;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 14px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  white-space: pre-line !important;
+
+  .Checkin-Text{
+    opacity: 0.9;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    &:not([disabled]) {
+      background-image: $secondary-color2 !important;
+      color: #fff !important;
+      border: none;
+    }
+  }
+  &:disabled,
+  &:disabled:hover {
+    background-color: rgba(#3a3a3a, 0.2);
+    border: none;
+    color: $primary-color1;
+  }
+  @media (max-width: 510px) {
+      width: 165px;
+      height: 40px;
+      padding: 12px;
+  }
+}
+
+.dashboard-slider {
+  .carousel {
+    overflow: visible;
+
+    .thumbs-wrapper {
+      margin: 0;
+
+      @media (max-width: 768px) {
+        margin: 0 0 20px;
+      }
+    }
+
+    &.carousel-slider {
+      overflow: visible;
+    }
+
+    .carousel-status {
+      display: none;
+    }
+
+    .control-dots {
+      bottom: -20px;
+      margin: 0;
+
+      @media (max-width: 768px) {
+        display: none;
+      }
+
+
+      .dot {
+        background-color:#83A5F2;
+        margin: 0 3px;
+        box-shadow: none;
+
+        &.selected {
+          background-color:#204ECF;
+          width: 17px;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+}
+
+.password-eye{
+  .btn{
+    color: #204ECF
+  }
+}
+
+@keyframes antRotate {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.button-loader {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  border-top-color: currentColor;
+  animation: antRotate 1s linear infinite;
 }

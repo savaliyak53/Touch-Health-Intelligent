@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import './index.scss';
-import SwitchQuestion from '../../components/SwitchQuestion/SwitchQuestion';
+import SwitchQuestion from 'components/SwitchQuestion/SwitchQuestion';
 import {
   addConcernsService,
   deleteConcern,
   getConcernsSearch,
   getConcernsService,
-} from '../../services/dashboardservice';
+} from 'services/dashboardservice';
 import { toast } from 'react-toastify';
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Button, Spin } from 'antd';
@@ -118,6 +118,7 @@ const ManageConcerns = () => {
       <Layout
         defaultHeader={true}
         hamburger={location.pathname === '/concerns' ? false : true}
+        title='Concerns'
       >
         <div
           className="Content-wrap Concerns"

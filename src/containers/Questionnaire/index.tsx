@@ -1,21 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './index.scss';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Button from '../../components/Button';
+import Button from 'components/Button';
 import { toast } from 'react-toastify';
-import Question from '../../components/Question';
+import Question from 'components/Question';
 import {
   getInteractionService,
-  getInteractionServiceByType,
   getUser,
+  invokeInteractionServiceByType,
   postInteractionService,
   preferencesService,
-} from '../../services/authservice';
+} from 'services/authservice';
 import { Interaction } from '../../interfaces';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import { Skeleton } from 'antd';
-import ErrorInteractionModal from '../../components/Modal/ErrorInteractionModal';
-import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
+import ErrorInteractionModal from 'components/Modal/ErrorInteractionModal';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 
 function UserCondition() {
   const [question, setQuestion] = useState<Interaction | any>();
@@ -41,7 +41,7 @@ function UserCondition() {
           if (response?.data?.question.type == 'integration_page_redirect') {
             integrationPageRedirect(response.data.ref_id);
           } else {
-            setQuestion(response?.data?.question);
+            setQuestion({...response?.data?.question, flow_index: response?.data?.flow_index, flow_length: response?.data?.flow_length});
             setRefId(response.data.ref_id);
           }
         } else if (response?.data?.type === 'done') {
@@ -73,7 +73,7 @@ function UserCondition() {
             preferencesService(preferenceData, userId)
               .then(async (preferencesResponse: any) => {
                 if (preferencesResponse) {
-                  navigate('/dashboard');
+                  navigate('/questionnaire');
                 } else {
                   setError({
                     code: 400,
@@ -89,8 +89,6 @@ function UserCondition() {
                 });
               });
           }
-        } else if (response?.data.signup_status === 'done') {
-          navigate('/dashboard');
         } else {
           navigate('/dashboard');
         }
@@ -121,7 +119,7 @@ function UserCondition() {
     getUser(userId)
       .then((response: any) => {
         if (response?.data.signup_status === 'done') {
-          getInteractionServiceByType('checkup')
+          invokeInteractionServiceByType('answer_questions')
             .then((response: any) => {
               if (response) {
                 getInteraction();
@@ -222,7 +220,7 @@ function UserCondition() {
           if (data.question.type == 'integration_page_redirect') {
             integrationPageRedirect(data.ref_id);
           } else {
-            setQuestion(data.question);
+            setQuestion({...data.question, flow_index: data.flow_index, flow_length: data.flow_length});
             setDisableNextButton(false);
           }
         } else if (!data.question && data.type === 'done') {
@@ -247,7 +245,7 @@ function UserCondition() {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={false}>
+    <Layout defaultHeader={true} hamburger={false} title={'Onboarding'}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
       {question?.type === 'error' || exception ? (
         <div>
@@ -268,6 +266,9 @@ function UserCondition() {
         <div className="Content-wrap Pain">
           {question && (
             <>
+              {/* <div>
+                <div className="text-[22px] text-primary-delft-dark font-['tilt_warp']">Onboarding <span className='pl-[9px] text-[12px] text-[#F26749] relative bottom-[2px]'>{question?.flow_index >= question?.flow_length && `${question?.flow_index}/${question?.flow_length}`}</span></div>
+              </div> */}
               <Question
                 key={refId}
                 selectedValue={value}

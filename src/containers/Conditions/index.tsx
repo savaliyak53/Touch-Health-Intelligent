@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import styles from './Conditions.module.scss';
-import SwitchQuestion from '../../components/SwitchQuestion/SwitchQuestion';
+import SwitchQuestion from 'components/SwitchQuestion/SwitchQuestion';
 import {
   addConditionsService,
   deleteCondition,
   getConditionsSearch,
   getConditionsService,
   getDefaultConditions,
-} from '../../services/dashboardservice';
+} from 'services/dashboardservice';
 import { toast } from 'react-toastify';
 import { DownOutlined, SearchOutlined } from '@ant-design/icons';
 import { AutoComplete, Button, Spin } from 'antd';
@@ -136,6 +136,7 @@ const ManageConditions = () => {
     <Layout
       defaultHeader={true}
       hamburger={location.pathname === '/conditions' ? false : true}
+      title='conditions'
     >
       <div className="Content-wrap Con">
         <h2 className={styles["Con-title"]}>

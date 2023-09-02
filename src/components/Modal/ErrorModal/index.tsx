@@ -17,16 +17,16 @@ const ErrorModal = ({
   handleCancel
 }: IProps) => {
   const navigate = useNavigate();
-
   const handleOk = () => {
-    console.log('click');
     navigate('/dashboard');
     handleCancel();
   };
+
   const handleUnauthorized = () => {
     handleCancel();
     window.location.assign('/login');
   };
+
   return (
     <Modal
       title={title}
@@ -58,12 +58,15 @@ const ErrorModal = ({
               </Button>
             ) :
             errorType == 'type1' ? (
-                <Button
-                className={'Submit-Button'}
-                onClick={handleCancel}
-              >
-                Close
-              </Button>
+              error.message === 'Daily SMS limit reached' || error.message === 'Invalid username or password.' ? (
+                <Button className={'Submit-Button'} onClick={handleUnauthorized}>
+                  Close
+                </Button>
+              ) : (
+                <Button className={'Submit-Button'} onClick={handleOk}>
+                  Go to dashboard
+                </Button>
+              )
             ) : (
                 <Button
                 className={'Submit-Button'}

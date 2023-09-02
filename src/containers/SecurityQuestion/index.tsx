@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import { Select, Spin } from 'antd';
 import v from '../../variables.module.scss';
 import styles from './SecurityQuestion.module.scss';
-import Button from '../../components/Button';
-import InputField from '../../components/Input';
+import Button from 'components/Button';
+import InputField from 'components/Input';
 import { securityQuestions } from '../../constants';
-import { putSignUp } from '../../services/authservice';
+import { putSignUp } from 'services/authservice';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { DownOutlined } from '@ant-design/icons';
-import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 
 const { Option } = Select;
 
@@ -77,13 +77,11 @@ const SecurityQuestions = () => {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={false}>
-      <div className={styles['Security-wrap']}>
-        <h2 id="header" className={styles['Con-title']}>
-          Security question <Spin spinning={loading} />
-        </h2>
-        <div className={styles['Switch-wrap']} style={{ overflow: 'hidden' }}>
-          <p className={styles['Con-Description']}>
+    <Layout defaultHeader={true} hamburger={false} title={'Security Question'}>
+      <div className={`mt-5 ${styles['Security-wrap']}`}>
+        <Spin spinning={loading} />
+        <div className={styles['Switch-wrap']}>
+          <p className='text-base font-normal leading-7 text-center mb-5'>
             Please help us protect your account. Select a security question and
             input answer. You can use this to get back access to your account.
           </p>

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { requestPhoneOTP } from '../../../services/authservice';
+import { requestPhoneOTP } from 'services/authservice';
 import { toast } from 'react-toastify';
-import Button from '../../../components/Button';
+import Button from 'components/Button';
 import { AiOutlineEye } from 'react-icons/ai';
-import Layout from '../../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import { Tooltip } from 'antd';
 import './index.scss';
 import '../index.scss';
-import { onlyNumbers } from '../../../utils/lib';
+import { onlyNumbers } from 'utils/lib';
 type IRecoverFormInputs = {
   username: string;
   code: string;

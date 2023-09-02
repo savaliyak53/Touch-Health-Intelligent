@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { Button } from 'antd';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import styles from './ExistingUser.module.scss';
 import { useLocation, useNavigate } from 'react-router';
 import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
@@ -31,9 +31,8 @@ const ExistingUser = () => {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={false}>
-      <div className="Title">{`An account with your number already exists, would you like to...`}</div>
-      <div className={styles['Device-Container']}>
+    <Layout defaultHeader={true} hamburger={false} title='An account with your number already exists, would you like to...'>
+      <div className={`mt-5 ${styles['Device-Container']}`}>
         <Button className="Submit-Button" onClick={handleSignin}>
           Sign in
         </Button>
