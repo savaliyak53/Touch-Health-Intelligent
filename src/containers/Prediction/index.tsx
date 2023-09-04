@@ -125,7 +125,7 @@ const Prediction = () => {
                 influencerData?.guidances_list?.map((guidance) => (
                   <div key={guidance?.guidance_id} className='flex justify-between py-[20px] border-b-[1px] border-[#F0ECE7] pl-1'>
                     <div className='text-[12px]'><span className='font-["tilt_warp"] text-[14px] text-primary-delft-dark'>{guidance?.name}</span> {guidance?.health_dimension}</div>
-                    {/* <img src="/assets/icons/right-indicate-icon.svg" alt='arrow' className='cursor-pointer'/> */}
+                    <img src="/assets/icons/right-indicate-icon.svg" alt='arrow' className='cursor-pointer' onClick={() => navigate(`/guidance/${guidance.guidance_id}`)}/>
                   </div>
                 ))
               }
