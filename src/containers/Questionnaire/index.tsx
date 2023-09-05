@@ -16,6 +16,7 @@ import Layout from 'layouts/Layout/Layout';
 import { Skeleton } from 'antd';
 import ErrorInteractionModal from 'components/Modal/ErrorInteractionModal';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
+import LogoSmal from 'components/Icons/LogoSmal';
 
 function UserCondition() {
   const [question, setQuestion] = useState<Interaction | any>();
@@ -269,6 +270,9 @@ function UserCondition() {
               {/* <div>
                 <div className="text-[22px] text-primary-delft-dark font-['tilt_warp']">Onboarding <span className='pl-[9px] text-[12px] text-[#F26749] relative bottom-[2px]'>{question?.flow_index >= question?.flow_length && `${question?.flow_index}/${question?.flow_length}`}</span></div>
               </div> */}
+            <div className="align-center mb-2 mt-10">
+              <LogoSmal  />
+            </div>
               <Question
                 key={refId}
                 selectedValue={value}

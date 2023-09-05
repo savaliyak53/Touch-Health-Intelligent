@@ -12,7 +12,6 @@ import ConfirmModal from 'components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
 import { backButtonPreventionRoutes } from 'Routes/Constants';
 import LogoDesktop from 'components/Icons/LogoDesktop';
-import LogoSmal from 'components/Icons/LogoSmal';
 
 type Props = {
   defaultHeader: boolean;
@@ -194,7 +193,6 @@ const Layout = ({
                 ) : (
                   <>
                     <div className="h-[90px] z-0 mt-5" />
-                    <LogoSmal className='inline  mt-14' />
                   </>
 
                 )}
