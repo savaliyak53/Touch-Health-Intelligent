@@ -95,11 +95,11 @@ const CountryCode = ({
               <div className="phoneInputContainer">
                 <PhoneInput
                   disabled={disabled}
-                  // placeholder={
-                  //   fieldName === 'phone' || fieldName === 'username'
-                  //     ? 'Mobile phone number'
-                  //     : 'Confirm phone number'
-                  // }
+                  placeholder={
+                    fieldName === 'phone' || fieldName === 'username'
+                      ? 'Mobile phone number'
+                      : 'Confirm phone number'
+                  }
                   countries={whitelist}
                   className={
                     errors && isValid == false

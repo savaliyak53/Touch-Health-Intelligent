@@ -193,6 +193,7 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
             >
               <FloatLabel isUsername={false} label="Username" name="username" value={getValues('name')}>
                 <InputField
+                  label="Username"
                   id="name"
                   {...register('name', {
                     required: 'Username is required.',
@@ -242,6 +243,7 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
             >
             <FloatLabel isUsername={false} label="Password" name="password" value={getValues('password')}>
               <InputField
+              label="Password"
                 id="password"
                 // placeholder="Password"
                 type={passwordShown ? 'text' : 'password'}
@@ -278,6 +280,7 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
             >
             <FloatLabel isUsername={false} label="Confirm password" name="confirmPassword" value={getValues('confirmPassword')}>
               <InputField
+                label="Repeat password"
                 id="confirmPassword"
                 // placeholder="Confirm password"
                 type={confirmPasswordShown ? 'text' : 'password'}

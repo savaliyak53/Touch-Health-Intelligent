@@ -181,6 +181,7 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
           <FloatLabel isUsername={false} label="Password" name="password" value={getValues('password')}>    
 
             <InputField
+              label="Password"
               id="password"
               data-testid="pwd"
               {...register('password', {

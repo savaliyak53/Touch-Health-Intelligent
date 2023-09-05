@@ -9,12 +9,13 @@
   .label {
     font-size: 14px;
     font: $font-body;
-    font-weight: normal;
+    font-weight: 500;
     position: absolute;
     pointer-events: none;
     left: 18px;
     top: 25px;
     transition: 0.2s ease all;
+    color: rgba(#080815, 0.5);
   }
   .username-float{
     left: 60px;
