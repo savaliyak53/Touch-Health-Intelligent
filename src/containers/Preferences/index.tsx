@@ -8,11 +8,16 @@ import {
   getIntegrationStatus,
   getPreference,
   updatePreference,
+  preferencesService,
+  invokeInteractionServiceByType,
 } from 'services/authservice';
 import Layout from 'layouts/Layout/Layout';
 import moment from 'moment';
 import 'moment-timezone';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
+import DeleteModal from 'components/Modal/DeleteDataModal';
+import { deleteAllData } from 'services/goalsService';
+import { toast } from 'react-toastify';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -27,6 +32,13 @@ declare global {
     beforeinstallprompt: BeforeInstallPromptEvent;
   }
 }
+
+interface LocationState {
+  state: {
+    refId: string;
+    redirect: boolean;
+  };
+}
 const Preferences = () => {
   const [loading, setloading] = useState(false);
   const [enable, setEnabled] = useState(false);
@@ -39,6 +51,8 @@ const Preferences = () => {
   const navigate = useNavigate();
   const context = useContext<AuthContextData | undefined>(AuthContext);
   const [error, setError] = useState<any>();
+  const [loc, setLocation] = useState<LocationState>();
+  const [showCancelModal, setShowCancelModal] = useState(false);
 
   useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
@@ -117,6 +131,61 @@ const Preferences = () => {
       setError({code: 400, message: "Username cannot be empty!"})
     }
   };
+
+  const handleSetUserStatus = () => {
+    const userId = context?.user;
+    preferencesService(
+      {
+        signup_status: 'onboarding',
+      },
+      userId
+    )
+      .then((preferencesResponse) => {
+        if (preferencesResponse) {
+          //after successful subscription initiate onboarding interaction
+          invokeInteractionServiceByType('onboarding')
+            .then((response: any) => {
+              if (response) {
+                navigate('/questionnaire');
+              } else {
+                navigate('/');
+              }
+            })
+            .catch((error) => {
+              setError({
+                code: error.response.status,
+                message: error.response.data.details,
+              });
+            });
+        } else {
+          navigate('/dashboard');
+        }
+      })
+      .catch((error) => {
+        setError({
+          code: error.response.status,
+          message: error.response.data.details,
+        });
+      });
+  };
+
+  const handleDeleteModal = () => {
+    setShowCancelModal(false);
+  };
+  const removeUserData = () => {
+    deleteAllData()
+      .then((res) => {
+        toast('User data deleted');
+        handleSetUserStatus();
+      })
+      .catch((err) => {
+        setError({
+          code: err.response.status,
+          message: err.response.data.details,
+        });
+      });
+  };
+
   return (
     <Layout defaultHeader={true} hamburger={true} title={'Preferences'}>
       {spinning ? <Spin spinning={spinning} className='mt-5' /> : (
@@ -231,6 +300,50 @@ const Preferences = () => {
             )}
 
             <div>
+              <h3
+                className={'Heading Heading-color1 flex flex-row items-start'}
+              >
+                Data Use
+                <Tooltip
+                  className={styles['TooltipIcon']}
+                  title={
+                    'This deletes all your data, setting your entire health profile in the Touch Health Assistant back to 0. We will retain your basic account information but all your data with the app so far will be deleted.'
+                  }
+                  placement="bottomRight"
+                  overlayStyle={{ marginRight: '10px' }}
+                  mouseLeaveDelay={0}
+                >
+                  <AiOutlineQuestionCircle
+                    size={30}
+                    className="question-help ml-2 mb-2"
+                  />
+                </Tooltip>
+              </h3>
+              <Button
+                className={`Pref-post-btn ${
+                  loc?.state.redirect ? 'Pref-post-btn-disabled' : ''
+                } ${styles['Data-dlt-btn']}`}
+                onClick={() => setShowCancelModal(true)}
+                disabled={loc?.state.redirect}
+              >
+                Delete all my data
+              </Button>
+              <DeleteModal
+                title={''}
+                open={showCancelModal}
+                handleCancel={handleDeleteModal}
+                handleOk={() => removeUserData()}
+                renderData={
+                  <div>
+                    By deleting your data, your entire health profile in the
+                    Touch Health Assistant will cease to exist. No data will be
+                    retained, and you will be sent back to the beginning as if
+                    you just started. This is irreversible, proceed with
+                    caution.
+                  </div>
+                }
+              />
+            <div>
               <Button
                 className={`rounded-full h-auto p-5 pl-14 pr-14 bg-primary-delft-dark text-white text-lg leading-6 font-normal border-none m-auto mt-5 flex justify-center whitespace-pre-line w-full hover:bg-buttongradient hover:text-white`}
                 onClick={() => navigate('/manage-devices')}
@@ -239,16 +352,15 @@ const Preferences = () => {
               </Button>
             </div>
             {enable && (
-              <div className={styles.TermsBtnWrap}>
                 <Button
-                  className={'Submit-Button'}
+                  className={`rounded-full h-auto p-5 pl-14 pr-14 bg-primary-delft-dark text-white text-lg leading-6 font-normal border-none m-auto mt-5 mb-5 flex justify-center whitespace-pre-line w-full hover:bg-buttongradient hover:text-white`}
                   onClick={handleNext}
                   disabled={username.length > 24}
                 >
                   Save
                 </Button>
-              </div>
             )}
+            </div>
           </div>
         </div>
       )}
