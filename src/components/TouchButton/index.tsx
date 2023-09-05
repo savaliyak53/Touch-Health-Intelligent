@@ -19,7 +19,7 @@ const TouchButton: FC<InputProps> = ({
   }) => {
 
   const baseClasses = `${type === 'default' ? 'bg-primary-delft-dark' : 'bg-high-dark'} rounded-[100px] flex justify-center items-center text-nimbus w-full p-4 h-[50px] text-center font-tilt-warp text-[16px] font-normal leading-[14px] cursor-pointer transition ease-in-out duration-300`;
-  const disabledClasses = `${type === 'default' ? 'disabled:opacity-70 disabled:bg-cornflower-dark disabled:text-[#FDFCFB80]' : 'disabled:opacity-60'} disabled:cursor-not-allowed`;
+  const disabledClasses = `${type === 'default' ? 'disabled:opacity-70 disabled:bg-primary-cornflower-dark disabled:text-[#FDFCFB80]' : 'disabled:opacity-60'} disabled:cursor-not-allowed`;
   let hoverClasses = `${type === 'default' ? 'hover:bg-buttongradient' : 'hover:bg-buttongradientBlack'}`;
   const activeClasses = `${type === 'default' ? 'active:shadow-button' : 'active:shadow-buttonBlack'}`;
 

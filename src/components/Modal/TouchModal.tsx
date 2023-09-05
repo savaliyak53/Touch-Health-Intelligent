@@ -39,7 +39,7 @@ const TouchModal: FC<InputProps> = ({ isOpen, setClose, children }) => {
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative w-[350px] transform overflow-hidden rounded-[5px] bg-dentist text-center shadow-primary transition-all">
-                  <button className='float-right mr-[15px] mt-[15px]' type='button' onClick={() => setClose(false)}>
+                  <button className='float-right mr-[15px] mt-[15px] focus-visible:outline-none' type='button' onClick={() => setClose(false)}>
                     <CloseIcon />
                   </button>
                   {children}
