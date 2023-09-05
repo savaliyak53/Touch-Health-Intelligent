@@ -12,9 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <SocketProvider>
-    <AuthProvider>
-      <Application />
-    </AuthProvider>
+      <AuthProvider>
+        <Application />
+      </AuthProvider>
     </SocketProvider>
   </BrowserRouter>
 );

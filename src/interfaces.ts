@@ -133,3 +133,26 @@ export interface EmojiMapping {
   [key: string]: EmojiLevels;
 }
 
+export interface socketMessageType {
+  type: string,
+  payload: {
+    path: string,
+    params: {
+      dimension_id: string,
+    },
+    body: any,
+  },
+}
+
+export interface SocketContextData {
+  dashboardNotification: any
+  setDashboardNotification: React.Dispatch<React.SetStateAction<any>>,
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  socketMessage: socketMessageType,
+  setSocketMessage: React.Dispatch<React.SetStateAction<socketMessageType>>,
+}
+
+export interface socketNotificationTypes {
+  title: string,
+  details: string,
+}

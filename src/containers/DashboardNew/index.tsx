@@ -13,14 +13,14 @@ import { IOverview } from 'interfaces';
 import { getPartOfDay } from 'helpers/time';
 
 const DashboardNew = () => {
+  const navigate = useNavigate();
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [username, setUsername] = useState(null);
   const [overview, setOverview] = useState<IOverview>();
-  const [dashboardNotification, setDashboardNotification] = useState();
-  const navigate = useNavigate();
-  const socketContext = useContext(SocketContext);
+  const { dashboardNotification } = useContext(SocketContext) as any;
+  // console.log("Dashboard Notification Data: ", dashboardNotification);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -63,10 +63,6 @@ const DashboardNew = () => {
   useEffect(() => {
     if (error) throw error;
   }, [error]);
-
-  useEffect(() => {
-    setDashboardNotification(socketContext.dashboardNotification.payload);
-  }, [socketContext]);
 
   return (
     <Layout streak={overview?.streak || 0} defaultHeader={true} hamburger={true} dashboard={true} title={`Good ${getPartOfDay()}${username ? `, ${username}`: ''}`}>

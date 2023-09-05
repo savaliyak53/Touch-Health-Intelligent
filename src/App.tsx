@@ -5,12 +5,13 @@ import AppRoutes from './Routes/index';
 import './app.scss';
 import 'antd/dist/antd.min.css';
 import ErrorBoundary from 'components/ErrorBoundary';
+import useSocket from 'hooks/useSocket';
 
 const version = 'v.0.0.5';
 console.log(version);
 
 const Application = () => {
-
+  useSocket();
   return (
     <ErrorBoundary>
       <AppRoutes />
