@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import Drawer from 'components/Modal/Drawer';
 import Status from '../Status';
 import {getPreference, invokeInteractionServiceByType} from 'services/authservice';
-import {getPartOfDay} from '../../helpers/time';
-import {IOverview} from '../../interfaces';
+import {getPartOfDay} from 'helpers/time';
+import {IOverview} from 'interfaces';
 import EntityListWidget from 'components/Widgets/EntityListWidget';
 import { getOverview } from 'services/dashboardservice';
 

@@ -12,6 +12,7 @@ import ConfirmModal from 'components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
 import { backButtonPreventionRoutes } from 'Routes/Constants';
 import LogoDesktop from 'components/Icons/LogoDesktop';
+// import CongratulationModal from 'components/Modal/CongratulationModal';
 
 type Props = {
   defaultHeader: boolean;
@@ -44,6 +45,7 @@ const Layout = ({
   const [error, setError] = useState<any>();
   const navigate = useNavigate();
   const location = useLocation();
+  // const [openCongratsModal, setOpenCongratsModal] = useState<boolean>(false)
   const context = useContext(AuthContext);
   const checkUserData = () => {
     const userId = context?.user;
@@ -197,6 +199,7 @@ const Layout = ({
                 <div className="flex flex-col h-full">{children}</div>
               </div>
             </div>
+            {/*<CongratulationModal type={'data-points'} setClose={setOpenCongratsModal} isOpen={openCongratsModal} value={16} />*/}
           </div>
           <div className="w-full max-w-[50%] bg-right bg-fit bg-no-repeat main-layout-background">
             <LogoDesktop className="float-right mr-12 mt-10" />
