@@ -27,9 +27,10 @@ const SiteHeader = ({
     title = '',
     whitBackArrow = false,
     steps = '',
-    streak,
+    streak = 0,
     onBack
   }: Props) => {
+
   const [BurgerMenu, setBurgerMenu] = useState(false);
   const navigate = useNavigate();
   const authContext = useContext<AuthContextData | undefined>(AuthContext);
@@ -38,6 +39,11 @@ const SiteHeader = ({
   const showTrialBanner =
     !Object.values(trialExceptionRoutes).includes(location.pathname) &&
     trialRemaining;
+
+  const isShowStreak = ():boolean => {
+    return !!(streak && streak > 0);
+
+  }
 
   return (
     <>
@@ -63,9 +69,9 @@ const SiteHeader = ({
               {steps && <span className={'ml-2 text-primary-watermelons-dark font-roboto text-xs font-normal leading-none'}>
                 {steps}
               </span>}
-              {streak && <span className={'ml-2 text-primary-delft-dark w-14 opacity-90 h-8 bg-white rounded-[100px] font-roboto text-xs font-medium leading-none flex justify-center items-center'}>
+              {isShowStreak() && <span className={'ml-2 text-primary-delft-dark w-14 opacity-90 h-8 bg-white rounded-[100px] font-roboto text-xs font-medium leading-none flex justify-center items-center'}>
                   <span className='mr-1 text-lg'>🚀</span>{streak}
-              </span>}
+                </span>}
             </div>
             <div
               className={styles['Toggler-btn']}
