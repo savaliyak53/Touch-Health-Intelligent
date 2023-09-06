@@ -328,21 +328,21 @@ const Preferences = () => {
               >
                 Delete all my data
               </Button>
-              <DeleteModal
-                title={''}
-                open={showCancelModal}
-                handleCancel={handleDeleteModal}
-                handleOk={() => removeUserData()}
-                renderData={
-                  <div>
-                    By deleting your data, your entire health profile in the
-                    Touch Health Assistant will cease to exist. No data will be
-                    retained, and you will be sent back to the beginning as if
-                    you just started. This is irreversible, proceed with
-                    caution.
-                  </div>
-                }
-              />
+              {/*<DeleteModal*/}
+              {/*  title={''}*/}
+              {/*  open={showCancelModal}*/}
+              {/*  handleCancel={handleDeleteModal}*/}
+              {/*  handleOk={() => removeUserData()}*/}
+              {/*  renderData={*/}
+              {/*    <div>*/}
+              {/*      By deleting your data, your entire health profile in the*/}
+              {/*      Touch Health Assistant will cease to exist. No data will be*/}
+              {/*      retained, and you will be sent back to the beginning as if*/}
+              {/*      you just started. This is irreversible, proceed with*/}
+              {/*      caution.*/}
+              {/*    </div>*/}
+              {/*  }*/}
+              {/*/>*/}
             <div>
               <Button
                 className={`rounded-full h-auto p-5 pl-14 pr-14 bg-primary-delft-dark text-white text-lg leading-6 font-normal border-none m-auto mt-5 flex justify-center whitespace-pre-line w-full hover:bg-buttongradient hover:text-white`}

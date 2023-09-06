@@ -210,14 +210,11 @@ const Layout = ({
         title={'Confirmation'}
         open={isOpen}
         handleCancel={handleCancel}
-        handleOk={handleOk}
-        className="Addgoal-Confirm-Modal"
-        renderData={
-          <div className="Description">
-            {getBackButtonContent(location.pathname)}
-          </div>
-        }
-      />
+        handleOk={handleOk}>
+        <div className="text-3 text-oldBurgundy leading-[23px] text-left">
+          {getBackButtonContent(location.pathname)}
+        </div>
+      </ConfirmModal>
       {exception && (
         <div>
           <ErrorInteractionModal

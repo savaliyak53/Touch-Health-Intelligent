@@ -6,9 +6,23 @@ interface InputProps {
   setClose: (bool: boolean) => void;
   children: React.ReactNode;
   isOpen: boolean;
+  isAuth?: boolean;
 }
 
-const TouchModal: FC<InputProps> = ({ isOpen, setClose, children }) => {
+//1. Confirm modal +
+//2. Delete session modal +
+//3. Delete data modal
+//4. Error modal
+//5. Free trial modal
+//6. Google modal
+//7. Guidance modal
+//8. Accountant Lock modal
+//9. Error interaction modal
+//10. Last goal modal
+//11. Price modal
+//12. Recaptcha modal
+
+const TouchModal: FC<InputProps> = ({ isOpen, isAuth, setClose, children }) => {
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setClose}>
@@ -38,7 +52,7 @@ const TouchModal: FC<InputProps> = ({ isOpen, setClose, children }) => {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative w-[350px] transform overflow-hidden rounded-[5px] bg-dentist text-center shadow-primary transition-all">
+                <Dialog.Panel className="relative w-[350px] transform overflow-hidden rounded-[5px] bg-white text-center shadow-primary transition-all">
                   <button className='float-right mr-[15px] mt-[15px] focus-visible:outline-none' type='button' onClick={() => setClose(false)}>
                     <CloseIcon />
                   </button>
@@ -48,8 +62,8 @@ const TouchModal: FC<InputProps> = ({ isOpen, setClose, children }) => {
             </div>
           </div>
 
-          {/* This div works as an extra space to center the modal when we use the web version */}
-          <div className='hidden h-full w-full max-w-[50%] dd:block'/>
+          {/* This div works as an extra space to center the modal when we use the web version main layout */}
+          {!isAuth && <div className='hidden h-full w-full max-w-[50%] dd:block'/>}
         </div>
       </Dialog>
     </Transition.Root>

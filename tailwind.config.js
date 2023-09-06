@@ -6,7 +6,7 @@ const screens = {
   xl: '1200px', // big desktop
   xxl: '1400px',
   '3xl': '1800px',
-  dd: '812px' // hide right side for main layout
+  dd: '813px' // hide right side for main layout
 }
 
 /** @type {import('tailwindcss').Config} */

@@ -207,15 +207,13 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
           <ConfirmModal
             title={'Error'}
             open={wrongCredentialsModal}
+            isAuth={true}
             handleCancel={() => setWrongCredentialsModal(false)}
-            handleOk={() => setWrongCredentialsModal(false)}
-            className="Delete-Modal"
-            renderData={
-              <div className="Description">
-                <div>{error?.message}</div>
-              </div>
-            }
-          />
+            handleOk={() => setWrongCredentialsModal(false)}>
+            <div className="text-3 text-oldBurgundy leading-[23px] text-left">
+              <div>{error?.message}</div>
+            </div>
+          </ConfirmModal>
           <ReCAPTCHA
             className={Authstyles['recaptcha']}
             ref={refCaptcha}

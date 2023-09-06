@@ -65,10 +65,10 @@ const DashboardNew = () => {
     <Layout streak={overview?.streak || 0} defaultHeader={true} hamburger={true} dashboard={true} title={`Good ${getPartOfDay()}${username ? `, ${username}`: ''}`}>
 
       <Status overview={overview} />
-      {/* Conditions widget */}
-      <EntityListWidget type={'conditions'} />
-      {/* Influencers widget */}
-      <EntityListWidget type={'influencers'} />
+      {/*/!* Conditions widget *!/*/}
+      {/*<EntityListWidget type={'conditions'} />*/}
+      {/*/!* Influencers widget *!/*/}
+      {/*<EntityListWidget type={'influencers'} />*/}
 
       <Spin spinning={loading}>
         <Drawer
