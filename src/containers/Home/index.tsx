@@ -197,15 +197,13 @@ const Home = () => {
           <ErrorInteractionModal
             title={'Error'}
             open={true}
-            showTryButton={!exception}
-            renderData={
-              <div className={'Description'}>
-                Oops! Something went wrong
-                <br />
-                Try again later.
-              </div>
-            }
-          />
+            showTryButton={!exception}>
+            <div className='text-3 text-oldBurgundy leading-[23px] text-left'>
+              Oops! Something went wrong
+              <br />
+              Try again later.
+            </div>
+          </ErrorInteractionModal>
         </div>
       )}
     </div>
