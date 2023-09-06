@@ -19,6 +19,7 @@ const ConfirmModal = ({
   children,
   isAuth
 }: IProps) => {
+
   return (
     <TouchModal setClose={handleCancel} isOpen={open} isAuth={isAuth}>
       <div className='flex flex-col w-full my-[50px] px-[20px]'>
