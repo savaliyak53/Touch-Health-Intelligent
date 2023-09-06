@@ -16,8 +16,8 @@ interface InputProps {
 //3. Delete data modal +
 //4. Error modal +
 //5. Free trial modal +
-//6. Google modal
-//7. Guidance modal
+//6. Google modal +
+//7. Guidance modal +
 //8. Accountant Lock modal
 //9. Error interaction modal
 //10. Last goal modal

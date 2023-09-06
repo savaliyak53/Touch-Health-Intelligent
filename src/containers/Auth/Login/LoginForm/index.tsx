@@ -201,9 +201,10 @@ const LoginForm = ({ refCaptcha }: LoginFormProps) => {
             title={'Too many retries'}
             open={showLockAccountModal}
             handleCancel={handleCancelModal}
-            handleOk={handleCancelModal}
-            renderData={<div>{modalText}</div>}
-          />
+            isAuth={true}
+            handleOk={handleCancelModal}>
+            <div className={'text-3 text-oldBurgundy leading-[23px] text-left'}>{modalText}</div>
+          </AccountLockModal>
           <ConfirmModal
             title={'Error'}
             open={wrongCredentialsModal}
