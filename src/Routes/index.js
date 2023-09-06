@@ -67,7 +67,7 @@ const AppRoutes = () => {
             element={<ThankyouForSubmiting />}
           />
           <Route path="/preferences" element={<Preferences />} />
-          {/* <Route path="/integrations" element={<Integrations />} /> */}
+           <Route path="/integrations" element={<Integrations />} />
           <Route path="/introvideo" element={<IntroVideo />} />
           <Route path="/manage-devices" element={<ManageDevices />} />
           <Route path="/subscription" element={<SubscriptionNew />} />
