@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router';
-import { Modal, Button, Typography } from 'antd';
-import styles from './FreeTrialModal.module.scss';
 import moment from 'moment';
 import AuthContext , { AuthContextData }  from 'contexts/AuthContext';
-const { Paragraph, Text } = Typography;
+import TouchButton from 'components/TouchButton';
+import TouchModal from 'components/Modal/TouchModal';
+
 export type IProps = {
   open: boolean;
   handleOk: () => void;
@@ -30,72 +30,69 @@ const FreeTrialModal = ({
   if (!authContext) return null;
   const { logoutUser } = authContext;
 
+  const fakeFunction = (bool: boolean): void => {
+    if (!bool) {
+      console.log('Сan not be closed');
+    }
+  }
+
+  const goToDashboard = (): void => {
+    navigate('/dashboard')
+  }
+
+  const handleSignOut = (): void => {
+    logoutUser();
+    (window as any).Intercom('shutdown');
+    navigate('/login');
+  }
+
+  const getMainText = (): string => {
+    if (trialExpired) {
+      return `Your free trial ended on ${moment(trialEndDate).format('MMMM Do, YYYY')}`
+    } else if (moment(trialEndDate).diff(moment(), 'days') === 0) {
+      return 'Your free trial is scheduled to end today!'
+    }
+    return `Your free trial is scheduled to end on ${moment(trialEndDate).format('MMMM Do, YYYY')}, giving you ${moment(trialEndDate).diff(moment(), 'days')} more days to explore our services.`
+  }
+
   return (
-    <Modal
-      title={title}
-      open={open}
-      onOk={handleOk}
-      className={'FreeTrial-Modal'}
-      footer={
-        <>
-        <div className={styles['Btn-group']}>
-          <Button key="submit" className={'Submit-Button'} onClick={handleOk} style={{marginTop: trialExpired || subscriptionExpired ? '70px' : ''}}>
-            {primaryButtonText}
-          </Button>
+    <TouchModal setClose={fakeFunction} isOpen={open} isFullScreen={true} withoutCloseIcon={true}>
+      <div className='flex flex-col h-full justify-between w-full mt-[50px] px-[20px]'>
+        <div>
+          <h3 className='text-[18px] mb-10 leading-[22px] flex items-center font-tilt-warp text-primary-delft-dark opacity-90'>
+            {title}
+          </h3>
+          <div className="text-3 text-oldBurgundy leading-[23px] text-left">
+            <div className='mb-8'>{getMainText()}</div>
+            <div>{trialExpired
+              ? 'We`re thrilled to have you on board! Begin your subscription now to continue enjoying our services beyond the trial period!'
+              : 'Begin your subscription now to continue enjoying our services beyond the trial period!'}</div>
+          </div>
         </div>
-        {!trialExpired && (<div className={styles['Btn-group']}>
-          <Button key="submit" className={'Secondary-Button'} onClick={() => navigate('/dashboard')}>
+        <div className='mx-auto mb-[120px] w-[250px] flex flex-col gap-5'>
+          <TouchButton
+            className={`${trialExpired || subscriptionExpired ? 'mt-18' : ''}`}
+            type={'default'}
+            onClick={handleOk}>
+            {primaryButtonText}
+          </TouchButton>
+
+          {!trialExpired && <TouchButton
+            type={'secondary'}
+            onClick={goToDashboard}>
             {secondaryButtonText}
-          </Button>
-        </div>)}
-        {(trialExpired && !subscriptionExpired) && (<div className={styles['Btn-group']}>
-          <Button key="submit" className={'Secondary-Button'}               
-            onClick={() => {
-                logoutUser();
-                (window as any).Intercom('shutdown');
-                navigate('/login');
-              }}>
-            {'Sign Out'}
-          </Button>
-        </div>)}
-        </>
-      }
-    >
-      <div className="Description">
-      {trialExpired ? (
-          <>
-            <Paragraph>
-              Your free trial ended on{' '}
-              {moment(trialEndDate).format('MMMM Do, YYYY')}
-            </Paragraph>
-            <Paragraph>
-              We&apos;re thrilled to have you on board! Begin your subscription
-              now to continue enjoying our services beyond the trial period!
-            </Paragraph>
-          </>
-        ) : moment(trialEndDate).diff(moment(), 'days') == 0 ? (
-          <>
-            <Paragraph>
-              Your free trial is scheduled to end today!
-            </Paragraph>
-            <Paragraph>
-              Begin your subscription now to continue enjoying our services beyond the trial period!
-            </Paragraph>
-          </>
-        ) : (
-          <>
-            <Paragraph>
-              Your free trial is scheduled to end on{' '}
-              {moment(trialEndDate).format('MMMM Do, YYYY')}, giving you{' '} 
-              {moment(trialEndDate).diff(moment(), 'days')} more days to explore our services. <br />
-            </Paragraph>
-            <Paragraph>
-              Begin your subscription now to continue enjoying our services beyond the trial period!
-            </Paragraph>
-          </>
-        )}
+          </TouchButton>
+          }
+
+          {(trialExpired && !subscriptionExpired) && <TouchButton
+            type={'secondary'}
+            onClick={handleSignOut}>
+            {secondaryButtonText}
+          </TouchButton>
+          }
+        </div>
       </div>
-    </Modal>
+    </TouchModal>
   );
 };
 

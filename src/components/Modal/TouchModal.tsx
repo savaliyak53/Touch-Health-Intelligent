@@ -7,12 +7,14 @@ interface InputProps {
   children: React.ReactNode;
   isOpen: boolean;
   isAuth?: boolean;
+  isFullScreen?: boolean;
+  withoutCloseIcon?: boolean;
 }
 
 //1. Confirm modal +
 //2. Delete session modal +
 //3. Delete data modal +
-//4. Error modal
+//4. Error modal +
 //5. Free trial modal
 //6. Google modal
 //7. Guidance modal
@@ -22,7 +24,7 @@ interface InputProps {
 //11. Price modal
 //12. Recaptcha modal
 
-const TouchModal: FC<InputProps> = ({ isOpen, isAuth, setClose, children }) => {
+const TouchModal: FC<InputProps> = ({ isOpen, isAuth, withoutCloseIcon, isFullScreen, setClose, children }) => {
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setClose}>
@@ -52,10 +54,10 @@ const TouchModal: FC<InputProps> = ({ isOpen, isAuth, setClose, children }) => {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative w-[350px] transform overflow-hidden rounded-[5px] bg-white text-center shadow-primary transition-all">
-                  <button className='float-right mr-[15px] mt-[15px] focus-visible:outline-none' type='button' onClick={() => setClose(false)}>
+                <Dialog.Panel className={`relative ${isFullScreen ? 'w-full h-full' : 'w-[350px]'} transform overflow-hidden rounded-[5px] bg-white text-center shadow-primary transition-all`}>
+                  {!withoutCloseIcon && <button className='float-right mr-[15px] mt-[15px] focus-visible:outline-none' type='button' onClick={() => setClose(false)}>
                     <CloseIcon />
-                  </button>
+                  </button>}
                   {children}
                 </Dialog.Panel>
               </Transition.Child>
