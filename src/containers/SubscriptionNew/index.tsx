@@ -461,7 +461,6 @@ const SubscriptionNew = () => {
             />
             <PriceModal
               open={confirmSubscription}
-              className="Addgoal-Confirm-Modal"
               price={getPricePopupPlan()}
               handleCancel={() => setConfirmSubscription(false)}
               handleOk={() => handleSubscribeClick()}

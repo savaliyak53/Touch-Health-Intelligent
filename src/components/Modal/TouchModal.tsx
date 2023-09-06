@@ -17,11 +17,11 @@ interface InputProps {
 //4. Error modal +
 //5. Free trial modal +
 //6. Google modal +
-//7. Guidance modal
+//7. Guidance modal -
 //8. Accountant Lock modal +
 //9. Error interaction modal +
-//10. Last goal modal
-//11. Price modal
+//10. Last goal modal -
+//11. Price modal +
 //12. Recaptcha modal
 
 const TouchModal: FC<InputProps> = ({ isOpen, isAuth, withoutCloseIcon, isFullScreen, setClose, children }) => {
