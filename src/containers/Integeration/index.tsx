@@ -315,21 +315,18 @@ const Integrations = () => {
               >
                 Delete all my data
               </Button>
-              {/*<DeleteModal*/}
-              {/*  title={''}*/}
-              {/*  open={showCancelModal}*/}
-              {/*  handleCancel={handleDeleteModal}*/}
-              {/*  handleOk={() => removeUserData()}*/}
-              {/*  renderData={*/}
-              {/*    <div>*/}
-              {/*      By deleting your data, your entire health profile in the*/}
-              {/*      Touch Health Assistant will cease to exist. No data will be*/}
-              {/*      retained, and you will be sent back to the beginning as if*/}
-              {/*      you just started. This is irreversible, proceed with*/}
-              {/*      caution.*/}
-              {/*    </div>*/}
-              {/*  }*/}
-              {/*/>*/}
+              <DeleteModal
+                open={showCancelModal}
+                handleCancel={handleDeleteModal}
+                handleOk={() => removeUserData()}>
+                <div className='text-3 text-oldBurgundy leading-[23px]'>
+                  By deleting your data, your entire health profile in the
+                  Touch Health Assistant will cease to exist. No data will be
+                  retained, and you will be sent back to the beginning as if
+                  you just started. This is irreversible, proceed with
+                  caution.
+                </div>
+              </DeleteModal>
               <GoogleOAuthDisclosureModal
                 title={''}
                 open={showGoogleOAuthModal}

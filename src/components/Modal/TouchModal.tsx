@@ -11,7 +11,7 @@ interface InputProps {
 
 //1. Confirm modal +
 //2. Delete session modal +
-//3. Delete data modal
+//3. Delete data modal +
 //4. Error modal
 //5. Free trial modal
 //6. Google modal
