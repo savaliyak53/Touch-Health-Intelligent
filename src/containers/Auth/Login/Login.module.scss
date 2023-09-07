@@ -116,6 +116,28 @@
     box-shadow: 0px 4px 0px 0px #204ecf;
   }
 }
+
+.PasswordInput:placeholder-shown + label {
+  position: absolute;
+  top: 25px;
+  left: 18px;
+}
+.PasswordInput::-webkit-input-placeholder {
+  opacity: 0;
+  transition: inherit;
+}
+.PasswordInput:focus::-webkit-input-placeholder {
+  opacity: 1;
+}
+
+.PasswordInput:not(:placeholder-shown) + label,
+.PasswordInput:focus + label,
+.PasswordInput:-webkit-autofill + label {
+  position: absolute;
+  top: 2px;
+  left: 18px;
+  font-size: 10px;
+}
 .PasswordInputIvalid {
   @extend .PasswordInput;
   box-shadow: 0px 4px 0px 0px #f26749;

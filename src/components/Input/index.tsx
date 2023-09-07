@@ -10,6 +10,7 @@ import PassWordEye from './passwordEye';
 import SVGERROR from 'components/ErrorSvg/index';
 
 interface InputProps {
+  label?: string;
   id?: string;
   name?: string;
   placeholder?: string;
@@ -31,6 +32,7 @@ interface InputProps {
 const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
   (
     {
+      label,
       name,
       placeholder,
       type,
@@ -63,7 +65,9 @@ const InputField: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
           onChange={onChange}
           defaultValue={defaultValue}
           disabled={disabled}
+          placeholder=' '
         />
+        <label className='label' style={{textTransform:'capitalize'}}>{label}</label>
         {isEye ? (
           <PassWordEye togglePassword={togglePassword} />
         ) : userName ? null : (
