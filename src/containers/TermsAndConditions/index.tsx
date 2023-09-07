@@ -123,9 +123,9 @@ const TermsAndCondtions: FC = () => {
           </p>
           <p className='text-left text-[16px] leading-[2]'>{` This document was last updated on November 29, 2022`}</p>
         </div>
-        <div className='fixed bottom-0 bg-white py-[20px] w-full'>
+        <div className='fixed bottom-0 bg-white py-[20px] sm:w-[50vw] w-full'>
           <TouchButton
-            className='px-8 w-[80%] mb-[10px] mx-auto'
+            className='px-8 w-[65%] mb-[10px] mx-auto'
             type={'default'}
             isDisabled={disabled}
             onClick={onSubmit}>
