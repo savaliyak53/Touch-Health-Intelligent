@@ -10,6 +10,7 @@ import {getPartOfDay} from 'helpers/time';
 import {IOverview} from 'interfaces';
 import EntityListWidget from 'components/Widgets/EntityListWidget';
 import { getOverview } from 'services/dashboardservice';
+import useLocalStorage from 'hooks/useLocalStorage';
 
 const DashboardNew = () => {
   const [error, setError] = useState<any>();
@@ -18,6 +19,7 @@ const DashboardNew = () => {
   const [username, setUsername] = useState<string>('');
   const [overview, setOverview] = useState<IOverview>();
   const navigate = useNavigate();
+  const [isOnboarding] = useLocalStorage("isOnboarding");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -56,6 +58,12 @@ const DashboardNew = () => {
         });
       });
   };
+
+  useEffect(() => {
+    if(isOnboarding){
+      localStorage.removeItem('isOnboarding')
+    }
+  },[]);
 
   useEffect(() => {
     if (error) throw error;

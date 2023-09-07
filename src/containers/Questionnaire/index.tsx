@@ -16,6 +16,8 @@ import Layout from 'layouts/Layout/Layout';
 import { Skeleton } from 'antd';
 import ErrorInteractionModal from 'components/Modal/ErrorInteractionModal';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
+import LogoSmal from 'components/Icons/LogoSmal';
+import useLocalStorage from 'hooks/useLocalStorage';
 
 function UserCondition() {
   const [question, setQuestion] = useState<Interaction | any>();
@@ -30,6 +32,7 @@ function UserCondition() {
   const [exception, setException] = useState<boolean>(false);
   const context = useContext<AuthContextData | undefined>(AuthContext);
   const [error, setError] = useState<any>();
+  const [isOnboarding] = useLocalStorage("isOnboarding");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -245,7 +248,7 @@ function UserCondition() {
   };
 
   return (
-    <Layout defaultHeader={true} hamburger={false} title={'Onboarding'}>
+    <Layout defaultHeader={true} hamburger={false} title={isOnboarding ? 'Onboarding' : 'Daily Check-in'}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
       {question?.type === 'error' || exception ? (
         <div>
@@ -266,8 +269,11 @@ function UserCondition() {
         <div className="Content-wrap Pain relative">
           {question && (
             <>
+              <div className="align-center mb-4 mt-9">
+                <LogoSmal  />
+              </div>
               {question?.flow_length &&
-                <div className="text-[22px] text-primary-delft-dark font-['tilt_warp'] absolute top-[-47px] left-[121px]"><span className='pl-[9px] text-[12px] text-[#F26749] relative bottom-[2px]'>{question?.flow_index <= question?.flow_length && `${question?.flow_index}/${question?.flow_length}`}</span></div>
+                <div className={`text-[22px] text-primary-delft-dark font-['tilt_warp'] absolute top-[-47px] ${isOnboarding ? "left-[121px]" : "left-[143px]" }`}><span className='pl-[9px] text-[12px] text-[#F26749] relative bottom-[2px]'>{question?.flow_index <= question?.flow_length && `${question?.flow_index}/${question?.flow_length}`}</span></div>
               }
               <Question
                 key={refId}
