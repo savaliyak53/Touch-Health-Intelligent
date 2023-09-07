@@ -174,6 +174,11 @@ const Verification = () => {
     }
   };
 
+  const handleCancelFinishStatus = () => {
+    setfinishStatus(false);
+    pageBackEvent();
+  }
+
   return (
     <Layout defaultHeader={true} hamburger={false} title={'Verification code'}>
       <div className={styles['Verification-wrap']}>
@@ -239,35 +244,22 @@ const Verification = () => {
         <ConfirmModal
           title={'Confirmation'}
           open={modalOpen}
-          handleCancel={() => {
-            setModalOpen(false);
-          }}
-          handleOk={() => {
-            setModalOpen(false);
-          }}
-          className="Addgoal-Confirm-Modal"
-          renderData={
-            <div className="Description">
-              We just sent a text to your number, confirm this is you by putting
-              in the code you received here
-            </div>
-          }
-        />
+          handleCancel={() => setModalOpen(false)}
+          handleOk={() => setModalOpen(false)}>
+          <div className="text-3 text-oldBurgundy leading-[23px] text-left">
+            We just sent a text to your number, confirm this is you by putting
+            in the code you received here
+          </div>
+        </ConfirmModal>
         <ConfirmModal
           title={'Confirmation'}
           open={finishStatus}
-          handleCancel={() => {
-            setfinishStatus(false);
-            pageBackEvent();
-          }}
-          handleOk={logoutClick}
-          className="Addgoal-Confirm-Modal"
-          renderData={
-            <div className="Description">
-              Are you sure you want to navigate away from this page?
-            </div>
-          }
-        />
+          handleCancel={() => handleCancelFinishStatus}
+          handleOk={logoutClick}>
+          <div className="text-3 text-oldBurgundy leading-[23px] text-left">
+            Are you sure you want to navigate away from this page?
+          </div>
+        </ConfirmModal>
       </div>
     </Layout>
   );

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Row, Modal, Col, Tooltip, Button } from 'antd';
-import styles from '../GoalDetails.module.scss';
+import { Row, Modal, Col, Tooltip } from 'antd';
 import streakStyles from 'containers/DashboardNew/DashboardNew.module.scss';
 import v from '../../../variables.module.scss';
 import { ArrowLeftOutlined } from '@ant-design/icons';

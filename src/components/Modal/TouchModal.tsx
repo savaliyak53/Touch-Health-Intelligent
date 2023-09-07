@@ -6,9 +6,12 @@ interface InputProps {
   setClose: (bool: boolean) => void;
   children: React.ReactNode;
   isOpen: boolean;
+  isAuth?: boolean;
+  isFullScreen?: boolean;
+  withoutCloseIcon?: boolean;
 }
 
-const TouchModal: FC<InputProps> = ({ isOpen, setClose, children }) => {
+const TouchModal: FC<InputProps> = ({ isOpen, isAuth, withoutCloseIcon, isFullScreen, setClose, children }) => {
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setClose}>
@@ -38,18 +41,18 @@ const TouchModal: FC<InputProps> = ({ isOpen, setClose, children }) => {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative w-[350px] transform overflow-hidden rounded-[5px] bg-dentist text-center shadow-primary transition-all">
-                  <button className='float-right mr-[15px] mt-[15px] focus-visible:outline-none' type='button' onClick={() => setClose(false)}>
+                <Dialog.Panel className={`relative ${isFullScreen ? 'w-full h-full' : 'w-[350px]'} transform overflow-hidden rounded-[5px] bg-white text-center shadow-primary transition-all`}>
+                  {!withoutCloseIcon && <button className='float-right mr-[15px] mt-[15px] focus-visible:outline-none' type='button' onClick={() => setClose(false)}>
                     <CloseIcon />
-                  </button>
+                  </button>}
                   {children}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
           </div>
 
-          {/* This div works as an extra space to center the modal when we use the web version */}
-          <div className='hidden h-full w-full max-w-[50%] dd:block'/>
+          {/* This div works as an extra space to center the modal when we use the web version main layout */}
+          {!isAuth && <div className='hidden h-full w-full max-w-[50%] dd:block'/>}
         </div>
       </Dialog>
     </Transition.Root>

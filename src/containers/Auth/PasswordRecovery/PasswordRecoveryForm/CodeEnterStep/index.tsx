@@ -164,16 +164,14 @@ const CodeEnterStep: React.FC<IProps> = ({
       <ConfirmModal
         title={'Confirmation'}
         open={modalOpen}
+        isAuth={true}
         handleCancel={() => setModalOpen(false)}
-        handleOk={() => setModalOpen(false)}
-        className="Addgoal-Confirm-Modal"
-        renderData={
-          <div className="Description">
-            We just sent a text to your number, confirm this is you by putting
-            in the code you received here
-          </div>
-        }
-      />
+        handleOk={() => setModalOpen(false)}>
+        <div className="text-3 text-oldBurgundy leading-[23px] text-left">
+          We just sent a text to your number, confirm this is you by putting
+          in the code you received here
+        </div>
+      </ConfirmModal>
     </>
   );
 };

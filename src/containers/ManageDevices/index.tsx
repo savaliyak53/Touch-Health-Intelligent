@@ -14,6 +14,7 @@ const ManageDevices = () => {
   const [spinning, setSpinning] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
   const [signoutDevice, setSignoutDevice] = useState<any>(null);
+  const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<any>();
 
   const getSessionData = () => {
@@ -94,9 +95,10 @@ const ManageDevices = () => {
         </div>
         <DeleteSessionModal
           open={open}
-          title={'Enter Password to Signout Device'}
           handleCancel={handleCancel}
           handleOk={handleOk}
+          password={password}
+          setPassword={setPassword}
         />
       </Spin>
     </Layout>

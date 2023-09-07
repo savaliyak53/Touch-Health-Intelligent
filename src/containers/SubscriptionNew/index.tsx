@@ -438,17 +438,13 @@ const SubscriptionNew = () => {
             <ConfirmModal
               title={'Confirmation'}
               open={showCancelModal}
-              handleCancel={() => {
-                setShowCancelModal(false);
-              }}
+              handleCancel={() => setShowCancelModal(false)}
               handleOk={handleOk}
-              className="Addgoal-Confirm-Modal"
-              renderData={
-                <div className="Description">
-                  {`Your subscription will be cancelled and not renewed on ${userPlan?.subscriptionData.renewalDate}`}
-                </div>
-              }
-            />
+            >
+              <div className='text-3 text-oldBurgundy leading-[23px] text-left'>
+                {`Your subscription will be cancelled and not renewed on ${userPlan?.subscriptionData.renewalDate}`}
+              </div>
+            </ConfirmModal>
             <FreeTrialModal
               title="Subscription"
               handleOk={() => {
@@ -460,14 +456,11 @@ const SubscriptionNew = () => {
               primaryButtonText="Subscribe Now!"
               secondaryButtonText="Maybe Later"
               trialEndDate={userPlan?.trialData.trialEndDate}
-              trialExpired={userPlanStatus == 'trial_expired' ? true : false}
-              subscriptionExpired={
-                userPlanStatus == 'subscription_expired' ? true : false
-              }
+              trialExpired={userPlanStatus === 'trial_expired'}
+              subscriptionExpired={userPlanStatus === 'subscription_expired'}
             />
             <PriceModal
               open={confirmSubscription}
-              className="Addgoal-Confirm-Modal"
               price={getPricePopupPlan()}
               handleCancel={() => setConfirmSubscription(false)}
               handleOk={() => handleSubscribeClick()}

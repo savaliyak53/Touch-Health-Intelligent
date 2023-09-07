@@ -6,7 +6,7 @@ const screens = {
   xl: '1200px', // big desktop
   xxl: '1400px',
   '3xl': '1800px',
-  dd: '812px' // hide right side for main layout
+  dd: '813px' // hide right side for main layout
 }
 
 /** @type {import('tailwindcss').Config} */
@@ -34,6 +34,7 @@ module.exports = {
           'linear-gradient(135deg, #83A5F2 0%, #EA9836 90.85%)',
         "buttongradient": "linear-gradient(272deg, #204ECF 10.29%, #F9A197 92.77%)",
         "buttongradientBlack": "linear-gradient(272deg, #080815 10.29%, rgba(8, 8, 21, 0.50) 92.77%)",
+        "buttonGradientSecondary": "linear-gradient(269deg, #F0ECE7 8.72%, #FEFEFE 94.28%)",
       },
       colors: {
         primary: {
@@ -60,7 +61,8 @@ module.exports = {
         },
         high: {
           dark: "#080815",
-          light: "#B3FFD1"
+          medium: "rgba(8, 8, 21, 0.7)",
+          light: "rgba(8, 8, 21, 0.3)"
         },
         piano: {
           dark: "9DD7B4",
@@ -141,6 +143,7 @@ module.exports = {
         error: '0 4px 0 0 rgba(242, 103, 73, 1)',
         button: '2px 2px 0px 0px #83A5F2',
         buttonBlack: '2px 2px 0px 0px rgba(8, 8, 21, 0.50)',
+        buttonSecondary: '2px 2px 0px 0px #F0ECE7',
       },
       fontFamily: {
         'roboto': ['Roboto', 'sans-serif'],

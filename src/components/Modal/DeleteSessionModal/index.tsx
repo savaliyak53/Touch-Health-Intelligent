@@ -1,50 +1,47 @@
-import React, { useState } from 'react';
-import { Modal, Button } from 'antd';
-import styles from './DeleteSessionModal.module.scss';
-import InputField from '../../Input';
+import React, { ChangeEvent } from 'react';
+import TouchModal from 'components/Modal/TouchModal';
+import TouchButton from 'components/TouchButton';
+import TouchInput from 'components/TouchInput';
+
 export type IProps = {
   open: boolean;
-  handleCancel: () => any;
-  handleOk: any;
-  title: string;
+  password: string;
+  setPassword: (str: string) => void;
+  handleCancel: () => void;
+  handleOk: () => void;
 };
+
 const DeleteSessionModal = ({
   open,
+  password,
+  setPassword,
   handleCancel,
-  title,
-  handleOk,
+  handleOk
 }: IProps) => {
-    const [passwordShown, setPasswordShown] = useState(false);
 
-    const togglePassword = () => {
-        setPasswordShown(!passwordShown);
-    };
+  const handleOnChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  }
+
   return (
-    <Modal
-      title={title}
-      open={open}
-      onOk={handleOk}
-      onCancel={handleCancel}
-      className={"Delete-Modal"} 
-      footer={[
-        <div  key="submit" className={styles["Btn-group"]}>
-          <Button key="submit" className={'Submit-Button'} onClick={handleOk}>
-           Confirm
-          </Button>
-        </div>
-      ]
-      }
-    >
-      <div className={styles["Data"]}>
-      <InputField
-            placeholder="Password"
-            type={passwordShown ? 'text' : 'password'}
-            className={styles['app-Input']}
-            isEye={true}
-            togglePassword={togglePassword}
-          />
+    <TouchModal setClose={handleCancel} isOpen={open}>
+      <div className='flex flex-col w-full my-[50px] px-[20px]'>
+        <h3 className='text-[18px] mb-[6px] leading-[22px] flex items-center font-tilt-warp text-primary-delft-dark opacity-90'>
+          Enter Password to Signout Device
+        </h3>
+        <TouchInput
+          placeholder='Enter password'
+          className='mt-5'
+          type={'password'}
+          value={password}
+          onChange={handleOnChangePassword} />
       </div>
-    </Modal>
+      <div className='mx-[25px] mb-[33px] px-10'>
+        <TouchButton type={'default'} onClick={handleOk}>
+          Confirm
+        </TouchButton>
+      </div>
+    </TouchModal>
   );
 };
 
