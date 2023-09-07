@@ -125,7 +125,7 @@ const TermsAndCondtions: FC = () => {
         </div>
         <div className='fixed bottom-0 bg-white py-[20px] w-full'>
           <TouchButton
-            className='px-8 w-[80%] mb-[10px] mx-auto'
+            className='px-8 w-[65%] mb-[10px] mx-auto'
             type={'default'}
             isDisabled={disabled}
             onClick={onSubmit}>
