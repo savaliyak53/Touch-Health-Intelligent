@@ -1875,6 +1875,10 @@
         }
       }
     }
+
+    .slider {
+      transition: all .35s ease-in-out !important;
+    }
   }
 }
 

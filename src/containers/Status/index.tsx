@@ -264,6 +264,8 @@ const Status: FC<IProps> = ({overview}) => {
           }
           className="Dashboard-Carousel dashboard-slider overflow-y-visible mb-4"
           width={370}
+          emulateTouch
+          showThumbs={false}
         >
           {days.map((day: any, index: number) => (
             <>
