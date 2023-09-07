@@ -18,6 +18,7 @@ import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import DeleteModal from 'components/Modal/DeleteDataModal';
 import { deleteAllData } from 'services/goalsService';
 import { toast } from 'react-toastify';
+import useLocalStorage from 'hooks/useLocalStorage';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -53,6 +54,7 @@ const Preferences = () => {
   const [error, setError] = useState<any>();
   const [loc, setLocation] = useState<LocationState>();
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const [setIsOnboarding] = useLocalStorage("isOnboarding");
 
   useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
@@ -177,6 +179,7 @@ const Preferences = () => {
       .then((res) => {
         toast('User data deleted');
         handleSetUserStatus();
+        setIsOnboarding(true);
       })
       .catch((err) => {
         setError({
