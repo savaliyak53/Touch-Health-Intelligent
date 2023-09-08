@@ -1903,3 +1903,66 @@
   border-top-color: currentColor;
   animation: antRotate 1s linear infinite;
 }
+
+.CodeInputWrap {
+  display: flex !important;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.SignupBGWrap {
+  position: relative;
+  height: 100vh;
+  overflow: hidden auto;
+  background-image: url('../public/assets/images/background-mobile-auth.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  @media (min-width: 576px) {
+    background-image: url('../public/assets/images/background-desktop-auth.png');
+    background-repeat: no-repeat;
+    background-position: 100% center;
+    background-size: cover;
+  }
+}
+
+.SignupBGWrap::-webkit-scrollbar {
+  display: none;
+}
+
+.LoginView {
+  padding: 0 12px;
+  display: flex;
+  gap: 25px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  max-width: 390px;
+  margin: 0 auto;
+
+  @media (min-width: 576px) {
+    justify-content: center;
+    gap: 30px;
+    height: 100%;
+  }
+}
+
+.LogoDesktoop {
+  display: none;
+
+  @media (min-width: 576px) {
+    display: block;
+    height: 70px;
+  }
+}
+
+.LogoMobile {
+  display: block;
+
+  @media (min-width: 576px) {
+    display: none;
+  }
+}

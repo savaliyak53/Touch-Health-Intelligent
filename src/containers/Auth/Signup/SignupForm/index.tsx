@@ -11,6 +11,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import InputField from 'components/Input';
 import FloatLabel from 'components/FloatLabel';
+import useLocalStorage from 'hooks/useLocalStorage';
 
 type SignupFormProps = {
   onSubmit: SubmitHandler<IFormInputs>;
@@ -25,6 +26,7 @@ type IFormInputs = {
 };
 
 const SignupForm = ({ refCaptcha }: SignupFormProps) => {
+  const [setIsOnboarding] = useLocalStorage("isOnboarding");
   const [passwordShown, setPasswordShown] = useState(false);
   const [activeClass, setActiveClass] = useState(styles.PasswordInput);
   const [activeClassConfirm, setActiveClassConfirm] = useState(
@@ -101,6 +103,7 @@ const SignupForm = ({ refCaptcha }: SignupFormProps) => {
       token
     );
     if (signupResponse?.id) {
+      setIsOnboarding(true);
       localStorage.setItem('userId', signupResponse.id);
       localStorage.setItem('token', signupResponse.token);
       navigate(`/terms-and-conditions`);

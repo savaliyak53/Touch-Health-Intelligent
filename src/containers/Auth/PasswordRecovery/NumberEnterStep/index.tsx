@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import PhoneInput from 'components/PhoneInput';
-import TouchButton from "../../../../../components/TouchButton";
+import TouchButton from "components/TouchButton";
 
 interface IProps {
   onVerify: (boolean: boolean) => void;

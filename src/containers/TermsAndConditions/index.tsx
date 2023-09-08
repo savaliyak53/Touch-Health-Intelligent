@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FC, useRef } from 'react';
 import { useNavigate } from 'react-router';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import TouchButton from 'components/TouchButton';
 
 const TermsAndCondtions: FC = () => {

@@ -3,7 +3,7 @@ import styles from './Introvideo.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { invokeInteractionServiceByType } from 'services/authservice';
 import { toast } from 'react-toastify';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 const IntroVideo = () => {
   const navigate = useNavigate();
   useEffect(() => {

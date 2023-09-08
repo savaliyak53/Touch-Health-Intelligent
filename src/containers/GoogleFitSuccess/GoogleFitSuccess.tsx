@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, Spin } from 'antd';
 import { useLocation, useNavigate } from 'react-router';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import '../ThankyouForSubmiting/index.scss';
 import { postGoogleToken } from 'services/authservice';
 import { toast } from 'react-toastify';

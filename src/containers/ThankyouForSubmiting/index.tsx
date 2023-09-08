@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import './index.scss';
 import { useNavigate } from 'react-router-dom';
 import {

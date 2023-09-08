@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Tooltip, Button, Spin, Input } from 'antd';
+import { Tooltip, Button, Spin } from 'antd';
 import styles from './Preferences.module.scss';
-import { CloudDownloadOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import {
   getIntegrationStatus,
@@ -11,7 +11,7 @@ import {
   preferencesService,
   invokeInteractionServiceByType,
 } from 'services/authservice';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import moment from 'moment';
 import 'moment-timezone';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';

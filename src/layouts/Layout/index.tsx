@@ -26,7 +26,7 @@ type Props = {
   streak?: number;
   addPadding?: boolean;
 };
-const Layout = ({
+const Index = ({
   children,
   defaultHeader,
   hamburger,
@@ -233,4 +233,4 @@ const Layout = ({
   );
 };
 
-export default Layout;
+export default Index;

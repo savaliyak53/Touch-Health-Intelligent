@@ -40,11 +40,22 @@ const TouchInput: FC<InputProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const inputType = type === 'password' && isPasswordVisible ? 'text' : type;
 
+  // 1. Signup form
+  // 2. Signup form
+  // 3. Signup form
+  // 4. Login form
+
   const focusInput = () => {
     if (!isDisabled && inputRef.current) {
       inputRef.current.focus();
     }
   };
+
+  useEffect(() => {
+    if (value) {
+      setFocusOrFilled(true);
+    }
+  }, [value]);
 
   useEffect(() => {
     if (errorMessage) {

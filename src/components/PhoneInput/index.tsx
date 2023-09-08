@@ -1,7 +1,7 @@
 import { Tooltip } from 'antd';
 import React, {
-  useEffect,
-  useState,
+  useEffect, useRef,
+  useState
 } from 'react';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import ExclamationPointIcon from '../Icons/ExclamationPointIcon';
@@ -15,20 +15,22 @@ interface IProps {
   placeholder: string;
 }
 
+const whitelist: any = [
+  'AU',
+  'CA',
+  'DO',
+  'JM',
+  'IE',
+  'NL',
+  'NZ',
+  'PK',
+  'ZA',
+  'US',
+  'GB',
+];
+
 const TelephoneInput = ({ disabled, value, onChange, placeholder }: IProps) => {
-  const whitelist: any = [
-    'AU',
-    'CA',
-    'DO',
-    'JM',
-    'IE',
-    'NL',
-    'NZ',
-    'PK',
-    'ZA',
-    'US',
-    'GB',
-  ];
+  const phoneRef = useRef<any>(null)
   const [isHovered, setIsHovered] = useState(false);
   const [activeClass, setActiveClass] = useState('shadow-primary');
   const [error, setError] = useState(false);
@@ -44,6 +46,12 @@ const TelephoneInput = ({ disabled, value, onChange, placeholder }: IProps) => {
     setFocusOrFilled(!!value)
     setActiveClass(!isValidPhoneNumber(value || '') ? 'shadow-primary' : 'shadow-verified');
   }, [value])
+
+  const focusInput = () => {
+    if (!disabled && phoneRef.current) {
+      phoneRef.current.focus();
+    }
+  };
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -65,7 +73,7 @@ const TelephoneInput = ({ disabled, value, onChange, placeholder }: IProps) => {
   };
 
   return (
-    <div id='touch-input-wrapper' className={`relative w-full h-[60px] px-5 py-[18px] leading-4 bg-dentist rounded-md ${activeClass}`}>
+    <div onClick={focusInput} id='touch-input-wrapper' className={`relative ${disabled ? '' : 'cursor-pointer'} w-full h-[60px] px-5 py-[18px] leading-4 bg-dentist rounded-md ${activeClass}`}>
       <Tooltip
         color="orange"
         placement="bottomLeft"
