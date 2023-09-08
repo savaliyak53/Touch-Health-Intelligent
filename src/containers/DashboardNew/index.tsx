@@ -74,9 +74,9 @@ const DashboardNew = () => {
 
       <Status overview={overview} />
       {/*/!* Conditions widget *!/*/}
-      {/*<EntityListWidget type={'conditions'} />*/}
+      <EntityListWidget type={'conditions'} />
       {/*/!* Influencers widget *!/*/}
-      {/*<EntityListWidget type={'influencers'} />*/}
+      <EntityListWidget type={'influencers'} />
 
       <Spin spinning={loading}>
         <Drawer
