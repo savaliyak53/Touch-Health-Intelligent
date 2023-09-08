@@ -68,6 +68,10 @@ export interface Interaction {
 //         statistic_str: string
 //     }
 // }
+export interface IDropDownOptionsItem {
+  id: string;
+  text: string;
+}
 /**
  * Prediction graph section
  */
