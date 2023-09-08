@@ -5,6 +5,7 @@ import {  getGuidanceById } from '../../services/dashboardservice';
 import ArrowIcon from 'components/Icons/ArrowIcon';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import rehypeRaw from 'rehype-raw';
+import { useSearchParams } from 'react-router-dom';
 
 type guidanceDataTypes = {
   name: string,
@@ -14,7 +15,10 @@ type guidanceDataTypes = {
 }
 
 const Guidance = () => {
-  const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const guidance_id = searchParams.get('guidance_id');
+  const dimension_id = searchParams.get('dimension_id');
+  const type = searchParams.get('type');
   const navigate = useNavigate();
   const [error, setError] = useState<any>();
   const [guidanceData, setGuidanceData] = useState<guidanceDataTypes | null>();
@@ -22,8 +26,8 @@ const Guidance = () => {
 
   const getGuidanceData = async () => {
     try {
-      if (id) {
-        const response = await getGuidanceById(id);
+      if (guidance_id && dimension_id) {
+        const response = await getGuidanceById({guidance_id: guidance_id, dimension_id: dimension_id, dimension_type: type === "influencers" ? "lifestyle-dimensions" : "condition-dimensions"});
         setGuidanceData(response?.data);
       }
     } catch (error: any) {
@@ -42,7 +46,7 @@ const Guidance = () => {
 
   useEffect(() => {
     getGuidanceData();
-  },[id])
+  },[guidance_id])
   
   useEffect(() => {
     if (error) throw error;

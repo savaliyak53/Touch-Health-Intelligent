@@ -75,7 +75,7 @@ const AppRoutes = () => {
           <Route path="/post-conditions" element={<ManageConditions />} />
           <Route path="/help-and-support" element={<HelpAndSupport />} />
           <Route path="/prediction" element={<Prediction />} />
-          <Route path="/guidance/:id" element={<Guidance />} />
+          <Route path="/guidance" element={<Guidance />} />
           <Route path="/success" element={<Success />} />
           <Route path="/error" element={<Error />} />
         </Route>

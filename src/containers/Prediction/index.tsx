@@ -15,6 +15,7 @@ type influencerDataTypes = {
     date: string,
     score: number,
     emoji: string,
+    uncertainy: number,
   }[];
   guidances_list:{
     name: string,
@@ -31,29 +32,29 @@ const Prediction = () => {
   const [influencerData, setInfluencerData] = useState<influencerDataTypes | null>(null);
   const [error, setError] = useState<any>();
 
-  const id = searchParams.get('id');
+  const influencer_id = searchParams.get('influencer_id');
+  const dimension_id = searchParams.get('dimension_id');
   const predictionType = searchParams.get('type');
 
   const getInfluencerData = async () => {
-    if (!id) {
-      return;
-    }
-    try {
-      let response;
-      if (predictionType === "conditions") {
-        response = await getConditionById(id);
-      } else if (predictionType === "influencers") {
-        response = await getInfluencer(id);
-      }
-      if (response?.data) {
-        setInfluencerData(response.data);
-      }
-    } catch (error: any) {
-      if (error.response) {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details,
-        });
+    if (!!influencer_id && !!dimension_id) {
+      try {
+        let response;
+        if (predictionType === "conditions") {
+          response = await getConditionById({dimension_id: dimension_id, influencer_id:influencer_id });
+        } else if (predictionType === "influencers") {
+          response = await getInfluencer({dimension_id: dimension_id, influencer_id: influencer_id});
+        }
+        if (response?.data) {
+          setInfluencerData(response.data);
+        }
+      } catch (error: any) {
+        if (error.response) {
+          setError({
+            code: error.response.status,
+            message: error.response.data.details,
+          });
+        }
       }
     }
   };
@@ -77,7 +78,7 @@ const Prediction = () => {
 
   useEffect(() => {
     getInfluencerData();
-  },[id])
+  },[dimension_id, influencer_id])
   
   useEffect(() => {
     if (error) throw error;
@@ -125,7 +126,7 @@ const Prediction = () => {
                 influencerData?.guidances_list?.map((guidance) => (
                   <div key={guidance?.guidance_id} className='flex justify-between py-[20px] border-b-[1px] border-[#F0ECE7] pl-1'>
                     <div className='text-[12px]'><span className='font-["tilt_warp"] text-[14px] text-primary-delft-dark'>{guidance?.name}</span> {guidance?.health_dimension}</div>
-                    <img src="/assets/icons/right-indicate-icon.svg" alt='arrow' className='cursor-pointer' onClick={() => navigate(`/guidance/${guidance.guidance_id}`)}/>
+                    <img src="/assets/icons/right-indicate-icon.svg" alt='arrow' className='cursor-pointer' onClick={() => navigate(`/guidance?type=${predictionType}&guidance_id=${guidance.guidance_id}&dimension_id=${dimension_id}`)}/>
                   </div>
                 ))
               }
