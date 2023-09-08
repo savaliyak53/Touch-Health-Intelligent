@@ -165,7 +165,7 @@ const PasswordRecovery: React.FC = () => {
   };
 
   return (
-    <div className='w-full h-[100svh]'>
+    <div className='w-full'>
       <div className='rounded-[5px] bg-white shadow-primary w-full px-[16px] pt-[52px] pb-[84px] md:py-24'>
         {/*first step*/}
         {enterNumber && (
