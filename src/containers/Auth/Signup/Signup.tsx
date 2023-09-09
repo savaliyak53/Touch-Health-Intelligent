@@ -1,14 +1,13 @@
-import React, { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import AuthLayout from 'layouts/AuthLayout';
 import TouchInput from 'components/TouchInput';
-import PhoneInput from 'components/PhoneInput';
 import ReCAPTCHA from 'react-google-recaptcha';
 import TouchButton from 'components/TouchButton';
 import { Link, useNavigate } from 'react-router-dom';
 import useLocalStorage from 'hooks/useLocalStorage';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import { onlyNumbers } from 'utils/lib';
-import { isValidPhoneNumber } from 'react-phone-number-input';
+import InputGroup from 'containers/Auth/Signup/InputGroup';
 
 const SignUp: React.FC = () => {
   const refCaptcha = useRef<any>(null)
@@ -17,20 +16,10 @@ const SignUp: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [usernameError, setUsernameError] = useState<string>('');
   const [usernameVerified, setUsernameVerified] = useState<boolean>(false);
-
   const [phone, setPhone] = useState<string>('');
-  const [phoneError, setPhoneError] = useState<string>('');
   const [phoneVerified, setPhoneVerified] = useState<boolean>(false);
-  const [confirmPhone, setConfirmPhone] = useState<string>('');
-  const [confirmPhoneError, setConfirmPhoneError] = useState<string>('');
-  const [confirmPhoneVerified, setConfirmPhoneVerified] = useState<boolean>(false);
-
   const [password, setPassword] = useState<string>('');
-  const [passwordError, setPasswordError] = useState<string>('');
   const [passwordVerified, setPasswordVerified] = useState<boolean>(false);
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
-  const [confirmPasswordVerified, setConfirmPasswordVerified] = useState<boolean>(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
@@ -41,6 +30,7 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate();
 
   const onVerify = async () => {
+    console.log('click');
     setIsLoading(true);
     setIsDisabled(true);
     const token = refCaptcha.current.getValue();
@@ -83,96 +73,6 @@ const SignUp: React.FC = () => {
     setUsernameVerified(true);
   }
 
-  const checkErrorPassword = (value: string) => {
-    if (confirmPassword && confirmPassword !== value) {
-      setConfirmPasswordError('Password do not match.');
-      setConfirmPasswordVerified(false);
-    } else if (confirmPassword && confirmPassword === value) {
-      setConfirmPasswordError('');
-      setConfirmPasswordVerified(true);
-    }
-    if (!value) {
-      setPasswordError('Password is required.')
-      setPasswordVerified(false);
-      return;
-    } else if (value.length < 8) {
-      setPasswordError('Password should be of at least 8 characters.')
-      setPasswordVerified(false);
-      return;
-    } else if (!value.match(/^(?=.*?[#?!@$%^&*-])/)) {
-      setPasswordError('Need a special character.')
-      setPasswordVerified(false);
-      return;
-    }
-    setPasswordVerified(true);
-  }
-
-  const checkErrorConfirmPassword = (value: string) => {
-    if (!value) {
-      setConfirmPasswordError('Confirm password is required.');
-      setConfirmPasswordVerified(false);
-      return;
-    } else if (value.length < 8) {
-      setConfirmPasswordError('Password should be of at least 8 characters.')
-      setConfirmPasswordVerified(false);
-      return;
-    } else if (!value.match(/^(?=.*?[#?!@$%^&*-])/)) {
-      setConfirmPasswordError('Need a special character.')
-      setConfirmPasswordVerified(false);
-      return;
-    } else if (value !== password) {
-      setConfirmPasswordError('Passwords do not match.');
-      setConfirmPasswordVerified(false);
-      return;
-    }
-    setConfirmPasswordVerified(true);
-  }
-
-  const checkErrorPhone = (value: string) => {
-    if (confirmPhone && confirmPhone !== value) {
-      setConfirmPhoneError('Phones do not match.');
-      setConfirmPhoneVerified(false);
-    } else if (confirmPhone && confirmPhone === value) {
-      setConfirmPhoneError('');
-      setConfirmPhoneVerified(true);
-    }
-    if (!value) {
-      setPhoneError('Phone is required.');
-      setPhoneVerified(false);
-      return;
-    } else if (!isValidPhoneNumber(value || '')) {
-      setPhoneError('Invalid Phone number');
-      setPhoneVerified(false);
-      return;
-    }
-    setPhoneVerified(true);
-  }
-
-  const checkErrorConfirmPhone = (value: string) => {
-    if (!value) {
-      setConfirmPhoneError('Confirm phone is required.');
-      setConfirmPhoneVerified(false);
-      return;
-    } else if (value !== phone) {
-      setConfirmPhoneError('Phones do not match.');
-      setConfirmPhoneVerified(false);
-      return;
-    } else if (!isValidPhoneNumber(value || '')) {
-      setConfirmPhoneError('Invalid Phone number');
-      setConfirmPhoneVerified(false);
-      return;
-    }
-    setConfirmPhoneVerified(true);
-  }
-
-  const handleChangeConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => {
-    setConfirmPassword(e.target.value);
-  }
-
-  const handleChangeConfirmPhone = (value: string) => {
-    setConfirmPhone(value);
-  }
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -205,45 +105,13 @@ const SignUp: React.FC = () => {
               className='mb-4'
             />
 
-            <PhoneInput
-              value={phone}
-              className='mb-4'
-              isVerified={phoneVerified}
-              errorMessage={phoneError}
-              checkError={checkErrorPhone}
-              resetError={setPhoneError}
-              onChange={setPhone}
-              placeholder='Mobile phone number'/>
-            <PhoneInput
-              value={confirmPhone}
-              className='mb-4'
-              isVerified={confirmPhoneVerified}
-              errorMessage={confirmPhoneError}
-              checkError={checkErrorConfirmPhone}
-              resetError={setConfirmPhoneError}
-              onChange={handleChangeConfirmPhone}
-              placeholder='Confirm phone number'/>
-
-            <TouchInput
-              type={'password'}
-              className='mb-4'
-              isVerified={passwordVerified}
-              errorMessage={passwordError}
-              resetError={setPasswordError}
-              checkError={checkErrorPassword}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder='Password'
-              value={password}/>
-            <TouchInput
-              type={'password'}
-              className='mb-4'
-              isVerified={confirmPasswordVerified}
-              errorMessage={confirmPasswordError}
-              resetError={setConfirmPasswordError}
-              onChange={handleChangeConfirmPassword}
-              checkError={checkErrorConfirmPassword}
-              placeholder='Repeat password'
-              value={confirmPassword}/>
+            <InputGroup
+              phone={phone}
+              password={password}
+              setPhone={setPhone}
+              setPassword={setPassword}
+              approvePhoneVerified={setPhoneVerified}
+              approvePasswordVerified={setPasswordVerified} />
 
             <ReCAPTCHA
               className='mt-[25px] mx-auto mb-0'
@@ -256,7 +124,7 @@ const SignUp: React.FC = () => {
               className='mt-8'
               onClick={onVerify}
               isLoading={isLoading}
-              isDisabled={isDisabled && !usernameVerified && !usernameVerified && !usernameVerified && !usernameVerified && !usernameVerified}>
+              isDisabled={(isDisabled || !usernameVerified || !phoneVerified || !passwordVerified)}>
               Create an account
             </TouchButton>
           </form>

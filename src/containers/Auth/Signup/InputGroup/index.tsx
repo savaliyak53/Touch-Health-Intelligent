@@ -1,27 +1,45 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import TouchInput from 'components/TouchInput';
 import PhoneInput from 'components/PhoneInput';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 
 interface IProps {
-  type: 'phone' | 'password';
-  isVerified: boolean;
+  phone: string;
+  password: string;
+  setPhone: (str: string) => void;
+  setPassword: (str: string) => void;
+  approvePhoneVerified: (bool: boolean) => void;
+  approvePasswordVerified: (bool: boolean) => void;
 }
 
-const InputGroup: React.FC<IProps> = ({type, isVerified}) => {
-  const [phone, setPhone] = useState<string>('');
+const InputGroup: React.FC<IProps> = ({
+  phone,
+  password,
+  setPhone,
+  setPassword,
+  approvePhoneVerified,
+  approvePasswordVerified
+  }) => {
+
   const [phoneError, setPhoneError] = useState<string>('');
   const [phoneVerified, setPhoneVerified] = useState<boolean>(false);
   const [confirmPhone, setConfirmPhone] = useState<string>('');
   const [confirmPhoneError, setConfirmPhoneError] = useState<string>('');
   const [confirmPhoneVerified, setConfirmPhoneVerified] = useState<boolean>(false);
 
-  const [password, setPassword] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
   const [passwordVerified, setPasswordVerified] = useState<boolean>(false);
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
   const [confirmPasswordVerified, setConfirmPasswordVerified] = useState<boolean>(false);
+
+  useEffect(() => {
+    approvePhoneVerified((phoneVerified && confirmPhoneVerified))
+  }, [phoneVerified, confirmPhoneVerified]);
+
+  useEffect(() => {
+    approvePasswordVerified((passwordVerified && confirmPasswordVerified))
+  }, [passwordVerified, confirmPasswordVerified])
 
   const checkErrorPassword = (value: string) => {
     if (confirmPassword && confirmPassword !== value) {
