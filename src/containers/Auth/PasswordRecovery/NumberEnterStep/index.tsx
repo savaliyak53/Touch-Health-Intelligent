@@ -33,7 +33,9 @@ const NumberEnterStep: React.FC<IProps> = ({
 
   return (
     <form onSubmit={handleOnVerify} className='flex flex-col items-center justify-center'>
-      <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>Reset password</h1>
+      <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>
+        Reset password
+      </h1>
       <PhoneInput
         onChange={onChange}
         placeholder="Mobile phone number"

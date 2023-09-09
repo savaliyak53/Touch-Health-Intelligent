@@ -40,11 +40,6 @@ const TouchInput: FC<InputProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const inputType = type === 'password' && isPasswordVisible ? 'text' : type;
 
-  // 1. Signup form
-  // 2. Signup form
-  // 3. Signup form
-  // 4. Login form
-
   const focusInput = () => {
     if (!isDisabled && inputRef.current) {
       inputRef.current.focus();
@@ -59,7 +54,9 @@ const TouchInput: FC<InputProps> = ({
 
   useEffect(() => {
     if (errorMessage) {
-      setActiveClass('shadow-error');
+      setTimeout(() => {
+        setActiveClass('shadow-error');
+      }, 0)
     }
   }, [errorMessage]);
 
@@ -119,7 +116,7 @@ const TouchInput: FC<InputProps> = ({
         color="blue"
         open={!!errorMessage && isHovered}>
         <label
-          className={`font-medium text-left leading-[14px] absolute left-[20px] top-[25px] opacity-50 transition-all duration-300 ease-linear pointer-events-none ${isFocusedOrFilled ? 'transform -translate-y-3 text-[10px]' : ''}`}
+          className={`font-medium text-left leading-[14px] absolute left-[20px] top-[25px] opacity-50 transition-all duration-300 ease-linear pointer-events-none ${isFocusedOrFilled ? 'transform -translate-y-3 text-[10px]' : 'text-[14px]'}`}
         >
           {getPlaceholder()}
         </label>

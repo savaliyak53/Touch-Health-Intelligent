@@ -24,7 +24,7 @@ const NewPasswordEnterStep: React.FC<IProps> = ({
 
   const handleOnChangeConfirm = (e: ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value);
-    checkPassword(newPassword);
+    setIsPasswordVerified(newPassword === e.target.value);
   }
 
   const handleOnSubmit = (): void => {
@@ -47,7 +47,6 @@ const NewPasswordEnterStep: React.FC<IProps> = ({
       setIsPasswordVerified(false);
       return;
     }
-    setIsPasswordVerified(true);
   }
 
   return (
