@@ -17,7 +17,6 @@ interface InputProps {
   errorMessage?: string;
   isDisabled?: boolean;
   isVerified?: boolean;
-  [key: string]: any;
 }
 
 const TouchInput: FC<InputProps> = ({
@@ -30,9 +29,9 @@ const TouchInput: FC<InputProps> = ({
   className = '',
   errorMessage = '',
   isDisabled = false,
-  isVerified = false,
-  ...rest
+  isVerified = false
 }) => {
+
   const inputRef = useRef<HTMLInputElement>(null);
   const [isPasswordVisible, setPasswordVisibility] = useState(false);
   const [isFocusedOrFilled, setFocusOrFilled] = useState(false);
@@ -121,7 +120,6 @@ const TouchInput: FC<InputProps> = ({
           {getPlaceholder()}
         </label>
         <input
-          {...rest}
           ref={inputRef}
           type={inputType}
           value={value}

@@ -64,7 +64,6 @@ const NewPasswordEnterStep: React.FC<IProps> = ({
         className={'mb-4'}
       />
       <TouchInput
-        id='confirmPassword'
         value={confirmPassword}
         onChange={handleOnChangeConfirm}
         resetError={setErrConfirm}

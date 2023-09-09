@@ -3,7 +3,7 @@ import React, {
   useEffect, useRef,
   useState
 } from 'react';
-import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import PhoneInput, { isValidPhoneNumber, Country } from 'react-phone-number-input';
 import ExclamationPointIcon from '../Icons/ExclamationPointIcon';
 import 'react-phone-number-input/style.css';
 import './index.scss';
@@ -20,18 +20,8 @@ interface IProps {
   resetError?: (str: string) => void;
 }
 
-const whitelist: any = [
-  'AU',
-  'CA',
-  'DO',
-  'JM',
-  'IE',
-  'NL',
-  'NZ',
-  'PK',
-  'ZA',
-  'US',
-  'GB',
+const whitelist: Country[] = [
+  'AU', 'CA', 'DO', 'JM', 'IE', 'NL', 'NZ', 'PK', 'ZA', 'US', 'GB'
 ];
 
 const TelephoneInput: React.FC<IProps> = ({
@@ -46,7 +36,7 @@ const TelephoneInput: React.FC<IProps> = ({
   resetError,
 }) => {
 
-  const phoneRef = useRef<any>(null)
+  const phoneRef = useRef<HTMLInputElement | null>(null)
   const [isHovered, setIsHovered] = useState(false);
   const [activeClass, setActiveClass] = useState('shadow-primary');
   const [error, setError] = useState(false);
