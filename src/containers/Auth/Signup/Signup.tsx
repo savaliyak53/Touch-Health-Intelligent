@@ -11,7 +11,7 @@ import InputGroup from 'containers/Auth/Signup/InputGroup';
 
 const SignUp: React.FC = () => {
   const refCaptcha = useRef<any>(null)
-  const [setIsOnboarding] = useLocalStorage("isOnboarding");
+  const [value, setIsOnboarding] = useLocalStorage("isOnboarding");
 
   const [username, setUsername] = useState<string>('');
   const [usernameError, setUsernameError] = useState<string>('');
