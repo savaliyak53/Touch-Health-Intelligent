@@ -4,12 +4,12 @@ import PhoneInput from 'components/PhoneInput';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 
 interface IProps {
-  phone: string;
-  password: string;
-  setPhone: (str: string) => void;
-  setPassword: (str: string) => void;
-  approvePhoneVerified: (bool: boolean) => void;
-  approvePasswordVerified: (bool: boolean) => void;
+  phone?: string;
+  password?: string;
+  setPhone?: (str: string) => void;
+  setPassword?: (str: string) => void;
+  approvePhoneVerified?: (bool: boolean) => void;
+  approvePasswordVerified?: (bool: boolean) => void;
 }
 
 const InputGroup: React.FC<IProps> = ({
@@ -34,11 +34,16 @@ const InputGroup: React.FC<IProps> = ({
   const [confirmPasswordVerified, setConfirmPasswordVerified] = useState<boolean>(false);
 
   useEffect(() => {
-    approvePhoneVerified((phoneVerified && confirmPhoneVerified))
+    if (approvePhoneVerified !== undefined) {
+      approvePhoneVerified((phoneVerified && confirmPhoneVerified))
+    }
+
   }, [phoneVerified, confirmPhoneVerified]);
 
   useEffect(() => {
-    approvePasswordVerified((passwordVerified && confirmPasswordVerified))
+    if (approvePasswordVerified !== undefined) {
+      approvePasswordVerified((passwordVerified && confirmPasswordVerified))
+    }
   }, [passwordVerified, confirmPasswordVerified])
 
   const checkErrorPassword = (value: string) => {
@@ -133,45 +138,49 @@ const InputGroup: React.FC<IProps> = ({
 
   return (
     <>
-      <PhoneInput
-        value={phone}
-        className='mb-4'
-        isVerified={phoneVerified}
-        errorMessage={phoneError}
-        checkError={checkErrorPhone}
-        resetError={setPhoneError}
-        onChange={setPhone}
-        placeholder='Mobile phone number'/>
-      <PhoneInput
-        value={confirmPhone}
-        className='mb-4'
-        isVerified={confirmPhoneVerified}
-        errorMessage={confirmPhoneError}
-        checkError={checkErrorConfirmPhone}
-        resetError={setConfirmPhoneError}
-        onChange={handleChangeConfirmPhone}
-        placeholder='Confirm phone number'/>
+      {setPhone && <>
+        <PhoneInput
+          value={phone}
+          className='mb-4'
+          isVerified={phoneVerified}
+          errorMessage={phoneError}
+          checkError={checkErrorPhone}
+          resetError={setPhoneError}
+          onChange={setPhone}
+          placeholder='Mobile phone number'/>
+        <PhoneInput
+          value={confirmPhone}
+          className='mb-4'
+          isVerified={confirmPhoneVerified}
+          errorMessage={confirmPhoneError}
+          checkError={checkErrorConfirmPhone}
+          resetError={setConfirmPhoneError}
+          onChange={handleChangeConfirmPhone}
+          placeholder='Confirm phone number'/>
+      </>}
 
-      <TouchInput
-        type={'password'}
-        className='mb-4'
-        isVerified={passwordVerified}
-        errorMessage={passwordError}
-        resetError={setPasswordError}
-        checkError={checkErrorPassword}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder='Password'
-        value={password}/>
-      <TouchInput
-        type={'password'}
-        className='mb-4'
-        isVerified={confirmPasswordVerified}
-        errorMessage={confirmPasswordError}
-        resetError={setConfirmPasswordError}
-        onChange={handleChangeConfirmPassword}
-        checkError={checkErrorConfirmPassword}
-        placeholder='Repeat password'
-        value={confirmPassword}/>
+      {setPassword && password !== undefined && <>
+        <TouchInput
+          type={'password'}
+          className='mb-4'
+          isVerified={passwordVerified}
+          errorMessage={passwordError}
+          resetError={setPasswordError}
+          checkError={checkErrorPassword}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder='Password'
+          value={password}/>
+        <TouchInput
+          type={'password'}
+          className='mb-4'
+          isVerified={confirmPasswordVerified}
+          errorMessage={confirmPasswordError}
+          resetError={setConfirmPasswordError}
+          onChange={handleChangeConfirmPassword}
+          checkError={checkErrorConfirmPassword}
+          placeholder='Repeat password'
+          value={confirmPassword}/>
+      </>}
     </>
   );
 };

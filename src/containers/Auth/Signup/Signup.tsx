@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthLayout from 'layouts/AuthLayout';
 import TouchInput from 'components/TouchInput';
 import ReCAPTCHA from 'react-google-recaptcha';
 import TouchButton from 'components/TouchButton';
-import { Link, useNavigate } from 'react-router-dom';
 import useLocalStorage from 'hooks/useLocalStorage';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import { onlyNumbers } from 'utils/lib';
@@ -30,7 +30,6 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate();
 
   const onVerify = async () => {
-    console.log('click');
     setIsLoading(true);
     setIsDisabled(true);
     const token = refCaptcha.current.getValue();
@@ -82,7 +81,7 @@ const SignUp: React.FC = () => {
   }, [error]);
 
   return (
-    <AuthLayout>
+    <AuthLayout isSignup={true}>
       <div className='w-full'>
         <div className='rounded-[5px] bg-white shadow-primaryTop w-full p-4'>
           <form
