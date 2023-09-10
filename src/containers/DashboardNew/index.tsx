@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'antd';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import { Spin } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import Drawer from 'components/Modal/Drawer';

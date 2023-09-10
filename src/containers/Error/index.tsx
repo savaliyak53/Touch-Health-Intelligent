@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Alert } from 'antd';
 import { useNavigate } from 'react-router';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import '../ThankyouForSubmiting/index.scss';
 import { Link } from 'react-router-dom';
 import AuthContext, { AuthContextData } from '../../contexts/AuthContext';

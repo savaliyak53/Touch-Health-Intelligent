@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styles from './Verification.module.scss';
 import { toast } from 'react-toastify';
 import Button from 'components/Button';
 import ConfirmModal from 'components/Modal/ConfirmModal';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import { Tooltip } from 'antd';
 import ReactCodeInput from 'react-code-input';
 import { requestPhoneOTP, verifyPhoneOTP } from 'services/authservice';

@@ -5,6 +5,7 @@ import TouchModal from 'components/Modal/TouchModal';
 
 export type IProps = {
   open: boolean;
+  isAuth?: boolean;
   title: string;
   errorType: string;
   error?: any
@@ -15,7 +16,8 @@ const ErrorModal = ({
   title,
   errorType,
   error,
-  handleCancel
+  handleCancel,
+  isAuth = false
 }: IProps) => {
 
   const navigate = useNavigate();
@@ -72,7 +74,7 @@ const ErrorModal = ({
   }
 
   return (
-    <TouchModal setClose={isClosable() ? handleCancel : fakeFunction} isOpen={open}>
+    <TouchModal isAuth={isAuth} setClose={isClosable() ? handleCancel : fakeFunction} isOpen={open}>
       <div className='flex flex-col w-full my-[50px] px-[20px]'>
         <h3 className='text-[18px] mb-10 leading-[22px] flex items-center font-tilt-warp text-primary-delft-dark opacity-90'>
           {title}

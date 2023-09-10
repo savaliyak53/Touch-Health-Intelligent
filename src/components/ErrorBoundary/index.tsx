@@ -87,6 +87,7 @@ class ErrorBoundary extends React.Component<any> {
                 open={this.state.open}
                 title='Unauthorized'
                 errorType='type401'
+                isAuth={true}
                 error={this.state.error}
                 handleCancel={this.handleCancel}
             />
@@ -97,6 +98,7 @@ class ErrorBoundary extends React.Component<any> {
             <ErrorModal 
                 open={this.state.open}
                 title='Error'
+                isAuth={true}
                 errorType='type1'
                 error={this.state.error}
                 handleCancel={this.handleCancel}
@@ -107,6 +109,7 @@ class ErrorBoundary extends React.Component<any> {
             <ErrorModal 
                 open={this.state.open}
                 title='Error'
+                isAuth={true}
                 errorType='type2'
                 handleCancel={this.handleCancel}
             />
@@ -117,6 +120,7 @@ class ErrorBoundary extends React.Component<any> {
             <ErrorModal 
                 open={this.state.open}
                 title='Error'
+                isAuth={true}
                 errorType='default'
                 handleCancel={this.handleCancel}
             />

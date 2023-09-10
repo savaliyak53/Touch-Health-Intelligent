@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import './index.scss';
 import styles from './Dashboard.module.scss';
 import DashboardButton from 'components/DashboardButton/DashboardButton';

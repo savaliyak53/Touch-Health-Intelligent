@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import { Button, Spin } from 'antd';
 import styles from './Subscription.module.scss';
 import { Alert } from 'antd';

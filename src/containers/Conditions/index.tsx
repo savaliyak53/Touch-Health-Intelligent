@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import styles from './Conditions.module.scss';
 import SwitchQuestion from 'components/SwitchQuestion/SwitchQuestion';
 import {

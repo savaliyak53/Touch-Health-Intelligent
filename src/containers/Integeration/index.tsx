@@ -9,7 +9,7 @@ import {
   getIntegrationStatus,
 } from 'services/authservice';
 import { toast } from 'react-toastify';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import 'moment-timezone';
 import DeleteModal from 'components/Modal/DeleteDataModal';
 import { deleteAllData } from 'services/goalsService';

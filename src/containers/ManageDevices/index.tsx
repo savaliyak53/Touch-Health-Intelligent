@@ -4,7 +4,7 @@ import {
   deleteSessionService,
 } from 'services/authservice';
 import { Button, Spin } from 'antd';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import styles from './ManageDevices.module.scss';
 import DeleteSessionModal from 'components/Modal/DeleteSessionModal';
 import parser from 'ua-parser-js';
