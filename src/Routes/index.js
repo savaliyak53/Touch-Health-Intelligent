@@ -67,7 +67,7 @@ const AppRoutes = () => {
             element={<ThankyouForSubmiting />}
           />
           <Route path="/preferences" element={<Preferences />} />
-          {/* <Route path="/integrations" element={<Integrations />} /> */}
+          {/*<Route path="/integrations" element={<Integrations />} />*/}
           <Route path="/introvideo" element={<IntroVideo />} />
           <Route path="/manage-devices" element={<ManageDevices />} />
           <Route path="/subscription" element={<SubscriptionNew />} />
@@ -75,7 +75,7 @@ const AppRoutes = () => {
           <Route path="/post-conditions" element={<ManageConditions />} />
           <Route path="/help-and-support" element={<HelpAndSupport />} />
           <Route path="/prediction" element={<Prediction />} />
-          <Route path="/guidance/:id" element={<Guidance />} />
+          <Route path="/guidance" element={<Guidance />} />
           <Route path="/success" element={<Success />} />
           <Route path="/error" element={<Error />} />
         </Route>

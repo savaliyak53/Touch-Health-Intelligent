@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import 'components/PhoneInput/index.scss';
 import InformIcon from '../Icons/InformIcon';
 import ExclamationPointIcon from '../Icons/ExclamationPointIcon';
@@ -9,7 +9,7 @@ import { Tooltip } from 'antd';
 interface InputProps {
   type: 'text' | 'number' | 'password';
   value: string | number;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   resetError?: (str: string) => void;
   checkError?: (str: string) => void;
   placeholder?: string;
@@ -17,7 +17,6 @@ interface InputProps {
   errorMessage?: string;
   isDisabled?: boolean;
   isVerified?: boolean;
-  [key: string]: any;
 }
 
 const TouchInput: FC<InputProps> = ({
@@ -30,19 +29,33 @@ const TouchInput: FC<InputProps> = ({
   className = '',
   errorMessage = '',
   isDisabled = false,
-  isVerified = false,
-  ...rest
+  isVerified = false
 }) => {
 
+  const inputRef = useRef<HTMLInputElement>(null);
   const [isPasswordVisible, setPasswordVisibility] = useState(false);
   const [isFocusedOrFilled, setFocusOrFilled] = useState(false);
   const [activeClass, setActiveClass] = useState('shadow-primary');
   const [isHovered, setIsHovered] = useState(false);
   const inputType = type === 'password' && isPasswordVisible ? 'text' : type;
 
+  const focusInput = () => {
+    if (!isDisabled && inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+  useEffect(() => {
+    if (value) {
+      setFocusOrFilled(true);
+    }
+  }, [value]);
+
   useEffect(() => {
     if (errorMessage) {
-      setActiveClass('shadow-error');
+      setTimeout(() => {
+        setActiveClass('shadow-error');
+      }, 0)
     }
   }, [errorMessage]);
 
@@ -93,26 +106,28 @@ const TouchInput: FC<InputProps> = ({
   };
 
   return (
-    <div className={`relative w-full h-[60px] px-5 py-[18px] leading-4 bg-inputWhite rounded-md ${activeClass} ${className}`}>
+    <div
+      onClick={focusInput}
+      className={`${isDisabled ? '' : 'cursor-pointer'} relative w-full h-[60px] px-5 py-[18px] leading-4 bg-dentist rounded-md ${activeClass} ${className}`}>
       <Tooltip
         title={errorMessage}
         placement="bottomRight"
         color="blue"
         open={!!errorMessage && isHovered}>
         <label
-          className={`font-medium text-left leading-[14px] absolute left-[20px] top-[25px] opacity-50 transition-all duration-300 ease-linear pointer-events-none ${isFocusedOrFilled ? 'transform -translate-y-3 text-[10px]' : ''}`}
+          className={`font-medium text-left leading-[14px] absolute left-[20px] top-[25px] opacity-50 transition-all duration-300 ease-linear pointer-events-none ${isFocusedOrFilled ? 'transform -translate-y-3 text-[10px]' : 'text-[14px]'}`}
         >
           {getPlaceholder()}
         </label>
         <input
-          {...rest}
+          ref={inputRef}
           type={inputType}
           value={value}
           onChange={onChange}
           onFocus={onFocus}
           onBlur={onBlur}
           disabled={isDisabled}
-          className='pt-[10px] font-medium w-full disabled:cursor-default'
+          className={`${placeholder ? 'pt-[10px]' : 'pt-[5px]'} font-medium w-full disabled:cursor-default`}
         />
 
         {errorMessage && !isDisabled && (

@@ -49,18 +49,34 @@ export const getDashboard = async () => {
   return await axios.get(`/ai/dashboard`);
 };
 
-export const getInfluencer = async (influencer_id: string) => {
-  return await axios.get(`/ai/influencer/${influencer_id}`);
-};
-
-export const getConditionById = async (influencer_id: string) => {
-  return await axios.get(`/ai/condition/${influencer_id}`);
-};
-
-export const getGuidanceById = async (guidance_id: string) => {
-  return await axios.get(`/ai/guidance/${guidance_id}`);
+export const getGuidanceById = async ({guidance_id, dimension_id, dimension_type}: {guidance_id: string; dimension_id: string; dimension_type: string}) => {
+  return await axios.get(`/ai/${dimension_type}/${dimension_id}/guidances/${guidance_id}`);
 };
 
 export const getOverview = async () => {
   return await axios.get(`/ai/overview`);
+};
+
+export const getLifestyleDimensions = async () => {
+  return await axios.get(`/ai/lifestyle-dimensions`);
+};
+
+export const getConditionsDimensions = async () => {
+  return await axios.get(`/ai/condition-dimensions`);
+};
+
+export const getLifestyleInfluencers = async (id: string) => {
+  return await axios.get(`/ai/lifestyle-dimensions/${id}/influencers`);
+};
+
+export const getConditionInfluencers = async (id: string) => {
+  return await axios.get(`/ai/lifestyle-dimensions/${id}/influencers`);
+};
+
+export const getLifestylenInfluencerDetails = async (dimensionId: string, influencerId: string) => {
+  return await axios.get(`/ai/lifestyle-dimensions/${dimensionId}/influencers/${influencerId}`);
+};
+
+export const getConditionInfluencerDetails = async (dimensionId: string, influencerId: string) => {
+  return await axios.get(`/ai/condition-dimensions/${dimensionId}/influencers/${influencerId}`);
 };

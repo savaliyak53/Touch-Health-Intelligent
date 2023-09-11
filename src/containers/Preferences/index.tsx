@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Tooltip, Button, Spin, Input } from 'antd';
+import { Tooltip, Button, Spin } from 'antd';
 import styles from './Preferences.module.scss';
-import { CloudDownloadOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import {
   getIntegrationStatus,
@@ -11,13 +11,15 @@ import {
   preferencesService,
   invokeInteractionServiceByType,
 } from 'services/authservice';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import moment from 'moment';
 import 'moment-timezone';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import DeleteModal from 'components/Modal/DeleteDataModal';
 import { deleteAllData } from 'services/goalsService';
 import { toast } from 'react-toastify';
+import useLocalStorage from 'hooks/useLocalStorage';
+import TouchInput from 'components/TouchInput';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -41,8 +43,9 @@ interface LocationState {
 }
 const Preferences = () => {
   const [loading, setloading] = useState(false);
-  const [enable, setEnabled] = useState(false);
+  const [enable, setEnabled] = useState<boolean>(false);
   const [username, setUsername] = useState<any>('');
+  const [previousUsername, setPreviousUsername] = useState<any>('');
   const [checked, setChecked] = useState<boolean>();
   const [yob, setYob] = useState<any>('');
   const [sex, setSex] = useState<any>('');
@@ -53,6 +56,7 @@ const Preferences = () => {
   const [error, setError] = useState<any>();
   const [loc, setLocation] = useState<LocationState>();
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const [setIsOnboarding] = useLocalStorage("isOnboarding");
 
   useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
@@ -87,12 +91,17 @@ const Preferences = () => {
     if (error) throw error;
   }, [error]);
 
+  useEffect(() => {
+    setEnabled(username !== previousUsername);
+  }, [username])
+
   const getUserInfo = (userId: string | null | undefined) => {
     getPreference()
       .then((response: any) => {
         if (response?.data) {
           setYob(response.data.yob);
           setSex(response.data.sex);
+          setPreviousUsername(response.data.username);
           setUsername(response.data.username);
           setloading(false);
         }
@@ -177,6 +186,7 @@ const Preferences = () => {
       .then((res) => {
         toast('User data deleted');
         handleSetUserStatus();
+        setIsOnboarding(true);
       })
       .catch((err) => {
         setError({
@@ -220,15 +230,12 @@ const Preferences = () => {
           {/*<br />*/}
           <div>
             {sex && (
-              <div>
-                <h3 className={'Heading Heading-color1 flex flex-row items-start'}>
+              <div className='max-w-[330px]'>
+                <h3 className='font-tilt-warp font-normal text-[18px] leading-[36px] text-primary-high-dark flex flex-row items-start'>
                   Biological Sex
                   <Tooltip
-                    title={
-                      'This is your sex assigned at birth, and may not align with your current sex and gender identify.'
-                    }
+                    title='This is your sex assigned at birth, and may not align with your current sex and gender identify.'
                     placement="bottomRight"
-                    // overlayStyle={{ marginRight: '10px' }}
                     mouseLeaveDelay={0}
                   >
                     <AiOutlineQuestionCircle
@@ -237,21 +244,20 @@ const Preferences = () => {
                     />
                   </Tooltip>
                 </h3>
-                <Button className="Pref-post-btn" disabled={true}>
-                  {sex.charAt(0).toUpperCase() + sex.slice(1)}
-                </Button>
+                <TouchInput
+                  className='my-3'
+                  type='text'
+                  value={sex.charAt(0).toUpperCase() + sex.slice(1)}
+                  isDisabled={true} />
               </div>
             )}
             {yob && (
-              <div>
-                <h3 className={'Heading Heading-color1 flex flex-row items-start'}>
+              <div className='max-w-[330px]'>
+                <h3 className='font-tilt-warp font-normal text-[18px] leading-[36px] text-primary-high-dark flex flex-row items-start'>
                   Approximate Age
                   <Tooltip
-                    title={
-                      'This is your approximate age. Since we do not collect your date of birth, this may not align with your actual age.'
-                    }
+                    title='This is your approximate age. Since we do not collect your date of birth, this may not align with your actual age.'
                     placement="bottomRight"
-                    // overlayStyle={{ marginRight: '10px' }}
                     mouseLeaveDelay={0}
                   >
                     <AiOutlineQuestionCircle
@@ -260,18 +266,18 @@ const Preferences = () => {
                     />
                   </Tooltip>
                 </h3>
-                <Button className="Pref-post-btn" disabled={true}>
-                  {parseInt(moment().format('YYYY')) - yob}
-                </Button>
+                <TouchInput
+                  className='my-3'
+                  isDisabled={true}
+                  type='text'
+                  value={parseInt(moment().format('YYYY')) - yob} />
               </div>
             )}
-            <div>
-              <h3 className={'Heading Heading-color1 flex flex-row items-start'}>
+            <div className='max-w-[330px]'>
+              <h3 className='font-tilt-warp font-normal text-[18px] leading-[36px] text-primary-high-dark flex flex-row items-start'>
                 Username
                 <Tooltip
-                  title={
-                    'This is your username. You can set it to anything you want to be called, like "JazzyCat99 💃😽".'
-                  }
+                  title='This is your username. You can set it to anything you want to be called, like "JazzyCat99 💃😽".'
                   placement="bottomRight"
                   overlayStyle={{ marginRight: '10px' }}
                   mouseLeaveDelay={0}
@@ -282,15 +288,11 @@ const Preferences = () => {
                   />
                 </Tooltip>
               </h3>
-              <div className={'Pref-username-input text-left'}>
-                <Input
-                  type="text"
-                  status={username.length > 24 ? 'error' : ''}
+                <TouchInput
+                  className='my-3'
+                  type='text'
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  onClick={() => setEnabled(true)}
-                />
-              </div>
+                  onChange={(e) => setUsername(e.target.value)} />
             </div>
             {username.length > 24 && (
               <span className={styles['Username-error-msg']}>
@@ -329,23 +331,20 @@ const Preferences = () => {
                 Delete all my data
               </Button>
               <DeleteModal
-                title={''}
                 open={showCancelModal}
                 handleCancel={handleDeleteModal}
-                handleOk={() => removeUserData()}
-                renderData={
-                  <div>
-                    By deleting your data, your entire health profile in the
-                    Touch Health Assistant will cease to exist. No data will be
-                    retained, and you will be sent back to the beginning as if
-                    you just started. This is irreversible, proceed with
-                    caution.
-                  </div>
-                }
-              />
+                handleOk={() => removeUserData()}>
+                <div className='text-3 text-oldBurgundy leading-[23px]'>
+                  By deleting your data, your entire health profile in the
+                  Touch Health Assistant will cease to exist. No data will be
+                  retained, and you will be sent back to the beginning as if
+                  you just started. This is irreversible, proceed with
+                  caution.
+                </div>
+              </DeleteModal>
             <div>
               <Button
-                className={`rounded-full h-auto p-5 pl-14 pr-14 bg-primary-delft-dark text-white text-lg leading-6 font-normal border-none m-auto mt-5 flex justify-center whitespace-pre-line w-full hover:bg-buttongradient hover:text-white`}
+                className={`rounded-full sm:mb-0 mb-5 h-auto p-5 pl-14 pr-14 bg-primary-delft-dark text-white text-lg leading-6 font-normal border-none m-auto mt-5 flex justify-center whitespace-pre-line w-full hover:bg-buttongradient hover:text-white`}
                 onClick={() => navigate('/manage-devices')}
               >
                 {'Manage Devices'}

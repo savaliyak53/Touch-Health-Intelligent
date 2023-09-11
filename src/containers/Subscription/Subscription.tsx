@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import { Button, Spin } from 'antd';
 import styles from './Subscription.module.scss';
 import { Alert } from 'antd';
@@ -597,25 +597,25 @@ const Subscription = () => {
                                   Cancel
                                 </Button>
                               )}
-                              <ConfirmModal
-                                title={'Confirmation'}
-                                open={showCancelModal}
-                                handleCancel={handleCancelModal}
-                                handleOk={handleOk}
-                                className="Addgoal-Confirm-Modal"
-                                renderData={
-                                  <div className="Description">
-                                    Your subscription will be cancelled
-                                    {userPlan?.renewalDate
-                                      ? ` and not renewed on ${userPlan?.renewalDate}`
-                                      : userPlan?.currentPeriod?.ends
-                                      ? ` and not renewed on ${dateFormatRenewal(
-                                          userPlan.currentPeriod.ends
-                                        )}`
-                                      : ''}
-                                  </div>
-                                }
-                              />
+                              {/*<ConfirmModal*/}
+                              {/*  title={'Confirmation'}*/}
+                              {/*  open={showCancelModal}*/}
+                              {/*  handleCancel={handleCancelModal}*/}
+                              {/*  handleOk={handleOk}*/}
+                              {/*  className="Addgoal-Confirm-Modal"*/}
+                              {/*  renderData={*/}
+                              {/*    <div className="Description">*/}
+                              {/*      Your subscription will be cancelled*/}
+                              {/*      {userPlan?.renewalDate*/}
+                              {/*        ? ` and not renewed on ${userPlan?.renewalDate}`*/}
+                              {/*        : userPlan?.currentPeriod?.ends*/}
+                              {/*        ? ` and not renewed on ${dateFormatRenewal(*/}
+                              {/*            userPlan.currentPeriod.ends*/}
+                              {/*          )}`*/}
+                              {/*        : ''}*/}
+                              {/*    </div>*/}
+                              {/*  }*/}
+                              {/*/>*/}
                             </div>
                           </>
                         ) : (
@@ -665,51 +665,51 @@ const Subscription = () => {
                 </Card>
               ))}
             </>
-            <ConfirmModal
-              title={'Confirmation'}
-              open={showSwitchModal}
-              handleCancel={handleCancelModal}
-              handleOk={handleSwitch}
-              className="Addgoal-Confirm-Modal"
-              renderData={
-                <div className="Description">
-                  {estimateAmount ? (
-                    estimateAmount !== '$0.00' ? (
-                      <>
-                        {' '}
-                        Your subscription will be changed. <br /> You will be
-                        charged {estimateAmount} plus applicable taxes. Do you
-                        agree?
-                      </>
-                    ) : (
-                      <>
-                        {!userPlan?.trialing ? (
-                          <>
-                            Your subscription will be changed on $
-                            {userPlan?.renewalDate
-                              ? dateFormatRenewal(userPlan?.renewalDate)
-                              : dateFormatRenewal(
-                                  userPlan?.currentPeriod?.ends
-                                )}
-                          </>
-                        ) : (
-                          <>
-                            {estimateAmount === '$0.00'
-                              ? 'Your subscription will be changed.'
-                              : '.'}
-                          </>
-                        )}
-                      </>
-                    )
-                  ) : (
-                    <>
-                      <br />
-                      <Spin spinning={estimateAmount} />
-                    </>
-                  )}
-                </div>
-              }
-            />
+            {/*<ConfirmModal*/}
+            {/*  title={'Confirmation'}*/}
+            {/*  open={showSwitchModal}*/}
+            {/*  handleCancel={handleCancelModal}*/}
+            {/*  handleOk={handleSwitch}*/}
+            {/*  className="Addgoal-Confirm-Modal"*/}
+            {/*  renderData={*/}
+            {/*    <div className="Description">*/}
+            {/*      {estimateAmount ? (*/}
+            {/*        estimateAmount !== '$0.00' ? (*/}
+            {/*          <>*/}
+            {/*            {' '}*/}
+            {/*            Your subscription will be changed. <br /> You will be*/}
+            {/*            charged {estimateAmount} plus applicable taxes. Do you*/}
+            {/*            agree?*/}
+            {/*          </>*/}
+            {/*        ) : (*/}
+            {/*          <>*/}
+            {/*            {!userPlan?.trialing ? (*/}
+            {/*              <>*/}
+            {/*                Your subscription will be changed on $*/}
+            {/*                {userPlan?.renewalDate*/}
+            {/*                  ? dateFormatRenewal(userPlan?.renewalDate)*/}
+            {/*                  : dateFormatRenewal(*/}
+            {/*                      userPlan?.currentPeriod?.ends*/}
+            {/*                    )}*/}
+            {/*              </>*/}
+            {/*            ) : (*/}
+            {/*              <>*/}
+            {/*                {estimateAmount === '$0.00'*/}
+            {/*                  ? 'Your subscription will be changed.'*/}
+            {/*                  : '.'}*/}
+            {/*              </>*/}
+            {/*            )}*/}
+            {/*          </>*/}
+            {/*        )*/}
+            {/*      ) : (*/}
+            {/*        <>*/}
+            {/*          <br />*/}
+            {/*          <Spin spinning={estimateAmount} />*/}
+            {/*        </>*/}
+            {/*      )}*/}
+            {/*    </div>*/}
+            {/*  }*/}
+            {/*/>*/}
           </div>
         </Spin>
       )}

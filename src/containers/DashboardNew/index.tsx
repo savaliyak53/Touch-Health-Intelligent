@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'antd';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import { Spin } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import Drawer from 'components/Modal/Drawer';
 import Status from '../Status';
 import {getPreference, invokeInteractionServiceByType} from 'services/authservice';
-import {getPartOfDay} from '../../helpers/time';
-import {IOverview} from '../../interfaces';
+import {getPartOfDay} from 'helpers/time';
+import {IOverview} from 'interfaces';
 import EntityListWidget from 'components/Widgets/EntityListWidget';
 import { getOverview } from 'services/dashboardservice';
+import useLocalStorage from 'hooks/useLocalStorage';
 
 const DashboardNew = () => {
   const [error, setError] = useState<any>();
@@ -18,6 +19,7 @@ const DashboardNew = () => {
   const [username, setUsername] = useState<string>('');
   const [overview, setOverview] = useState<IOverview>();
   const navigate = useNavigate();
+  const [isOnboarding] = useLocalStorage("isOnboarding");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -58,6 +60,12 @@ const DashboardNew = () => {
   };
 
   useEffect(() => {
+    if(isOnboarding){
+      localStorage.removeItem('isOnboarding')
+    }
+  },[]);
+
+  useEffect(() => {
     if (error) throw error;
   }, [error]);
 
@@ -65,9 +73,9 @@ const DashboardNew = () => {
     <Layout streak={overview?.streak || 0} defaultHeader={true} hamburger={true} dashboard={true} title={`Good ${getPartOfDay()}${username ? `, ${username}`: ''}`}>
 
       <Status overview={overview} />
-      {/* Conditions widget */}
+      {/*/!* Conditions widget *!/*/}
       <EntityListWidget type={'conditions'} />
-      {/* Influencers widget */}
+      {/*/!* Influencers widget *!/*/}
       <EntityListWidget type={'influencers'} />
 
       <Spin spinning={loading}>

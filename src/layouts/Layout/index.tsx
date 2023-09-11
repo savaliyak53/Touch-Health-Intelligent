@@ -12,6 +12,7 @@ import ConfirmModal from 'components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
 import { backButtonPreventionRoutes } from 'Routes/Constants';
 import LogoDesktop from 'components/Icons/LogoDesktop';
+// import CongratulationModal from 'components/Modal/CongratulationModal';
 
 type Props = {
   defaultHeader: boolean;
@@ -25,7 +26,7 @@ type Props = {
   streak?: number;
   addPadding?: boolean;
 };
-const Layout = ({
+const Index = ({
   children,
   defaultHeader,
   hamburger,
@@ -44,6 +45,7 @@ const Layout = ({
   const [error, setError] = useState<any>();
   const navigate = useNavigate();
   const location = useLocation();
+  // const [openCongratsModal, setOpenCongratsModal] = useState<boolean>(false)
   const context = useContext(AuthContext);
   const checkUserData = () => {
     const userId = context?.user;
@@ -200,6 +202,7 @@ const Layout = ({
                 <div className="flex flex-col h-full">{children}</div>
               </div>
             </div>
+            {/*<CongratulationModal type={'data-points'} setClose={setOpenCongratsModal} isOpen={openCongratsModal} value={16} />*/}
           </div>
           <div className="w-full max-w-[50%] bg-right bg-fit bg-no-repeat main-layout-background">
             <LogoDesktop className="float-right mr-12 mt-10" />
@@ -210,32 +213,27 @@ const Layout = ({
         title={'Confirmation'}
         open={isOpen}
         handleCancel={handleCancel}
-        handleOk={handleOk}
-        className="Addgoal-Confirm-Modal"
-        renderData={
-          <div className="Description">
-            {getBackButtonContent(location.pathname)}
-          </div>
-        }
-      />
+        handleOk={handleOk}>
+        <div className="text-3 text-oldBurgundy leading-[23px] text-left">
+          {getBackButtonContent(location.pathname)}
+        </div>
+      </ConfirmModal>
       {exception && (
         <div>
           <ErrorInteractionModal
             title={'Error'}
             open={true}
-            showTryButton={!exception}
-            renderData={
-              <div className={'Description'}>
-                Oops! Something went wrong
-                <br />
-                Try again later.
-              </div>
-            }
-          />
+            showTryButton={!exception}>
+            <div className='text-3 text-oldBurgundy leading-[23px] text-left'>
+              Oops! Something went wrong
+              <br />
+              Try again later.
+            </div>
+          </ErrorInteractionModal>
         </div>
       )}
     </div>
   );
 };
 
-export default Layout;
+export default Index;

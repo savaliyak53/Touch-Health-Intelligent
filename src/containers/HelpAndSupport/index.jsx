@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import { Space, Typography } from 'antd';
 import AuthContext from '../../contexts/AuthContext';
 import AuthContextData from '../../contexts/AuthContext';

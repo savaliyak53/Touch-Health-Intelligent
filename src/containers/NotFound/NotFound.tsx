@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 
 const NotFound = () => {
   return (

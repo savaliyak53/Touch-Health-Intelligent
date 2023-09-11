@@ -5,7 +5,7 @@ import Button from 'components/Button';
 import { toast } from 'react-toastify';
 import Question from 'components/MockQuestion';
 import { Interaction } from '../../interfaces';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import { Skeleton, Divider } from 'antd';
 import { Data } from '../MockScrollingChat/mockdata';
 import styles from './MockQuestionnaire.module.scss';

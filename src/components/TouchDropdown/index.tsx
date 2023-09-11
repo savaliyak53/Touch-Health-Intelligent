@@ -1,17 +1,20 @@
 import React, { FC, Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import ArrowDownIcon from '../Icons/ArrowDownIcon';
+import { IDropDownOptionsItem } from 'interfaces';
 
 interface InputProps {
   onClick?: (val: string) => void;
-  options?: { value: string; label: string }[];
+  options?: IDropDownOptionsItem[];
   value?: string;
+  placeholder?: string;
 }
 
 const TouchDropdown: FC<InputProps> = ({
    onClick,
    value,
-   options
+   options,
+   placeholder
  }) => {
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -33,7 +36,7 @@ const TouchDropdown: FC<InputProps> = ({
           {({ open }) => (
             <>
               <span className='font-roboto text-[14px] text-left font-medium leading-[14px] flex-1'>
-                {value}
+                {value ? value : placeholder}
               </span>
               {options && options.length > 1 &&
                 <ArrowDownIcon className={`transform transition duration-300 ${open ? 'rotate-180' : ''}`} />}
@@ -54,17 +57,17 @@ const TouchDropdown: FC<InputProps> = ({
           <Menu.Items
             className='absolute right-0 top-[52px] z-10 w-full origin-top-right bg-dentist focus:outline-none'>
             <div className='text-center shadow-primary rounded-b rounded-[5px]'>
-              {options.filter(opt => opt.label !== value).map((opt) => (
-                <Menu.Item key={opt.value}>
+              {options.filter(opt => opt.text !== value).map((opt) => (
+                <Menu.Item key={opt.id}>
                   {({ active }) => (
                     <span
-                      onClick={() => handleOnClick(opt.label)}
+                      onClick={() => handleOnClick(opt.text)}
                       className={classNames(
                         active ? 'bg-rae' : '',
                         'block px-5 py-2 h-[65px] text-[14px] text-high-dark font-medium cursor-pointer text-left flex items-center'
                       )}
                     >
-                      {opt.label}
+                      {opt.text}
                     </span>
                   )}
                 </Menu.Item>

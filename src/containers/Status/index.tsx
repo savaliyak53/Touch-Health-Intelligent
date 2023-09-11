@@ -1,4 +1,4 @@
-import React, {useState, useEffect, FC} from 'react';
+import React, {useState, useEffect, FC, useContext} from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import { getDimensions, getOverview } from 'services/dashboardservice';
@@ -7,6 +7,7 @@ import Drawer from 'components/Modal/Drawer';
 import { invokeInteractionServiceByType} from 'services/authservice';
 import { useNavigate } from 'react-router-dom';
 import {IOverview} from '../../interfaces';
+import DashboardContext from 'contexts/DashboardContext';
 
 type Props = {
   direction: string;
@@ -98,18 +99,28 @@ const Status: FC<IProps> = ({overview}) => {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [drawerOpen2, setDrawerOpen2] = useState<boolean>(false);
   const [drawerTitle, setDrawerTitle] = useState("");
+  const dashboardContext = useContext(DashboardContext);
   const navigate = useNavigate();
 
+  const roundOff = (str: string) => {
+    const floatValue = parseFloat(str); 
+    if (!isNaN(floatValue)) {
+      const roundedValue = floatValue.toFixed(2); 
+      const formattedString = roundedValue + "%"; 
+      return formattedString;
+    } else {
+      return ''
+    }
+  }
+
   const getUserDimensions = () => {
-    getDimensions().then((res) => {
-      setDimensions(res.data);
       const daysArray: any = [];
       let daysObj: any;
-      res.data.dimensions_list.forEach((element: any) => {
+      dashboardContext?.lifestyleDimensions.forEach((element: any) => {
         element.name == 'Sleep'
           ? (daysObj = {
               title: element.name,
-              icon: '/assets/images/cur8-sleep-icon.png',
+              icon: element.dimension_emoji,
               bg: '/assets/images/cur8-sleep.svg',
               btnColor: 'F0ECE7',
               subtitle1: element.data_value_list[0].name,
@@ -117,7 +128,7 @@ const Status: FC<IProps> = ({overview}) => {
               subtitle2: element.data_value_list[1].name,
               value2: element.data_value_list[1].value,
               subtitle3: element.data_value_list[2].name,
-              value3: element.data_value_list[2].value,
+              value3: roundOff(element.data_value_list[2].value),
               subtitleColor: 'FEFBF1',
               valueColor: 'EFB7A8',
               shadow: '0px 4px 0px 0px #8AA4EC',
@@ -125,7 +136,7 @@ const Status: FC<IProps> = ({overview}) => {
           : element.name == 'Movement'
           ? (daysObj = {
               title: element.name,
-              icon: '/assets/images/cur8-movement-icon.png',
+              icon: element.dimension_emoji,
               bg: '/assets/images/cur8-movement.svg',
               btnColor: 'F0ECE7',
               subtitle1: element.data_value_list[0].name,
@@ -138,18 +149,18 @@ const Status: FC<IProps> = ({overview}) => {
               valueColor: '204ECF',
               shadow: '0px 4px 0px 0px #204ECF',
             })
-          : element.name == 'Mental well-being'
+          : element.name == 'Mental Wellbeing'
           ? (daysObj = {
               title: element.name,
-              icon: '/assets/images/cur8-mental-wellbeing-icon.png',
+              icon: element.dimension_emoji,
               bg: '/assets/images/cur8-mental-wellbeing.svg',
               btnColor: '204ECF',
               subtitle1: element.data_value_list[0].name,
-              value1: element.data_value_list[0].value,
+              value1: roundOff(element.data_value_list[0].value),
               subtitle2: element.data_value_list[1].name,
-              value2: element.data_value_list[1].value,
+              value2: roundOff(element.data_value_list[1].value),
               subtitle3: element.data_value_list[2].name,
-              value3: element.data_value_list[2].value,
+              value3: roundOff(element.data_value_list[2].value),
               subtitleColor: '83A5F2',
               valueColor: '204ECF',
               shadow: '0px 4px 0px 0px #F9A197',
@@ -157,22 +168,22 @@ const Status: FC<IProps> = ({overview}) => {
           : element.name == 'Nutrition'
           ? (daysObj = {
               title: element.name,
-              icon: '/assets/images/cur8-nutrition-icon.png',
+              icon: element.dimension_emoji,
               bg: '/assets/images/cur8-nutrition.svg',
               btnColor: 'EA9836',
               subtitle1: element.data_value_list[0].name,
               value1: element.data_value_list[0].value,
               subtitle2: element.data_value_list[1].name,
-              value2: element.data_value_list[1].value,
+              value2: roundOff(element.data_value_list[1].value),
               subtitle3: element.data_value_list[2].name,
-              value3: element.data_value_list[2].value,
+              value3: roundOff(element.data_value_list[2].value),
               subtitleColor: 'F9A197',
               valueColor: 'EA9836',
               shadow: '0px 4px 0px 0px #EA9836',
             })
           : (daysObj = {
               title: element.name,
-              icon: '/assets/images/cur8-productivity-icon.png',
+              icon: element.dimension_emoji,
               bg: '/assets/images/cur8-poductivity.svg',
               btnColor: '204ECF',
               subtitle1: element.data_value_list[0].name,
@@ -188,7 +199,6 @@ const Status: FC<IProps> = ({overview}) => {
         daysArray.push(daysObj);
       });
       setDays(daysArray);
-    });
   };
 
   const getInteractionByType = (type: string) => {
@@ -264,9 +274,10 @@ const Status: FC<IProps> = ({overview}) => {
           }
           className="Dashboard-Carousel dashboard-slider overflow-y-visible mb-4"
           width={370}
+          emulateTouch
+          showThumbs={false}
         >
           {days.map((day: any, index: number) => (
-            <>
               <div
                 key={index}
                 className="pt-[14px] px-[18px] pb-[32px] rounded-[10px] w-[357px] min-w-[357px] mb-1 ml-auto mr-3 sm:mx-auto bg-cover"
@@ -277,8 +288,8 @@ const Status: FC<IProps> = ({overview}) => {
               >
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
-                    <div className="w-[24px] h-[24px] flex justify-center items-center rounded-full bg-white">
-                      <img src={`${process.env.PUBLIC_URL}${day.icon}`} style={{width:'auto', height: 'auto'}} alt="icon" />
+                    <div className="w-[24px] h-[24px] flex justify-center items-center rounded-full">
+                      <span>{day.icon}</span>
                     </div>
                     <span className="text-[12px] font-medium leading-[14px] text-dentist ml-2">
                       {day.title}
@@ -353,7 +364,6 @@ const Status: FC<IProps> = ({overview}) => {
                   </div>
                 </div>
               </div>
-            </>
           ))}
         </Carousel>
       </div>
@@ -389,12 +399,12 @@ const Status: FC<IProps> = ({overview}) => {
             >
               Update my conditions
             </Button>
-            <Button
+            {/* <Button
               className={'Button-Drawer-Secondary'}
               onClick={() => getInteractionByType('explore_data')}
             >
               Explore my data
-            </Button>
+            </Button> */}
           </>
         }
       />

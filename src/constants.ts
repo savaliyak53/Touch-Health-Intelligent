@@ -1,4 +1,6 @@
-export const securityQuestions = [
+import { IDropDownOptionsItem } from 'interfaces';
+
+export const securityQuestions: IDropDownOptionsItem[] = [
   {
     id: '1',
     text: 'In what city were you born?',

@@ -1,43 +1,35 @@
 import React from 'react';
-import { Modal, Button } from 'antd';
-import styles from './GoogleOAuthDisclosureModal.module.scss';
+import TouchButton from 'components/TouchButton';
+import TouchModal from 'components/Modal/TouchModal';
+
 export type IProps = {
   open: boolean;
   handleCancel: () => any;
   handleOk: any;
-  renderData?: any;
-  title: string;
+  children?: React.ReactNode;
 };
+
 const GoogleOAuthDisclosureModal = ({
   open,
   handleCancel,
-  title,
   handleOk,
-  renderData,
+  children,
 }: IProps) => {
+
   return (
-    <Modal
-      title={title}
-      open={open}
-      onOk={handleOk}
-      onCancel={handleCancel}
-      className={"Delete-Modal"} 
-      footer={[
-        <div  key="submit" className={styles["Btn-group"]}>
-          <Button key="submit" className={"Submit-Button"} onClick={handleOk}>
-            Acknowledge
-          </Button>
-          <Button key="submit" className={"Submit-Button"} onClick={handleCancel}>
-            Cancel
-          </Button>
-        </div>
-      ]
-      }
-    >
-      <div className={styles["Data"]}>
-        {renderData}
+    <TouchModal setClose={handleCancel} isOpen={open}>
+      <div className='flex flex-col w-full my-[50px] px-[20px]'>
+        {children}
       </div>
-    </Modal>
+      <div className='mx-[25px] mb-[33px] px-10'>
+        <TouchButton className='mb-5' type={'default'} onClick={handleOk}>
+          Acknowledge
+        </TouchButton>
+        <TouchButton type={'default'} onClick={handleCancel}>
+          Cancel
+        </TouchButton>
+      </div>
+    </TouchModal>
   );
 };
 

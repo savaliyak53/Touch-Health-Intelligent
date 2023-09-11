@@ -13,7 +13,6 @@ import { RightOutlined, SearchOutlined } from '@ant-design/icons';
 import { Select, Spin } from 'antd';
 import goal_styles from './IntroGoals.module.scss';
 const { Option } = Select;
-// import './index.scss';
 import styles from './MockQuestion.module.scss';
 import TextArea from 'antd/lib/input/TextArea';
 import { Timepicker } from 'react-timepicker';
