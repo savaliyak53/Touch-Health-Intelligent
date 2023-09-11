@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import {  getGuidanceById } from '../../services/dashboardservice';
 import ArrowIcon from 'components/Icons/ArrowIcon';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';

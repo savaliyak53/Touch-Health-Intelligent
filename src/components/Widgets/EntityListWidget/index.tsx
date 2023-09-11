@@ -1,11 +1,11 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState, useContext} from 'react';
 // import { getEmoji, getNextDays } from '../../../helpers/entityWidgetHelper';
 import {getConditions, getInfluencers} from 'services/widgets';
 import {Spin} from 'antd';
 import {getDayOfWeekByDate} from 'helpers/time';
 import {useNavigate} from 'react-router';
 import { invokeInteractionServiceByType } from 'services/authservice';
-
+import DashboardContext from 'contexts/DashboardContext';
 interface IProps {
   type: 'conditions' | 'influencers';
 }
@@ -26,8 +26,9 @@ interface ITest {
 
 const EntityListWidget: FC<IProps> = ({type}) => {
   const [error, setError] = useState<any>();
-  const [data, setData] = useState<ITest[] | []>([]);
+  const [data, setData] = useState<[] | undefined>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const dashboardContext = useContext(DashboardContext);
   const navigate = useNavigate();
 
   const getInteractionByType = (type: string) => {
@@ -50,33 +51,11 @@ const EntityListWidget: FC<IProps> = ({type}) => {
   useEffect(() => {
     setLoading(true);
     if (type === 'conditions') {
-      getConditions()
-        .then((resp) => {
-          if (resp && resp?.status === 200 && resp.data && resp.data.conditions_list) {
-            setData(resp.data.conditions_list);
-          }
-        })
-        .catch((err) => {
-          setError({
-            code: err.response.status,
-            message: err.response.data.details ?? 'Something went wrong.',
-          })
-        })
-        .finally(() => setLoading(false));
+      setData(dashboardContext?.conditionInfluencers)
+      setLoading(false);
     } else {
-      getInfluencers()
-        .then((resp) => {
-          if (resp && resp.status === 200 && resp.data && resp.data.influencer_list) {
-            setData(resp.data.influencer_list);
-          }
-        })
-        .catch((err) => {
-          setError({
-            code: err.response.status,
-            message: err.response.data.details ?? 'Something went wrong.',
-          })
-        })
-        .finally(() => setLoading(false));
+        setData(dashboardContext?.lifestyleInfluencers)
+        setLoading(false);
     }
   }, []);
 
@@ -104,24 +83,24 @@ const EntityListWidget: FC<IProps> = ({type}) => {
       {/*content*/}
       {data && data.length > 0 && !loading && (
         <ul role="list">
-          {data.map((item, index) => (
+          {data.map((item :any, index) => (
             <li onClick={() => handlerOnClick(item)} key={item.id} className="cursor-pointer hover:bg-rae">
               <hr className="border-rae mx-4"/>
               <div className="flex px-4 justify-between gap-x-6 py-2">
                 <div className="flex w-full items-center">
-                  <div className={`${index === 0 && "relative top-[12px]"} flex-1 text-left font-roboto font-medium leading-[14px] text-[14px]`}>
+                  <div className={`${index === 0 && "relative top-[12px]"}  text-left font-roboto font-medium leading-[14px] text-[14px] w-[90px]`}>
                     {item.name}
                   </div>
-                  <div className="flex-1 flex justify-between min-w-0">
+                  <div className="flex-1 flex justify-between min-w-0 w-[10px]">
                     {item['prediction_ordered_list'] &&
-                      item['prediction_ordered_list'].map((prediction, i) => (
+                      item['prediction_ordered_list'].map((prediction: any, i: any) => (
                         <div
                           key={prediction.date}
                           className="flex flex-col items-center"
                         >
                           {index === 0 && (
                             <p className="text-[12px] text-center font-medium w-8 leading-[14px] mb-2">
-                              {i === 0 ? 'Today' : getDayOfWeekByDate(prediction.date)}
+                              {i === 0 ? 'Today' : getDayOfWeekByDate(prediction.dt)}
                             </p>
                           )}
                           <p className="mb-1 w-8 items-center text-center flex justify-center">
@@ -136,7 +115,7 @@ const EntityListWidget: FC<IProps> = ({type}) => {
                           </p>
                           <p
                             className="font-medium text-[12px] w-8 text-center text-piano-light leading-[14px] text-gray-500">
-                            {prediction.score ? prediction.score : '-'}
+                            {prediction.value ? prediction.value : '-'}
                           </p>
                         </div>
                       ))}
@@ -147,7 +126,7 @@ const EntityListWidget: FC<IProps> = ({type}) => {
           ))}
         </ul>
       )}
-      {data.length === 0 && !loading &&
+      {data?.length === 0 && !loading &&
 		  <div className="h-12 text-center font-medium leading-[14px] pt-4 text-piano-light">
 			  Nothing not found...</div>}
       {/*Footer*/}

@@ -17,7 +17,6 @@ interface InputProps {
   errorMessage?: string;
   isDisabled?: boolean;
   isVerified?: boolean;
-  [key: string]: any;
 }
 
 const TouchInput: FC<InputProps> = ({
@@ -30,9 +29,9 @@ const TouchInput: FC<InputProps> = ({
   className = '',
   errorMessage = '',
   isDisabled = false,
-  isVerified = false,
-  ...rest
+  isVerified = false
 }) => {
+
   const inputRef = useRef<HTMLInputElement>(null);
   const [isPasswordVisible, setPasswordVisibility] = useState(false);
   const [isFocusedOrFilled, setFocusOrFilled] = useState(false);
@@ -47,8 +46,16 @@ const TouchInput: FC<InputProps> = ({
   };
 
   useEffect(() => {
+    if (value) {
+      setFocusOrFilled(true);
+    }
+  }, [value]);
+
+  useEffect(() => {
     if (errorMessage) {
-      setActiveClass('shadow-error');
+      setTimeout(() => {
+        setActiveClass('shadow-error');
+      }, 0)
     }
   }, [errorMessage]);
 
@@ -108,12 +115,11 @@ const TouchInput: FC<InputProps> = ({
         color="blue"
         open={!!errorMessage && isHovered}>
         <label
-          className={`font-medium text-left leading-[14px] absolute left-[20px] top-[25px] opacity-50 transition-all duration-300 ease-linear pointer-events-none ${isFocusedOrFilled ? 'transform -translate-y-3 text-[10px]' : ''}`}
+          className={`font-medium text-left leading-[14px] absolute left-[20px] top-[25px] opacity-50 transition-all duration-300 ease-linear pointer-events-none ${isFocusedOrFilled ? 'transform -translate-y-3 text-[10px]' : 'text-[14px]'}`}
         >
           {getPlaceholder()}
         </label>
         <input
-          {...rest}
           ref={inputRef}
           type={inputType}
           value={value}

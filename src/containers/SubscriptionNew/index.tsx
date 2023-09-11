@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import { Button, Spin, Alert, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';

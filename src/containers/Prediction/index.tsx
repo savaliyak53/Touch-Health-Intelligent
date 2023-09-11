@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import Layout from '../../layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import { getConditionById, getInfluencer } from '../../services/dashboardservice';
 import { dateFormatted } from '../../utils/lib';
 import PredictionGraph from "../../components/PredictionGraph";

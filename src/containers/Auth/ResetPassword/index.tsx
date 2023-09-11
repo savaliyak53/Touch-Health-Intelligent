@@ -5,7 +5,7 @@ import { requestPhoneOTP } from 'services/authservice';
 import { toast } from 'react-toastify';
 import Button from 'components/Button';
 import { AiOutlineEye } from 'react-icons/ai';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import { Tooltip } from 'antd';
 import './index.scss';
 import '../index.scss';

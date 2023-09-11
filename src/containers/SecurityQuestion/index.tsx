@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import { Spin } from 'antd';
 import styles from './SecurityQuestion.module.scss';
 import Button from 'components/Button';

@@ -12,7 +12,7 @@ import {
   preferencesService,
 } from 'services/authservice';
 import { Interaction } from '../../interfaces';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import { Skeleton } from 'antd';
 import ErrorInteractionModal from 'components/Modal/ErrorInteractionModal';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
