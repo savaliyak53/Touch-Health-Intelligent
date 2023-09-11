@@ -8,8 +8,10 @@ import Layout from 'layouts/Layout';
 import styles from './ManageDevices.module.scss';
 import DeleteSessionModal from 'components/Modal/DeleteSessionModal';
 import parser from 'ua-parser-js';
+import {useNavigate} from "react-router-dom";
 
 const ManageDevices = () => {
+  const navigate = useNavigate();
   const [devices, setDevices] = useState([]);
   const [spinning, setSpinning] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
@@ -72,7 +74,7 @@ const ManageDevices = () => {
   }, [error]);
 
   return (
-    <Layout defaultHeader={true} hamburger={true} title={'Manage Devices'}>
+    <Layout whitBackArrow={true} onBack={() => navigate('/preferences')} defaultHeader={true} hamburger={true} title={'Manage Devices'}>
       <Spin spinning={spinning}>
         <div>
           {devices &&
