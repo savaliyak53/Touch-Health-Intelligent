@@ -12,6 +12,7 @@ import ConfirmModal from 'components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
 import { backButtonPreventionRoutes } from 'Routes/Constants';
 import LogoDesktop from 'components/Icons/LogoDesktop';
+import useLocalStorage from 'hooks/useLocalStorage';
 // import CongratulationModal from 'components/Modal/CongratulationModal';
 
 type Props = {
@@ -41,12 +42,14 @@ const Index = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSubscribed, setIsSubscribed] = useState<boolean>(true);
   const [signupStatus, setSignupStatus] = useState<string>('');
+  const [isOnboarding, setIsOnboarding] = useLocalStorage("isOnboarding");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<any>();
   const navigate = useNavigate();
   const location = useLocation();
   // const [openCongratsModal, setOpenCongratsModal] = useState<boolean>(false)
   const context = useContext(AuthContext);
+
   const checkUserData = () => {
     const userId = context?.user;
     if (userId) {
@@ -78,6 +81,7 @@ const Index = ({
         });
     }
   };
+
   const setUserSubscription = (response: any) => {
     getUserSubscription()
       .then((res) => {
@@ -105,6 +109,7 @@ const Index = ({
         });
       });
   };
+
   const onBackButtonEvent = (e: any) => {
     e.preventDefault();
     if (!isOpen) {
@@ -114,10 +119,12 @@ const Index = ({
     }
     window.history.pushState(null, '', window.location.pathname);
   };
+
   const pageBackEvent = () => {
     window.history.pushState(null, '', window.location.pathname);
     window.addEventListener('popstate', onBackButtonEvent);
   };
+
   const getBackButtonContent = (pathname: string) => {
     if (pathname === '/dashboard') {
       return backButtonContent.dashboardText;
@@ -130,16 +137,26 @@ const Index = ({
       return backButtonContent.layoutText;
     }
   };
+
   const handleOk = () => {
     setIsOpen(false);
-    if (signupStatus === 'onboarding') navigate('/questionnaire');
-    else if (isSubscribed) navigate('/dashboard');
-    else navigate('/subscription');
+    if (signupStatus === 'onboarding') {
+      setIsOnboarding(true);
+      navigate('/questionnaire');
+    } else if (isSubscribed){
+      setIsOnboarding(false);
+      navigate('/dashboard');
+    } else {
+      setIsOnboarding(false);
+      navigate('/subscription');
+    }
   };
+
   const handleCancel = () => {
     setIsOpen(false);
     pageBackEvent();
   };
+
   useEffect(() => {
     if (!signupFlow(location.pathname)) {
       checkUserData();
@@ -160,6 +177,7 @@ const Index = ({
   useEffect(() => {
     if (error) throw error;
   }, [error]);
+
   return (
     <div className="w-full max-w-[100%] flex overflow-hidden relative min-h-screen">
       {loading ? (
