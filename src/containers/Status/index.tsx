@@ -392,12 +392,12 @@ const Status: FC<IProps> = ({overview}) => {
             >
               Update my conditions
             </Button>
-            <Button
+            {/* <Button
               className={'Button-Drawer-Secondary'}
               onClick={() => getInteractionByType('explore_data')}
             >
               Explore my data
-            </Button>
+            </Button> */}
           </>
         }
       />
