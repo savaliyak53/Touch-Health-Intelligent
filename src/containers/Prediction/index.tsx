@@ -50,6 +50,11 @@ const Prediction = () => {
         }
         if (response?.data) {
           setInfluencerData(response.data);
+        } else {
+          setError({
+            code: 204,
+            message: "No data found!",
+          });
         }
       } catch (error: any) {
         if (error.response) {
