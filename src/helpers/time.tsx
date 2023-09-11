@@ -34,7 +34,5 @@ export const checkDateDifference = (date: string, index: number): boolean => {
   const targetDate: Date = new Date(date);
   const differenceInMilliseconds: number = targetDate.getTime() - today.getTime();
   const differenceInDays: number = Math.ceil(differenceInMilliseconds / (24 * 60 * 60 * 1000));
-  console.log(differenceInDays, index);
-  console.log('=========');
   return differenceInDays === index;
 };
