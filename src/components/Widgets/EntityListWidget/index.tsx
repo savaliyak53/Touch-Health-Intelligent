@@ -2,7 +2,7 @@ import React, {FC, useEffect, useState, useContext} from 'react';
 // import { getEmoji, getNextDays } from '../../../helpers/entityWidgetHelper';
 import {getConditions, getInfluencers} from 'services/widgets';
 import {Spin} from 'antd';
-import {getDayOfWeekByDate} from 'helpers/time';
+import {getDayOfWeekByDate, checkDateDifference, getDayOfWeekFromToday} from 'helpers/time';
 import {useNavigate} from 'react-router';
 import { invokeInteractionServiceByType } from 'services/authservice';
 import DashboardContext from 'contexts/DashboardContext';
@@ -104,23 +104,28 @@ const EntityListWidget: FC<IProps> = ({type}) => {
                         >
                           {index === 0 && (
                             <p className="text-[12px] text-center font-medium w-8 leading-[14px] mb-2">
-                              {i === 0 ? 'Today' : getDayOfWeekByDate(prediction.dt)}
+                              {i === 0 ? 'Today' : getDayOfWeekFromToday(prediction.dt, i)}
                             </p>
                           )}
-                          <p className="mb-1 w-8 items-center text-center flex justify-center">
-                          <span
-                            className={`${
-                              prediction.score ? '' : 'text-primary-delft-dark'
-                            } w-6 h-6 rounded-[50%] bg-rae flex items-center justify-center text-[14px]`}
-                          >
+                          {checkDateDifference(prediction.dt, i) ? (
+                            <>
+                            <p className="mb-1 w-8 items-center text-center flex justify-center">
+                            <span
+                              className={`${
+                                prediction.score ? '' : 'text-primary-delft-dark'
+                              } w-6 h-6 rounded-[50%] bg-rae flex items-center justify-center text-[14px]`}
+                            >
 
-                            {prediction.emoji}
-                          </span>
-                          </p>
-                          <p
-                            className="font-medium text-[12px] w-8 text-center text-piano-light leading-[14px] text-gray-500">
-                            {prediction.value ? prediction.value : '-'}
-                          </p>
+                              {prediction.emoji}
+                            </span>
+                            </p>
+                            <p
+                              className="font-medium text-[12px] w-8 text-center text-piano-light leading-[14px] text-gray-500">
+                                { prediction.value ? prediction.value : '-'}
+                            </p>
+                          </>
+                          ) : <span>No data</span>}
+
                         </div>
                       ))}
                   </div>
