@@ -1,13 +1,10 @@
 import { createContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   getLifestyleDimensions,
   getConditionsDimensions,
   getLifestyleInfluencers,
   getConditionInfluencers
 } from 'services/dashboardservice';
-import { getUser, getSession } from '../utils/lib';
-import { ISignUp } from '../interfaces';
 
 export interface DashboardContextData {
   lifestyleDimensions: [],
@@ -70,7 +67,7 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const getAllLifestyleInfluencers = () => {
-    getConditionInfluencers('*')
+    getLifestyleInfluencers('*')
     .then(res => {
       if(res.data){
         setLifestyleInfluencers(res.data);

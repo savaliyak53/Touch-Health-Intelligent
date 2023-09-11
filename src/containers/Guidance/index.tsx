@@ -57,7 +57,7 @@ const Guidance = () => {
       <section className='relative bg-[#080815] pt-[155px] pb-[21px] px-[20px] text-left'>
         <div className='flex absolute top-10 cursor-pointer' onClick={() => onBackHandler()}>
           <ArrowIcon className="inline mr-2 brightness-0 invert"/>
-          <span className='text-white text-[12px]'>Back</span>
+          <span className='text-white text-[12px] mt-[-1px]'>Back</span>
         </div>
         <div className='text-[22px] text-[#FFF] font-["tilt_warp"]'>{guidanceData?.name}</div>
         {/* <div className='text-[12px] text-[#FFF] pt-2'>
@@ -68,10 +68,10 @@ const Guidance = () => {
           }
         </div> */}
       </section>
-      <section className='px-[20px] py-[20px]'>
-        <div>
-          <button className={`text-[12px] px-[57px] py-[10px] ${selectedType === "guidance" && "rounded-[20px] shadow-[2px_2px_0_0_#F1EEE9]"}`} onClick={() => setSelectedType("guidance")}>Guidance</button>
-          <button className={`text-[12px] px-[57px] py-[10px] ${selectedType === "science" && "rounded-[20px] shadow-[2px_2px_0_0_#F1EEE9]"} `} onClick={() => setSelectedType("science")}>The science</button>
+      <section className='px-[20px] py-[20px] bg-[#F9F7F4]'>
+        <div className='flex justify-center w-full'>
+          <button className={`text-[12px] w-full py-[10px] ${selectedType === "guidance" && "rounded-[20px] shadow-[2px_2px_0_0_#F1EEE9]"}`} onClick={() => setSelectedType("guidance")}>Guidance</button>
+          <button className={`text-[12px] w-full py-[10px] ${selectedType === "science" && "rounded-[20px] shadow-[2px_2px_0_0_#F1EEE9]"} `} onClick={() => setSelectedType("science")}>The science</button>
         </div>
         <div className='pt-[16px] text-left'>
           {guidanceData && (

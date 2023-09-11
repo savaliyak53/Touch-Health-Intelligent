@@ -13,117 +13,13 @@ interface IProps {
 const PredictionGraph: FC<IProps> = ({data}) => {
   const [range, setRange] = useState<string[]>(['auto', 'auto']);
   const [graphData, setGraphData] = useState<IPredictionGraphList[] | []>([]);
-  // const [backData, setBackData] = useState<number[] | []>([]);
-
-
-  // const list: IPredictionGraphList[] = [
-  //   {
-  //     date: 'Today',
-  //     score: 45,
-  //     emoji: '🌓',
-  //   },
-  //   {
-  //     date: 'Thu',
-  //     score: 61,
-  //     emoji: '🌓',
-  //   },
-  //   {
-  //     date: 'Fri',
-  //     score: 66,
-  //     emoji: '🌓',
-  //   },
-  //   {
-  //     date: 'Sat',
-  //     score: 30,
-  //     emoji: '🌓',
-  //   },
-  //   {
-  //     date: 'Sun',
-  //     score: 74,
-  //     emoji: '🌓',
-  //   },
-  //   {
-  //     date: 'Mon',
-  //     score: 45,
-  //     emoji: '🌓',
-  //   },
-  //   {
-  //     date: 'Thu',
-  //     score: 61,
-  //     emoji: '🌓',
-  //   },
-  //   {
-  //     date: 'Fri',
-  //     score: 66,
-  //     emoji: '🌓'
-  //   },
-  //   {
-  //     date: 'Sat',
-  //     score: 30,
-  //     emoji: '🌓'
-  //   },
-  //   {
-  //     date: 'Sun',
-  //     score: 74,
-  //     emoji: '🌓'
-  //   },
-  //   {
-  //     date: 'Mon',
-  //     score: 45,
-  //     emoji: '🌓'
-  //   },
-  //   {
-  //     date: 'Thu',
-  //     score: 61,
-  //     emoji: '🌓'
-  //   },
-  //   {
-  //     date: 'Fri',
-  //     score: 66,
-  //     emoji: '🌓'
-  //   },
-  //   {
-  //     date: 'Sat',
-  //     score: 30,
-  //     emoji: '🌓'
-  //   },
-  //   {
-  //     date: 'Sun',
-  //     score: 74,
-  //     emoji: '🌓'
-  //   },
-  //   {
-  //     date: 'Mon',
-  //     score: 45,
-  //     emoji: '🌓'
-  //   },
-  //   {
-  //     date: 'Tue',
-  //     score: 45,
-  //     emoji: '🌓'
-  //   },
-  //   {
-  //     date: 'Wed',
-  //     score: 45,
-  //     emoji: '🌓'
-  //   },
-  //   {
-  //     date: 'Wed',
-  //     score: 45,
-  //     emoji: '🌓'
-  //   },
-  //   {
-  //     date: 'Wed',
-  //     score: null,
-  //     emoji: '🌓'
-  //   },
-  // ];
 
   useEffect(() => {
     // const values: number[] = [];
     const state: IPredictionGraphList[] = [...data];
-    state.forEach(({ date, score, emoji }, index) => {
+    state.forEach(({ dt: date, value: score, emoji }, index) => {
       const day = index === 0 ? 'Today' : getDayOfWeekByDate(date);
+      state[index].score = Number(score);
       state[index].value = `${day}_${score}_${emoji}`;
       // if (score) {
       //   values.push(score);
@@ -135,7 +31,7 @@ const PredictionGraph: FC<IProps> = ({data}) => {
       setRange(['dataMin', 'dataMax']);
     }, 1000);
   }, []);
-// 190
+
   return (
     <div className='scrolling-x-auto overflow-x-auto h-[160px] z-10 mt-10 pr-10 relative'>
       {graphData && (
