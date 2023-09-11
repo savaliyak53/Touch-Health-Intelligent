@@ -24,10 +24,11 @@ const SecurityQuestions = () => {
   };
   const scrollListener = (x: any) => {
     if (x.matches) {
-      document.querySelectorAll<HTMLElement>('.Layout')[0].style.height =
-        '80vh';
-      document.querySelectorAll<HTMLElement>('.Layout')[0].style.minHeight =
-        '80vh';
+      const layoutElement = document.querySelectorAll<HTMLElement>('.Layout')[0];
+      if (layoutElement) {
+        layoutElement.style.height = '80vh';
+        layoutElement.style.minHeight ='80vh';
+      }
     }
   };
   useEffect(() => {
@@ -36,10 +37,11 @@ const SecurityQuestions = () => {
     scrollListener(x);
     window.addEventListener('scroll', scrollListener);
     window.addEventListener('beforeunload', () => {
-      document.querySelectorAll<HTMLElement>('.Layout')[0].style.height =
-        'auto';
-      document.querySelectorAll<HTMLElement>('.Layout')[0].style.minHeight =
-        '100vh';
+      const layoutElement = document.querySelectorAll<HTMLElement>('.Layout')[0];
+      if (layoutElement) {
+        layoutElement.style.height = 'auto';
+        layoutElement.style.minHeight ='100vh';
+      }
     });
     const userId = authContext?.user
       ? authContext?.user
