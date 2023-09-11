@@ -1,43 +1,35 @@
 import React from 'react';
-import { Modal, Button } from 'antd';
-import styles from './DeleteModal.module.scss';
+import TouchButton from 'components/TouchButton';
+import TouchModal from 'components/Modal/TouchModal';
+
 export type IProps = {
   open: boolean;
   handleCancel: () => any;
   handleOk: any;
-  renderData?: any;
-  title: string;
+  children?: React.ReactNode;
 };
+
 const DeleteModal = ({
   open,
   handleCancel,
-  title,
   handleOk,
-  renderData,
+  children,
 }: IProps) => {
+
   return (
-    <Modal
-      title={title}
-      open={open}
-      onOk={handleOk}
-      onCancel={handleCancel}
-      className={"Delete-Modal"} 
-      footer={[
-        <div  key="submit" className={styles["Btn-group"]}>
-          <Button className={"Submit-Button"} onClick={handleOk}>
-            I acknowledge the above and wish to delete my data.
-          </Button>
-          <Button className={"Submit-Button"} onClick={handleCancel}>
-            Take me back. I do not want to delete my data
-          </Button>
-        </div>
-      ]
-      }
-    >
-      <div className={styles["Data"]}>
-        {renderData}
+    <TouchModal setClose={handleCancel} isOpen={open}>
+      <div className='w-full my-[50px] px-[20px] text-justify'>
+        {children}
       </div>
-    </Modal>
+      <div className='mx-[25px] mb-[33px]'>
+        <TouchButton className='mb-5' type={'default'} onClick={handleOk} isExtraPadding={true}>
+          I acknowledge the above and wish to delete my data.
+        </TouchButton>
+        <TouchButton type={'default'} onClick={handleCancel} isExtraPadding={true}>
+          Take me back. I do not want to delete my data
+        </TouchButton>
+      </div>
+    </TouchModal>
   );
 };
 

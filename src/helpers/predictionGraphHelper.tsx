@@ -1,5 +1,5 @@
 import { IPredictionGraphList } from '../interfaces';
 
-export const createValueForGraph = ({date, score, emoji}: IPredictionGraphList): string => {
-  return `${date}_${score}_${emoji}`;
+export const createValueForGraph = ({dt, score, emoji}: IPredictionGraphList): string => {
+  return `${dt}_${score}_${emoji}`;
 }

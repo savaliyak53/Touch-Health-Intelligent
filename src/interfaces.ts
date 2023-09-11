@@ -68,15 +68,19 @@ export interface Interaction {
 //         statistic_str: string
 //     }
 // }
+export interface IDropDownOptionsItem {
+  id: string;
+  text: string;
+}
 /**
  * Prediction graph section
  */
 
 export interface IPredictionGraphList {
-  date: string;
-  score: number | null;
+  dt: string;
+  score?: number | null;
   emoji: string;
-  value?: string;
+  value?: string | number;
 }
 
 /**

@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styles from './Verification.module.scss';
 import { toast } from 'react-toastify';
 import Button from 'components/Button';
 import ConfirmModal from 'components/Modal/ConfirmModal';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import { Tooltip } from 'antd';
 import ReactCodeInput from 'react-code-input';
 import { requestPhoneOTP, verifyPhoneOTP } from 'services/authservice';
@@ -174,6 +174,11 @@ const Verification = () => {
     }
   };
 
+  const handleCancelFinishStatus = () => {
+    setfinishStatus(false);
+    pageBackEvent();
+  }
+
   return (
     <Layout defaultHeader={true} hamburger={false} title={'Verification code'}>
       <div className={styles['Verification-wrap']}>
@@ -239,35 +244,22 @@ const Verification = () => {
         <ConfirmModal
           title={'Confirmation'}
           open={modalOpen}
-          handleCancel={() => {
-            setModalOpen(false);
-          }}
-          handleOk={() => {
-            setModalOpen(false);
-          }}
-          className="Addgoal-Confirm-Modal"
-          renderData={
-            <div className="Description">
-              We just sent a text to your number, confirm this is you by putting
-              in the code you received here
-            </div>
-          }
-        />
+          handleCancel={() => setModalOpen(false)}
+          handleOk={() => setModalOpen(false)}>
+          <div className="text-3 text-oldBurgundy leading-[23px] text-left">
+            We just sent a text to your number, confirm this is you by putting
+            in the code you received here
+          </div>
+        </ConfirmModal>
         <ConfirmModal
           title={'Confirmation'}
           open={finishStatus}
-          handleCancel={() => {
-            setfinishStatus(false);
-            pageBackEvent();
-          }}
-          handleOk={logoutClick}
-          className="Addgoal-Confirm-Modal"
-          renderData={
-            <div className="Description">
-              Are you sure you want to navigate away from this page?
-            </div>
-          }
-        />
+          handleCancel={() => handleCancelFinishStatus}
+          handleOk={logoutClick}>
+          <div className="text-3 text-oldBurgundy leading-[23px] text-left">
+            Are you sure you want to navigate away from this page?
+          </div>
+        </ConfirmModal>
       </div>
     </Layout>
   );

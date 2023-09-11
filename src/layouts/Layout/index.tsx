@@ -12,6 +12,8 @@ import ConfirmModal from 'components/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
 import { backButtonPreventionRoutes } from 'Routes/Constants';
 import LogoDesktop from 'components/Icons/LogoDesktop';
+import useLocalStorage from 'hooks/useLocalStorage';
+// import CongratulationModal from 'components/Modal/CongratulationModal';
 
 type Props = {
   defaultHeader: boolean;
@@ -25,7 +27,7 @@ type Props = {
   streak?: number;
   addPadding?: boolean;
 };
-const Layout = ({
+const Index = ({
   children,
   defaultHeader,
   hamburger,
@@ -40,11 +42,14 @@ const Layout = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSubscribed, setIsSubscribed] = useState<boolean>(true);
   const [signupStatus, setSignupStatus] = useState<string>('');
+  const [isOnboarding, setIsOnboarding] = useLocalStorage("isOnboarding");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<any>();
   const navigate = useNavigate();
   const location = useLocation();
+  // const [openCongratsModal, setOpenCongratsModal] = useState<boolean>(false)
   const context = useContext(AuthContext);
+
   const checkUserData = () => {
     const userId = context?.user;
     if (userId) {
@@ -76,6 +81,7 @@ const Layout = ({
         });
     }
   };
+
   const setUserSubscription = (response: any) => {
     getUserSubscription()
       .then((res) => {
@@ -103,6 +109,7 @@ const Layout = ({
         });
       });
   };
+
   const onBackButtonEvent = (e: any) => {
     e.preventDefault();
     if (!isOpen) {
@@ -112,10 +119,12 @@ const Layout = ({
     }
     window.history.pushState(null, '', window.location.pathname);
   };
+
   const pageBackEvent = () => {
     window.history.pushState(null, '', window.location.pathname);
     window.addEventListener('popstate', onBackButtonEvent);
   };
+
   const getBackButtonContent = (pathname: string) => {
     if (pathname === '/dashboard') {
       return backButtonContent.dashboardText;
@@ -128,16 +137,26 @@ const Layout = ({
       return backButtonContent.layoutText;
     }
   };
+
   const handleOk = () => {
     setIsOpen(false);
-    if (signupStatus === 'onboarding') navigate('/questionnaire');
-    else if (isSubscribed) navigate('/dashboard');
-    else navigate('/subscription');
+    if (signupStatus === 'onboarding') {
+      setIsOnboarding(true);
+      navigate('/questionnaire');
+    } else if (isSubscribed){
+      setIsOnboarding(false);
+      navigate('/dashboard');
+    } else {
+      setIsOnboarding(false);
+      navigate('/subscription');
+    }
   };
+
   const handleCancel = () => {
     setIsOpen(false);
     pageBackEvent();
   };
+
   useEffect(() => {
     if (!signupFlow(location.pathname)) {
       checkUserData();
@@ -158,6 +177,7 @@ const Layout = ({
   useEffect(() => {
     if (error) throw error;
   }, [error]);
+
   return (
     <div className="w-full max-w-[100%] flex overflow-hidden relative min-h-screen">
       {loading ? (
@@ -197,6 +217,7 @@ const Layout = ({
                 <div className="flex flex-col h-full">{children}</div>
               </div>
             </div>
+            {/*<CongratulationModal type={'data-points'} setClose={setOpenCongratsModal} isOpen={openCongratsModal} value={16} />*/}
           </div>
           <div className="w-full max-w-[50%] bg-right bg-fit bg-no-repeat main-layout-background">
             <LogoDesktop className="float-right mr-12 mt-10" />
@@ -207,32 +228,27 @@ const Layout = ({
         title={'Confirmation'}
         open={isOpen}
         handleCancel={handleCancel}
-        handleOk={handleOk}
-        className="Addgoal-Confirm-Modal"
-        renderData={
-          <div className="Description">
-            {getBackButtonContent(location.pathname)}
-          </div>
-        }
-      />
+        handleOk={handleOk}>
+        <div className="text-3 text-oldBurgundy leading-[23px] text-left">
+          {getBackButtonContent(location.pathname)}
+        </div>
+      </ConfirmModal>
       {exception && (
         <div>
           <ErrorInteractionModal
             title={'Error'}
             open={true}
-            showTryButton={!exception}
-            renderData={
-              <div className={'Description'}>
-                Oops! Something went wrong
-                <br />
-                Try again later.
-              </div>
-            }
-          />
+            showTryButton={!exception}>
+            <div className='text-3 text-oldBurgundy leading-[23px] text-left'>
+              Oops! Something went wrong
+              <br />
+              Try again later.
+            </div>
+          </ErrorInteractionModal>
         </div>
       )}
     </div>
   );
 };
 
-export default Layout;
+export default Index;

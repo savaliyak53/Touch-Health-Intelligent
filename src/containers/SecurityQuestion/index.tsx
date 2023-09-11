@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Layout from 'layouts/Layout/Layout';
-import { Select, Spin } from 'antd';
-import v from '../../variables.module.scss';
+import Layout from 'layouts/Layout';
+import { Spin } from 'antd';
 import styles from './SecurityQuestion.module.scss';
 import Button from 'components/Button';
-import InputField from 'components/Input';
-import { securityQuestions } from '../../constants';
 import { putSignUp } from 'services/authservice';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { DownOutlined } from '@ant-design/icons';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
-
-const { Option } = Select;
+import TouchDropdown from 'components/TouchDropdown';
+import { securityQuestions as dropDownOptions} from '../../constants';
+import TouchInput from 'components/TouchInput';
 
 const SecurityQuestions = () => {
   const [loading, setLoading] = useState(false);
@@ -22,15 +19,16 @@ const SecurityQuestions = () => {
   const authContext = useContext<AuthContextData | undefined>(AuthContext);
   const [error, setError] = useState<any>();
 
-  const onChange = (option: any) => {
-    setQuestion(option);
+  const onChange = (value: string) => {
+    setQuestion(value);
   };
   const scrollListener = (x: any) => {
     if (x.matches) {
-      document.querySelectorAll<HTMLElement>('.Layout')[0].style.height =
-        '80vh';
-      document.querySelectorAll<HTMLElement>('.Layout')[0].style.minHeight =
-        '80vh';
+      const layoutElement = document.querySelectorAll<HTMLElement>('.Layout')[0];
+      if (layoutElement) {
+        layoutElement.style.height = '80vh';
+        layoutElement.style.minHeight ='80vh';
+      }
     }
   };
   useEffect(() => {
@@ -39,10 +37,11 @@ const SecurityQuestions = () => {
     scrollListener(x);
     window.addEventListener('scroll', scrollListener);
     window.addEventListener('beforeunload', () => {
-      document.querySelectorAll<HTMLElement>('.Layout')[0].style.height =
-        'auto';
-      document.querySelectorAll<HTMLElement>('.Layout')[0].style.minHeight =
-        '100vh';
+      const layoutElement = document.querySelectorAll<HTMLElement>('.Layout')[0];
+      if (layoutElement) {
+        layoutElement.style.height = 'auto';
+        layoutElement.style.minHeight ='100vh';
+      }
     });
     const userId = authContext?.user
       ? authContext?.user
@@ -85,37 +84,16 @@ const SecurityQuestions = () => {
             Please help us protect your account. Select a security question and
             input answer. You can use this to get back access to your account.
           </p>
-          <div className="Select-Wrap">
-            <Select
-              placeholder="Select a question"
-              optionFilterProp="children"
-              onChange={onChange}
-            >
-              {securityQuestions.map((item) => (
-                <Option
-                  key={item.id}
-                  value={item.text}
-                  style={{ color: v['primary-color1'] }}
-                >
-                  {item.text}
-                </Option>
-              ))}
-            </Select>
-            <DownOutlined />
-          </div>
-          <div
-            className={styles['input-element-wrapper']}
-            style={{ marginTop: '10px' }}
-          >
-            <InputField
-              placeholder="Answer"
-              onChange={(event: {
-                target: { value: React.SetStateAction<string> };
-              }) => setAnswer(event.target.value)}
-              className={` ${styles['app-Input']} ${styles['security-answer']} `}
-            />
-          </div>
-
+          <TouchDropdown
+            options={dropDownOptions}
+            value={question}
+            onClick={onChange}
+            placeholder="Select a question"/>
+          <TouchInput
+            type='text'
+            placeholder="Answer"
+            onChange={(e) => setAnswer(e.target.value)}
+            value={answer} />
           <div className={styles['Security-Btn']}>
             <Button
               loading={loading}

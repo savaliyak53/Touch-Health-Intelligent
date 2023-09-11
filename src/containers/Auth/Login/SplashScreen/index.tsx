@@ -6,7 +6,7 @@ type SplashScreenTypes = {
 
 const SplashScreen = ({ setVisited }: SplashScreenTypes) => {
   return (
-    <div className="relative flex justify-center items-center h-screen bg-cover xs:bg-auth_bg_mobile sm:bg-auth_bg_desktop bg-no-repeat bg-center">
+    <div className="relative flex justify-center items-center h-[100svh] bg-cover xs:bg-auth_bg_mobile sm:bg-auth_bg_desktop bg-no-repeat bg-center">
       <div className='xs:mb-[100px] sm:mb-0'>
         <img
           src={`${process.env.PUBLIC_URL}/assets/logo/auth/cur8-health-mobile-logo.svg`}
@@ -24,7 +24,7 @@ const SplashScreen = ({ setVisited }: SplashScreenTypes) => {
         <div className="sm:relative sm:bottom-0 xs:absolute xs:bottom-4 left-1/2 -translate-x-1/2">
           <button
             onClick={() => setVisited(true)}
-            className="font-['tilt_warp'] mt-[65px] text-[16px] bg-[#080815] text-white py-[20px] px-[116px] rounded-[100px] w-max xs:mb-14 sm:mb-0"
+            className="font-['tilt_warp'] mt-[65px] text-[16px] bg-[#080815] text-white py-[20px] px-[116px] rounded-[100px] w-max xs:mb-[15px] sm:mb-0"
           >
             Let&apos;s get started
           </button>

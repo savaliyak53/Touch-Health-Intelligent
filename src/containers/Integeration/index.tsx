@@ -9,7 +9,7 @@ import {
   getIntegrationStatus,
 } from 'services/authservice';
 import { toast } from 'react-toastify';
-import Layout from 'layouts/Layout/Layout';
+import Layout from 'layouts/Layout';
 import 'moment-timezone';
 import DeleteModal from 'components/Modal/DeleteDataModal';
 import { deleteAllData } from 'services/goalsService';
@@ -218,6 +218,11 @@ const Integrations = () => {
     window.location.href = url;
   };
 
+  const handleCancelGoogleOAuthModal = (): void => {
+    setShowGoogleOAuthModal(false);
+    setChecked(false);
+  }
+
   const handleNext = () => {
     postInteractionService({
       type: 'question',
@@ -316,39 +321,30 @@ const Integrations = () => {
                 Delete all my data
               </Button>
               <DeleteModal
-                title={''}
                 open={showCancelModal}
                 handleCancel={handleDeleteModal}
-                handleOk={() => removeUserData()}
-                renderData={
-                  <div>
-                    By deleting your data, your entire health profile in the
-                    Touch Health Assistant will cease to exist. No data will be
-                    retained, and you will be sent back to the beginning as if
-                    you just started. This is irreversible, proceed with
-                    caution.
-                  </div>
-                }
-              />
+                handleOk={() => removeUserData()}>
+                <div className='text-3 text-oldBurgundy leading-[23px]'>
+                  By deleting your data, your entire health profile in the
+                  Touch Health Assistant will cease to exist. No data will be
+                  retained, and you will be sent back to the beginning as if
+                  you just started. This is irreversible, proceed with
+                  caution.
+                </div>
+              </DeleteModal>
               <GoogleOAuthDisclosureModal
-                title={''}
                 open={showGoogleOAuthModal}
-                handleCancel={() => {
-                  setShowGoogleOAuthModal(false);
-                  setChecked(false);
-                }}
-                handleOk={googleOAuthModalOk}
-                renderData={
-                  <div>
-                    Touch Health Assistant&apos;s use and transfer to any other
-                    app of information received from Google APIs will adhere to{' '}
-                    <a href="https://developers.google.com/terms/api-services-user-data-policy">
-                      Google API Services User Data Policy
-                    </a>
-                    , including the Limited Use requirements.
-                  </div>
-                }
-              />
+                handleCancel={handleCancelGoogleOAuthModal}
+                handleOk={googleOAuthModalOk}>
+                <div className='text-3 text-oldBurgundy leading-[23px] text-left'>
+                  Touch Health Assistant&apos;s use and transfer to any other
+                  app of information received from Google APIs will adhere to{' '}
+                  <a className='text-[#1890ff] hover:text-[#40a9ff]' href="https://developers.google.com/terms/api-services-user-data-policy">
+                    Google API Services User Data Policy
+                  </a>
+                  , including the Limited Use requirements.
+                </div>
+              </GoogleOAuthDisclosureModal>
             </div>
           </div>
           {loc?.state?.redirect == true && (

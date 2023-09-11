@@ -11,9 +11,11 @@ import { Spin } from 'antd';
 import moment from 'moment';
 import ErrorInteractionModal from 'components/Modal/ErrorInteractionModal';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
+import useLocalStorage from 'hooks/useLocalStorage';
 
 const Home = () => {
   const context = useContext<AuthContextData | undefined>(AuthContext);
+  const [isOnboarding, setIsOnboarding] = useLocalStorage("isOnboarding");
 
   const navigate = useNavigate();
   const userId = context?.user;
@@ -23,8 +25,10 @@ const Home = () => {
 
   const handleRedirect = (response: any) => {
     if (response) {
+      setIsOnboarding(true);
       navigate('/questionnaire');
     } else {
+      setIsOnboarding(false);
       navigate('/dashboard');
     }
   };
@@ -197,15 +201,13 @@ const Home = () => {
           <ErrorInteractionModal
             title={'Error'}
             open={true}
-            showTryButton={!exception}
-            renderData={
-              <div className={'Description'}>
-                Oops! Something went wrong
-                <br />
-                Try again later.
-              </div>
-            }
-          />
+            showTryButton={!exception}>
+            <div className='text-3 text-oldBurgundy leading-[23px] text-left'>
+              Oops! Something went wrong
+              <br />
+              Try again later.
+            </div>
+          </ErrorInteractionModal>
         </div>
       )}
     </div>

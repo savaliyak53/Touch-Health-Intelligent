@@ -1,256 +1,158 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useForm, SubmitHandler, set } from 'react-hook-form';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate, useLocation } from 'react-router-dom';
-import Button from 'components/Button';
-import InputField from 'components/Input';
-import styles from '../Login.module.scss';
-import Authstyles from '../../Auth.module.scss';
-import { Tooltip } from 'antd';
-import CountryCode from '../../Country/CountryCode';
-import { ILogin } from 'interfaces';
+import { useNavigate } from 'react-router-dom';
 import {
   getTokenExpiration,
   onlyNumbers,
-  validateNumber,
 } from 'utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
-import AccountLockModal from '../../../../components/Modal/AccountLockModal';
-import AuthContext, { AuthContextData } from '../../../../contexts/AuthContext';
-import { getSession, getUser } from '../../../../utils/lib';
-import ConfirmModal from '../../../../components/Modal/ConfirmModal';
-import FloatLabel from 'components/FloatLabel';
+import AccountLockModal from 'components/Modal/AccountLockModal';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
+import { getSession, getUser } from 'utils/lib';
+import ConfirmModal from 'components/Modal/ConfirmModal';
+import PhoneInput from 'components/PhoneInput';
+import TouchInput from 'components/TouchInput';
+import TouchButton from 'components/TouchButton';
 
-
-type LoginFormProps = {
-  onSubmit: SubmitHandler<IFormInputs>;
-  refCaptcha: any;
-};
-
-type IFormInputs = {
-  username: string;
-  password: string;
-};
-
-const LoginForm = ({ refCaptcha }: LoginFormProps) => {
-  const [passwordShown, setPasswordShown] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [modalText, setModalText] = useState('');
-  const [showLockAccountModal, setShowLockAccountModal] = useState(false);
-  const [error, setError] = useState<any>();
-  const [isEye, setIsEye] = useState(true);
-  const [activeClass, setActiveClass] = useState(styles.PasswordInput);
-  const [isHovered, setIsHovered] = useState(false);
+const LoginForm: React.FC = () => {
+  const refCaptcha = useRef<any>(null)
   const navigate = useNavigate();
-  const location: any = useLocation();
-  const [wrongCredentialsModal, setWrongCredentialsModal] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    getValues,
-    setValue,
-    watch,
-    control,
-    formState: { errors },
-  } = useForm<IFormInputs>({
-    mode: 'onSubmit',
-    reValidateMode: 'onChange',
-    shouldFocusError: true,
-    shouldUnregister: false,
-  });
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+  const [error, setError] = useState<any>();
 
-  const togglePassword = () => {
-    setPasswordShown(!passwordShown);
-  };
+  const [modalText, setModalText] = useState<string>('');
+  const [showLockAccountModal, setShowLockAccountModal] = useState<boolean>(false);
+  const [wrongCredentialsModal, setWrongCredentialsModal] = useState<boolean>(false);
+
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
   const handleCancelModal = () => {
     setShowLockAccountModal(false);
   };
+
   const authContext = useContext<AuthContextData | undefined>(AuthContext); // Add the type parameter
   if (!authContext) return null;
   const { loginUser } = authContext;
-  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-    setIsLoading(true);
-    setIsDisabled(true);
-    const submitData = getValues();
-    const token = refCaptcha.current.getValue();
-    refCaptcha.current.reset();
-    const loginRequest: ILogin = {
-      username: onlyNumbers(submitData.username),
-      password: submitData.password,
-    };
-    const loginResponse = await loginUser(
-      loginRequest.username,
-      loginRequest.password,
-      token
-    );
-    if (loginResponse?.token) {
-      reset();
-      setIsDisabled(false);
-      setIsLoading(false);
 
-      localStorage.setItem('token', `${loginResponse.token}`);
-      localStorage.setItem(
-        'expiration',
-        getTokenExpiration(loginResponse.token)
+  const onSubmit = async () => {
+    if (onlyNumbers(username) && password) {
+
+      setIsLoading(true);
+      setIsDisabled(true);
+
+      const token = refCaptcha.current.getValue();
+      refCaptcha.current.reset();
+
+      const loginResponse = await loginUser(
+        onlyNumbers(username),
+        password,
+        token
       );
-      const userId = getUser(loginResponse.token);
-      localStorage.setItem('userId', userId);
-      const sessionId = getSession(loginResponse.token);
-      localStorage.setItem('sessionId', sessionId);
-      navigate('/');
-    } else {
-      setIsLoading(false);
-      if (loginResponse?.response?.status === 429) {
-        setShowLockAccountModal(true);
-        setModalText(loginResponse?.response?.data?.details);
+
+      if (loginResponse?.token) {
+        setIsDisabled(false);
+        setIsLoading(false);
+
+        localStorage.setItem('token', `${loginResponse.token}`);
+        localStorage.setItem('expiration', getTokenExpiration(loginResponse.token));
+        const userId = getUser(loginResponse.token);
+        localStorage.setItem('userId', userId);
+        const sessionId = getSession(loginResponse.token);
+        localStorage.setItem('sessionId', sessionId);
+        navigate('/');
       } else {
-        setError({
-          code: loginResponse?.response?.status,
-          message: loginResponse.response.data?.details,
-        });
-        setWrongCredentialsModal(true);
+        setIsLoading(false);
+        if (loginResponse?.response?.status === 429) {
+          setShowLockAccountModal(true);
+          setModalText(loginResponse?.response?.data?.details);
+        } else {
+          setError({
+            code: loginResponse?.response?.status,
+            message: loginResponse.response.data?.details,
+          });
+          setWrongCredentialsModal(true);
+        }
       }
     }
   };
-  const watchedValues = watch();
-  useEffect(() => {
-    const debounceId = setTimeout(() => {
-      setActiveClass(styles.PasswordInput);
-    }, 500);
-
-    if (
-      watchedValues.password != undefined &&
-      watchedValues.password.length !== 0
-    )
-      setActiveClass(styles.PasswordInputChange);
-    return () => {
-      clearTimeout(debounceId);
-    };
-  }, [watchedValues.password]);
-
-  useEffect(() => {
-    if (errors.password?.message) {
-      setIsEye(false);
-    } else {
-      setIsEye(true);
-    }
-  });
-
-  // useEffect(() => {
-  //    if (error) throw error;
-  // }, [error]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (location.state?.username)
-      setValue('username', validateNumber(location.state.username));
+
   }, []);
+
   return (
-    <div className={styles.Login}>
-      <div className={styles.FormWrap}>
-        <form
-          role="login-form"
-          onSubmit={handleSubmit(onSubmit)}
-          className={styles.Form}
-        >
-          <h1 className={styles.Title}>Log in</h1>
-
-          <FloatLabel isUsername={true} label="Mobile phone number" name="username" value={getValues('username')}>
-            <CountryCode
-              errors={errors.username}
-              control={control}
-              fieldName="username"
-            />
-          </FloatLabel>
-
-          <Tooltip
-            color="orange"
-            placement="bottomLeft"
-            title={errors.password?.message}
-            open={isHovered ? true : false}
-          >
-          <FloatLabel isUsername={false} label="Password" name="password" value={getValues('password')}>    
-
-            <InputField
-              id="password"
-              data-testid="pwd"
-              {...register('password', {
-                required: 'Password is required',
-              })}
-              placeholder="Password"
-              type={passwordShown ? 'text' : 'password'}
-              className={isEye ? activeClass : styles.PasswordInputIvalid}
-              isEye={isEye}
-              handleMouseEnter={handleMouseEnter}
-              handleMouseLeave={handleMouseLeave}
-              togglePassword={togglePassword}
-            />
-          </FloatLabel>
-
-          </Tooltip>
-          <AccountLockModal
-            title={'Too many retries'}
-            open={showLockAccountModal}
-            handleCancel={handleCancelModal}
-            handleOk={handleCancelModal}
-            renderData={<div>{modalText}</div>}
-          />
-          <ConfirmModal
-            title={'Error'}
-            open={wrongCredentialsModal}
-            handleCancel={() => setWrongCredentialsModal(false)}
-            handleOk={() => setWrongCredentialsModal(false)}
-            className="Delete-Modal"
-            renderData={
-              <div className="Description">
-                <div>{error?.message}</div>
-              </div>
-            }
-          />
-          <ReCAPTCHA
-            className={Authstyles['recaptcha']}
-            ref={refCaptcha}
-            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
-            onChange={() => {
-              setIsDisabled(false);
-            }}
-          />
-          <Button
-            className={styles.LoginButton}
-            onClick={handleSubmit(onSubmit)}
-            loading={isLoading}
-            disabled={isDisabled}
-            data-testid="submit"
-          >
-            Log in
-          </Button>
-
-          <div className={styles.ToSignup}>
-            <span>Don’t have an account? </span>
-            <Link to="/signup" className={styles.Link}>
-              Sign up
-            </Link>
+    <div className='w-full'>
+      <div className='flex flex-col items-center rounded-[5px] bg-white shadow-primaryTop w-full px-[16px] py-[20px] sm:pt-[52px] sm:pb-[84px]'>
+        <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>
+          Log in
+        </h1>
+        <PhoneInput
+          onChange={setUsername}
+          placeholder="Mobile phone number"
+          value={username}
+        />
+        <TouchInput
+          className='mt-4'
+          type={'password'}
+          placeholder='Password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)} />
+        <AccountLockModal
+          title={'Too many retries'}
+          open={showLockAccountModal}
+          handleCancel={handleCancelModal}
+          isAuth={true}
+          handleOk={handleCancelModal}>
+          <div className={'text-3 text-oldBurgundy leading-[23px] text-left'}>{modalText}</div>
+        </AccountLockModal>
+        <ConfirmModal
+          title={'Error'}
+          open={wrongCredentialsModal}
+          isAuth={true}
+          handleCancel={() => setWrongCredentialsModal(false)}
+          handleOk={() => setWrongCredentialsModal(false)}>
+          <div className="text-3 text-oldBurgundy leading-[23px] text-left">
+            <div>{error?.message}</div>
           </div>
-        </form>
+        </ConfirmModal>
+        <ReCAPTCHA
+          className='mt-[25px] mx-auto mb-0'
+          ref={refCaptcha}
+          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
+          onChange={() => {
+            setIsDisabled(false);
+          }}
+        />
+        <TouchButton
+          type={'auth'}
+          className='mt-8'
+          onClick={onSubmit}
+          isLoading={isLoading}
+          isDisabled={isDisabled}
+        >
+          Log in
+        </TouchButton>
+        <div className={'text-high-dark font-roboto text-xs font-normal leading-4 mt-5'}>
+          <span>Don’t have an account? </span>
+          <Link to='/signup' className='underline hover:text-high-dark hover:underline'>
+            Sign up
+          </Link>
+        </div>
       </div>
-      <div className={styles.LinksWrap}>
+
+      <div className='flex w-full items-center justify-center mt-[24px]'>
         <a
           href="https://www.touchmedical.ca/customer-care"
-          className={styles.OtherLink}
+          className='text-dentist text-[14px] leading-[14px] underline my-0 mx-[8px]'
           target='blank'
         >
           Customer care
         </a>
-        <Link to="/password-reset" className={styles.OtherLink}>
+        <Link to="/password-reset" className='text-dentist text-[14px] leading-[14px] underline my-0 mx-[8px]'>
           Forgot password
         </Link>
       </div>
