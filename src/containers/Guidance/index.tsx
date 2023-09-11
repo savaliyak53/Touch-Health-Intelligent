@@ -73,7 +73,7 @@ const Guidance = () => {
           <button className={`text-[12px] w-full py-[10px] ${selectedType === "guidance" && "rounded-[20px] shadow-[2px_2px_0_0_#F1EEE9]"}`} onClick={() => setSelectedType("guidance")}>Guidance</button>
           <button className={`text-[12px] w-full py-[10px] ${selectedType === "science" && "rounded-[20px] shadow-[2px_2px_0_0_#F1EEE9]"} `} onClick={() => setSelectedType("science")}>The science</button>
         </div>
-        <div className='pt-[16px] text-left'>
+        <div className='pt-[16px] text-left text-[14px]'>
           {guidanceData && (
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
               {selectedType === "guidance" ? guidanceData.info_md : guidanceData.science_md}
@@ -82,7 +82,7 @@ const Guidance = () => {
           }
         </div>
       </section>
-      <section className='bg-[#F9F7F4] rounded-[5px] text-left px-[20px] pt-[11px] pb-[30px]'>
+      {/* <section className='bg-[#F9F7F4] rounded-[5px] text-left px-[20px] pt-[11px] pb-[30px]'>
         <div className='text-[18px] font-["tilt_warp"] leading-[36px] pb-2'>Explore more</div>
         <div className='w-full flex gap-3'>
           <div className='w-full rounded-[5px] bg-white shadow-[0_4px_0_0_#F0ECE7] pt-[39px] px-[19px] pb-[14px] cursor-pointer'>
@@ -94,7 +94,7 @@ const Guidance = () => {
             <div className='text-[12px]'>Avoiding Blue Light</div>
           </div>
         </div>
-      </section>
+      </section> */}
     </Layout>
   );
 };
