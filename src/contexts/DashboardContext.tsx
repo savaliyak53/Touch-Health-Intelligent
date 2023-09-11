@@ -1,13 +1,11 @@
-import { createContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { createContext, useState, useEffect, useContext } from 'react';
 import {
   getLifestyleDimensions,
   getConditionsDimensions,
   getLifestyleInfluencers,
   getConditionInfluencers
 } from 'services/dashboardservice';
-import { getUser, getSession } from '../utils/lib';
-import { ISignUp } from '../interfaces';
+import AuthContext, { AuthContextData } from './AuthContext';
 
 export interface DashboardContextData {
   lifestyleDimensions: [],
@@ -29,6 +27,8 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
   const [lifestyleInfluencers, setLifestyleInfluencers] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>();
+  const authContext = useContext<AuthContextData | undefined>(AuthContext);
+  const userId = authContext?.user ? authContext?.user: localStorage.getItem('userId');
   
   const getAllLifestyleDimensions = () => {
     getLifestyleDimensions()
@@ -70,7 +70,7 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const getAllLifestyleInfluencers = () => {
-    getConditionInfluencers('*')
+    getLifestyleInfluencers('*')
     .then(res => {
       if(res.data){
         setLifestyleInfluencers(res.data);
@@ -83,11 +83,13 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   useEffect(() => {
-    getAllConditionDimensions();
-    getAllLifestyleDimensions();
-    getAllConditionInfluencers();
-    getAllLifestyleInfluencers();
-  }, []);
+    if(userId){
+      getAllConditionDimensions();
+      getAllLifestyleDimensions();
+      getAllConditionInfluencers();
+      getAllLifestyleInfluencers();
+    }
+  }, [userId]);
 
   useEffect(() => {
     if (error) throw error;

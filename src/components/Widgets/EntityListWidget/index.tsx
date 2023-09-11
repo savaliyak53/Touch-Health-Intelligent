@@ -19,6 +19,8 @@ interface IPrediction {
 interface ITest {
   name: string;
   id: string;
+  influencer_id: string;
+  parent_dimension_id: string;
   prediction_ordered_list: IPrediction[];
 }
 
@@ -60,7 +62,7 @@ const EntityListWidget: FC<IProps> = ({type}) => {
   }, []);
 
   const handlerOnClick = (item: ITest) => {
-    navigate(`/prediction?type=${type}&id=${item.id}`);
+    navigate(`/prediction?type=${type}&influencer_id=${item.influencer_id}&dimension_id=${item.parent_dimension_id}`);
   }
 
   useEffect(() => {

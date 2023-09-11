@@ -49,16 +49,8 @@ export const getDashboard = async () => {
   return await axios.get(`/ai/dashboard`);
 };
 
-export const getInfluencer = async (influencer_id: string) => {
-  return await axios.get(`/ai/influencer/${influencer_id}`);
-};
-
-export const getConditionById = async (influencer_id: string) => {
-  return await axios.get(`/ai/condition/${influencer_id}`);
-};
-
-export const getGuidanceById = async (guidance_id: string) => {
-  return await axios.get(`/ai/guidance/${guidance_id}`);
+export const getGuidanceById = async ({guidance_id, dimension_id, dimension_type}: {guidance_id: string; dimension_id: string; dimension_type: string}) => {
+  return await axios.get(`/ai/${dimension_type}/${dimension_id}/guidances/${guidance_id}`);
 };
 
 export const getOverview = async () => {

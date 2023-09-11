@@ -5,6 +5,7 @@ import {  getGuidanceById } from '../../services/dashboardservice';
 import ArrowIcon from 'components/Icons/ArrowIcon';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import rehypeRaw from 'rehype-raw';
+import { useSearchParams } from 'react-router-dom';
 
 type guidanceDataTypes = {
   name: string,
@@ -14,7 +15,10 @@ type guidanceDataTypes = {
 }
 
 const Guidance = () => {
-  const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const guidance_id = searchParams.get('guidance_id');
+  const dimension_id = searchParams.get('dimension_id');
+  const type = searchParams.get('type');
   const navigate = useNavigate();
   const [error, setError] = useState<any>();
   const [guidanceData, setGuidanceData] = useState<guidanceDataTypes | null>();
@@ -22,8 +26,8 @@ const Guidance = () => {
 
   const getGuidanceData = async () => {
     try {
-      if (id) {
-        const response = await getGuidanceById(id);
+      if (guidance_id && dimension_id) {
+        const response = await getGuidanceById({guidance_id: guidance_id, dimension_id: dimension_id, dimension_type: type === "influencers" ? "lifestyle-dimensions" : "condition-dimensions"});
         setGuidanceData(response?.data);
       }
     } catch (error: any) {
@@ -42,7 +46,7 @@ const Guidance = () => {
 
   useEffect(() => {
     getGuidanceData();
-  },[id])
+  },[guidance_id])
   
   useEffect(() => {
     if (error) throw error;
@@ -53,7 +57,7 @@ const Guidance = () => {
       <section className='relative bg-[#080815] pt-[155px] pb-[21px] px-[20px] text-left'>
         <div className='flex absolute top-10 cursor-pointer' onClick={() => onBackHandler()}>
           <ArrowIcon className="inline mr-2 brightness-0 invert"/>
-          <span className='text-white text-[12px]'>Back</span>
+          <span className='text-white text-[12px] mt-[-1px]'>Back</span>
         </div>
         <div className='text-[22px] text-[#FFF] font-["tilt_warp"]'>{guidanceData?.name}</div>
         {/* <div className='text-[12px] text-[#FFF] pt-2'>
@@ -64,10 +68,10 @@ const Guidance = () => {
           }
         </div> */}
       </section>
-      <section className='px-[20px] py-[20px]'>
-        <div>
-          <button className={`text-[12px] px-[57px] py-[10px] ${selectedType === "guidance" && "rounded-[20px] shadow-[2px_2px_0_0_#F1EEE9]"}`} onClick={() => setSelectedType("guidance")}>Guidance</button>
-          <button className={`text-[12px] px-[57px] py-[10px] ${selectedType === "science" && "rounded-[20px] shadow-[2px_2px_0_0_#F1EEE9]"} `} onClick={() => setSelectedType("science")}>The science</button>
+      <section className='px-[20px] py-[20px] bg-[#F9F7F4]'>
+        <div className='flex justify-center w-full'>
+          <button className={`text-[12px] w-full py-[10px] ${selectedType === "guidance" && "rounded-[20px] shadow-[2px_2px_0_0_#F1EEE9]"}`} onClick={() => setSelectedType("guidance")}>Guidance</button>
+          <button className={`text-[12px] w-full py-[10px] ${selectedType === "science" && "rounded-[20px] shadow-[2px_2px_0_0_#F1EEE9]"} `} onClick={() => setSelectedType("science")}>The science</button>
         </div>
         <div className='pt-[16px] text-left'>
           {guidanceData && (

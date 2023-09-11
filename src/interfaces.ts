@@ -77,10 +77,10 @@ export interface IDropDownOptionsItem {
  */
 
 export interface IPredictionGraphList {
-  date: string;
-  score: number | null;
+  dt: string;
+  score?: number | null;
   emoji: string;
-  value?: string;
+  value?: string | number;
 }
 
 /**

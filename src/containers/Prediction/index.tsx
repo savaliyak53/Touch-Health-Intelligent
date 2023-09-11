@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Layout from 'layouts/Layout';
-import { getConditionById, getInfluencer } from '../../services/dashboardservice';
+import { getConditionInfluencerDetails, getLifestylenInfluencerDetails } from '../../services/dashboardservice';
 import { dateFormatted } from '../../utils/lib';
 import PredictionGraph from "../../components/PredictionGraph";
 import TemporaryBackground from "../../components/PredictionGraph/TemporaryBackground";
@@ -11,10 +11,14 @@ type influencerDataTypes = {
   name: string;
   header_text: string;
   prediction_text: string;
+  influencer_id: string;
+  parent_dimension_id: string;
   prediction_ordered_list:{
-    date: string,
+    dt: string,
+    value: number,
     score: number,
     emoji: string,
+    uncertainy: number,
   }[];
   guidances_list:{
     name: string,
@@ -31,29 +35,29 @@ const Prediction = () => {
   const [influencerData, setInfluencerData] = useState<influencerDataTypes | null>(null);
   const [error, setError] = useState<any>();
 
-  const id = searchParams.get('id');
+  const influencer_id = searchParams.get('influencer_id');
+  const dimension_id = searchParams.get('dimension_id');
   const predictionType = searchParams.get('type');
 
   const getInfluencerData = async () => {
-    if (!id) {
-      return;
-    }
-    try {
-      let response;
-      if (predictionType === "conditions") {
-        response = await getConditionById(id);
-      } else if (predictionType === "influencers") {
-        response = await getInfluencer(id);
-      }
-      if (response?.data) {
-        setInfluencerData(response.data);
-      }
-    } catch (error: any) {
-      if (error.response) {
-        setError({
-          code: error.response.status,
-          message: error.response.data.details,
-        });
+    if (!!influencer_id && !!dimension_id) {
+      try {
+        let response;
+        if (predictionType === "conditions") {
+          response = await getConditionInfluencerDetails(dimension_id, influencer_id);
+        } else if (predictionType === "influencers") {
+          response = await getLifestylenInfluencerDetails(dimension_id, influencer_id);
+        }
+        if (response?.data) {
+          setInfluencerData(response.data);
+        }
+      } catch (error: any) {
+        if (error.response) {
+          setError({
+            code: error.response.status,
+            message: error.response.data.details,
+          });
+        }
       }
     }
   };
@@ -77,7 +81,7 @@ const Prediction = () => {
 
   useEffect(() => {
     getInfluencerData();
-  },[id])
+  },[dimension_id, influencer_id])
   
   useEffect(() => {
     if (error) throw error;
@@ -91,12 +95,12 @@ const Prediction = () => {
             <img src="/assets/icons/blue-arrow-left.svg" alt='back' className='h-[22px] cursor-pointer grayscale invert' onClick={() => navigate("/dashboard")}/>
           </div>
           <div className='h-6 w-6 bg-[#ffffff80] rounded-full m-auto'>
-            <span className='text-[12px] flex justify-center items-center h-full'>{influencerData?.prediction_ordered_list?.find((prediction) => prediction?.date === dateFormatted(new Date()))?.emoji || null}</span>
+            <span className='text-[12px] flex justify-center items-center h-full'>{influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.emoji || null}</span>
           </div>
           <div className='font-["tilt_warp"] text-white text-[18px] leading-[28px] text-center pt-[7px]'>{influencerData?.name}</div>
-          <div className='text-[12px] text-white leading-[14px] text-center'>{influencerData?.header_text}</div>
+          <div className='text-[12px] text-white px-[15px] leading-[14px] text-center'>{influencerData?.header_text}</div>
           <div className='font-["tilt_warp"] text-white text-[60px] pt-8 text-center'>
-            {influencerData?.prediction_ordered_list?.find((prediction) => prediction?.date === dateFormatted(new Date()))?.score}
+            {influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.score || influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.value}
           </div>
           {influencerData?.prediction_ordered_list &&  <PredictionGraph data={influencerData.prediction_ordered_list} />}
           <TemporaryBackground />
@@ -125,7 +129,7 @@ const Prediction = () => {
                 influencerData?.guidances_list?.map((guidance) => (
                   <div key={guidance?.guidance_id} className='flex justify-between py-[20px] border-b-[1px] border-[#F0ECE7] pl-1'>
                     <div className='text-[12px]'><span className='font-["tilt_warp"] text-[14px] text-primary-delft-dark'>{guidance?.name}</span> {guidance?.health_dimension}</div>
-                    <img src="/assets/icons/right-indicate-icon.svg" alt='arrow' className='cursor-pointer' onClick={() => navigate(`/guidance/${guidance.guidance_id}`)}/>
+                    <img src="/assets/icons/right-indicate-icon.svg" alt='arrow' className='cursor-pointer' onClick={() => navigate(`/guidance?type=${predictionType}&guidance_id=${guidance.guidance_id}&dimension_id=${influencerData.parent_dimension_id}`)}/>
                   </div>
                 ))
               }
