@@ -217,7 +217,10 @@ const Index = ({
                 {dashboard || withoutMargin ? (
                   <></>
                 ) : (
+                  <>
                     <div className="h-[90px] z-0 mt-5" />
+                  </>
+
                 )}
 
                 <div className="flex flex-col h-full">{children}</div>
