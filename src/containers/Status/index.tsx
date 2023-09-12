@@ -18,7 +18,7 @@ const CustomPrevArrow = ({ direction, onClick }: Props) => {
   return (
     <>
       <button
-        className="absolute bottom-0 left-[-12px] top-0 z-[1] flex w-[32px] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-100 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-100 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
+        className="absolute bottom-0 left-[-16px] top-0 z-[1] flex w-[32px] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-100 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-100 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
         type="button"
         data-te-target="#carouselExampleCaptions"
         data-te-slide="prev"
@@ -55,7 +55,7 @@ const CustomNextArrow = ({ direction, onClick }: Props) => {
   return (
     <>
       <button
-        className="absolute bottom-0 right-0 top-0 z-[1] flex w-[32px] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-100 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-100 focus:outline-none motion-reduce:transition-none"
+        className="absolute bottom-0 right-[-12px] top-0 z-[1] flex w-[32px] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-100 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-100 focus:outline-none motion-reduce:transition-none"
         type="button"
         data-te-target="#carouselExampleCaptions"
         data-te-slide="next"
@@ -260,7 +260,7 @@ const Status: FC<IProps> = ({overview}) => {
           Earn data points
         </button>
       </div>
-      <div className="flex overflow-visible px-0 mx-auto no-scrollbar">
+      <div className="flex overflow-visible px-0 mx-auto no-scrollbar w-full">
         <Carousel
           renderArrowPrev={(onClickHandler, hasPrev) =>
             hasPrev && (
@@ -272,15 +272,15 @@ const Status: FC<IProps> = ({overview}) => {
               <CustomNextArrow direction="next" onClick={onClickHandler} />
             )
           }
-          className="Dashboard-Carousel dashboard-slider overflow-y-visible mb-4"
-          width={370}
+          className="Dashboard-Carousel dashboard-slider w-full max-w-[390px] overflow-y-visible mb-4"
+          // width={370}
           emulateTouch
           showThumbs={false}
         >
           {days.map((day: any, index: number) => (
               <div
                 key={index}
-                className="pt-[14px] px-[18px] pb-[32px] rounded-[10px] w-[357px] min-w-[357px] mb-1 ml-auto mr-3 sm:mx-auto bg-cover"
+                className="pt-[14px] px-[18px] pb-[32px] flex flex-col h-[98%] rounded-[10px] w-[100%] mb-1 bg-cover"
                 style={{
                   boxShadow: `${day.shadow}`,
                   backgroundImage: `url(${process.env.PUBLIC_URL}${day.bg})`,
@@ -319,7 +319,7 @@ const Status: FC<IProps> = ({overview}) => {
                 <h2 className="subtitle8 leading-9 font-normal font-tilt-warp text-white text-left mt-[2px] mx-1 mb-2">
                   Today
                 </h2>
-                <div className="flex justify-between ml-1">
+                <div className="flex justify-between ml-1 min-h-[38px]">
                   <div className="flex flex-col mr-4">
                     <span
                       className="text-xs leading-3 font-normal mb-2 text-left"
@@ -328,7 +328,7 @@ const Status: FC<IProps> = ({overview}) => {
                       {day.subtitle1}
                     </span>
                     <span
-                      className="text-[22px] leading-[14px] font-normal font-tilt-warp text-left"
+                      className="text-[22px] leading-[1] font-normal font-tilt-warp text-left"
                       style={{ color: `#${day.valueColor}` }}
                     >
                       {day.value1}
@@ -342,7 +342,7 @@ const Status: FC<IProps> = ({overview}) => {
                       {day.subtitle2}
                     </span>
                     <span
-                      className="text-[22px] leading-[14px] font-normal font-tilt-warp text-left"
+                      className="text-[22px] leading-[1] font-normal font-tilt-warp text-left"
                       style={{ color: `#${day.valueColor}` }}
                     >
                       {day.value2}
@@ -356,7 +356,7 @@ const Status: FC<IProps> = ({overview}) => {
                       {day.subtitle3}
                     </span>
                     <span
-                      className="text-[22px] leading-[14px] font-normal font-tilt-warp text-left"
+                      className="text-[22px] leading-[1] font-normal font-tilt-warp text-left"
                       style={{ color: `#${day.valueColor}` }}
                     >
                       {day.value3}

@@ -1848,6 +1848,11 @@
 
     &.carousel-slider {
       overflow: visible;
+
+      .slide {
+        padding-left: 2px;
+        padding-right: 2px;
+      }
     }
 
     .carousel-status {
