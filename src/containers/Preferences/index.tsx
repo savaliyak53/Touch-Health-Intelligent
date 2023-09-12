@@ -233,20 +233,11 @@ const Preferences = () => {
               <div className='max-w-[330px]'>
                 <h3 className='font-tilt-warp font-normal text-[18px] leading-[36px] text-primary-high-dark flex flex-row items-start'>
                   Biological Sex
-                  <Tooltip
-                    title='This is your sex assigned at birth, and may not align with your current sex and gender identify.'
-                    placement="bottomRight"
-                    mouseLeaveDelay={0}
-                  >
-                    <AiOutlineQuestionCircle
-                      size={30}
-                      className="question-help ml-2 mb-2"
-                    />
-                  </Tooltip>
                 </h3>
                 <TouchInput
                   className='my-3'
                   type='text'
+                  disabledMessage='This is your sex assigned at birth, and may not align with your current sex and gender identify.'
                   value={sex.charAt(0).toUpperCase() + sex.slice(1)}
                   isDisabled={true} />
               </div>
@@ -255,19 +246,10 @@ const Preferences = () => {
               <div className='max-w-[330px]'>
                 <h3 className='font-tilt-warp font-normal text-[18px] leading-[36px] text-primary-high-dark flex flex-row items-start'>
                   Approximate Age
-                  <Tooltip
-                    title='This is your approximate age. Since we do not collect your date of birth, this may not align with your actual age.'
-                    placement="bottomRight"
-                    mouseLeaveDelay={0}
-                  >
-                    <AiOutlineQuestionCircle
-                      size={30}
-                      className="question-help ml-2 mb-2"
-                    />
-                  </Tooltip>
                 </h3>
                 <TouchInput
                   className='my-3'
+                  disabledMessage='This is your approximate age. Since we do not collect your date of birth, this may not align with your actual age.'
                   isDisabled={true}
                   type='text'
                   value={parseInt(moment().format('YYYY')) - yob} />
