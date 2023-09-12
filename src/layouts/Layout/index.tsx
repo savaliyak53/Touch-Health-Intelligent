@@ -26,6 +26,8 @@ type Props = {
   withoutMargin?: boolean;
   streak?: number;
   addPadding?: boolean;
+  whitBackArrow?: boolean;
+  onBack?: () => void;
 };
 const Index = ({
   children,
@@ -35,7 +37,9 @@ const Index = ({
   title,
   withoutMargin = false,
   streak,
-  addPadding
+  addPadding,
+  whitBackArrow,
+  onBack
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
   const [trialRemaining, setTrialRemaining] = useState<string>('');
@@ -206,6 +210,8 @@ const Index = ({
                 trialRemaining={trialRemaining}
                 title={title}
                 streak={streak}
+                onBack={onBack}
+                whitBackArrow={whitBackArrow}
               />
               <div className="max-w-full w-full h-full pt-13">
                 {dashboard || withoutMargin ? (
