@@ -22,7 +22,7 @@ const LoginForm: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  const [error, setError] = useState<any>();
+  const [error, setError] = useState<any>({code: '', message: ''});
 
   const [modalText, setModalText] = useState<string>('');
   const [showLockAccountModal, setShowLockAccountModal] = useState<boolean>(false);
@@ -75,7 +75,6 @@ const LoginForm: React.FC = () => {
             code: loginResponse?.response?.status,
             message: loginResponse.response.data?.details,
           });
-          setWrongCredentialsModal(true);
         }
       }
     }
@@ -98,6 +97,7 @@ const LoginForm: React.FC = () => {
             onChange={setUsername}
             placeholder="Mobile phone number"
             value={username}
+            errorMessage={error.message}
           />
         </FloatLabel>
         <FloatLabel isUsername={false} label="Password" name="password" value={password}>    
@@ -106,7 +106,8 @@ const LoginForm: React.FC = () => {
             type={'password'}
             placeholder='Password'
             value={password}
-            onChange={(e) => setPassword(e.target.value)} />
+            onChange={(e) => setPassword(e.target.value)} 
+            errorMessage={error.message} />
         </FloatLabel>
 
         <AccountLockModal
