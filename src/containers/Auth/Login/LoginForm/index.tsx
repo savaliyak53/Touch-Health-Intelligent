@@ -91,24 +91,21 @@ const LoginForm: React.FC = () => {
         <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>
           Log in
         </h1>
-        <FloatLabel isUsername={true} label="Mobile phone number" name="username" value={username}>
 
-          <PhoneInput
-            onChange={setUsername}
-            placeholder="Mobile phone number"
-            value={username}
-            errorMessage={error.message}
-          />
-        </FloatLabel>
-        <FloatLabel isUsername={false} label="Password" name="password" value={password}>    
-          <TouchInput
-            className='mt-4'
-            type={'password'}
-            placeholder='Password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)} 
-            errorMessage={error.message} />
-        </FloatLabel>
+        <PhoneInput
+          onChange={setUsername}
+          placeholder="Mobile phone number"
+          value={username}
+          errorMessage={error.message}
+        />
+
+        <TouchInput
+          className='mt-4'
+          type={'password'}
+          placeholder='Password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          errorMessage={error.message} />
 
         <AccountLockModal
           title={'Too many retries'}
