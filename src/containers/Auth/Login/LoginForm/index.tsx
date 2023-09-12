@@ -88,7 +88,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <div className='w-full'>
-      <div className='flex flex-col items-center rounded-[5px] bg-white shadow-primaryTop w-full px-[16px] py-[20px] sm:pt-[52px] sm:pb-[84px]'>
+      <div className='flex flex-col items-center rounded-[5px] bg-white shadow-primaryTop w-full px-[16px] py-[20px] sm:pt-[42px] sm:pb-[54px]'>
         <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>
           Log in
         </h1>
