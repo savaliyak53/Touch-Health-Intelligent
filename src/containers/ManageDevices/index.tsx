@@ -73,9 +73,9 @@ const ManageDevices = () => {
     getSessionData();
   }, []);
 
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) throw error;
+  // }, [error]);
 
   return (
     <Layout whitBackArrow={true} onBack={() => navigate('/preferences')} defaultHeader={true} hamburger={true} title={'Manage Devices'}>
