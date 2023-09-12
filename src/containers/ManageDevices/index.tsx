@@ -21,6 +21,7 @@ const ManageDevices = () => {
   const [signoutDevice, setSignoutDevice] = useState<any>(null);
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<any>();
+  const [errorPassword, setErrorPassword] = useState<any>();
   const [openErrorModal, setOpenErrorModal] = useState<boolean>(false);
 
   const getSessionData = () => {
@@ -32,7 +33,6 @@ const ManageDevices = () => {
         }
       })
       .catch((err) => {
-        setOpenErrorModal(true);
         setError({
           code: err.response.status,
           message: err.response.data.details,
@@ -49,7 +49,7 @@ const ManageDevices = () => {
       })
       .catch((err) => {
         setOpenErrorModal(true);
-        setError({
+        setErrorPassword({
           code: err.response.status,
           message: err.response.data.details,
         });
@@ -79,9 +79,9 @@ const ManageDevices = () => {
     getSessionData();
   }, []);
 
-  // useEffect(() => {
-  //   if (error) throw error;
-  // }, [error]);
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
 
   return (
     <Layout whitBackArrow={true} onBack={() => navigate('/preferences')} defaultHeader={true} hamburger={true} title={'Manage Devices'}>
@@ -118,7 +118,7 @@ const ManageDevices = () => {
               Error
             </h3>
             <div className='text-3 text-oldBurgundy leading-[23px] text-left'>
-              {error && error.message ? error.message : ''}
+              {errorPassword && errorPassword.message ? errorPassword.message : ''}
             </div>
           </div>
           <div className='mx-[25px] mb-[33px] px-10'>
