@@ -134,7 +134,7 @@ const Home = () => {
                 });
               });
           } else if (response.data.signup_status === 'done') {
-            getInteractionByType('answer_questions');
+              navigate('/dashboard')
           } else if (response.data.signup_status === 'new') {
             const zoneVal = moment()
               .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
