@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import {Navigate, Outlet, Route, Routes, useLocation} from 'react-router-dom';
 import LoadingLayout from 'layouts/loading-layout/LoadingLayout';
 import { SignUp, Login } from './Lazycontainers';
 import Preferences from 'containers/Preferences';
@@ -32,6 +32,8 @@ import Guidance from 'containers/Guidance';
 
 const AppRoutes = () => {
   const location = useLocation();
+  const isUserAuthenticated = localStorage.getItem('token');
+
   useEffect(() => {
     if (location.pathname !== '/help-and-support') {
       window.Intercom('update', {
@@ -42,6 +44,7 @@ const AppRoutes = () => {
   return (
     <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
       <Routes>
+        <Route path='/' element={<Navigate to={isUserAuthenticated ? '/dashboard' : ROUTES.login} />} />
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.signUp} element={<SignUp />} />
         <Route path="/security" element={<SecurityQuestion />} />
@@ -56,28 +59,28 @@ const AppRoutes = () => {
         {/* Protected Routes */}
         <Route path="/questionnaire-poc" element={<MockQuestionnaire />} />
         <Route element={<RequireAuth />}>
-          <Route path="/dashboard" element={<DashboardNew />} />
-          <Route path="insights" element={<Insights />} />
-          <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
-          <Route path="/insights/guideline" element={<Timeline />} />
-          <Route path="/questionnaire" element={<UserCondition />} />
-          <Route path="/c/:reason" element={<UserCondition />} />
-          <Route
-            path="/questionnaire-submit"
-            element={<ThankyouForSubmiting />}
-          />
-          <Route path="/preferences" element={<Preferences />} />
-          {/*<Route path="/integrations" element={<Integrations />} />*/}
-          <Route path="/introvideo" element={<IntroVideo />} />
-          <Route path="/manage-devices" element={<ManageDevices />} />
-          <Route path="/subscription" element={<SubscriptionNew />} />
-          <Route path="/subscription/:id" element={<SubscriptionNew />} />
-          <Route path="/post-conditions" element={<ManageConditions />} />
-          <Route path="/help-and-support" element={<HelpAndSupport />} />
-          <Route path="/prediction" element={<Prediction />} />
-          <Route path="/guidance" element={<Guidance />} />
-          <Route path="/success" element={<Success />} />
-          <Route path="/error" element={<Error />} />
+            <Route path="/dashboard" element={<DashboardNew />} />
+            <Route path="insights" element={<Insights />} />
+            <Route path="/auth/google/code" element={<GoogleFitSuccess />} />
+            <Route path="/insights/guideline" element={<Timeline />} />
+            <Route path="/questionnaire" element={<UserCondition />} />
+            <Route path="/c/:reason" element={<UserCondition />} />
+            <Route
+                path="/questionnaire-submit"
+                element={<ThankyouForSubmiting />}
+            />
+            <Route path="/preferences" element={<Preferences />} />
+            {/*<Route path="/integrations" element={<Integrations />} />*/}
+            <Route path="/introvideo" element={<IntroVideo />} />
+            <Route path="/manage-devices" element={<ManageDevices />} />
+            <Route path="/subscription" element={<SubscriptionNew />} />
+            <Route path="/subscription/:id" element={<SubscriptionNew />} />
+            <Route path="/post-conditions" element={<ManageConditions />} />
+            <Route path="/help-and-support" element={<HelpAndSupport />} />
+            <Route path="/prediction" element={<Prediction />} />
+            <Route path="/guidance" element={<Guidance />} />
+            <Route path="/success" element={<Success />} />
+            <Route path="/error" element={<Error />} />
         </Route>
       </Routes>
     </React.Suspense>
