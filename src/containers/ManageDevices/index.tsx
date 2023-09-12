@@ -32,6 +32,7 @@ const ManageDevices = () => {
         }
       })
       .catch((err) => {
+        setOpenErrorModal(true);
         setError({
           code: err.response.status,
           message: err.response.data.details,
@@ -47,6 +48,7 @@ const ManageDevices = () => {
         }
       })
       .catch((err) => {
+        setOpenErrorModal(true);
         setError({
           code: err.response.status,
           message: err.response.data.details,
