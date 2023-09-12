@@ -9,7 +9,6 @@ import styles from './ManageDevices.module.scss';
 import DeleteSessionModal from 'components/Modal/DeleteSessionModal';
 import parser from 'ua-parser-js';
 import {useNavigate} from "react-router-dom";
-import ErrorModal from "../../components/Modal/ErrorModal";
 import TouchButton from "../../components/TouchButton";
 import TouchModal from "../../components/Modal/TouchModal";
 
@@ -115,7 +114,7 @@ const ManageDevices = () => {
         <TouchModal setClose={setOpenErrorModal} isOpen={openErrorModal}>
           <div className='flex flex-col w-full my-[50px] px-[20px]'>
             <h3 className='text-[18px] mb-10 leading-[22px] flex items-center font-tilt-warp text-primary-delft-dark opacity-90'>
-              Error
+              {errorPassword.code === 401 ? 'Wrong password' : 'Error'}
             </h3>
             <div className='text-3 text-oldBurgundy leading-[23px] text-left'>
               {errorPassword && errorPassword.message ? errorPassword.message : ''}
