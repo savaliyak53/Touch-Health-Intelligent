@@ -40,8 +40,8 @@ export const loginService = async (data: ILogin, header: string) => {
 export const sessionsService = async () => {
   return await axios.get(`/auth/sessions`);
 };
-export const deleteSessionService = async (sessionId: string) => {
-  return await axios.delete(`/auth/sessions/${sessionId}`);
+export const deleteSessionService = async (sessionId: string, data: {password: string}) => {
+  return await axios.delete(`/auth/sessions/${sessionId}`, { data });
 };
 export const logoutService = async (sessionId: string) => {
   try {

@@ -36,7 +36,7 @@ const ManageDevices = () => {
   };
 
   const deviceSignout = (id: string) => {
-    deleteSessionService(id)
+    deleteSessionService(id, {password})
       .then((res) => {
         if (res) {
           getSessionData();
@@ -52,10 +52,14 @@ const ManageDevices = () => {
   const handleCancel = () => {
     setOpen(false);
     setSignoutDevice(null);
+    setPassword('');
   };
   const handleOk = () => {
     setOpen(false);
-    deviceSignout(signoutDevice);
+    if (password) {
+      deviceSignout(signoutDevice);
+      setPassword('');
+    }
   };
 
   function extractDeviceName(userAgent: string) {
