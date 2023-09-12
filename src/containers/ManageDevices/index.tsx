@@ -9,6 +9,9 @@ import styles from './ManageDevices.module.scss';
 import DeleteSessionModal from 'components/Modal/DeleteSessionModal';
 import parser from 'ua-parser-js';
 import {useNavigate} from "react-router-dom";
+import ErrorModal from "../../components/Modal/ErrorModal";
+import TouchButton from "../../components/TouchButton";
+import TouchModal from "../../components/Modal/TouchModal";
 
 const ManageDevices = () => {
   const navigate = useNavigate();
@@ -18,6 +21,7 @@ const ManageDevices = () => {
   const [signoutDevice, setSignoutDevice] = useState<any>(null);
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<any>();
+  const [openErrorModal, setOpenErrorModal] = useState<boolean>(false);
 
   const getSessionData = () => {
     sessionsService()
@@ -106,6 +110,21 @@ const ManageDevices = () => {
           password={password}
           setPassword={setPassword}
         />
+        <TouchModal setClose={setOpenErrorModal} isOpen={openErrorModal}>
+          <div className='flex flex-col w-full my-[50px] px-[20px]'>
+            <h3 className='text-[18px] mb-10 leading-[22px] flex items-center font-tilt-warp text-primary-delft-dark opacity-90'>
+              Error
+            </h3>
+            <div className='text-3 text-oldBurgundy leading-[23px] text-left'>
+              {error && error.message ? error.message : ''}
+            </div>
+          </div>
+          <div className='mx-[25px] mb-[33px] px-10'>
+            <TouchButton type={'default'} onClick={() => setOpenErrorModal(false)}>
+              OK
+            </TouchButton>
+          </div>
+        </TouchModal>
       </Spin>
     </Layout>
   );
