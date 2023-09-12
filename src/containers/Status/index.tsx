@@ -116,7 +116,7 @@ const Status: FC<IProps> = ({overview}) => {
   const getUserDimensions = () => {
       const daysArray: any = [];
       let daysObj: any;
-      dashboardContext?.lifestyleDimensions.forEach((element: any) => {
+      dashboardContext?.lifestyleDimensions?.forEach((element: any) => {
         element.name == 'Sleep'
           ? (daysObj = {
               title: element.name,

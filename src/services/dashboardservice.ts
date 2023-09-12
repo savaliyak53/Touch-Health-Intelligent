@@ -70,7 +70,7 @@ export const getLifestyleInfluencers = async (id: string) => {
 };
 
 export const getConditionInfluencers = async (id: string) => {
-  return await axios.get(`/ai/lifestyle-dimensions/${id}/influencers`);
+  return await axios.get(`/ai/condition-dimensions/${id}/influencers`);
 };
 
 export const getLifestylenInfluencerDetails = async (dimensionId: string, influencerId: string) => {

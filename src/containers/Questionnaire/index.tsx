@@ -32,7 +32,7 @@ function UserCondition() {
   const [exception, setException] = useState<boolean>(false);
   const context = useContext<AuthContextData | undefined>(AuthContext);
   const [error, setError] = useState<any>();
-  const [isOnboarding] = useLocalStorage("isOnboarding");
+  const [isOnboarding, setIsOnboarding] = useLocalStorage("isOnboarding");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -76,12 +76,14 @@ function UserCondition() {
             preferencesService(preferenceData, userId)
               .then(async (preferencesResponse: any) => {
                 if (preferencesResponse) {
+                  setIsOnboarding(true);
                   navigate('/questionnaire');
                 } else {
                   setError({
                     code: 400,
                     message: `Preference status doesn't exist`,
                   });
+                  setIsOnboarding(false);
                   navigate('/dashboard');
                 }
               })
@@ -93,6 +95,7 @@ function UserCondition() {
               });
           }
         } else {
+          setIsOnboarding(false);
           navigate('/dashboard');
         }
       })

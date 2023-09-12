@@ -29,6 +29,7 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
   const [error, setError] = useState<any>();
   const authContext = useContext<AuthContextData | undefined>(AuthContext);
   const userId = authContext?.user ? authContext?.user: localStorage.getItem('userId');
+  const sessionId = authContext?.session ? authContext?.session: localStorage.getItem('sessionId');
   
   const getAllLifestyleDimensions = () => {
     getLifestyleDimensions()
@@ -83,13 +84,13 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   useEffect(() => {
-    if(userId){
+    if(userId && sessionId){
       getAllConditionDimensions();
       getAllLifestyleDimensions();
       getAllConditionInfluencers();
       getAllLifestyleInfluencers();
     }
-  }, [userId]);
+  }, [sessionId, userId]);
 
   useEffect(() => {
     if (error) throw error;
