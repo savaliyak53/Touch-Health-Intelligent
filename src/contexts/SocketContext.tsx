@@ -7,7 +7,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({childre
   const [loading, setLoading] = useState<boolean>(false);
   const [dashboardNotification, setDashboardNotification] = useState<socketNotificationTypes | null>();
   const [socketMessage, setSocketMessage] = useState<socketMessageType | null>(null);
-  // console.log("Socket message received: ", socketMessage);
 
   const contextValue = {
     dashboardNotification,

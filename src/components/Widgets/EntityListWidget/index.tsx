@@ -1,6 +1,5 @@
 import React, {FC, useEffect, useState, useContext} from 'react';
 // import { getEmoji, getNextDays } from '../../../helpers/entityWidgetHelper';
-import {getConditions, getInfluencers} from 'services/widgets';
 import {Spin} from 'antd';
 import {getDayOfWeekByDate, checkDateDifference, getDayOfWeekFromToday} from 'helpers/time';
 import {useNavigate} from 'react-router';
@@ -53,15 +52,22 @@ const EntityListWidget: FC<IProps> = ({type}) => {
   useEffect(() => {
     setLoading(true);
     if (type === 'conditions') {
-      if(!dashboardContext?.conditionInfluencers) setData([])
-      else setData(dashboardContext?.conditionInfluencers)
+      if(!dashboardContext?.conditionInfluencers){
+        setData([])
+      } else {
+        setData(dashboardContext?.conditionInfluencers)
+      }
       setLoading(false);
     } else {
-      if(!dashboardContext?.lifestyleInfluencers) setData([])
-      else setData(dashboardContext?.lifestyleInfluencers)
-        setLoading(false);
+      if(!dashboardContext?.lifestyleInfluencers){
+        setData([])
+      } else {
+        setData(dashboardContext?.lifestyleInfluencers)
+      }
+      setLoading(false);
     }
-  }, []);
+  }, [dashboardContext]);
+
 
   const handlerOnClick = (item: ITest) => {
     navigate(`/prediction?type=${type}&influencer_id=${item.influencer_id}&dimension_id=${item.parent_dimension_id}`);

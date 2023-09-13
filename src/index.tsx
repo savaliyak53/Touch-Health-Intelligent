@@ -10,14 +10,15 @@ import './index.scss';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <BrowserRouter>
-    <SocketProvider>
-      <AuthProvider>
-        <DashboardProvider>
+    <AuthProvider>
+      <DashboardProvider>
+        <SocketProvider>
           <Application />
-        </DashboardProvider>
-      </AuthProvider>
-    </SocketProvider>
+        </SocketProvider>
+      </DashboardProvider>
+    </AuthProvider>
   </BrowserRouter>
-);
+  );

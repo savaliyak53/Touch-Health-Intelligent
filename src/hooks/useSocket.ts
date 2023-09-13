@@ -1,19 +1,26 @@
-import { useContext, useEffect, useRef } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import AuthContext, { AuthContextData } from "contexts/AuthContext";
 import SocketContext from "../contexts/SocketContext";
 import { socketMessageType, socketNotificationTypes } from "interfaces";
+import DashboardContext from "contexts/DashboardContext";
+import { socketPath } from "./../constants";
+import { conditionDimensionsInfluencer, lifestyleDimensionsInfluencer } from "helpers/socketHelper";
 
 const ENDPOINT = process.env.REACT_APP_SOCKET_HOST || "";
 
 const useSocket = () => {
   const dashboardNotification: any = useRef();
-  const socketMessage: any = useRef();
-
   const contextData = useContext(SocketContext) as any;
-  const { setDashboardNotification, setSocketMessage, setLoading } = contextData;
+  const { setDashboardNotification, setLoading } = contextData;
   const context = useContext<AuthContextData | undefined>(AuthContext);
-  const sessionId = context?.session ?? localStorage.getItem('sessionId')
+  const sessionId = context?.session ?? localStorage.getItem('sessionId');
+  const dashboardContextData = useContext(DashboardContext) as any;
+  const contextRef: any = useRef(dashboardContextData);
+
+  useEffect(() => {
+    contextRef.current = dashboardContextData
+  },[dashboardContextData])
 
   dashboardNotification.current = (message: socketNotificationTypes) => {
     try {
@@ -23,13 +30,18 @@ const useSocket = () => {
     }
   };
 
-  socketMessage.current = (message: socketMessageType) => {
-    try {
-      setSocketMessage(message);
-    } catch (error) {
-      console.error("🔴 Error getting socket message " + error);
+  const dashboardEventHandler = (message:any) => {
+    switch(message.payload.path) {
+      case socketPath.LIFESTYLE_DIMENSION_INFLUENCERS:
+        lifestyleDimensionsInfluencer(message.payload.body, contextRef.current)
+        break;
+      case socketPath.CONDITON_DIMENSION_INFLUENCERS: 
+        conditionDimensionsInfluencer(message.payload.body, contextRef.current)
+        break;
+      default:
+        break;
     }
-  };
+  }
 
   useEffect(() => {
     if (!sessionId ) {
@@ -57,7 +69,7 @@ const useSocket = () => {
       
       socket.on('message', (message: socketMessageType) => {
         console.log('Server message: ', message)
-        socketMessage.current(message);
+        dashboardEventHandler(message);
       });
 
       socket.on('error', (message: socketNotificationTypes) => {
