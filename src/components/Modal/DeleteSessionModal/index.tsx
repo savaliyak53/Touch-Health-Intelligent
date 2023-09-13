@@ -37,7 +37,7 @@ const DeleteSessionModal = ({
           onChange={handleOnChangePassword} />
       </div>
       <div className='mx-[25px] mb-[33px] px-10'>
-        <TouchButton type={'default'} onClick={handleOk}>
+        <TouchButton type={'default'} onClick={handleOk} isDisabled={!password}>
           Confirm
         </TouchButton>
       </div>
