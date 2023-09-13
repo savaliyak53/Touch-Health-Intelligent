@@ -93,7 +93,6 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
           else filtered_predictions.push(filtered_predictions_today[0]) 
 
           const filtered_predictions_tom = obj.prediction_ordered_list.filter((item: any) => item.dt === tomorrowDateString);
-          console.log(filtered_predictions_tom, filtered_predictions_tom.length);
           if(filtered_predictions_tom.length < 1) filtered_predictions.push({dt: tomorrowDateString, emoji: '❔', value: '—', uncertainy: '—'});
           else filtered_predictions.push(filtered_predictions_tom[0]) 
 
