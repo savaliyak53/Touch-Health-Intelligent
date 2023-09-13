@@ -26,6 +26,7 @@ type Props = {
   withoutMargin?: boolean;
   streak?: number;
   addPadding?: boolean;
+  mobileHeight?: boolean;
   whitBackArrow?: boolean;
   onBack?: () => void;
 };
@@ -39,6 +40,7 @@ const Index = ({
   streak,
   addPadding,
   whitBackArrow,
+  mobileHeight,
   onBack
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
@@ -183,7 +185,7 @@ const Index = ({
   }, [error]);
 
   return (
-    <div className="w-full max-w-[100%] flex overflow-hidden relative min-h-screen">
+    <div className={`w-full max-w-[100%] flex overflow-hidden relative min-h-screen ${mobileHeight && "sm:min-h-screen !min-h-[100svh]"}`}>
       {loading ? (
         <Spin size="large" className=" Spinner" />
       ) : (
