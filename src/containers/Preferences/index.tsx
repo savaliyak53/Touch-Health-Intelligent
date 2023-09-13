@@ -56,7 +56,7 @@ const Preferences = () => {
   const [error, setError] = useState<any>();
   const [loc, setLocation] = useState<LocationState>();
   const [showCancelModal, setShowCancelModal] = useState(false);
-  const [setIsOnboarding] = useLocalStorage("isOnboarding");
+  const [value, setIsOnboarding] = useLocalStorage("isOnboarding");
 
   useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
@@ -184,9 +184,9 @@ const Preferences = () => {
   const removeUserData = () => {
     deleteAllData()
       .then((res) => {
+        setIsOnboarding(true);
         toast('User data deleted');
         handleSetUserStatus();
-        setIsOnboarding(true);
       })
       .catch((err) => {
         setError({
