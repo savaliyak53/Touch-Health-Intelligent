@@ -180,7 +180,7 @@ const Verification = () => {
   }
 
   return (
-    <Layout defaultHeader={true} hamburger={false} title={'Verification code'}>
+    <Layout defaultHeader={true} hamburger={false} title={'Verification code'} mobileHeight={true}>
       <div className={styles['Verification-wrap']}>
         <form
           onSubmit={handleSubmit(onSubmit)}

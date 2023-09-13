@@ -8,7 +8,7 @@ interface IProps {
 const AuthLayout: React.FC<IProps> = ({children, isSignup}) => {
 
   return (
-    <div className='SignupBGWrap'>
+    <div className={`SignupBGWrap ${isSignup ? "h-screen" : "h-[100svh]"}`}>
       <div className={`${isSignup ? 'SignupView' : 'LoginView'}`}>
         <div className='LogoWrap'>
           <img src={`${process.env.PUBLIC_URL}/assets/logo/auth/cur8-health-desktop-logo.svg`} className='LogoDesktoop' alt="App Logo" />
