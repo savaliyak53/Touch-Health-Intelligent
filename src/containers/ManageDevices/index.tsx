@@ -8,9 +8,14 @@ import Layout from 'layouts/Layout';
 import styles from './ManageDevices.module.scss';
 import DeleteSessionModal from 'components/Modal/DeleteSessionModal';
 import parser from 'ua-parser-js';
-import {useNavigate} from "react-router-dom";
-import TouchButton from "../../components/TouchButton";
-import TouchModal from "../../components/Modal/TouchModal";
+import {useNavigate} from 'react-router-dom';
+import TouchButton from 'components/TouchButton';
+import TouchModal from 'components/Modal/TouchModal';
+
+interface IError {
+  code: number,
+  message: string,
+}
 
 const ManageDevices = () => {
   const navigate = useNavigate();
@@ -19,8 +24,8 @@ const ManageDevices = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [signoutDevice, setSignoutDevice] = useState<any>(null);
   const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<any>();
-  const [errorPassword, setErrorPassword] = useState<any>();
+  const [error, setError] = useState<IError | null>(null);
+  const [errorPassword, setErrorPassword] = useState<IError | null>(null);
   const [openErrorModal, setOpenErrorModal] = useState<boolean>(false);
 
   const getSessionData = () => {
@@ -93,7 +98,7 @@ const ManageDevices = () => {
                   {extractDeviceName(device.user_agent)}
                 </div>
                 <Button
-                  className="Submit-Button"
+                  className='Submit-Button'
                   onClick={() => {
                     setSignoutDevice(device.id);
                     setOpen(true);
@@ -114,7 +119,7 @@ const ManageDevices = () => {
         <TouchModal setClose={setOpenErrorModal} isOpen={openErrorModal}>
           <div className='flex flex-col w-full my-[50px] px-[20px]'>
             <h3 className='text-[18px] mb-10 leading-[22px] flex items-center font-tilt-warp text-primary-delft-dark opacity-90'>
-              {errorPassword.code === 401 ? 'Wrong password' : 'Error'}
+              {errorPassword && errorPassword.code === 401 ? 'Wrong password' : 'Error'}
             </h3>
             <div className='text-3 text-oldBurgundy leading-[23px] text-left'>
               {errorPassword && errorPassword.message ? errorPassword.message : ''}
