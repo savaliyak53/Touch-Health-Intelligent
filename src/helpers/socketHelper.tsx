@@ -46,21 +46,21 @@ export function lifestyleDimensionsInfluencer(message: Message, dashboardContext
 
   // dashboardContextData.lifestyleInfluencers  [1,2,3,4,5]
   // msg  3
-  const result = dashboardContextData.lifestyleInfluencers.map((inf: any) => {
-    if(inf.influencer_id === message.influencer_id) {
-      return message
-    }
-    return inf
-  })
 
-  console.log("result++++++++dashboardContextData.lifestyleInfluencers", dashboardContextData.lifestyleInfluencers)
-
-  console.log("result++++++++", result)
-
-
-  if (result.length) {
-    dashboardContextData.setLifestyleInfluencers(result);
-  }
+  dashboardContextData.setLifestyleInfluencers((current: any) => {
+    const result = current.map((inf: any) => {
+      if(inf.influencer_id === message.influencer_id) {
+        return { updatedFromSocket: true, ...message }
+      }
+      return inf
+    })
+  
+    console.log("result++++++++dashboardContextData.lifestyleInfluencers", dashboardContextData.lifestyleInfluencers)
+  
+    console.log("result++++++++", result)
+    
+    return result;
+  });
 }
 
 export function conditionDimensionsInfluencer(message: Message, dashboardContextData: any) {

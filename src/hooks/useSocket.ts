@@ -18,9 +18,9 @@ const useSocket = () => {
   const dashboardContextData = useContext(DashboardContext) as any;
   const contextRef: any = useRef(dashboardContextData);
 
-  useEffect(() => {
-    contextRef.current = dashboardContextData
-  },[dashboardContextData])
+  // useEffect(() => {
+  //   contextRef.current = dashboardContextData
+  // },[dashboardContextData])
 
   dashboardNotification.current = (message: socketNotificationTypes) => {
     try {
@@ -33,7 +33,7 @@ const useSocket = () => {
   const dashboardEventHandler = (message:any) => {
     switch(message.payload.path) {
       case socketPath.LIFESTYLE_DIMENSION_INFLUENCERS:
-        lifestyleDimensionsInfluencer(message.payload.body, contextRef.current)
+        lifestyleDimensionsInfluencer(message.payload.body, dashboardContextData)
         break;
       case socketPath.CONDITON_DIMENSION_INFLUENCERS: 
         conditionDimensionsInfluencer(message.payload.body, contextRef.current)
