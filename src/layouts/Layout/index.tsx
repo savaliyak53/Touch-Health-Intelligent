@@ -26,6 +26,9 @@ type Props = {
   withoutMargin?: boolean;
   streak?: number;
   addPadding?: boolean;
+  mobileHeight?: boolean;
+  whitBackArrow?: boolean;
+  onBack?: () => void;
 };
 const Index = ({
   children,
@@ -35,7 +38,10 @@ const Index = ({
   title,
   withoutMargin = false,
   streak,
-  addPadding
+  addPadding,
+  whitBackArrow,
+  mobileHeight,
+  onBack
 }: Props) => {
   const [exception, setException] = useState<boolean>(false);
   const [trialRemaining, setTrialRemaining] = useState<string>('');
@@ -179,7 +185,7 @@ const Index = ({
   }, [error]);
 
   return (
-    <div className="w-full max-w-[100%] flex overflow-hidden relative min-h-screen">
+    <div className={`w-full max-w-[100%] flex overflow-hidden relative min-h-screen ${mobileHeight && "sm:min-h-screen !min-h-[100svh]"}`}>
       {loading ? (
         <Spin size="large" className=" Spinner" />
       ) : (
@@ -206,12 +212,17 @@ const Index = ({
                 trialRemaining={trialRemaining}
                 title={title}
                 streak={streak}
+                onBack={onBack}
+                whitBackArrow={whitBackArrow}
               />
               <div className="max-w-full w-full h-full pt-13">
                 {dashboard || withoutMargin ? (
                   <></>
                 ) : (
+                  <>
                     <div className="h-[90px] z-0 mt-5" />
+                  </>
+
                 )}
 
                 <div className="flex flex-col h-full">{children}</div>

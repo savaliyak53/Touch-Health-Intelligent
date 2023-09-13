@@ -49,10 +49,10 @@ const SiteHeader = ({
     <>
       {defaultHeader && (
         <header className="absolute top-0 w-full h-[90px] flex flex-col justify-end">
-          <span className="text-xs text-left font-normal leading-none text-primary-watermelons-dark font-roboto">
+          <span className="text-xs text-left flex flex-row items-end font-normal leading-none text-primary-watermelons-dark font-roboto">
             {whitBackArrow && onBack && (
-              <span onClick={onBack} className="mr-4">
-                <ArrowIcon className="inline mr-2"/> Back
+              <span onClick={onBack} className="mr-4 cursor-pointer flex items-end justify-start">
+                <ArrowIcon className="inline mr-2"/><span className='text-[14px]'>Back</span>
               </span>
             )}
             {showTrialBanner && (

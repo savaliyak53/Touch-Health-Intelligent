@@ -50,6 +50,8 @@ const ErrorModal = ({
       if (error.message === 'Daily SMS limit reached' || error.message === 'Invalid username or password.') {
         return 'Close'
       }
+    } else if (errorType === 'type422') {
+      return 'Go to Dashboard';
     }
     return 'Something went wrong.';
   }
@@ -59,7 +61,7 @@ const ErrorModal = ({
       return 'Your session has expired. Please log in to continue.'
     } else if (errorType == 'type401') {
       return 'Please log in to continue.'
-    } else if (errorType == 'type1') {
+    } else if (errorType == 'type1' || errorType == 'type422') {
         return 'Something went wrong! Please try refreshing your page and trying again. If it still doesn\'t work, please let us know over on the support page.'
     } else if (errorType == 'type2') {
         return 'Please wait a minute, then try again. If it still doesn\'t work, please let us know over on the support page.'

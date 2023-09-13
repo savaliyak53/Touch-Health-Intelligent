@@ -6,6 +6,8 @@ import {
   onlyNumbers,
 } from 'utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
+import FloatLabel from 'components/FloatLabel';
+
 import AccountLockModal from 'components/Modal/AccountLockModal';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import { getSession, getUser } from 'utils/lib';
@@ -20,7 +22,7 @@ const LoginForm: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  const [error, setError] = useState<any>();
+  const [error, setError] = useState<any>({code: '', message: ''});
 
   const [modalText, setModalText] = useState<string>('');
   const [showLockAccountModal, setShowLockAccountModal] = useState<boolean>(false);
@@ -73,7 +75,6 @@ const LoginForm: React.FC = () => {
             code: loginResponse?.response?.status,
             message: loginResponse.response.data?.details,
           });
-          setWrongCredentialsModal(true);
         }
       }
     }
@@ -86,21 +87,26 @@ const LoginForm: React.FC = () => {
 
   return (
     <div className='w-full'>
-      <div className='flex flex-col items-center rounded-[5px] bg-white shadow-primaryTop w-full px-[16px] py-[20px] sm:pt-[52px] sm:pb-[84px]'>
+      <div className='flex flex-col items-center rounded-[5px] bg-white shadow-primaryTop w-full px-[16px] py-[20px] sm:pt-[42px] sm:pb-[54px]'>
         <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>
           Log in
         </h1>
+
         <PhoneInput
           onChange={setUsername}
           placeholder="Mobile phone number"
           value={username}
+          errorMessage={error.message}
         />
+
         <TouchInput
           className='mt-4'
           type={'password'}
           placeholder='Password'
           value={password}
-          onChange={(e) => setPassword(e.target.value)} />
+          onChange={(e) => setPassword(e.target.value)}
+          errorMessage={error.message} />
+
         <AccountLockModal
           title={'Too many retries'}
           open={showLockAccountModal}

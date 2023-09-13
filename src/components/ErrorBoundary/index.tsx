@@ -36,6 +36,11 @@ class ErrorBoundary extends React.Component<any> {
             ...this.state,
             errorType: 'type0',
           });
+        } else if (error.code === 422) {
+          this.setState({
+            ...this.state,
+            errorType: 'type422',
+          });
         } else {
           this.setState({
             ...this.state,
@@ -76,6 +81,7 @@ class ErrorBoundary extends React.Component<any> {
                 open={this.state.open}
                 title='Session Expiry'
                 errorType='type0'
+                isAuth={true}
                 error={this.state.error}
                 handleCancel={this.handleCancel}
             />
@@ -113,6 +119,16 @@ class ErrorBoundary extends React.Component<any> {
                 errorType='type2'
                 handleCancel={this.handleCancel}
             />
+          );
+        }  else if (this.state.errorType === 'type422') {
+          return (
+              <ErrorModal
+                  open={this.state.open}
+                  title='Error'
+                  isAuth={true}
+                  errorType='type422'
+                  handleCancel={this.handleCancel}
+              />
           );
         } else {
           // Default error message if error type is not recognized

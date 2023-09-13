@@ -15,6 +15,7 @@ interface InputProps {
   placeholder?: string;
   className?: string;
   errorMessage?: string;
+  disabledMessage?: string;
   isDisabled?: boolean;
   isVerified?: boolean;
 }
@@ -28,6 +29,7 @@ const TouchInput: FC<InputProps> = ({
   placeholder = '',
   className = '',
   errorMessage = '',
+  disabledMessage = '',
   isDisabled = false,
   isVerified = false
 }) => {
@@ -110,10 +112,10 @@ const TouchInput: FC<InputProps> = ({
       onClick={focusInput}
       className={`${isDisabled ? '' : 'cursor-pointer'} relative w-full h-[60px] px-5 py-[18px] leading-4 bg-dentist rounded-md ${activeClass} ${className}`}>
       <Tooltip
-        title={errorMessage}
+        title={(isDisabled && disabledMessage) ? disabledMessage : errorMessage}
         placement="bottomRight"
         color="blue"
-        open={!!errorMessage && isHovered}>
+        open={(!!errorMessage || !!disabledMessage) && isHovered}>
         <label
           className={`font-medium text-left leading-[14px] absolute left-[20px] top-[25px] opacity-50 transition-all duration-300 ease-linear pointer-events-none ${isFocusedOrFilled ? 'transform -translate-y-3 text-[10px]' : 'text-[14px]'}`}
         >
@@ -136,7 +138,9 @@ const TouchInput: FC<InputProps> = ({
         </span>
         )}
         {isDisabled && type !== 'password' && (
-          <InformIcon className="absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer" />
+            <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+              <InformIcon  className="absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer" />
+            </span>
         )}
         {type === 'password' && (
           <span className="absolute right-[10px] top-1/2 transform -translate-y-1/2 cursor-pointer" onClick={handleTogglePasswordVisibility}>

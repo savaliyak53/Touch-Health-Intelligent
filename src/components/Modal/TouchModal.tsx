@@ -13,9 +13,8 @@ interface InputProps {
 
 const TouchModal: FC<InputProps> = ({ isOpen, isAuth, withoutCloseIcon, isFullScreen, setClose, children }) => {
   return (
-    <Transition.Root show={isOpen} as={Fragment}>
+    <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setClose}>
-
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -28,10 +27,9 @@ const TouchModal: FC<InputProps> = ({ isOpen, isAuth, withoutCloseIcon, isFullSc
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-10 overflow-y-auto flex justify-center">
+        <div className="fixed inset-0 overflow-y-auto flex justify-center">
           <div className="flex w-full">
             <div className='flex min-h-full items-center justify-center mx-auto text-center'>
-
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -55,7 +53,7 @@ const TouchModal: FC<InputProps> = ({ isOpen, isAuth, withoutCloseIcon, isFullSc
           {!isAuth && <div className='hidden h-full w-full max-w-[50%] dd:block'/>}
         </div>
       </Dialog>
-    </Transition.Root>
+    </Transition>
   );
 };
 

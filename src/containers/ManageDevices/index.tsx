@@ -8,14 +8,25 @@ import Layout from 'layouts/Layout';
 import styles from './ManageDevices.module.scss';
 import DeleteSessionModal from 'components/Modal/DeleteSessionModal';
 import parser from 'ua-parser-js';
+import {useNavigate} from 'react-router-dom';
+import TouchButton from 'components/TouchButton';
+import TouchModal from 'components/Modal/TouchModal';
+
+interface IError {
+  code: number,
+  message: string,
+}
 
 const ManageDevices = () => {
+  const navigate = useNavigate();
   const [devices, setDevices] = useState([]);
   const [spinning, setSpinning] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
   const [signoutDevice, setSignoutDevice] = useState<any>(null);
   const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<any>();
+  const [error, setError] = useState<IError | null>(null);
+  const [errorPassword, setErrorPassword] = useState<IError | null>(null);
+  const [openErrorModal, setOpenErrorModal] = useState<boolean>(false);
 
   const getSessionData = () => {
     sessionsService()
@@ -34,14 +45,15 @@ const ManageDevices = () => {
   };
 
   const deviceSignout = (id: string) => {
-    deleteSessionService(id)
+    deleteSessionService(id, {password})
       .then((res) => {
         if (res) {
           getSessionData();
         }
       })
       .catch((err) => {
-        setError({
+        setOpenErrorModal(true);
+        setErrorPassword({
           code: err.response.status,
           message: err.response.data.details,
         });
@@ -50,10 +62,14 @@ const ManageDevices = () => {
   const handleCancel = () => {
     setOpen(false);
     setSignoutDevice(null);
+    setPassword('');
   };
   const handleOk = () => {
     setOpen(false);
-    deviceSignout(signoutDevice);
+    if (password) {
+      deviceSignout(signoutDevice);
+      setPassword('');
+    }
   };
 
   function extractDeviceName(userAgent: string) {
@@ -72,7 +88,7 @@ const ManageDevices = () => {
   }, [error]);
 
   return (
-    <Layout defaultHeader={true} hamburger={true} title={'Manage Devices'}>
+    <Layout whitBackArrow={true} onBack={() => navigate('/preferences')} defaultHeader={true} hamburger={true} title={'Manage Devices'}>
       <Spin spinning={spinning}>
         <div>
           {devices &&
@@ -82,7 +98,7 @@ const ManageDevices = () => {
                   {extractDeviceName(device.user_agent)}
                 </div>
                 <Button
-                  className="Submit-Button"
+                  className='Submit-Button'
                   onClick={() => {
                     setSignoutDevice(device.id);
                     setOpen(true);
@@ -100,6 +116,21 @@ const ManageDevices = () => {
           password={password}
           setPassword={setPassword}
         />
+        <TouchModal setClose={setOpenErrorModal} isOpen={openErrorModal}>
+          <div className='flex flex-col w-full my-[50px] px-[20px]'>
+            <h3 className='text-[18px] mb-10 leading-[22px] flex items-center font-tilt-warp text-primary-delft-dark opacity-90'>
+              {errorPassword && errorPassword.code === 401 ? 'Wrong password' : 'Error'}
+            </h3>
+            <div className='text-3 text-oldBurgundy leading-[23px] text-left'>
+              {errorPassword && errorPassword.message ? errorPassword.message : ''}
+            </div>
+          </div>
+          <div className='mx-[25px] mb-[33px] px-10'>
+            <TouchButton type={'default'} onClick={() => setOpenErrorModal(false)}>
+              OK
+            </TouchButton>
+          </div>
+        </TouchModal>
       </Spin>
     </Layout>
   );
