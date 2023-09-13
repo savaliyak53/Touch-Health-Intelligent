@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router';
 import Layout from 'layouts/Layout';
 import {  getGuidanceById } from '../../services/dashboardservice';
 import ArrowIcon from 'components/Icons/ArrowIcon';
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
+import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw';
 import { useSearchParams } from 'react-router-dom';
 
@@ -60,22 +60,15 @@ const Guidance = () => {
           <span className='text-white text-[12px] mt-[-1px]'>Back</span>
         </div>
         <div className='text-[22px] text-[#FFF] font-["tilt_warp"]'>{guidanceData?.name}</div>
-        {/* <div className='text-[12px] text-[#FFF] pt-2'>
-          {guidanceData &&
-            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-              {guidanceData.info.description_md}
-            </ReactMarkdown>
-          }
-        </div> */}
       </section>
       <section className='px-[20px] py-[20px] bg-[#F9F7F4]'>
         <div className='flex justify-center w-full'>
           <button className={`text-[12px] w-full py-[10px] ${selectedType === "guidance" && "rounded-[20px] shadow-[2px_2px_0_0_#F1EEE9]"}`} onClick={() => setSelectedType("guidance")}>Guidance</button>
           <button className={`text-[12px] w-full py-[10px] ${selectedType === "science" && "rounded-[20px] shadow-[2px_2px_0_0_#F1EEE9]"} `} onClick={() => setSelectedType("science")}>The science</button>
         </div>
-        <div className='pt-[16px] text-left text-[14px]'>
+        <div className='pt-[16px] text-left'>
           {guidanceData && (
-            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+            <ReactMarkdown className='prose prose-h1:text-[32px] prose-h3:text-[20px] prose-li:text-[14px] prose-p:text-[14px]' rehypePlugins={[rehypeRaw]}>
               {selectedType === "guidance" ? guidanceData.info_md : guidanceData.science_md}
             </ReactMarkdown>
             )
