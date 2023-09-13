@@ -11,7 +11,6 @@ const AuthLayout: React.FC<IProps> = ({children, isSignup}) => {
     <div className={`SignupBGWrap ${isSignup ? "h-screen" : "h-[100svh]"}`}>
       <div className={`${isSignup ? 'SignupView' : 'LoginView'}`}>
         <div className='LogoWrap'>
-          <img src={`${process.env.PUBLIC_URL}/assets/logo/auth/cur8-health-desktop-logo.svg`} className='LogoDesktoop' alt="App Logo" />
           <img src={`${process.env.PUBLIC_URL}/assets/logo/auth/cur8-health-mobile-logo.svg`} className='LogoMobile' alt="App Logo" />
         </div>
         {children}
