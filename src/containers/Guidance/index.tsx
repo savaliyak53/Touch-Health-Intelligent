@@ -57,7 +57,7 @@ const Guidance = () => {
       <section className='relative bg-[#080815] pt-[155px] pb-[21px] px-[20px] text-left'>
         <div className='flex absolute top-10 cursor-pointer' onClick={() => onBackHandler()}>
           <ArrowIcon className="inline mr-2 brightness-0 invert"/>
-          <span className='text-white text-[12px] mt-[-1px]'>Back</span>
+          <span className='text-white text-[14px] mt-[-1px]'>Back</span>
         </div>
         <div className='text-[22px] text-[#FFF] font-["tilt_warp"]'>{guidanceData?.name}</div>
       </section>
