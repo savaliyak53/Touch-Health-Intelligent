@@ -125,7 +125,7 @@ function UserCondition() {
     getUser(userId)
       .then((response: any) => {
         if (response?.data.signup_status === 'done') {
-          invokeInteractionServiceByType('answer_questions')
+          invokeInteractionServiceByType({type: 'answer_questions' })
             .then((response: any) => {
               if (response) {
                 getInteraction();

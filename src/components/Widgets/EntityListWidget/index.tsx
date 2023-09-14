@@ -33,7 +33,7 @@ const EntityListWidget: FC<IProps> = ({type}) => {
   const navigate = useNavigate();
 
   const getInteractionByType = (type: string) => {
-    invokeInteractionServiceByType(type)
+    invokeInteractionServiceByType({type})
       .then((response: any) => {
         if (response.data) {
           navigate('/questionnaire');

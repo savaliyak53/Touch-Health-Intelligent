@@ -34,7 +34,7 @@ const Home = () => {
   };
 
   const getInteractionByType = (type: string) => {
-    invokeInteractionServiceByType(type)
+    invokeInteractionServiceByType({type})
       .then((response: any) => {
         if (response.data) {
           navigate('/questionnaire');
@@ -61,7 +61,7 @@ const Home = () => {
       .then((preferencesResponse) => {
         if (preferencesResponse) {
           //after successful subscription initiate onboarding interaction
-          invokeInteractionServiceByType('onboarding')
+          invokeInteractionServiceByType({type: 'onboarding' })
             .then((response: any) => {
               if (response) {
                 navigate('/questionnaire');
@@ -123,7 +123,7 @@ const Home = () => {
           handleTrialIntake();
         } else {
           if (response.data.signup_status === 'onboarding') {
-            invokeInteractionServiceByType('onboarding')
+            invokeInteractionServiceByType({type: 'onboarding'})
               .then((response: any) => {
                 handleRedirect(response);
               })

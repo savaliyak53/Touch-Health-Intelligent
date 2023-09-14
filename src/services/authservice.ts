@@ -2,7 +2,7 @@ import {
   ISignUp,
   ILogin,
   IPreferencesService,
-  InteractionService,
+  InteractionService, IDataInteractionServiceByType
 } from '../interfaces';
 import axios from '../utils/axios';
 
@@ -182,10 +182,6 @@ export const getIntegrationStatus = async () => {
   return await axios.get(`${baseURL}/user/integration/status`);
 };
 
-export const invokeInteractionServiceByType = async (type: string) => {
-  return await axios.post(`${baseURL}/ai/interaction-flow`, {
-    meta: {
-      type,
-    },
-  });
+export const invokeInteractionServiceByType = async (meta: IDataInteractionServiceByType) => {
+  return await axios.post(`${baseURL}/ai/interaction-flow`, {meta});
 };

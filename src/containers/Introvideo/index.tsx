@@ -8,7 +8,7 @@ const IntroVideo = () => {
   const navigate = useNavigate();
   useEffect(() => {
     // const userId = localStorage.getItem('userId');
-    invokeInteractionServiceByType('frontend_testing')
+    invokeInteractionServiceByType({type: 'frontend_testing'})
       .then((response: any) => {
         if (response) {
           navigate('/questionnaire');

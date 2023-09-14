@@ -160,7 +160,7 @@ const SubscriptionNew = () => {
     )
       .then(() => {
         //after successful subscription initiate onboarding interaction
-        invokeInteractionServiceByType('onboarding')
+        invokeInteractionServiceByType({type: 'onboarding'})
           .then((response) => {
             if (response) {
               navigate('/questionnaire');

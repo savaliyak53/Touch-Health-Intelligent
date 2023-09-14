@@ -39,6 +39,7 @@ const useDashboardData = () => {
               subtitleColor: 'FEFBF1',
               valueColor: 'EFB7A8',
               shadow: '0px 4px 0px 0px #8AA4EC',
+              dimensionId: element.dimension_id || ''
             }
             daysArray[0] = daysObj;
           } else if(element.name == 'Movement') {
@@ -56,6 +57,7 @@ const useDashboardData = () => {
               subtitleColor: 'FEFBF1',
               valueColor: '204ECF',
               shadow: '0px 4px 0px 0px #204ECF',
+              dimensionId: element.dimension_id || ''
             }
             daysArray[1] = daysObj;
           } else if(element.name == 'Mental Wellbeing'){
@@ -73,6 +75,7 @@ const useDashboardData = () => {
               subtitleColor: '83A5F2',
               valueColor: '204ECF',
               shadow: '0px 4px 0px 0px #F9A197',
+              dimensionId: element.dimension_id || ''
             }
             daysArray[2] = daysObj;
           } else if(element.name == 'Nutrition') {
@@ -90,6 +93,7 @@ const useDashboardData = () => {
               subtitleColor: 'F9A197',
               valueColor: 'EA9836',
               shadow: '0px 4px 0px 0px #EA9836',
+              dimensionId: element.dimension_id || ''
             }
             daysArray[3] = daysObj;
           } else {
@@ -107,6 +111,7 @@ const useDashboardData = () => {
               subtitleColor: '204ecfb3',
               valueColor: '204ECF',
               shadow: '0px 4px 0px 0px #9DD7B4',
+              dimensionId: element.dimension_id || ''
             }
             daysArray[4] = daysObj;
           }

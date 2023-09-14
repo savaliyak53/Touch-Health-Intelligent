@@ -6,7 +6,7 @@ import { Button } from 'antd';
 import Drawer from 'components/Modal/Drawer';
 import { invokeInteractionServiceByType} from 'services/authservice';
 import { useNavigate } from 'react-router-dom';
-import {IOverview} from '../../interfaces';
+import { IDataInteractionServiceByType, ILifeStyleDay, IOverview } from '../../interfaces';
 import DashboardContext from 'contexts/DashboardContext';
 
 type Props = {
@@ -94,15 +94,20 @@ interface IProps {
 
 const Status: FC<IProps> = ({overview}) => {
   const [error, setError] = useState<any>();
-  const [days, setDays] = useState<any>([]);
+  const [days, setDays] = useState<ILifeStyleDay[] | []>([]);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [drawerOpen2, setDrawerOpen2] = useState<boolean>(false);
   const [drawerTitle, setDrawerTitle] = useState("");
+  const [dimensionId, setDimensionId] = useState<string>('');
   const dashboardContext = useContext(DashboardContext);
   const navigate = useNavigate();
 
   const getInteractionByType = (type: string) => {
-    invokeInteractionServiceByType(type)
+    const data: IDataInteractionServiceByType = {type};
+    if (dimensionId) {
+      data.dimension_id = dimensionId;
+    }
+    invokeInteractionServiceByType(data)
       .then((response: any) => {
         if (response.data) {
           navigate('/questionnaire');
@@ -115,11 +120,22 @@ const Status: FC<IProps> = ({overview}) => {
           code: error.response.status,
           message: error.response.data.details,
         });
-      });
+      }).finally(() => setDimensionId(''));
+  };
+
+  const handlerOpenDrawer = (day: any): void => {
+    setDrawerTitle(day.title);
+    setDrawerOpen(true);
+    setDimensionId(day.dimensionId);
+  };
+
+  const handleCloseDrawer = (): void => {
+    setDrawerOpen(false);
+    setDimensionId('');
   };
 
   useEffect(() => {
-    setDays(dashboardContext?.lifestyleDimensions);
+    setDays(dashboardContext?.lifestyleDimensions || []);
   }, [dashboardContext]);
 
   useEffect(() => {
@@ -196,10 +212,7 @@ const Status: FC<IProps> = ({overview}) => {
                     </span>
                   </div>
                   <button
-                    onClick={() => {
-                      setDrawerTitle(day.title);
-                      setDrawerOpen(true);
-                    }}
+                    onClick={() => handlerOpenDrawer(day)}
                     className="w-5 h-3 flex items-center"
                   >
                     <span
@@ -270,10 +283,10 @@ const Status: FC<IProps> = ({overview}) => {
       <Drawer
         title={drawerTitle}
         open={drawerOpen}
-        handleCancel={() => setDrawerOpen(false)}
+        handleCancel={handleCloseDrawer}
         renderOptions={
           <>
-            <Button className={'Button-Drawer'}>
+            <Button className={'Button-Drawer'} onClick={() => getInteractionByType('answer_questions')}>
               Add data about {drawerTitle}
             </Button>
           </>
