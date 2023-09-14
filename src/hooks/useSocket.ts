@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import AuthContext, { AuthContextData } from "contexts/AuthContext";
 import SocketContext from "../contexts/SocketContext";
@@ -16,11 +16,6 @@ const useSocket = () => {
   const context = useContext<AuthContextData | undefined>(AuthContext);
   const sessionId = context?.session ?? localStorage.getItem('sessionId');
   const dashboardContextData = useContext(DashboardContext) as any;
-  const contextRef: any = useRef(dashboardContextData);
-
-  // useEffect(() => {
-  //   contextRef.current = dashboardContextData
-  // },[dashboardContextData])
 
   dashboardNotification.current = (message: socketNotificationTypes) => {
     try {
@@ -36,7 +31,7 @@ const useSocket = () => {
         lifestyleDimensionsInfluencer(message.payload.body, dashboardContextData)
         break;
       case socketPath.CONDITON_DIMENSION_INFLUENCERS: 
-        conditionDimensionsInfluencer(message.payload.body, contextRef.current)
+        conditionDimensionsInfluencer(message.payload.body, dashboardContextData)
         break;
       default:
         break;
@@ -68,7 +63,6 @@ const useSocket = () => {
       });
       
       socket.on('message', (message: socketMessageType) => {
-        console.log('Server message: ', message)
         dashboardEventHandler(message);
       });
 

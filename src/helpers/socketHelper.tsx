@@ -18,35 +18,7 @@ interface Message {
     prediction_text:string;
 }
 
-const messageInfluencerQueue: any = [];
-const messageConditionQueue: any = [];
-
 export function lifestyleDimensionsInfluencer(message: Message, dashboardContextData: any) {
-  // const maxQueueSize = dashboardContextData.lifestyleInfluencers.length;
-  // messageInfluencerQueue.push(message);
-
-  // while (messageInfluencerQueue.length > maxQueueSize) {
-  //   messageInfluencerQueue.shift();
-  // }
-
-  // const influencerData = [];
-
-  // for (const dashboardInfluencer of dashboardContextData.lifestyleInfluencers) {
-  //   const matchingMessage = messageInfluencerQueue.find(
-  //     (msg: any) => msg.influencer_id === dashboardInfluencer.influencer_id
-  //   );
-  //   if (matchingMessage) {
-  //     influencerData.push(matchingMessage);
-  //   } else {
-  //     influencerData.push(dashboardInfluencer);
-  //   }
-  // }
-
-  // console.log(influencerData, "influencer ++++++++++++");
-
-  // dashboardContextData.lifestyleInfluencers  [1,2,3,4,5]
-  // msg  3
-
   dashboardContextData.setLifestyleInfluencers((current: any) => {
     const result = current.map((inf: any) => {
       if(inf.influencer_id === message.influencer_id) {
@@ -54,37 +26,18 @@ export function lifestyleDimensionsInfluencer(message: Message, dashboardContext
       }
       return inf
     })
-  
-    console.log("result++++++++dashboardContextData.lifestyleInfluencers", dashboardContextData.lifestyleInfluencers)
-  
-    console.log("result++++++++", result)
-    
     return result;
   });
 }
 
 export function conditionDimensionsInfluencer(message: Message, dashboardContextData: any) {
-  const maxQueueSize = dashboardContextData.conditionInfluencers.length;
-  messageConditionQueue.push(message);
-
-  while (messageConditionQueue.length > maxQueueSize) {
-    messageConditionQueue.shift();
-  }
-
-  const influencerData = [];
-
-  for (const dashboardCondition of dashboardContextData.conditionInfluencers) {
-    const matchingMessage = messageConditionQueue.find(
-      (msg: any) => msg.influencer_id === dashboardCondition.influencer_id
-    );
-    if (matchingMessage) {
-      influencerData.push(matchingMessage);
-    } else {
-      influencerData.push(dashboardCondition);
-    }
-  }
-
-  if (influencerData.length) {
-    dashboardContextData.setConditionInfluencers(influencerData);
-  }
+  dashboardContextData.setConditionInfluencers((current: any) => {
+    const result = current.map((inf: any) => {
+      if(inf.influencer_id === message.influencer_id) {
+        return { updatedFromSocket: true, ...message }
+      }
+      return inf
+    })
+    return result;
+  });
 }
