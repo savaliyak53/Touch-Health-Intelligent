@@ -129,7 +129,7 @@ const TouchInput: FC<InputProps> = ({
           onFocus={onFocus}
           onBlur={onBlur}
           disabled={isDisabled}
-          className={`${placeholder ? 'pt-[10px]' : 'pt-[5px]'} font-medium w-full disabled:cursor-default`}
+          className={`${placeholder ? 'pt-[10px]' : 'pt-[5px]'} pr-5 font-medium w-full disabled:cursor-default`}
         />
 
         {errorMessage && !isDisabled && (
