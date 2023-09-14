@@ -110,7 +110,7 @@ const Prediction = () => {
           <div className='text-[12px] text-white px-[15px] leading-[14px] text-center'>{influencerData?.header_text}</div>
           <div className='font-["tilt_warp"] text-white text-[60px] pt-8 text-center'>
             {/* Change prevDate to currentDate (new Date()) after getting proper backend response */}
-            {influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.score || influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(prevDate))?.value}
+            {influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(prevDate))?.score || influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(prevDate))?.value}
           </div>
           {influencerData?.prediction_ordered_list &&  <PredictionGraph data={influencerData.prediction_ordered_list} />}
           <TemporaryBackground />
