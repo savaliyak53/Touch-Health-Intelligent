@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { LineChart, XAxis, YAxis, Line, ResponsiveContainer } from 'recharts';
 import CustomizedAxisTick from './CustomizedAxisTick';
 import { IPredictionGraphList } from '../../interfaces';
@@ -14,9 +14,36 @@ const PredictionGraph: FC<IProps> = ({data}) => {
   const [range, setRange] = useState<string[]>(['auto', 'auto']);
   const [graphData, setGraphData] = useState<IPredictionGraphList[] | []>([]);
 
+  const filteredData = useMemo(() => {
+    const filtered_predictions: any = []
+    const currentDate: string = new Date().toISOString().split('T')[0];
+      
+    const tomorrowDate = new Date();
+    tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+    const tomorrowDateString: string = tomorrowDate.toISOString().split('T')[0];
+
+    const thirdDate = new Date();
+    thirdDate.setDate(thirdDate.getDate() + 2);
+    const thirdDateString: string = thirdDate.toISOString().split('T')[0];
+
+    const filtered_predictions_today = data.filter((item: any) => item.dt === currentDate);
+    if(filtered_predictions_today.length < 1) filtered_predictions.push({dt: currentDate, emoji: '❔', value: '—', uncertainy: '—'});
+    else filtered_predictions.push(filtered_predictions_today[0]) 
+
+    const filtered_predictions_tom = data.filter((item: any) => item.dt === tomorrowDateString);
+    if(filtered_predictions_tom.length < 1) filtered_predictions.push({dt: tomorrowDateString, emoji: '❔', value: '—', uncertainy: '—'});
+    else filtered_predictions.push(filtered_predictions_tom[0]) 
+
+    const filtered_predictions_third = data.filter((item: any) => item.dt === thirdDateString);
+    if(filtered_predictions_third.length < 1) filtered_predictions.push({dt: thirdDateString, emoji: '❔', value: '—', uncertainy: '—'});
+    else filtered_predictions.push(filtered_predictions_third[0]) 
+
+    return filtered_predictions
+  },[data])
+
   useEffect(() => {
     // const values: number[] = [];
-    const state: IPredictionGraphList[] = [...data];
+    const state: IPredictionGraphList[] = filteredData;
     state.forEach(({ dt: date, value: score, emoji }, index) => {
       const day = index === 0 ? 'Today' : getDayOfWeekFromToday(date, index);
       state[index].score = Number(score);
