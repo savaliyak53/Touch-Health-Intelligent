@@ -1,25 +1,7 @@
+import { DashboardContextData, predictionTypes } from "interfaces";
 import { roundOff } from "utils/lib";
-interface Message {
-    emoji_scale:string[];
-    guidances_list:{
-        guidance_id:string;
-        health_dimension:string;
-        name:string;
-    }[];
-    header_text:string;
-    influencer_id:string;
-    name:string;
-    parent_dimension_id:string;
-    prediction_ordered_list:{
-        dt:string;
-        emoji:string;
-        uncertainy:string;
-        value:string;
-    }[]
-    prediction_text:string;
-}
 
-export function lifestyleDimensionsInfluencer(message: Message, dashboardContextData: any) {
+export function lifestyleDimensionsInfluencer(message: predictionTypes, dashboardContextData: DashboardContextData) {
   dashboardContextData.setLifestyleInfluencers((current: any) => {
     const result = current.map((inf: any) => {
       if(inf.influencer_id === message.influencer_id) {
@@ -31,7 +13,7 @@ export function lifestyleDimensionsInfluencer(message: Message, dashboardContext
   });
 }
 
-export function conditionDimensionsInfluencer(message: Message, dashboardContextData: any) {
+export function conditionDimensionsInfluencer(message: predictionTypes, dashboardContextData: DashboardContextData) {
   dashboardContextData.setConditionInfluencers((current: any) => {
     const result = current.map((inf: any) => {
       if(inf.influencer_id === message.influencer_id) {
@@ -43,7 +25,7 @@ export function conditionDimensionsInfluencer(message: Message, dashboardContext
   });
 }
 
-export function lifestyleDimensions(message: any, dashboardContextData: any) {
+export function lifestyleDimensions(message: any, dashboardContextData: DashboardContextData) {
   dashboardContextData.setLifestyleDimensions((current: any) => {
     const result = current.map((inf: any) => {
       if(inf.title === message.name) {

@@ -25,7 +25,7 @@ const useSocket = () => {
     }
   };
 
-  const dashboardEventHandler = (message:any) => {
+  const dashboardEventHandler = (message: socketMessageType) => {
     switch(message.payload.path) {
       case socketPath.LIFESTYLE_DIMENSION_INFLUENCERS:
         lifestyleDimensionsInfluencer(message.payload.body, dashboardContextData)
@@ -70,7 +70,6 @@ const useSocket = () => {
       });
 
       socket.on('error', (message: socketNotificationTypes) => {
-        console.log('Server error: ', message);
         dashboardNotification.current(message);
       });
 

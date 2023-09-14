@@ -1,16 +1,5 @@
-import { createContext, useState, useEffect, useContext } from 'react';
-
-export interface DashboardContextData {
-  lifestyleDimensions: [],
-  conditionDimensions: [],
-  conditionInfluencers: [],
-  lifestyleInfluencers: [],
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-  setLifestyleDimensions: React.Dispatch<React.SetStateAction<any>>,
-  setConditionDimensions: React.Dispatch<React.SetStateAction<any>>,
-  setConditionInfluencers: React.Dispatch<React.SetStateAction<any>>,
-  setLifestyleInfluencers: React.Dispatch<React.SetStateAction<any>>,
-}
+import { createContext, useState } from 'react';
+import { DashboardContextData } from 'interfaces';
 
 const DashboardContext = createContext<DashboardContextData | undefined>(undefined);
 export default DashboardContext;

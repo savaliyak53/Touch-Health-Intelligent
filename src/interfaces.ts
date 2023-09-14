@@ -160,3 +160,35 @@ export interface socketNotificationTypes {
   title: string,
   details: string,
 }
+
+export interface DashboardContextData {
+  lifestyleDimensions: [],
+  conditionDimensions: [],
+  conditionInfluencers: [],
+  lifestyleInfluencers: [],
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setLifestyleDimensions: React.Dispatch<React.SetStateAction<any>>,
+  setConditionDimensions: React.Dispatch<React.SetStateAction<any>>,
+  setConditionInfluencers: React.Dispatch<React.SetStateAction<any>>,
+  setLifestyleInfluencers: React.Dispatch<React.SetStateAction<any>>,
+}
+
+export interface predictionTypes {
+  emoji_scale:string[];
+  guidances_list:{
+      guidance_id:string;
+      health_dimension:string;
+      name:string;
+  }[];
+  header_text:string;
+  influencer_id:string;
+  name:string;
+  parent_dimension_id:string;
+  prediction_ordered_list:{
+      dt:string;
+      emoji:string;
+      uncertainy:string;
+      value:string;
+  }[]
+  prediction_text:string;
+}
