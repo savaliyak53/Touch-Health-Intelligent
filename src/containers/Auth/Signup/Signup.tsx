@@ -10,7 +10,7 @@ import { onlyNumbers } from 'utils/lib';
 import InputGroup from 'containers/Auth/Signup/InputGroup';
 
 const SignUp: React.FC = () => {
-  const refCaptcha = useRef<any>(null)
+  const refCaptcha = useRef<ReCAPTCHA>(null)
   const [value, setIsOnboarding] = useLocalStorage("isOnboarding");
 
   const [username, setUsername] = useState<string>('');
@@ -32,9 +32,9 @@ const SignUp: React.FC = () => {
   const onVerify = async () => {
     setIsLoading(true);
     setIsDisabled(true);
-    const token = refCaptcha.current.getValue();
-    refCaptcha.current.reset();
-    localStorage.setItem('captchaToken', token);
+    const token = refCaptcha?.current?.getValue();
+    refCaptcha?.current?.reset();
+    localStorage.setItem('captchaToken', token || '');
     localStorage.setItem('phone', onlyNumbers(phone));
     const signupResponse = await signupUser(
       {
@@ -42,7 +42,7 @@ const SignUp: React.FC = () => {
         name: username,
         password,
       },
-      token
+      token || ''
     );
     if (signupResponse?.id) {
       setIsOnboarding(true);
