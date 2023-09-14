@@ -24,8 +24,8 @@ const useDashboardData = () => {
         const daysArray: any = [];
         let daysObj: any;
         res.data?.forEach((element: any) => {
-        element.name == 'Sleep'
-          ? (daysObj = {
+          if(element.name == 'Sleep'){
+            daysObj = {
               title: element.name,
               icon: element.dimension_emoji,
               bg: '/assets/images/cur8-sleep.svg',
@@ -39,9 +39,10 @@ const useDashboardData = () => {
               subtitleColor: 'FEFBF1',
               valueColor: 'EFB7A8',
               shadow: '0px 4px 0px 0px #8AA4EC',
-            })
-          : element.name == 'Movement'
-          ? (daysObj = {
+            }
+            daysArray[0] = daysObj;
+          } else if(element.name == 'Movement') {
+            daysObj = {
               title: element.name,
               icon: element.dimension_emoji,
               bg: '/assets/images/cur8-movement.svg',
@@ -55,9 +56,10 @@ const useDashboardData = () => {
               subtitleColor: 'FEFBF1',
               valueColor: '204ECF',
               shadow: '0px 4px 0px 0px #204ECF',
-            })
-          : element.name == 'Mental Wellbeing'
-          ? (daysObj = {
+            }
+            daysArray[1] = daysObj;
+          } else if(element.name == 'Mental Wellbeing'){
+            daysObj = {
               title: element.name,
               icon: element.dimension_emoji,
               bg: '/assets/images/cur8-mental-wellbeing.svg',
@@ -71,9 +73,10 @@ const useDashboardData = () => {
               subtitleColor: '83A5F2',
               valueColor: '204ECF',
               shadow: '0px 4px 0px 0px #F9A197',
-            })
-          : element.name == 'Nutrition'
-          ? (daysObj = {
+            }
+            daysArray[2] = daysObj;
+          } else if(element.name == 'Nutrition') {
+            daysObj = {
               title: element.name,
               icon: element.dimension_emoji,
               bg: '/assets/images/cur8-nutrition.svg',
@@ -87,8 +90,10 @@ const useDashboardData = () => {
               subtitleColor: 'F9A197',
               valueColor: 'EA9836',
               shadow: '0px 4px 0px 0px #EA9836',
-            })
-          : (daysObj = {
+            }
+            daysArray[3] = daysObj;
+          } else {
+            daysObj = {
               title: element.name,
               icon: element.dimension_emoji,
               bg: '/assets/images/cur8-poductivity.svg',
@@ -102,9 +107,10 @@ const useDashboardData = () => {
               subtitleColor: '204ecfb3',
               valueColor: '204ECF',
               shadow: '0px 4px 0px 0px #9DD7B4',
-            });
-        daysArray.push(daysObj);
-      });
+            }
+            daysArray[4] = daysObj;
+          }
+        });
         setLifestyleDimensions(daysArray);
         setLoading(false);
       }

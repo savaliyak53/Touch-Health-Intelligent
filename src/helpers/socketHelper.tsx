@@ -51,11 +51,11 @@ export function lifestyleDimensions(message: any, dashboardContextData: any) {
           updatedFromSocket: true,
           ...inf,
           subtitle1: message.data_value_list[0].name,
-          value1: message.data_value_list[0].value,
+          value1: message.data_value_list[0].value || null,
           subtitle2: message.data_value_list[1].name,
-          value2: message.data_value_list[1].value,
+          value2: message.data_value_list[1].value || null,
           subtitle3: message.data_value_list[2].name,
-          value3: roundOff(message.data_value_list[2].value),
+          value3: roundOff(message.data_value_list[2].value) || null,
         }
       }
       return inf

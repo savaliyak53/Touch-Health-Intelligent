@@ -1,11 +1,4 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import {
-  getLifestyleDimensions,
-  getConditionsDimensions,
-  getLifestyleInfluencers,
-  getConditionInfluencers
-} from 'services/dashboardservice';
-import AuthContext, { AuthContextData } from './AuthContext';
 
 export interface DashboardContextData {
   lifestyleDimensions: [],
