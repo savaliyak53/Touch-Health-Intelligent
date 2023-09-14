@@ -44,7 +44,7 @@ const AppRoutes = () => {
   return (
     <React.Suspense fallback={<LoadingLayout>Loading...</LoadingLayout>}>
       <Routes>
-        <Route path='/' element={<Navigate to={isUserAuthenticated ? '/dashboard' : ROUTES.login} />} />
+        <Route path='/' element={<Home />} />
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.signUp} element={<SignUp />} />
         <Route path="/security" element={<SecurityQuestion />} />
