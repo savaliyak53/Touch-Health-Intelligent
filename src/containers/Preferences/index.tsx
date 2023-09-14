@@ -154,7 +154,7 @@ const Preferences = () => {
       .then((preferencesResponse) => {
         if (preferencesResponse) {
           //after successful subscription initiate onboarding interaction
-          invokeInteractionServiceByType('onboarding')
+          invokeInteractionServiceByType({type: 'onboarding' })
             .then((response: any) => {
               if (response) {
                 navigate('/questionnaire');

@@ -1,4 +1,3 @@
-import { Interface } from 'readline';
 
 export interface ISignUp {
   password: string;
@@ -72,6 +71,37 @@ export interface IDropDownOptionsItem {
   id: string;
   text: string;
 }
+
+/**
+ * Lifestyle dimensions day
+ */
+
+export interface IDataInteractionServiceByType {
+  type: string;
+  dimension_id?: string;
+}
+
+/**
+ * Lifestyle dimensions day
+ */
+
+export interface ILifeStyleDay {
+  title: string;
+  icon: string;
+  bg: string;
+  btnColor: string;
+  subtitle1: string;
+  value1: string;
+  subtitle2: string;
+  value2: string;
+  subtitle3: string;
+  value3: string;
+  subtitleColor: string;
+  valueColor: string;
+  shadow: string;
+  dimensionId: string;
+}
+
 /**
  * Prediction graph section
  */
@@ -162,7 +192,7 @@ export interface socketNotificationTypes {
 }
 
 export interface DashboardContextData {
-  lifestyleDimensions: [],
+  lifestyleDimensions: ILifeStyleDay[],
   conditionDimensions: [],
   conditionInfluencers: [],
   lifestyleInfluencers: [],
