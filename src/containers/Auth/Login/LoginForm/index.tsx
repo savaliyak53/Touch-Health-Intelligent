@@ -150,7 +150,7 @@ const LoginForm: React.FC = () => {
 
       <div className='flex w-full items-center justify-center mt-[24px]'>
         <a
-          href="https://www.touchmedical.ca/customer-care"
+          href="https://www.touchmedical.ca/"
           className='text-dentist text-[14px] leading-[14px] underline my-0 mx-[8px]'
           target='blank'
         >

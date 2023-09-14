@@ -159,7 +159,7 @@ const ResetPassword = () => {
         <div className="Links-wrap">
           <div className="Auth-terms-signup">
             For customer support, please follow this{' '}
-            <a href="https://www.touchmedical.ca/customer-care">link</a>
+            <a href="https://www.touchmedical.ca/">link</a>
           </div>
         </div>
       </div>
