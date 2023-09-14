@@ -88,6 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       localStorage.removeItem('token');
       localStorage.removeItem('sessionId');
       localStorage.removeItem('expiration');
+      sessionStorage.removeItem('un-dash');
       navigate('/login');
     })
     .catch(err => {

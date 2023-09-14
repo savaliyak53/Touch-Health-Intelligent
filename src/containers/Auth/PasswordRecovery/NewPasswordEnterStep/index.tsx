@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TouchButton from 'components/TouchButton';
-import InputGroup from 'containers/Auth/Signup/InputGroup';
+import InputGroup from 'components/InputGroup';
 
 interface IProps {
   onSubmitRecover: (password: string) => Promise<void>;

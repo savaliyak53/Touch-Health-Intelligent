@@ -8,6 +8,7 @@ const SubscriptionSuccess = () => {
   const logoutClick = () => {
     localStorage.removeItem('userId');
     localStorage.removeItem('token');
+    sessionStorage.removeItem('un-dash');
     localStorage.clear();
     navigate('/login');
   };
