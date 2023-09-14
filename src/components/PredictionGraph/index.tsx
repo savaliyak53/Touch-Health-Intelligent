@@ -4,7 +4,7 @@ import CustomizedAxisTick from './CustomizedAxisTick';
 import { IPredictionGraphList } from '../../interfaces';
 // import BackgroundGraph from './BackgroundGraph';
 // import Gradient from './BackgroundGraph/Gradient1';
-import { getDayOfWeekByDate } from '../../helpers/time';
+import { getDayOfWeekFromToday } from '../../helpers/time';
 
 interface IProps {
   data: IPredictionGraphList[];
@@ -18,7 +18,7 @@ const PredictionGraph: FC<IProps> = ({data}) => {
     // const values: number[] = [];
     const state: IPredictionGraphList[] = [...data];
     state.forEach(({ dt: date, value: score, emoji }, index) => {
-      const day = index === 0 ? 'Today' : getDayOfWeekByDate(date);
+      const day = index === 0 ? 'Today' : getDayOfWeekFromToday(date, index);
       state[index].score = Number(score);
       state[index].value = `${day}_${score}_${emoji}`;
       // if (score) {

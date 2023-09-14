@@ -39,6 +39,9 @@ const Prediction = () => {
   const dimension_id = searchParams.get('dimension_id');
   const predictionType = searchParams.get('type');
 
+  const prevDate = new Date();
+  prevDate.setDate(prevDate.getDate() - 1);
+
   const getInfluencerData = async () => {
     if (!!influencer_id && !!dimension_id) {
       try {
@@ -100,12 +103,14 @@ const Prediction = () => {
             <img src="/assets/icons/blue-arrow-left.svg" alt='back' className='h-[22px] cursor-pointer grayscale invert' onClick={() => navigate("/dashboard")}/>
           </div>
           <div className='h-6 w-6 bg-[#ffffff80] rounded-full m-auto'>
-            <span className='text-[12px] flex justify-center items-center h-full'>{influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.emoji || null}</span>
+            {/* Change prevDate to currentDate (new Date()) after getting proper backend response */}
+            <span className='text-[12px] flex justify-center items-center h-full'>{influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(prevDate))?.emoji || null}</span>
           </div>
           <div className='font-["tilt_warp"] text-white text-[18px] leading-[28px] text-center pt-[7px]'>{influencerData?.name}</div>
           <div className='text-[12px] text-white px-[15px] leading-[14px] text-center'>{influencerData?.header_text}</div>
           <div className='font-["tilt_warp"] text-white text-[60px] pt-8 text-center'>
-            {influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.score || influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.value}
+            {/* Change prevDate to currentDate (new Date()) after getting proper backend response */}
+            {influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.score || influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(prevDate))?.value}
           </div>
           {influencerData?.prediction_ordered_list &&  <PredictionGraph data={influencerData.prediction_ordered_list} />}
           <TemporaryBackground />
