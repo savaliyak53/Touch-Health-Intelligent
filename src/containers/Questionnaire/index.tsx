@@ -14,7 +14,7 @@ import {
 import { Interaction } from '../../interfaces';
 import Layout from 'layouts/Layout';
 import { Skeleton } from 'antd';
-import ErrorInteractionModal from 'components/Modal/ErrorInteractionModal';
+import ErrorInteractionModal from 'components/UI/Modal/ErrorInteractionModal';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import LogoSmal from 'components/Icons/LogoSmal';
 import useLocalStorage from 'hooks/useLocalStorage';

@@ -6,11 +6,11 @@ import {
 import { Button, Spin } from 'antd';
 import Layout from 'layouts/Layout';
 import styles from './ManageDevices.module.scss';
-import DeleteSessionModal from 'components/Modal/DeleteSessionModal';
+import DeleteSessionModal from 'components/UI/Modal/DeleteSessionModal';
 import parser from 'ua-parser-js';
 import {useNavigate} from 'react-router-dom';
-import TouchButton from 'components/TouchButton';
-import TouchModal from 'components/Modal/TouchModal';
+import TouchButton from 'components/UI/TouchButton';
+import TouchModal from 'components/UI/Modal/TouchModal';
 
 interface IError {
   code: number,

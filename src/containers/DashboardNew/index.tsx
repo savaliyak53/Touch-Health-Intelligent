@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import Layout from 'layouts/Layout';
 import { Spin } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import Drawer from 'components/Modal/Drawer';
+import Drawer from 'components/UI/Modal/Drawer';
 import Status from '../Status';
 import { getUser, invokeInteractionServiceByType } from 'services/authservice';
 import {getPartOfDay} from 'helpers/time';

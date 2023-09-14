@@ -11,7 +11,7 @@ import {
 import { toast } from 'react-toastify';
 import Layout from 'layouts/Layout';
 import 'moment-timezone';
-import DeleteModal from 'components/Modal/DeleteDataModal';
+import DeleteModal from 'components/UI/Modal/DeleteDataModal';
 import { deleteAllData } from 'services/goalsService';
 import {
   postInteractionService,
@@ -19,7 +19,7 @@ import {
   invokeInteractionServiceByType,
 } from 'services/authservice';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
-import GoogleOAuthDisclosureModal from 'components/Modal/GoogleOAuthDisclosureModal';
+import GoogleOAuthDisclosureModal from 'components/UI/Modal/GoogleOAuthDisclosureModal';
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
   readonly userChoice: Promise<{

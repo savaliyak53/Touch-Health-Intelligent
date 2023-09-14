@@ -15,11 +15,11 @@ import Layout from 'layouts/Layout';
 import moment from 'moment';
 import 'moment-timezone';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
-import DeleteModal from 'components/Modal/DeleteDataModal';
+import DeleteModal from 'components/UI/Modal/DeleteDataModal';
 import { deleteAllData } from 'services/goalsService';
 import { toast } from 'react-toastify';
 import useLocalStorage from 'hooks/useLocalStorage';
-import TouchInput from 'components/TouchInput';
+import TouchInput from 'components/UI/TouchInput';
 import InformIcon from 'components/Icons/InformIcon';
 
 interface BeforeInstallPromptEvent extends Event {

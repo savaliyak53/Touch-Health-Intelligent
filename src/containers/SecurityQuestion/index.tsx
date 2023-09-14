@@ -7,9 +7,9 @@ import { putSignUp } from 'services/authservice';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
-import TouchDropdown from 'components/TouchDropdown';
+import TouchDropdown from 'components/UI/TouchDropdown';
 import { securityQuestions as dropDownOptions} from '../../constants';
-import TouchInput from 'components/TouchInput';
+import TouchInput from 'components/UI/TouchInput';
 
 const SecurityQuestions = () => {
   const [loading, setLoading] = useState(false);

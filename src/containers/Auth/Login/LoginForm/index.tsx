@@ -6,13 +6,13 @@ import {
   onlyNumbers,
 } from 'utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
-import AccountLockModal from 'components/Modal/AccountLockModal';
+import AccountLockModal from 'components/UI/Modal/AccountLockModal';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import { getSession, getUser } from 'utils/lib';
-import ConfirmModal from 'components/Modal/ConfirmModal';
-import PhoneInput from 'components/PhoneInput';
-import TouchInput from 'components/TouchInput';
-import TouchButton from 'components/TouchButton';
+import ConfirmModal from 'components/UI/Modal/ConfirmModal';
+import PhoneInput from 'components/UI/PhoneInput';
+import TouchInput from 'components/UI/TouchInput';
+import TouchButton from 'components/UI/TouchButton';
 
 const LoginForm: React.FC = () => {
   const refCaptcha = useRef<ReCAPTCHA>(null)
