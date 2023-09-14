@@ -331,7 +331,6 @@ const Status: FC<IProps> = ({overview}) => {
                       className="max-[390px]:text-[16px] text-[22px] leading-[1] font-normal font-tilt-warp text-left"
                       style={{ color: `#${day.valueColor}` }}
                     >
-                      {/* {day.value1} */}
                       {day.value1 ?? "--"}
                     </span>
                   </div>
@@ -346,7 +345,6 @@ const Status: FC<IProps> = ({overview}) => {
                       className="max-[390px]:text-[16px] text-[22px] leading-[1] font-normal font-tilt-warp text-left"
                       style={{ color: `#${day.valueColor}` }}
                     >
-                      {/* {day.value2} */}
                       {day.value2 ?? "--"}
                     </span>
                   </div>
@@ -361,7 +359,6 @@ const Status: FC<IProps> = ({overview}) => {
                       className="max-[390px]:text-[16px] text-[22px] leading-[1] font-normal font-tilt-warp text-left"
                       style={{ color: `#${day.valueColor}` }}
                     >
-                      {/* {day.value3} */}
                       {day.value3 ?? "--"}
                     </span>
                   </div>
