@@ -94,118 +94,12 @@ interface IProps {
 
 const Status: FC<IProps> = ({overview}) => {
   const [error, setError] = useState<any>();
-  const [dimensions, setDimensions] = useState<any>();
   const [days, setDays] = useState<any>([]);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [drawerOpen2, setDrawerOpen2] = useState<boolean>(false);
   const [drawerTitle, setDrawerTitle] = useState("");
   const dashboardContext = useContext(DashboardContext);
   const navigate = useNavigate();
-
-  const roundOff = (str: string) => {
-    const floatValue = parseFloat(str); 
-    if (!isNaN(floatValue)) {
-      const roundedValue = floatValue.toFixed(2); 
-      const formattedString = roundedValue + "%"; 
-      return formattedString;
-    } else {
-      return ''
-    }
-  }
-
-  const getUserDimensions = () => {
-      const daysArray: any = [];
-      let daysObj: any;
-      dashboardContext?.lifestyleDimensions?.forEach((element: any) => {
-        if(element.name == 'Sleep'){
-          daysObj = {
-            title: element.name,
-            icon: element.dimension_emoji,
-            bg: '/assets/images/cur8-sleep.svg',
-            btnColor: 'F0ECE7',
-            subtitle1: element.data_value_list[0].name,
-            value1: element.data_value_list[0].value,
-            subtitle2: element.data_value_list[1].name,
-            value2: element.data_value_list[1].value,
-            subtitle3: element.data_value_list[2].name,
-            value3: roundOff(element.data_value_list[2].value),
-            subtitleColor: 'FEFBF1',
-            valueColor: 'EFB7A8',
-            shadow: '0px 4px 0px 0px #8AA4EC',
-          }
-          daysArray[0] = daysObj;
-        } else if(element.name == 'Movement') {
-            daysObj = {
-              title: element.name,
-              icon: element.dimension_emoji,
-              bg: '/assets/images/cur8-movement.svg',
-              btnColor: 'F0ECE7',
-              subtitle1: element.data_value_list[0].name,
-              value1: element.data_value_list[0].value,
-              subtitle2: element.data_value_list[1].name,
-              value2: element.data_value_list[1].value,
-              subtitle3: element.data_value_list[2].name,
-              value3: element.data_value_list[2].value,
-              subtitleColor: 'FEFBF1',
-              valueColor: '204ECF',
-              shadow: '0px 4px 0px 0px #204ECF',
-            }
-            daysArray[1] = daysObj;
-        } else if(element.name == 'Mental Wellbeing'){
-            daysObj = {
-              title: element.name,
-              icon: element.dimension_emoji,
-              bg: '/assets/images/cur8-mental-wellbeing.svg',
-              btnColor: '204ECF',
-              subtitle1: element.data_value_list[0].name,
-              value1: roundOff(element.data_value_list[0].value),
-              subtitle2: element.data_value_list[1].name,
-              value2: roundOff(element.data_value_list[1].value),
-              subtitle3: element.data_value_list[2].name,
-              value3: roundOff(element.data_value_list[2].value),
-              subtitleColor: '83A5F2',
-              valueColor: '204ECF',
-              shadow: '0px 4px 0px 0px #F9A197',
-            }
-            daysArray[2] = daysObj;
-        } else if(element.name == 'Nutrition') {
-            daysObj = {
-              title: element.name,
-              icon: element.dimension_emoji,
-              bg: '/assets/images/cur8-nutrition.svg',
-              btnColor: 'EA9836',
-              subtitle1: element.data_value_list[0].name,
-              value1: element.data_value_list[0].value,
-              subtitle2: element.data_value_list[1].name,
-              value2: roundOff(element.data_value_list[1].value),
-              subtitle3: element.data_value_list[2].name,
-              value3: roundOff(element.data_value_list[2].value),
-              subtitleColor: 'F9A197',
-              valueColor: 'EA9836',
-              shadow: '0px 4px 0px 0px #EA9836',
-            }
-            daysArray[3] = daysObj;
-        } else {
-            daysObj = {
-              title: element.name,
-              icon: element.dimension_emoji,
-              bg: '/assets/images/cur8-poductivity.svg',
-              btnColor: '204ECF',
-              subtitle1: element.data_value_list[0].name,
-              value1: element.data_value_list[0].value,
-              subtitle2: element.data_value_list[1].name,
-              value2: element.data_value_list[1].value,
-              subtitle3: element.data_value_list[2].name,
-              value3: element.data_value_list[2].value,
-              subtitleColor: '204ecfb3',
-              valueColor: '204ECF',
-              shadow: '0px 4px 0px 0px #9DD7B4',
-            }
-            daysArray[4] = daysObj;
-        }
-      });
-      setDays(daysArray);
-  };
 
   const getInteractionByType = (type: string) => {
     invokeInteractionServiceByType(type)
@@ -225,8 +119,8 @@ const Status: FC<IProps> = ({overview}) => {
   };
 
   useEffect(() => {
-    getUserDimensions();
-  }, []);
+    setDays(dashboardContext?.lifestyleDimensions);
+  }, [dashboardContext]);
 
   useEffect(() => {
     if (error) throw error;

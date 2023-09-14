@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Button } from 'antd';
 import Layout from 'layouts/Layout';
 import { Spin } from 'antd';
@@ -14,12 +14,12 @@ import useLocalStorage from 'hooks/useLocalStorage';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 
 const DashboardNew = () => {
+  const navigate = useNavigate();
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>('');
+  const [username, setUsername] = useState<string | null>(null);
   const [overview, setOverview] = useState<IOverview>();
-  const navigate = useNavigate();
   const [isOnboarding] = useLocalStorage("isOnboarding");
   const context = useContext<AuthContextData | undefined>(AuthContext);
 
