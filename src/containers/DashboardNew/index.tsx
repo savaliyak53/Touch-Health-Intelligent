@@ -27,10 +27,18 @@ const DashboardNew = () => {
     window.scrollTo(0, 0);
     setLoading(true);
     const id = context?.user;
-    Promise.all([getOverview(), getUser(id)])
+    const username = sessionStorage.getItem('username');
+    const promises = [getOverview()];
+    if (id && !username) {
+      promises.push(getUser(id))
+    } else if (username) {
+      setUsername(username);
+    }
+    Promise.all(promises)
       .then(([overviewData, userData]) => {
         if (userData?.status === 200 && userData.data && userData.data.name) {
           setUsername(userData.data.name);
+          sessionStorage.setItem('username', userData.data.name);
         }
         if (overviewData?.status === 200 && overviewData.data) {
           setOverview(overviewData.data)
