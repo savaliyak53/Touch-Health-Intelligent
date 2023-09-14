@@ -6,6 +6,7 @@ import { dateFormatted } from '../../utils/lib';
 import PredictionGraph from "../../components/PredictionGraph";
 import TemporaryBackground from "../../components/PredictionGraph/TemporaryBackground";
 import { useSearchParams } from 'react-router-dom';
+import ArrowIcon from 'components/Icons/ArrowIcon';
 
 type influencerDataTypes = {
   name: string;
@@ -96,8 +97,8 @@ const Prediction = () => {
     <Layout defaultHeader={false} hamburger={false} withoutMargin={true}>
       <section className='h-screen'>
         <section className='pt-[100px] pb-[40px] bg-primary-delft-dark relative'>
-          <div className='absolute top-4 left-3 z-10'>
-            <img src="/assets/icons/blue-arrow-left.svg" alt='back' className='h-[22px] cursor-pointer grayscale invert' onClick={() => navigate("/dashboard")}/>
+          <div onClick={() => navigate("/dashboard")} className='absolute top-4 left-3 z-10 cursor-pointer'>
+            <ArrowIcon color='#ffffff80'  className="inline mr-2"/><span className='text-[14px] text-[#ffffff80]'>Back</span>
           </div>
           <div className='h-6 w-6 bg-[#ffffff80] rounded-full m-auto'>
             <span className='text-[12px] flex justify-center items-center h-full'>{influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.emoji || null}</span>

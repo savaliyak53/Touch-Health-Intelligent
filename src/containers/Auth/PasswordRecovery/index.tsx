@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { checkAnswer, getSecurityQuestions, postResetPassword, requestPhoneOTP } from 'services/authservice';
 import { onlyNumbers } from 'utils/lib';
 import { toast } from 'react-toastify';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const PasswordRecovery: React.FC = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const PasswordRecovery: React.FC = () => {
   const [question, setQuestion] = useState<string>('');
   const [answer, setAnswer] = useState<string>('');
 
-  const refCaptcha = useRef<any>(null);
+  const refCaptcha = useRef<ReCAPTCHA>(null);
 
   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
     if (!changePassword) {
@@ -131,7 +132,7 @@ const PasswordRecovery: React.FC = () => {
       sessionStorage.setItem('username', username);
     }
 
-    requestPhoneOTP(onlyNumbers(username), token)
+    requestPhoneOTP(onlyNumbers(username), token || '')
       .then((res: any) => {
         if (res && res.status === 200) {
           setEnterNumber(false);

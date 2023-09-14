@@ -5,12 +5,13 @@ import { Spin } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import Drawer from 'components/Modal/Drawer';
 import Status from '../Status';
-import {getPreference, invokeInteractionServiceByType} from 'services/authservice';
+import { getUser, invokeInteractionServiceByType } from 'services/authservice';
 import {getPartOfDay} from 'helpers/time';
 import {IOverview} from 'interfaces';
 import EntityListWidget from 'components/Widgets/EntityListWidget';
 import { getOverview } from 'services/dashboardservice';
 import useLocalStorage from 'hooks/useLocalStorage';
+import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 
 const DashboardNew = () => {
   const navigate = useNavigate();
@@ -20,14 +21,24 @@ const DashboardNew = () => {
   const [username, setUsername] = useState(null);
   const [overview, setOverview] = useState<IOverview>();
   const [isOnboarding] = useLocalStorage("isOnboarding");
+  const context = useContext<AuthContextData | undefined>(AuthContext);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setLoading(true);
-    Promise.all([getOverview(), getPreference()])
+    const id = context?.user;
+    const username = sessionStorage.getItem('username');
+    const promises = [getOverview()];
+    if (id && !username) {
+      promises.push(getUser(id))
+    } else if (username) {
+      setUsername(username);
+    }
+    Promise.all(promises)
       .then(([overviewData, userData]) => {
-        if (userData?.status === 200 && userData.data && userData.data.username) {
-          setUsername(userData.data.username);
+        if (userData?.status === 200 && userData.data && userData.data.name) {
+          setUsername(userData.data.name);
+          sessionStorage.setItem('username', userData.data.name);
         }
         if (overviewData?.status === 200 && overviewData.data) {
           setOverview(overviewData.data)

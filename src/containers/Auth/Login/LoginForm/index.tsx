@@ -6,8 +6,6 @@ import {
   onlyNumbers,
 } from 'utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
-import FloatLabel from 'components/FloatLabel';
-
 import AccountLockModal from 'components/Modal/AccountLockModal';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import { getSession, getUser } from 'utils/lib';
@@ -17,7 +15,7 @@ import TouchInput from 'components/TouchInput';
 import TouchButton from 'components/TouchButton';
 
 const LoginForm: React.FC = () => {
-  const refCaptcha = useRef<any>(null)
+  const refCaptcha = useRef<ReCAPTCHA>(null)
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -45,13 +43,13 @@ const LoginForm: React.FC = () => {
       setIsLoading(true);
       setIsDisabled(true);
 
-      const token = refCaptcha.current.getValue();
-      refCaptcha.current.reset();
+      const token = refCaptcha?.current?.getValue();
+      refCaptcha?.current?.reset();
 
       const loginResponse = await loginUser(
         onlyNumbers(username),
         password,
-        token
+        token || ''
       );
 
       if (loginResponse?.token) {

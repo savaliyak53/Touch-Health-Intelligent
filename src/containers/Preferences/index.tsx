@@ -20,6 +20,7 @@ import { deleteAllData } from 'services/goalsService';
 import { toast } from 'react-toastify';
 import useLocalStorage from 'hooks/useLocalStorage';
 import TouchInput from 'components/TouchInput';
+import InformIcon from 'components/Icons/InformIcon';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -44,7 +45,7 @@ interface LocationState {
 const Preferences = () => {
   const [loading, setloading] = useState(false);
   const [enable, setEnabled] = useState<boolean>(false);
-  const [username, setUsername] = useState<any>('');
+  const [username, setUsername] = useState<string>('');
   const [previousUsername, setPreviousUsername] = useState<any>('');
   const [checked, setChecked] = useState<boolean>();
   const [yob, setYob] = useState<any>('');
@@ -57,6 +58,7 @@ const Preferences = () => {
   const [loc, setLocation] = useState<LocationState>();
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [value, setIsOnboarding] = useLocalStorage("isOnboarding");
+  const [usernameError, setUsernameError] = useState<string>('');
 
   useEffect(() => {
     let deferredPrompt: BeforeInstallPromptEvent | null;
@@ -125,7 +127,7 @@ const Preferences = () => {
       });
   };
   const handleNext = () => {
-    if (username !== '') {
+    if (username) {
       updatePreference({
         username : username
         })
@@ -177,6 +179,21 @@ const Preferences = () => {
         });
       });
   };
+  const checkErrorUsername = (value: string) => {
+    if (!value) {
+      setUsernameError('Username is required.')
+      return;
+    } else if (value.length > 24) {
+      setUsernameError('Username can have maximum 24 characters.')
+      return;
+    }
+    setUsernameError('')
+  }
+
+  const handleChangeUserName = (value: string) => {
+    setUsername(value);
+    checkErrorUsername(value);
+  }
 
   const handleDeleteModal = () => {
     setShowCancelModal(false);
@@ -264,25 +281,20 @@ const Preferences = () => {
                   overlayStyle={{ marginRight: '10px' }}
                   mouseLeaveDelay={0}
                 >
-                  <AiOutlineQuestionCircle
-                    size={30}
-                    className="question-help ml-2 mb-2"
-                  />
+                  <span>
+                    <InformIcon  className="ml-2 cursor-pointer" />
+                  </span>
                 </Tooltip>
               </h3>
                 <TouchInput
                   className='my-3'
+                  errorMessage={usernameError}
+                  resetError={setUsernameError}
+                  checkError={checkErrorUsername}
                   type='text'
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)} />
+                  onChange={(e) => handleChangeUserName(e.target.value)} />
             </div>
-            {username.length > 24 && (
-              <span className={styles['Username-error-msg']}>
-                <InfoCircleOutlined /> Username cannot be longer than 24
-                characters.
-              </span>
-            )}
-
             <div>
               <h3
                 className={'Heading Heading-color1 flex flex-row items-start'}
@@ -297,10 +309,9 @@ const Preferences = () => {
                   overlayStyle={{ marginRight: '10px' }}
                   mouseLeaveDelay={0}
                 >
-                  <AiOutlineQuestionCircle
-                    size={30}
-                    className="question-help ml-2 mb-2"
-                  />
+                  <span>
+                    <InformIcon  className="ml-2 cursor-pointer" />
+                  </span>
                 </Tooltip>
               </h3>
               <Button
@@ -336,7 +347,7 @@ const Preferences = () => {
                 <Button
                   className={`rounded-full h-auto p-5 pl-14 pr-14 bg-primary-delft-dark text-white text-lg leading-6 font-normal border-none m-auto mt-5 mb-5 flex justify-center whitespace-pre-line w-full hover:bg-buttongradient hover:text-white`}
                   onClick={handleNext}
-                  disabled={username.length > 24}
+                  disabled={username.length > 24 || !username}
                 >
                   Save
                 </Button>

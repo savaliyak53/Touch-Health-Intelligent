@@ -17,7 +17,7 @@ const RecaptchaModal = ({
   resendOTP,
   setOpenRecaptcha
 }: IProps) => {
-const refCaptcha = useRef<any>(null)
+const refCaptcha = useRef<ReCAPTCHA>(null)
   return (
     <Modal
       title={title}
@@ -40,8 +40,8 @@ const refCaptcha = useRef<any>(null)
           sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}           
           onChange={async ()=>{
             const token = refCaptcha?.current?.getValue();
-            refCaptcha.current.reset();
-            localStorage.setItem("recaptcha-token", token)
+            refCaptcha?.current?.reset();
+            localStorage.setItem("recaptcha-token", token || '')
             await resendOTP()
             setOpenRecaptcha(false)
            } } 
