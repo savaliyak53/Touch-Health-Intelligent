@@ -98,3 +98,14 @@ export const validateNumber = (num: string) => {
   if(num.charAt(0) !== '+') return '+' + num
   else return num
 }
+
+export const roundOff = (str: string) => {
+  const floatValue = parseFloat(str); 
+  if (!isNaN(floatValue)) {
+    const roundedValue = floatValue.toFixed(2); 
+    const formattedString = roundedValue + "%"; 
+    return formattedString;
+  } else {
+    return ''
+  }
+}

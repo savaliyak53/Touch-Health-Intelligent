@@ -5,7 +5,7 @@ import SocketContext from "../contexts/SocketContext";
 import { socketMessageType, socketNotificationTypes } from "interfaces";
 import DashboardContext from "contexts/DashboardContext";
 import { socketPath } from "./../constants";
-import { conditionDimensionsInfluencer, lifestyleDimensionsInfluencer } from "helpers/socketHelper";
+import { conditionDimensionsInfluencer, lifestyleDimensions, lifestyleDimensionsInfluencer } from "helpers/socketHelper";
 
 const ENDPOINT = process.env.REACT_APP_SOCKET_HOST || "";
 
@@ -32,6 +32,9 @@ const useSocket = () => {
         break;
       case socketPath.CONDITON_DIMENSION_INFLUENCERS: 
         conditionDimensionsInfluencer(message.payload.body, dashboardContextData)
+        break;
+      case socketPath.LIFESTYLE_DIMENSION: 
+        lifestyleDimensions(message.payload.body, dashboardContextData)
         break;
       default:
         break;
