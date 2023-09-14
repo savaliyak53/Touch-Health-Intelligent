@@ -65,7 +65,7 @@ const SecurityQuestions = () => {
           if (response.data.id) {
             toast.success('Security Question saved successfully');
             setLoading(false);
-            navigate('/');
+            navigate('/questionnaire');
           }
         })
         .catch((error) => {

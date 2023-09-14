@@ -20,6 +20,7 @@ interface IProps {
   handleOTPRequest: (boolean: boolean) => void;
   disableSubmit: boolean;
   isLoading: boolean;
+  afterSignUp?: boolean;
   refCaptcha: React.MutableRefObject<any>;
 }
 
@@ -46,7 +47,8 @@ const CodeEnterStep: React.FC<IProps> = ({
   handleOTPRequest,
   disableSubmit,
   refCaptcha,
-  isLoading
+  isLoading,
+  afterSignUp
 }) => {
   const [modalOpen, setModalOpen] = useState(true);
   const [enableTimer, setEnableTimer] = useState(true);
@@ -112,8 +114,8 @@ const CodeEnterStep: React.FC<IProps> = ({
 
   return (
     <>
-      <form onSubmit={onSubmitCode} className='flex flex-col items-center justify-center'>
-        <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>Verification code</h1>
+      <form onSubmit={onSubmitCode} className='flex flex-col items-center justify-center min-w-[304px]'>
+        {!afterSignUp && <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>Verification code</h1>}
         <ReactCodeInput
           className='!flex justify-between flex-wrap w-full react-code-input'
           inputStyle={codInputStyle}
@@ -164,7 +166,7 @@ const CodeEnterStep: React.FC<IProps> = ({
       <ConfirmModal
         title={'Confirmation'}
         open={modalOpen}
-        isAuth={true}
+        isAuth={!afterSignUp}
         handleCancel={() => setModalOpen(false)}
         handleOk={() => setModalOpen(false)}>
         <div className="text-3 text-oldBurgundy leading-[23px] text-left">

@@ -1,55 +1,31 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import React, { useEffect, useState, useContext, useRef } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { useNavigate } from 'react-router-dom';
-import styles from './Verification.module.scss';
 import { toast } from 'react-toastify';
-import Button from 'components/Button';
 import ConfirmModal from 'components/Modal/ConfirmModal';
 import Layout from 'layouts/Layout';
-import { Tooltip } from 'antd';
-import ReactCodeInput from 'react-code-input';
 import { requestPhoneOTP, verifyPhoneOTP } from 'services/authservice';
-import { useTimer } from 'react-timer-hook';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
-import { getUser, getSession } from 'utils/lib';
-
-type IVerificationCode = {
-  code: string;
-};
+import { getUser, getSession, onlyNumbers } from 'utils/lib';
+import CodeEnterStep from 'containers/Auth/PasswordRecovery/CodeEnterStep';
+import TouchButton from 'components/TouchButton';
+import TouchModal from 'components/Modal/TouchModal';
 
 const Verification = () => {
-  const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [finishStatus, setfinishStatus] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [enableTimer, setEnableTimer] = useState(true);
-  const [disableSubmit, setDisableSubmit] = useState(true);
-  const [error, setError] = useState<any>();
+  const refCaptcha = useRef<ReCAPTCHA>(null);
   const authContext = useContext<AuthContextData | undefined>(AuthContext);
 
-  const time = new Date();
-  time.setSeconds(time.getSeconds() + 60);
-  const expiryTimestamp = time;
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<IVerificationCode>({
-    mode: 'onSubmit',
-    shouldFocusError: true,
-    shouldUnregister: false,
-  });
+  const [finishStatus, setfinishStatus] = useState(false);
+  const [openErrorModal, setOpenErrorModal] = useState(false);
+  const [error, setError] = useState<any>();
+  const [code, setCode] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [disableSubmit, setDisableSubmit] = useState(true);
 
-  const { seconds, minutes, restart } = useTimer({
-    expiryTimestamp,
-    onExpire: () => {
-      setEnableTimer(false);
-      setIsDisabled(false);
-    },
-  });
+  const userId = localStorage.getItem('userId');
+  const phone = localStorage.getItem('phone');
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -57,27 +33,22 @@ const Verification = () => {
       navigate('/');
     }
     pageBackEvent();
-    sendPhoneOTP();
+    handleOTPRequest();
   }, []);
 
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
-  const onSubmit = async (data: any) => {
+  const onSubmit = async () => {
     if (userId) {
-      setIsVerifying(true);
+      setIsLoading(true);
       const phoneVerificationResponse: any = await verifyPhoneOTP(
-        data.code,
+        code,
         userId
       );
       if (phoneVerificationResponse?.data?.id) {
-        setIsVerifying(false);
+        setIsLoading(false);
         toast.dismiss();
         authContext?.setAuthTokens(phoneVerificationResponse.data.token);
         authContext?.setUser(getUser(phoneVerificationResponse.data.token));
-        authContext?.setSession(
-          getSession(phoneVerificationResponse.data.token)
-        );
+        authContext?.setSession(getSession(phoneVerificationResponse.data.token));
         localStorage.setItem(
           'sessionId',
           getSession(phoneVerificationResponse.data.token)
@@ -86,20 +57,20 @@ const Verification = () => {
         toast.success('Verified');
         navigate('/security');
       } else if (phoneVerificationResponse?.response?.status === 409) {
-        const phone = localStorage.getItem('phone');
         navigate('/existing-user', {
           state: {
             username: phone,
-            code: data.code,
+            code: code,
           },
         });
-        setIsVerifying(false);
+        setIsLoading(false);
       } else {
         setError({
           code: phoneVerificationResponse.response.status,
           message: phoneVerificationResponse.response.data.details,
         });
-        setIsVerifying(false);
+        setOpenErrorModal(true);
+        setIsLoading(false);
       }
     }
   };
@@ -109,53 +80,6 @@ const Verification = () => {
     localStorage.removeItem('token');
     localStorage.clear();
     navigate('/login');
-  };
-  const sendPhoneOTP = async () => {
-    // api call to send phone otp
-    const phone = localStorage.getItem('phone');
-    const captchaToken = localStorage.getItem('captchaToken');
-    setIsLoading(true);
-    if (phone && captchaToken) {
-      const phoneRequestResponse: any = await requestPhoneOTP(
-        phone,
-        captchaToken
-      );
-      if (phoneRequestResponse.code === 'ERR_BAD_REQUEST') {
-        if (phoneRequestResponse.response.status == 422) {
-          const remaining_time =
-            phoneRequestResponse?.response?.data.details.match(/\d+/g);
-          if (remaining_time) {
-            const t = new Date();
-            t.setSeconds(t.getSeconds() + parseInt(remaining_time[0]));
-            restart(t);
-          } else {
-            setError({
-              code: phoneRequestResponse.response.status,
-              message: phoneRequestResponse.response.data.details,
-            });
-          }
-        } else {
-          setError({
-            code: phoneRequestResponse.response.status,
-            message: phoneRequestResponse.response.data.details,
-          });
-        }
-      } else {
-        onResendCode();
-      }
-      setIsLoading(false);
-      return false;
-    } else {
-      onResendCode();
-    }
-  };
-
-  const onResendCode = () => {
-    setIsLoading(false);
-    setModalOpen(true);
-    setEnableTimer(true);
-    setIsDisabled(true);
-    restart(time);
   };
 
   const pageBackEvent = () => {
@@ -179,78 +103,55 @@ const Verification = () => {
     pageBackEvent();
   }
 
+  const handleOTPRequest = (isResendOTP = false): void => {
+    setIsLoading(true);
+    const token = isResendOTP
+      ? localStorage.getItem('recaptcha-token')
+      : localStorage.getItem('captchaToken');
+
+    if (!onlyNumbers(phone || '') || !token) {
+      setIsLoading(false);
+      return;
+    }
+
+    requestPhoneOTP(onlyNumbers(phone || ''), token)
+      .then((res: any) => {
+        if (res && res.status !== 200) {
+          if (
+            res &&
+            res.response &&
+            res.response.data &&
+            res.response.data.details
+          ) {
+            toast.error(res.response.data.details || 'Error');
+          } else {
+            toast.error('Something went wrong, try later.');
+          }
+        }
+      })
+      .catch((error) => {
+        toast.error(error?.response?.data?.details || 'Error');
+      })
+      .finally(() => {
+        setIsLoading(false);
+        refCaptcha?.current?.reset();
+      });
+  };
+
   return (
     <Layout defaultHeader={true} hamburger={false} title={'Verification code'} mobileHeight={true}>
-      <div className={styles['Verification-wrap']}>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className={styles['Verification-form']}
-        >
-          <Controller
-            control={control}
-            name="code"
-            rules={{
-              validate: (value) => {
-                return value && value.length === 6
-                  ? true
-                  : !value
-                  ? 'Verification code is required'
-                  : 'Invalid verification code';
-              },
-            }}
-            render={({ field: { onChange, value, name } }) => (
-              <ReactCodeInput
-                // className={styles["box"]}
-                name={name}
-                inputMode="numeric"
-                fields={6}
-                type="number"
-                onChange={(value) => {
-                  onChange(value);
-                  setDisableSubmit(false);
-                }}
-                value={value}
-              />
-            )}
-          />
-          <Tooltip
-            color="orange"
-            placement="bottom"
-            title={errors.code?.message}
-            open={errors.code ? true : false}
-          />
-          <Button
-            onClick={handleSubmit(onSubmit)}
-            className="Submit-Button"
-            loading={isVerifying}
-            disabled={disableSubmit}
-          >
-            Verify
-          </Button>
-          <button
-            onClick={sendPhoneOTP}
-            className={isDisabled ? styles['grey'] : styles['resend']}
-            type="button"
-            disabled={isDisabled}
-          >
-            Resend code&nbsp;
-            {enableTimer && (
-              <span>
-                in&nbsp;{minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-              </span>
-            )}
-          </button>
-        </form>
-        <ConfirmModal
-          title={'Confirmation'}
-          open={modalOpen}
-          handleCancel={() => setModalOpen(false)}
-          handleOk={() => setModalOpen(false)}>
-          <div className="text-3 text-oldBurgundy leading-[23px] text-left">
-            We just sent a text to your number, confirm this is you by putting
-            in the code you received here
-          </div>
-        </ConfirmModal>
+      <div className='flex flex-col items-center'>
+        <CodeEnterStep
+          code={code}
+          setCode={setCode}
+          onSubmitCode={onSubmit}
+          isLoading={isLoading}
+          setDisableSubmit={setDisableSubmit}
+          handleOTPRequest={handleOTPRequest}
+          disableSubmit={disableSubmit}
+          refCaptcha={refCaptcha}
+          afterSignUp={true}
+        />
         <ConfirmModal
           title={'Confirmation'}
           open={finishStatus}
@@ -260,6 +161,21 @@ const Verification = () => {
             Are you sure you want to navigate away from this page?
           </div>
         </ConfirmModal>
+        <TouchModal setClose={setOpenErrorModal} isOpen={openErrorModal}>
+          <div className='flex flex-col w-full my-[50px] px-[20px]'>
+            <h3 className='text-[18px] mb-10 leading-[22px] flex items-center font-tilt-warp text-primary-delft-dark opacity-90'>
+              Error
+            </h3>
+            <div className='text-3 text-oldBurgundy leading-[23px] text-left'>
+              {error ? error.message : ''}
+            </div>
+          </div>
+          <div className='mx-[25px] mb-[33px] px-10'>
+            <TouchButton type={'default'} onClick={() => setOpenErrorModal(false)}>
+              OK
+            </TouchButton>
+          </div>
+        </TouchModal>
       </div>
     </Layout>
   );
