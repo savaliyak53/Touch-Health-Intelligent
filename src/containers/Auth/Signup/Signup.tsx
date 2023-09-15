@@ -7,7 +7,7 @@ import TouchButton from 'components/UI/TouchButton';
 import useLocalStorage from 'hooks/useLocalStorage';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import { onlyNumbers } from 'utils/lib';
-import InputGroup from 'containers/Auth/Signup/InputGroup';
+import InputGroup from 'components/InputGroup';
 
 const SignUp: React.FC = () => {
   const refCaptcha = useRef<ReCAPTCHA>(null)

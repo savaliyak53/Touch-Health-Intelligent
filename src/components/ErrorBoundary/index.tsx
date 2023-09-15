@@ -29,6 +29,7 @@ class ErrorBoundary extends React.Component<any> {
         }
         localStorage.removeItem('userId');
         localStorage.removeItem('token');
+        sessionStorage.removeItem('un-dash');
         localStorage.clear();
       } else if (error.code >= 400 && error.code < 500 && error.code !== 401) {
         if (error.message === 'Verification code expired, please request a new one') {
