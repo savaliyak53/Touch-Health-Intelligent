@@ -94,7 +94,8 @@ const Index = ({
         setLoading(false);
         if (
           res?.data?.data?.trialData?.trialEndDate &&
-          moment(res?.data?.data?.trialData?.trialEndDate).isAfter(moment())
+          moment(res?.data?.data?.trialData?.trialEndDate).isAfter(moment()) &&
+          res?.data?.state !== 'subscription_active'
         ) {
           setTrialRemaining(res?.data?.data?.trialData?.trialRemaining);
         } else if (
