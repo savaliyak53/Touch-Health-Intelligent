@@ -19,15 +19,15 @@ const HelpAndSupport = () => {
     <Layout defaultHeader={true} hamburger={true} title={'Get in Touch!'}>
       <div className="Content-wrPArCon mt-5">
         <div className='text-base font-normal leading-7 text-justify'>
-          <Paragraph>We are here to help.</Paragraph>
+          <Paragraph>🌟 We&apos;re Here to Help! 🌟</Paragraph>
           <Space/>
-          <Paragraph>If you have any questions, ask us!</Paragraph>
+          <Paragraph>Need answers to technical puzzles? We&apos;ve got the solutions! 🧩</Paragraph>
           <Space/>
-          <Paragraph>If you have feedback, enlighten us!</Paragraph>
+          <Paragraph>We cherish your input! Share your valuable feedback to help us shine even brighter! 💡</Paragraph>
           <Space/>
-          <Paragraph>Reach out in the chat bubble 💬 at the bottom of the page.</Paragraph>
+          <Paragraph>Simply click the chat bubble 💬 at the bottom of the page, and we&apos;ll be right there to provide the assistance you need in a flash! ⚡</Paragraph>
           <Space/>
-          <Paragraph>We are here Monday to Friday from 11:00 AM to 7:00 PM EDT. After hours, just drop us a message and you will be our first priority when we get back.</Paragraph>
+          <Paragraph>And don&apos;t forget, our customer support team is available Monday to Friday, responding ASAP. If it&apos;s the weekend, leave a message, and we&apos;ll be on it first thing on the next workday. Your happiness is our priority, no matter the day. Thanks for choosing us! 🚀📞🌟💬</Paragraph>
           <Space/> 
         </div>
  

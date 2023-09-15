@@ -106,6 +106,6 @@ export const roundOff = (str: string) => {
     const formattedString = roundedValue + "%"; 
     return formattedString;
   } else {
-    return ''
+    return null;
   }
 }
