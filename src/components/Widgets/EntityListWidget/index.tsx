@@ -122,7 +122,7 @@ const EntityListWidget: FC<IProps> = ({type}) => {
                               } w-6 h-6 rounded-[50%] bg-rae flex items-center justify-center text-[14px]`}
                             >
 
-                              {prediction.emoji}
+                              {prediction.emoji ? prediction.emoji : '❔'}
                             </span>
                             </p>
                             <p
