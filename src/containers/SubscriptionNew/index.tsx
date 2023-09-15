@@ -20,9 +20,9 @@ import {
   updatePreference,
 } from 'services/authservice';
 import { ISubscriptionStateDataResponse } from './Interfaces';
-import ConfirmModal from 'components/Modal/ConfirmModal';
-import FreeTrialModal from 'components/Modal/FreeTrial';
-import PriceModal from 'components/Modal/PriceModal';
+import ConfirmModal from 'components/UI/Modal/ConfirmModal';
+import FreeTrialModal from 'components/UI/Modal/FreeTrial';
+import PriceModal from 'components/UI/Modal/PriceModal';
 import {
   LoadingOutlined,
   InfoCircleOutlined,

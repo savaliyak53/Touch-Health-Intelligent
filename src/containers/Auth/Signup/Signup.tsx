@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthLayout from 'layouts/AuthLayout';
-import TouchInput from 'components/TouchInput';
+import TouchInput from 'components/UI/TouchInput';
 import ReCAPTCHA from 'react-google-recaptcha';
-import TouchButton from 'components/TouchButton';
+import TouchButton from 'components/UI/TouchButton';
 import useLocalStorage from 'hooks/useLocalStorage';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import { onlyNumbers } from 'utils/lib';

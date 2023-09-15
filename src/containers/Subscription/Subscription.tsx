@@ -19,7 +19,7 @@ import { Card } from 'antd';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router';
 import { dateFormatRenewal, sleep } from 'utils/lib';
-import ConfirmModal from 'components/Modal/ConfirmModal';
+import ConfirmModal from 'components/UI/Modal/ConfirmModal';
 import { ISubscriptionPlan, IUserSubscription } from './Interfaces';
 import { Link } from 'react-router-dom';
 import { LoadingOutlined, InfoCircleOutlined } from '@ant-design/icons';

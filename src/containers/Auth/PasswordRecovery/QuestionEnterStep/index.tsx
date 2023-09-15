@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
-import TouchInput from 'components/TouchInput';
-import TouchDropdown from 'components/TouchDropdown';
-import TouchButton from 'components/TouchButton';
+import TouchInput from 'components/UI/TouchInput';
+import TouchDropdown from 'components/UI/TouchDropdown';
+import TouchButton from 'components/UI/TouchButton';
 
 interface IProps {
   confirmAnswer: () => void;

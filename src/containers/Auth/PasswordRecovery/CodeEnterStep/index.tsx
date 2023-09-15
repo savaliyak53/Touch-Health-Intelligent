@@ -9,8 +9,8 @@ import { useTimer } from 'react-timer-hook';
 import ReCAPTCHA from 'react-google-recaptcha';
 import ReactCodeInput from 'react-code-input';
 import { Tooltip } from 'antd';
-import ConfirmModal from 'components/Modal/ConfirmModal';
-import TouchButton from 'components/TouchButton';
+import ConfirmModal from 'components/UI/Modal/ConfirmModal';
+import TouchButton from 'components/UI/TouchButton';
 
 interface IProps {
   code: string | undefined;

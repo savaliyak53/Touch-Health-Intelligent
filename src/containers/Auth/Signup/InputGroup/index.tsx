@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import TouchInput from 'components/TouchInput';
-import PhoneInput from 'components/PhoneInput';
+import TouchInput from 'components/UI/TouchInput';
+import PhoneInput from 'components/UI/PhoneInput';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 
 interface IProps {

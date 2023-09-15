@@ -1984,3 +1984,26 @@
 .LogoMobile {
   display: block;
 }
+//Please do not delete this code fragment,
+//even though it looks useless,
+//it is actually a solution to the problem with
+//autocomplete overlapping in inputs.
+:-webkit-autofill {
+  animation-name: onAutoFillStart;
+}
+:not(:-webkit-autofill) {
+  animation-name: onAutoFillCancel;
+}
+@keyframes onAutoFillStart {
+  from {
+  }
+  to {
+  }
+}
+@keyframes onAutoFillCancel {
+  from {
+  }
+  to {
+  }
+}
+//finish here

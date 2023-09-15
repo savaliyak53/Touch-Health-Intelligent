@@ -1,5 +1,5 @@
 import React from 'react'
-import ErrorModal from '../Modal/ErrorModal';
+import ErrorModal from '../UI/Modal/ErrorModal';
 
 class ErrorBoundary extends React.Component<any> {
       state = {
