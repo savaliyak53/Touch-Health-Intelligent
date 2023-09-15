@@ -1,7 +1,7 @@
 import React, { useEffect, FC } from 'react';
 import { useNavigate } from 'react-router';
 import Layout from 'layouts/Layout';
-import TouchButton from 'components/TouchButton';
+import TouchButton from 'components/UI/TouchButton';
 
 const TermsAndCondtions: FC = () => {
   const navigate = useNavigate();

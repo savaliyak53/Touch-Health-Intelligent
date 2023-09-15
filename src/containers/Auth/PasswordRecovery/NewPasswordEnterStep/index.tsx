@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TouchButton from 'components/TouchButton';
+import TouchButton from 'components/UI/TouchButton';
 import InputGroup from 'components/InputGroup';
 
 interface IProps {

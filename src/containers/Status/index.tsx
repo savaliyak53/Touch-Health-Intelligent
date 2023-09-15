@@ -3,7 +3,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from 'react-responsive-carousel';
 import { getDimensions, getOverview } from 'services/dashboardservice';
 import { Button } from 'antd';
-import Drawer from 'components/Modal/Drawer';
+import Drawer from 'components/UI/Modal/Drawer';
 import { invokeInteractionServiceByType} from 'services/authservice';
 import { useNavigate } from 'react-router-dom';
 import { IDataInteractionServiceByType, ILifeStyleDay, IOverview } from '../../interfaces';

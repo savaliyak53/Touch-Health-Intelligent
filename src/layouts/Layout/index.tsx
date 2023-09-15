@@ -6,9 +6,9 @@ import { useLocation, useNavigate } from 'react-router';
 import { getUser } from 'services/authservice';
 import { getUserSubscription } from 'services/subscriptionService';
 import { signupFlow } from 'utils/lib';
-import ErrorInteractionModal from 'components/Modal/ErrorInteractionModal';
+import ErrorInteractionModal from 'components/UI/Modal/ErrorInteractionModal';
 import AuthContext from 'contexts/AuthContext';
-import ConfirmModal from 'components/Modal/ConfirmModal';
+import ConfirmModal from 'components/UI/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
 import { backButtonPreventionRoutes } from 'Routes/Constants';
 import LogoDesktop from 'components/Icons/LogoDesktop';
@@ -94,7 +94,8 @@ const Index = ({
         setLoading(false);
         if (
           res?.data?.data?.trialData?.trialEndDate &&
-          moment(res?.data?.data?.trialData?.trialEndDate).isAfter(moment())
+          moment(res?.data?.data?.trialData?.trialEndDate).isAfter(moment()) &&
+          res?.data?.state !== 'subscription_active'
         ) {
           setTrialRemaining(res?.data?.data?.trialData?.trialRemaining);
         } else if (

@@ -2,14 +2,14 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import ConfirmModal from 'components/Modal/ConfirmModal';
+import ConfirmModal from 'components/UI/Modal/ConfirmModal';
 import Layout from 'layouts/Layout';
 import { requestPhoneOTP, verifyPhoneOTP } from 'services/authservice';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import { getUser, getSession, onlyNumbers } from 'utils/lib';
 import CodeEnterStep from 'containers/Auth/PasswordRecovery/CodeEnterStep';
-import TouchButton from 'components/TouchButton';
-import TouchModal from 'components/Modal/TouchModal';
+import TouchButton from 'components/UI/TouchButton';
+import TouchModal from 'components/UI/Modal/TouchModal';
 
 const Verification = () => {
   const navigate = useNavigate();
