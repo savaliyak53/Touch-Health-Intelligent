@@ -16,6 +16,7 @@ import useLocalStorage from 'hooks/useLocalStorage';
 const Home = () => {
   const context = useContext<AuthContextData | undefined>(AuthContext);
   const [isOnboarding, setIsOnboarding] = useLocalStorage("isOnboarding");
+  const isShowSubscription = process.env.REACT_APP_IS_SHOW_SUBSCRIPTION === 'TRUE';
 
   const navigate = useNavigate();
   const userId = context?.user;
@@ -111,12 +112,13 @@ const Home = () => {
   const setUserSubscription = (response: any) => {
     getUserSubscription()
       .then((res) => {
-        if (
-          res.data.state == 'trial_expired' ||
-          res.data.state == 'subscription_expired'
+        if (isShowSubscription &&
+          (res.data.state == 'trial_expired' ||
+          res.data.state == 'subscription_expired')
         ) {
           navigate('/subscription');
         } else if (
+          isShowSubscription &&
           response.data.signup_status === 'new' &&
           res.data.standing === null
         ) {
