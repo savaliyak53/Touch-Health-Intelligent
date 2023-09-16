@@ -54,6 +54,7 @@ const Index = ({
   const navigate = useNavigate();
   const location = useLocation();
   // const [openCongratsModal, setOpenCongratsModal] = useState<boolean>(false)
+  const isShowSubscription = process.env.REACT_APP_IS_SHOW_SUBSCRIPTION === 'TRUE';
   const context = useContext(AuthContext);
 
   const checkUserData = () => {
@@ -62,7 +63,11 @@ const Index = ({
       getUser(userId)
         .then((response: any) => {
           if (response.data.security_questions) {
-            setUserSubscription(response);
+            if (isShowSubscription) {
+              setUserSubscription(response);
+            } else {
+              setLoading(false);
+            }
             setSignupStatus(response?.data?.signup_status);
             if (
               response?.data?.signup_status === 'onboarding' &&
@@ -136,7 +141,7 @@ const Index = ({
     if (pathname === '/dashboard') {
       return backButtonContent.dashboardText;
     } else if (
-      (pathname === '/subscription' && !isSubscribed) ||
+      (pathname === '/subscription' && !isSubscribed && isShowSubscription) ||
       (pathname === '/questionnaire' && signupStatus === 'onboarding')
     ) {
       return backButtonContent.preventText;

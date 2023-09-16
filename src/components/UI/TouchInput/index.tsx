@@ -114,6 +114,11 @@ const TouchInput: FC<InputProps> = ({
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+  const handlePaste = (e: any) => {
+    setTimeout(() => {
+      setFocusOrFilled(!!e.target.value)
+    }, 0)
+  }
 
   return (
     <div
@@ -137,6 +142,7 @@ const TouchInput: FC<InputProps> = ({
           onChange={onChange}
           onFocus={onFocus}
           onBlur={onBlur}
+          onPaste={handlePaste}
           disabled={isDisabled}
           className={`${placeholder ? 'pt-[10px]' : 'pt-[5px]'} pr-5 font-medium w-full disabled:cursor-default`}
         />

@@ -326,7 +326,7 @@ const Preferences = () => {
               <DeleteModal
                 open={showCancelModal}
                 handleCancel={handleDeleteModal}
-                handleOk={() => removeUserData()}>
+                handleOk={removeUserData}>
                 <div className='text-3 text-oldBurgundy leading-[23px]'>
                   By deleting your data, your entire health profile in the
                   Touch Health Assistant will cease to exist. No data will be

@@ -30,7 +30,7 @@ const SiteHeader = ({
     streak = 0,
     onBack
   }: Props) => {
-
+  const isShowSubscription = process.env.REACT_APP_IS_SHOW_SUBSCRIPTION === 'TRUE';
   const [BurgerMenu, setBurgerMenu] = useState(false);
   const navigate = useNavigate();
   const authContext = useContext<AuthContextData | undefined>(AuthContext);
@@ -38,7 +38,7 @@ const SiteHeader = ({
   const {logoutUser} = authContext;
   const showTrialBanner =
     !Object.values(trialExceptionRoutes).includes(location.pathname) &&
-    trialRemaining;
+    trialRemaining && isShowSubscription;
 
   const isShowStreak = ():boolean => {
     return !!(streak && streak > 0);
@@ -124,7 +124,7 @@ const SiteHeader = ({
                 <li>
                   <Link to="/preferences">Preferences</Link>
                 </li>
-                {process.env.REACT_APP_IS_BETA !== 'TRUE' && (
+                {process.env.REACT_APP_IS_BETA !== 'TRUE' && isShowSubscription && (
                   <li>
                     <Link to="/subscription">Subscription</Link>
                   </li>

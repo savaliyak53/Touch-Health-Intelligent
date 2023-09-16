@@ -33,6 +33,7 @@ import Guidance from 'containers/Guidance';
 const AppRoutes = () => {
   const location = useLocation();
   const isUserAuthenticated = localStorage.getItem('token');
+  const isShowSubscription = process.env.REACT_APP_IS_SHOW_SUBSCRIPTION === 'TRUE';
 
   useEffect(() => {
     if (location.pathname !== '/help-and-support') {
@@ -73,7 +74,7 @@ const AppRoutes = () => {
             {/*<Route path="/integrations" element={<Integrations />} />*/}
             <Route path="/introvideo" element={<IntroVideo />} />
             <Route path="/manage-devices" element={<ManageDevices />} />
-            <Route path="/subscription" element={<SubscriptionNew />} />
+            {isShowSubscription && <Route path="/subscription" element={<SubscriptionNew />} />}
             <Route path="/subscription/:id" element={<SubscriptionNew />} />
             <Route path="/post-conditions" element={<ManageConditions />} />
             <Route path="/help-and-support" element={<HelpAndSupport />} />

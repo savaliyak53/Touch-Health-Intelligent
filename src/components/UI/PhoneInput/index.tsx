@@ -109,6 +109,12 @@ const TelephoneInput: React.FC<IProps> = ({
     }
   }
 
+  const handlePaste = (e: any) => {
+    setTimeout(() => {
+      setFocusOrFilled(!!e.target.value)
+    }, 0)
+  }
+
   return (
     <div onClick={focusInput} id='touch-input-wrapper' className={`relative ${disabled ? '' : 'cursor-pointer'} w-full h-[60px] px-5 py-[18px] leading-4 bg-dentist rounded-md ${activeClass} ${className}`}>
       <Tooltip
@@ -130,6 +136,7 @@ const TelephoneInput: React.FC<IProps> = ({
           value={value}
           onBlur={handleOnBlur}
           onFocus={handleOnFocus}
+          onPaste={handlePaste}
           onChange={onChange}
           defaultCountry="CA"
           addInternationalOption={false}
