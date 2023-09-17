@@ -1,16 +1,12 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import {
-  getTokenExpiration,
-  onlyNumbers,
-} from 'utils/lib';
+import { getTokenExpiration } from 'utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
 import AccountLockModal from 'components/UI/Modal/AccountLockModal';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import { getSession, getUser } from 'utils/lib';
 import ConfirmModal from 'components/UI/Modal/ConfirmModal';
-import PhoneInput from 'components/UI/PhoneInput';
 import TouchInput from 'components/UI/TouchInput';
 import TouchButton from 'components/UI/TouchButton';
 
@@ -38,7 +34,7 @@ const LoginForm: React.FC = () => {
   const { loginUser } = authContext;
 
   const onSubmit = async () => {
-    if (onlyNumbers(username) && password) {
+    if (username && password) {
 
       setIsLoading(true);
       setIsDisabled(true);
@@ -47,7 +43,7 @@ const LoginForm: React.FC = () => {
       refCaptcha?.current?.reset();
 
       const loginResponse = await loginUser(
-        onlyNumbers(username),
+        username,
         password,
         token || ''
       );
@@ -89,13 +85,13 @@ const LoginForm: React.FC = () => {
         <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>
           Log in
         </h1>
-
-        <PhoneInput
-          onChange={setUsername}
-          placeholder="Mobile phone number"
+        <TouchInput
+          className='mt-4'
+          type={'text'}
+          placeholder='Email'
           value={username}
-          errorMessage={error.message}
-        />
+          onChange={(e) => setUsername(e.target.value)}
+          errorMessage={error.message} />
 
         <TouchInput
           className='mt-4'

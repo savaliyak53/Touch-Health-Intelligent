@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import AuthLayout from 'layouts/AuthLayout';
-import NumberEnterStep from 'containers/Auth/PasswordRecovery/NumberEnterStep';
+import EmailEnterStep from 'containers/Auth/PasswordRecovery/EmailEnterStep';
 import CodeEnterStep from 'containers/Auth/PasswordRecovery/CodeEnterStep';
 import QuestionEnterStep from 'containers/Auth/PasswordRecovery/QuestionEnterStep';
 import NewPasswordEnterStep from 'containers/Auth/PasswordRecovery/NewPasswordEnterStep';
@@ -23,7 +23,7 @@ const PasswordRecovery: React.FC = () => {
   const [changePassword, setChangePassword] = useState(false);
   const [wrongAnswer, setWrongAnswer] = useState(false);
 
-  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [code, setCode] = useState<string>('');
   const [question, setQuestion] = useState<string>('');
   const [answer, setAnswer] = useState<string>('');
@@ -38,7 +38,7 @@ const PasswordRecovery: React.FC = () => {
   };
 
   useEffect(() => {
-    setUsername(sessionStorage.getItem('username') || '');
+    setEmail(sessionStorage.getItem('username') || '');
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
@@ -47,7 +47,7 @@ const PasswordRecovery: React.FC = () => {
 
   const onSubmitCode = async () => {
     setIsLoading(true);
-    getSecurityQuestions(onlyNumbers(username), code)
+    getSecurityQuestions(email, code)
       .then((response) => {
         if (response && response.security_questions.length > 0) {
           setCodeSubmitted(true);
@@ -67,7 +67,7 @@ const PasswordRecovery: React.FC = () => {
   const confirmAnswer = async () => {
     setIsLoading(true);
     checkAnswer({
-      username: onlyNumbers(username),
+      username: email,
       code: code,
       security_question: {
         question: question,
@@ -92,7 +92,7 @@ const PasswordRecovery: React.FC = () => {
     if (changePassword) {
       setIsLoading(true);
       postResetPassword({
-        username: onlyNumbers(username),
+        username: email,
         code: code,
         new_password: password,
         security_question: {
@@ -123,16 +123,16 @@ const PasswordRecovery: React.FC = () => {
       ? localStorage.getItem('recaptcha-token')
       : refCaptcha?.current?.getValue();
 
-    if (!onlyNumbers(username)) {
+    if (!email) {
       setIsDisabled(false);
       setIsLoading(false);
       return;
     }
     if (!isResendOTP) {
-      sessionStorage.setItem('username', username);
+      sessionStorage.setItem('username', email);
     }
 
-    requestPhoneOTP(onlyNumbers(username), token || '')
+    requestPhoneOTP(email, token || '')
       .then((res: any) => {
         if (res && res.status === 200) {
           setEnterNumber(false);
@@ -165,14 +165,14 @@ const PasswordRecovery: React.FC = () => {
         <div className='rounded-[5px] bg-white shadow-primaryTop w-full px-[16px] pt-[52px] pb-[84px]'>
           {/*first step*/}
           {enterNumber && (
-            <NumberEnterStep
+            <EmailEnterStep
               onVerify={handleOTPRequest}
               setIsDisabled={setIsDisabled}
               isDisabled={isDisabled}
               isLoading={isLoading}
               refCaptcha={refCaptcha}
-              onChange={setUsername}
-              username={username}
+              onChange={setEmail}
+              username={email}
             />
           )}
 

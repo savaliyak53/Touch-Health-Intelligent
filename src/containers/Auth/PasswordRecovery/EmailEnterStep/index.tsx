@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { isValidPhoneNumber } from 'react-phone-number-input';
-import PhoneInput from 'components/UI/PhoneInput';
 import TouchButton from "components/UI/TouchButton";
+import TouchInput from 'components/UI/TouchInput';
 
 interface IProps {
   onVerify: (boolean: boolean) => void;
@@ -15,7 +14,7 @@ interface IProps {
   onChange: (value: string) => void;
 }
 
-const NumberEnterStep: React.FC<IProps> = ({
+const EmailEnterStep: React.FC<IProps> = ({
   onVerify,
   username,
   onChange,
@@ -26,7 +25,7 @@ const NumberEnterStep: React.FC<IProps> = ({
 }) => {
 
   const handleOnVerify = () => {
-    if (isValidPhoneNumber(username || '')) {
+    if (username) {
       onVerify(false);
     }
   };
@@ -36,11 +35,12 @@ const NumberEnterStep: React.FC<IProps> = ({
       <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>
         Reset password
       </h1>
-      <PhoneInput
-        onChange={onChange}
-        placeholder="Mobile phone number"
+      <TouchInput
+        type={'text'}
+        placeholder='Email address'
         value={username}
-      />
+        onChange={(e) => onChange(e.target.value)} />
+
       <ReCAPTCHA
         className={'mx-auto mt-6 mb-0'}
         ref={refCaptcha}
@@ -66,4 +66,4 @@ const NumberEnterStep: React.FC<IProps> = ({
   );
 };
 
-export default NumberEnterStep;
+export default EmailEnterStep;
