@@ -24,7 +24,7 @@ const Verification = () => {
   const [disableSubmit, setDisableSubmit] = useState(true);
 
   const userId = localStorage.getItem('userId');
-  const phone = localStorage.getItem('phone');
+  const email = localStorage.getItem('email');
 
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const Verification = () => {
       } else if (phoneVerificationResponse?.response?.status === 409) {
         navigate('/existing-user', {
           state: {
-            username: phone,
+            username: email,
             code: code,
           },
         });
@@ -110,12 +110,12 @@ const Verification = () => {
       ? localStorage.getItem('recaptcha-token')
       : localStorage.getItem('captchaToken');
 
-    if (!onlyNumbers(phone || '') || !token) {
+    if (!email|| !token) {
       setIsLoading(false);
       return;
     }
 
-    requestPhoneOTP(onlyNumbers(phone || ''), token)
+    requestPhoneOTP(email, token)
       .then((res: any) => {
         if (res && res.status !== 200) {
           if (
