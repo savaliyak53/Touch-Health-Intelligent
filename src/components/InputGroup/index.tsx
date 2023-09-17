@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import TouchInput from 'components/UI/TouchInput';
+import { emailRegexp } from 'helpers/validations';
 
 interface IProps {
   email?: string;
@@ -9,7 +10,6 @@ interface IProps {
   approveEmailVerified?: (bool: boolean) => void;
   approvePasswordVerified?: (bool: boolean) => void;
 }
-const emailRegexp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
 const InputGroup: React.FC<IProps> = ({
   email,

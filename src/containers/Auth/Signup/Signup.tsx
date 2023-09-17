@@ -52,8 +52,8 @@ const SignUp: React.FC = () => {
       setIsDisabled(false);
       setIsLoading(false);
       setError({
-        code: signupResponse.response.data.status,
-        message: signupResponse.response.data.details,
+        code: signupResponse?.response?.data?.status,
+        message: signupResponse?.response?.data?.details,
       });
     }
   };
@@ -75,9 +75,28 @@ const SignUp: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) throw error;
+  // }, [error]);
+  // {
+  //   "title": "Validation failed",
+  //   "details": "Request validation failed.",
+  //   "error": {
+  //   "issues": [
+  //     {
+  //       "code": "invalid_type",
+  //       "expected": "string",
+  //       "received": "undefined",
+  //       "path": [
+  //         "body",
+  //         "phone"
+  //       ],
+  //       "message": "Required"
+  //     }
+  //   ],
+  //     "name": "ZodError"
+  // }
+  // }
 
   return (
     <AuthLayout isSignup={true}>

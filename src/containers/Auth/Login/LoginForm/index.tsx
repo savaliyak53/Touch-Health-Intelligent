@@ -9,6 +9,7 @@ import { getSession, getUser } from 'utils/lib';
 import ConfirmModal from 'components/UI/Modal/ConfirmModal';
 import TouchInput from 'components/UI/TouchInput';
 import TouchButton from 'components/UI/TouchButton';
+import { emailRegexp } from 'helpers/validations';
 
 const LoginForm: React.FC = () => {
   const refCaptcha = useRef<ReCAPTCHA>(null)
@@ -25,9 +26,18 @@ const LoginForm: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
+  const [usernameVerified, setUsernameVerified] = useState<boolean>(false);
+
   const handleCancelModal = () => {
     setShowLockAccountModal(false);
   };
+  // 1. ошибка при не правильном вводе почты
+  // 2. при удалении символов не загарется синяя линия
+  // 4. показ ошибок в модальном окне
+
+  useEffect(() => {
+    setUsernameVerified(emailRegexp.test(username))
+  }, [username]);
 
   const authContext = useContext<AuthContextData | undefined>(AuthContext); // Add the type parameter
   if (!authContext) return null;
@@ -76,7 +86,6 @@ const LoginForm: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
   }, []);
 
   return (
@@ -89,6 +98,7 @@ const LoginForm: React.FC = () => {
           className='mt-4'
           type={'text'}
           placeholder='Email'
+          isVerified={usernameVerified}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           errorMessage={error.message} />
