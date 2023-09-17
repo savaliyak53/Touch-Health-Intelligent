@@ -123,24 +123,6 @@ const Index = ({
       });
   };
 
-  const checkUserTimeZone = () => {
-    getPreference()
-      .then(resp => {
-        if (resp && resp.status === 200 && resp.data) {
-          const timezone = getUserTimeZone();
-          if (resp.data.timezone !== timezone) {
-            updatePreference({timezone})
-              .catch((error) => {
-                throw error;
-              })
-          }
-        }
-      })
-      .catch(error => {
-        throw error;
-      });
-  }
-
   const onBackButtonEvent = (e: any) => {
     e.preventDefault();
     if (!isOpen) {
@@ -183,12 +165,30 @@ const Index = ({
     }
   };
 
+  async function checkUserTimeZone() {
+    await getPreference()
+      .then(async resp => {
+        if (resp && resp.status === 200 && resp.data) {
+          const timezone = getUserTimeZone();
+          if (resp.data.timezone !== timezone) {
+            await updatePreference({ timezone })
+              .catch((error) => {
+                throw error;
+              })
+          }
+        }
+      })
+      .catch(error => {
+        throw error;
+      });
+  }
+
   const handleCancel = () => {
     setIsOpen(false);
     pageBackEvent();
   };
 
-  useEffect(() => {
+  useEffect( () => {
     if (!signupFlow(location.pathname)) {
       checkUserData();
       checkUserTimeZone();
