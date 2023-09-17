@@ -3,7 +3,7 @@ import { Spin } from 'antd';
 import moment from 'moment';
 import SiteHeader from 'components/SiteHeader/SiteHeader';
 import { useLocation, useNavigate } from 'react-router';
-import { getUser } from 'services/authservice';
+import { getPreference, getUser, updatePreference } from 'services/authservice';
 import { getUserSubscription } from 'services/subscriptionService';
 import { signupFlow } from 'utils/lib';
 import ErrorInteractionModal from 'components/UI/Modal/ErrorInteractionModal';
@@ -13,6 +13,7 @@ import { backButtonContent } from '../../constants';
 import { backButtonPreventionRoutes } from 'Routes/Constants';
 import LogoDesktop from 'components/Icons/LogoDesktop';
 import useLocalStorage from 'hooks/useLocalStorage';
+import { getUserTimeZone } from 'helpers/time';
 // import CongratulationModal from 'components/Modal/CongratulationModal';
 
 type Props = {
@@ -164,14 +165,33 @@ const Index = ({
     }
   };
 
+  async function checkUserTimeZone() {
+    await getPreference()
+      .then(async resp => {
+        if (resp && resp.status === 200 && resp.data) {
+          const timezone = getUserTimeZone();
+          if (resp.data.timezone !== timezone) {
+            await updatePreference({ timezone })
+              .catch((error) => {
+                throw error;
+              })
+          }
+        }
+      })
+      .catch(error => {
+        throw error;
+      });
+  }
+
   const handleCancel = () => {
     setIsOpen(false);
     pageBackEvent();
   };
 
-  useEffect(() => {
+  useEffect( () => {
     if (!signupFlow(location.pathname)) {
       checkUserData();
+      checkUserTimeZone();
     } else {
       setLoading(false);
     }

@@ -36,3 +36,17 @@ export const checkDateDifference = (date: string, index: number): boolean => {
   const differenceInDays: number = Math.ceil(differenceInMilliseconds / (24 * 60 * 60 * 1000));
   return differenceInDays === index;
 };
+
+export const getUserTimeZone = (): string => {
+  // Get the current date and time
+  const now = new Date();
+
+  // Calculate the time offset for the user's time zone
+  const offsetMinutes = now.getTimezoneOffset();
+
+  // Convert the time offset to the "-hh:mm" format
+  const offsetHours = Math.abs(Math.floor(offsetMinutes / 60));
+  const offsetMinutesRemainder = Math.abs(offsetMinutes % 60);
+  const offsetSign = offsetMinutes >= 0 ? '+' : '-';
+  return `${offsetSign}${String(offsetHours).padStart(2, '0')}:${String(offsetMinutesRemainder).padStart(2, '0')}`;
+};
