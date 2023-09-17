@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import TouchButton from "components/UI/TouchButton";
 import TouchInput from 'components/UI/TouchInput';
+import { emailRegexp } from 'helpers/validations';
 
 interface IProps {
   onVerify: (boolean: boolean) => void;
@@ -23,12 +24,18 @@ const EmailEnterStep: React.FC<IProps> = ({
   isLoading,
   refCaptcha,
 }) => {
+  const [emailVerified, setEmailVerified] = useState<boolean>(false);
 
   const handleOnVerify = () => {
     if (username) {
       onVerify(false);
     }
   };
+
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value)
+    setEmailVerified(emailRegexp.test(e.target.value));
+  }
 
   return (
     <form onSubmit={handleOnVerify} className='flex flex-col items-center justify-center'>
@@ -38,8 +45,9 @@ const EmailEnterStep: React.FC<IProps> = ({
       <TouchInput
         type={'text'}
         placeholder='Email address'
+        isVerified={emailVerified}
         value={username}
-        onChange={(e) => onChange(e.target.value)} />
+        onChange={handleOnChange} />
 
       <ReCAPTCHA
         className={'mx-auto mt-6 mb-0'}
@@ -51,7 +59,7 @@ const EmailEnterStep: React.FC<IProps> = ({
         className='mt-8'
         type='auth'
         onClick={handleOnVerify}
-        isDisabled={isDisabled}
+        isDisabled={isDisabled || !emailVerified}
         isLoading={isLoading}
       >
         Send code

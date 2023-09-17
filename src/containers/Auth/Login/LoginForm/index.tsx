@@ -31,12 +31,9 @@ const LoginForm: React.FC = () => {
   const handleCancelModal = () => {
     setShowLockAccountModal(false);
   };
-  // 1. ошибка при не правильном вводе почты
-  // 2. при удалении символов не загарется синяя линия
-  // 4. показ ошибок в модальном окне
 
   useEffect(() => {
-    setUsernameVerified(emailRegexp.test(username))
+    setUsernameVerified(emailRegexp.test(username));
   }, [username]);
 
   const authContext = useContext<AuthContextData | undefined>(AuthContext); // Add the type parameter
@@ -79,6 +76,7 @@ const LoginForm: React.FC = () => {
             code: loginResponse?.response?.status,
             message: loginResponse.response.data?.details,
           });
+          setWrongCredentialsModal(true);
         }
       }
     }
@@ -101,6 +99,7 @@ const LoginForm: React.FC = () => {
           isVerified={usernameVerified}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          resetError={setError}
           errorMessage={error.message} />
 
         <TouchInput
@@ -108,6 +107,8 @@ const LoginForm: React.FC = () => {
           type={'password'}
           placeholder='Password'
           value={password}
+          isVerified={password.length >= 8}
+          resetError={setError}
           onChange={(e) => setPassword(e.target.value)}
           errorMessage={error.message} />
 
@@ -142,7 +143,7 @@ const LoginForm: React.FC = () => {
           className='mt-8'
           onClick={onSubmit}
           isLoading={isLoading}
-          isDisabled={isDisabled}
+          isDisabled={isDisabled || !usernameVerified}
         >
           Log in
         </TouchButton>

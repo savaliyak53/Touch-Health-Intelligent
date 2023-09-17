@@ -7,6 +7,7 @@ import TouchButton from 'components/UI/TouchButton';
 import useLocalStorage from 'hooks/useLocalStorage';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import InputGroup from 'components/InputGroup';
+import ConfirmModal from 'components/UI/Modal/ConfirmModal';
 
 const SignUp: React.FC = () => {
   const refCaptcha = useRef<ReCAPTCHA>(null)
@@ -23,6 +24,7 @@ const SignUp: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
 
+  const [wrongCredentialsModal, setWrongCredentialsModal] = useState<boolean>(false);
   const [error, setError] = useState<any>();
   const authContext = useContext<AuthContextData | undefined>(AuthContext);
   const { signupUser } = authContext as AuthContextData;
@@ -55,6 +57,7 @@ const SignUp: React.FC = () => {
         code: signupResponse?.response?.data?.status,
         message: signupResponse?.response?.data?.details,
       });
+      setWrongCredentialsModal(true);
     }
   };
 
@@ -74,29 +77,6 @@ const SignUp: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  // useEffect(() => {
-  //   if (error) throw error;
-  // }, [error]);
-  // {
-  //   "title": "Validation failed",
-  //   "details": "Request validation failed.",
-  //   "error": {
-  //   "issues": [
-  //     {
-  //       "code": "invalid_type",
-  //       "expected": "string",
-  //       "received": "undefined",
-  //       "path": [
-  //         "body",
-  //         "phone"
-  //       ],
-  //       "message": "Required"
-  //     }
-  //   ],
-  //     "name": "ZodError"
-  // }
-  // }
 
   return (
     <AuthLayout isSignup={true}>
@@ -153,6 +133,16 @@ const SignUp: React.FC = () => {
             </Link>
           </div>
         </div>
+        <ConfirmModal
+          title={'Error'}
+          open={wrongCredentialsModal}
+          isAuth={true}
+          handleCancel={() => setWrongCredentialsModal(false)}
+          handleOk={() => setWrongCredentialsModal(false)}>
+          <div className="text-3 text-oldBurgundy leading-[23px] text-left">
+            <div>{error?.message}</div>
+          </div>
+        </ConfirmModal>
       </div>
     </AuthLayout>
   );

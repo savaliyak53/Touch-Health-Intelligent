@@ -54,16 +54,14 @@ const TouchInput: FC<InputProps> = ({
   }, [value]);
 
   useEffect(() => {
-    if (errorMessage) {
-      setTimeout(() => {
-        setActiveClass('shadow-error');
-      }, 0)
-    }
-  }, [errorMessage]);
-
-  useEffect(() => {
-    setActiveClass(isVerified ? 'shadow-verified' : 'shadow-primary');
-  }, [isVerified]);
+    setTimeout(() => {
+      setActiveClass(
+        errorMessage
+          ? 'shadow-error' : isVerified
+            ? 'shadow-verified' : isFocusedOrFilled
+              ? 'shadow-active' : 'shadow-primary');
+    }, 0);
+  }, [errorMessage, isVerified]);
 
   const handleTogglePasswordVisibility = () => {
     setPasswordVisibility((prev) => !prev);
@@ -86,7 +84,7 @@ const TouchInput: FC<InputProps> = ({
     }
   };
 
-  const getPlaceholder = ():string => {
+  const getPlaceholder = (): string => {
     if (isFocusedOrFilled) {
       switch (placeholder) {
         case 'Enter new password here':
@@ -98,15 +96,15 @@ const TouchInput: FC<InputProps> = ({
       }
     }
     return placeholder;
-  }
+  };
 
   const checkAnimation = (e: any) => {
-    if(e.animationName == 'onAutoFillStart') {
-      setFocusOrFilled(true)
-    } else if(e.animationName == 'onAutoFillCancel') {
-      setFocusOrFilled(false)
+    if (e.animationName == 'onAutoFillStart') {
+      setFocusOrFilled(true);
+    } else if (e.animationName == 'onAutoFillCancel') {
+      setFocusOrFilled(false);
     }
-  }
+  };
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -116,9 +114,9 @@ const TouchInput: FC<InputProps> = ({
   };
   const handlePaste = (e: any) => {
     setTimeout(() => {
-      setFocusOrFilled(!!e.target.value)
-    }, 0)
-  }
+      setFocusOrFilled(!!e.target.value);
+    }, 0);
+  };
 
   return (
     <div
@@ -126,8 +124,8 @@ const TouchInput: FC<InputProps> = ({
       className={`${isDisabled ? '' : 'cursor-pointer'} relative w-full h-[60px] px-5 py-[18px] leading-4 bg-dentist rounded-md ${activeClass} ${className}`}>
       <Tooltip
         title={(isDisabled && disabledMessage) ? disabledMessage : errorMessage}
-        placement="bottomRight"
-        color="blue"
+        placement='bottomRight'
+        color='blue'
         open={(!!errorMessage || !!disabledMessage) && isHovered}>
         <label
           className={`font-medium text-left leading-[14px] absolute left-[20px] top-[25px] opacity-50 transition-all duration-300 ease-linear pointer-events-none ${isFocusedOrFilled ? 'transform -translate-y-3 text-[10px]' : 'text-[14px]'}`}
@@ -149,17 +147,19 @@ const TouchInput: FC<InputProps> = ({
 
         {errorMessage && !isDisabled && (
           <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-          <ExclamationPointIcon className={`absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer ${type === 'password' ? 'mr-3' : ''}`} />
+          <ExclamationPointIcon
+            className={`absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer ${type === 'password' ? 'mr-3' : ''}`} />
         </span>
         )}
         {isDisabled && type !== 'password' && (
-            <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-              <InformIcon  className="absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer" />
+          <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+              <InformIcon className='absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer' />
             </span>
         )}
         {type === 'password' && (
-          <span className="absolute right-[10px] top-1/2 transform -translate-y-1/2 cursor-pointer" onClick={handleTogglePasswordVisibility}>
-          <EyeIcon color={isPasswordVisible ? 'blue' : '#080815'}/>
+          <span className='absolute right-[10px] top-1/2 transform -translate-y-1/2 cursor-pointer'
+                onClick={handleTogglePasswordVisibility}>
+          <EyeIcon color={isPasswordVisible ? 'blue' : '#080815'} />
         </span>
         )}
       </Tooltip>

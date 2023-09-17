@@ -6,7 +6,6 @@ import QuestionEnterStep from 'containers/Auth/PasswordRecovery/QuestionEnterSte
 import NewPasswordEnterStep from 'containers/Auth/PasswordRecovery/NewPasswordEnterStep';
 import { useNavigate } from 'react-router-dom';
 import { checkAnswer, getSecurityQuestions, postResetPassword, requestPhoneOTP } from 'services/authservice';
-import { onlyNumbers } from 'utils/lib';
 import { toast } from 'react-toastify';
 import ReCAPTCHA from 'react-google-recaptcha';
 
