@@ -91,10 +91,10 @@ const InputGroup: React.FC<IProps> = ({
   }
 
   const checkErrorEmail = (value: string) => {
-    if (confirmEmail && confirmEmail !== value) {
+    if (confirmEmail && confirmEmail.toLowerCase() !== value.toLowerCase()) {
       setConfirmEmailError('Emails do not match.');
       setConfirmEmailVerified(false);
-    } else if (confirmEmail && confirmEmail === value) {
+    } else if (confirmEmail && confirmEmail.toLowerCase() === value.toLowerCase()) {
       setConfirmEmailError('');
       setConfirmEmailVerified(true);
     }
@@ -115,7 +115,7 @@ const InputGroup: React.FC<IProps> = ({
       setConfirmEmailError('Confirm email is required.');
       setConfirmEmailVerified(false);
       return;
-    } else if (value !== email) {
+    } else if (email && value.toLowerCase() !== email.toLowerCase()) {
       setConfirmEmailError('Emails do not match.');
       setConfirmEmailVerified(false);
       return;
