@@ -1,31 +1,30 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import TouchInput from 'components/UI/TouchInput';
-import PhoneInput from 'components/UI/PhoneInput';
-import { isValidPhoneNumber } from 'react-phone-number-input';
+import { emailRegexp } from 'helpers/validations';
 
 interface IProps {
-  phone?: string;
+  email?: string;
   password?: string;
-  setPhone?: (str: string) => void;
+  setEmail?: (str: string) => void;
   setPassword?: (str: string) => void;
-  approvePhoneVerified?: (bool: boolean) => void;
+  approveEmailVerified?: (bool: boolean) => void;
   approvePasswordVerified?: (bool: boolean) => void;
 }
 
 const InputGroup: React.FC<IProps> = ({
-  phone,
+  email,
   password,
-  setPhone,
+  setEmail,
   setPassword,
-  approvePhoneVerified,
+  approveEmailVerified,
   approvePasswordVerified
   }) => {
 
-  const [phoneError, setPhoneError] = useState<string>('');
-  const [phoneVerified, setPhoneVerified] = useState<boolean>(false);
-  const [confirmPhone, setConfirmPhone] = useState<string>('');
-  const [confirmPhoneError, setConfirmPhoneError] = useState<string>('');
-  const [confirmPhoneVerified, setConfirmPhoneVerified] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<string>('');
+  const [emailVerified, setEmailVerified] = useState<boolean>(false);
+  const [confirmEmail, setConfirmEmail] = useState<string>('');
+  const [confirmEmailError, setConfirmEmailError] = useState<string>('');
+  const [confirmEmailVerified, setConfirmEmailVerified] = useState<boolean>(false);
 
   const [passwordError, setPasswordError] = useState<string>('');
   const [passwordVerified, setPasswordVerified] = useState<boolean>(false);
@@ -34,11 +33,11 @@ const InputGroup: React.FC<IProps> = ({
   const [confirmPasswordVerified, setConfirmPasswordVerified] = useState<boolean>(false);
 
   useEffect(() => {
-    if (approvePhoneVerified !== undefined) {
-      approvePhoneVerified((phoneVerified && confirmPhoneVerified))
+    if (approveEmailVerified !== undefined) {
+      approveEmailVerified((emailVerified && confirmEmailVerified))
     }
 
-  }, [phoneVerified, confirmPhoneVerified]);
+  }, [emailVerified, confirmEmailVerified]);
 
   useEffect(() => {
     if (approvePasswordVerified !== undefined) {
@@ -91,72 +90,74 @@ const InputGroup: React.FC<IProps> = ({
     setConfirmPasswordVerified(true);
   }
 
-  const checkErrorPhone = (value: string) => {
-    if (confirmPhone && confirmPhone !== value) {
-      setConfirmPhoneError('Phones do not match.');
-      setConfirmPhoneVerified(false);
-    } else if (confirmPhone && confirmPhone === value) {
-      setConfirmPhoneError('');
-      setConfirmPhoneVerified(true);
+  const checkErrorEmail = (value: string) => {
+    if (confirmEmail && confirmEmail !== value) {
+      setConfirmEmailError('Emails do not match.');
+      setConfirmEmailVerified(false);
+    } else if (confirmEmail && confirmEmail === value) {
+      setConfirmEmailError('');
+      setConfirmEmailVerified(true);
     }
     if (!value) {
-      setPhoneError('Phone is required.');
-      setPhoneVerified(false);
+      setEmailError('Email is required.');
+      setEmailVerified(false);
       return;
-    } else if (!isValidPhoneNumber(value || '')) {
-      setPhoneError('Invalid Phone number');
-      setPhoneVerified(false);
+    } else if (!emailRegexp.test(value || '')) {
+      setEmailError('Invalid Email address');
+      setEmailVerified(false);
       return;
     }
-    setPhoneVerified(true);
+    setEmailVerified(true);
   }
 
-  const checkErrorConfirmPhone = (value: string) => {
+  const checkErrorConfirmEmail = (value: string) => {
     if (!value) {
-      setConfirmPhoneError('Confirm phone is required.');
-      setConfirmPhoneVerified(false);
+      setConfirmEmailError('Confirm email is required.');
+      setConfirmEmailVerified(false);
       return;
-    } else if (value !== phone) {
-      setConfirmPhoneError('Phones do not match.');
-      setConfirmPhoneVerified(false);
+    } else if (value !== email) {
+      setConfirmEmailError('Emails do not match.');
+      setConfirmEmailVerified(false);
       return;
-    } else if (!isValidPhoneNumber(value || '')) {
-      setConfirmPhoneError('Invalid Phone number');
-      setConfirmPhoneVerified(false);
+    } else if (!emailRegexp.test(value || '')) {
+      setConfirmEmailError('Invalid Email address');
+      setConfirmEmailVerified(false);
       return;
     }
-    setConfirmPhoneVerified(true);
+    setConfirmEmailVerified(true);
   }
 
   const handleChangeConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value);
   }
 
-  const handleChangeConfirmPhone = (value: string) => {
-    setConfirmPhone(value);
+  const handleChangeConfirmEmail = (e: ChangeEvent<HTMLInputElement>) => {
+    setConfirmEmail(e.target.value);
   }
 
   return (
     <>
-      {setPhone && <>
-        <PhoneInput
-          value={phone}
+      {setEmail && email !== undefined && <>
+        <TouchInput
+          type={'text'}
           className='mb-4'
-          isVerified={phoneVerified}
-          errorMessage={phoneError}
-          checkError={checkErrorPhone}
-          resetError={setPhoneError}
-          onChange={setPhone}
-          placeholder='Mobile phone number'/>
-        <PhoneInput
-          value={confirmPhone}
+          isVerified={emailVerified}
+          errorMessage={emailError}
+          resetError={setEmailError}
+          checkError={checkErrorEmail}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder='Email'
+          value={email}/>
+        <TouchInput
+          type={'text'}
           className='mb-4'
-          isVerified={confirmPhoneVerified}
-          errorMessage={confirmPhoneError}
-          checkError={checkErrorConfirmPhone}
-          resetError={setConfirmPhoneError}
-          onChange={handleChangeConfirmPhone}
-          placeholder='Confirm phone number'/>
+          isVerified={confirmEmailVerified}
+          errorMessage={confirmEmailError}
+          resetError={setConfirmEmailError}
+          onChange={handleChangeConfirmEmail}
+          checkError={checkErrorConfirmEmail}
+          placeholder='Repeat email'
+          value={confirmEmail}/>
       </>}
 
       {setPassword && password !== undefined && <>

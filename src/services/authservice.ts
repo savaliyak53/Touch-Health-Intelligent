@@ -63,7 +63,7 @@ export const tokenService = async () => {
     return err;
   }
 };
-export const requestPhoneOTP = async (phone: string, token: string) => {
+export const requestPhoneOTP = async (email: string, token: string) => {
   try {
     const config: any = {};
     if (token !== '') {
@@ -72,7 +72,7 @@ export const requestPhoneOTP = async (phone: string, token: string) => {
     const res = await axios.post(
       '/auth/phone-verification',
       {
-        phone: phone,
+        email,
       },
       config
     );

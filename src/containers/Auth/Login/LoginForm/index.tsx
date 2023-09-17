@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import {
-  getTokenExpiration,
-  onlyNumbers,
-} from 'utils/lib';
+import { getTokenExpiration } from 'utils/lib';
 import ReCAPTCHA from 'react-google-recaptcha';
 import AccountLockModal from 'components/UI/Modal/AccountLockModal';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import { getSession, getUser } from 'utils/lib';
 import ConfirmModal from 'components/UI/Modal/ConfirmModal';
-import PhoneInput from 'components/UI/PhoneInput';
 import TouchInput from 'components/UI/TouchInput';
 import TouchButton from 'components/UI/TouchButton';
+import { emailRegexp } from 'helpers/validations';
 
 const LoginForm: React.FC = () => {
   const refCaptcha = useRef<ReCAPTCHA>(null)
@@ -29,16 +26,22 @@ const LoginForm: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
+  const [usernameVerified, setUsernameVerified] = useState<boolean>(false);
+
   const handleCancelModal = () => {
     setShowLockAccountModal(false);
   };
+
+  useEffect(() => {
+    setUsernameVerified(emailRegexp.test(username));
+  }, [username]);
 
   const authContext = useContext<AuthContextData | undefined>(AuthContext); // Add the type parameter
   if (!authContext) return null;
   const { loginUser } = authContext;
 
   const onSubmit = async () => {
-    if (onlyNumbers(username) && password) {
+    if (username && password) {
 
       setIsLoading(true);
       setIsDisabled(true);
@@ -47,7 +50,7 @@ const LoginForm: React.FC = () => {
       refCaptcha?.current?.reset();
 
       const loginResponse = await loginUser(
-        onlyNumbers(username),
+        username,
         password,
         token || ''
       );
@@ -73,6 +76,7 @@ const LoginForm: React.FC = () => {
             code: loginResponse?.response?.status,
             message: loginResponse.response.data?.details,
           });
+          setWrongCredentialsModal(true);
         }
       }
     }
@@ -80,7 +84,6 @@ const LoginForm: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
   }, []);
 
   return (
@@ -89,19 +92,23 @@ const LoginForm: React.FC = () => {
         <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>
           Log in
         </h1>
-
-        <PhoneInput
-          onChange={setUsername}
-          placeholder="Mobile phone number"
+        <TouchInput
+          className='mt-4'
+          type={'text'}
+          placeholder='Email'
+          isVerified={usernameVerified}
           value={username}
-          errorMessage={error.message}
-        />
+          onChange={(e) => setUsername(e.target.value)}
+          resetError={setError}
+          errorMessage={error.message} />
 
         <TouchInput
           className='mt-4'
           type={'password'}
           placeholder='Password'
           value={password}
+          isVerified={password.length >= 8}
+          resetError={setError}
           onChange={(e) => setPassword(e.target.value)}
           errorMessage={error.message} />
 
@@ -136,7 +143,7 @@ const LoginForm: React.FC = () => {
           className='mt-8'
           onClick={onSubmit}
           isLoading={isLoading}
-          isDisabled={isDisabled}
+          isDisabled={isDisabled || !usernameVerified}
         >
           Log in
         </TouchButton>

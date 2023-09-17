@@ -6,8 +6,8 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import TouchButton from 'components/UI/TouchButton';
 import useLocalStorage from 'hooks/useLocalStorage';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
-import { onlyNumbers } from 'utils/lib';
 import InputGroup from 'components/InputGroup';
+import ConfirmModal from 'components/UI/Modal/ConfirmModal';
 
 const SignUp: React.FC = () => {
   const refCaptcha = useRef<ReCAPTCHA>(null)
@@ -16,14 +16,15 @@ const SignUp: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [usernameError, setUsernameError] = useState<string>('');
   const [usernameVerified, setUsernameVerified] = useState<boolean>(false);
-  const [phone, setPhone] = useState<string>('');
-  const [phoneVerified, setPhoneVerified] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
+  const [emailVerified, setEmailVerified] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [passwordVerified, setPasswordVerified] = useState<boolean>(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
 
+  const [wrongCredentialsModal, setWrongCredentialsModal] = useState<boolean>(false);
   const [error, setError] = useState<any>();
   const authContext = useContext<AuthContextData | undefined>(AuthContext);
   const { signupUser } = authContext as AuthContextData;
@@ -35,10 +36,10 @@ const SignUp: React.FC = () => {
     const token = refCaptcha?.current?.getValue();
     refCaptcha?.current?.reset();
     localStorage.setItem('captchaToken', token || '');
-    localStorage.setItem('phone', onlyNumbers(phone));
+    localStorage.setItem('email', email);
     const signupResponse = await signupUser(
       {
-        phone: onlyNumbers(phone),
+        email: email,
         name: username,
         password,
       },
@@ -53,9 +54,10 @@ const SignUp: React.FC = () => {
       setIsDisabled(false);
       setIsLoading(false);
       setError({
-        code: signupResponse.response.data.status,
-        message: signupResponse.response.data.details,
+        code: signupResponse?.response?.data?.status,
+        message: signupResponse?.response?.data?.details,
       });
+      setWrongCredentialsModal(true);
     }
   };
 
@@ -75,10 +77,6 @@ const SignUp: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
 
   return (
     <AuthLayout isSignup={true}>
@@ -105,11 +103,11 @@ const SignUp: React.FC = () => {
             />
 
             <InputGroup
-              phone={phone}
+              email={email}
               password={password}
-              setPhone={setPhone}
+              setEmail={setEmail}
               setPassword={setPassword}
-              approvePhoneVerified={setPhoneVerified}
+              approveEmailVerified={setEmailVerified}
               approvePasswordVerified={setPasswordVerified} />
 
             <ReCAPTCHA
@@ -123,7 +121,7 @@ const SignUp: React.FC = () => {
               className='mt-8'
               onClick={onVerify}
               isLoading={isLoading}
-              isDisabled={(isDisabled || !usernameVerified || !phoneVerified || !passwordVerified)}>
+              isDisabled={(isDisabled || !usernameVerified || !emailVerified || !passwordVerified)}>
               Create an account
             </TouchButton>
           </form>
@@ -135,6 +133,16 @@ const SignUp: React.FC = () => {
             </Link>
           </div>
         </div>
+        <ConfirmModal
+          title={'Error'}
+          open={wrongCredentialsModal}
+          isAuth={true}
+          handleCancel={() => setWrongCredentialsModal(false)}
+          handleOk={() => setWrongCredentialsModal(false)}>
+          <div className="text-3 text-oldBurgundy leading-[23px] text-left">
+            <div>{error?.message}</div>
+          </div>
+        </ConfirmModal>
       </div>
     </AuthLayout>
   );

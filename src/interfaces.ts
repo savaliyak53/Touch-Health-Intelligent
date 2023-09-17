@@ -2,7 +2,7 @@
 export interface ISignUp {
   password: string;
   name: string;
-  phone: string;
+  email: string;
 }
 export interface ILogin {
   username: string;
