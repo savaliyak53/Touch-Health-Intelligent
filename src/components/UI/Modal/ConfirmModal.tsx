@@ -5,6 +5,7 @@ import TouchModal from 'components/UI/Modal/TouchModal';
 export type IProps = {
   open: boolean;
   isAuth?: boolean;
+  isOk?: boolean;
   handleCancel: () => any;
   handleOk: any;
   title: string;
@@ -16,6 +17,7 @@ const ConfirmModal = ({
   handleCancel,
   title,
   handleOk,
+  isOk,
   children,
   isAuth
 }: IProps) => {
@@ -30,7 +32,7 @@ const ConfirmModal = ({
       </div>
       <div className='mx-[25px] mb-[33px] px-10'>
         <TouchButton type={'default'} onClick={handleOk}>
-          {title === 'Error' ? 'Try again' : 'Confirm'}
+          {title === 'Error' ? 'Try again' : isOk ? 'Okay' : 'Confirm'}
         </TouchButton>
       </div>
     </TouchModal>
