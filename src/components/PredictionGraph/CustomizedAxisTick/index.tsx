@@ -4,8 +4,6 @@ const CustomizedAxisTick: FC = (props: any) => {
   const { x, y, payload } = props;
   const [date, score, emoji] = payload.value.split('_');
 
-  console.log(score)
-
   return (
     <g transform={`translate(${x},${y})`}>
       <foreignObject x={-20} y={0} width={50} height={70}>
