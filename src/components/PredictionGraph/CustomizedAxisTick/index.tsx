@@ -6,8 +6,8 @@ const CustomizedAxisTick: FC = (props: any) => {
 
   return (
     <g transform={`translate(${x},${y})`}>
-      <foreignObject x={-20} y={0} width={50} height={70}>
-        <div key={`${date}`} className="flex flex-col justify-center items-center w-full">
+      <foreignObject className='fixed' x={-20} y={0} width={50} height={70}>
+        <div key={`${date}`} className="fixed flex flex-col justify-center items-center w-full">
           <div className='mb-2 text-white font-roboto text-xs font-medium leading-[14px] opacity-90'>
             {date}
           </div>
