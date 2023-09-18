@@ -1,12 +1,11 @@
 import React, {useState, useEffect, FC, useContext} from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-import { getDimensions, getOverview } from 'services/dashboardservice';
 import { Button } from 'antd';
 import Drawer from 'components/UI/Modal/Drawer';
 import { invokeInteractionServiceByType} from 'services/authservice';
 import { useNavigate } from 'react-router-dom';
-import { IDataInteractionServiceByType, ILifeStyleDay, IOverview } from '../../interfaces';
+import { IDataInteractionServiceByType, ILifeStyleDay } from '../../interfaces';
 import DashboardContext from 'contexts/DashboardContext';
 
 type Props = {
@@ -88,11 +87,8 @@ const CustomNextArrow = ({ direction, onClick }: Props) => {
   );
 };
 
-interface IProps {
-  overview: IOverview | undefined;
-}
 
-const Status: FC<IProps> = ({overview}) => {
+const Status = () => {
   const [error, setError] = useState<any>();
   const [days, setDays] = useState<ILifeStyleDay[] | []>([]);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
@@ -100,6 +96,7 @@ const Status: FC<IProps> = ({overview}) => {
   const [drawerTitle, setDrawerTitle] = useState("");
   const [dimensionId, setDimensionId] = useState<string>('');
   const dashboardContext = useContext(DashboardContext);
+  const { overviewData: overview }: any = dashboardContext;
   const navigate = useNavigate();
 
   const getInteractionByType = (type: string) => {

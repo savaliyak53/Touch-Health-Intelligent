@@ -192,11 +192,13 @@ export interface socketNotificationTypes {
 }
 
 export interface DashboardContextData {
+  overviewData: IOverview | null,
   lifestyleDimensions: ILifeStyleDay[],
   conditionDimensions: [],
   conditionInfluencers: [],
   lifestyleInfluencers: [],
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setOverviewData: React.Dispatch<React.SetStateAction<IOverview | null>>,
   setLifestyleDimensions: React.Dispatch<React.SetStateAction<any>>,
   setConditionDimensions: React.Dispatch<React.SetStateAction<any>>,
   setConditionInfluencers: React.Dispatch<React.SetStateAction<any>>,
