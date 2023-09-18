@@ -113,25 +113,20 @@ const EntityListWidget: FC<IProps> = ({type}) => {
                               {i === 0 ? 'Today' : getDayOfWeekFromToday(prediction.dt, i)}
                             </p>
                           )}
-                          {checkDateDifference(prediction.dt, i) ? (
-                            <>
                             <p className="mb-1 w-8 items-center text-center flex justify-center">
-                            <span
-                              className={`${
-                                prediction.score ? '' : 'text-primary-delft-dark'
-                              } w-6 h-6 rounded-[50%] bg-rae flex items-center justify-center text-[14px]`}
-                            >
+                              <span
+                                className={`${
+                                  prediction.score ? '' : 'text-primary-delft-dark'
+                                } w-6 h-6 rounded-[50%] bg-rae flex items-center justify-center text-[14px]`}
+                              >
 
-                              {prediction.emoji ? prediction.emoji : '❔'}
-                            </span>
+                                {prediction.emoji ? prediction.emoji : '❔'}
+                              </span>
                             </p>
                             <p
                               className="font-medium text-[12px] w-8 text-center text-piano-light leading-[14px] text-gray-500">
                                 { prediction.value ? prediction.value : '-'}
                             </p>
-                          </>
-                          ) : <span>No data</span>}
-
                         </div>
                       ))}
                   </div>
