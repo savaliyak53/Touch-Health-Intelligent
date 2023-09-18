@@ -7,11 +7,10 @@ import Drawer from 'components/UI/Modal/Drawer';
 import Status from '../Status';
 import { getUser, invokeInteractionServiceByType } from 'services/authservice';
 import {getPartOfDay} from 'helpers/time';
-import {IOverview} from 'interfaces';
 import EntityListWidget from 'components/Widgets/EntityListWidget';
-import { getOverview } from 'services/dashboardservice';
 import useLocalStorage from 'hooks/useLocalStorage';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
+import DashboardContext from 'contexts/DashboardContext';
 
 const DashboardNew = () => {
   const navigate = useNavigate();
@@ -19,29 +18,22 @@ const DashboardNew = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [username, setUsername] = useState<string | null>(null);
-  const [overview, setOverview] = useState<IOverview>();
   const [isOnboarding] = useLocalStorage("isOnboarding");
   const context = useContext<AuthContextData | undefined>(AuthContext);
+  const dashboardContext = useContext(DashboardContext);
+  const { overviewData: overview }: any = dashboardContext;
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setLoading(true);
     const id = context?.user;
     const username = sessionStorage.getItem('un-dash');
-    const promises = [getOverview()];
     if (id && !username) {
-      promises.push(getUser(id))
-    } else if (username) {
-      setUsername(username);
-    }
-    Promise.all(promises)
-      .then(([overviewData, userData]) => {
+      getUser(id)
+      .then(userData => {
         if (userData?.status === 200 && userData.data && userData.data.name) {
           setUsername(userData.data.name);
           sessionStorage.setItem('un-dash', userData.data.name);
-        }
-        if (overviewData?.status === 200 && overviewData.data) {
-          setOverview(overviewData.data)
         }
       })
       .catch((error) => {
@@ -50,7 +42,10 @@ const DashboardNew = () => {
           message: error.response.data.details ?? 'Something went wrong.',
         });
       })
-      .finally(() => setLoading(false));
+    } else if (username) {
+      setUsername(username);
+    }
+    setLoading(false);
   }, []);
 
   const getInteractionByType = (type: string) => {
@@ -83,7 +78,7 @@ const DashboardNew = () => {
   return (
     <Layout streak={overview?.streak || 0} defaultHeader={true} hamburger={true} dashboard={true} title={`Good ${getPartOfDay()}${username ? `, ${username}`: ''}`}>
 
-      <Status overview={overview} />
+      <Status />
       {/*/!* Conditions widget *!/*/}
       <EntityListWidget type={'conditions'} />
       {/*/!* Influencers widget *!/*/}

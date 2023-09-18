@@ -5,7 +5,7 @@ import SocketContext from "../contexts/SocketContext";
 import { socketMessageType, socketNotificationTypes } from "interfaces";
 import DashboardContext from "contexts/DashboardContext";
 import { socketPath } from "./../constants";
-import { conditionDimensionsInfluencer, lifestyleDimensions, lifestyleDimensionsInfluencer } from "helpers/socketHelper";
+import { conditionDimensionsInfluencer, lifestyleDimensions, lifestyleDimensionsInfluencer, overviewDataHandler } from "helpers/socketHelper";
 
 const ENDPOINT = process.env.REACT_APP_SOCKET_HOST || "";
 
@@ -27,6 +27,9 @@ const useSocket = () => {
 
   const dashboardEventHandler = (message: socketMessageType) => {
     switch(message.payload.path) {
+      case socketPath.OVERVIEW_DATA:
+        overviewDataHandler(message.payload.body, dashboardContextData)
+        break;
       case socketPath.LIFESTYLE_DIMENSION_INFLUENCERS:
         lifestyleDimensionsInfluencer(message.payload.body, dashboardContextData)
         break;
