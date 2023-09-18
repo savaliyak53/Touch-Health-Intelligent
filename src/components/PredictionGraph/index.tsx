@@ -41,18 +41,15 @@ const PredictionGraph: FC<IProps> = ({ data }) => {
   }, [data]);
 
   useEffect(() => {
-    // const values: number[] = [];
-    const state: IPredictionGraphList[] = filteredData;
-    state.forEach(({ dt: date, value: score, emoji }, index) => {
+    const updatedData = filteredData.map((item: any, index: number) => {
+      const { dt: date, value: score, emoji } = item;
       const day = index === 0 ? 'Today' : getDayOfWeekFromToday(date, index);
-      state[index].score = Number(score);
-      state[index].value = `${day}_${score}_${emoji}`;
-      // if (score) {
-      //   values.push(score);
-      // }
+      const updatedScore = Number(score);
+      const updatedValue = `${day}_${updatedScore}_${emoji}`;
+      return { ...item, score: updatedScore, value: updatedValue };
     });
-    setGraphData(state);
-    // setBackData(values);
+
+    setGraphData(updatedData);
     setTimeout(() => {
       setRange(['dataMin', 'dataMax']);
     }, 1000);
