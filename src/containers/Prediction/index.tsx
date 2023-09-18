@@ -95,18 +95,18 @@ const Prediction = () => {
 
   return (
     <Layout defaultHeader={false} hamburger={false} withoutMargin={true}>
-      <section className='h-screen'>
+      <section className='h-[100svh]'>
         <section className='pt-[100px] pb-[40px] bg-primary-delft-dark relative'>
           <div onClick={() => navigate("/dashboard")} className='absolute top-4 left-3 z-10 cursor-pointer'>
             <ArrowIcon color='#ffffff80'  className="inline mr-2"/><span className='text-[14px] text-[#ffffff80]'>Back</span>
           </div>
           <div className='h-6 w-6 bg-[#ffffff80] rounded-full m-auto'>
-            <span className='text-[12px] flex justify-center items-center h-full'>{influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.emoji || null}</span>
+            <span className='text-[12px] flex justify-center items-center h-full'>{influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.emoji || "❔"}</span>
           </div>
           <div className='font-["tilt_warp"] text-white text-[18px] leading-[28px] text-center pt-[7px]'>{influencerData?.name}</div>
           <div className='text-[12px] text-white px-[15px] leading-[14px] text-center'>{influencerData?.header_text}</div>
-          <div className='font-["tilt_warp"] text-white text-[60px] pt-8 text-center'>
-            {influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.score || influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.value}
+          <div className='font-["tilt_warp"] text-white text-[60px] h-[51px] pt-8 text-center'>
+            {influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.value}
           </div>
           {influencerData?.prediction_ordered_list &&  <PredictionGraph data={influencerData.prediction_ordered_list} />}
           <TemporaryBackground />

@@ -130,7 +130,7 @@ const EntityListWidget: FC<IProps> = ({type}) => {
                                 { prediction.value ? prediction.value : '-'}
                             </p>
                           </>
-                          ) : <span>No data</span>}
+                          ) : <span>--</span>}
 
                         </div>
                       ))}
