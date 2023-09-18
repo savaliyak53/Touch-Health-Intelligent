@@ -145,7 +145,7 @@ const EntityListWidget: FC<IProps> = ({type}) => {
 		  <div className="h-12 text-center font-medium leading-[14px] pt-4 text-piano-light">
 			  No data to show</div>}
       {/*Footer*/}
-      {data && data.length > 0 && !loading && (
+      {!loading && (
         <>
           {type === 'conditions' && (
             <>
