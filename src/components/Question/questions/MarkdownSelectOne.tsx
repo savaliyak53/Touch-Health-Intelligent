@@ -24,7 +24,7 @@ export default function MarkdownSelectOne({
         <h2 className={goal_styles['Title']}>{question.title}</h2>
       )} 
       <div className={`${question.body_md ? "Markdown-Desc-md " : " Markdown-Desc"} text-center leading-9 text-[18px] text-primary-delft-dark Description Heading-color1 Markdown-Desc`}>
-        <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+        <ReactMarkdown className='prose prose-h1:text-[32px] prose-h3:text-[20px] prose-li:text-[14px] prose-p:text-[14px]' rehypePlugins={[rehypeRaw]}>
           {question.body_md}
         </ReactMarkdown>
       </div>
