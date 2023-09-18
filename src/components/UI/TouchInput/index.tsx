@@ -148,7 +148,7 @@ const TouchInput: FC<InputProps> = ({
         {errorMessage && !isDisabled && (
           <span onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <ExclamationPointIcon
-            className={`absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer ${type === 'password' ? 'mr-3' : ''}`} />
+            className={`absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer ${type === 'password' ? 'mr-4' : ''}`} />
         </span>
         )}
         {isDisabled && type !== 'password' && (
