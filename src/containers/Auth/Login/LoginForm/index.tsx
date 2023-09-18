@@ -12,16 +12,18 @@ import TouchButton from 'components/UI/TouchButton';
 import { emailRegexp } from 'helpers/validations';
 
 const LoginForm: React.FC = () => {
-  const refCaptcha = useRef<ReCAPTCHA>(null)
+  const refCaptcha = useRef<ReCAPTCHA>(null);
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  const [error, setError] = useState<any>({code: '', message: ''});
+  const [error, setError] = useState<any>({ code: '', message: '' });
 
   const [modalText, setModalText] = useState<string>('');
-  const [showLockAccountModal, setShowLockAccountModal] = useState<boolean>(false);
-  const [wrongCredentialsModal, setWrongCredentialsModal] = useState<boolean>(false);
+  const [showLockAccountModal, setShowLockAccountModal] =
+    useState<boolean>(false);
+  const [wrongCredentialsModal, setWrongCredentialsModal] =
+    useState<boolean>(false);
 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -42,25 +44,23 @@ const LoginForm: React.FC = () => {
 
   const onSubmit = async () => {
     if (username && password) {
-
       setIsLoading(true);
       setIsDisabled(true);
 
       const token = refCaptcha?.current?.getValue();
       refCaptcha?.current?.reset();
 
-      const loginResponse = await loginUser(
-        username,
-        password,
-        token || ''
-      );
+      const loginResponse = await loginUser(username, password, token || '');
 
       if (loginResponse?.token) {
         setIsDisabled(false);
         setIsLoading(false);
 
         localStorage.setItem('token', `${loginResponse.token}`);
-        localStorage.setItem('expiration', getTokenExpiration(loginResponse.token));
+        localStorage.setItem(
+          'expiration',
+          getTokenExpiration(loginResponse.token)
+        );
         const userId = getUser(loginResponse.token);
         localStorage.setItem('userId', userId);
         const sessionId = getSession(loginResponse.token);
@@ -87,51 +87,57 @@ const LoginForm: React.FC = () => {
   }, []);
 
   return (
-    <div className='w-full'>
-      <div className='flex flex-col items-center rounded-[5px] bg-white shadow-primaryTop w-full px-[16px] py-[20px] sm:pt-[42px] sm:pb-[54px]'>
-        <h1 className='text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4'>
+    <div className="w-full">
+      <div className="flex flex-col items-center rounded-[5px] bg-white shadow-primaryTop w-full px-[16px] py-[20px] sm:pt-[42px] sm:pb-[54px]">
+        <h1 className="text-primary-delft-dark font-tilt-warp font-normal text-[22px] leading-[36px] opacity-80 text-center mb-4">
           Log in
         </h1>
         <TouchInput
-          className='mt-4'
+          className="mt-4"
           type={'text'}
-          placeholder='Email'
+          placeholder="Email"
           isVerified={usernameVerified}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           resetError={setError}
-          errorMessage={error.message} />
+          errorMessage={error.message}
+        />
 
         <TouchInput
-          className='mt-4'
+          className="mt-4"
           type={'password'}
-          placeholder='Password'
+          placeholder="Password"
           value={password}
           isVerified={password.length >= 8}
           resetError={setError}
           onChange={(e) => setPassword(e.target.value)}
-          errorMessage={error.message} />
+          errorMessage={error.message}
+        />
 
         <AccountLockModal
           title={'Too many retries'}
           open={showLockAccountModal}
           handleCancel={handleCancelModal}
           isAuth={true}
-          handleOk={handleCancelModal}>
-          <div className={'text-3 text-oldBurgundy leading-[23px] text-left'}>{modalText}</div>
+          handleOk={handleCancelModal}
+        >
+          <div className={'text-3 text-oldBurgundy leading-[23px] text-left'}>
+            {modalText}
+          </div>
         </AccountLockModal>
         <ConfirmModal
           title={'Error'}
           open={wrongCredentialsModal}
           isAuth={true}
           handleCancel={() => setWrongCredentialsModal(false)}
-          handleOk={() => setWrongCredentialsModal(false)}>
+          handleOk={() => setWrongCredentialsModal(false)}
+        >
           <div className="text-3 text-oldBurgundy leading-[23px] text-left">
             <div>{error?.message}</div>
           </div>
         </ConfirmModal>
         <ReCAPTCHA
-          className='mt-[25px] mx-auto mb-0'
+          className="mt-[25px] mx-auto mb-0"
           ref={refCaptcha}
           sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY as string}
           onChange={() => {
@@ -140,32 +146,47 @@ const LoginForm: React.FC = () => {
         />
         <TouchButton
           type={'auth'}
-          className='mt-8'
+          className="mt-8"
           onClick={onSubmit}
           isLoading={isLoading}
           isDisabled={isDisabled || !usernameVerified}
         >
           Log in
         </TouchButton>
-        <div className={'text-high-dark font-roboto text-xs font-normal leading-4 mt-5'}>
+        <div
+          className={
+            'text-high-dark font-roboto text-xs font-normal leading-4 mt-5'
+          }
+        >
           <span>Don’t have an account? </span>
-          <Link to='/signup' className='underline hover:text-high-dark hover:underline'>
+          <Link
+            to="/signup"
+            className="underline hover:text-high-dark hover:underline"
+          >
             Sign up
           </Link>
         </div>
       </div>
 
-      <div className='flex w-full items-center justify-center mt-[24px]'>
-        <a
-          href="https://www.touchmedical.ca/"
-          className='text-dentist text-[14px] leading-[14px] underline my-0 mx-[8px]'
-          target='blank'
+      <div className="flex w-full items-center justify-center mt-[24px]">
+        <Link
+          to="/password-reset"
+          className="text-dentist text-[14px] leading-[14px] underline my-0 mx-[8px]"
         >
-          Customer care
-        </a>
-        <Link to="/password-reset" className='text-dentist text-[14px] leading-[14px] underline my-0 mx-[8px]'>
           Forgot password
         </Link>
+      </div>
+      <div className="text-[14px] text-dentist text-center pt-[8px]">
+        <p>
+          Need Help? Email us at &nbsp;
+          <a
+            href="mailto:support@touchmedical.ca"
+            className="underline"
+            target="blank"
+          >
+            support@touchmedical.ca
+          </a>
+        </p>
       </div>
     </div>
   );
