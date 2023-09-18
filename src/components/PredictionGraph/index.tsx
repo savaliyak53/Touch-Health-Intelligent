@@ -65,7 +65,7 @@ const PredictionGraph: FC<IProps> = ({ data }) => {
         >
           <LineChart
             data={graphData}
-            margin={{ top: 0, right: 0, left: -20, bottom: 0 }}
+            margin={{ top: 0, right: 25, left: -20, bottom: 0 }}
           >
             <XAxis
               tick={<CustomizedAxisTick />}
@@ -76,6 +76,7 @@ const PredictionGraph: FC<IProps> = ({ data }) => {
             />
             <YAxis axisLine={false} tick={false} domain={range} />
             <Line
+              isAnimationActive={false}
               type="linear"
               dataKey="score"
               stroke="#FDFCFB50"
