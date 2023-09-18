@@ -75,14 +75,10 @@ function UserCondition() {
           if (userId) {
             preferencesService(preferenceData, userId)
               .then(async (preferencesResponse: any) => {
-                if (preferencesResponse) {
+                if (preferencesResponse.data.signup_status === 'onboarding') {
                   setIsOnboarding(true);
                   navigate('/questionnaire');
                 } else {
-                  setError({
-                    code: 400,
-                    message: `Preference status doesn't exist`,
-                  });
                   setIsOnboarding(false);
                   navigate('/dashboard');
                 }
