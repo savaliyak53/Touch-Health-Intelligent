@@ -2021,4 +2021,9 @@ select:-webkit-autofill:focus {
   -webkit-text-fill-color: inherit;
   -webkit-box-shadow: 0 0 0 1000px #FDFCFB inset;
 }
+
+.scrollBarHidden::-webkit-scrollbar {
+  display: none;
+}
+
 //finish here
