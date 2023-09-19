@@ -56,7 +56,7 @@ const PredictionGraph: FC<IProps> = ({ data }) => {
   }, []);
 
   return (
-    <div className="scrolling-x-auto overflow-x-auto h-[160px] z-10 mt-10 pr-10 relative">
+    <div className="scrollBarHidden scrolling-x-auto overflow-x-auto h-[160px] z-10 mt-10 pr-10 relative">
       {graphData && (
         <ResponsiveContainer
           className="mt-4 w-full"
