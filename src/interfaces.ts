@@ -203,6 +203,7 @@ export interface DashboardContextData {
   setConditionDimensions: React.Dispatch<React.SetStateAction<any>>,
   setConditionInfluencers: React.Dispatch<React.SetStateAction<any>>,
   setLifestyleInfluencers: React.Dispatch<React.SetStateAction<any>>,
+  clearData: () => void
 }
 
 export interface predictionTypes {
