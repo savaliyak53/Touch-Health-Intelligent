@@ -132,8 +132,10 @@ const Preferences = () => {
         username : username
         })
       .then(res => {
-        if(res.data)
-        navigate('/dashboard')
+        if (res.data) {
+          sessionStorage.setItem('un-dash', res.data.username);
+          navigate('/dashboard');
+        }
       })
       .catch((error) => {
         setError({code: error.response.status, message: error.response.data.details})
