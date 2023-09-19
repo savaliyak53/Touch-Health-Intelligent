@@ -79,6 +79,7 @@ const CodeEnterStep: React.FC<IProps> = ({
     const token = refCaptcha?.current?.getValue();
     refCaptcha.current.reset();
     localStorage.setItem('recaptcha-token', token);
+    setModalOpen(true);
     handleOTPRequest(true);
     setEnableTimer(true);
     setIsDisabled(true);
