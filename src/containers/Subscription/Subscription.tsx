@@ -32,6 +32,7 @@ import {
 import moment from 'moment';
 import { ReloadOutlined } from '@ant-design/icons';
 import AuthContext, { AuthContextData } from 'contexts/AuthContext';
+import DashboardContext from 'contexts/DashboardContext';
 const { Meta } = Card;
 const antIcon = (
   <LoadingOutlined style={{ fontSize: 24, color: 'white' }} spin />
@@ -58,7 +59,7 @@ const Subscription = () => {
   const [onTrial, setOnTrial] = useState<boolean>(false);
   const authContext = useContext<AuthContextData | undefined>(AuthContext);
   const [error, setError] = useState<any>();
-
+  const dashboardContextData = useContext(DashboardContext) as any;
   const [estimateAmount, setEstimateAmount] = useState();
   const showModal = () => {
     setShowCancelModal(true);
@@ -115,6 +116,7 @@ const Subscription = () => {
           location.pathname === '/subscription' &&
           response.data.status === 'active'
         ) {
+          dashboardContextData?.clearData();
           localStorage.removeItem('userId');
           localStorage.removeItem('token');
           sessionStorage.removeItem('un-dash');

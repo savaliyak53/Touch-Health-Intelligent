@@ -9,6 +9,7 @@ import {FieldTimeOutlined} from '@ant-design/icons';
 import {trialExceptionRoutes} from 'Routes/Constants';
 import ArrowIcon from '../Icons/ArrowIcon';
 import BurgerIcon from '../Icons/BurgerIcon';
+import DashboardContext from 'contexts/DashboardContext';
 
 type Props = {
   defaultHeader: boolean;
@@ -33,6 +34,7 @@ const SiteHeader = ({
   const isShowSubscription = process.env.REACT_APP_IS_SHOW_SUBSCRIPTION === 'TRUE';
   const [BurgerMenu, setBurgerMenu] = useState(false);
   const navigate = useNavigate();
+  const dashboardContextData = useContext(DashboardContext) as any;
   const authContext = useContext<AuthContextData | undefined>(AuthContext);
   if (!authContext) return null;
   const {logoutUser} = authContext;
@@ -43,6 +45,13 @@ const SiteHeader = ({
   const isShowStreak = ():boolean => {
     return !!(streak && streak > 0);
 
+  }
+
+  const handleClickSignOut = (): void => {
+    dashboardContextData?.clearData();
+    logoutUser();
+    (window as any).Intercom('shutdown');
+    navigate('/login');
   }
 
   return (
@@ -135,11 +144,7 @@ const SiteHeader = ({
               </div>
               <li
                 className={styles['Signout']}
-                onClick={() => {
-                  logoutUser();
-                  (window as any).Intercom('shutdown');
-                  navigate('/login');
-                }}
+                onClick={handleClickSignOut}
               >
                 <Button className={styles['logout-button']}>Sign out</Button>
               </li>

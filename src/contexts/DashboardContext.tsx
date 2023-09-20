@@ -15,6 +15,13 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
   const [lifestyleInfluencers, setLifestyleInfluencers] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const clearData = (): void => {
+    setLifestyleDimensions([]);
+    setConditionDimensions([]);
+    setConditionInfluencers([]);
+    setLifestyleInfluencers([])
+  }
+
   const contextData: DashboardContextData = {
     overviewData,
     lifestyleDimensions,
@@ -27,6 +34,7 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
     setConditionDimensions,
     setConditionInfluencers,
     setLifestyleInfluencers,
+    clearData
   };
 
   return (

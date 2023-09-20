@@ -4,6 +4,7 @@ import moment from 'moment';
 import AuthContext , { AuthContextData }  from 'contexts/AuthContext';
 import TouchButton from 'components/UI/TouchButton';
 import TouchModal from 'components/UI/Modal/TouchModal';
+import DashboardContext from 'contexts/DashboardContext';
 
 export type IProps = {
   open: boolean;
@@ -26,7 +27,8 @@ const FreeTrialModal = ({
   subscriptionExpired
 }: IProps) => {
   const navigate = useNavigate();
-  const authContext = useContext<AuthContextData | undefined>(AuthContext); 
+  const authContext = useContext<AuthContextData | undefined>(AuthContext);
+  const dashboardContextData = useContext(DashboardContext) as any;
   if (!authContext) return null;
   const { logoutUser } = authContext;
 
@@ -41,6 +43,7 @@ const FreeTrialModal = ({
   }
 
   const handleSignOut = (): void => {
+    dashboardContextData?.clearData();
     logoutUser();
     (window as any).Intercom('shutdown');
     navigate('/login');
