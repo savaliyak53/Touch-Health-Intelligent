@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import TouchButton from "components/UI/TouchButton";
@@ -25,6 +25,10 @@ const EmailEnterStep: React.FC<IProps> = ({
   refCaptcha,
 }) => {
   const [emailVerified, setEmailVerified] = useState<boolean>(false);
+
+  useEffect(() => {
+    setEmailVerified(emailRegexp.test(username));
+  }, [username]);
 
   const handleOnVerify = () => {
     if (username) {
