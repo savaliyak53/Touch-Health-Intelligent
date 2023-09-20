@@ -123,10 +123,12 @@ function UserCondition() {
         if (response?.data.signup_status === 'done') {
           invokeInteractionServiceByType({type: 'answer_questions' })
             .then((response: any) => {
+              localStorage.setItem('isCheckin', 'true');
               if (response) {
                 getInteraction();
               } else {
                 setException(true);
+                localStorage.setItem('isCheckin', 'false');
                 navigate('/dashboard');
               }
             })
