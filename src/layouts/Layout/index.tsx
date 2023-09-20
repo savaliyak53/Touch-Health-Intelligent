@@ -8,13 +8,15 @@ import { getUserSubscription } from 'services/subscriptionService';
 import { signupFlow } from 'utils/lib';
 import ErrorInteractionModal from 'components/UI/Modal/ErrorInteractionModal';
 import AuthContext from 'contexts/AuthContext';
+import DashboardContext from 'contexts/DashboardContext';
 import ConfirmModal from 'components/UI/Modal/ConfirmModal';
 import { backButtonContent } from '../../constants';
 import { backButtonPreventionRoutes } from 'Routes/Constants';
 import LogoDesktop from 'components/Icons/LogoDesktop';
 import useLocalStorage from 'hooks/useLocalStorage';
 import { getUserTimeZone } from 'helpers/time';
-// import CongratulationModal from 'components/Modal/CongratulationModal';
+import { DashboardContextData } from 'interfaces';
+import CongratulationModal from 'components/UI/Modal/CongratulationModal';
 
 type Props = {
   defaultHeader: boolean;
@@ -54,9 +56,17 @@ const Index = ({
   const [error, setError] = useState<any>();
   const navigate = useNavigate();
   const location = useLocation();
-  // const [openCongratsModal, setOpenCongratsModal] = useState<boolean>(false)
+  const [openCongratsModal, setOpenCongratsModal] = useState<boolean>(false)
   const isShowSubscription = process.env.REACT_APP_IS_SHOW_SUBSCRIPTION === 'TRUE';
   const context = useContext(AuthContext);
+  const contextDashboard = useContext(DashboardContext) as DashboardContextData;
+
+  useEffect(() => {
+    console.log('useEffect', contextDashboard.earnPoints);
+    if (contextDashboard.earnPoints) {
+      setOpenCongratsModal(true);
+    }
+  }, [contextDashboard.earnPoints]);
 
   const checkUserData = () => {
     const userId = context?.user;
@@ -188,6 +198,11 @@ const Index = ({
     pageBackEvent();
   };
 
+  const handleCloseEarnModal = (): void => {
+    setOpenCongratsModal(false);
+    contextDashboard.setEarnPoints(0);
+  };
+
   useEffect( () => {
     if (!signupFlow(location.pathname)) {
       checkUserData();
@@ -254,7 +269,11 @@ const Index = ({
                 <div className="flex flex-col h-full">{children}</div>
               </div>
             </div>
-            {/*<CongratulationModal type={'data-points'} setClose={setOpenCongratsModal} isOpen={openCongratsModal} value={16} />*/}
+            <CongratulationModal
+              type={'data-points'}
+              setClose={handleCloseEarnModal}
+              isOpen={openCongratsModal}
+              value={contextDashboard.earnPoints} />
           </div>
           <div className="w-full max-w-[50%] bg-right bg-fit bg-no-repeat main-layout-background">
             <LogoDesktop className="float-right mr-12 mt-10" />
