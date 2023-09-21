@@ -62,7 +62,6 @@ const Index = ({
   const contextDashboard = useContext(DashboardContext) as DashboardContextData;
 
   useEffect(() => {
-    console.log('useEffect', contextDashboard.earnPoints);
     if (contextDashboard.earnPoints) {
       setOpenCongratsModal(true);
     }
