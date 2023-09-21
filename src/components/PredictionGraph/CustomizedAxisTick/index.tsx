@@ -15,7 +15,7 @@ const CustomizedAxisTick: FC = (props: any) => {
             {emoji && emoji !== 'null' ? emoji : '-'}
           </div>
           <div className='text-white font-roboto text-xs font-medium leading-[14px] opacity-90'>
-            {(score === 'null' || Number(score) === 0) ? '--' : score}
+          {score === 'null' ? '--' : score}
           </div>
         </div>
       </foreignObject>

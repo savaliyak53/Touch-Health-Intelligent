@@ -28,9 +28,9 @@ const PredictionGraph: FC<IProps> = ({ data }) => {
       if (filtered_predictions_date.length < 1) {
         filtered_predictions.push({
           dt: dateString,
-          emoji: '❔',
-          value: '—',
-          uncertainty: '—',
+          emoji: '-',
+          value: '--',
+          uncertainty: '--',
         });
       } else {
         filtered_predictions.push(filtered_predictions_date[0]);
@@ -44,9 +44,8 @@ const PredictionGraph: FC<IProps> = ({ data }) => {
     const updatedData = filteredData.map((item: any, index: number) => {
       const { dt: date, value: score, emoji } = item;
       const day = index === 0 ? 'Today' : getDayOfWeekFromToday(date, index);
-      const updatedScore = Number(score);
-      const updatedValue = `${day}_${updatedScore}_${emoji}`;
-      return { ...item, score: updatedScore, value: updatedValue };
+      const updatedValue = `${day}_${score}_${emoji}`;
+      return { ...item, score: Number(score), value: updatedValue };
     });
 
     setGraphData(updatedData);
