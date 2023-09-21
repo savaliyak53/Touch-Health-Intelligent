@@ -5,14 +5,16 @@ import Layout from 'layouts/Layout';
 import '../ThankyouForSubmiting/index.scss';
 import { Link } from 'react-router-dom';
 import AuthContext, { AuthContextData } from '../../contexts/AuthContext';
+import DashboardContext from 'contexts/DashboardContext';
 const SubscriptionError = () => {
   const authContext = useContext<AuthContextData | undefined>(AuthContext);
   if (!authContext) return null;
   const { logoutUser } = authContext;
-
+  const dashboardContextData = useContext(DashboardContext) as any;
   const navigate = useNavigate();
 
   const logoutClick = () => {
+    dashboardContextData?.clearData();
     logoutUser();
     navigate('/login');
   };

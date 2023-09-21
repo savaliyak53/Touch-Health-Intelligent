@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TouchButton from 'components/UI/TouchButton';
 import TouchModal from 'components/UI/Modal/TouchModal';
+import DashboardContext from 'contexts/DashboardContext';
 
 export type IProps = {
   open: boolean;
@@ -19,7 +20,7 @@ const ErrorModal = ({
   handleCancel,
   isAuth = false
 }: IProps) => {
-
+  const dashboardContextData = useContext(DashboardContext) as any;
   const navigate = useNavigate();
 
   const handleOk = () => {
@@ -28,6 +29,7 @@ const ErrorModal = ({
   };
 
   const handleUnauthorized = () => {
+    dashboardContextData?.clearData();
     handleCancel();
     window.location.assign('/login');
   };

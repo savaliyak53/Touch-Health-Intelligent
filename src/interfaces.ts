@@ -197,12 +197,15 @@ export interface DashboardContextData {
   conditionDimensions: [],
   conditionInfluencers: [],
   lifestyleInfluencers: [],
+  earnPoints: number;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setOverviewData: React.Dispatch<React.SetStateAction<IOverview | null>>,
   setLifestyleDimensions: React.Dispatch<React.SetStateAction<any>>,
   setConditionDimensions: React.Dispatch<React.SetStateAction<any>>,
   setConditionInfluencers: React.Dispatch<React.SetStateAction<any>>,
   setLifestyleInfluencers: React.Dispatch<React.SetStateAction<any>>,
+  clearData: () => void;
+  setEarnPoints: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface predictionTypes {
