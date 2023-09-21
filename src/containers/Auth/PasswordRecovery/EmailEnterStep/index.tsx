@@ -37,8 +37,7 @@ const EmailEnterStep: React.FC<IProps> = ({
   };
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value)
-    setEmailVerified(emailRegexp.test(e.target.value));
+    onChange(e.target.value);
   }
 
   return (
