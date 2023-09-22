@@ -135,6 +135,8 @@ const Home = () => {
                   message: error.response.data.details,
                 });
               });
+          } else if (localStorage.getItem('isCheckin') == 'true') {
+              navigate('/questionnaire')
           } else if (response.data.signup_status === 'done') {
               navigate('/dashboard')
           } else if (response.data.signup_status === 'new') {

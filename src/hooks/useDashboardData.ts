@@ -184,7 +184,6 @@ const useDashboardData = () => {
 
           return {...obj, prediction_ordered_list: filtered_predictions}
         })
-        console.log(filteredData);
 
         setConditionInfluencers(filteredData);
         

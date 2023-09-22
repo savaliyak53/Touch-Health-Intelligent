@@ -107,6 +107,7 @@ const Status = () => {
     invokeInteractionServiceByType(data)
       .then((response: any) => {
         if (response.data) {
+          localStorage.setItem('isCheckin', 'true');
           navigate('/questionnaire');
         } else {
           navigate('/dashboard');
