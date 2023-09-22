@@ -44,8 +44,9 @@ const PredictionGraph: FC<IProps> = ({ data }) => {
     const updatedData = filteredData.map((item: any, index: number) => {
       const { dt: date, value: score, emoji } = item;
       const day = index === 0 ? 'Today' : getDayOfWeekFromToday(date, index);
-      const updatedValue = `${day}_${score}_${emoji}`;
-      return { ...item, score: Number(score), value: updatedValue };
+      const updatedScore = score == null ? null : Number(score);
+      const updatedValue = `${day}_${updatedScore}_${emoji}`;
+      return { ...item, score: updatedScore, value: updatedValue };
     });
 
     setGraphData(updatedData);
