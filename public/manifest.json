@@ -1,9 +1,9 @@
 {
-  "short_name": "Touch",
-  "name": "Touch Health Assistant",
+  "short_name": "Cur8 Health",
+  "name": "Cur8 Health",
   "icons": [
     {
-      "src": "/assets/logo/logo_1_259x259.png",
+      "src": "/assets/logo/icon259x259.png",
       "type": "image/png",
       "sizes": "259x259",
       "purpose": "any"
