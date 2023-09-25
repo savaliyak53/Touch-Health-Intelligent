@@ -7,7 +7,7 @@ export function overviewDataHandler(message: IOverview, dashboardContextData: Da
 
 export function lifestyleDimensionsInfluencer(message: predictionTypes, dashboardContextData: DashboardContextData) {
   dashboardContextData.setLifestyleInfluencers((current: any) => {
-    const result = current.map((inf: any) => {
+    const result = current && current?.map((inf: any) => {
       if(inf.influencer_id === message.influencer_id) {
         return { updatedFromSocket: true, ...message }
       }
@@ -23,7 +23,7 @@ export function lifestyleDimensionsInfluencer(message: predictionTypes, dashboar
 
 export function conditionDimensionsInfluencer(message: predictionTypes, dashboardContextData: DashboardContextData) {
   dashboardContextData.setConditionInfluencers((current: any) => {
-    const result = current.map((inf: any) => {
+    const result = current && current?.map((inf: any) => {
       if (inf.influencer_id === message.influencer_id) {
         return { updatedFromSocket: true, ...message };
       }
@@ -39,7 +39,7 @@ export function conditionDimensionsInfluencer(message: predictionTypes, dashboar
 
 export function lifestyleDimensions(message: any, dashboardContextData: DashboardContextData) {
   dashboardContextData.setLifestyleDimensions((current: any) => {
-    const result = current.map((inf: any) => {
+    const result =current && current?.map((inf: any) => {
       if(inf.title === message.name) {
         return { 
           updatedFromSocket: true,

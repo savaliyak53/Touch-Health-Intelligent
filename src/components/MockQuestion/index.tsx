@@ -107,7 +107,6 @@ const Question = ({
   };
   const setDisableDate = (current: moment.Moment) => {
     if (question.range == 'future_only') {
-      console.log('return date', current.isBefore(moment()));
       return current.isBefore(moment().subtract(1, 'day'));
     } else if (question.range == 'past_only') {
       return current.isAfter(moment());
@@ -178,7 +177,6 @@ const Question = ({
         return (
           <DatePicker
             onChange={(date: any, dateString: any) => {setValue(dateString)
-            console.log('datestring', dateString)
             }}
             defaultValue={moment()}
             className="Date-Select"
