@@ -101,7 +101,7 @@ const Prediction = () => {
             <ArrowIcon color='#ffffff80'  className="inline mr-2"/><span className='text-[14px] text-[#ffffff80]'>Back</span>
           </div>
           <div className='h-6 w-6 bg-[#ffffff80] rounded-full m-auto'>
-            <span className='text-[12px] flex justify-center items-center h-full'>{influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.emoji || "-"}</span>
+            <span className='text-[12px] flex justify-center items-center h-full'>{influencerData?.prediction_ordered_list?.find((prediction) => prediction?.dt === dateFormatted(new Date()))?.emoji || <span className='mt-[2px]'>—</span>}</span>
           </div>
           <div className='font-["tilt_warp"] text-white text-[18px] leading-[28px] text-center pt-[7px]'>{influencerData?.name}</div>
           <div className='text-[12px] text-white px-[15px] leading-[14px] text-center'>{influencerData?.header_text}</div>
