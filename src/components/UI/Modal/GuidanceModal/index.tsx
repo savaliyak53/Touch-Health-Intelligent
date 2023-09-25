@@ -108,7 +108,7 @@ const GuidanceModal = ({
       {type && <h2 className={`Title`}>{guidanceData?.name}</h2>}
       {guidanceData && (
         <div className={'font-body font-normal text-lg leading-[23px] text-black mb-[60px]'}>
-          <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+          <ReactMarkdown className='prose prose-h1:text-[32px] prose-h3:text-[20px] prose-li:text-[14px] prose-p:text-[14px]' rehypePlugins={[rehypeRaw]}>
             {guidanceData?.description_md ? guidanceData?.description_md : ''}
           </ReactMarkdown>
         </div>

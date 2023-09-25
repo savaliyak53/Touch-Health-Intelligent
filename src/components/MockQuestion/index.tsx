@@ -378,7 +378,7 @@ const Question = ({
           <div className={goal_styles['IntroGoals']}>
            {question.title &&  <h2 className={recent?goal_styles['Title']:styles['Title-disabled']}>{question.title}</h2>}
             <div className={recent?goal_styles['markdown-desc']:styles['markdown-desc-disabled']}>
-              <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+              <ReactMarkdown className='prose prose-h1:text-[32px] prose-h3:text-[20px] prose-li:text-[14px] prose-p:text-[14px]' rehypePlugins={[rehypeRaw]}>
                 {question.body_md}
               </ReactMarkdown>
             </div>

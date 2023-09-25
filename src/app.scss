@@ -1678,12 +1678,19 @@
   }
 }
 .Markdown-Desc-md {
-  li,
-  p {
-    color: #204ecf !important;
-    font-size: 18px !important;
-    font-family: Tilt Warp;
+  li {
+    text-align: left !important;
+  };
+  li > p {
+    text-align: left !important;
+  }
+  li > strong {
     line-height: 21px;
+    font-size: 14px;
+    display: contents;
+    font-family: Roboto;
+    color: #362A2F;
+    font-weight: 400;
   }
 }
 //scrollable time
