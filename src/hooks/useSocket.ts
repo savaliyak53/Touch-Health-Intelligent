@@ -64,7 +64,6 @@ const useSocket = () => {
       });
 
       socket.on('info', (message: socketNotificationTypes) => {
-        console.log('Server info: ', message)
         dashboardNotification.current(message);
       });
       

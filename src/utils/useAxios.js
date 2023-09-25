@@ -18,14 +18,12 @@ const useAxios = (authTokens, setAuthTokens, setUser ) => {
         const now = Math.floor(Date.now() / 1000);
   
         if (expiration - now < 10 || now > expiration) {
-          console.log('im in expired');
           const axiosConfig = {
             method: "GET",
             'credentials': 'include',
           }; 
           await fetchToken(axiosConfig)
           .then(response => {
-            console.log(response);
             if (response) {
               const newToken = response.token;
               setAuthTokens(newToken);
@@ -45,7 +43,6 @@ const useAxios = (authTokens, setAuthTokens, setUser ) => {
           return req;
         }
       } else {
-        console.log('token not found');
         return req;
       }
   });

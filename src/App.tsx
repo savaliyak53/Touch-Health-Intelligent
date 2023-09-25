@@ -9,7 +9,6 @@ import useDashboardData from 'hooks/useDashboardData';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 const version = 'v.0.0.5';
-console.log(version);
 
 const Application = () => {
   useDashboardData();

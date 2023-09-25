@@ -33,14 +33,11 @@ function MockQuestionnaire() {
 
   const navigate = useNavigate();
   useEffect(() => {
-    console.log('Data ', Data);
-    console.log('Index ', index);
     setQuestion(Data[index]);
     setHistoryQuestionArray(Data);
   }, []);
 
   const onSubmit = async (state?: string, skip?: boolean) => {
-    console.log('questopn : ', question);
     setClicked(true);
     if (
       question.question.type !== 'select_many' &&
@@ -96,9 +93,6 @@ function MockQuestionnaire() {
     setQuestion(Data[index]);
     historyQuestionArray[historyQuestionArray.length - 1].answer =
       payload.question_response.value;
-    console.log(' question : ', question);
-    console.log('history question array : ', historyQuestionArray);
-    console.log('payload  : ', payload);
     setLoading(false);
   };
   useEffect(() => {
@@ -107,7 +101,6 @@ function MockQuestionnaire() {
       : setDisableNextButton(false);
     setClicked(false);
   }, [question, question?.q_str]);
-  console.log(question);
   return (
     <Layout defaultHeader={true} hamburger={false}>
       {skeletonLoading ? <Skeleton active></Skeleton> : <></>}
