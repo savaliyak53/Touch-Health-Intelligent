@@ -28,7 +28,7 @@ const PredictionGraph: FC<IProps> = ({ data }) => {
       if (filtered_predictions_date.length < 1) {
         filtered_predictions.push({
           dt: dateString,
-          emoji: '-',
+          emoji: '—',
           value: '--',
           uncertainty: '--',
         });
