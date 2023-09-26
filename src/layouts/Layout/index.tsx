@@ -199,7 +199,10 @@ const Index = ({
 
   const handleCloseEarnModal = (): void => {
     setOpenCongratsModal(false);
-    contextDashboard.setEarnPoints(0);
+    setTimeout(() => {
+      contextDashboard.setEarnPoints(0);
+    }, 500);
+
   };
 
   useEffect( () => {
