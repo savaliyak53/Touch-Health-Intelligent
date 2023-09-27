@@ -21,6 +21,11 @@ class ErrorBoundary extends React.Component<any> {
             ...this.state,
             errorType: 'type0',
           });
+        } else if(error.message === "Session is revoked"){
+            this.setState({
+              ...this.state,
+              errorType: 'type3',
+            })
         } else {
           this.setState({
             ...this.state,
@@ -29,8 +34,8 @@ class ErrorBoundary extends React.Component<any> {
         }
         localStorage.removeItem('userId');
         localStorage.removeItem('token');
+        localStorage.removeItem('sessionId');
         sessionStorage.removeItem('un-dash');
-        localStorage.clear();
       } else if (error.code >= 400 && error.code < 500 && error.code !== 401) {
         if (error.message === 'Verification code expired, please request a new one') {
           this.setState({
@@ -128,6 +133,16 @@ class ErrorBoundary extends React.Component<any> {
                   title='Error'
                   isAuth={true}
                   errorType='type422'
+                  handleCancel={this.handleCancel}
+              />
+          );
+        } else if (this.state.errorType === 'type3') {
+          return (
+              <ErrorModal
+                  open={this.state.open}
+                  title='Error'
+                  isAuth={true}
+                  errorType='type3'
                   handleCancel={this.handleCancel}
               />
           );

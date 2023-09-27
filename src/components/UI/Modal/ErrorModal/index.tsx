@@ -39,7 +39,7 @@ const ErrorModal = ({
   }
 
   const isConfirmBtn = (): boolean => {
-    return !(errorType == 'type0' || errorType == 'type401'
+    return !(errorType == 'type0' || errorType == 'type401' || errorType == 'type3'
       || (errorType == 'type1' && (error.message === 'Daily SMS limit reached' || error.message === 'Invalid username or password.')))
   }
 
@@ -54,6 +54,8 @@ const ErrorModal = ({
       }
     } else if (errorType === 'type422') {
       return 'Go to Dashboard';
+    } else if (errorType === 'type3') {
+      return 'Login';
     }
     return 'Something went wrong.';
   }
@@ -67,6 +69,8 @@ const ErrorModal = ({
         return 'Something went wrong! Please try refreshing your page and trying again. If it still doesn\'t work, please let us know over on the support page.'
     } else if (errorType == 'type2') {
         return 'Please wait a minute, then try again. If it still doesn\'t work, please let us know over on the support page.'
+    } else if (errorType === 'type3') {
+      return 'You have been logged out using another device';
     }
     return 'Go to dashboard';
   }

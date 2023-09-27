@@ -83,7 +83,7 @@ const useSocket = () => {
 
       socket.on('disconnect', () => {
         console.log('🔴 Socket disconnected');
-        setLoading(true);
+        return
       });
     }
     initSession();
