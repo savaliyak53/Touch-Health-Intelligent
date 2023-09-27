@@ -57,3 +57,21 @@ export function lifestyleDimensions(message: any, dashboardContextData: Dashboar
     return result;
   });
 }
+
+export function conditionDimensionsDelete(message: any, dashboardContextData: DashboardContextData) {
+  dashboardContextData.setConditionInfluencers((current: any) => {
+    const updatedConditions = current.filter((condition: any) => {
+      return message?.ids?.includes(condition.parent_dimension_id);
+    });
+    return updatedConditions;
+  });
+}
+
+export function influencerDimensionsDelete(message: any, dashboardContextData: DashboardContextData) {
+  dashboardContextData.setLifestyleInfluencers((current: any) => {
+    const updatedInfluencers = current.filter((condition: any) => {
+      return message?.ids?.includes(condition.parent_dimension_id);
+    });
+    return updatedInfluencers;
+  });
+}

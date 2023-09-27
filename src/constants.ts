@@ -36,6 +36,8 @@ export const socketPath = {
  OVERVIEW_DATA: "/v1/ai/overview",
  LIFESTYLE_DIMENSION: "/v1/ai/lifestyle-dimensions/{dimension_id}",
  CONDITION_DIMENSION:"/v1/ai/condition-dimensions/{dimension_id}",
+ LIFESTYLE_DIMENSION_IDS:"/v1/ai/lifestyle-dimensions",
+ CONDITION_DIMENSION_IDS:"/v1/ai/condition-dimensions",
  LIFESTYLE_DIMENSION_INFLUENCERS:"/v1/ai/lifestyle-dimensions/{dimension_id}/influencers/{influencer_id}",
  CONDITON_DIMENSION_INFLUENCERS:"/v1/ai/condition-dimensions/{dimension_id}/influencers/{influencer_id}",
  LIFESTYLE_DIMENSION_GUIDANCES:"/v1/ai/lifestyle-dimensions/{dimension_id}/guidances/{guidance_id}",
