@@ -247,10 +247,6 @@ const useDashboardData = () => {
       getAllLifestyleInfluencers();
     }
   }, [sessionId, userId]);
-
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
 }
 
 export default useDashboardData;

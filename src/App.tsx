@@ -16,16 +16,17 @@ const Application = () => {
   return (
     <ErrorBoundary>
       <AppRoutes />
-      <ToastContainer position="top-right"
-                      autoClose={4000}
-                      hideProgressBar={false}
-                      newestOnTop={false}
-                      closeOnClick
-                      rtl={false}
-                      pauseOnFocusLoss={false}
-                      draggable
-                      pauseOnHover
-                      theme="light" />
+      <ToastContainer 
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+        theme="light" />
     </ErrorBoundary>
   );
 };
