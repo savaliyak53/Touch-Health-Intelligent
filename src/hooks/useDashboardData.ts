@@ -3,6 +3,12 @@ import AuthContext, { AuthContextData } from "contexts/AuthContext";
 import DashboardContext from "contexts/DashboardContext";
 import { getConditionInfluencers, getConditionsDimensions, getLifestyleDimensions, getLifestyleInfluencers, getOverview } from "services/dashboardservice";
 import { roundOff } from "utils/lib";
+import {
+  getBgForLifestyle,
+  getBtnColorForLifestyle, getIndexLifestyle, getShadowForLifestyle,
+  getSubtitleColorForLifestyle,
+  getValueColorForLifestyle
+} from "../helpers/lifestyleDimensions";
 const useDashboardData = () => {
   const contextData = useContext(DashboardContext) as any;
   const { 
@@ -38,97 +44,26 @@ const useDashboardData = () => {
         const daysArray: any = [];
         let daysObj: any;
         res.data?.forEach((element: any) => {
-          if(element.name == 'Sleep'){
-            daysObj = {
-              title: element.name,
-              icon: element.dimension_emoji,
-              bg: '/assets/images/cur8-sleep.svg',
-              btnColor: 'F0ECE7',
-              subtitle1: element.data_value_list[0].name,
-              value1: element.data_value_list[0].value,
-              subtitle2: element.data_value_list[1].name,
-              value2: element.data_value_list[1].value,
-              subtitle3: element.data_value_list[2].name,
-              value3: roundOff(element.data_value_list[2].value),
-              subtitleColor: 'FEFBF1',
-              valueColor: 'EFB7A8',
-              shadow: '0px 4px 0px 0px #8AA4EC',
-              dimensionId: element.dimension_id || ''
-            }
-            daysArray[0] = daysObj;
-          } else if(element.name == 'Movement') {
-            daysObj = {
-              title: element.name,
-              icon: element.dimension_emoji,
-              bg: '/assets/images/cur8-movement.svg',
-              btnColor: 'F0ECE7',
-              subtitle1: element.data_value_list[0].name,
-              value1: element.data_value_list[0].value,
-              subtitle2: element.data_value_list[1].name,
-              value2: element.data_value_list[1].value,
-              subtitle3: element.data_value_list[2].name,
-              value3: element.data_value_list[2].value,
-              subtitleColor: 'FEFBF1',
-              valueColor: '204ECF',
-              shadow: '0px 4px 0px 0px #204ECF',
-              dimensionId: element.dimension_id || ''
-            }
-            daysArray[1] = daysObj;
-          } else if(element.name == 'Mental Wellbeing'){
-            daysObj = {
-              title: element.name,
-              icon: element.dimension_emoji,
-              bg: '/assets/images/cur8-mental-wellbeing.svg',
-              btnColor: '204ECF',
-              subtitle1: element.data_value_list[0].name,
-              value1: roundOff(element.data_value_list[0].value),
-              subtitle2: element.data_value_list[1].name,
-              value2: roundOff(element.data_value_list[1].value),
-              subtitle3: element.data_value_list[2].name,
-              value3: roundOff(element.data_value_list[2].value),
-              subtitleColor: '83A5F2',
-              valueColor: '204ECF',
-              shadow: '0px 4px 0px 0px #F9A197',
-              dimensionId: element.dimension_id || ''
-            }
-            daysArray[2] = daysObj;
-          } else if(element.name == 'Nutrition') {
-            daysObj = {
-              title: element.name,
-              icon: element.dimension_emoji,
-              bg: '/assets/images/cur8-nutrition.svg',
-              btnColor: 'EA9836',
-              subtitle1: element.data_value_list[0].name,
-              value1: element.data_value_list[0].value,
-              subtitle2: element.data_value_list[1].name,
-              value2: roundOff(element.data_value_list[1].value),
-              subtitle3: element.data_value_list[2].name,
-              value3: roundOff(element.data_value_list[2].value),
-              subtitleColor: 'F9A197',
-              valueColor: 'EA9836',
-              shadow: '0px 4px 0px 0px #EA9836',
-              dimensionId: element.dimension_id || ''
-            }
-            daysArray[3] = daysObj;
-          } else {
-            daysObj = {
-              title: element.name,
-              icon: element.dimension_emoji,
-              bg: '/assets/images/cur8-poductivity.svg',
-              btnColor: '204ECF',
-              subtitle1: element.data_value_list[0].name,
-              value1: element.data_value_list[0].value,
-              subtitle2: element.data_value_list[1].name,
-              value2: element.data_value_list[1].value,
-              subtitle3: element.data_value_list[2].name,
-              value3: element.data_value_list[2].value,
-              subtitleColor: '204ecfb3',
-              valueColor: '204ECF',
-              shadow: '0px 4px 0px 0px #9DD7B4',
-              dimensionId: element.dimension_id || ''
-            }
-            daysArray[4] = daysObj;
+          daysObj = {
+            title: element.name,
+            icon: element.dimension_emoji,
+            subtitle1: element.data_value_list[0].name,
+            value1: ['Mental Wellbeing']
+                .includes(element.name) ? roundOff(element.data_value_list[0].value) : element.data_value_list[0].value,
+            subtitle2: element.data_value_list[1].name,
+            value2: ['Mental Wellbeing', 'Nutrition']
+                .includes(element.name) ? roundOff(element.data_value_list[1].value) : element.data_value_list[1].value,
+            subtitle3: element.data_value_list[2].name,
+            value3: ['Sleep', 'Mental Wellbeing', 'Nutrition']
+                .includes(element.name) ? roundOff(element.data_value_list[2].value) : element.data_value_list[2].value,
+            bg: getBgForLifestyle(element.name),
+            btnColor: getBtnColorForLifestyle(element.name),
+            subtitleColor: getSubtitleColorForLifestyle(element.name),
+            valueColor: getValueColorForLifestyle(element.name),
+            shadow: getShadowForLifestyle(element.name),
+            dimensionId: element.dimension_id || ''
           }
+          daysArray[getIndexLifestyle(element.name)] = daysObj;
         });
         setLifestyleDimensions(daysArray);
         setLoading(false);

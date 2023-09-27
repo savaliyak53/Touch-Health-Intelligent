@@ -15,9 +15,8 @@ interface IPrediction {
   emoji: string
 }
 
-interface ITest {
+interface IItem {
   name: string;
-  id: string;
   influencer_id: string;
   parent_dimension_id: string;
   prediction_ordered_list: IPrediction[];
@@ -69,7 +68,7 @@ const EntityListWidget: FC<IProps> = ({type}) => {
   }, [dashboardContext]);
 
 
-  const handlerOnClick = (item: ITest) => {
+  const handlerOnClick = (item: IItem) => {
     navigate(`/prediction?type=${type}&influencer_id=${item.influencer_id}&dimension_id=${item.parent_dimension_id}`);
   }
 
@@ -94,7 +93,7 @@ const EntityListWidget: FC<IProps> = ({type}) => {
       {data && data.length > 0 && !loading && (
         <ul role="list">
           {data.map((item :any, index) => (
-            <li onClick={() => handlerOnClick(item)} key={item.id} className="cursor-pointer hover:bg-rae">
+            <li onClick={() => handlerOnClick(item)} key={item.influencer_id} className="cursor-pointer hover:bg-rae">
               <hr className="border-rae mx-4"/>
               <div className="flex px-4 justify-between gap-x-6 py-2">
                 <div className="flex w-full items-center">
@@ -105,7 +104,7 @@ const EntityListWidget: FC<IProps> = ({type}) => {
                     {item['prediction_ordered_list'] &&
                       item['prediction_ordered_list'].slice(0, 3).map((prediction: any, i: any) => (
                         <div
-                          key={prediction.date}
+                          key={prediction.dt}
                           className="flex flex-col items-center"
                         >
                           {index === 0 && (
