@@ -10,6 +10,7 @@ import AuthContext, { AuthContextData } from 'contexts/AuthContext';
 import TouchDropdown from 'components/UI/TouchDropdown';
 import { securityQuestions as dropDownOptions} from '../../constants';
 import TouchInput from 'components/UI/TouchInput';
+import { getUser } from 'services/authservice';
 
 const SecurityQuestions = () => {
   const [loading, setLoading] = useState(false);
@@ -48,11 +49,20 @@ const SecurityQuestions = () => {
       : localStorage.getItem('userId');
     if (!userId) {
       navigate('/signup');
+    } else {
+      getUser(userId)
+        .then((response: any) => {
+          if (response.data.security_questions) {
+            navigate(-1)
+          }
+        });
     }
   }, []);
+
   useEffect(() => {
     if (error) throw error;
   }, [error]);
+
   const handleSave = async () => {
     const userId = authContext?.user
       ? authContext?.user
