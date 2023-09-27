@@ -90,6 +90,7 @@ const EntityListWidget: FC<IProps> = ({type}) => {
 		  </div>
       }
       {/*content*/}
+
       {data && data.length > 0 && !loading && (
         <ul role="list">
           {data.map((item :any, index) => (
