@@ -9,7 +9,7 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [overviewData, setOverviewData] = useState<IOverview | null>(null);
-  const [lifestyleDimensions, setLifestyleDimensions] = useState<any>();
+  const [lifestyleDimensions, setLifestyleDimensions] = useState<any>([{title: 'Sleep'}, {title: 'Movement'}, {title: 'Mental Wellbeing'}, {title: 'Nutrition'}, {title: 'Productivity'}]);
   const [conditionDimensions, setConditionDimensions] = useState<any>();
   const [conditionInfluencers, setConditionInfluencers] = useState<any>([]);
   const [lifestyleInfluencers, setLifestyleInfluencers] = useState<any>([]);
